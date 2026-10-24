@@ -1,0 +1,53 @@
+{
+  "schema": "nf21-v2-fixture-params/1",
+  "label": "SYNTHETIC",
+  "case_family": "DECISION_REPLAY",
+  "seed": 20260924,
+  "contract": "rb",
+  "initial_cash_cny": "100000",
+  "wait_only": {
+    "bars": 150,
+    "bar_formula": "price=Decimal(100)+Decimal(i)*Decimal('0.1')+(Decimal('0.1') if i%3==0 else 0) for i in 1..150",
+    "window_start_minutes": 70,
+    "window_end_minutes": 75,
+    "session_end_minutes": 200,
+    "strategy": "WAIT/MINUTE (strategies.registry.build_strategy_spec)",
+    "exit_policy": "legacy exit binding (decision.pipeline.legacy_exit_binding/legacy_exit_spec)",
+    "expected": {
+      "status": "COMPLETE",
+      "decisions": 5,
+      "intents": 0,
+      "fills": 0,
+      "execution_results": 0,
+      "equity_rows": 5,
+      "terminal_cash": "100000",
+      "reconciliation_status": "PASS"
+    },
+    "shape_provenance": "mirrors tests/test_v2_m4_replay.py::replay_inputs (150 bars, five-minute window, WAIT spec) - the NF21 work order smoke seed; zero fills is the defining property of the wait_only case name"
+  },
+  "filled": {
+    "bars_from": 70,
+    "bars_to": 110,
+    "locked_minute": 106,
+    "window_start_minutes": 100,
+    "window_end_minutes": 106,
+    "session_end_minutes": 200,
+    "strategy": "TREND/MINUTE with SYNTHETIC fixture strategy contexts (M4 scheduler-fixture pattern: tests/test_v2_m4_replay.py::test_scheduler_trades_real_fixture_only_after_decision_and_reconciles)",
+    "exit_policy": "legacy exit binding (decision.pipeline.legacy_exit_binding/legacy_exit_spec)",
+    "payoff_observation_blocks": 80,
+    "payoff_observation_per_block": 8,
+    "expected": {
+      "status": "COMPLETE",
+      "decisions": 6,
+      "selected_decisions": "1",
+      "intents": 2,
+      "fills": 2,
+      "execution_results": 2,
+      "fees_cny": "2.0",
+      "terminal_cash_cny": "99998.0",
+      "terminal_lots": 0,
+      "reconciliation_status": "PASS"
+    },
+    "scope_note": "strategy evaluation and forecast construction are fixture overhead inside the timed call; the measured claim is the unmodified replay scheduler, gates, account risk filter (enforce_account_risk), execution simulation and ledger accounting"
+  }
+}

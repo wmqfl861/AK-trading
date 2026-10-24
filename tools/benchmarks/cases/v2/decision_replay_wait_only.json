@@ -1,0 +1,72 @@
+{
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "case_id": "v2/decision_replay_wait_only",
+  "description": "SYNTHETIC wait-only case: one run_decision_replay per operation over the M4 smoke seed (150 deterministic minute bars, five-minute window 70..75, WAIT strategy spec, cash-only account, zero fills by construction). Named wait_only per the NF21 work-order naming rule: it must never be read as strategy matching throughput. Pre-registered counts enforced by verify().",
+  "origin": "SYNTHETIC",
+  "domain": "v2",
+  "backend": "python-inprocess",
+  "eligible_for_baseline": true,
+  "algorithm_version": "v2-decision-worktree-20260924",
+  "policy_version": "research-policy-v2.1.0",
+  "workload": {
+    "source": "tools/benchmarks/workloads/v2.py",
+    "entrypoint": "build"
+  },
+  "measured_modules": [
+    "ak_trading.v2.decision.replay",
+    "ak_trading.v2.decision.pipeline",
+    "ak_trading.v2.decision.ledger"
+  ],
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/workloads/v2.py",
+      "role": "workload"
+    },
+    {
+      "path": "tools/benchmarks/fixtures/v2/decision_replay.json",
+      "role": "input"
+    }
+  ],
+  "params": {
+    "case": "decision_replay_wait_only",
+    "seed": 20260924,
+    "case_family": "DECISION_REPLAY",
+    "contract": "rb",
+    "initial_cash_cny": "100000"
+  },
+  "measurement": {
+    "sample_mode": "per_operation",
+    "units": "replay_runs",
+    "units_per_operation": 1,
+    "min_operations": 20,
+    "batch_size": 20,
+    "reset_method": "none",
+    "includes_io": false
+  },
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "environment": {
+    "depends_on": []
+  },
+  "correctness": {
+    "kind": "digest",
+    "expected_digest": "33b6419466a271cf1659630bb66fa98d7ea5625f56420a123853ddf9d3d6403d",
+    "normalizations": []
+  },
+  "budget": {
+    "smoke": {
+      "warmup_operations": 2,
+      "operations": 12,
+      "case_timeout_s": 30
+    },
+    "formal": {
+      "batches": 5,
+      "warmup_operations": 2,
+      "operations_per_batch": 20,
+      "case_timeout_s": 600
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "algorithm_version": "UNKNOWN",
+  "backend": "python-inprocess",
+  "budget": {
+    "formal": {
+      "batches": 5,
+      "case_timeout_s": 600,
+      "operations_per_batch": 20,
+      "warmup_operations": 20
+    },
+    "smoke": {
+      "case_timeout_s": 30,
+      "operations": 200,
+      "warmup_operations": 20
+    }
+  },
+  "case_id": "observer/normalize_max_legal_inprocess",
+  "correctness": {
+    "expected_digest": "9587da3dc8e53d3f1690262493a71c1fa02f576e47000155a94e3b74b5ff777d",
+    "kind": "digest",
+    "normalizations": []
+  },
+  "description": "SYNTHETIC in-process boundary measurement: normalize_payload on a legal envelope carrying the maximum legal tick count (MAX_TICKS=1000). Pure in-process CPU measurement: no I/O, no sockets, no service objects.",
+  "domain": "observer",
+  "eligible_for_baseline": true,
+  "environment": {
+    "depends_on": [
+      "ak_trading"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/fixtures/observer/payload-spec.json",
+      "role": "input"
+    },
+    {
+      "path": "tools/benchmarks/workloads/observer.py",
+      "role": "workload"
+    }
+  ],
+  "measured_modules": [
+    "ak_trading.infiny_bridge.protocol",
+    "ak_trading.infiny_bridge.connection"
+  ],
+  "measurement": {
+    "batch_size": 100,
+    "includes_io": false,
+    "min_operations": 100,
+    "reset_method": "none",
+    "sample_mode": "per_operation",
+    "units": "payloads",
+    "units_per_operation": 1
+  },
+  "origin": "SYNTHETIC",
+  "params": {
+    "case": "observer/normalize_max_legal_inprocess",
+    "payload_spec": "tools/benchmarks/fixtures/observer/payload-spec.json",
+    "seed": 20260924
+  },
+  "policy_version": "nf23-observer-bench-r1",
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "workload": {
+    "entrypoint": "build_normalize_max_legal",
+    "source": "tools/benchmarks/workloads/observer.py"
+  }
+}

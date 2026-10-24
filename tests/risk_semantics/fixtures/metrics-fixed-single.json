@@ -1,0 +1,80 @@
+{
+  "schema_version": "ak_probability_metrics_v2.1.4",
+  "research_policy_version": "research-v2.1.5",
+  "macro_policy_version": "macro-v2.1.0",
+  "cost_scenarios": ["BASE", "FEE_X2", "SLIPPAGE_X2", "MARGIN_X1_5", "GAP", "NO_STOP"],
+  "required_group_keys": ["gk-s9-base"],
+  "model_bundles": {
+    "ababababababababababababababababababababababababababababababababab": {
+      "forecast": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "payoff": "edededededededededededededededededededededededededededededededed",
+      "regime_reference": "ececececececececececececececececececececececececececececececec"
+    }
+  },
+  "forecast_groups": [],
+  "strategy_groups": [
+    {
+      "group_key": "gk-s9-base",
+      "split_id": "sp2",
+      "model_bundle_sha256": "ababababababababababababababababababababababababababababababababab",
+      "run_policy_sha256": "1212121212121212121212121212121212121212121212121212121212121212",
+      "routing_mode": "FIXED",
+      "fixed_strategy_id": "s9-breakout",
+      "account_id": "account:fixed-s9",
+      "strategy_id": "s9-breakout",
+      "product": "cu",
+      "contract_id": "CU2506.SHFE",
+      "mode": "DAILY",
+      "horizon_unit": "TRADING_DAY",
+      "horizon_value": 1,
+      "macro_mode": "PRICE_ONLY",
+      "cost_scenario": "BASE",
+      "exit_binding_sha256": "b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9",
+      "exit_spec_sha256s": ["c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9"],
+      "fixed_exit_binding_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "episodes": 40,
+      "blocks": 30,
+      "admission_rate": 0.55,
+      "no_trade_rate": 0.45,
+      "net_pnl_cny": "2150.00",
+      "conservative_ev_cny": "180.25",
+      "max_drawdown_ratio": 0.031,
+      "cvar95_cny": "940.00",
+      "maximum_stress_loss_ratio": 0.006,
+      "margin_shortfall_cny": "0.00",
+      "peak_margin_cny": "98000.00",
+      "max_inventory": 5,
+      "longest_recovery_days": null,
+      "status": "PASS",
+      "reasons": []
+    }
+  ],
+  "exit_groups": [],
+  "exit_registry_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "exit_bindings": {
+    "b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9": {
+      "binding_sha256": "b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9",
+      "strategy_id": "s9-breakout"
+    }
+  },
+  "exclusions": {},
+  "replay_summaries": [
+    {
+      "account_id": "account:fixed-s9",
+      "initial_equity_cny": "500000.00",
+      "terminal_equity_cny": null,
+      "closed_episode_net_pnl_cny": "-1500.00",
+      "open_episode_realized_net_pnl_cny": null,
+      "terminal_unrealized_cny": null,
+      "open_episode_ids": ["ep-open-9"],
+      "pending_intent_ids": ["pi-1"],
+      "reconciliation_status": "PARTIAL",
+      "status": "INCOMPLETE",
+      "reasons": ["OPEN_EPISODES_OR_PENDING_INTENTS", "VALUATION_SUBTOTAL_INCOMPLETE"],
+      "split_id": "sp2",
+      "run_policy_sha256": "1212121212121212121212121212121212121212121212121212121212121212",
+      "model_bundle_sha256": "ababababababababababababababababababababababababababababababababab"
+    }
+  ],
+  "bootstrap": {"method": "TRADING_DAY_BLOCK", "replicates": 1000, "seed": 12}
+}

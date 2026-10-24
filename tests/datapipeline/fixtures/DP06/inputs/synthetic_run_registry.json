@@ -1,0 +1,13 @@
+{
+ "data_origin": "SYNTHETIC",
+ "runs": [
+  {
+   "mode": "REALTIME",
+   "run_id": "run-20260920-x",
+   "run_source": "storage-events/dp02/runs/run-20260920-x.json",
+   "started_at_nano": 1789908600000000000,
+   "state": "RUNNING"
+  }
+ ],
+ "schema": "dp06-fixtures/1"
+}

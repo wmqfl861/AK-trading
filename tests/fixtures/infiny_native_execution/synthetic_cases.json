@@ -1,0 +1,1159 @@
+{
+  "cases": [
+    {
+      "data": {
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "control_revision": 3,
+        "expires_at": "2026-09-14T01:30:00.500000Z",
+        "intent_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "intent_id": "SIM_INTENT_1",
+        "leg_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+        "leg_id": "SIM_LEG_1",
+        "offer_id": "SIM_OFFER_1",
+        "params_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "plan_id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "policy_id": "SIM_POLICY_1",
+        "snapshot_id": "SIM_SNAPSHOT_1"
+      },
+      "name": "offer_submit",
+      "schema_namespace": "transport",
+      "type": "ExecutionOffer"
+    },
+    {
+      "data": {
+        "attempt_id": "SIM_ATTEMPT_2",
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "cancel_id": "SIM_CANCEL_1",
+        "command_id": "SIM_CMD_2",
+        "contract_limits": {
+          "max_volume": 5,
+          "min_volume": 1,
+          "volume_step": 1
+        },
+        "control_revision": 3,
+        "expires_at": "2026-09-14T01:30:00.500000Z",
+        "intent_id": "SIM_INTENT_1",
+        "issued_at": "2026-09-14T01:30:00.000000Z",
+        "kind": "CANCEL",
+        "leg": {
+          "cash_reserve": "1000",
+          "depends_on": [],
+          "direction": "BUY",
+          "index": 0,
+          "leg_id": "SIM_LEG_1",
+          "offset": "OPEN",
+          "phase": "OPEN",
+          "position_bucket": null,
+          "price": "3500",
+          "volume": 1
+        },
+        "leg_id": "SIM_LEG_1",
+        "offer_id": "SIM_OFFER_1",
+        "order_id": 7,
+        "order_type": "GFD",
+        "params_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "permit_id": "SIM_PERMIT_1",
+        "plan_id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "price_tick": "1",
+        "route_evidence_id": "SIM_ROUTE_1"
+      },
+      "name": "dispatch_cancel",
+      "schema_namespace": "transport",
+      "type": "DispatchCommand"
+    },
+    {
+      "data": {
+        "attempt_id": "SIM_ATTEMPT_2",
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "command_id": "SIM_CMD_2",
+        "error_code": null,
+        "generation": "SIM_GEN_1",
+        "local_sequence": 1,
+        "previous_receipt_sha256": null,
+        "receipt_id": "SIM_RECEIPT_9",
+        "recorded_at": "2026-09-14T01:30:00.000000Z",
+        "request_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "result_kind": null,
+        "result_value": null,
+        "stage": "NO_CALL"
+      },
+      "name": "receipt_no_call",
+      "schema_namespace": "transport",
+      "type": "DispatchReceipt"
+    },
+    {
+      "data": {
+        "actions": [
+          "OPEN_LONG"
+        ],
+        "authorization_id": "SIM_AUTH_N1",
+        "baseline_evidence_id": "SIM_BASE_1",
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "cash_bound_evidence_id": "SIM_CASH_1",
+        "control_revision": 3,
+        "expires_at": "2026-09-14T01:35:00.000000Z",
+        "max_cancel_attempts": 1,
+        "max_send_attempts": 1,
+        "max_volume": 1,
+        "origin": "synthetic",
+        "params_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "permit_id": "SIM_PERMIT_1",
+        "price_bounds": [
+          {
+            "lower": "3000",
+            "symbol": {
+              "exchange": "SHFE",
+              "instrument_id": "SIM_RB2610"
+            },
+            "upper": "4000"
+          }
+        ],
+        "route_evidence_id": "SIM_ROUTE_1",
+        "source_key": "SIM_OPERATION_1"
+      },
+      "name": "permit_synthetic",
+      "schema_namespace": "transport",
+      "type": "NativePilotPermit"
+    },
+    {
+      "data": {
+        "account_key": "SIM_ACCOUNT_A",
+        "approved_scope_id": "SIM_SCOPE_1",
+        "artifact_sha256": "8888888888888888888888888888888888888888888888888888888888888888",
+        "as_of": "2026-09-14T01:30:00.000000Z",
+        "completion_basis": "export row counts reconciled with terminal listing",
+        "coverage_description": "terminal export covering orders and trades",
+        "evidence_id": "SIM_BASE_1",
+        "expires_at": "2026-09-14T01:35:00.000000Z",
+        "isolation_evidence_id": "SIM_ISO_1",
+        "order_inventory": [],
+        "origin": "synthetic",
+        "positions": [],
+        "session_epoch": "SIM_EPOCH_E",
+        "source_kind": "TERMINAL_EXPORT",
+        "trade_inventory": [],
+        "trading_day": "2026-09-14"
+      },
+      "name": "baseline_synthetic",
+      "schema_namespace": "v2",
+      "type": "NativeBaselineEvidence"
+    },
+    {
+      "data": {
+        "ack_watermark": null,
+        "client_state_digest": null,
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "request_id": "SIM_REQ_9",
+        "sent_at": "2026-09-14T01:30:00.000000Z",
+        "sequence": 1,
+        "service_epoch": null,
+        "session_epoch": "SIM_EPOCH_E",
+        "snapshot": null,
+        "snapshot_id": null
+      },
+      "name": "poll_request_first",
+      "schema_namespace": "transport",
+      "type": "PollRequest"
+    },
+    {
+      "data": {
+        "ack_watermark": null,
+        "client_state_digest": null,
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "request_id": "SIM_REQ_10",
+        "sent_at": "2026-09-14T01:30:00.000000Z",
+        "sequence": 2,
+        "service_epoch": 7,
+        "session_epoch": "SIM_EPOCH_E",
+        "snapshot": {
+          "account": {
+            "available": "100000",
+            "binding": {
+              "account_key": "SIM_ACCOUNT_A",
+              "exchange": "SHFE",
+              "hedge_flag": "1",
+              "instance_id": "SIM_INSTANCE_I",
+              "instrument_id": "SIM_RB2610",
+              "session_epoch": "SIM_EPOCH_E",
+              "strategy_id": 23,
+              "strategy_key": "SIM_STRATEGY_S",
+              "trading_day": "2026-09-14"
+            },
+            "currency": "CNY"
+          },
+          "binding": {
+            "account_key": "SIM_ACCOUNT_A",
+            "exchange": "SHFE",
+            "hedge_flag": "1",
+            "instance_id": "SIM_INSTANCE_I",
+            "instrument_id": "SIM_RB2610",
+            "session_epoch": "SIM_EPOCH_E",
+            "strategy_id": 23,
+            "strategy_key": "SIM_STRATEGY_S",
+            "trading_day": "2026-09-14"
+          },
+          "contract": {
+            "additional_volume_limits": [],
+            "asset_class": "future",
+            "exchange": "SHFE",
+            "expiry": "2026-10-15",
+            "instrument_id": "SIM_RB2610",
+            "max_limit_order_volume": 5,
+            "min_limit_order_volume": 1,
+            "multiplier": "10",
+            "price_tick": "1"
+          },
+          "coverage": {
+            "account_active_count": 0,
+            "account_key": "SIM_ACCOUNT_A",
+            "as_of": "2026-09-14T01:30:00.000000Z",
+            "complete_through": {
+              "as_of": "2026-09-14T01:30:00.000000Z",
+              "source": "simulation",
+              "stream_id": "SIM_STREAM_0",
+              "value": "17"
+            },
+            "completion_evidence_id": "SIM_BARRIER_1",
+            "level": "full_account",
+            "own_active_count": 0,
+            "session_epoch": "SIM_EPOCH_E",
+            "source": "simulation",
+            "strategy_key": null,
+            "trading_day": "2026-09-14"
+          },
+          "ledger_revision": 0,
+          "positions": [],
+          "proof_id": null,
+          "quote": {
+            "ask1": "3501",
+            "ask_volume1": 10,
+            "bid1": "3500",
+            "bid_volume1": 10,
+            "binding": {
+              "account_key": "SIM_ACCOUNT_A",
+              "exchange": "SHFE",
+              "hedge_flag": "1",
+              "instance_id": "SIM_INSTANCE_I",
+              "instrument_id": "SIM_RB2610",
+              "session_epoch": "SIM_EPOCH_E",
+              "strategy_id": 23,
+              "strategy_key": "SIM_STRATEGY_S",
+              "trading_day": "2026-09-14"
+            },
+            "last": "3500",
+            "lower_limit": "3000",
+            "market_status": "continuous",
+            "time": "2026-09-14T01:30:00.000000Z",
+            "upper_limit": "4000"
+          },
+          "snapshot_id": "SIM_SNAPSHOT_1",
+          "source": "simulation",
+          "times": {
+            "account": {
+              "completeness": "complete",
+              "received_at": null,
+              "sampled_at": "2026-09-14T01:30:00.000000Z",
+              "snapshot_id": "SIM_SNAPSHOT_1",
+              "source": "simulation",
+              "source_at": "2026-09-14T01:30:00.000000Z"
+            },
+            "contract": {
+              "completeness": "complete",
+              "received_at": null,
+              "sampled_at": "2026-09-14T01:30:00.000000Z",
+              "snapshot_id": "SIM_SNAPSHOT_1",
+              "source": "simulation",
+              "source_at": "2026-09-14T01:30:00.000000Z"
+            },
+            "positions": {
+              "completeness": "complete",
+              "received_at": null,
+              "sampled_at": "2026-09-14T01:30:00.000000Z",
+              "snapshot_id": "SIM_SNAPSHOT_1",
+              "source": "simulation",
+              "source_at": "2026-09-14T01:30:00.000000Z"
+            },
+            "quote": {
+              "completeness": "complete",
+              "received_at": null,
+              "sampled_at": "2026-09-14T01:30:00.000000Z",
+              "snapshot_id": "SIM_SNAPSHOT_1",
+              "source": "simulation",
+              "source_at": "2026-09-14T01:30:00.000000Z"
+            },
+            "received_at": null,
+            "sampled_at": "2026-09-14T01:30:00.000000Z",
+            "sent_at": null
+          }
+        },
+        "snapshot_id": "SIM_SNAPSHOT_1"
+      },
+      "name": "poll_request_snapshot_by_value",
+      "schema_namespace": "transport",
+      "type": "PollRequest"
+    },
+    {
+      "data": {
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "blockers": [],
+        "control_revision": 3,
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "kind": "OFFER",
+        "ledger_revision": 2,
+        "offer": {
+          "binding": {
+            "account_key": "SIM_ACCOUNT_A",
+            "exchange": "SHFE",
+            "hedge_flag": "1",
+            "instance_id": "SIM_INSTANCE_I",
+            "instrument_id": "SIM_RB2610",
+            "session_epoch": "SIM_EPOCH_E",
+            "strategy_id": 23,
+            "strategy_key": "SIM_STRATEGY_S",
+            "trading_day": "2026-09-14"
+          },
+          "control_revision": 3,
+          "expires_at": "2026-09-14T01:30:00.500000Z",
+          "intent_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "intent_id": "SIM_INTENT_1",
+          "leg_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+          "leg_id": "SIM_LEG_1",
+          "offer_id": "SIM_OFFER_1",
+          "params_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "plan_id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "policy_id": "SIM_POLICY_1",
+          "snapshot_id": "SIM_SNAPSHOT_1"
+        },
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "readiness": {
+          "blockers": [],
+          "can_cancel_owned": false,
+          "can_plan": true,
+          "can_submit": false,
+          "connection": "roundtrip",
+          "coverage": {
+            "account_active_count": null,
+            "account_key": "SIM_ACCOUNT_A",
+            "as_of": "2026-09-14T01:30:00.000000Z",
+            "complete_through": null,
+            "completion_evidence_id": null,
+            "level": "own_journal",
+            "own_active_count": 0,
+            "session_epoch": "SIM_EPOCH_E",
+            "source": "pythongo",
+            "strategy_key": "SIM_STRATEGY_S",
+            "trading_day": "2026-09-14"
+          },
+          "evidence_id": "SIM_READY_3",
+          "execution_scope": "none",
+          "mode": "native",
+          "native_permit_id": null,
+          "state": "PLAN_READY"
+        },
+        "received_at": "2026-09-14T01:30:00.000000Z",
+        "request_id": "SIM_REQ_1",
+        "request_service_epoch": 7,
+        "sent_at": "2026-09-14T01:30:00.050000Z",
+        "sequence": 1,
+        "service_epoch": 7,
+        "session_epoch": "SIM_EPOCH_E"
+      },
+      "name": "poll_response_offer",
+      "schema_namespace": "transport",
+      "type": "PollResponse"
+    },
+    {
+      "data": {
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "blockers": [],
+        "control_revision": 3,
+        "dispatch": {
+          "attempt_id": "SIM_ATTEMPT_2",
+          "binding": {
+            "account_key": "SIM_ACCOUNT_A",
+            "exchange": "SHFE",
+            "hedge_flag": "1",
+            "instance_id": "SIM_INSTANCE_I",
+            "instrument_id": "SIM_RB2610",
+            "session_epoch": "SIM_EPOCH_E",
+            "strategy_id": 23,
+            "strategy_key": "SIM_STRATEGY_S",
+            "trading_day": "2026-09-14"
+          },
+          "cancel_id": "SIM_CANCEL_1",
+          "command_id": "SIM_CMD_2",
+          "contract_limits": {
+            "max_volume": 5,
+            "min_volume": 1,
+            "volume_step": 1
+          },
+          "control_revision": 3,
+          "expires_at": "2026-09-14T01:30:00.500000Z",
+          "intent_id": "SIM_INTENT_1",
+          "issued_at": "2026-09-14T01:30:00.000000Z",
+          "kind": "CANCEL",
+          "leg": {
+            "cash_reserve": "1000",
+            "depends_on": [],
+            "direction": "BUY",
+            "index": 0,
+            "leg_id": "SIM_LEG_1",
+            "offset": "OPEN",
+            "phase": "OPEN",
+            "position_bucket": null,
+            "price": "3500",
+            "volume": 1
+          },
+          "leg_id": "SIM_LEG_1",
+          "offer_id": "SIM_OFFER_1",
+          "order_id": 7,
+          "order_type": "GFD",
+          "params_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+          "permit_id": "SIM_PERMIT_1",
+          "plan_id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "price_tick": "1",
+          "route_evidence_id": "SIM_ROUTE_1"
+        },
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "kind": "DISPATCH",
+        "ledger_revision": 2,
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "readiness": {
+          "blockers": [],
+          "can_cancel_owned": false,
+          "can_plan": true,
+          "can_submit": false,
+          "connection": "roundtrip",
+          "coverage": {
+            "account_active_count": null,
+            "account_key": "SIM_ACCOUNT_A",
+            "as_of": "2026-09-14T01:30:00.000000Z",
+            "complete_through": null,
+            "completion_evidence_id": null,
+            "level": "own_journal",
+            "own_active_count": 0,
+            "session_epoch": "SIM_EPOCH_E",
+            "source": "pythongo",
+            "strategy_key": "SIM_STRATEGY_S",
+            "trading_day": "2026-09-14"
+          },
+          "evidence_id": "SIM_READY_3",
+          "execution_scope": "none",
+          "mode": "native",
+          "native_permit_id": null,
+          "state": "PLAN_READY"
+        },
+        "received_at": "2026-09-14T01:30:00.000000Z",
+        "request_id": "SIM_REQ_1",
+        "request_service_epoch": 7,
+        "sent_at": "2026-09-14T01:30:00.050000Z",
+        "sequence": 1,
+        "service_epoch": 7,
+        "session_epoch": "SIM_EPOCH_E"
+      },
+      "name": "ready_response_dispatch",
+      "schema_namespace": "transport",
+      "type": "ReadyResponse"
+    },
+    {
+      "data": {
+        "attempt_id": "SIM_ATTEMPT_2",
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "command_id": "SIM_CMD_2",
+        "control_revision": 3,
+        "duplicate": false,
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "ledger_revision": 2,
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "persisted": true,
+        "receipt_id": "SIM_RECEIPT_9",
+        "receipt_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+        "received_at": "2026-09-14T01:30:00.000000Z",
+        "request_id": "SIM_REQ_1",
+        "request_service_epoch": 7,
+        "sent_at": "2026-09-14T01:30:00.050000Z",
+        "sequence": 1,
+        "service_epoch": 7,
+        "session_epoch": "SIM_EPOCH_E",
+        "submit_result": {
+          "attempt_no": 1,
+          "cancel_state": "NONE",
+          "code": "OK",
+          "leg_id": "SIM_LEG_1",
+          "leg_state": "SUBMITTED_LOCAL",
+          "order_id": 7,
+          "reported_filled": 0,
+          "revision": 2,
+          "risk_filled": 0,
+          "trade_filled": 0,
+          "trade_gap": 0
+        }
+      },
+      "name": "results_response_persisted",
+      "schema_namespace": "transport",
+      "type": "ResultsResponse"
+    },
+    {
+      "data": {
+        "accepted_event_ids": [
+          "SIM_EVENT_1",
+          "SIM_EVENT_2"
+        ],
+        "ack_watermark": {
+          "event_id": "SIM_EVENT_2",
+          "event_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "event_stream_id": "SIM_STREAM_1",
+          "generation": "SIM_GEN_1",
+          "instance_id": "SIM_INSTANCE_I",
+          "sequence": 2,
+          "session_epoch": "SIM_EPOCH_E"
+        },
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "control_revision": 3,
+        "duplicate_event_ids": [
+          "SIM_EVENT_2"
+        ],
+        "event_stream_id": "SIM_STREAM_1",
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "ledger_revision": 2,
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "persisted": true,
+        "received_at": "2026-09-14T01:30:00.000000Z",
+        "request_id": "SIM_REQ_1",
+        "request_service_epoch": 7,
+        "sent_at": "2026-09-14T01:30:00.050000Z",
+        "sequence": 1,
+        "service_epoch": 7,
+        "session_epoch": "SIM_EPOCH_E"
+      },
+      "name": "events_response_contiguous_ack",
+      "schema_namespace": "transport",
+      "type": "EventsResponse"
+    },
+    {
+      "data": {
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "blockers": [],
+        "confirmation_id": null,
+        "control_phase": "DISABLED_CONFIRMED",
+        "control_revision": 3,
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "kind": "RECORDED",
+        "ledger_revision": 2,
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "readiness": {
+          "blockers": [],
+          "can_cancel_owned": false,
+          "can_plan": true,
+          "can_submit": false,
+          "connection": "roundtrip",
+          "coverage": {
+            "account_active_count": null,
+            "account_key": "SIM_ACCOUNT_A",
+            "as_of": "2026-09-14T01:30:00.000000Z",
+            "complete_through": null,
+            "completion_evidence_id": null,
+            "level": "own_journal",
+            "own_active_count": 0,
+            "session_epoch": "SIM_EPOCH_E",
+            "source": "pythongo",
+            "strategy_key": "SIM_STRATEGY_S",
+            "trading_day": "2026-09-14"
+          },
+          "evidence_id": "SIM_READY_3",
+          "execution_scope": "none",
+          "mode": "native",
+          "native_permit_id": null,
+          "state": "PLAN_READY"
+        },
+        "received_at": "2026-09-14T01:30:00.000000Z",
+        "report_kind": "GATE_CLOSED",
+        "request_id": "SIM_REQ_1",
+        "request_service_epoch": 7,
+        "sent_at": "2026-09-14T01:30:00.050000Z",
+        "sequence": 1,
+        "service_epoch": 7,
+        "session_epoch": "SIM_EPOCH_E"
+      },
+      "name": "control_response_recorded",
+      "schema_namespace": "transport",
+      "type": "ControlResponse"
+    },
+    {
+      "data": {
+        "ack_watermark": {
+          "event_id": "SIM_EVENT_2",
+          "event_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+          "event_stream_id": "SIM_STREAM_1",
+          "generation": "SIM_GEN_1",
+          "instance_id": "SIM_INSTANCE_I",
+          "sequence": 2,
+          "session_epoch": "SIM_EPOCH_E"
+        },
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "blockers": [],
+        "control_phase": "DISABLED",
+        "control_revision": 3,
+        "counters": {
+          "broker_order_acks": null,
+          "committed_dispatch_count": 1,
+          "consumed_receipt_count": 1,
+          "count_complete": false,
+          "fake_cancel_count": 0,
+          "fake_send_count": 0,
+          "local_order_ids": [
+            7
+          ],
+          "native_cancel_attempts": {
+            "lower_bound": 0,
+            "upper_bound": null,
+            "value": null
+          },
+          "native_send_attempts": {
+            "lower_bound": 1,
+            "upper_bound": 1,
+            "value": 1
+          },
+          "no_call_receipt_count": 0,
+          "returned_receipt_count": 1,
+          "unique_trade_count": null,
+          "unresolved_dispatch_count": 0
+        },
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "ledger_revision": 2,
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "pending_reconcile_count": 0,
+        "readiness": {
+          "blockers": [],
+          "can_cancel_owned": false,
+          "can_plan": true,
+          "can_submit": false,
+          "connection": "roundtrip",
+          "coverage": {
+            "account_active_count": null,
+            "account_key": "SIM_ACCOUNT_A",
+            "as_of": "2026-09-14T01:30:00.000000Z",
+            "complete_through": null,
+            "completion_evidence_id": null,
+            "level": "own_journal",
+            "own_active_count": 0,
+            "session_epoch": "SIM_EPOCH_E",
+            "source": "pythongo",
+            "strategy_key": "SIM_STRATEGY_S",
+            "trading_day": "2026-09-14"
+          },
+          "evidence_id": "SIM_READY_3",
+          "execution_scope": "none",
+          "mode": "native",
+          "native_permit_id": null,
+          "state": "PLAN_READY"
+        },
+        "received_at": "2026-09-14T01:30:00.000000Z",
+        "request_id": "SIM_REQ_1",
+        "request_service_epoch": 7,
+        "sent_at": "2026-09-14T01:30:00.050000Z",
+        "sequence": 1,
+        "service_epoch": 7,
+        "session_epoch": "SIM_EPOCH_E"
+      },
+      "name": "status_response_readonly",
+      "schema_namespace": "transport",
+      "type": "StatusResponse"
+    },
+    {
+      "data": {
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "control_revision": 3,
+        "error_code": "POLL_TOO_FAST",
+        "generation": "SIM_GEN_1",
+        "http_status": 429,
+        "instance_id": "SIM_INSTANCE_I",
+        "ledger_revision": 2,
+        "params_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "received_at": "2026-09-14T01:30:00.000000Z",
+        "request_id": "SIM_REQ_1",
+        "request_service_epoch": 7,
+        "retry_after_ms": 137,
+        "sent_at": "2026-09-14T01:30:00.050000Z",
+        "sequence": 9,
+        "service_epoch": 7,
+        "session_epoch": "SIM_EPOCH_E"
+      },
+      "name": "transport_error_poll_too_fast",
+      "schema_namespace": "transport",
+      "type": "TransportErrorResponse"
+    },
+    {
+      "data": {
+        "event_id": "SIM_EVENT_3",
+        "event_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+        "event_stream_id": "SIM_STREAM_1",
+        "generation": "SIM_GEN_1",
+        "instance_id": "SIM_INSTANCE_I",
+        "sequence": 3,
+        "session_epoch": "SIM_EPOCH_E"
+      },
+      "name": "event_cursor_positive",
+      "schema_namespace": "transport",
+      "type": "EventCursor"
+    },
+    {
+      "data": {
+        "artifacts": [
+          {
+            "path": "C:/sim/records/permit.json",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        ],
+        "authorization_artifact_path": "C:/sim/authz.txt",
+        "authorization_artifact_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "contract_lock_sha256": "6666666666666666666666666666666666666666666666666666666666666666",
+        "operator_action_id": "SIM_ACTION_1",
+        "record_path": "C:/sim/records/permit.json",
+        "record_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "record_type": "NativePilotPermit",
+        "registration_id": "SIM_REG_1"
+      },
+      "name": "operator_manifest_synthetic",
+      "schema_namespace": "v2",
+      "type": "OperatorRegistrationManifest"
+    },
+    {
+      "data": {
+        "attempt_id": "SIM_ATTEMPT_3",
+        "binding": {
+          "account_key": "SIM_ACCOUNT_A",
+          "exchange": "SHFE",
+          "hedge_flag": "1",
+          "instance_id": "SIM_INSTANCE_I",
+          "instrument_id": "SIM_RB2610",
+          "session_epoch": "SIM_EPOCH_E",
+          "strategy_id": 23,
+          "strategy_key": "SIM_STRATEGY_S",
+          "trading_day": "2026-09-14"
+        },
+        "cancel_id": null,
+        "command_id": "SIM_CMD_3",
+        "contract_limits": {
+          "max_volume": 5,
+          "min_volume": 1,
+          "volume_step": 1
+        },
+        "control_revision": 3,
+        "expires_at": "2026-09-14T01:30:01.500000Z",
+        "intent_id": "SIM_INTENT_1",
+        "issued_at": "2026-09-14T01:30:00.000000Z",
+        "kind": "SUBMIT",
+        "leg": {
+          "cash_reserve": "1000",
+          "depends_on": [],
+          "direction": "BUY",
+          "index": 0,
+          "leg_id": "SIM_LEG_1",
+          "offset": "OPEN",
+          "phase": "OPEN",
+          "position_bucket": null,
+          "price": "3500",
+          "volume": 1
+        },
+        "leg_id": "SIM_LEG_1",
+        "offer_id": "SIM_OFFER_1",
+        "order_id": null,
+        "order_type": "GFD",
+        "params_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "permit_id": "SIM_PERMIT_1",
+        "plan_id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "price_tick": "1",
+        "route_evidence_id": null
+      },
+      "name": "dispatch_command_full_window",
+      "schema_namespace": "transport",
+      "type": "DispatchCommand"
+    },
+    {
+      "data": {
+        "cancel_id": null,
+        "first_issued_at": "2026-09-14T01:30:00.000000Z",
+        "kind": "SUBMIT",
+        "offer": {
+          "binding": {
+            "account_key": "SIM_ACCOUNT_A",
+            "exchange": "SHFE",
+            "hedge_flag": "1",
+            "instance_id": "SIM_INSTANCE_I",
+            "instrument_id": "SIM_RB2610",
+            "session_epoch": "SIM_EPOCH_E",
+            "strategy_id": 23,
+            "strategy_key": "SIM_STRATEGY_S",
+            "trading_day": "2026-09-14"
+          },
+          "control_revision": 3,
+          "expires_at": "2026-09-14T01:30:00.500000Z",
+          "intent_hash": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "intent_id": "SIM_INTENT_1",
+          "leg_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+          "leg_id": "SIM_LEG_1",
+          "offer_id": "SIM_OFFER_1",
+          "params_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+          "plan_id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "policy_id": "SIM_POLICY_1",
+          "snapshot_id": "SIM_SNAPSHOT_1"
+        }
+      },
+      "name": "offer_deadline_record_synthetic",
+      "schema_namespace": "local",
+      "type": "OfferDeadlineRecord"
+    }
+  ],
+  "manifest": "SYNTHETIC",
+  "vectors": {
+    "cancel_d01": {
+      "clause": "CANCEL-D-01",
+      "equality_with_expiry_blocks": true,
+      "excludes": [
+        "policy.valid_until",
+        "quote/account/positions/contract/packet TTLs",
+        "submit_readiness/full_account_proof",
+        "baseline_and_cash_freshness(submit_only)"
+      ],
+      "formula": "D_current_CANCEL = min(intent.expires_at, context.authorization.expires_at, D_registry(CANCEL_OWNED), D_route)",
+      "includes": [
+        "intent.expires_at",
+        "context.authorization.expires_at(CANCEL_OWNED)",
+        "D_registry(CANCEL_OWNED)",
+        "D_route"
+      ]
+    },
+    "dispatch_window": {
+      "boundaries_ms": [
+        500,
+        500.001,
+        1499.999,
+        1500,
+        1500.001
+      ],
+      "dispatch_ttl_ms": 1500,
+      "expired_at_equality": true,
+      "rules": {
+        "command_inherits_offer_deadline": true,
+        "dispatch_ttl_ms": 1500,
+        "original_offer_deadline_immutable": true,
+        "post_consumed_fsync_expiry_check": true,
+        "ready_write_transactions": 1,
+        "refresh_or_reissue": false
+      },
+      "valid_at_exactly_ttl": true
+    },
+    "epoch": {
+      "initial_service_epoch": 1,
+      "null_epoch_routes_admitted": [
+        "poll",
+        "status"
+      ]
+    },
+    "offer_deadline": {
+      "banned_expression": "E(r) = min(s, T + r) + 1500 ms",
+      "blockers": [
+        "OFFER_DEADLINE_CLOCK_INVALID",
+        "OFFER_DEADLINE_CONFLICT",
+        "OFFER_DEADLINE_REQUIRED",
+        "OFFER_DEADLINE_UNPROVEN"
+      ],
+      "codec_wrappers": {
+        "journal_local": "encode_local/decode_local only; generic wrappers refuse",
+        "rule": "namespace dispatch by each type schema attribute (c1.4-r2/F1)",
+        "v2_records": "established encode/decode paths preserved"
+      },
+      "e_first_formulas": {
+        "cancel": "compute_offer_deadline(t_first, CANCEL-D-01 bounds) only",
+        "submit": "min(compute_offer_deadline(t_first, D_original), min(sampled_at, t_first) + 1500 ms)"
+      },
+      "option": "A_durable_first_offer",
+      "policy": "NE1-ARB-C1.4-N4R3-F2-001 OFD-01..07",
+      "precedence": [
+        "structural_type_error",
+        "nonpositive_lifetime",
+        "lifetime_over_budget",
+        "kind_cancel_identity"
+      ],
+      "r3_p14": {
+        "first_issued_at": "2026-09-14T01:29:59Z",
+        "original_expiry_ms": 1500,
+        "recovery_offsets_ms": [
+          400,
+          1400,
+          1500,
+          1600,
+          2100,
+          3000
+        ],
+        "skew_cases_ms": [
+          1000,
+          2000,
+          2000.001
+        ],
+        "zero_drift_rule": "recovered offer bytes and first_issued_at identical; no usable offer at/after original deadline"
+      },
+      "seam": {
+        "DispatchJournal.get_offer(offer_id) -> OfferDeadlineRecord | None": true,
+        "DispatchJournal.record_offer(offer, context, *, first_issued_at, kind, expected_control_revision, expected_context, cancel_id=None)": true,
+        "Ledger.get_offer(offer_id) -> OfferDeadlineRecord | None": true,
+        "Ledger.record_offer(..., evidence_registry=None)": true,
+        "applicable_deadline_unchanged": true,
+        "begin_dispatch_signatures_unchanged": true
+      }
+    },
+    "preparation_seam": {
+      "anc_t01": {
+        "analytical_case": {
+          "d_original_ms": 3000,
+          "frozen_deadline_ms": 1500,
+          "issuance_only_deadline_ms": 2654,
+          "skew_ms": 1154
+        },
+        "boundary_vectors_ms": [
+          500,
+          500.001,
+          1499.999,
+          1500,
+          1500.001
+        ],
+        "equal_sample_first": "full ceiling only when other bounds allow",
+        "r3_p15_old_sample": {
+          "deadline_offset_from_first_ms": 1000,
+          "sample_offset_ms": -500
+        }
+      },
+      "clauses": [
+        "AP-01_one_preparation_transaction",
+        "AP-02_all_or_nothing",
+        "AP-03_separate_offer_record_retained",
+        "AP-04_lifetimes_independent"
+      ],
+      "formulas": {
+        "E_first_CANCEL": "min(D_C, f + 1500ms)",
+        "E_first_SUBMIT": "min(D_S, f + 1500ms, s + 1500ms)",
+        "equivalence": "compute_offer_deadline(f, D_S + [s + tau]) == E_first_SUBMIT"
+      },
+      "option": "b_preparation_transaction_consolidation",
+      "policy": "NE1-ARB-C1.5-OVF06-ANCHOR-001 AP-01..AP-04",
+      "returns": "(reserved original Plan, final persisted ExecutionContext)",
+      "signatures": {
+        "DispatchJournal.prepare_native_submission": "(intent, context, *, expected_control_revision, expected_context, resources=())",
+        "Ledger.prepare_native_submission": "(intent, context, *, expected_control_revision, expected_context, resources=(), evidence_registry=None)"
+      },
+      "unchanged": [
+        "DISPATCH_TTL_MS=1500",
+        "E_first formulas",
+        "record_offer/get_offer/begin_dispatch signatures",
+        "CANCEL path (not through the SUBMIT seam)"
+      ],
+      "write_counts": {
+        "capture_registration_writes": 1,
+        "first_offer_record_writes": 1,
+        "identified_first_offer_writes": {
+          "current": 8,
+          "ordered": 3
+        },
+        "preparation_writes": {
+          "current": 6,
+          "ordered": 1
+        },
+        "ready_dispatch_publication_writes": 1
+      }
+    },
+    "registry_deadlines": {
+      "blockers": [
+        "NATIVE_PERMIT_UNREGISTERED",
+        "NATIVE_PERMIT_EXPIRED",
+        "AUTHORIZATION_ACTION",
+        "NATIVE_DEADLINE_UNAVAILABLE",
+        "NATIVE_DEADLINE_EXPIRED"
+      ],
+      "d_registry_cancel_formula": "min(permit, authorization, route)",
+      "d_registry_submit_formula": "min(permit, authorization, baseline, route, cash)",
+      "expected_cancel_deadline_ms": 500,
+      "expected_submit_deadline_ms": 300,
+      "policy": "BUNDLED-ARB-20260915-R2 RD-03",
+      "scenario_offsets_ms": {
+        "baseline": 300,
+        "cash_evidence": 400,
+        "context_authorization": 800,
+        "offer_cap": 1500,
+        "permit": 700,
+        "registered_authorization": 900,
+        "route": 500
+      }
+    },
+    "service_constants": {
+      "dispatch_ttl_ms": 500,
+      "max_account_actors": 8,
+      "max_armed_native_accounts": 1,
+      "max_http_workers": 8,
+      "poll_armed_min_interval_ms": 250,
+      "poll_disabled_interval_ms": 5000
+    },
+    "status_request_headers": {
+      "generation": "X-Execution-Generation",
+      "instance_id": "X-Execution-Instance-Id",
+      "params_sha256": "X-Execution-Params-Sha256",
+      "request_id": "X-Execution-Request-Id",
+      "schema_version": "X-Execution-Schema-Version",
+      "sent_at": "X-Execution-Sent-At",
+      "sequence": "X-Execution-Sequence",
+      "service_epoch": "X-Execution-Service-Epoch",
+      "session_epoch": "X-Execution-Session-Epoch",
+      "type": "X-Execution-Type"
+    },
+    "transport_error_http_status": {
+      "ACK_WATERMARK_INVALID": 409,
+      "ACTOR_UNREGISTERED": 403,
+      "AUTHENTICATION_FAILED": 401,
+      "BACKPRESSURE": 503,
+      "BINDING_MISMATCH": 403,
+      "CONTEXT_CONFLICT": 409,
+      "EPOCH_MISMATCH": 409,
+      "HANDSHAKE_REQUIRED": 409,
+      "HOST_REJECTED": 403,
+      "INTERNAL_ERROR": 500,
+      "INVALID_REQUEST": 400,
+      "METHOD_NOT_ALLOWED": 405,
+      "ORIGIN_REJECTED": 403,
+      "PERSISTENCE_UNAVAILABLE": 503,
+      "POLL_TOO_FAST": 429,
+      "RECEIPT_CONFLICT": 409,
+      "REQUEST_ID_CONFLICT": 409,
+      "REQUEST_TIMEOUT": 408,
+      "REQUEST_TOO_LARGE": 413,
+      "RESPONSE_TOO_LARGE": 500,
+      "SEQUENCE_CONFLICT": 409,
+      "SERVICE_UNAVAILABLE": 503,
+      "SNAPSHOT_CONFLICT": 409,
+      "TYPE_MISMATCH": 400,
+      "UNKNOWN_ROUTE": 404,
+      "UNSUPPORTED_ACTION": 400,
+      "UNSUPPORTED_MEDIA_TYPE": 415,
+      "UNSUPPORTED_SCHEMA": 400
+    }
+  }
+}

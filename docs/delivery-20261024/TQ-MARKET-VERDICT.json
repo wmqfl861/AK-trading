@@ -1,0 +1,72 @@
+{
+  "review": "TQ-FREE-MARKET-HARD-002 (recovery completion of interrupted HARD-001)",
+  "interrupted_session_fact": "HARD-001 CLI native1 at 2026-10-24T13:11:35Z, stdout empty, trace 58d74f84-baa6-4722-9f45-d10952e81149 model.request.failed network_error; not called PASS or product FAIL; originals unaltered",
+  "reviewer": "independent ZCode (GLM-5.3, max); did not implement the product; same session/store/cwd/model/effort",
+  "decided_utc": "2026-10-24T13:30:04.070802+00:00",
+  "verdict": "PASS",
+  "unconditional": true,
+  "scope": "The existing exact free-market-data operation data/market_data_backfill/20261024-001: two one-shot scripts, their frozen inputs/reports, and the honest reporting of runs and limits. NOT an all-history or all-concrete-contract completeness acceptance.",
+  "completed_evidence_reused_hard001": {
+    "offline_recheck_exact_command": {
+      "evidence": "D:/AKRV261024/TQ-FREE-MARKET-HARD-001/reviewer-output/evidence/offline-recheck.exit.txt + stdout",
+      "result": "native exit 0; OFFLINE_RECHECK_OK with lr_source_rows=10128, minute_tail_rows=306930, index_daily_rows=2640, stored_unknown_trading_day_rows=2100; stderr empty; ps1 transcription verified byte-exact vs handoff block"
+    },
+    "frozen_pins_before": {
+      "evidence": "D:/AKRV261024/TQ-FREE-MARKET-HARD-001/reviewer-output/evidence/frozen-hashes-before.json",
+      "result": "38/38 matched (bytes+sha256)"
+    },
+    "independent_bounded_db_reread": {
+      "evidence": "D:/AKRV261024/TQ-FREE-MARKET-HARD-001/reviewer-output/evidence/db-reread.json",
+      "result": "DB_REREAD_OK; REPEATABLE READ + READ ONLY + statement_timeout 5s verified via SHOW; bounded rows 5000/5000/128; 10128 nano keys and seven Decimal values all equal; missing/conflict/extra keys 0; elapsed 4.75s; no DB write, no SDK, no replay"
+    },
+    "script_inspection": {
+      "result": "run001/run002: credentials only from Root-injected stdin, payload cleared after use; TqSim; enable_trading=False; broker NOT_RUN; zero real sends/cancels; no TLS/proxy changes; no .env or account auto-discovery; single-use guards; error records redacted (type/hosts/tokens only)"
+    }
+  },
+  "new_evidence_hard002": {
+    "synthetic_counterexamples": {
+      "evidence": "evidence/synthetic-probes.json",
+      "result": "S1: Decimal parses scientific nano exactly, float loses precision on odd 19-digit nano, +1ns key shift -> exactly 1 missing + 1 extra, 1e-9 Decimal delta -> exactly 1 conflict; S2: clean 50-row slice zero findings, injected duplicate/non-increasing/invalid-OHLC flagged exactly; S3: byte-tampered scratch copy of a frozen input flagged by hash while the real input still matches. All SYNTHETIC, scratch-only, first execution exit 0",
+      "copy_provenance": "probes/synthetic_probes.py copied from pinned HARD-001 probe with only the output-path binding changed (evidence/synthetic-copy-diff.txt)"
+    },
+    "publication_allowlist": {
+      "evidence": "evidence/allowlist-check.json",
+      "result": "22/22 allowlisted files exist; the four LOCAL_ONLY market CSVs are consistently excluded from publication and are exactly the LOCAL_ONLY_MARKET_PAYLOAD pins; no credential/.env/DB/capture-stream path publishable; every allowlist entry frozen-pinned (FILE-HASHES.json self-excluded as declared)"
+    },
+    "frozen_pins_after": {
+      "evidence": "evidence/frozen-hashes-after.json",
+      "result": "38/38 matched after all checks — no frozen byte changed during the whole review"
+    }
+  },
+  "reviewer_harness_incidents_classified": {
+    "db_reread_attempt1_assertion": "reviewer harness defect, not product: session-default SETs ran inside a legacy read-write transaction (psycopg non-autocommit), so the first business transaction kept read committed/read-write defaults. Diagnosed from existing db-reread-diag evidence (defaults set, active txn not), fixed in attempt 3 by applying SETs under temporary autocommit; attempt-1 AssertionError and diag outputs preserved; DB not re-run in HARD-002",
+    "synthetic_pre_execution_correction": "before first execution, S2's injected invalid row would have created an unintended second duplicate nano (copy of row 30); fixed by assigning a fresh midpoint nano; correction predates any run, no failed run hidden",
+    "allowlist_check_precleanup": "chained-comparison cleanup made before first run; no failed execution"
+  },
+  "preserved_product_side_facts": [
+    "run001 SSLError at session stage, native exit 2, no CSV; root cause undetermined, not reproduced, not called account rejection",
+    "owner offline recheck initial native1 (int() on scientific-notation nano) retained in OFFLINE-RECHECK-RESULT.json; successor -002 native0",
+    "three diagnostic native1 incidents retained in RESULT.json (docs timeout, None-expiry TypeError, 3.10.3 dotenv helper import)",
+    "run002 native0, 56.172s, peak RSS 246267904 bytes, TLS/proxy unchanged"
+  ],
+  "acceptance_separation": {
+    "engineering_tool_acceptance": "PASS — scripts behave exactly as reported (bounded, stdin-only credentials, read-only application interfaces, honest failure retention, single-use, no trading, no TLS changes)",
+    "data_verification": "PASS — offline arithmetic recomputed independently and 10128-row DB equality independently re-read within the exact verified windows; database_rows_imported 0 justified",
+    "historical_coverage": "NOT CLAIMED — no all-history completeness, no all-concrete-contract coverage, no trading_day-label repair claim"
+  },
+  "limitations_remain": [
+    "LR free source latest observed 2026-01-16 (main minute 2026-01-16 14:59, index daily 2026-01-16); observation does not establish permanent exchange delisting",
+    "2100 physically present rows with NULL trading_day retained (13 series); public calendar behavior unrepaired",
+    "Only 3 exact reference session grids verified (RB/TA/M, 4020 rows each); other series not proven slot-complete",
+    "Pre-2026 labels, 2018 anomaly fragments, and ranges outside observed free serial windows not rescanned",
+    "run001 TLS failure root cause undetermined"
+  ],
+  "reviewer_actions_exclusions": "No network, SDK, DB write, replay of run001/run002, credential inspection, model-configuration change, or nested agents during the review; all Python invocations used -B.",
+  "evidence_index": [
+    "FINDINGS.md",
+    "evidence-hashes.json",
+    "evidence/",
+    "probes/",
+    "scratch/"
+  ]
+}

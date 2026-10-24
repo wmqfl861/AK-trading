@@ -1,0 +1,19 @@
+{
+  "operation": "20261024-001-download-run001",
+  "channel": "tqsdk_free_realtime_recent_serial",
+  "sdk_version": "3.10.2",
+  "duration_seconds": 60,
+  "requested_rows": 10000,
+  "target_complete_trading_day": "2026-10-23",
+  "symbols": [],
+  "enable_trading": false,
+  "broker": "NOT_RUN",
+  "real_sends": 0,
+  "real_cancels": 0,
+  "failure": {
+    "context": "session",
+    "exception_type": "SSLError"
+  },
+  "elapsed_seconds": 10.953,
+  "status": "PARTIAL_OR_FAILED"
+}

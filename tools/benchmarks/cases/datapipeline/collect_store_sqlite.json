@@ -1,0 +1,72 @@
+{
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "case_id": "datapipeline/collect_store_sqlite",
+  "description": "SYNTHETIC offline PRODUCTION-BINDING case (H22 COLLECT_STORE_SQLITE), r2 IMPLEMENTED revision of the r1 registration template: the deliberately-absent entrypoint build_collect_store_sqlite now exists and drives SYNTHETIC frames through the REAL reviewed commit path - ak_trading.datapipeline.storage.SqlPipelineStore.commit (RELEASE_MANIFEST dp08-r3 bundle bytes) over a per-trial file-backed SQLite double (models.attach_sqlite_schemas + adopt_or_create_*), with the pinned cross-domain ak_trading.acquisition.storage 3-symbol closure (module resolve + RawSnapshotMeta + build_batch_plan + ingest_batch; datapipeline storage.py:463/652/672/708) executing on every commit. Measured modules are exactly the commit-path closure (6 DP modules + parent init row excluded as runtime support + 3 acquisition cross-domain rows); policy/scheduler/session_factory/collector are NOT on this path and are NOT listed. One operation = staged commit / idempotent replay (same envelope re-committed, 0 new versions, same batch_id/commit_id) / published-only readback (CLOSED+VALID, conflict-free) per the frozen design in docs/benchmarks/datapipeline.md section 4; units = accepted input rows = VALID rows (closed + provisional) of that frame; padding/invalid rows are rejected by the real store, never counted as accepted. EVIDENCE GRADE: WORKTREE_SNAPSHOT - the acquisition rows are source-map rows 13-15 (cross_domain, worktree-snapshot-20260924-gap05-r1; release-grade handoff still pending, GAP-05), so this case does NOT upgrade the leg to a release-grade PASS and eligible_for_baseline stays false (Q31-A discipline). OPT-04 open finding against export_existing_versions (outside the three consumed symbols, same file) is disclosed in the r2 source map description, not scoped away. correctness.expected_digest is frozen from the two-pass method (first real deterministic smoke run, then a confirmation re-run with the frozen digest); copying the frame_synthetic generator digest is prohibited. OFFLINE_SYNTHETIC_SQLITE only: no PostgreSQL, no TqSdk, no real account, no production DB; R0-R9 remain locked; formal profile stays reserved to the W05 window (this registration only claims smoke-grade evidence). TRIAL SQLITE CONFIGURATION (declared, not a hidden fast path): the per-trial attached databases run journal_mode=MEMORY + synchronous=OFF (SQLite DELETE-journal + FULL-sync defaults pay several fsyncs per store transaction and cannot fit the frozen 30 s smoke budget; the effective values are recorded in the verify summary) - production persistence semantics are NOT measured or claimed.",
+  "origin": "SYNTHETIC",
+  "domain": "datapipeline",
+  "backend": "python-inprocess",
+  "eligible_for_baseline": false,
+  "algorithm_version": "nf22-collect-store-sqlite-r2-implementation",
+  "policy_version": "nf22-datapipeline-r1",
+  "workload": {
+    "source": "tools/benchmarks/workloads/datapipeline.py",
+    "entrypoint": "build_collect_store_sqlite"
+  },
+  "measured_modules": [
+    "ak_trading.datapipeline",
+    "ak_trading.datapipeline.contracts",
+    "ak_trading.datapipeline.models",
+    "ak_trading.datapipeline.ports",
+    "ak_trading.datapipeline.readback",
+    "ak_trading.datapipeline.storage",
+    "ak_trading.acquisition",
+    "ak_trading.acquisition.contracts",
+    "ak_trading.acquisition.storage"
+  ],
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/workloads/datapipeline.py",
+      "role": "workload"
+    }
+  ],
+  "params": {
+    "seed": 20260922
+  },
+  "measurement": {
+    "sample_mode": "per_operation",
+    "units": "accepted_input_rows",
+    "units_per_operation": 1,
+    "min_operations": 30,
+    "batch_size": 10,
+    "reset_method": "none",
+    "includes_io": true
+  },
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": true
+  },
+  "environment": {
+    "depends_on": [
+      "sqlalchemy"
+    ]
+  },
+  "correctness": {
+    "kind": "digest",
+    "expected_digest": "6d3864ebd6b95aa29add072aafdb7a949b21d6c00c784932625172fa24474001",
+    "normalizations": []
+  },
+  "budget": {
+    "smoke": {
+      "warmup_operations": 6,
+      "operations": 30,
+      "case_timeout_s": 30
+    },
+    "formal": {
+      "batches": 5,
+      "warmup_operations": 6,
+      "operations_per_batch": 30,
+      "case_timeout_s": 600
+    }
+  }
+}

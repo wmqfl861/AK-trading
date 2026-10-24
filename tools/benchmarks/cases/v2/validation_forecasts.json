@@ -1,0 +1,74 @@
+{
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "case_id": "v2/validation_forecasts",
+  "description": "SYNTHETIC case: one evaluate_forecasts call per operation over a frozen 40-day x 5-request forecast/label set (seed 20260924, explicit trading-day blocks); the production 1000-replicate block bootstrap runs inside every call and verify() fails if it shrinks. Statistical statuses on synthetic data stay honest (INSUFFICIENT/FAIL retained; no statistical PASS claim).",
+  "origin": "SYNTHETIC",
+  "domain": "v2",
+  "backend": "python-inprocess",
+  "eligible_for_baseline": true,
+  "algorithm_version": "v2-validation-worktree-20260924",
+  "policy_version": "research-policy-v2.1.0",
+  "workload": {
+    "source": "tools/benchmarks/workloads/v2.py",
+    "entrypoint": "build"
+  },
+  "measured_modules": [
+    "ak_trading.v2.validation.metrics",
+    "ak_trading.v2.contracts"
+  ],
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/workloads/v2.py",
+      "role": "workload"
+    },
+    {
+      "path": "tools/benchmarks/fixtures/v2/validation.json",
+      "role": "input"
+    },
+    {
+      "path": "tools/benchmarks/fixtures/v2/decision_replay.json",
+      "role": "input"
+    }
+  ],
+  "params": {
+    "case": "validation_forecasts",
+    "seed": 20260924,
+    "case_family": "VALIDATION_METRICS",
+    "bootstrap_replicates": 1000
+  },
+  "measurement": {
+    "sample_mode": "per_operation",
+    "units": "evaluate_forecasts_calls",
+    "units_per_operation": 1,
+    "min_operations": 20,
+    "batch_size": 20,
+    "reset_method": "none",
+    "includes_io": false
+  },
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "environment": {
+    "depends_on": []
+  },
+  "correctness": {
+    "kind": "digest",
+    "expected_digest": "7bb4678a389603ab502bba7e23c988f9744595742fb7e88a04be9af13171af94",
+    "normalizations": []
+  },
+  "budget": {
+    "smoke": {
+      "warmup_operations": 1,
+      "operations": 6,
+      "case_timeout_s": 30
+    },
+    "formal": {
+      "batches": 5,
+      "warmup_operations": 1,
+      "operations_per_batch": 20,
+      "case_timeout_s": 600
+    }
+  }
+}

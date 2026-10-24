@@ -1,0 +1,235 @@
+{
+  "schema": "aktr-market-backfill-file-hashes/v1",
+  "at_utc": "2026-10-24T12:40:29.939545+00:00",
+  "self_excluded": "FILE-HASHES.json cannot hash itself; no open producer/parent CLI streams are included.",
+  "files": [
+    {
+      "path": "data/market_data_backfill/20261024-001/RESULT.md",
+      "role": "PUBLICATION",
+      "bytes": 5439,
+      "sha256": "56e0cec1841d9be567ba3fb36c63966c759ebe88ea4e55e3a830d8f3c2a47f2c"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/RESULT.json",
+      "role": "PUBLICATION",
+      "bytes": 5527,
+      "sha256": "f6cde68a3832698bae8e4d6de9e21920423cb1c1ecd8bd429a31c20962448ed3"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/REVIEW-HANDOFF.md",
+      "role": "PUBLICATION",
+      "bytes": 9355,
+      "sha256": "6269a067ebac61720577f5d5d15c62c05d82419c4472e188341ea8f74fc66e91"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/download_recent_run001.py",
+      "role": "PUBLICATION",
+      "bytes": 4855,
+      "sha256": "333102500ca73cfff477378314deea822ee102c0f65d6245dab72fbe1043cfe0"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/download_recent_run002.py",
+      "role": "PUBLICATION",
+      "bytes": 6762,
+      "sha256": "6682d51ab3602c1a3140dc6f67e9cd60dfaa70bf7a3367c4112b60c5bd1c231a"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/RUN001-PRECONDITIONS.json",
+      "role": "PUBLICATION",
+      "bytes": 2378,
+      "sha256": "f60827ad2cb95fdba4dcb411da0713e7ac69d9fba60f975b5aca129edefa5ad5"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/RUN002-PRECONDITIONS.json",
+      "role": "PUBLICATION",
+      "bytes": 1414,
+      "sha256": "b66000fba3d71337e9bd6202d2f2b68e9decaea05aef4c2c27421863f17c62a2"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/ROOT-RUN001-TERMINAL.json",
+      "role": "PUBLICATION",
+      "bytes": 630,
+      "sha256": "0b3e5518b85afae5c4c9d827d57924f1c9e8c569851577ac7353a797c2a036a0"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/ROOT-RUN002-TERMINAL.json",
+      "role": "PUBLICATION",
+      "bytes": 631,
+      "sha256": "59f72629e1d21f4d118d80c6c44a5a7a5c4408bed5c521746e1ddd07f779775d"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/download-run001/RESULT.json",
+      "role": "PUBLICATION",
+      "bytes": 475,
+      "sha256": "d22932794c205a9063ba254c914982086d29b1bb926d786b466d8c3dceded4b5"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/download-run002/RESULT.json",
+      "role": "PUBLICATION",
+      "bytes": 2201,
+      "sha256": "303597d9671d32a79dee6c0aa6f0016d6bd49c915e38c40cd4dabac978d8b711"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/TLS-NOAUTH-001.json",
+      "role": "PUBLICATION",
+      "bytes": 607,
+      "sha256": "679b594eec4d00b8d19c36c853a565f387cb5e667ca472822dbcbbafde6462ba"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/latest81-coverage-run001.jsonl",
+      "role": "PUBLICATION",
+      "bytes": 65784,
+      "sha256": "ab35504f17559af400b34eedcc700215471068ba85775003a58f3d9fafd89518"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/latest81-index-daily-run001.jsonl",
+      "role": "PUBLICATION",
+      "bytes": 65867,
+      "sha256": "2d5e88ad1357b9fcc696b32e116a714e3ba645da7f51c2d5d1517911bac43136"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/index-daily-continuity-run001.jsonl",
+      "role": "PUBLICATION",
+      "bytes": 72628,
+      "sha256": "a21d8049d6d52faa426abc750652509989650a894494be311eb8f605321395ad"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/minute-tail-quality-run001.jsonl",
+      "role": "PUBLICATION",
+      "bytes": 60601,
+      "sha256": "01d819cf8b7aef93eaf0be876fbe2f7ee49ab52c5b9595d06194874c09bed60d"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/latest-concrete-anchors-run001.jsonl",
+      "role": "PUBLICATION",
+      "bytes": 4374,
+      "sha256": "8c076cdc60750119b51c1fbabdf10e28102a3180d2f43a91ab68d02e6b304f17"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/LR-OVERLAP-COMPARISON.json",
+      "role": "PUBLICATION",
+      "bytes": 2160,
+      "sha256": "0f847cafc22cc11e0137cf3ca1e408f3c26e36c176e3c22d9c246c0b363aec22"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/OFFLINE-RECHECK-RESULT.json",
+      "role": "PUBLICATION",
+      "bytes": 397,
+      "sha256": "d362d27bb31c7f246a85a9b23cf609fab2b4f515979ae03d7b40dc004e22494c"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/OFFLINE-RECHECK-RESULT-002.json",
+      "role": "PUBLICATION",
+      "bytes": 426,
+      "sha256": "4a3c83ec09ac894a838ca6ebcf271036b8e7abdaf141f8bd5d84dd725a37d06c"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/PUBLICATION-FILES.json",
+      "role": "PUBLICATION",
+      "bytes": 2193,
+      "sha256": "93b7e649a8fa83b081767767282ce476cba622696d3eb80ce372abdc1dca2b94"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/download-run002/LR-main-60.raw.csv",
+      "role": "LOCAL_ONLY_MARKET_PAYLOAD",
+      "bytes": 807843,
+      "sha256": "ae3ebda66fe16a69c2d62d9cec1993f2e26bc9bddb7dff5372f0eea6f6fa8555"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/download-run002/LR-main-60.closed.csv",
+      "role": "LOCAL_ONLY_MARKET_PAYLOAD",
+      "bytes": 1440158,
+      "sha256": "14fc74f8a5af30bee51d3865f8ddafd7aff5b608913d223c4f03da212a9bbf5d"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/download-run002/LR-index-86400.raw.csv",
+      "role": "LOCAL_ONLY_MARKET_PAYLOAD",
+      "bytes": 10408,
+      "sha256": "514ff269e058859737f7cb0172435e3a24a1985bc474c1c3b1cd7f43308559e9"
+    },
+    {
+      "path": "data/market_data_backfill/20261024-001/download-run002/LR-index-86400.closed.csv",
+      "role": "LOCAL_ONLY_MARKET_PAYLOAD",
+      "bytes": 18590,
+      "sha256": "6f5679c7730ae05c12daf1bf0922faec6fa420731e8331cb2ccf7dc818967882"
+    },
+    {
+      "path": "scripts/fill_recent_main_minute.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 16198,
+      "sha256": "5014de39c93d8430b19df7c7ffd4c3e8d11ca771d9654b8cef3e2fdff20ad668"
+    },
+    {
+      "path": "scripts/backfill_recent_free.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 20139,
+      "sha256": "1dd14c0aa7cb5aee52515095cd12b3946308c47fac7bc00f9040a1478c7c3627"
+    },
+    {
+      "path": "scripts/manage_database.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 9402,
+      "sha256": "c077cd407b20a021e25c3cf51fbb3412adc29996c52788cee0e76a237b27da42"
+    },
+    {
+      "path": "src/ak_trading/persistence/inspection.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 13308,
+      "sha256": "befa910c4d36a01e442b3ba9489e4d2d145ca9ce4252b281c7f288340f90e1cc"
+    },
+    {
+      "path": "src/ak_trading/persistence/query.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 15664,
+      "sha256": "d0093a2ef1d9370c0ddb2899ee097f325f2c3f2b5703d3e2c45fd6d4b4ddd269"
+    },
+    {
+      "path": "src/ak_trading/persistence/market_data.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 18379,
+      "sha256": "f4c0f7220de00040b27681fb5e653e5350c388a839165e68248fb394a07659ec"
+    },
+    {
+      "path": "src/ak_trading/persistence/schema.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 14746,
+      "sha256": "5db71a8ca1e8da2a7781d073161dfb9bab544e4c5712fabc141144654f090c85"
+    },
+    {
+      "path": "src/ak_trading/persistence/config.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 5553,
+      "sha256": "9406adf3709a4a0847a1922d24e4f1e8cef205793197f03ba44604fab4e916f4"
+    },
+    {
+      "path": "src/ak_trading/persistence/database.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 2794,
+      "sha256": "d40a4ba2a02d1be099aa3d7290d4301cf40de0a935811fa02ec5d77627503d97"
+    },
+    {
+      "path": "src/ak_trading/config.py",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 808,
+      "sha256": "a3bb36031960c608c996e997a6dd2e7da16a6341442da552268abfc0e68ac923"
+    },
+    {
+      "path": "config/market_reference.json",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 9342,
+      "sha256": "0ee5168017f4a6aad7be743b147b45fced791a4426b94d7c9310f78cb79a459e"
+    },
+    {
+      "path": "data/downloads/kqm_symbols.txt",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 1024,
+      "sha256": "764749bfa6c61619feae3d1b2a1e046253580260a353f1b25b5d7fec4f15a5ca"
+    },
+    {
+      "path": "data/maintenance_artifacts/acquisition-execution-arbitration-20260919-r1/decision.md",
+      "role": "EXISTING_READ_ONLY_INPUT",
+      "bytes": 26121,
+      "sha256": "6c3af0581002e44c56a8c65da66b1228f24d2992e638da18060d4f635cb5d890"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "scope": "r1 documents only",
+  "reviewer": "independent ZCode",
+  "session_id": "sess_eaf1bd29-d103-49ea-9cde-9dd682ad8317",
+  "native_exit": 0,
+  "reviewer_verdict": "PASS",
+  "product_review_credit": false,
+  "root_postcheck_matches_recorded_prelaunch_pins": true,
+  "reviewer_independent_hash_execution": "NOT_RUN",
+  "inputs": [
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\BLUEPRINT.md",
+      "bytes": 6333,
+      "sha256": "9ae21e4f4c59dd954aa08d6e6c754b52c57d0bfe8da530348963b412fd614b42"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\IMPLEMENTATION-PLAN.md",
+      "bytes": 7550,
+      "sha256": "abf23250ed44159d37adf730b08de05ae8673f8e62bed6a9c64aabb21fa2b1e4"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\REPAIR-ORDER.md",
+      "bytes": 4377,
+      "sha256": "cd3d0100bfbfa2309569429784a2cb675b25b927bc71ab346f68fe91f53a9bfc"
+    }
+  ],
+  "note": "Root receipt does not change the independent reviewer limitation; revised r2 requires its own scoped review."
+}

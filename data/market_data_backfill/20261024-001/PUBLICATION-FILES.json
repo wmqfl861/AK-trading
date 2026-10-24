@@ -1,0 +1,37 @@
+{
+  "schema": "aktr-market-backfill-publication-allowlist/v1",
+  "repo": "wmqfl861/AK-trading",
+  "files": [
+    "data/market_data_backfill/20261024-001/RESULT.md",
+    "data/market_data_backfill/20261024-001/RESULT.json",
+    "data/market_data_backfill/20261024-001/REVIEW-HANDOFF.md",
+    "data/market_data_backfill/20261024-001/download_recent_run001.py",
+    "data/market_data_backfill/20261024-001/download_recent_run002.py",
+    "data/market_data_backfill/20261024-001/RUN001-PRECONDITIONS.json",
+    "data/market_data_backfill/20261024-001/RUN002-PRECONDITIONS.json",
+    "data/market_data_backfill/20261024-001/ROOT-RUN001-TERMINAL.json",
+    "data/market_data_backfill/20261024-001/ROOT-RUN002-TERMINAL.json",
+    "data/market_data_backfill/20261024-001/download-run001/RESULT.json",
+    "data/market_data_backfill/20261024-001/download-run002/RESULT.json",
+    "data/market_data_backfill/20261024-001/TLS-NOAUTH-001.json",
+    "data/market_data_backfill/20261024-001/latest81-coverage-run001.jsonl",
+    "data/market_data_backfill/20261024-001/latest81-index-daily-run001.jsonl",
+    "data/market_data_backfill/20261024-001/index-daily-continuity-run001.jsonl",
+    "data/market_data_backfill/20261024-001/minute-tail-quality-run001.jsonl",
+    "data/market_data_backfill/20261024-001/latest-concrete-anchors-run001.jsonl",
+    "data/market_data_backfill/20261024-001/LR-OVERLAP-COMPARISON.json",
+    "data/market_data_backfill/20261024-001/OFFLINE-RECHECK-RESULT.json",
+    "data/market_data_backfill/20261024-001/OFFLINE-RECHECK-RESULT-002.json",
+    "data/market_data_backfill/20261024-001/PUBLICATION-FILES.json",
+    "data/market_data_backfill/20261024-001/FILE-HASHES.json"
+  ],
+  "exact_file_count": 22,
+  "excluded_local_payloads": [
+    "download-run002/LR-main-60.raw.csv",
+    "download-run002/LR-main-60.closed.csv",
+    "download-run002/LR-index-86400.raw.csv",
+    "download-run002/LR-index-86400.closed.csv"
+  ],
+  "excluded_local_evidence": "All capture streams, initial three-symbol redundant DB inspection streams/results, databases, credentials and files outside this exact list remain local. No wildcard git add.",
+  "root_coordinates_review_commit_push": true
+}

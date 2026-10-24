@@ -1,0 +1,113 @@
+{
+ "code_files": {
+  "scripts/research_probability_v2.py": "33351e7acd0004701ae07239ba0bd44710288b0f93cb4f28072f8cf6067c2b9f",
+  "src/ak_trading/v2/__init__.py": "7d3dd5c252bac5608f4fa010ad926427f2e2fe9094cc47b53ea876bd967fda31",
+  "src/ak_trading/v2/artifacts.py": "3ee742013664253c26242d8c8c8aa93734454ffd7774e3ae9a9d0106684e480b",
+  "src/ak_trading/v2/baseline.py": "aa79f1c3e4acec91033ce8bb701683428073565ef268a9e18f2165c8117bd5e4",
+  "src/ak_trading/v2/clock.py": "793771e4633a92398a513983ea3f62713ce6c9f2ab10a4e49df4000eda77660b",
+  "src/ak_trading/v2/contracts.py": "bcd290615ea837dd086c4bb4166ed6bd2dc474a410da8501c7040474b1860f15",
+  "src/ak_trading/v2/data.py": "16bb89c5a78cbb35a084ee2ef122838b91cf18c33597430db910583fce402e3d",
+  "src/ak_trading/v2/decision/__init__.py": "44d324035a75bf02d7d2c8a959b0e8dc084c579ac762f5a7371852c540c5ec93",
+  "src/ak_trading/v2/decision/execution.py": "f06be6642c07e8698d41ebf02c30acb39a3976faf9571c9ad7bf408e559772aa",
+  "src/ak_trading/v2/decision/gates.py": "4b3db13f5c42b6838b44d4fef0401cb2da5e4b2af40fc43884d8793bc0849e68",
+  "src/ak_trading/v2/decision/ledger.py": "27e57becb79f21343ca45bd1f27816b1a023636f15490f03d4176d5af2c4bef8",
+  "src/ak_trading/v2/decision/payoff_paths.py": "c5993cccea6bc0effa8f352abf5f71e518034038c81069d7e0abc9a68462725b",
+  "src/ak_trading/v2/decision/payoffs.py": "2f22820639daad72df087dee3526e6754545c507851486989a13f4f92f9270c4",
+  "src/ak_trading/v2/decision/pipeline.py": "328f342b77827678540719bf2a93cd9a46f21ff61ef530c5e1b03a0d26acaf0e",
+  "src/ak_trading/v2/decision/replay.py": "f196a593270d6a6fc14389fb21fd6f5d856d31f60641da2045e963fb9de46528",
+  "src/ak_trading/v2/decision/risk.py": "bc776e037290773fb7534702c2cb84138cadf56cadab88ca2db28388b2ea9294",
+  "src/ak_trading/v2/decision/routing.py": "8341998461a982f7821527f22e721edf960122f6bb45b085ad537d7d0b333a4c",
+  "src/ak_trading/v2/exits/__init__.py": "61014a4df936ccc421e159f2de9cf08628a49ab0d5710b26ecbb98f2f017e182",
+  "src/ak_trading/v2/exits/arbitration.py": "7c3c7303563f2089c69dabe34cc8a985b031f8670143a4c5e27056bf8aed402f",
+  "src/ak_trading/v2/exits/drawdown.py": "edbb695b0a07fb0a602723551f59498132a6ab1823e1f8b3bd72010ed4c6eea4",
+  "src/ak_trading/v2/exits/features.py": "4691f38e8ad93a1be2a809b0c0c7029c0195ed0343402c85ee2de76120709a43",
+  "src/ak_trading/v2/exits/legacy.py": "e92b1c2278b9280f7c64d2f77862e558bfd493e1f13edd50b2f027d51f8db933",
+  "src/ak_trading/v2/exits/profit_ladder.py": "3d1a92b57094be9defd39aa8bc50bdffe288837fb0811972fdd793017007d300",
+  "src/ak_trading/v2/exits/registry.py": "488b95d6c1a9154cf39156e906fc222d2cae0c4778990e04b4a3b4a5323ba367",
+  "src/ak_trading/v2/exits/replay.py": "88104cb7c964103a25f1287713b0f2d788af759bd601566b7630b35bca4fccde",
+  "src/ak_trading/v2/exits/signal_reversal.py": "feeab32d49dddab34cf478917095009323032180d0ae75dae194e3c620a5c3a6",
+  "src/ak_trading/v2/exits/sizing.py": "1e011574728a2505f88a1b84b3af6e48173ddcd2dc443b2e45bdd86f1fe6bf40",
+  "src/ak_trading/v2/exits/state.py": "037a2ff9283c470073053fce69bcb9a52987eb576750a7b2aa9631e4fa3ec663",
+  "src/ak_trading/v2/exits/time_decay.py": "c764e1c22ad1b85c66d28eee490c909a21e19b1148ff69dd93c24896264a01ef",
+  "src/ak_trading/v2/exits/trailing.py": "17879aef29c3d5f0960c50237b4d09f3867823cafca4ab7bbadd02678e1f258e",
+  "src/ak_trading/v2/exits/volatility_stop.py": "f725d5dcbb99fee95292f0d17d3c6e79c7b1d99ccd905d83112fed0cf3f9d9f7",
+  "src/ak_trading/v2/export.py": "fe16e2ee996b9c57ca9cea639665784b2944ae29157e2cb290318e7cabf9fb13",
+  "src/ak_trading/v2/factor_specs.py": "4f805702637a547b89a3d2fe2bc1e5bc5f9d04a6bf6a0845bfd0db60e4ee3baa",
+  "src/ak_trading/v2/factors.py": "bf20860d247752b428003ec14599ecf22cda6eb21696689e9365d349d7b7912d",
+  "src/ak_trading/v2/macro.py": "ca6e51c725047e92602434fb1dc8075fb4eb7671d601ff0e7296306935a7bfe1",
+  "src/ak_trading/v2/policy.py": "9e9c560bbf1d757ce5c0644bb2907ac2fddcd566ae587628b3a8cb589f55e32c",
+  "src/ak_trading/v2/probability/__init__.py": "dbc3879fd440cce2fe9b64a9551a192e955e78529be246334f6aaaf34dac85f3",
+  "src/ak_trading/v2/probability/calibration.py": "49757c0993bedce1006f29ae597928dd8516497111ccb3303ed95bf3602d87ab",
+  "src/ak_trading/v2/probability/forecast.py": "f70826449f64a271285387edbfb00e9da0a6c0d43fdc1cd72b6e1810b0f5822c",
+  "src/ak_trading/v2/probability/labels.py": "d0ff9c6ee1038bce1246cae4cfd97811f78c3ea20899050693dbd69440d1faa5",
+  "src/ak_trading/v2/probability/models.py": "1e9197ddd678bd50959de998ef82bf11c4e872137ba43e05405c167ab469df42",
+  "src/ak_trading/v2/probability/regimes.py": "d646588f6efc9812f2b921618b07eae299ac83d94b21b3bddb041587a3c1ba23",
+  "src/ak_trading/v2/schemas.py": "25a41de562a09dc49c33de553842713da721cf842ef0caabd3d8b78fd35d7b36",
+  "src/ak_trading/v2/seasonality.py": "950630b072d95e2f5705e94c2d544de9ae55b14eeab96cc22f6cb46d7d2c9ea4",
+  "src/ak_trading/v2/strategies/__init__.py": "b18466079a9a6f80a1cb905fb5d9cedfc0696ac93e84f0e91577548786dc1b62",
+  "src/ak_trading/v2/strategies/breakout.py": "829efdd024c93ba4ee933920835a020a7799863d1bd8049b1f51e8f1b408d2fd",
+  "src/ak_trading/v2/strategies/grid.py": "302fdef412895354cc288a033febf33c48bd7be37ddae5dfe6de25231b17343a",
+  "src/ak_trading/v2/strategies/martingale.py": "1052ba633aed957256ce058fd6ec54ec8d92c51b881eb7123fed0f440f12c412",
+  "src/ak_trading/v2/strategies/pullback.py": "b6101923ab6b344da67bca0f6594d59cc03cf5d6e23971e700597f9f3860d6da",
+  "src/ak_trading/v2/strategies/registry.py": "7ff35ba5b8118bde09c4465e5ce0418dcfed9e0d8cdf3d79e733307817ba71f7",
+  "src/ak_trading/v2/strategies/replay.py": "b119d40198dff834a8db6146bfca5d6e1bd0e63882afcc6ca4b38bcd4973827b",
+  "src/ak_trading/v2/strategies/reversion.py": "abfd41ca0368d22d32b5ec2b9d57c39783dfb01678896d3934a801e497b3a817",
+  "src/ak_trading/v2/strategies/state.py": "c5e8ba4ce58ad0291fe5f3f5cca38f7cd040c43089e747f7c5f3fa8411aae2f3",
+  "src/ak_trading/v2/strategies/trend.py": "68efde9bb844af9ad65d5c9bc0f3e3fa7eced596bbdded36bd3feeb08457e2ac",
+  "src/ak_trading/v2/strategies/wait.py": "666de8542f201324fa601e84a7c72200aa778c09a672f3483a4fdb202c7f2eb7",
+  "src/ak_trading/v2/validation/__init__.py": "fc5411eb2a6e7d5689031c06e71fc9d3e9c4d8d13686c9e4a384de10cd099bc8",
+  "src/ak_trading/v2/validation/experiments.py": "700294c9a7f6492c838b2435b475d57e40710c931a8fa2f4bcfb60b23cf6917b",
+  "src/ak_trading/v2/validation/metrics.py": "36b7b84610b23175dbb75bf3c869d068b6f1e576cef05ebac8253e09acbad7f6",
+  "src/ak_trading/v2/validation/reports.py": "0d28dbeb67baf91e3d128b53b22fe462f40258cbb3f58b3e20074112af573fa5",
+  "src/ak_trading/v2/validation/shadow.py": "ae5600428faa5a0ac37e00cc100ac97240d06ca099c7dc573f372c18bbf36320",
+  "src/ak_trading/v2/validation/splits.py": "b8b238e5e91f2928ba0affc535fae9ac7e0eab9a079d6022f1c62bf28ff25c18",
+  "tests/test_v2_m5_payoff_integration.py": "52a62b1f7dea0928a559777d1e8b4e2baa2a4e47061c52642c0e18207921552d",
+  "tests/test_v2_m5_t7_evidence.py": "981ab81d65506fa160afff4c6fc0fe7424d6dbd32a1e2147f3f35a8ad9d6d92b",
+  "tests/v2_ep1_t7_support.py": "7f1640176969392931a5fa8fced4da712afe9f60ed0d861bf7cf55982bc8eb29"
+ },
+ "derived_identity": {
+  "bundle_manifest_sha256": "4b47f649d98bca6986eae8af240be08ae91f4c47a3973b270f7a4a411e85d786",
+  "calendar_sha256": "28cba8a62e419135d43c0f44133a472356fc58873a6e808fbf07be58c0ee23f3"
+ },
+ "files": {
+  "inputs/bars-daily.json": {
+   "bytes": 321442,
+   "sha256": "c107f788711ed88a4d1261ac9df13a195c2012f31f52f47bbf6af561ccbe44fc"
+  },
+  "inputs/bars-minute.json": {
+   "bytes": 19177621,
+   "sha256": "79d4b68b0ab56b033bf664f7bba32bc7c8119dbdc8a0adcdcce3ffd80f6e77c4"
+  },
+  "inputs/rule.json": {
+   "bytes": 754,
+   "sha256": "64ce0c7fc02e934e7b62c28abb60a8b42ed7890da977b4cbab8de55ecabb35f9"
+  },
+  "inputs/sessions.json": {
+   "bytes": 94299,
+   "sha256": "f9aac2543b63de84146dd5a05f1b30db9a76830ecd8def79a679df066130a72e"
+  },
+  "partition-params.json": {
+   "bytes": 582,
+   "sha256": "dc1b885cbe8779d6a535927734054a650ed125917de981a70f1802980c61c639"
+  },
+  "recipe.json": {
+   "bytes": 571,
+   "sha256": "9c625aebc76cc903b4989394fc9bda2143d3f1703657986cd4dbbada1c306290"
+  }
+ },
+ "labels": [
+  "SYNTHETIC",
+  "SCENARIO"
+ ],
+ "not_contained": [
+  "final lock hash",
+  "reviewer report hash",
+  "post-run readiness",
+  "positive-run outputs"
+ ],
+ "profile": "P1-MINUTE-BREAKOUT",
+ "recipe_sha256": "9c625aebc76cc903b4989394fc9bda2143d3f1703657986cd4dbbada1c306290",
+ "schema_version": "ak_ep1_t7_acceptance_input_v1",
+ "seed": 7,
+ "synthetic": true
+}

@@ -1,0 +1,12 @@
+{
+ "schema": "dp03-synthetic-universe/1",
+ "synthetic_marker": "SYNTHETIC minimal universe for DP03 offline tests (>= 2 symbols x 2 periods per work order); no real membership claim.",
+ "dataset": "futures_kline",
+ "source_id": "tqsdk-free-realtime-get_kline-serial",
+ "durations_seconds": [60, 86400],
+ "symbols": [
+  {"source_symbol": "KQ.m@SHFE.rb", "instrument_kind": "MAIN_CONTINUOUS", "product_key": "shfe.rb", "r1_target": true},
+  {"source_symbol": "KQ.i@SHFE.rb", "instrument_kind": "INDEX", "product_key": "shfe.rb", "r1_target": true},
+  {"source_symbol": "SHFE.rb2601", "instrument_kind": "CONTRACT", "product_key": "shfe.rb", "r1_target": true}
+ ]
+}

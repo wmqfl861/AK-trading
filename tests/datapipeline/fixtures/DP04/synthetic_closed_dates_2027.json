@@ -1,0 +1,60 @@
+{
+  "schema_version": "datapipeline-calendar-evidence-v1",
+  "dataset": "futures_kline",
+  "source_id": "tqsdk-free-realtime-get-kline-serial",
+  "data_origin": "SYNTHETIC",
+  "synthetic_marker": "SYNTHETIC FIXTURE - fictional exchange SYNTHEX year 2027 - proves calendar LOGIC only, never a historical or live-market fact",
+  "announced_at_nano": null,
+  "evidence_text_sha256": null,
+  "review_status": "synthetic_fixture",
+  "evidence_version": "synth-closed-2027-r1",
+  "evidence_kind": "EXCHANGE_CLOSED_DATES",
+  "applicability": {
+    "exchanges": [
+      "SYNTH"
+    ],
+    "products": [],
+    "source_symbols": []
+  },
+  "valid_from_nano": "1798732800000000000",
+  "valid_through_nano": "1830268800000000000",
+  "pit_basis": "OBTAINED_AT",
+  "obtained_at_nano": "1799150400000000000",
+  "evidence_reference": "SYNTHETIC: hand-authored DP04 fixture (synthetic_closed_dates_2027.json)",
+  "closed_dates": [
+    {
+      "exchange": "SYNTH",
+      "date": "2027-01-01",
+      "reason": "SYNTHETIC_NEW_YEAR"
+    },
+    {
+      "exchange": "SYNTH",
+      "date": "2027-02-15",
+      "reason": "SYNTHETIC_SPRING_FESTIVAL"
+    },
+    {
+      "exchange": "SYNTH",
+      "date": "2027-02-16",
+      "reason": "SYNTHETIC_SPRING_FESTIVAL"
+    },
+    {
+      "exchange": "SYNTH",
+      "date": "2027-02-17",
+      "reason": "SYNTHETIC_SPRING_FESTIVAL"
+    },
+    {
+      "exchange": "SYNTH",
+      "date": "2027-02-18",
+      "reason": "SYNTHETIC_SPRING_FESTIVAL"
+    },
+    {
+      "exchange": "SYNTH",
+      "date": "2027-02-19",
+      "reason": "SYNTHETIC_SPRING_FESTIVAL"
+    }
+  ],
+  "sessions": [],
+  "notes": [
+    "SYNTHETIC fixture mirroring the DP00 2026 anchor SHAPE (closed civil dates only, no session intervals): open dates stay UNKNOWN, weekends are NOT listed and stay UNKNOWN (no weekday derivation, H04.4)."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "ak-benchmark-source-map/1.0.0",
+  "description": "Source map for the NF20 core harness-validation cases. The measured code is the synthetic workload fixtures themselves (WORKTREE_SNAPSHOT provenance). Real domain workloads (NF21/NF22/NF23) will ship their own owner-approved source maps.",
+  "modules": [
+    {
+      "logical_module": "benchmark.core.counter_digest",
+      "source_relative_path": "tests/benchmarks/fixtures/core/workloads/counter_digest.py",
+      "sha256": "29e21d2ee3226259f44795a0d8941dffa08c020ff2841c88f62c0e13762677cb",
+      "bytes": 1871,
+      "owner": "NF20",
+      "release_id": "WORKTREE_SNAPSHOT",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "benchmark.core.amortized_rows",
+      "source_relative_path": "tests/benchmarks/fixtures/core/workloads/amortized_rows.py",
+      "sha256": "d73e06cdd8cb33d542ca8fa124c5ce3815bb2b80bfbae44f4abdb96c99d1fc1e",
+      "bytes": 1966,
+      "owner": "NF20",
+      "release_id": "WORKTREE_SNAPSHOT",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "benchmark.core.sqlite_temp_write",
+      "source_relative_path": "tests/benchmarks/fixtures/core/workloads/sqlite_temp_write.py",
+      "sha256": "d2c27298f16a3118dba7353752d6c30d93c82717dc18a03187edf1df52f7762b",
+      "bytes": 2503,
+      "owner": "NF20",
+      "release_id": "WORKTREE_SNAPSHOT",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    }
+  ]
+}

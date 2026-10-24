@@ -1,0 +1,46 @@
+{
+  "description": "NF23 measured-module source map. Provenance is WORKTREE_SNAPSHOT: hashes were taken from the current repository worktree by devtools.py build-source-map (programmatic, no hand copying). The observer original owner's candidate input closure / release binding is PENDING handover; baseline-grade formal runs must rebind to that owner-approved identity before promotion.",
+  "modules": [
+    {
+      "bytes": 31037,
+      "logical_module": "ak_trading.infiny_bridge.protocol",
+      "note": "parse_json_body / normalize_payload measured by H23.1 cases",
+      "owner": "NF23",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "release_id": "WORKTREE_SNAPSHOT",
+      "sha256": "771f3c7c20adec3c5d3d835e3122afd57f683057734b1378983babb9ef438e01",
+      "source_relative_path": "src/ak_trading/infiny_bridge/protocol.py"
+    },
+    {
+      "bytes": 44367,
+      "logical_module": "ak_trading.infiny_bridge.service",
+      "note": "BridgeService.analyze/heartbeat/status measured by H23.2 cases",
+      "owner": "NF23",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "release_id": "WORKTREE_SNAPSHOT",
+      "sha256": "dcbca1fe47b82ef1414a8cf248187c768f7f2cab0fe783eb61cf7119bd90e98e",
+      "source_relative_path": "src/ak_trading/infiny_bridge/service.py"
+    },
+    {
+      "bytes": 7647,
+      "logical_module": "ak_trading.infiny_bridge.connection",
+      "note": "clock_sample/utc_time/TimingPolicy on the service measurement path",
+      "owner": "NF23",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "release_id": "WORKTREE_SNAPSHOT",
+      "sha256": "bd90ba8ceb31972405ad19b277983bb5af77cae081d1359680b3c2cfcdc3f612",
+      "source_relative_path": "src/ak_trading/infiny_bridge/connection.py"
+    },
+    {
+      "bytes": 49485,
+      "logical_module": "ak_trading.infiny_bridge.raw_sink",
+      "note": "import-time dependency of service.py (sink object stays disabled)",
+      "owner": "NF23",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "release_id": "WORKTREE_SNAPSHOT",
+      "sha256": "f09675587dc783429e8214ba269ef19ce3f4283ca2557b946e540a1f70b3f65f",
+      "source_relative_path": "src/ak_trading/infiny_bridge/raw_sink.py"
+    }
+  ],
+  "schema": "ak-benchmark-source-map/1.0.0"
+}

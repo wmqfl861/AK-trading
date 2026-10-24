@@ -1,0 +1,135 @@
+{
+  "schema": "ak-benchmark-suite/1.0.0",
+  "contract_version": "C20-1.0.1",
+  "description": "NF20-owned case registry. New cases arrive as static case manifests handed over by their workload owners (NF21 v2 / NF22 datapipeline / NF23 observer); only the NF20 owner edits this file, at contract-freeze or integration windows. No auto-discovery: every case is listed explicitly. C20-1.0.1 (NF20 r2 integration window, 2026-09-24): F01 repair + registration of the three-domain handovers; NF21 delivered its manifests as the domain subtree tools/benchmarks/cases/v2/ (7 files) instead of the single file tools/benchmarks/cases/v2.json expected by its work order - accepted by NF20 ruling (C20 section 4 requires one manifest per case; see README section 12).",
+  "cases": [
+    {
+      "case_id": "core/counter_digest",
+      "manifest": "tests/benchmarks/fixtures/core/cases/counter_digest.json",
+      "owner": "NF20",
+      "status": "ACTIVE",
+      "note": "SYNTHETIC harness-validation case (per_operation timing); eligible_for_baseline=false"
+    },
+    {
+      "case_id": "core/amortized_rows",
+      "manifest": "tests/benchmarks/fixtures/core/cases/amortized_rows.json",
+      "owner": "NF20",
+      "status": "ACTIVE",
+      "note": "SYNTHETIC harness-validation case (amortized batch throughput); eligible_for_baseline=false"
+    },
+    {
+      "case_id": "core/sqlite_temp_write",
+      "manifest": "tests/benchmarks/fixtures/core/cases/sqlite_temp_write.json",
+      "owner": "NF20",
+      "status": "ACTIVE",
+      "note": "SYNTHETIC harness-validation case (declared temp-SQLite I/O, per_operation); eligible_for_baseline=false"
+    },
+    {
+      "case_id": "v2/decision_replay_filled",
+      "manifest": "tools/benchmarks/cases/v2/decision_replay_filled.json",
+      "owner": "NF21",
+      "status": "ACTIVE",
+      "note": "NF21 handover (r1, 2026-09-24). SYNTHETIC scheduler/risk/execution/ledger path with fixture strategy contexts; eligible_for_baseline=true per frozen manifest; source map tools/benchmarks/fixtures/v2/source-map.json (WORKTREE_SNAPSHOT, 34 ak_trading.v2.* modules)"
+    },
+    {
+      "case_id": "v2/decision_replay_wait_only",
+      "manifest": "tools/benchmarks/cases/v2/decision_replay_wait_only.json",
+      "owner": "NF21",
+      "status": "ACTIVE",
+      "note": "NF21 handover (r1, 2026-09-24). SYNTHETIC zero-fill WAIT replay over the M4 smoke seed; eligible_for_baseline=true; never read as strategy-matching throughput"
+    },
+    {
+      "case_id": "v2/feature_prefix_cold",
+      "manifest": "tools/benchmarks/cases/v2/feature_prefix_cold.json",
+      "owner": "NF21",
+      "status": "ACTIVE",
+      "note": "NF21 handover (r1, 2026-09-24). SYNTHETIC cold-path factor snapshot (caches cleared inside every timed operation); eligible_for_baseline=true"
+    },
+    {
+      "case_id": "v2/feature_prefix_hot",
+      "manifest": "tools/benchmarks/cases/v2/feature_prefix_hot.json",
+      "owner": "NF21",
+      "status": "ACTIVE",
+      "note": "NF21 handover (r1, 2026-09-24). SYNTHETIC hot-path per-minute incremental factor snapshot; eligible_for_baseline=true"
+    },
+    {
+      "case_id": "v2/validation_bootstrap",
+      "manifest": "tools/benchmarks/cases/v2/validation_bootstrap.json",
+      "owner": "NF21",
+      "status": "ACTIVE",
+      "note": "NF21 handover (r1, 2026-09-24). SYNTHETIC block_bootstrap determinism case (production 1000-replicate semantics); eligible_for_baseline=true"
+    },
+    {
+      "case_id": "v2/validation_forecasts",
+      "manifest": "tools/benchmarks/cases/v2/validation_forecasts.json",
+      "owner": "NF21",
+      "status": "ACTIVE",
+      "note": "NF21 handover (r1, 2026-09-24). SYNTHETIC evaluate_forecasts case (40-day x 5-request frozen set); eligible_for_baseline=true"
+    },
+    {
+      "case_id": "v2/validation_replay_metrics",
+      "manifest": "tools/benchmarks/cases/v2/validation_replay_metrics.json",
+      "owner": "NF21",
+      "status": "ACTIVE",
+      "note": "NF21 handover (r1, 2026-09-24). SYNTHETIC evaluate_replay FIFO accounting/fee/reconciliation path; eligible_for_baseline=true"
+    },
+    {
+      "case_id": "datapipeline/frame_synthetic",
+      "manifest": "tools/benchmarks/cases/datapipeline.json",
+      "owner": "NF22",
+      "status": "ACTIVE",
+      "note": "NF22 handover (r1 interim form, 2026-09-24). SYNTHETIC SDK-shaped frame construction+validation over three pre-registered row tiers; measures the NF22-owned generator (benchmark.datapipeline.frame_synthetic), NOT ak_trading.datapipeline production code (DP owner source-map handover PENDING); eligible_for_baseline=false; source map tools/benchmarks/fixtures/datapipeline/source-map.json"
+    },
+    {
+      "case_id": "datapipeline/collect_store_sqlite",
+      "manifest": "tools/benchmarks/cases/datapipeline/collect_store_sqlite.json",
+      "owner": "NF22",
+      "status": "pending_integration",
+      "note": "NF22 handover (r2, registered 2026-09-25). SYNTHETIC production-binding case: real dp08-r3 SqlPipelineStore.commit over a per-trial SQLite double with the GAP-05 acquisition 3-symbol closure; eligible_for_baseline=false (WORKTREE_SNAPSHOT evidence grade, Q31-A discipline); digest frozen two-pass (6d3864ebd6b95aa29add072aafdb7a949b21d6c00c784932625172fa24474001); W04 r2 review substantive obligations PASS + r2-delta re-review PASS (r2fix closed RF01-RF03). Executes ONLY against a materialized 15-row run root; against the live main repo the source map fails closed by design (see integration_log r4 ruling)"
+    },
+    {
+      "case_id": "observer/analyze_accept_typical_inprocess_hold_double",
+      "manifest": "tools/benchmarks/cases/observer.json",
+      "owner": "NF23",
+      "status": "ACTIVE",
+      "note": "NF23 handover (r1, 2026-09-24), flagship case at its work-order-declared path. SYNTHETIC in-process BridgeService.analyze standard request path (hold-double evaluator, one temp-audit JSONL write per operation); measures ak_trading.infiny_bridge.{service,protocol,connection}; eligible_for_baseline=true; source map tools/benchmarks/fixtures/observer/source-map.json. NF23's further nine cases live under fixtures/observer/cases/ and are NOT registered in this suite (NF23 property; registration requires a later NF20 window)"
+    }
+  ],
+  "integration_log": [
+    {
+      "window": "NF20-r2-integration-20260924",
+      "contract_version_before": "C20-1.0.0",
+      "contract_version_after": "C20-1.0.1",
+      "registered": [
+        "v2/decision_replay_filled",
+        "v2/decision_replay_wait_only",
+        "v2/feature_prefix_cold",
+        "v2/feature_prefix_hot",
+        "v2/validation_bootstrap",
+        "v2/validation_forecasts",
+        "v2/validation_replay_metrics",
+        "datapipeline/frame_synthetic",
+        "observer/analyze_accept_typical_inprocess_hold_double"
+      ],
+      "rulings": [
+        "NF21 subtree deviation ACCEPTED: work order declared a single tools/benchmarks/cases/v2.json, delivery is the domain subtree tools/benchmarks/cases/v2/ (7 manifests) - C20 section 4 freezes one manifest per case, so the subtree is the contract-faithful form; it stays inside the NF21-exclusive write set. README section 12 amended accordingly.",
+        "NF22 registered in its r1 interim form (measures the NF22-owned generator only); the production ak_trading.datapipeline binding stays PENDING on the DP owner source-map handover.",
+        "NF23 registered only the flagship manifest at the work-order-declared path tools/benchmarks/cases/observer.json; the nine remaining manifests under fixtures/observer/cases/ are outside this window's registration scope."
+      ]
+    },
+    {
+      "window": "NF20-r4-integration-20260925",
+      "contract_version_before": "C20-1.0.1",
+      "contract_version_after": "C20-1.0.1",
+      "registered": [
+        "datapipeline/collect_store_sqlite"
+      ],
+      "rulings": [
+        "Registration basis: NF22 W04 r2 case-registration-request (supersedes r1) after the W04 r2 package review (five substantive obligations PASS; overall FAIL carried only by evidence-package findings RF01-RF03, closed by the r2fix repair) and the W04 r2-delta re-review (overall PASS, zero new findings; reviewer independently reproduced digest 6d3864eb... and the byte-pinned manifest f6367640...). The request's 'suite admission still awaits the W04 r2 independent review verdict' condition is satisfied.",
+        "Path-form ruling: manifest landed byte-identical (sha256 f636764038b8c151fbfaa78e339a41a90c55186b5d8e789574a6644f32f86fc2, 4402 B) at the NF22 domain-subtree path tools/benchmarks/cases/datapipeline/collect_store_sqlite.json - the path declared by the registration request and by the run-root materializer, sanctioned by README 12.1 (cases/<domain>/** subtree, one manifest per case; NF21 cases/v2/ precedent accepted at the r2 window). The W03 frame registration form tools/benchmarks/cases/datapipeline.json stays byte-untouched.",
+        "status recorded verbatim as the owner-requested 'pending_integration' (validate_suite imposes no status vocabulary): the case is registered and smoke-runnable through the suite channel, but NOT baseline-active - eligible_for_baseline=false in the frozen manifest (WORKTREE_SNAPSHOT grade never self-upgrades), formal profile reserved to the W05 window, release-grade acquisition handoff still pending (GAP-05).",
+        "Execution boundary carried into the registry: this case executes only against a materialized run root whose 15-row source map hash-verifies (materialize-runroot.py, deterministic); against the live main repo the map fails closed (7 of 10 DP files absent, by design). Whole-suite runs from the live main repo record this case as an honest fail-closed ERROR until the DP release-manifest handoff lands in the main repo."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "account_id": "account:best-ev-shared",
+  "artifact_role": "risk_report",
+  "artifact_sha256": "1ecd2c89646e05bf25acddc461f668b5dd5a0f078762aeae3a751c38aa1c2f1c",
+  "cost_scenario": "BASE",
+  "model_bundle_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "provenance_kind": "CALLER_DECLARED",
+  "run_policy_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "split_id": "sp1"
+}

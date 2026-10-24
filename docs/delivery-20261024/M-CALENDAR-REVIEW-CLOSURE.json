@@ -1,0 +1,63 @@
+{
+  "schema": "aktr-root-closed-review-receipt/v1",
+  "issuer": "/root",
+  "at_utc": "2026-10-24T12:52:03.948983+00:00",
+  "actual_exec_session": 24146,
+  "actual_terminal_chunk": "5aa752",
+  "wrapper_native_exit": 0,
+  "cli_native_exit": 0,
+  "process_closed": true,
+  "session_identity_match": true,
+  "inputs_unchanged": true,
+  "product_verdict": "PASS",
+  "verdict_scope": "Engineering acceptance of this 42-file documentary DCE calendar source delivery ONLY. NOT research-input delivery, NOT historical sessions/calendar, NOT consumer/MarketBar/FrozenInput, NOT fit/statistical credit.",
+  "research_input_status": "INPUT_NOT_DELIVERED",
+  "research_credit": 0,
+  "files": [
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\REQUEST.json",
+      "bytes": 36933,
+      "sha256": "0a0d95a3bd07e4de0195ffbe20daa734e5aca712dd8868835ab12940aa7a11e2"
+    },
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\ROOT-LAUNCH.json",
+      "bytes": 6904,
+      "sha256": "4ab0118f37b6271363382178b81d5a43dfcbee36b78c7bd57c95f5376b1b84ad"
+    },
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\START.json",
+      "bytes": 350,
+      "sha256": "3156d5dd08b4f50ae653747df57a95f4df2172a94cc3b20d6723a09fb400563c"
+    },
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\TERMINAL.json",
+      "bytes": 362,
+      "sha256": "c3e590e11919aac9dfb01dc9536291fb0fccdbe540d28f0d3d5f534d5ebd63e3"
+    },
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\RESULT.json",
+      "bytes": 878,
+      "sha256": "ffe8dca84aa2564ddbc02c4eb8255092dad14929a821fdcfdf46805c75156219"
+    },
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\stdout.json",
+      "bytes": 4064,
+      "sha256": "d6685735230c00b66ff608bc4f19f8d7b503a319b9584d346e7164ca73d2e40c"
+    },
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\stderr.txt",
+      "bytes": 170192,
+      "sha256": "d45ed85676e62c6cac9493e2a1c8328e94e801c1d6deb945fff818f1cb1a52d9"
+    },
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\VERDICT.json",
+      "bytes": 5276,
+      "sha256": "39b04b58b752cda3b4032e97b88f10cb5bad18068f7444a30b2cd9796abb9f47"
+    },
+    {
+      "path": "D:\\AKRV261024\\R1-M-DCE-CALENDAR-HARD-002\\FINDINGS.json",
+      "bytes": 6048,
+      "sha256": "228871b1c3757823ec4033d1ddf27f48e79b72d7478c0f175777b081816d497b"
+    }
+  ]
+}

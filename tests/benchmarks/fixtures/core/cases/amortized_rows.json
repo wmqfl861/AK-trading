@@ -1,0 +1,62 @@
+{
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "case_id": "core/amortized_rows",
+  "description": "SYNTHETIC harness-validation case: amortized batch row transforms. Validates the C20 amortized path (whole-batch samples, throughput over successful units, NO latency quantiles). Not a performance claim.",
+  "origin": "SYNTHETIC",
+  "domain": "core",
+  "backend": "python-inprocess",
+  "eligible_for_baseline": false,
+  "algorithm_version": "core-demo-1",
+  "policy_version": "nf20-harness-validation-only",
+  "workload": {
+    "source": "tests/benchmarks/fixtures/core/workloads/amortized_rows.py",
+    "entrypoint": "build"
+  },
+  "measured_modules": [
+    "benchmark.core.amortized_rows"
+  ],
+  "fixtures": [
+    {
+      "path": "tests/benchmarks/fixtures/core/workloads/amortized_rows.py",
+      "role": "workload"
+    }
+  ],
+  "params": {
+    "seed": 20260924
+  },
+  "measurement": {
+    "sample_mode": "amortized",
+    "units": "rows",
+    "units_per_operation": 1,
+    "min_operations": 300,
+    "batch_size": 300,
+    "reset_method": "none",
+    "includes_io": false
+  },
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "environment": {
+    "depends_on": []
+  },
+  "correctness": {
+    "kind": "digest",
+    "expected_digest": "d0cfe98c56753d333abd53c86e189eb6240bdc7e316f7c4b84f9b5afc84781e8",
+    "normalizations": []
+  },
+  "budget": {
+    "smoke": {
+      "warmup_operations": 300,
+      "operations": 600,
+      "case_timeout_s": 30
+    },
+    "formal": {
+      "batches": 5,
+      "warmup_operations": 300,
+      "operations_per_batch": 300,
+      "case_timeout_s": 600
+    }
+  }
+}

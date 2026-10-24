@@ -1,0 +1,3088 @@
+{
+  "schema": "ak_trading_overall_development_blueprint_v2",
+  "version": "20261010-r1",
+  "as_of_date": "2026-10-10",
+  "timezone": "Asia/Shanghai",
+  "scope": "ALL_WORKSTREAM_EVIDENCE_STATUS_AUDIT_AND_MODIFICATION_PLAN_ONLY",
+  "documentation_review": {
+    "verdict_claimed": false,
+    "review_record_directory": "D:/Projects/AK-trading/docs/development-blueprint-20261010-r1/zcode-review",
+    "prospective_output": true,
+    "product_review_credit": false
+  },
+  "authorization": {
+    "document_revision_and_planning": true,
+    "product_execution_by_this_document": false,
+    "deployment": false,
+    "real_orders_or_cancel": false
+  },
+  "audit_method": {
+    "original_workstream_count": 32,
+    "preserved_original_ids": true,
+    "support_slices_counted_as_new_workstreams": false,
+    "full_repository_line_by_line_hard_review": false,
+    "all_product_tests_rerun": false,
+    "facts_source": "direct dated evidence reads plus attributed current Root observations",
+    "read_date": "2026-10-10",
+    "policy": "缺新证据UNKNOWN/STALE；记录NOT_RUN不等于今天runtime监测",
+    "document_tooling_limits": [
+      "首个超长落盘command在CreateProcess被os206拒绝，未启动/写文件；按Windows命令长度限制改短批次完成。",
+      "短stdin receiver试验因非TTY stdin已EOF，raw native1/ValueError，未写文档；未再用PTY试验，改短批次。均为文档工具失败，不是产品判决。",
+      "首次机械link检查raw1：Q00 final-state-verification.txt的绝对路径猜测不成立；已改引用实际权威r2 plan/disposition，不改产品或历史判决。"
+    ]
+  },
+  "model_policy": {
+    "default_planning_development": "gpt-6.1-sol / max",
+    "independent_acceptance": "ZCode independent of implementation, current user-authorized invocation",
+    "astra_exception": "用户许可本轮Astra；旧model路由为历史记录",
+    "configuration_changes": false
+  },
+  "overall_assessment": {
+    "completion_claimed": false,
+    "phase": "有限实现/局部接受已有，最终同版集成/真实资格/采用交付尚有实物缺口",
+    "current_batch": "四项scoped审核已齐，共享依赖交付链尚未闭合",
+    "overall_percentage": null,
+    "historical_15_25_percent": "无工作量权重/统一出口/基线，不是可信总体进度"
+  },
+  "architecture": {
+    "core": "data→M1→M2→M3A/M3B/M3C→M4 continuous ledger→M5→execution",
+    "formal_maturity": "60 mature decision days + at least20-day maturity tail; original thresholds unchanged",
+    "real_feed": "actual20-day minute feed original product/session/active-contract scope",
+    "routes": "合法历史冻结研究与新实时/PG资格独立推进，在完整shadow汇合",
+    "synthetic": "SYNTHETIC/SCENARIO有标签，calendar gaps记录，不提升历史PIT",
+    "dependency_semantics": "depends_on names required accepted outputs at the named delivery gate; preparation can run early. external_gates preserve original authoritative conditions. A work item's present state is not inferred from its predecessor's state. Grouped runtime qualification is scoped to each consuming entry's original requirements, not blanket new prerequisites. Frozen historical research and real feed qualification progress independently."
+  },
+  "trading_boundary": {
+    "enable_trading": false,
+    "observer_action": "hold",
+    "broker": "NOT_RUN by this audit",
+    "real_authorization": "同版执行hardPASS + deployment/simulation真实send/cancel0 + 用户明确授权且UI启用",
+    "ui_operator": "human user only",
+    "credential_access": false
+  },
+  "evidence_discipline": {
+    "minimum": "version + explicit write-set + necessary validation + independent report",
+    "freeze": "审核source写冻结；FAIL原owner新revision修复，保留原bytes",
+    "custody": " producing process结束后封streams；one-use不重放；递归seal不作一般关键路径",
+    "native_exit": "rg0 MATCH/rg1且空stderr optional NO_MATCH/其他ERROR；test/watchdog native1仍失败；保留stdout/stderr/rawexit",
+    "incident_refs": [
+      "D:/Projects/AK-trading/docs/maintenance/20261004-rg-no-match-r1/INCIDENT.md",
+      "D:/Projects/AK-trading/docs/maintenance/20261004-grok-headless-cancel-r1/INCIDENT.md"
+    ]
+  },
+  "evidence_registry": {
+    "E01": {
+      "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/ACQD1-PASS-R1-RECEIVED.json",
+      "evidence_date": "2026-10-01",
+      "evidence_date_basis": "root_receipt_observation",
+      "read_date": "2026-10-10",
+      "verified_scope": "ACQD1有限历史PASS接收",
+      "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E02": {
+      "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/P05O2-PASS-R2-RECEIVED.json",
+      "evidence_date": "2026-10-01",
+      "evidence_date_basis": "root_receipt_observation",
+      "read_date": "2026-10-10",
+      "verified_scope": "P05O2有限历史PASS接收，保留原handover skip",
+      "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E03": {
+      "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/WAL2-PASS-R2-RECEIVED.json",
+      "evidence_date": "2026-10-01",
+      "evidence_date_basis": "root_receipt_observation",
+      "read_date": "2026-10-10",
+      "verified_scope": "WAL2有限历史PASS接收",
+      "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E04": {
+      "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/MH03B2-STATIC-R3-RECEIVED.json",
+      "evidence_date": "2026-10-01",
+      "evidence_date_basis": "root_receipt_observation",
+      "read_date": "2026-10-10",
+      "verified_scope": "MH03静态finite PASS接收",
+      "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E05": {
+      "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/P4-CONVERGENCE-R2-RECEIVED.json",
+      "evidence_date": "2026-10-01",
+      "evidence_date_basis": "root_receipt_observation",
+      "read_date": "2026-10-10",
+      "verified_scope": "P4收敛接收，非阶段发布门通过",
+      "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E06": {
+      "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+      "evidence_date": "2026-10-01",
+      "evidence_date_basis": "historical_blueprint_snapshot",
+      "read_date": "2026-10-10",
+      "verified_scope": "原32线历史规划线索",
+      "date_limit": "不作为当前产品状态",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E07": {
+      "path": "D:/AKF261001/R/MR2/attempts/review-r3-20261008-001/REVIEW-VERDICT-R3.json",
+      "evidence_date": "2026-10-08",
+      "evidence_date_basis": "record_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "原98/修订50/4 public probes由reviewer复跑，unconditional finite PASS",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E08": {
+      "path": "D:/AKF261009/EP1/development-hard-review-20261009-r1-002/review-001/VERDICT.json",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "filesystem_mtime_local_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "EP1 source/capacity scoped PASS，8/8容量回归",
+      "date_limit": "mtime UTC 2026-10-08T18:41:35Z；非精确运行起止证明",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E09": {
+      "path": "D:/AKF261009/R/MH04S3/continuation-20261009-r4-003-hard-review-002/HARD-REVIEW-REPORT.json",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "filesystem_mtime_local_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "SOURCE_STATIC + STATIC_INPUT_ELIGIBILITY + admitted limited execution PASS；product NOT_ISSUED",
+      "date_limit": "mtime UTC 2026-10-08T23:37:10Z；采用实际verdict_scope",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E10": {
+      "path": "D:/AKF261001/R/APUB3/continuation-20261009-r3-repair-002-hard-review-001/OWNER-REPORT.md",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "record_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "guard F1 implementation PASS；真实malformed publisher仍FAIL",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E11": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/FPC3/aktr-zcode-fpc3-implementation-hard-review-20261009-r5-005-002-p2-001/reviewer/REVIEW-REPORT.json",
+      "evidence_date": "2026-10-10",
+      "evidence_date_basis": "terminal_observation_day",
+      "read_date": "2026-10-10",
+      "verified_scope": "FPC3 P2 adapter/route/admission/semantic evidence scoped hard PASS",
+      "date_limit": "reviewed_at_utc原文=2026-10-09T16:55:00+00:00（上海换算2026-10-10 00:55），与supervisor本轮00:05观察存在时间差异；原string与差异保留，不单用作者时间赋完成先后信用",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E12": {
+      "path": "D:/AKF261001/R/SHCP5/continuation-20261009-r4-hard-review-007/HARD-REVIEW-RESULT.json",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "record_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "SHCP5 E9 owner009 unconditional scoped hard PASS",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E13": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/sc-m1-support-implementation-review-20261009-r2-001/reviewer/REVIEW-REPORT.json",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "revision_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "SC-M1 source304 + 三工具unconditional scoped hard PASS",
+      "date_limit": "不据任务目录名推导精确完成时刻",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E14": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/sc-m2-preparation-review-20261009-r4-001/reviewer/REVIEW-REPORT.json",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "revision_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "SC-M2 tooling/synthetic preparation only hard PASS",
+      "date_limit": "不是full M2 hard PASS",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E15": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/current-lock-support-arbitration-20261009-r1-001/ARBITRATION.json",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "record_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "既有G1-G6及SC-A11/SC-A14和权威prospective路径",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E16": {
+      "path": "D:/AKF261004/DATA/D1/r3-continuation-r1/evidence/ACTUAL-MATERIALIZATION-REPORT.md",
+      "evidence_date": "2026-10-06",
+      "evidence_date_basis": "attempt_record_day",
+      "read_date": "2026-10-10",
+      "verified_scope": "DATA-D1 materializer native1自身COMMAND.json absence collision",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E17": {
+      "path": "D:/AKF261004/DATA/D2/r3/evidence/HANDOFF.md",
+      "evidence_date": "2026-10-06",
+      "evidence_date_basis": "record_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "原8+2 owner DONE；558=547PASS+11原批准PGskip；BUILD/VERIFY native0",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E18": {
+      "path": "D:/AKF261004/R/DISPATCH/r2/VERDICT.json",
+      "evidence_date": null,
+      "evidence_date_basis": "precise_date_unknown",
+      "read_date": "2026-10-10",
+      "verified_scope": "独立FAIL H3/H12；read_ack partial",
+      "date_limit": "实际r2判决已读，精确证据日期本轮未建立；不能赋10-10新执行信用",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E19": {
+      "path": "D:/AKF261004/REVIEWS/MASTER-B-TOOLS/b-tools-r1-review-r1/REVIEW.md",
+      "evidence_date": null,
+      "evidence_date_basis": "precise_date_unknown",
+      "read_date": "2026-10-10",
+      "verified_scope": "工具工程FAIL六项反例；84自测不覆盖",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E20": {
+      "path": "D:/AKF261004/QREV/q00r6/review/VERDICT.json",
+      "evidence_date": null,
+      "evidence_date_basis": "precise_date_unknown",
+      "read_date": "2026-10-10",
+      "verified_scope": "Q00 FAIL Q-H09，183行manifest遗漏两份existing payload",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E21": {
+      "path": "D:/AKF261004/QMR/t03/review/VERDICT.json",
+      "evidence_date": "2026-10-06",
+      "evidence_date_basis": "filesystem_mtime_local_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "QMH QMR01-06/tools-only PASS；158-node closure false",
+      "date_limit": "mtime UTC 2026-10-06T02:51:45Z",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E22": {
+      "path": "D:/AKF261004/EXECUTION/ex06-rootbind-r1/EXI-C2-R1/HANDOFF.md",
+      "evidence_date": null,
+      "evidence_date_basis": "precise_date_unknown",
+      "read_date": "2026-10-10",
+      "verified_scope": "EX06 C2 56phase54native0，NP02/NP06有失败；无full同版PASS",
+      "date_limit": "r7-005继任计划日期10-07不作为旧C2运行日期",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E23": {
+      "path": "D:/AKF261004/MACRO/impl-r5/HANDOFF.md",
+      "evidence_date": "2026-10-07",
+      "evidence_date_basis": "handoff_revision_day",
+      "read_date": "2026-10-10",
+      "verified_scope": "MACRO producer r5 owner frozen/19native0；r5 hard review未跑",
+      "date_limit": "不能推定当前远端runtime/PIT资格",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E24": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/UPDATED-PLAN.json",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "created_utc",
+      "read_date": "2026-10-10",
+      "verified_scope": "R5有效transfer plan已逐项采纳、立即生效，无需再次计划批准；原whole finite SOURCE_STATIC FAIL保留",
+      "date_limit": "旧mutable tree仍受限；新isolated branch可按已生效Root actions推进，不等待历史producer native STOP；本轮未执行snapshot/admission",
+      "product_tests_rerun_by_this_audit": false,
+      "historical_base_plan_path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/continuation-20261007-r3/PLAN.json"
+    },
+    "E25": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/STATE-048.json",
+      "evidence_date": "2026-10-07",
+      "evidence_date_basis": "snapshot_day",
+      "read_date": "2026-10-10",
+      "verified_scope": "窄recent-data audit：150 pairs；811324 missing keys；110回填40无缺；4200labels候选",
+      "date_limit": "不是当前global state；窄pair/免费10000row限制保留",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E26": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/coordination/model-routing-sol-20261006-r1/DATA/market-data-session-label-repair-20261007-r1/owner-launch-r4-prepare-r2/OWNER-REPORT.md",
+      "evidence_date": "2026-10-07",
+      "evidence_date_basis": "record_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "labels24隔离文件实现；42P+6PGskip/24P+3PGskip；主线/DBapply未跑",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E27": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/coordination/model-routing-sol-20261006-r1/DATA/market-data-session-label-repair-20261007-r1/root-g3-verification-20261007-r1/G3-VERIFICATION.json",
+      "evidence_date": "2026-10-07",
+      "evidence_date_basis": "created_utc",
+      "read_date": "2026-10-10",
+      "verified_scope": "PASS_ROOT_G3_RECHECK；新冻结，不回填pre-G0gap",
+      "date_limit": "2026-10-07T01:49:28.303364Z；非产品hard review",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E28": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/coordination/model-routing-sol-20261006-r1/DATA/market-data-session-label-repair-20261007-r1/hard-review-prepare-r3-ready/REQUEST-CANDIDATE.json",
+      "evidence_date": "2026-10-07",
+      "evidence_date_basis": "successor_revision_day",
+      "read_date": "2026-10-10",
+      "verified_scope": "READY_POST_G3_SUCCESSOR_NONEXECUTABLE_ROOT_ADMISSION_PENDING",
+      "date_limit": "静态candidate模型路由是历史记录，不授配置更改/launch权",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E29": {
+      "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/ECON-OBSERVATION-R5-RECEIVED.json",
+      "evidence_date": "2026-10-01",
+      "evidence_date_basis": "root_receipt_observation",
+      "read_date": "2026-10-10",
+      "verified_scope": "当时7active/7pending/0报告；今天远端状态UNKNOWN",
+      "date_limit": "",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E30": {
+      "path": "D:/AKF261004/R/MACRO/impl-r3-review-r1/VERDICT.json",
+      "evidence_date": null,
+      "evidence_date_basis": "precise_date_unknown",
+      "read_date": "2026-10-10",
+      "verified_scope": "MACRO producer最新已知独立r3 FAIL F01；r5 owner不能覆盖",
+      "date_limit": "r5 handoff日期不是r3独立判决日期",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E31": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/ROOT-ACTIONS.json",
+      "evidence_date": "2026-10-09",
+      "evidence_date_basis": "created_utc",
+      "read_date": "2026-10-10",
+      "verified_scope": "Root行政撤销旧LC write grants/取消unused WC prepared route，精确321-member supervised snapshot/custody后LC两seat立即并行，WCprepare",
+      "date_limit": "原native closure credit仍0，不伪造旧STOP；plan package未执行行政撤销/snapshot/fresh admission，WC implementation继实际stopped finalLCrefs",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E32": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M3A/continuation-20261007-r2/PLAN.md",
+      "evidence_date": "2026-10-07",
+      "evidence_date_basis": "plan_revision_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "M3A十二文件existing-source review preparation only/ADMISSION_PENDING",
+      "date_limit": "需不可回填的baseline/作者来源、原M1/M2依赖和实际review包；未发产品PASS，prepare未执行测试",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E33": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/dispatches/M3B/aktr-zcode-plan-review-m3b-continuation-20261007-r1-269a16b1d499/OWNER-REPORT.md",
+      "evidence_date": "2026-10-07",
+      "evidence_date_basis": "reviewed_plan_revision_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "M3B continuation plan独立unconditional PASS，仅plan-executability",
+      "date_limit": "P0 lock reconciliation/H10与ownership遗漏、原作者来源门仍需解决；未发产品PASS，未跑产品测试",
+      "product_tests_rerun_by_this_audit": false
+    },
+    "E34": {
+      "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/MASTER/continuation-20261007-r2/PLAN.md",
+      "evidence_date": "2026-10-07",
+      "evidence_date_basis": "plan_revision_date",
+      "read_date": "2026-10-10",
+      "verified_scope": "MASTER-BASE plan已采纳、ready for Root intake",
+      "date_limit": "未来source selection/ownership/requirements/dependencies实物intake与independent product PASS未由plan交付",
+      "product_tests_rerun_by_this_audit": false
+    }
+  },
+  "workstreams": [
+    {
+      "id": "ACQD1",
+      "capability": "采集数值转换",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "INDEPENDENT_FINITE_PASS_RECEIVED",
+        "owner": "原 acquisition Decimal owner",
+        "next_deliverable": "在采用节点绑定已通过候选身份",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/ACQD1-PASS-R1-RECEIVED.json"
+        ],
+        "limits": [
+          "164P=141原项+23独立探针；尚不代表采用或真实来源资格"
+        ]
+      },
+      "state": "STALE_FINITE_PASS_ADOPTION_UNKNOWN",
+      "implementation": "有限实现历史记录",
+      "independent_acceptance": "finite PASS接收",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E01"
+      ],
+      "verified_scope": "采集数值转换finite历史源",
+      "limits": [
+        "164P=141原+23probe仅历史有限范围；真实源/当前采用未知"
+      ],
+      "next_deliverable": "在DATA采用节点选择已通过版本",
+      "support_dependencies": [],
+      "freshness": "STALE_CURRENT_SELECTION_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E01",
+          "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/ACQD1-PASS-R1-RECEIVED.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "root_receipt_observation",
+          "read_date": "2026-10-10",
+          "verified_scope": "ACQD1有限历史PASS接收",
+          "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "APUB3",
+      "capability": "有来源证明的发布器",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "OWNER_GREEN_FINAL_AUTHENTICATION_AND_SEAL_PENDING",
+        "owner": "/root/ta_selector_owner_61",
+        "next_deliverable": "完成现有 final01 认证与 STOP 包，交 fresh reviewer",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/WO-APUB-REPAIR-R3.md",
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/acquisition-publisher-r3/attempts/final01/PROCESS-RESULT.json"
+        ],
+        "limits": [
+          "147选中/146P+原消费者xfail来自owner只读盘点；尚无整体独立PASS"
+        ]
+      },
+      "state": "GUARD_PASS_PRODUCT_PACKAGE_FAIL",
+      "implementation": "F1 guard修复完成",
+      "independent_acceptance": "guard scoped PASS；product NOT_ISSUED",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E10"
+      ],
+      "verified_scope": "guard有限实现",
+      "limits": [
+        "真实malformed preflight native1/FAIL_ARTIFACT_PREFLIGHT、JSON解析失败；F2 metadata缺口保留"
+      ],
+      "next_deliverable": "原owner新revision修复实际publisher包并独立审核",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E10",
+          "path": "D:/AKF261001/R/APUB3/continuation-20261009-r3-repair-002-hard-review-001/OWNER-REPORT.md",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "guard F1 implementation PASS；真实malformed publisher仍FAIL",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "P05O2",
+      "capability": "分钟输入消费者",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [
+        "原R8交接及相关P02/producer合同"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "INDEPENDENT_FINITE_PASS_RECEIVED",
+        "owner": "原 P05 feed owner",
+        "next_deliverable": "按真实交接合同纳入候选发行组合",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/P05O2-PASS-R2-RECEIVED.json"
+        ],
+        "limits": [
+          "原112P+104独立探针；保留原PENDING_R8_HANDOVER skip"
+        ]
+      },
+      "state": "STALE_FINITE_PASS_ADOPTION_UNKNOWN",
+      "implementation": "有限实现历史记录",
+      "independent_acceptance": "finite PASS接收",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E02"
+      ],
+      "verified_scope": "分钟消费者finite历史源",
+      "limits": [
+        "112原+104probe与原handover skip保留；实时接入/采用未知"
+      ],
+      "next_deliverable": "选通过版本并按原R8/producer合同接入",
+      "support_dependencies": [],
+      "freshness": "STALE_CURRENT_SELECTION_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E02",
+          "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/P05O2-PASS-R2-RECEIVED.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "root_receipt_observation",
+          "read_date": "2026-10-10",
+          "verified_scope": "P05O2有限历史PASS接收，保留原handover skip",
+          "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "WAL2",
+      "capability": "执行日志及恢复",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "INDEPENDENT_FINITE_PASS_RECEIVED",
+        "owner": "原 WAL owner",
+        "next_deliverable": "绑定通过源包并接入执行候选",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/WAL2-PASS-R2-RECEIVED.json"
+        ],
+        "limits": [
+          "408原要求节点+103独立探针，有限离线范围"
+        ]
+      },
+      "state": "STALE_FINITE_PASS_ADOPTION_UNKNOWN",
+      "implementation": "有限实现历史记录",
+      "independent_acceptance": "finite PASS接收",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E03"
+      ],
+      "verified_scope": "WAL finite历史源",
+      "limits": [
+        "408+103是历史有限范围；执行采用/部署未知"
+      ],
+      "next_deliverable": "在EX06选版候选中绑定已接受版本",
+      "support_dependencies": [],
+      "freshness": "STALE_CURRENT_SELECTION_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E03",
+          "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/WAL2-PASS-R2-RECEIVED.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "root_receipt_observation",
+          "read_date": "2026-10-10",
+          "verified_scope": "WAL2有限历史PASS接收",
+          "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "SHCP5",
+      "capability": "影子恢复消费语义",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "REPAIR_ORDER_ISSUED_NEW_HANDOFF_UNCONFIRMED",
+        "owner": "/root/research_completion_intake_61",
+        "next_deliverable": "按SHCP4两个HIGH反例完成新revision修复与fresh review",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/WO-SHCP5-REPAIR-R5.md",
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/SHCP4-FAIL-R1-RECEIVED.json"
+        ],
+        "limits": [
+          "ordinary run_shadow NOT_VERIFIED；503后无新完整交接"
+        ]
+      },
+      "state": "E9_SCOPED_HARD_PASS",
+      "implementation": "E9实现冻结",
+      "independent_acceptance": "E9 unconditional scoped PASS",
+      "adoption_deployment": "完整shadow未建立",
+      "evidence_ids": [
+        "E12"
+      ],
+      "verified_scope": "E9 external support origin/literal与关闭证据",
+      "limits": [
+        "E8失败保留；one-use命令未重放；非ordinary shadow/真实feed/formal资格"
+      ],
+      "next_deliverable": "满足formal/feed原门后进入完整shadow",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E12",
+          "path": "D:/AKF261001/R/SHCP5/continuation-20261009-r4-hard-review-007/HARD-REVIEW-RESULT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "SHCP5 E9 owner009 unconditional scoped hard PASS",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "MR2",
+      "capability": "宏观报告PIT与乱序恢复",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "OWNER_REPAIR_AUTHORED_FINAL_SUITES_NOT_RUN",
+        "owner": "/root/macro_research_owner_61",
+        "next_deliverable": "原98/最终50分别验证同一最终源，封存后fresh review",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/WO-MACRO-RESEARCH-REPAIR-R2.md",
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/ARBITRATION-MR2-LATER-POLL-FIXTURE-R1.md"
+        ],
+        "limits": [
+          "owner01 47P/1F；owner02 NOT_RUN；owner03/04不存在，owner只读报告"
+        ]
+      },
+      "state": "FINITE_HARD_PASS_ADOPTION_UNKNOWN",
+      "implementation": "本地finite实现完成",
+      "independent_acceptance": "独立原98/修订50/4probe PASS",
+      "adoption_deployment": "主线采用UNKNOWN",
+      "evidence_ids": [
+        "E07"
+      ],
+      "verified_scope": "有限本地PIT/乱序恢复",
+      "limits": [
+        "滞后wrapper PENDING_RESPONSE_PARSE不能覆盖PASS；不接受producer/远端"
+      ],
+      "next_deliverable": "采用本地已接受版；producer另审",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E07",
+          "path": "D:/AKF261001/R/MR2/attempts/review-r3-20261008-001/REVIEW-VERDICT-R3.json",
+          "evidence_date": "2026-10-08",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "原98/修订50/4 public probes由reviewer复跑，unconditional finite PASS",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ],
+      "related_consumers": [
+        "MACRO-PRODUCER",
+        "MACRO-CARDS"
+      ],
+      "related_consumer_note": "producer/cards可消费MR2本地有限能力，不是MR2本地finite采用的前置；local/remote分别交付"
+    },
+    {
+      "id": "FPC",
+      "capability": "正式运行原始证据身份",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "FPC2_AXES_FAIL_WHOLE_RECEPTION_PENDING",
+        "owner": "/root/fpc2_fresh_review_61；修复由 /root/formal_validation_intake_61 及原 binding owner",
+        "next_deliverable": "先接收FPC2整体FAIL，再签发FPC3新源修复工单",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/REVIEW-FPC2-FRESH-R2.md"
+        ],
+        "limits": [
+          "原140P；独立20P/2F；原始字节与解析窗口缺口，formal credit=0"
+        ]
+      },
+      "state": "FPC3_P2_SCOPED_HARD_PASS",
+      "implementation": "P2实现冻结",
+      "independent_acceptance": "P2 unconditional scoped PASS",
+      "adoption_deployment": "报告final production NOT_RUN",
+      "evidence_ids": [
+        "E11"
+      ],
+      "verified_scope": "P2 adapter/route/admission与151/22语义证据",
+      "limits": [
+        "final run/copy/publication/deployment/full-node acceptance均报告NOT_RUN；作者UTC原值与supervisor观察时间差异保留，不推定完成顺序"
+      ],
+      "next_deliverable": "复用现有有效plan完成其最终交付及适用独立审核",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E11",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/FPC3/aktr-zcode-fpc3-implementation-hard-review-20261009-r5-005-002-p2-001/reviewer/REVIEW-REPORT.json",
+          "evidence_date": "2026-10-10",
+          "evidence_date_basis": "terminal_observation_day",
+          "read_date": "2026-10-10",
+          "verified_scope": "FPC3 P2 adapter/route/admission/semantic evidence scoped hard PASS",
+          "date_limit": "reviewed_at_utc原文=2026-10-09T16:55:00+00:00（上海换算2026-10-10 00:55），与supervisor本轮00:05观察存在时间差异；原string与差异保留，不单用作者时间赋完成先后信用",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "RUNTIME-R5",
+      "capability": "运行监督",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "FRESH_STATIC_REVIEW_INTERRUPTED_FINAL_VERDICT_PENDING",
+        "owner": "/root/runtime_r5_fresh_review_61",
+        "next_deliverable": "完成全范围静态裁决及接收，再将已接收FAIL退原owner",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/REVIEW-RUNTIME-R5-FRESH-R1.md"
+        ],
+        "limits": [
+          "WC已报告发现尚未整体接收；原生场景NOT_RUN"
+        ]
+      },
+      "state": "SOURCE_FAIL_EFFECTIVE_TRANSFER_READY_FOR_ROOT_SNAPSHOT",
+      "implementation": "source修复未获接受；10-09 transfer plan立即生效",
+      "independent_acceptance": "原whole finite SOURCE_STATIC FAIL保留；transfer plan已采纳，非product PASS",
+      "adoption_deployment": "isolated branch按有效Root actions待实物推进",
+      "evidence_ids": [
+        "E24",
+        "E31"
+      ],
+      "verified_scope": "原source四反例保留；有效transfer + Root actions已给321成员隔离路线",
+      "limits": [
+        "旧mutable tree不再写，历史native closure信用仍0；以行政撤销替代等待失联旧producer终态。精确321快照与custody后fresh admission，无重复plan approval；driver两literal/WCmetadata原限制保留，WC实施继actual stopped finalLCrefs"
+      ],
+      "next_deliverable": "Root行政撤销旧LC grants/取消WC prepared route→exact321 supervised isolated snapshot/detached custody→LC-NATIVE与LC-TEST立即并行fresh Sol admission；WCprepare，actual finalLCrefs后实施",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "Root行政撤销/snapshot与fresh admission；有效transfer的新Sol/max successor seats；独立ZCode whole-contract hard review",
+      "latest_verified_evidence": [
+        {
+          "id": "E24",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/UPDATED-PLAN.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "created_utc",
+          "read_date": "2026-10-10",
+          "verified_scope": "R5有效transfer plan已逐项采纳、立即生效，无需再次计划批准；原whole finite SOURCE_STATIC FAIL保留",
+          "date_limit": "旧mutable tree仍受限；新isolated branch可按已生效Root actions推进，不等待历史producer native STOP；本轮未执行snapshot/admission",
+          "product_tests_rerun_by_this_audit": false,
+          "historical_base_plan_path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/continuation-20261007-r3/PLAN.json"
+        },
+        {
+          "id": "E31",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/ROOT-ACTIONS.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "created_utc",
+          "read_date": "2026-10-10",
+          "verified_scope": "Root行政撤销旧LC write grants/取消unused WC prepared route，精确321-member supervised snapshot/custody后LC两seat立即并行，WCprepare",
+          "date_limit": "原native closure credit仍0，不伪造旧STOP；plan package未执行行政撤销/snapshot/fresh admission，WC implementation继实际stopped finalLCrefs",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "MH02",
+      "capability": "主目录采用与交付一致性",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "SUCCESSOR_SOURCE_REVIEW_INTERRUPTED",
+        "owner": "/root/mh02_successor_review_61；原MH02 owners",
+        "next_deliverable": "完成继任源审查并逐项关闭client/integration/dual-hash缺口",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/REVIEW-MH02-SOURCE-SUCCESSORS-R1.md"
+        ],
+        "limits": [
+          "已接收来源不等于采用或运行PASS"
+        ]
+      },
+      "state": "UNKNOWN_STALE_SUCCESSOR",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E06"
+      ],
+      "verified_scope": "仅旧蓝图successor review线索",
+      "limits": [
+        "未得新独立判决/选版，不复制旧interrupted作今天事实"
+      ],
+      "next_deliverable": "限定核对source verdict和client/integration/dual-hash缺项",
+      "support_dependencies": [],
+      "freshness": "STALE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E06",
+          "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "historical_blueprint_snapshot",
+          "read_date": "2026-10-10",
+          "verified_scope": "原32线历史规划线索",
+          "date_limit": "不作为当前产品状态",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "MH03",
+      "capability": "实际资源与运行窗口",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [
+        "实际独占资源/affinity/保护负载/窗口"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "STATIC_PASS_RECEIVED_ACTUAL_WINDOW_UNASSIGNED",
+        "owner": "原 MH03 owner/reviewer",
+        "next_deliverable": "取得原要求的独占窗口和必要主机身份后执行",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/MH03B2-STATIC-R3-RECEIVED.json"
+        ],
+        "limits": [
+          "runtime NOT_RUN"
+        ]
+      },
+      "state": "STALE_STATIC_PASS_WINDOW_UNKNOWN",
+      "implementation": "静态实现历史记录",
+      "independent_acceptance": "static finite PASS接收",
+      "adoption_deployment": "actual runtime UNKNOWN",
+      "evidence_ids": [
+        "E04"
+      ],
+      "verified_scope": "历史静态finite范围",
+      "limits": [
+        "不接受resource/affinity/seed/postchecks或新窗口；实际资格未知"
+      ],
+      "next_deliverable": "按消费原要求取得实际窗口，非全局native门",
+      "support_dependencies": [],
+      "freshness": "STALE_ACTUAL_WINDOW_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E04",
+          "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/MH03B2-STATIC-R3-RECEIVED.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "root_receipt_observation",
+          "read_date": "2026-10-10",
+          "verified_scope": "MH03静态finite PASS接收",
+          "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "MH04S3",
+      "capability": "线程收尾与首因保护",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "REPAIR_ORDER_ISSUED_NEW_HANDOFF_UNCONFIRMED",
+        "owner": "/root/mh04_closure_61",
+        "next_deliverable": "新S3源码交接与fresh静态复审",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/WO-MH04-SOURCE-REPAIR-R3.md"
+        ],
+        "limits": [
+          "S2源码FAIL已接收；没有本轮运行复现"
+        ]
+      },
+      "state": "STATIC_LIMITED_EXECUTION_PASS",
+      "implementation": "r4-003 source实现",
+      "independent_acceptance": "unconditional scoped PASS",
+      "adoption_deployment": "product NOT_ISSUED",
+      "evidence_ids": [
+        "E09"
+      ],
+      "verified_scope": "SOURCE_STATIC/STATIC_INPUT_ELIGIBILITY/admitted limited execution",
+      "limits": [
+        "53primary+17regression+8probe；不等于通用native资格"
+      ],
+      "next_deliverable": "保留通过版，只补消费原要求实际资格",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E09",
+          "path": "D:/AKF261009/R/MH04S3/continuation-20261009-r4-003-hard-review-002/HARD-REVIEW-REPORT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "filesystem_mtime_local_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "SOURCE_STATIC + STATIC_INPUT_ELIGIBILITY + admitted limited execution PASS；product NOT_ISSUED",
+          "date_limit": "mtime UTC 2026-10-08T23:37:10Z；采用实际verdict_scope",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "MH05",
+      "capability": "运行附件与收尾证据",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "AXES_STATIC_PASS_REPORTED_WHOLE_RECEPTION_PENDING",
+        "owner": "原 MH05 owner/reviewer",
+        "next_deliverable": "完整封存接收，随后按原门安排实际运行",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/STATUS-r12.json"
+        ],
+        "limits": [
+          "更新来自前续协调交接，整体STOP未接收；无新lease"
+        ]
+      },
+      "state": "UNKNOWN_STALE_RECEPTION",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E06"
+      ],
+      "verified_scope": "仅旧static-axis/whole-reception线索",
+      "limits": [
+        "没有新whole verdict/terminal/运行资格"
+      ],
+      "next_deliverable": "核对当前判决后补原计划运行附件",
+      "support_dependencies": [],
+      "freshness": "STALE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E06",
+          "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "historical_blueprint_snapshot",
+          "read_date": "2026-10-10",
+          "verified_scope": "原32线历史规划线索",
+          "date_limit": "不作为当前产品状态",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "KEYSET",
+      "capability": "固定集合与运行身份",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [
+        "新的有效Root lease；完整before/after/postchecks"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "R3_LEASE_EXPIRED_ACTUAL_RUN_NOT_VERIFIED",
+        "owner": "/root/keyset_review_61",
+        "next_deliverable": "核对旧准备/失败记录，按原流程安排新的有效窗口",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/KEYSET1-LIGHT-EXECUTION-LEASE-R3.json"
+        ],
+        "limits": [
+          "原reviewer于11:06:13Z只读确认run-r3不存在、未调用supervisor；旧FAIL保留"
+        ]
+      },
+      "state": "UNKNOWN_STALE_IDENTITY",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E06"
+      ],
+      "verified_scope": "仅旧lease线索",
+      "limits": [
+        "旧过期lease/run存在性不证明当前执行"
+      ],
+      "next_deliverable": "选当前版和有效窗口验证原集合/identity",
+      "support_dependencies": [],
+      "freshness": "STALE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E06",
+          "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "historical_blueprint_snapshot",
+          "read_date": "2026-10-10",
+          "verified_scope": "原32线历史规划线索",
+          "date_limit": "不作为当前产品状态",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "EP1",
+      "capability": "正式研究正向分区与训练入口",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "PF01_CAPACITY_FAILURE_RAW_RESULT_PRESENT_PACKAGE_UNSEALED",
+        "owner": "/root/ep1_sh_gate_intake_61；修复归原M5 helper owner",
+        "next_deliverable": "收齐S2失败包，Root精确移交helper写集，再发容量修订工单",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/ep1-stages-r1/pf01/RESULT.json",
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/ep1-stages-r1/ACTUAL-REQUIREMENT-FAILURE-CHAIN-R1.json"
+        ],
+        "limits": [
+          "唯一1F；8日内测不足DAY20 embargo；configsix未到达；WinError31收尾缺口"
+        ]
+      },
+      "state": "SOURCE_CAPACITY_SCOPED_PASS",
+      "implementation": "source/capacity实现",
+      "independent_acceptance": "scoped source/capacity PASS",
+      "adoption_deployment": "报告fit/product NOT_RUN",
+      "evidence_ids": [
+        "E08"
+      ],
+      "verified_scope": "source phase+8/8capacity regression",
+      "limits": [
+        "generation/registration/lock/product/fit未在该PASS执行；不是统计资格"
+      ],
+      "next_deliverable": "按现有plan交付实际分区/训练/fit并独立适用审核",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E08",
+          "path": "D:/AKF261009/EP1/development-hard-review-20261009-r1-002/review-001/VERDICT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "filesystem_mtime_local_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "EP1 source/capacity scoped PASS，8/8容量回归",
+          "date_limit": "mtime UTC 2026-10-08T18:41:35Z；非精确运行起止证明",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "P4",
+      "capability": "退出机会成本与continuation",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [
+        "原P4四个前置/发布门"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "CONVERGENCE_RECEIVED_PUBLICATION_GATES_CLOSED",
+        "owner": "原M1/M3C/M4/M5 owners；Root裁决",
+        "next_deliverable": "逐项满足既定四个前置/发布门再解锁原阶段实施",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/P4-CONVERGENCE-R2-RECEIVED.json"
+        ],
+        "limits": [
+          "收敛提案不等于公共合同发布"
+        ]
+      },
+      "state": "STALE_CONVERGENCE_GATES_UNKNOWN",
+      "implementation": "convergence历史记录",
+      "independent_acceptance": "收敛接收",
+      "adoption_deployment": "当前发布UNKNOWN",
+      "evidence_ids": [
+        "E05"
+      ],
+      "verified_scope": "四模块continuation收敛",
+      "limits": [
+        "收敛提案非发布合同修订；四原阶段门当前未知"
+      ],
+      "next_deliverable": "选版后绑定原四门；共享lock不能替代P4阶段",
+      "support_dependencies": [],
+      "freshness": "STALE_CURRENT_STAGE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E05",
+          "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/P4-CONVERGENCE-R2-RECEIVED.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "root_receipt_observation",
+          "read_date": "2026-10-10",
+          "verified_scope": "P4收敛接收，非阶段发布门通过",
+          "date_limit": "接收不是本轮新独立复审，当前采用未证明",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "SNAPSHOT",
+      "capability": "执行客户端快照生命周期",
+      "stage": "A",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "OWNER_REVISION_PRESENT_INDEPENDENT_ACCEPTANCE_PENDING",
+        "owner": "原客户端snapshot owner与独立reviewer",
+        "next_deliverable": "核验当前修订、回移候选和独立验收，确定采用字节",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/integrations/infiny/AKExecutionBridge.py"
+        ],
+        "limits": [
+          "本轮只读源码；实时UI和部署字节未检查"
+        ]
+      },
+      "state": "UNKNOWN_STALE_ADOPTION",
+      "implementation": "source存在历史记录",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E06"
+      ],
+      "verified_scope": "旧AKExecutionBridge线索",
+      "limits": [
+        "未逐行审核source或核对今天UI/部署字节"
+      ],
+      "next_deliverable": "按EX06 selected candidate核对snapshot同版接受",
+      "support_dependencies": [
+        "EX06"
+      ],
+      "freshness": "STALE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E06",
+          "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "historical_blueprint_snapshot",
+          "read_date": "2026-10-10",
+          "verified_scope": "原32线历史规划线索",
+          "date_limit": "不作为当前产品状态",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "DP-RELEASE",
+      "capability": "DP01–08来源组合",
+      "stage": "B",
+      "depends_on": [],
+      "external_gates": [
+        "原DP各节点冻结与审查链"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "CURRENT_RELEASE_AND_REVIEW_CHAIN_TO_RECONCILE",
+        "owner": "原DP08 integration owner",
+        "next_deliverable": "指认当前真实release、各节点来源和完整独立审查链",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/datapipeline-runbook.md"
+        ],
+        "limits": [
+          "旧runbook不是当前最终裁决"
+        ]
+      },
+      "state": "D2_OWNER_DONE_FULL_REVIEW_PENDING",
+      "implementation": "D2原8+2完成",
+      "independent_acceptance": "source-intake scoped PASS；full NOT_RUN",
+      "adoption_deployment": "采用UNKNOWN",
+      "evidence_ids": [
+        "E17"
+      ],
+      "verified_scope": "D2 r3原8+2 owner证据",
+      "limits": [
+        "558=547P+11原批准PGskip；BUILD/VERIFY native0 CLEAN117/117；D1独立阻塞"
+      ],
+      "next_deliverable": "独立full D2审核后选明确DP release",
+      "support_dependencies": [
+        "DATA-D2",
+        "DATA-D1"
+      ],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E17",
+          "path": "D:/AKF261004/DATA/D2/r3/evidence/HANDOFF.md",
+          "evidence_date": "2026-10-06",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "原8+2 owner DONE；558=547PASS+11原批准PGskip；BUILD/VERIFY native0",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "DATA-ADOPTION",
+      "capability": "采集发布与消费者接入",
+      "stage": "B",
+      "depends_on": [
+        "ACQD1",
+        "APUB3",
+        "P05O2",
+        "DP-RELEASE"
+      ],
+      "external_gates": [
+        "原R8/producer/consumer交接门"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "WAITING_SELECTED_SOURCE_PASSES_AND_HANDOFF",
+        "owner": "原数据集成owner",
+        "next_deliverable": "形成数据发行组合、真实交付/接收时钟及消费者回归",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/src/ak_trading/v2/validation/acquisition_feed.py"
+        ],
+        "limits": [
+          "主目录build_minute_feed仍显式阻止创建"
+        ]
+      },
+      "state": "CURRENT_COMPOSITE_UNKNOWN",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E17",
+        "E10"
+      ],
+      "verified_scope": "有限D2与APUBguard",
+      "limits": [
+        "不证明ACQD/APUB/P05/DP同版组合；需明确selected source"
+      ],
+      "next_deliverable": "组合经接受的数据来源/消费者，验证原clock/producer合同",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E17",
+          "path": "D:/AKF261004/DATA/D2/r3/evidence/HANDOFF.md",
+          "evidence_date": "2026-10-06",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "原8+2 owner DONE；558=547PASS+11原批准PGskip；BUILD/VERIFY native0",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E10",
+          "path": "D:/AKF261001/R/APUB3/continuation-20261009-r3-repair-002-hard-review-001/OWNER-REPORT.md",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "guard F1 implementation PASS；真实malformed publisher仍FAIL",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "RESEARCH-INTEGRATION",
+      "capability": "离线M1–M4/M3C与M5实验入口同版集成",
+      "stage": "B",
+      "depends_on": [
+        "EP1"
+      ],
+      "external_gates": [
+        "M1/M2/M3A/M3B/M3C/M4所选版本独立证据"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "PREPARE_UNTIL_SELECTED_DEPENDENCIES_ACCEPTED",
+        "owner": "原研究集成owner，各模块原owner保留写集",
+        "next_deliverable": "唯一lock/registries/payoff/input源组合与完整独立集成验收",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/devplan-v2/00-开发总纲.md",
+          "D:/Projects/AK-trading/docs/devplan-v2/08-M3C-退出策略库.md"
+        ],
+        "limits": [
+          "P4另过其阶段门；本文不自动采用任何源",
+          "离线FrozenInput路线不被未消费的APUB/P05实时接入或SHCP局部修复一概阻断；完整影子出口另列。"
+        ]
+      },
+      "state": "SHARED_DELIVERY_CHAIN_OPEN",
+      "implementation": "M1支持/M2准备实现",
+      "independent_acceptance": "scoped PASS only；full UNKNOWN",
+      "adoption_deployment": "G4/G6权威产出尚缺",
+      "evidence_ids": [
+        "E13",
+        "E14",
+        "E15",
+        "E32",
+        "E33"
+      ],
+      "verified_scope": "四scoped审齐，共享依赖未真交付",
+      "limits": [
+        "不证明full M1/M2/M3A/B/C/M4同版；FPC/EP1局部PASS不补足；M3A十二文件仍review-preparation/admission pending，M3B仅plan PASS且P0 lock reconciliation/作者来源门保留，两者无新product PASS"
+      ],
+      "next_deliverable": "G3custody→G4→G6后绑定selected研究组合",
+      "support_dependencies": [
+        "SC-M1",
+        "SC-M2"
+      ],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E13",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/sc-m1-support-implementation-review-20261009-r2-001/reviewer/REVIEW-REPORT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "revision_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "SC-M1 source304 + 三工具unconditional scoped hard PASS",
+          "date_limit": "不据任务目录名推导精确完成时刻",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E14",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/sc-m2-preparation-review-20261009-r4-001/reviewer/REVIEW-REPORT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "revision_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "SC-M2 tooling/synthetic preparation only hard PASS",
+          "date_limit": "不是full M2 hard PASS",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E15",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/current-lock-support-arbitration-20261009-r1-001/ARBITRATION.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "既有G1-G6及SC-A11/SC-A14和权威prospective路径",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E32",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M3A/continuation-20261007-r2/PLAN.md",
+          "evidence_date": "2026-10-07",
+          "evidence_date_basis": "plan_revision_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "M3A十二文件existing-source review preparation only/ADMISSION_PENDING",
+          "date_limit": "需不可回填的baseline/作者来源、原M1/M2依赖和实际review包；未发产品PASS，prepare未执行测试",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E33",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/dispatches/M3B/aktr-zcode-plan-review-m3b-continuation-20261007-r1-269a16b1d499/OWNER-REPORT.md",
+          "evidence_date": "2026-10-07",
+          "evidence_date_basis": "reviewed_plan_revision_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "M3B continuation plan独立unconditional PASS，仅plan-executability",
+          "date_limit": "P0 lock reconciliation/H10与ownership遗漏、原作者来源门仍需解决；未发产品PASS，未跑产品测试",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "EXECUTION-INTEGRATION",
+      "capability": "无限易同版离线交付",
+      "stage": "B",
+      "depends_on": [
+        "WAL2",
+        "MH02",
+        "SNAPSHOT"
+      ],
+      "external_gates": [
+        "原NP00/NP01及NP02–05冻结/写集释放"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "PREPARE_UNTIL_SOURCE_AND_ORIGINAL_NP_GATES_PASS",
+        "owner": "原NP06 integration owner",
+        "next_deliverable": "NP02–05同版组合和NP06独立验收",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/devplan-nextphase-20260923-r1/02-blueprint.md"
+        ],
+        "limits": []
+      },
+      "state": "EX06_C2_FAIL_FULL_PASS_PENDING",
+      "implementation": "137source冻结；C2有失败",
+      "independent_acceptance": "full同版hard PASS未建立",
+      "adoption_deployment": "S3未建立",
+      "evidence_ids": [
+        "E22"
+      ],
+      "verified_scope": "EX06 56phase54native0",
+      "limits": [
+        "4630JUnit含1F+58skip；NP02aggregate guard/NP06stalehash失败"
+      ],
+      "next_deliverable": "按r7-005外部stopped deltas→C1→Rootbind→C2→full review",
+      "support_dependencies": [
+        "EX06"
+      ],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E22",
+          "path": "D:/AKF261004/EXECUTION/ex06-rootbind-r1/EXI-C2-R1/HANDOFF.md",
+          "evidence_date": null,
+          "evidence_date_basis": "precise_date_unknown",
+          "read_date": "2026-10-10",
+          "verified_scope": "EX06 C2 56phase54native0，NP02/NP06有失败；无full同版PASS",
+          "date_limit": "r7-005继任计划日期10-07不作为旧C2运行日期",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "DATA-QUALIFICATION",
+      "capability": "实际数据和PostgreSQL资格",
+      "stage": "C",
+      "depends_on": [
+        "DP-RELEASE"
+      ],
+      "external_gates": [
+        "实际来源与数据库运行条件"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "PREPARE_EVIDENCE_REQUIREMENTS_ACTUAL_GATES_OPEN",
+        "owner": "原P02/DP phase2 owners",
+        "next_deliverable": "真实来源、日历、bar finality和原PostgreSQL工单证据",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/devplan-datapipeline-phase2-20260923-r1"
+        ],
+        "limits": [
+          "本轮无DB/SDK执行"
+        ]
+      },
+      "state": "PARTIAL_REAL_PG_QUALIFICATION_UNKNOWN",
+      "implementation": "窄有限证据",
+      "independent_acceptance": "full资格UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E17",
+        "E25",
+        "E26"
+      ],
+      "verified_scope": "recent-data/D2批准skip/labels隔离自测",
+      "limits": [
+        "窄pair/免费10000行/回填非provider完整；这些证据不执行DB/SDK/realfeed"
+      ],
+      "next_deliverable": "按原DP/P02执行获授权DB/SDK实际资格",
+      "support_dependencies": [
+        "DATA-D1",
+        "DATA-D2",
+        "SESSION-LABELS"
+      ],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E17",
+          "path": "D:/AKF261004/DATA/D2/r3/evidence/HANDOFF.md",
+          "evidence_date": "2026-10-06",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "原8+2 owner DONE；558=547PASS+11原批准PGskip；BUILD/VERIFY native0",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E25",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/STATE-048.json",
+          "evidence_date": "2026-10-07",
+          "evidence_date_basis": "snapshot_day",
+          "read_date": "2026-10-10",
+          "verified_scope": "窄recent-data audit：150 pairs；811324 missing keys；110回填40无缺；4200labels候选",
+          "date_limit": "不是当前global state；窄pair/免费10000row限制保留",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E26",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/coordination/model-routing-sol-20261006-r1/DATA/market-data-session-label-repair-20261007-r1/owner-launch-r4-prepare-r2/OWNER-REPORT.md",
+          "evidence_date": "2026-10-07",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "labels24隔离文件实现；42P+6PGskip/24P+3PGskip；主线/DBapply未跑",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "RUNTIME-QUALIFICATION",
+      "capability": "正式工具与实际运行资格",
+      "stage": "C",
+      "depends_on": [
+        "FPC",
+        "RUNTIME-R5",
+        "MH03",
+        "MH04S3",
+        "MH05",
+        "KEYSET"
+      ],
+      "external_gates": [
+        "每个原工单的实际资源与执行前置"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "BLOCKED_ON_SOURCE_REVIEWS_AND_ACTUAL_WINDOWS",
+        "owner": "原运行监督/正式验证owners",
+        "next_deliverable": "原窗口、原生身份、postchecks及收尾全部达到规定",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/PLAN.md"
+        ],
+        "limits": [
+          "静态PASS不能替代实际资格"
+        ]
+      },
+      "state": "FULL_RUNTIME_UNKNOWN",
+      "implementation": "有限static/tools实现",
+      "independent_acceptance": "scoped PASS并存R5source FAIL",
+      "adoption_deployment": "general runtime UNKNOWN",
+      "evidence_ids": [
+        "E11",
+        "E09",
+        "E24",
+        "E21",
+        "E31"
+      ],
+      "verified_scope": "FPC/MH04局部PASS、QMHtoolsPASS、R5FAIL",
+      "limits": [
+        "actual158node/原窗口/postchecks未建立；不能设全局万能native门；R5按有效321隔离transfer推进，非等待失联producer终态"
+      ],
+      "next_deliverable": "修对应source，再按每个原消费节点补真实运行",
+      "support_dependencies": [
+        "QMH"
+      ],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E11",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/FPC3/aktr-zcode-fpc3-implementation-hard-review-20261009-r5-005-002-p2-001/reviewer/REVIEW-REPORT.json",
+          "evidence_date": "2026-10-10",
+          "evidence_date_basis": "terminal_observation_day",
+          "read_date": "2026-10-10",
+          "verified_scope": "FPC3 P2 adapter/route/admission/semantic evidence scoped hard PASS",
+          "date_limit": "reviewed_at_utc原文=2026-10-09T16:55:00+00:00（上海换算2026-10-10 00:55），与supervisor本轮00:05观察存在时间差异；原string与差异保留，不单用作者时间赋完成先后信用",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E09",
+          "path": "D:/AKF261009/R/MH04S3/continuation-20261009-r4-003-hard-review-002/HARD-REVIEW-REPORT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "filesystem_mtime_local_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "SOURCE_STATIC + STATIC_INPUT_ELIGIBILITY + admitted limited execution PASS；product NOT_ISSUED",
+          "date_limit": "mtime UTC 2026-10-08T23:37:10Z；采用实际verdict_scope",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E24",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/UPDATED-PLAN.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "created_utc",
+          "read_date": "2026-10-10",
+          "verified_scope": "R5有效transfer plan已逐项采纳、立即生效，无需再次计划批准；原whole finite SOURCE_STATIC FAIL保留",
+          "date_limit": "旧mutable tree仍受限；新isolated branch可按已生效Root actions推进，不等待历史producer native STOP；本轮未执行snapshot/admission",
+          "product_tests_rerun_by_this_audit": false,
+          "historical_base_plan_path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/continuation-20261007-r3/PLAN.json"
+        },
+        {
+          "id": "E21",
+          "path": "D:/AKF261004/QMR/t03/review/VERDICT.json",
+          "evidence_date": "2026-10-06",
+          "evidence_date_basis": "filesystem_mtime_local_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "QMH QMR01-06/tools-only PASS；158-node closure false",
+          "date_limit": "mtime UTC 2026-10-06T02:51:45Z",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E31",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/ROOT-ACTIONS.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "created_utc",
+          "read_date": "2026-10-10",
+          "verified_scope": "Root行政撤销旧LC write grants/取消unused WC prepared route，精确321-member supervised snapshot/custody后LC两seat立即并行，WCprepare",
+          "date_limit": "原native closure credit仍0，不伪造旧STOP；plan package未执行行政撤销/snapshot/fresh admission，WC implementation继实际stopped finalLCrefs",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "FEED-QUALIFICATION",
+      "capability": "真实分钟feed",
+      "stage": "C",
+      "depends_on": [
+        "DATA-ADOPTION",
+        "DATA-QUALIFICATION"
+      ],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "REAL_20_DAY_ACCEPTANCE_PENDING",
+        "owner": "原P05/M5 feed owner",
+        "next_deliverable": "逐品种/会话/活跃合约的真实20日接受结果",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/devplan-v2/06-M5-验证与影子运行.md"
+        ],
+        "limits": [
+          "合成/历史查询/有限tick不能替代"
+        ]
+      },
+      "state": "UNKNOWN_REAL20_ACCEPTANCE",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E06",
+        "E25"
+      ],
+      "verified_scope": "旧原要求和窄snapshot",
+      "limits": [
+        "无新完整20日接受；historical查询/合成/单tick不替代"
+      ],
+      "next_deliverable": "选数据采用版后完成原品种/会话/活跃合约真实20日接受",
+      "support_dependencies": [],
+      "freshness": "CURRENT_FULL_EVIDENCE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E06",
+          "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "historical_blueprint_snapshot",
+          "read_date": "2026-10-10",
+          "verified_scope": "原32线历史规划线索",
+          "date_limit": "不作为当前产品状态",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E25",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/STATE-048.json",
+          "evidence_date": "2026-10-07",
+          "evidence_date_basis": "snapshot_day",
+          "read_date": "2026-10-10",
+          "verified_scope": "窄recent-data audit：150 pairs；811324 missing keys；110回填40无缺；4200labels候选",
+          "date_limit": "不是当前global state；窄pair/免费10000row限制保留",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "FORMAL-RESEARCH",
+      "capability": "正式验证与留出",
+      "stage": "D",
+      "depends_on": [
+        "RESEARCH-INTEGRATION",
+        "RUNTIME-QUALIFICATION",
+        "RESEARCH-INPUT"
+      ],
+      "external_gates": [
+        "只使用该正式入口原要求的运行资格；不追加未消费的native/PG生产门"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "FORMAL_QUALIFICATION_PENDING",
+        "owner": "原M5正式验证owner",
+        "next_deliverable": "按原程序完成滚动验证、最终留出、成熟和分组资格",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/devplan-v2/06-M5-验证与影子运行.md"
+        ],
+        "limits": [
+          "60成熟决策交易日+至少20日成熟尾段；原阈值不变"
+        ]
+      },
+      "state": "UNKNOWN_FULL_FORMAL",
+      "implementation": "有限支持可用；full run UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E08",
+        "E11",
+        "E15"
+      ],
+      "verified_scope": "EP1/FPC支持和共享合同",
+      "limits": [
+        "局部测试不证明60成熟决策日+至少20日尾段/留出/统计合格"
+      ],
+      "next_deliverable": "绑定研究组合/合法冻结输入和所需运行资格，产出原M5正式结果",
+      "support_dependencies": [],
+      "freshness": "CURRENT_FULL_EVIDENCE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E08",
+          "path": "D:/AKF261009/EP1/development-hard-review-20261009-r1-002/review-001/VERDICT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "filesystem_mtime_local_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "EP1 source/capacity scoped PASS，8/8容量回归",
+          "date_limit": "mtime UTC 2026-10-08T18:41:35Z；非精确运行起止证明",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E11",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/FPC3/aktr-zcode-fpc3-implementation-hard-review-20261009-r5-005-002-p2-001/reviewer/REVIEW-REPORT.json",
+          "evidence_date": "2026-10-10",
+          "evidence_date_basis": "terminal_observation_day",
+          "read_date": "2026-10-10",
+          "verified_scope": "FPC3 P2 adapter/route/admission/semantic evidence scoped hard PASS",
+          "date_limit": "reviewed_at_utc原文=2026-10-09T16:55:00+00:00（上海换算2026-10-10 00:55），与supervisor本轮00:05观察存在时间差异；原string与差异保留，不单用作者时间赋完成先后信用",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E15",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/current-lock-support-arbitration-20261009-r1-001/ARBITRATION.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "既有G1-G6及SC-A11/SC-A14和权威prospective路径",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "SHADOW-ACCEPTANCE",
+      "capability": "完整前瞻影子与恢复",
+      "stage": "D",
+      "depends_on": [
+        "FORMAL-RESEARCH",
+        "FEED-QUALIFICATION",
+        "SHCP5"
+      ],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "ORDINARY_RUN_SHADOW_NOT_VERIFIED",
+        "owner": "原M5 shadow owner",
+        "next_deliverable": "完整原影子运行、接收/消费/账本恢复与真实运行结论",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/src/ak_trading/v2/validation/shadow.py"
+        ],
+        "limits": [
+          "局部CP-A通过不能替代全路径"
+        ]
+      },
+      "state": "UNKNOWN_FULL_ORDINARY_SHADOW",
+      "implementation": "SHCP5有限恢复实现",
+      "independent_acceptance": "SHCP5 scoped PASS only",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E12"
+      ],
+      "verified_scope": "E9有限消费恢复",
+      "limits": [
+        "ordinary完整run_shadow/真实feed/formal资格不由局部PASS建立"
+      ],
+      "next_deliverable": "formal与feed门后跑原前瞻/重启/账本恢复完整路径",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E12",
+          "path": "D:/AKF261001/R/SHCP5/continuation-20261009-r4-hard-review-007/HARD-REVIEW-RESULT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "SHCP5 E9 owner009 unconditional scoped hard PASS",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "NP06-S3",
+      "capability": "同版部署模拟",
+      "stage": "E",
+      "depends_on": [
+        "EXECUTION-INTEGRATION",
+        "RUNTIME-QUALIFICATION"
+      ],
+      "external_gates": [
+        "同版执行硬审与实际客户端UI窗口"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "REAL_S3_NOT_ESTABLISHED_BY_THIS_BLUEPRINT",
+        "owner": "原NP06 owner与用户现场操作",
+        "next_deliverable": "部署版本、回退、同版S3及零真实调用证据",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/devplan-nextphase-20260923-r1/03-simulation-and-live-gates.md"
+        ],
+        "limits": []
+      },
+      "state": "UNKNOWN_SAME_VERSION_S3",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "同版integration hard PASS待成立",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E22"
+      ],
+      "verified_scope": "EX06失败尚待关闭",
+      "limits": [
+        "无新同版实际S3；客户端UI由用户操作"
+      ],
+      "next_deliverable": "同版硬审后按原计划部署模拟，真实send/cancel=0",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E22",
+          "path": "D:/AKF261004/EXECUTION/ex06-rootbind-r1/EXI-C2-R1/HANDOFF.md",
+          "evidence_date": null,
+          "evidence_date_basis": "precise_date_unknown",
+          "read_date": "2026-10-10",
+          "verified_scope": "EX06 C2 56phase54native0，NP02/NP06有失败；无full同版PASS",
+          "date_limit": "r7-005继任计划日期10-07不作为旧C2运行日期",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "NP07",
+      "capability": "限定首单",
+      "stage": "E",
+      "depends_on": [
+        "NP06-S3"
+      ],
+      "external_gates": [
+        "同版硬审PASS、零真实调用S3、明确首单授权及UI开启等原条件"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "NOT_RUN",
+        "owner": "原NP07现场责任人和用户",
+        "next_deliverable": "原前置全部成立后按既定首单工单执行",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/devplan-nextphase-20260923-r1/work-orders/NP07-live-pilot.md"
+        ],
+        "limits": [
+          "历史操作/修改授权不替代未满足的首单条件"
+        ]
+      },
+      "state": "UNKNOWN_LIVE_PILOT_NO_AUTH_HERE",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E06"
+      ],
+      "verified_scope": "本轮只读旧首单门线索",
+      "limits": [
+        "旧NOT_RUN不升级为今日监测；本轮无首单授权"
+      ],
+      "next_deliverable": "同版hardPASS+真实S3+用户明确首单授权/UI开启后按原限额",
+      "support_dependencies": [],
+      "freshness": "CURRENT_BROKER_STATE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E06",
+          "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "historical_blueprint_snapshot",
+          "read_date": "2026-10-10",
+          "verified_scope": "原32线历史规划线索",
+          "date_limit": "不作为当前产品状态",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "ECON-PRODUCTION",
+      "capability": "远端长期报告生产",
+      "stage": "MACRO",
+      "depends_on": [],
+      "external_gates": [
+        "诊断能力/范围明确；若需远端部署变更须另有明确范围"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "SEVEN_REGISTERED_ZERO_REPORTS_AT_R5",
+        "owner": "/root/econ_tracking_ops_61",
+        "next_deliverable": "取得真实远端版本/领取/生成/提交证据和首份可靠报告",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/econ-report-observation-r5/HANDOFF.md",
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/ECON-OBSERVATION-R5-RECEIVED.json"
+        ],
+        "limits": [
+          "最后实际观察17:51上海；不重复登记或盲目重试"
+        ]
+      },
+      "state": "UNKNOWN_REMOTE_CURRENT",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E29"
+      ],
+      "verified_scope": "10-01历史7active/7pending/0report",
+      "limits": [
+        "今天远端版本/runtime/report UNKNOWN；不得盲重启/重登记"
+      ],
+      "next_deliverable": "先在获授权范围取得只读版本与首份可追溯报告",
+      "support_dependencies": [],
+      "freshness": "STALE_REMOTE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E29",
+          "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/ECON-OBSERVATION-R5-RECEIVED.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "root_receipt_observation",
+          "read_date": "2026-10-10",
+          "verified_scope": "当时7active/7pending/0报告；今天远端状态UNKNOWN",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "MACRO-CARDS",
+      "capability": "前瞻宏观研究卡与日志",
+      "stage": "MACRO",
+      "depends_on": [
+        "MR2",
+        "ECON-PRODUCTION"
+      ],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "PLANNED_AFTER_RELIABLE_INGESTION",
+        "owner": "原宏观本地owner；展现层另定精确写集",
+        "next_deliverable": "可追溯报告卡、事件窗口、共同风险和前瞻版本日志",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/macro-tracking-plan-r1/交易用途与接入计划.md"
+        ],
+        "limits": [
+          "字段变化先走原合同修订；不能回填历史PIT"
+        ]
+      },
+      "state": "UNKNOWN_CURRENT_CARDS",
+      "implementation": "本地MR2finite PASS only",
+      "independent_acceptance": "cards full接受UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E07",
+        "E23",
+        "E29"
+      ],
+      "verified_scope": "本地/producer owner证据，远端历史",
+      "limits": [
+        "backendUNKNOWN/narrativeUNVERIFIED/historicalPIT false；無当前cards接受"
+      ],
+      "next_deliverable": "producer和可靠报告源接受后交付前瞻卡/合同摘要/日志",
+      "support_dependencies": [
+        "MACRO-PRODUCER"
+      ],
+      "freshness": "CURRENT_FULL_EVIDENCE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E07",
+          "path": "D:/AKF261001/R/MR2/attempts/review-r3-20261008-001/REVIEW-VERDICT-R3.json",
+          "evidence_date": "2026-10-08",
+          "evidence_date_basis": "record_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "原98/修订50/4 public probes由reviewer复跑，unconditional finite PASS",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E23",
+          "path": "D:/AKF261004/MACRO/impl-r5/HANDOFF.md",
+          "evidence_date": "2026-10-07",
+          "evidence_date_basis": "handoff_revision_day",
+          "read_date": "2026-10-10",
+          "verified_scope": "MACRO producer r5 owner frozen/19native0；r5 hard review未跑",
+          "date_limit": "不能推定当前远端runtime/PIT资格",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E29",
+          "path": "D:/Projects/AK-trading/docs/development-completion-20260930-r1/resume-20261001-r1/ECON-OBSERVATION-R5-RECEIVED.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "root_receipt_observation",
+          "read_date": "2026-10-10",
+          "verified_scope": "当时7active/7pending/0报告；今天远端状态UNKNOWN",
+          "date_limit": "",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "MACRO-VALIDATION",
+      "capability": "宏观过滤价值",
+      "stage": "MACRO",
+      "depends_on": [
+        "MACRO-CARDS",
+        "FORMAL-RESEARCH"
+      ],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "FORWARD_SAMPLE_AND_VALIDATION_PENDING",
+        "owner": "原M5与宏观owner",
+        "next_deliverable": "有/无过滤的样本外配对报告及明确适用范围",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/development-completion-20260930-r1/macro-tracking-plan-r1/交易用途与接入计划.md"
+        ],
+        "limits": [
+          "远端自报置信度不作胜率；样本不足诚实保留"
+        ]
+      },
+      "state": "UNKNOWN_FORWARD_VALIDATION",
+      "implementation": "UNKNOWN",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E06",
+        "E23"
+      ],
+      "verified_scope": "原宏观验证要求",
+      "limits": [
+        "报告confidence非胜率；无完整有/无过滤样本外比较"
+      ],
+      "next_deliverable": "cards与正式研究接受后产出原消融/样本外比较",
+      "support_dependencies": [],
+      "freshness": "CURRENT_FULL_EVIDENCE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E06",
+          "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "historical_blueprint_snapshot",
+          "read_date": "2026-10-10",
+          "verified_scope": "原32线历史规划线索",
+          "date_limit": "不作为当前产品状态",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E23",
+          "path": "D:/AKF261004/MACRO/impl-r5/HANDOFF.md",
+          "evidence_date": "2026-10-07",
+          "evidence_date_basis": "handoff_revision_day",
+          "read_date": "2026-10-10",
+          "verified_scope": "MACRO producer r5 owner frozen/19native0；r5 hard review未跑",
+          "date_limit": "不能推定当前远端runtime/PIT资格",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "NF-DELIVERY",
+      "capability": "API/基准/风险说明交付",
+      "stage": "B",
+      "depends_on": [],
+      "external_gates": [],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "IMPLEMENTATIONS_EXIST_CURRENT_RELEASE_TO_RECONCILE",
+        "owner": "原NF10/20/21/22/23/30 owners",
+        "next_deliverable": "对齐已存在实现、版本与所选候选；按原范围补可比性能和口径报告",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/benchmarks/README.md"
+        ],
+        "limits": [
+          "不能凭旧PLAN_DELIVERED判断未实现；正式性能需实际资源与输入证据"
+        ]
+      },
+      "state": "UNKNOWN_CURRENT_RELEASE",
+      "implementation": "旧蓝图称存在实现",
+      "independent_acceptance": "UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E06"
+      ],
+      "verified_scope": "NF10/20/21/22/23/30旧线索",
+      "limits": [
+        "不凭旧PLAN_DELIVERED判未实现；未核对当前版本/性能/交付"
+      ],
+      "next_deliverable": "选已有候选，补原API/基准/风险说明接受",
+      "support_dependencies": [],
+      "freshness": "STALE_UNKNOWN",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E06",
+          "path": "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+          "evidence_date": "2026-10-01",
+          "evidence_date_basis": "historical_blueprint_snapshot",
+          "read_date": "2026-10-10",
+          "verified_scope": "原32线历史规划线索",
+          "date_limit": "不作为当前产品状态",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    },
+    {
+      "id": "RESEARCH-INPUT",
+      "capability": "有界历史冻结输入资格",
+      "stage": "C",
+      "depends_on": [],
+      "external_gates": [
+        "原M1/P04相关源包与使用资格"
+      ],
+      "historical_snapshot": {
+        "as_of_date": "2026-10-01",
+        "current_fact": false,
+        "state": "SELECTED_INPUT_QUALIFICATION_TO_BIND",
+        "owner": "原M1/P04输入owner",
+        "next_deliverable": "对选定具体合约与有界时间区间取得原要求的来源、日历、PIT和冻结输入身份",
+        "evidence_paths": [
+          "D:/Projects/AK-trading/docs/devplan-v2/01-M1-共用基础与时钟契约.md"
+        ],
+        "limits": [
+          "本轮未查询数据库；可用历史冻结包不自动等待新采集管线生产验收"
+        ]
+      },
+      "state": "PARTIAL_FIXTURE_FULL_PIT_UNKNOWN",
+      "implementation": "M1支持fixture可用",
+      "independent_acceptance": "完整selected-input资格UNKNOWN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E13",
+        "E25"
+      ],
+      "verified_scope": "1795=368VERIFIED+1427SCENARIO与窄recent-data",
+      "limits": [
+        "SCENARIO及9late close_today费不提升historical PIT；calendar gaps保留"
+      ],
+      "next_deliverable": "按M1/P04绑定合法有界冻结输入，补原源范围/资格",
+      "support_dependencies": [],
+      "freshness": "DATED_BOUNDED_EVIDENCE",
+      "read_date": "2026-10-10",
+      "owner_role": "原模块owner；未分配新实现由独立Sol/max owner；未参与实现ZCode验收",
+      "latest_verified_evidence": [
+        {
+          "id": "E13",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/sc-m1-support-implementation-review-20261009-r2-001/reviewer/REVIEW-REPORT.json",
+          "evidence_date": "2026-10-09",
+          "evidence_date_basis": "revision_date",
+          "read_date": "2026-10-10",
+          "verified_scope": "SC-M1 source304 + 三工具unconditional scoped hard PASS",
+          "date_limit": "不据任务目录名推导精确完成时刻",
+          "product_tests_rerun_by_this_audit": false
+        },
+        {
+          "id": "E25",
+          "path": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/STATE-048.json",
+          "evidence_date": "2026-10-07",
+          "evidence_date_basis": "snapshot_day",
+          "read_date": "2026-10-10",
+          "verified_scope": "窄recent-data audit：150 pairs；811324 missing keys；110回填40无缺；4200labels候选",
+          "date_limit": "不是当前global state；窄pair/免费10000row限制保留",
+          "product_tests_rerun_by_this_audit": false
+        }
+      ]
+    }
+  ],
+  "support_slices": [
+    {
+      "id": "SC-M1",
+      "mapped_workstreams": [
+        "RESEARCH-INTEGRATION",
+        "RESEARCH-INPUT"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "HARD_PASS_G3_CUSTODY_G4_PENDING",
+      "implementation": "source304+三工具已实现",
+      "independent_acceptance": "unconditional scoped PASS",
+      "adoption_deployment": "publication/terminal报告NOT_RUN",
+      "evidence_ids": [
+        "E13",
+        "E15"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "M2reg120/120、M3B209/209；reviewer tooling235/235",
+      "limits": [
+        "full8 reviewer原路径87/88；最后项用carried bytes+owner88/88+独立等价probe，不能声称原路径独立88/88；非full M1"
+      ],
+      "next_deliverable": "当前G3custody绑定后Root执行既有G4",
+      "depends_on": []
+    },
+    {
+      "id": "SC-M2",
+      "mapped_workstreams": [
+        "RESEARCH-INTEGRATION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "PREPARATION_PASS_G6_PENDING",
+      "implementation": "tools/SYNTHETIC preparation实现",
+      "independent_acceptance": "unconditional scoped PASS",
+      "adoption_deployment": "final source/run报告NOT_RUN",
+      "evidence_ids": [
+        "E14",
+        "E15"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "tooling194/194；regeneration16/16 population byte identity",
+      "limits": [
+        "final accepted-lock/full H01-H08/D02/copy/run/publication未执行；full M2 hardPASS=false"
+      ],
+      "next_deliverable": "G4后exact304copy+final run+原full requirements+新独立full M2 review",
+      "depends_on": [
+        "SC-M1:G4"
+      ]
+    },
+    {
+      "id": "DATA-D1",
+      "mapped_workstreams": [
+        "DP-RELEASE",
+        "DATA-QUALIFICATION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "BLOCKED_COLLISION_ONE_USE_CONSUMED",
+      "implementation": "实际materialization未完成",
+      "independent_acceptance": "full D1 PASS未建立",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E16"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "ACQD_FULL r3 continuation native1",
+      "limits": [
+        "自capture preparation/COMMAND.json触发absence collision；11helper未materialize/34输出absent；3旧native0suite仅partial，不复跑旧one-use"
+      ],
+      "next_deliverable": "原owner新bounded revision真materialize并验证原full阶段",
+      "depends_on": []
+    },
+    {
+      "id": "DATA-D2",
+      "mapped_workstreams": [
+        "DP-RELEASE",
+        "DATA-QUALIFICATION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "ORIGINAL_8_PLUS_2_DONE_FULL_REVIEW_NOT_RUN",
+      "implementation": "原8+2已完成",
+      "independent_acceptance": "source-intake scoped PASS；full NOT_RUN",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E17"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "8suites558=547P+11原批准PGskip；BUILD/VERIFY native0 CLEAN117/117",
+      "limits": [
+        "原DP08失败保留且owner修复；fullreview只有prepare无START/RESULT；PG/SDK/feed NOT_RUN"
+      ],
+      "next_deliverable": "独立full D2 hard review，不把合法skip变PASS",
+      "depends_on": []
+    },
+    {
+      "id": "DISPATCH",
+      "mapped_workstreams": [],
+      "counted_as_new_workstream": false,
+      "state": "FAIL_H3_H12",
+      "implementation": "owner self-tests绿",
+      "independent_acceptance": "独立FAIL",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E18"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "r2 verdict H3/H12/read_ack partial",
+      "limits": [
+        "owner5/5+10/10+42/42不覆盖FAIL；continuation plan称无usable verdict与实际矛盾"
+      ],
+      "next_deliverable": "原owner修行为，原计划作者限定处置矛盾，fresh review",
+      "depends_on": []
+    },
+    {
+      "id": "MASTER-B-TOOLS",
+      "mapped_workstreams": [],
+      "counted_as_new_workstream": false,
+      "state": "FAIL_SIX_DEFECTS",
+      "implementation": "r1tools存在/r2repair plan未实施接受",
+      "independent_acceptance": "独立engineering FAIL",
+      "adoption_deployment": "真实8scenario NOT_RUN",
+      "evidence_ids": [
+        "E19"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "三工具/三测试工程范围",
+      "limits": [
+        "partial first_failure null、junction被接收、blocked raw1非3、skipreason替代、unobserved deselection捏造空、cwd越release；84P不覆盖"
+      ],
+      "next_deliverable": "按已有r2修六文件，工具PASS后做原真实8scenario",
+      "depends_on": [
+        "selected DATA/RESEARCH/MACRO/EXECUTION releases only for actual scenarios"
+      ]
+    },
+    {
+      "id": "Q00",
+      "mapped_workstreams": [
+        "RUNTIME-QUALIFICATION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "FAIL_Q_H09",
+      "implementation": "r5包存在",
+      "independent_acceptance": "FAIL",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E20"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "183行manifest遗漏两个existing payload",
+      "limits": [
+        "final-state-verification.txt与handoff/q00/r5/owner-report-r5.md；disposition未授权metadata-only repair；不作其他线万能门"
+      ],
+      "next_deliverable": "原owner新revision完整包/原适用接受，保留旧FAIL",
+      "depends_on": []
+    },
+    {
+      "id": "QMH",
+      "mapped_workstreams": [
+        "RUNTIME-QUALIFICATION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "TOOLS_PASS_RUNTIME_NOT_RUN",
+      "implementation": "QMRtools完成",
+      "independent_acceptance": "QMR01-06/tools-only PASS",
+      "adoption_deployment": "actual158-node closure=false",
+      "evidence_ids": [
+        "E21"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "29 controls native0；11probe中10P/1 reviewer out-of-scope不是owner缺陷",
+      "limits": [
+        "t01FAIL/t02 reportedPASS PARTIAL_UNVERIFIED保留；ABC/CBA/MH03/04/05 actual NOT_RUN"
+      ],
+      "next_deliverable": "按原消费门补获准真实窗口/158-node闭环",
+      "depends_on": []
+    },
+    {
+      "id": "EX06",
+      "mapped_workstreams": [
+        "EXECUTION-INTEGRATION",
+        "NP06-S3"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "C2_FAILURE_FULL_REVIEW_PENDING",
+      "implementation": "137source未变，C2执行有失败",
+      "independent_acceptance": "full same-version PASS未成立",
+      "adoption_deployment": "S3 UNKNOWN",
+      "evidence_ids": [
+        "E22"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "56phase54native0；4630JUnit1F+58skip",
+      "limits": [
+        "NP02collect2 aggregate guard与NP06 1/249 stale NP03gates hash；执行D1不是DATA-D1；旧handoff未授repair lease"
+      ],
+      "next_deliverable": "r7-005外部stopped deltas→C1exact137→Rootbind→C2 31命令/13组/56phase→full review",
+      "depends_on": []
+    },
+    {
+      "id": "MACRO-PRODUCER",
+      "mapped_workstreams": [
+        "MR2",
+        "MACRO-CARDS",
+        "MACRO-VALIDATION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "R5_OWNER_FROZEN_R3_INDEPENDENT_FAIL",
+      "implementation": "r5 owner19 native0",
+      "independent_acceptance": "r3FAIL/r5 hard review NOT_RUN",
+      "adoption_deployment": "deployment NOT_RELEASED",
+      "evidence_ids": [
+        "E23",
+        "E30"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "32source=26exact+6delta；Q01 98/Q02 50/Q03 83/QJ4 owner绿",
+      "limits": [
+        "MR2 finitePASS不覆盖producer；Q05/economic/backend/PIT incomplete，backendUNKNOWN/narrativeUNVERIFIED/historicalPIT false"
+      ],
+      "next_deliverable": "独立r5实际write-set review，FAIL回原owner；远端分开核对",
+      "depends_on": []
+    },
+    {
+      "id": "SESSION-LABELS",
+      "mapped_workstreams": [
+        "DATA-QUALIFICATION",
+        "DATA-ADOPTION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "IMPLEMENTED_SELF_TEST_PARTIAL_PG_NOT_RUN_G3_PASS_HARD_REVIEW_PENDING",
+      "implementation": "24隔离文件实现",
+      "independent_acceptance": "Root G3 PASS；product hard review NOT_RUN",
+      "adoption_deployment": "主线/label_apply NOT_RUN",
+      "evidence_ids": [
+        "E26",
+        "E27",
+        "E28"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "正式42P+6PGskip/24P+3PGskip；mapper实际sealed3150keys",
+      "limits": [
+        "9skip=PGtransaction，无DB授权/配置；G0gap保留；三canonical目标当时absent；G5/runner prepare/apply/realmarket_bars NOT_RUN；4200候选不是3150输入"
+      ],
+      "next_deliverable": "复用G3冻结successor独立hardreview；PG/主线采用/apply继原G4/G5门",
+      "depends_on": []
+    },
+    {
+      "id": "M3A-PREPARATION",
+      "mapped_workstreams": [
+        "RESEARCH-INTEGRATION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "REVIEW_PREPARATION_ONLY_ADMISSION_PENDING",
+      "implementation": "十二文件existing implementation snapshot，仅review准备",
+      "independent_acceptance": "无新product PASS",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E32"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "M3A continuation r2十二文件review preparation",
+      "limits": [
+        "不可回填pre-development baseline/unique author attribution和原M1/M2依赖仍需实际证据；未执行测试/产品hard review"
+      ],
+      "next_deliverable": "沿已有M3A原门补source attribution/完整review admission，再独立产品审核",
+      "depends_on": [
+        "admissible M1 lock/M2 output and original attribution/admission requirements"
+      ]
+    },
+    {
+      "id": "M3B-PLAN",
+      "mapped_workstreams": [
+        "RESEARCH-INTEGRATION"
+      ],
+      "counted_as_new_workstream": false,
+      "state": "PLAN_PASS_P0_RECONCILIATION_PRODUCT_NOT_ACCEPTED",
+      "implementation": "plan可执行；实际source未由该审核接受",
+      "independent_acceptance": "unconditional plan PASS only",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E33"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "M3B continuation plan独立可执行性审核",
+      "limits": [
+        "P0 lock ownership/H10 reconciliation与作者来源原门保留；产品PASS未签发，产品测试NOT_RUN"
+      ],
+      "next_deliverable": "原作者/合同owner解决P0 lock/source attribution，按有效plan后续原阶段交付",
+      "depends_on": [
+        "original P0 lock reconciliation/source attribution",
+        "M1/M2/M3A original accepted consumer requirements"
+      ]
+    },
+    {
+      "id": "MASTER-BASE",
+      "mapped_workstreams": [],
+      "counted_as_new_workstream": false,
+      "state": "PLAN_ADOPTED_ACTUAL_INTAKE_PRODUCT_PASS_NOT_ESTABLISHED",
+      "implementation": "已采纳plan，未有该包实物intake",
+      "independent_acceptance": "无independent product PASS",
+      "adoption_deployment": "UNKNOWN",
+      "evidence_ids": [
+        "E34"
+      ],
+      "read_date": "2026-10-10",
+      "verified_scope": "MASTER-BASE continuation r2 source selection/ownership/requirements/dependencies计划",
+      "limits": [
+        "已采纳ready-for-Root-intake不等于四个实际selection/ownership/requirements/dependencies产物、owner实施或产品接受"
+      ],
+      "next_deliverable": "复用已存MASTER-BASE计划执行其真实intake/原必要验证和独立接受",
+      "depends_on": [
+        "its selected exact receipts/source identity and original no-write-overlap gates"
+      ]
+    }
+  ],
+  "shared_dependency_gating": {
+    "authority": "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/current-lock-support-arbitration-20261009-r1-001/ARBITRATION.json",
+    "status": "FOUR_SCOPED_PASSES_SHARED_DELIVERY_CHAIN_OPEN",
+    "current_observation": {
+      "read_date": "2026-10-10",
+      "observer": "Root",
+      "tool_result": "chunk715305 native0",
+      "method": "programmatic metadata checks against authoritative prospective outputs",
+      "paths": [
+        {
+          "id": "m1_candidate_lock",
+          "path": "D:/AKF261009/M1/shared-dependency-support-r2/candidate-lock/contract-lock.m1-m2-m3b-dependency-support-r2.json",
+          "observed_exists": false,
+          "expected_existing_input": false
+        },
+        {
+          "id": "m1_terminal.receipt",
+          "path": "D:/AKF261009/M1/shared-dependency-support-r2/terminal-release-r1/RECEIPT.json",
+          "observed_exists": false,
+          "expected_existing_input": false
+        },
+        {
+          "id": "m1_terminal.stop",
+          "path": "D:/AKF261009/M1/shared-dependency-support-r2/terminal-release-r1/STOP.json",
+          "observed_exists": false,
+          "expected_existing_input": false
+        },
+        {
+          "id": "m2_final_source",
+          "path": "D:/AKF261009/M2/shared-dependency-r1/final-source-support-r2",
+          "observed_exists": false,
+          "expected_existing_input": false
+        },
+        {
+          "id": "m2_final_run",
+          "path": "D:/AKF261009/M2/shared-dependency-r1/final-run-support-r2",
+          "observed_exists": false,
+          "expected_existing_input": false
+        },
+        {
+          "id": "m2_copy_receipt",
+          "path": "D:/AKF261009/M2/shared-dependency-r1/owner-evidence/final-source-copy-support-r2/SOURCE-COPY-RECEIPT.json",
+          "observed_exists": false,
+          "expected_existing_input": false
+        }
+      ]
+    },
+    "gates": [
+      {
+        "id": "G1",
+        "requirement": "changed-contract review + 必要原作者disposition"
+      },
+      {
+        "id": "G2",
+        "requirement": "corrected exact304 + 3tools implementation + owner validation"
+      },
+      {
+        "id": "G3",
+        "requirement": "actual SC-M1 hardPASS + current terminal custody",
+        "status": "HARD_PASS_PRESENT_CUSTODY_BINDING_PENDING"
+      },
+      {
+        "id": "G4",
+        "requirement": "Root actual publisher/full verifier/supervisor terminal evidence + detached release/STOP + new lock bindings",
+        "status": "PROSPECTIVE_REQUIRED_OUTPUTS_ABSENT"
+      },
+      {
+        "id": "G5",
+        "requirement": "independent bounded M2 preparation review，独立于G4",
+        "status": "SCOPED_PREPARATION_PASS"
+      },
+      {
+        "id": "G6",
+        "requirement": "G4后exact final304copy+final source/run+原full H01-H08/D02+new full M2 review+publication/custody",
+        "status": "PROSPECTIVE_REQUIRED_OUTPUTS_ABSENT"
+      }
+    ],
+    "next_chain": [
+      "G3:custody",
+      "G4",
+      "G6"
+    ],
+    "independent_slices": [
+      "FPC3:P2",
+      "SHCP5:E9",
+      "SC-M2:G5"
+    ],
+    "not_executed_by_this_audit": true
+  },
+  "modification_work_orders": [
+    {
+      "id": "MW01",
+      "priority": "P0",
+      "problem": "四scoped PASS未闭合G3/G4/G6",
+      "real_deliverable": "G4实际新lock/terminal release/STOP，G6 exact304copy/run与full M2独立接受",
+      "owner_role": "Root G3custody/G4；原SC-M1/SC-M2 owner各归属；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/current-lock-support-arbitration-20261009-r1-001/ARBITRATION.json",
+        "D:/AKF261009/M1/shared-dependency-support-r2/tools/produce_scoped_lock.py",
+        "D:/AKF261009/M1/shared-dependency-support-r2/tools/supervise_scoped_publication.py",
+        "D:/AKF261009/M1/shared-dependency-support-r2/tools/test_scoped_publication.py",
+        "D:/AKF261009/M2/shared-dependency-r1/tools/produce_dependency_run.py",
+        "D:/AKF261009/M2/shared-dependency-r1/tools/verify_dependency_package.py",
+        "D:/AKF261009/M2/shared-dependency-r1/tools/test_dependency_tools.py"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/M2/current-lock-support-arbitration-20261009-r1-001/ARBITRATION.json"
+      ],
+      "narrow_clarification_needed": "既有G1-G6不重规划；仅custody/path/input pins实际不符需原作者窄澄清",
+      "necessary_validation": "G4原publisher/full verifier/supervisor与terminal绑定；G6原full H01-H08/D02；one-use不重放",
+      "independent_zcode_acceptance": "现有SC-M1/SC-M2 prep PASS保留范围；G6真实最终M2新独立full硬审PASS/FAIL",
+      "depends_on": [
+        "G3 current custody",
+        "G4 before G6"
+      ],
+      "parallel_group": "SC-G3→G4→G6",
+      "mapped_scope": [
+        "SC-M1",
+        "SC-M2",
+        "RESEARCH-INTEGRATION"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW02",
+      "priority": "P1",
+      "problem": "DISPATCH H3/H12 FAIL且plan状态矛盾",
+      "real_deliverable": "修read_ack/原H3/H12行为、作者限定处置、fresh review",
+      "owner_role": "原DISPATCH owner修；原计划作者处置；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/DISPATCH/continuation-20261007-r2/PLAN.md"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/DISPATCH/continuation-20261007-r2/PLAN.md"
+      ],
+      "narrow_clarification_needed": "§79既有write-set继承新revision；“无usable verdict”须据实际FAIL处置",
+      "necessary_validation": "原required commands+H3/H12最小复现和修复验证；保留raw失败",
+      "independent_zcode_acceptance": "独立ZCode依原H-clauses/窄disposition接受真实修复，无条件PASS/FAIL",
+      "depends_on": [],
+      "parallel_group": "PAR-DISPATCH",
+      "mapped_scope": [
+        "DISPATCH"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "priority_scope": "并行修复，仅对应实际消费者依赖时阻塞该消费者；不是全局前置",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW03",
+      "priority": "P1",
+      "problem": "MASTERtools六反例未修；8真实scenario未跑",
+      "real_deliverable": "r2六文件修复/工程接受后按真实selected release跑原8场景",
+      "owner_role": "原MASTER tools owner；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/AKF261004/MASTER/b-tools-r2/integration/materialize_release.py",
+        "D:/AKF261004/MASTER/b-tools-r2/integration/verify_release.py",
+        "D:/AKF261004/MASTER/b-tools-r2/integration/run_release_scenarios.py",
+        "D:/AKF261004/MASTER/b-tools-r2/integration/tests/test_materialize_release.py",
+        "D:/AKF261004/MASTER/b-tools-r2/integration/tests/test_release_identity.py",
+        "D:/AKF261004/MASTER/b-tools-r2/integration/tests/test_release_scenarios.py"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/MASTER/b-tools-repair-r2/repair-plan.json"
+      ],
+      "narrow_clarification_needed": "复用已存r2plan；真实scenario只等自身selected release",
+      "necessary_validation": "原tool suite+6精确反例，blocked raw3/junction/cwd/skip/deselection真实观测",
+      "independent_zcode_acceptance": "工具独立hardPASS后才进实际8scenario；84历史自测不替代判决",
+      "depends_on": [
+        "selected releases only for actual scenarios"
+      ],
+      "parallel_group": "PAR-MASTER-TOOLS",
+      "mapped_scope": [
+        "MASTER-B-TOOLS"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "priority_scope": "并行修复，仅对应实际消费者依赖时阻塞该消费者；不是全局前置",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW04",
+      "priority": "P0",
+      "problem": "DATA-D1 self-capture collision，old one-use消耗",
+      "real_deliverable": "新revision修capture/absence归属，真实11helper/34outputs与full阶段交付",
+      "owner_role": "原DATA-D1 owner；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/coordination/model-routing-sol-20261006-r1/DATA/d1-materialize-002-candidate-r2/LEASE.json",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/dispatch/zcode-owner-data-d1-r3-continuation-materialize-001/LEASE.json"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/DATA/d1-full-stage-continuation-r1/PLAN.md"
+      ],
+      "narrow_clarification_needed": "candidate只是库存非launch；source_write_set=[]；按权威write_files_exact新批准窄修，不复跑旧command",
+      "necessary_validation": "实际materialization身份/存在性+原full suites；native1保留失败",
+      "independent_zcode_acceptance": "独立ZCode审真实新write-set/原D1 full requirements，旧3suite只partial",
+      "depends_on": [],
+      "parallel_group": "PAR-DATA-D1",
+      "mapped_scope": [
+        "DATA-D1",
+        "DP-RELEASE"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW05",
+      "priority": "P1",
+      "problem": "Q00 Q-H09遗漏existing payload，disposition未授metadata-onlyrepair",
+      "real_deliverable": "fresh bounded revision完整包及原适用接受",
+      "owner_role": "原Q00 owner；计划作者窄修；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/QUALIFICATION/r2/plan.json",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/QUALIFICATION/r2/PLAN.md",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/QUALIFICATION/q00-r6-review-disposition-r1/DISPOSITION.json"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/QUALIFICATION/r2/PLAN.md",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/QUALIFICATION/q00-r6-review-disposition-r1/DISPOSITION.json"
+      ],
+      "narrow_clarification_needed": "原r2 plan section9/Q-H09和disposition为权威归属入口；新revision由原作者窄授权。两个相对payload名沿权威包root映射，不推断绝对路径；旧r5只读；补两行不自动授权",
+      "necessary_validation": "新包完整性、原required commands和Q-H09counterexample",
+      "independent_zcode_acceptance": "独立ZCode新包原全适用条款PASS/FAIL；非其他领域通用前置",
+      "depends_on": [],
+      "parallel_group": "PAR-Q00",
+      "mapped_scope": [
+        "Q00"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "priority_scope": "并行修复，仅对应实际消费者依赖时阻塞该消费者；不是全局前置",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW06",
+      "priority": "P0",
+      "problem": "D2full review未启动；labels实施/G3后product review/PG未跑",
+      "real_deliverable": "两条独立冻结review，labels后续获准PG与原G5采用/apply",
+      "owner_role": "独立ZCode分别审；FAIL回各原owner；数据owner归属后续PG/apply",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/AKF261004/DATA/D2/r3/evidence/HANDOFF.md",
+        "D:/AKF261004/R/DATA/D2/source-intake-r2-r1/VERDICT.json",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/coordination/model-routing-sol-20261006-r1/DATA/market-data-session-label-repair-20261007-r1/owner-launch-r4-prepare-r2/IMPLEMENTATION-ADMISSION.json",
+        "D:/Projects/AK-trading/docs/maintenance/market-data-session-label-repair-20261007-r1/integration-candidates/PATCHSET.json"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/DATA/continuation-20261007-r4/PLAN.md",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/coordination/model-routing-sol-20261006-r1/DATA/market-data-session-label-repair-20261007-r1/hard-review-prepare-r3-ready/REQUEST-CANDIDATE.json"
+      ],
+      "narrow_clarification_needed": "D2沿原full要求；labels已有successor只需实际launch绑定，历史candidate不授配置变更",
+      "necessary_validation": "D2原8+2合法skip要求；labels必要独立复跑；9PGskip保持NOT_RUN直到获准disposable DB",
+      "independent_zcode_acceptance": "分别独立scope PASS/FAIL；source-intake/self-test/Root G3不替代product hardreview",
+      "depends_on": [
+        "D2 frozen selected r3",
+        "labels Root G3及原review admission",
+        "DB授权配置仅后续PG"
+      ],
+      "parallel_group": "PAR-D2 ∥ PAR-SESSION-LABEL",
+      "mapped_scope": [
+        "DATA-D2",
+        "SESSION-LABELS",
+        "DATA-QUALIFICATION"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "priority_scope": "已就绪冻结成果立即独立硬审；后续DB/apply/远端cards各有原门，非该硬审前置",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW07",
+      "priority": "P1",
+      "problem": "APUBguard PASS，真实publishermalformed/F2仍失败",
+      "real_deliverable": "实际publisher fresh包修复/完整适用接受，再selected DATA组合",
+      "owner_role": "原APUBpublisher owner；数据采用owner；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/development-completion-20260930-r1/WO-APUB-REPAIR-R3.md",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/APUB3/seal-guard-f1-repair-20261009-r3-001/ROOT-REPAIR-ADMISSION.json"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/development-completion-20260930-r1/WO-APUB-REPAIR-R3.md"
+      ],
+      "narrow_clarification_needed": "guard写集仅guard；真实publisher沿原plan freshrevision，malformed/F2窄输入处置",
+      "necessary_validation": "实际JSON/preflight、原publishercommands、F1/F2反例；采用原producer/clock验证",
+      "independent_zcode_acceptance": "独立真实publisher产品review；guardPASS保范围；采用另验收",
+      "depends_on": [
+        "DATA adoption needs selected accepted ACQD/P05/DP versions"
+      ],
+      "parallel_group": "PAR-APUB",
+      "mapped_scope": [
+        "APUB3",
+        "DATA-ADOPTION"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW08",
+      "priority": "P1",
+      "problem": "EX06 NP02aggregate guard/NP06 stale hash，full同版未接受",
+      "real_deliverable": "r7-005 stopped external delta→C1exact137→Rootbind→C2exact31/13/56→full review",
+      "owner_role": "EX-SIM/EX-CLIENT各原owner修自文件；EX06owner C1/C2；Rootbind；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/EXECUTION/continuation-20261007-r7-005/PLAN.md"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/EXECUTION/continuation-20261007-r7-005/PLAN.md"
+      ],
+      "narrow_clarification_needed": "固定顺序；执行D1非DATA-D1；C1仅2actual stopped D1文件+5identitycarriers，最多6differences；不越owner",
+      "necessary_validation": "C1exact137/identity差异、Rootbind后C2 31commands/13groups/56phases与两最小反例",
+      "independent_zcode_acceptance": "独立full同版review；后再S3；当前brokerNOT_RUN/enable_tradingFalse",
+      "depends_on": [
+        "external stopped EX-SIM/EX-CLIENT deltas",
+        "C1→Rootbind→C2"
+      ],
+      "parallel_group": "PAR-EXECUTION",
+      "mapped_scope": [
+        "EX06",
+        "EXECUTION-INTEGRATION",
+        "NP06-S3"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW09",
+      "priority": "P1",
+      "problem": "原R5 source四反例未获修复接受；10-09 transfer已立即生效，旧tree不得再写",
+      "real_deliverable": "Root行政撤销LC旧writegrants/取消unused WCprepared route、精确321-member supervised snapshot及detached custody；fresh LC-NATIVE/LC-TEST并行实施、WCprepare后继actualLCrefs实施，最终whole-contract接受",
+      "owner_role": "Root行政撤销/snapshot/fresh admission；新Sol/max successor LC/WC seats各自写集；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/UPDATED-PLAN.json",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/ROOT-ACTIONS.json"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/continuation-20261007-r3/PLAN.md",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/UPDATED-PLAN.json",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/RUNTIME-R5/dependency-fix-transfer-adoption-20261009-r1-001/ROOT-ACTIONS.json"
+      ],
+      "narrow_clarification_needed": "有效transfer无需追加批准/unchanged plan review，不能继续等待历史producer STOP。UPDATED-PLAN successor_roles为exact isolated写集；driver仅Root先枚举/hash两literal，WCmetadata沿原限制；不改旧copy/不捏历史终态",
+      "necessary_validation": "按ROOT-ACTIONS exact321 allowlist（每成员bytes/hash、exact-set、排除aliases/reparse/hardlinks、source前后pin），监督新snapshot进程退出/closed streams后detached custody；successor先failure intake，原source反例/必要命令；LC/WC引用按原门",
+      "independent_zcode_acceptance": "原SOURCE_STATIC FAIL保留；全契约实现/必要验证完成后freeze真实write-set并立即独立ZCode whole-contract hard review，无条件PASS/FAIL；FAIL回same new successor owner",
+      "depends_on": [
+        "Root行政撤销旧writegrant/取消unused prepared route（非旧producer native STOP）",
+        "successful exact321 supervised snapshot terminal/detached custody before fresh admissions",
+        "LC-TEST实际successor STOP→Root LCfinal assembly；WC实施继actual stopped finalLCrefs"
+      ],
+      "parallel_group": "PAR-LC-NATIVE ∥ PAR-LC-TEST → WC",
+      "mapped_scope": [
+        "RUNTIME-R5",
+        "RUNTIME-QUALIFICATION",
+        "QMH"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "按有效transfer换新successor；保留旧失败/缺失native identity信用0；后续hardFAIL回same new successor owner，新修复freeze/fresh review",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only",
+      "snapshot_member_count": 321
+    },
+    {
+      "id": "MW10",
+      "priority": "P0",
+      "problem": "MACRO r5 owner绿但独立r3FAIL；本地MR2非remote接受",
+      "real_deliverable": "独立r5实际32source/6delta review，FAIL原owner修；可靠report源/cards另交付",
+      "owner_role": "独立ZCode审producer；原MACROowner；获授权remote只读观察",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/MACRO/continuation-20261007-r2/FILE-LEASE.json"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/MACRO/continuation-20261007-r2/PLAN.md"
+      ],
+      "narrow_clarification_needed": "按FILE-LEASE各source/root/evidence/handoff/commandcarriers精确写集；remote当前UNKNOWN先只读，不改config",
+      "necessary_validation": "原Q01/Q02/Q03/QJ4+F01反例；Q05/economic/PIT沿原要求",
+      "independent_zcode_acceptance": "独立producer实际write-setPASS/FAIL；MR2有限PASS、remote/cards各自范围",
+      "depends_on": [
+        "local selected MR2 only for its consumers",
+        "reliable remote source only for cards/production"
+      ],
+      "parallel_group": "PAR-MACRO-LOCAL ∥ authorized REMOTE-OBSERVATION",
+      "mapped_scope": [
+        "MACRO-PRODUCER",
+        "MR2",
+        "ECON-PRODUCTION",
+        "MACRO-CARDS"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "priority_scope": "已就绪冻结成果立即独立硬审；后续DB/apply/远端cards各有原门，非该硬审前置",
+      "dependency_scope": {
+        "r5_independent_hard_review": "existing frozen r5 actual write-set; no remote-report gate",
+        "local_adoption": "selected MR2 for its consumers",
+        "remote_cards": "reliable report source and separate acceptance"
+      },
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW11",
+      "priority": "P1",
+      "problem": "EP1仅source/capacity，FPC3仅P2；正式research未真集成",
+      "real_deliverable": "EP1 actual partition/train/fit、FPC既定final交付；G6后同版research组合",
+      "owner_role": "原EP1/FPC/研究模块owners各自归属；独立ZCode",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/AKF261008/EP1/ep1-capacity-r1/evidence/owner-source-r1/LEASE.json",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/FPC3/continuation-20261007-r5/PLAN.json",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/FPC3/scope-clarification-successor-20261009-r5-005-002/PLAN.md"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/FPC3/continuation-20261007-r5/PLAN.md",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/FPC3/scope-clarification-route-arbitration-20261009-r5-005-002-p2/ROUTE-ARBITRATION.json"
+      ],
+      "narrow_clarification_needed": "已PASS容量/P2不重复same-scope审；EP1actual fit写集/研究selected-input缺口先原作者窄澄清，不能由capacitylease扩权；M3A十二文件review-prep/作者baseline与M3B plan PASS后的P0 lock/source-attribution原门明确保留",
+      "necessary_validation": "各现有required commands与实际generation/fit/final-run；旧ep1_t7malformed保留；正式60成熟日+≥20尾段/原M5阈值",
+      "independent_zcode_acceptance": "独立实际最终write-set/适用产品review；source/capacity≠fit/fullnode/统计资格",
+      "depends_on": [
+        "EP1/FPC preparation independent",
+        "G6+selected researchinput before fullintegration"
+      ],
+      "parallel_group": "PAR-EP1 ∥ PAR-FPC → RESEARCH",
+      "mapped_scope": [
+        "EP1",
+        "FPC",
+        "RESEARCH-INTEGRATION",
+        "FORMAL-RESEARCH",
+        "RESEARCH-INPUT"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    },
+    {
+      "id": "MW12",
+      "priority": "P2",
+      "problem": "旧MH02/MH05/KEYSET/SNAPSHOT/NF及remote/采用UNKNOWN，完整资格缺新证据",
+      "real_deliverable": "逐consumer选版/缺项台账，原plan实际资格/20日feed/formal/shadow与获准S3交付",
+      "owner_role": "Sol/max规划，各原owner分属；独立ZCode；UI由用户",
+      "file_ownership_or_authoritative_write_set": [
+        "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+        "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/01-architecture.md"
+      ],
+      "reuse_plan_paths": [
+        "D:/Projects/AK-trading/docs/development-blueprint-20261001-r1/workstreams.json",
+        "D:/Projects/AK-trading/docs/parallel-development-20261004-r1/plans/MASTER/continuation-20261007-r2/PLAN.md"
+      ],
+      "narrow_clarification_needed": "这是原合同/选版入口非全仓writelease；逐项登记selected source+既有owner writeset，UNKNOWN窄澄清；不强制commit/fullseal；优先复用已采纳MASTER-BASE intake计划，现有plan不是实物intake/PASS",
+      "necessary_validation": "原功能/性能资格；20actualdayfeed、60+≥20formal、完整shadow、S3真实send/cancel0，各等原授权/门",
+      "independent_zcode_acceptance": "独立各原plan实际write-set；阶段PASS不代采用/部署/统计；不新增通用Q00/native/PG门",
+      "depends_on": [
+        "per-consumer accepted sources",
+        "historical and realfeed routes merge at fullshadow",
+        "NP07 explicit user authorization"
+      ],
+      "parallel_group": "PAR-VERSION-RECONCILIATION then per-consumer gates",
+      "mapped_scope": [
+        "MH02",
+        "MH03",
+        "MH05",
+        "KEYSET",
+        "SNAPSHOT",
+        "P4",
+        "NF-DELIVERY",
+        "FEED-QUALIFICATION",
+        "SHADOW-ACCEPTANCE",
+        "NP06-S3",
+        "NP07",
+        "ECON-PRODUCTION",
+        "MACRO-VALIDATION"
+      ],
+      "execution_authorized_by_this_document": false,
+      "repair_policy": "FAIL原owner用新revision修；保留历史；active-review写冻结；未分配实现由独立Sol/max owner",
+      "path_semantics": "existing plans/leases/frozen inputs are required existing references; newly planned b-tools-r2 files are prospective owned outputs, not mandatory existing inputs; Q00 r5 stays read-only"
+    }
+  ],
+  "operational_findings": [
+    {
+      "id": "OP01",
+      "finding": "STATE-048为10-07窄data snapshot，不是今日全项目状态",
+      "evidence_ids": [
+        "E25"
+      ],
+      "read_date": "2026-10-10",
+      "implication": "保留pair/row限制；labels按实际owner/G3替换旧prelaunch态"
+    },
+    {
+      "id": "OP02",
+      "finding": "Root git raw128源于继承的GIT_CONFIG_KEY_0缺失；child-only GIT_CONFIG_COUNT=0得native0：master无commit且大量source untracked",
+      "evidence_ids": [],
+      "observation_source": "Root current tool observation",
+      "read_date": "2026-10-10",
+      "implication": "未改持久config；不称HEAD/diff全仓审核，不加mandatory commit，按已有冻结manifest选版"
+    },
+    {
+      "id": "OP03",
+      "finding": "codebase-memory root index 2026-08-05/65files；当前docs not_tracked/metadata_changed/coverage unavailable",
+      "evidence_ids": [],
+      "observation_source": "Root/audit structural-index observation",
+      "read_date": "2026-10-10",
+      "implication": "结论依直接文件读取，不声称结构图覆盖全部代码"
+    },
+    {
+      "id": "OP04",
+      "finding": "真实MR2 PASS、DISPATCH FAIL优先于滞后wrapper/错误plan态；MR2不接受MACRO producer",
+      "evidence_ids": [
+        "E07",
+        "E18",
+        "E23",
+        "E30"
+      ],
+      "read_date": "2026-10-10",
+      "implication": "保留矛盾，原作者窄处置；owner自测不能盖独立FAIL",
+      "unverified_related_items": [
+        "QUALIFICATION Q01完整路径证据本轮未核实，不赋接受信用；不同于MACRO自测suite Q01"
+      ]
+    },
+    {
+      "id": "OP05",
+      "finding": "旧15–25%缺工作量权重/统一出口，不可信总体进度",
+      "evidence_ids": [
+        "E06"
+      ],
+      "read_date": "2026-10-10",
+      "implication": "无新百分比，分别追踪实现/独立接受/采用实物门"
+    },
+    {
+      "id": "OP06",
+      "finding": "本轮授权文档与修改计划；旧STOP不挡文档，新plan不自动授产品执行",
+      "evidence_ids": [],
+      "observation_source": "本轮用户与Root限定任务",
+      "read_date": "2026-10-10",
+      "implication": "默认Sol/max规划开发+独立ZCode；Astra本轮许可；无modelconfig更改"
+    }
+  ],
+  "parallel_policy": {
+    "disjoint_preparation": true,
+    "no_gate_skipping": true,
+    "groups": "MW02/03/04/05/06/07/08/09/10/11各可按写集/原门并行；MW01 G3→G4→G6；R5 Root行政撤销/321快照后LC两seat并行、WCprepare且实施继actualLCrefs；fullresearch继G6/EP1/输入；fullshadow等formal与feed原门",
+    "active_review_write_sets": "只读；未经scope重裁不得写；本轮不启动产品",
+    "priority_rule": "P0=MW01核心依赖交付、MW04真实DATA-D1阻塞、MW06/MW10就绪成果立即硬审；DISPATCH/MASTERtools/Q00并行P1非全局前置；后续DB/apply/remote按自身原门"
+  },
+  "authorized_document_write_set": [
+    "D:/Projects/AK-trading/PROJECT-STATUS.md",
+    "D:/Projects/AK-trading/docs/development-blueprint-20261010-r1/REVIEW-AND-PLAN.md",
+    "D:/Projects/AK-trading/docs/development-blueprint-20261010-r1/workstreams.json"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "schema": "ak-nf22-frame-tiers/1.0.0",
+  "description": "NF22 FRAME_SYNTHETIC identity fixture: frozen synthetic kline-frame schema, three pre-registered row tiers (H22), and the frozen validation rule set. The column contract mirrors the documented DP serial column whitelist (SDK_FRAME_COLUMNS in src/ak_trading/datapipeline/session_factory.py) and the per-tier composition mirrors the documented build_synthetic_frame parameter shape (padding/closed/live/invalid/duplicate rows); the generator code itself is NF22-owned (see tools/benchmarks/workloads/datapipeline.py) because the DP-owner release source-map is PENDING. This fixture is hashed into the case identity: editing it changes the case digest and requires a new expected_digest freeze.",
+  "origin": "SYNTHETIC",
+  "column_contract": {
+    "columns": ["datetime", "open", "high", "low", "close", "volume", "open_oi", "close_oi"],
+    "datetime_unit": "epoch_nanos",
+    "mirrors": "src/ak_trading/datapipeline/session_factory.py:SDK_FRAME_COLUMNS (documented reference only; not imported by the workload)"
+  },
+  "validation_rules": [
+    {
+      "rule_id": "RULE_NON_NULL_DATETIME",
+      "class_on_fail": "padding",
+      "check": "row datetime must be a finite float (NaN head rows classify as padding, never accepted input rows)"
+    },
+    {
+      "rule_id": "RULE_ALL_FIELDS_FINITE",
+      "class_on_fail": "invalid",
+      "check": "open/high/low/close/volume/open_oi/close_oi must be finite floats"
+    },
+    {
+      "rule_id": "RULE_OHLC_SANITY",
+      "class_on_fail": "invalid",
+      "check": "high >= low and high >= max(open, close) and low <= min(open, close)"
+    },
+    {
+      "rule_id": "RULE_KEY_UNIQUE",
+      "class_on_fail": "duplicate",
+      "check": "datetime key must not repeat within a frame (repeats classify as duplicate rows, not newly accepted input rows)"
+    }
+  ],
+  "row_generation": {
+    "start_nano_formula": "1700000000000000000 + (seed % 1000000000)",
+    "price_base_formula": "4000.0 + (seed % 97) * 0.25",
+    "step_formula": "1.0 + row_index * 0.5 (mirrors the documented DP synthetic step shape; all values derive deterministically from seed and indices, no RNG)"
+  },
+  "tiers": [
+    {
+      "tier": "small",
+      "duration_seconds": 60,
+      "padding_rows": 40,
+      "closed_rows": 300,
+      "live_rows": 30,
+      "invalid_rows": 10,
+      "duplicate_rows": 10,
+      "expected": {
+        "total_rows": 380,
+        "accepted_rows": 320,
+        "rejected_padding": 40,
+        "rejected_invalid": 10,
+        "duplicates": 10
+      }
+    },
+    {
+      "tier": "medium",
+      "duration_seconds": 60,
+      "padding_rows": 100,
+      "closed_rows": 1500,
+      "live_rows": 80,
+      "invalid_rows": 30,
+      "duplicate_rows": 25,
+      "expected": {
+        "total_rows": 1705,
+        "accepted_rows": 1550,
+        "rejected_padding": 100,
+        "rejected_invalid": 30,
+        "duplicates": 25
+      }
+    },
+    {
+      "tier": "large",
+      "duration_seconds": 60,
+      "padding_rows": 250,
+      "closed_rows": 6000,
+      "live_rows": 200,
+      "invalid_rows": 60,
+      "duplicate_rows": 40,
+      "expected": {
+        "total_rows": 6490,
+        "accepted_rows": 6140,
+        "rejected_padding": 250,
+        "rejected_invalid": 60,
+        "duplicates": 40
+      }
+    }
+  ],
+  "cycle_policy": {
+    "tier_cycle": "small, medium, large, small, ... (operation k uses tiers[k % 3]; warmup and measured operations advance the same cycle)",
+    "denominator": "accepted input rows per operation (units); padding/invalid/duplicate rows are counted and reported but never counted as accepted"
+  }
+}

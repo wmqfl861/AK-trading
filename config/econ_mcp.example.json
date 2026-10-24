@@ -1,0 +1,15 @@
+{
+  "mcp": {
+    "servers": {
+      "econ": {
+        "type": "http",
+        "url": "https://econnews.85.137.246.111.sslip.io/mcp",
+        "headers": {
+          "Authorization": "Bearer <YOUR_ECON_MCP_TOKEN>"
+        },
+        "enabled": true,
+        "timeoutMs": 120000
+      }
+    }
+  }
+}

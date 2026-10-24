@@ -1,0 +1,45 @@
+{
+  "operation": "20261024-001-download-run002",
+  "entrypoint_sha256": "6682d51ab3602c1a3140dc6f67e9cd60dfaa70bf7a3367c4112b60c5bd1c231a",
+  "argv": [
+    "D:/Programs/Python/Python312/python.exe",
+    "-B",
+    "-I",
+    "-X",
+    "utf8",
+    "D:\\Projects\\AK-trading\\data\\market_data_backfill\\20261024-001\\download_recent_run002.py"
+  ],
+  "cwd": "D:\\Projects\\AK-trading",
+  "stdin_keys": [
+    "tq_user",
+    "tq_pass"
+  ],
+  "outputs_not_present": true,
+  "output_root": "D:\\Projects\\AK-trading\\data\\market_data_backfill\\20261024-001\\download-run002",
+  "series": [
+    {
+      "symbol": "KQ.m@CZCE.LR",
+      "duration_seconds": 60,
+      "requested_rows": 10000
+    },
+    {
+      "symbol": "KQ.i@CZCE.LR",
+      "duration_seconds": 86400,
+      "requested_rows": 128
+    }
+  ],
+  "maximum_apis": 1,
+  "maximum_concurrent_fetches": 1,
+  "application_budget_seconds": 240,
+  "recommended_supervisor_budget_seconds": 300,
+  "rss_limit_bytes": 1073741824,
+  "estimated_output_upper_bound_bytes": 5242880,
+  "enable_trading": false,
+  "broker": "NOT_RUN",
+  "real_sends": 0,
+  "real_cancels": 0,
+  "ssl_error_output": "types, integer verify_code/errno, known reason tokens, shinnytech.com subdomain only; no exception text, URI, query, credentials",
+  "source_helpers_unchanged": true,
+  "tls_verification_changed": false,
+  "previous_attempt": "run001 native2 SSLError; preserved, not replayed"
+}

@@ -1,0 +1,71 @@
+{
+  "algorithm_version": "UNKNOWN",
+  "backend": "python-inprocess",
+  "budget": {
+    "formal": {
+      "batches": 5,
+      "case_timeout_s": 600,
+      "operations_per_batch": 20,
+      "warmup_operations": 20
+    },
+    "smoke": {
+      "case_timeout_s": 30,
+      "operations": 200,
+      "warmup_operations": 20
+    }
+  },
+  "case_id": "observer/normalize_reject_violations_inprocess",
+  "correctness": {
+    "expected_digest": "8cf652a7033315e9452f24183d42d0c2b9f5a0b5581c66722bf21e2cc654c932",
+    "kind": "digest",
+    "normalizations": []
+  },
+  "description": "SYNTHETIC in-process measurement of the normalize REJECTION path: invalid_tick / ticks_limit / invalid_quote violations cycled deterministically; correctly produced rejections are the work unit and are accounted separately from the accept case. Pure in-process CPU measurement: no I/O, no sockets, no service objects.",
+  "domain": "observer",
+  "eligible_for_baseline": true,
+  "environment": {
+    "depends_on": [
+      "ak_trading"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/fixtures/observer/payload-spec.json",
+      "role": "input"
+    },
+    {
+      "path": "tools/benchmarks/workloads/observer.py",
+      "role": "workload"
+    }
+  ],
+  "measured_modules": [
+    "ak_trading.infiny_bridge.protocol",
+    "ak_trading.infiny_bridge.connection"
+  ],
+  "measurement": {
+    "batch_size": 100,
+    "includes_io": false,
+    "min_operations": 100,
+    "reset_method": "none",
+    "sample_mode": "per_operation",
+    "units": "payloads",
+    "units_per_operation": 1
+  },
+  "origin": "SYNTHETIC",
+  "params": {
+    "case": "observer/normalize_reject_violations_inprocess",
+    "payload_spec": "tools/benchmarks/fixtures/observer/payload-spec.json",
+    "seed": 20260924
+  },
+  "policy_version": "nf23-observer-bench-r1",
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "workload": {
+    "entrypoint": "build_normalize_reject",
+    "source": "tools/benchmarks/workloads/observer.py"
+  }
+}

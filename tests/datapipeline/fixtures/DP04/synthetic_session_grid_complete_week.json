@@ -1,0 +1,151 @@
+{
+  "schema_version": "datapipeline-calendar-evidence-v1",
+  "dataset": "futures_kline",
+  "source_id": "tqsdk-free-realtime-get-kline-serial",
+  "data_origin": "SYNTHETIC",
+  "synthetic_marker": "SYNTHETIC FIXTURE - fictional exchange SYNTHEX year 2027 - proves calendar LOGIC only, never a historical or live-market fact",
+  "announced_at_nano": null,
+  "evidence_text_sha256": null,
+  "review_status": "synthetic_fixture",
+  "evidence_version": "synth-grid-complete-week-r1",
+  "evidence_kind": "SESSION_GRID",
+  "applicability": {
+    "exchanges": [],
+    "products": [
+      "synth.rb"
+    ],
+    "source_symbols": []
+  },
+  "valid_from_nano": "1803830400000000000",
+  "valid_through_nano": "1804435200000000000",
+  "coverage": "COMPLETE_IN_VALIDITY_DOMAIN",
+  "pit_basis": "OBTAINED_AT",
+  "obtained_at_nano": "1804334400000000000",
+  "evidence_reference": "SYNTHETIC: hand-authored DP04 fixture (synthetic_session_grid_complete_week.json)",
+  "sessions": [
+    {
+      "trading_day": "2027-03-01",
+      "segments": [
+        {
+          "kind": "DAY",
+          "start_nano": "1803862800000000000",
+          "end_nano": "1803867300000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1803868200000000000",
+          "end_nano": "1803871800000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1803879000000000000",
+          "end_nano": "1803884400000000000"
+        }
+      ]
+    },
+    {
+      "trading_day": "2027-03-02",
+      "segments": [
+        {
+          "kind": "NIGHT",
+          "start_nano": "1803906000000000000",
+          "end_nano": "1803920400000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1803949200000000000",
+          "end_nano": "1803953700000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1803954600000000000",
+          "end_nano": "1803958200000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1803965400000000000",
+          "end_nano": "1803970800000000000"
+        }
+      ]
+    },
+    {
+      "trading_day": "2027-03-03",
+      "segments": [
+        {
+          "kind": "NIGHT",
+          "start_nano": "1803992400000000000",
+          "end_nano": "1804006800000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804035600000000000",
+          "end_nano": "1804040100000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804041000000000000",
+          "end_nano": "1804044600000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804051800000000000",
+          "end_nano": "1804057200000000000"
+        }
+      ]
+    },
+    {
+      "trading_day": "2027-03-04",
+      "segments": [
+        {
+          "kind": "NIGHT",
+          "start_nano": "1804078800000000000",
+          "end_nano": "1804093200000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804122000000000000",
+          "end_nano": "1804126500000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804127400000000000",
+          "end_nano": "1804131000000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804138200000000000",
+          "end_nano": "1804143600000000000"
+        }
+      ]
+    },
+    {
+      "trading_day": "2027-03-05",
+      "segments": [
+        {
+          "kind": "NIGHT",
+          "start_nano": "1804165200000000000",
+          "end_nano": "1804179600000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804208400000000000",
+          "end_nano": "1804212900000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804213800000000000",
+          "end_nano": "1804217400000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1804224600000000000",
+          "end_nano": "1804230000000000000"
+        }
+      ]
+    }
+  ],
+  "closed_dates": [],
+  "notes": [
+    "SYNTHETIC fixture, coverage COMPLETE_IN_VALIDITY_DOMAIN: the grid enumerates every session in [2027-03-01, 2027-03-08), so the weekend (03-06/03-07) AND Friday evening after 15:00 (no Friday night before the domain edge) are NO_TRADING_EVIDENCED by enumeration."
+  ]
+}

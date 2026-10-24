@@ -1,0 +1,69 @@
+{
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "case_id": "v2/validation_bootstrap",
+  "description": "SYNTHETIC case: one block_bootstrap call (validation/metrics.py:56) per operation over a frozen 40-block x 6-value layout with the production 1000-replicate seed-driven semantics untouched; verify() checks interval determinism and refuses a shrunken replicate count.",
+  "origin": "SYNTHETIC",
+  "domain": "v2",
+  "backend": "python-inprocess",
+  "eligible_for_baseline": true,
+  "algorithm_version": "v2-validation-worktree-20260924",
+  "policy_version": "research-policy-v2.1.0",
+  "workload": {
+    "source": "tools/benchmarks/workloads/v2.py",
+    "entrypoint": "build"
+  },
+  "measured_modules": [
+    "ak_trading.v2.validation.metrics"
+  ],
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/workloads/v2.py",
+      "role": "workload"
+    },
+    {
+      "path": "tools/benchmarks/fixtures/v2/validation.json",
+      "role": "input"
+    }
+  ],
+  "params": {
+    "case": "validation_bootstrap",
+    "seed": 20260924,
+    "case_family": "VALIDATION_METRICS",
+    "bootstrap_replicates": 1000
+  },
+  "measurement": {
+    "sample_mode": "per_operation",
+    "units": "bootstrap_calls",
+    "units_per_operation": 1,
+    "min_operations": 100,
+    "batch_size": 100,
+    "reset_method": "none",
+    "includes_io": false
+  },
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "environment": {
+    "depends_on": []
+  },
+  "correctness": {
+    "kind": "digest",
+    "expected_digest": "bd254f05e878695f5e6535176206095e83e14f725268e27cb931761f413a8282",
+    "normalizations": []
+  },
+  "budget": {
+    "smoke": {
+      "warmup_operations": 20,
+      "operations": 100,
+      "case_timeout_s": 30
+    },
+    "formal": {
+      "batches": 5,
+      "warmup_operations": 20,
+      "operations_per_batch": 20,
+      "case_timeout_s": 600
+    }
+  }
+}

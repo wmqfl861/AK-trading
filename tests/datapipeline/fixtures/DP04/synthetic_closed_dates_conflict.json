@@ -1,0 +1,35 @@
+{
+  "schema_version": "datapipeline-calendar-evidence-v1",
+  "dataset": "futures_kline",
+  "source_id": "tqsdk-free-realtime-get-kline-serial",
+  "data_origin": "SYNTHETIC",
+  "synthetic_marker": "SYNTHETIC FIXTURE - fictional exchange SYNTHEX year 2027 - proves calendar LOGIC only, never a historical or live-market fact",
+  "announced_at_nano": null,
+  "evidence_text_sha256": null,
+  "review_status": "synthetic_fixture",
+  "evidence_version": "synth-closed-conflict-r1",
+  "evidence_kind": "EXCHANGE_CLOSED_DATES",
+  "applicability": {
+    "exchanges": [
+      "SYNTH"
+    ],
+    "products": [],
+    "source_symbols": []
+  },
+  "valid_from_nano": "1798732800000000000",
+  "valid_through_nano": "1830268800000000000",
+  "pit_basis": "OBTAINED_AT",
+  "obtained_at_nano": "1804593600000000000",
+  "evidence_reference": "SYNTHETIC: hand-authored DP04 fixture (synthetic_closed_dates_conflict.json)",
+  "closed_dates": [
+    {
+      "exchange": "SYNTH",
+      "date": "2027-02-22",
+      "reason": "SYNTHETIC_CONTRADICTORY_CLOSURE"
+    }
+  ],
+  "sessions": [],
+  "notes": [
+    "SYNTHETIC fixture: declares 2027-02-22 closed while synth-grid-r1 evidences sessions that day - drives the grid-vs-closed-date CONFLICT answer."
+  ]
+}

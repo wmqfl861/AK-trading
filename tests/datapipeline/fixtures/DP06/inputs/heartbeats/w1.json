@@ -1,0 +1,10 @@
+{
+ "data_origin": "SYNTHETIC",
+ "heartbeat_at_nano": 1789929270000000000,
+ "heartbeat_interval_nano": 30000000000,
+ "heartbeat_source": "heartbeats/w1.json",
+ "run_id": "run-20260920-x",
+ "schema": "dp06-fixtures/1",
+ "started_at_nano": 1789908600000000000,
+ "worker_id": "w1"
+}

@@ -1,0 +1,9 @@
+{
+  "purpose": "Owner exact offline read-only recheck successor; initial failure retained in OFFLINE-RECHECK-RESULT.json",
+  "native_exit": 0,
+  "stdout": "{\"status\": \"OFFLINE_RECHECK_OK\", \"lr_source_rows\": 10128, \"minute_tail_rows\": 306930, \"index_daily_rows\": 2640, \"stored_unknown_trading_day_rows\": 2100}\n",
+  "stderr": "",
+  "database_access": "NOT_RUN",
+  "sdk_constructed": false,
+  "network": "NOT_RUN"
+}

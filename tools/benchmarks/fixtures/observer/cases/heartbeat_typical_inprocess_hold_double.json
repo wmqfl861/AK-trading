@@ -1,0 +1,72 @@
+{
+  "algorithm_version": "UNKNOWN",
+  "backend": "python-inprocess",
+  "budget": {
+    "formal": {
+      "batches": 5,
+      "case_timeout_s": 600,
+      "operations_per_batch": 20,
+      "warmup_operations": 20
+    },
+    "smoke": {
+      "case_timeout_s": 30,
+      "operations": 200,
+      "warmup_operations": 20
+    }
+  },
+  "case_id": "observer/heartbeat_typical_inprocess_hold_double",
+  "correctness": {
+    "expected_digest": "16011db91c999a441061a9185cc493d05a0973b8e326b6a51987487f9525ebc4",
+    "kind": "digest",
+    "normalizations": []
+  },
+  "description": "SYNTHETIC in-process measurement of BridgeService.heartbeat (minimal legal heartbeat envelope; evaluator must never be invoked; response hold/heartbeat). Timed operation includes one temp-audit JSONL write+flush in the run temporary directory (audit log enabled); single evaluator worker, raw sink disabled; no HTTP/socket.",
+  "domain": "observer",
+  "eligible_for_baseline": true,
+  "environment": {
+    "depends_on": [
+      "ak_trading"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/fixtures/observer/payload-spec.json",
+      "role": "input"
+    },
+    {
+      "path": "tools/benchmarks/workloads/observer.py",
+      "role": "workload"
+    }
+  ],
+  "measured_modules": [
+    "ak_trading.infiny_bridge.service",
+    "ak_trading.infiny_bridge.protocol",
+    "ak_trading.infiny_bridge.connection"
+  ],
+  "measurement": {
+    "batch_size": 100,
+    "includes_io": true,
+    "min_operations": 100,
+    "reset_method": "none",
+    "sample_mode": "per_operation",
+    "units": "requests",
+    "units_per_operation": 1
+  },
+  "origin": "SYNTHETIC",
+  "params": {
+    "case": "observer/heartbeat_typical_inprocess_hold_double",
+    "payload_spec": "tools/benchmarks/fixtures/observer/payload-spec.json",
+    "seed": 20260924
+  },
+  "policy_version": "nf23-observer-bench-r1",
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "workload": {
+    "entrypoint": "build_heartbeat",
+    "source": "tools/benchmarks/workloads/observer.py"
+  }
+}

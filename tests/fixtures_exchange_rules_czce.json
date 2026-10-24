@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "product": "TA",
+      "url": "https://www.czce.com.cn/fixture/ta-rules.json",
+      "title": "CZCE TA fixture rules",
+      "content_type": "application/json",
+      "effective_date": "2026-08-01",
+      "content": {
+        "rules": [
+          {"product": "TA", "contract": "CZCE.TA609", "category": "fee", "field": "open", "value": "3", "unit": "cny_per_lot", "status": "candidate"},
+          {"product": "TA", "contract": "CZCE.TA609", "category": "fee", "field": "close", "value": "3", "unit": "cny_per_lot", "status": "candidate"},
+          {"product": "TA", "contract": "CZCE.TA609", "category": "fee", "field": "close_today", "value": "0", "unit": "cny_per_lot", "value_kind": "explicit_zero", "status": "candidate"},
+          {"product": "TA", "contract": "CZCE.TA609", "category": "margin", "field": "ordinary_rate", "value": "0.10", "unit": "rate_of_notional", "status": "candidate"}
+        ]
+      }
+    }
+  ]
+}

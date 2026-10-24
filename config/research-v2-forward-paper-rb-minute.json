@@ -1,0 +1,23 @@
+{
+  "schema_version": "ak_forward_paper_host_v1",
+  "purpose": "RESEARCH_EVALUATION",
+  "experiment_type": "FORWARD_PAPER_RESEARCH",
+  "final_holdout": false,
+  "strategy_ids": ["trend_m1_v2", "breakout_m1_v2", "pullback_m1_v2"],
+  "routing_modes": ["BEST_EV", "PROBABILITY_SAMPLE", "FIXED", "CASH"],
+  "initial_equity_cny": "1000000",
+  "seed": 7,
+  "cost_scenario": "BASE",
+  "enable_trading": false,
+  "observer": "hold",
+  "broker": "NOT_RUN",
+  "budgets": {
+    "first_wall_seconds": 600,
+    "later_wall_seconds_max": 3600,
+    "memory_limit_bytes": 2147483648,
+    "output_limit_bytes": 1073741824,
+    "tqapi_connections_max": 1,
+    "subscriptions_max": 4,
+    "sdk_order_calls_max": 0
+  }
+}

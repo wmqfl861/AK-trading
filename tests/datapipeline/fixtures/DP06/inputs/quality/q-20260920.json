@@ -1,0 +1,42 @@
+[
+ {
+  "as_of_nano": 1789929300000000000,
+  "calendar_unknown_ranges": 0,
+  "check_execution": "COMPLETED",
+  "commit_view_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+  "conflicts": 0,
+  "coverage_state": "PARTIAL",
+  "data_origin": "SYNTHETIC",
+  "evaluation_id": "q-20260920-t1",
+  "generation_evidence_sha256": null,
+  "missing": 5,
+  "provisional": 0,
+  "quarantined": 2,
+  "scope": "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60",
+  "source_unknown_ranges": 0,
+  "target_total": 8192,
+  "universe_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "valid_unique_closed": 8185,
+  "verified_denominator": 8192
+ },
+ {
+  "as_of_nano": 1789929300000000000,
+  "calendar_unknown_ranges": null,
+  "check_execution": "NOT_RUN",
+  "commit_view_sha256": null,
+  "conflicts": null,
+  "coverage_state": null,
+  "data_origin": "SYNTHETIC",
+  "evaluation_id": "q-20260920-t2",
+  "generation_evidence_sha256": null,
+  "missing": null,
+  "provisional": null,
+  "quarantined": null,
+  "scope": "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400",
+  "source_unknown_ranges": null,
+  "target_total": null,
+  "universe_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "valid_unique_closed": null,
+  "verified_denominator": null
+ }
+]

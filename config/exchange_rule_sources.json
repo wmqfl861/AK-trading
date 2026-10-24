@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "code": "SHFE",
+      "official_domains": ["shfe.com.cn"],
+      "products": [
+        {
+          "code": "RB",
+          "contract": "SHFE.rb2610",
+          "query": "site:shfe.com.cn 螺纹钢 交易手续费 交易保证金 涨跌停板",
+          "seed_urls": [
+            "https://www.shfe.com.cn/reports/businessdata/feeandcharges/202602/W020260212599967916286.xlsx",
+            "https://www.shfe.com.cn/publicnotice/notice/202605/t20260515_831713.html",
+            "https://www.shfe.com.cn/regulation/exchangerules/productrules/202512/t20251231_829962.html"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "CZCE",
+      "official_domains": ["czce.com.cn"],
+      "products": [
+        {
+          "code": "TA",
+          "contract": "CZCE.TA609",
+          "query": "site:czce.com.cn PTA 交易手续费 交易保证金 涨跌停板",
+          "seed_urls": [
+            "https://www.czce.com.cn/cn/gyjys/jysdt/ggytz/webinfo/2026/6/9c4c45f4d3594b28934613798bfccb4a.htm",
+            "https://www.czce.com.cn/cn/sspz/pta/bzhy/qhhy/H077002005001001index_1.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "DCE",
+      "official_domains": ["dce.com.cn"],
+      "products": [
+        {
+          "code": "M",
+          "contract": "DCE.m2609",
+          "query": "site:dce.com.cn 豆粕 交易手续费 交易保证金 涨跌停板",
+          "seed_urls": [
+            "http://www.dce.com.cn/dce/channel/list/1028.html",
+            "http://www.dce.com.cn/dce/content/2026/ywggytz/18629001.html",
+            "http://www.dce.com.cn/dalianshangpin/fgfz/6142914/6142926/6146515/index.html"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+ "data_origin": "SYNTHETIC",
+ "schema": "dp06-fixtures/1",
+ "tasks": [
+  {
+   "acquisition_state": "RUNNING",
+   "duration_seconds": 60,
+   "instrument_kind": "MAIN_CONTINUOUS",
+   "run_id": "run-20260920-x",
+   "source_id": "tqsdk-free-realtime-get-kline-serial",
+   "source_symbol": "KQ.m@SHFE.cu",
+   "target_window": {
+    "end_nano": 1789929000000000000,
+    "start_nano": 1789909200000000000
+   },
+   "task_key": "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60"
+  },
+  {
+   "acquisition_state": "RUNNING",
+   "duration_seconds": 86400,
+   "instrument_kind": "MAIN_CONTINUOUS",
+   "run_id": "run-20260920-x",
+   "source_id": "tqsdk-free-realtime-get-kline-serial",
+   "source_symbol": "KQ.m@SHFE.cu",
+   "target_window": {
+    "end_nano": 1789929000000000000,
+    "start_nano": 1789909200000000000
+   },
+   "task_key": "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400"
+  },
+  {
+   "acquisition_state": "PERMISSION_DENIED",
+   "duration_seconds": 60,
+   "instrument_kind": "INDEX",
+   "run_id": "run-20260920-x",
+   "source_id": "tqsdk-free-realtime-get-kline-serial",
+   "source_symbol": "KQ.i@SHFE.cu",
+   "target_window": {
+    "end_nano": 1789929000000000000,
+    "start_nano": 1789909200000000000
+   },
+   "task_key": "tqsdk-free-realtime-get-kline-serial|KQ.i@SHFE.cu|60"
+  }
+ ]
+}

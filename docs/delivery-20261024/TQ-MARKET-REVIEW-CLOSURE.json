@@ -1,0 +1,61 @@
+{
+  "schema": "aktr-root-closed-review-receipt/v1",
+  "issuer": "/root",
+  "at_utc": "2026-10-24T13:40:07.627038+00:00",
+  "actual_exec_session": 42747,
+  "actual_terminal_chunk": "038dda",
+  "cli_native_exit": 0,
+  "wrapper_native_exit": 0,
+  "process_closed": true,
+  "session_identity_match": true,
+  "inputs_unchanged": true,
+  "product_verdict": "PASS",
+  "scope": "The existing exact free-market-data operation data/market_data_backfill/20261024-001: two one-shot scripts, their frozen inputs/reports, and the honest reporting of runs and limits. NOT an all-history or all-concrete-contract completeness acceptance.",
+  "files": [
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\REQUEST.json",
+      "bytes": 17385,
+      "sha256": "cc93751aa6bb9bc93e7431879d2422dd790282c17acabfe4b1f8f02f99ce9543"
+    },
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\START.json",
+      "bytes": 363,
+      "sha256": "b32492d31071fbf5f8458f3e72deed9293c83b5544bdcf7ec0f231fb86b2dc3f"
+    },
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\TERMINAL.json",
+      "bytes": 348,
+      "sha256": "6d6f6892663101deee564a71ad969fde190a09a5e93ec0ce79f727fb77867bb6"
+    },
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\RESULT.json",
+      "bytes": 860,
+      "sha256": "3d5979835530b63cee5b8c96456727127dcfe7a117cbb9de10df11ce4da9c6cb"
+    },
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\stdout.json",
+      "bytes": 3318,
+      "sha256": "79110407d45e0057f832de02cebf2720d9662c2593bb599508d0f547e0fe80fb"
+    },
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\stderr.txt",
+      "bytes": 14069,
+      "sha256": "d2a7109e2224a3d5e87d2985f802f3779305aa922e7c4e32ab0d115e49c9342b"
+    },
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\reviewer-output\\VERDICT.json",
+      "bytes": 6416,
+      "sha256": "b49b7d3fbc4c2e22da7941e475ac70342ffff48878bb4f3609f27016b5f968dd"
+    },
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\reviewer-output\\FINDINGS.md",
+      "bytes": 4631,
+      "sha256": "42281ef8ad95d937895e789f75230d4893fe807f21852b7b2eed9813d9f22662"
+    },
+    {
+      "path": "D:\\AKRV261024\\TQ-FREE-MARKET-HARD-002\\reviewer-output\\evidence-hashes.json",
+      "bytes": 2855,
+      "sha256": "2bfda86066e2e316fe750d6c42541684dc7dc953b53a8769696425e8d39291f2"
+    }
+  ]
+}

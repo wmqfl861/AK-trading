@@ -1,0 +1,37 @@
+{
+  "table_kind": "coordination-readiness-gate-table",
+  "table_version": 1,
+  "provenance": "SYNTHETIC",
+  "description": "SYNTHETIC fixture mirroring the gate-order classes of the 2026-09 case: a window gate precedes G1; G10-R1 depends on G09-R1 (authorization issued is not a window granted); Q30 tail gates depend on G1.",
+  "confirmed_by": "synthetic selftest (mirrors codex-project-review-report-r1 A2.1/A2.2/A3)",
+  "gates": {
+    "B-G08": {
+      "sequence": 8,
+      "prerequisites": []
+    },
+    "B-G09-R1": {
+      "sequence": 9,
+      "prerequisites": ["B-G08"]
+    },
+    "B-G10-R1": {
+      "sequence": 10,
+      "prerequisites": ["B-G09-R1"]
+    },
+    "B-G11-R1": {
+      "sequence": 11,
+      "prerequisites": ["B-G10-R1"]
+    },
+    "Q30-WINDOW": {
+      "sequence": 1,
+      "prerequisites": []
+    },
+    "Q30-G1": {
+      "sequence": 2,
+      "prerequisites": ["Q30-WINDOW"]
+    },
+    "Q30-G2": {
+      "sequence": 3,
+      "prerequisites": ["Q30-G1"]
+    }
+  }
+}

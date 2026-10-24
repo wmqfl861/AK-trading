@@ -1,0 +1,19 @@
+{
+  "schema": "nf21-v2-fixture-params/1",
+  "label": "SYNTHETIC",
+  "case_family": "FEATURE_PREFIX",
+  "seed": 20260924,
+  "product": "SHFE.RB",
+  "contract": "RB2610",
+  "trading_day": "2026-01-05",
+  "session_kind": "DAY",
+  "session_hour": 1,
+  "session_slots": 400,
+  "bars_total": 360,
+  "tiers": [90, 150, 300],
+  "expected_values_per_snapshot": 12,
+  "hot_base_index": 150,
+  "bar_formula": "close=Decimal(100+(i%11)); high=close+1; low=close-1; volume=Decimal(10+(i%4)); open_oi=close_oi=Decimal(1000+i); available_at=end_nano; complete=true",
+  "decision_semantics": "every evaluation cuts off at the completion time (end_nano) of the prefix's last planned minute slot of the declared session",
+  "shape_provenance": "session/bar shape mirrors tests/test_v2_m2_causality.py::session_for/minute_bar (frozen M2 test fixture constructors); all values are index formulas, no randomness, no clock"
+}

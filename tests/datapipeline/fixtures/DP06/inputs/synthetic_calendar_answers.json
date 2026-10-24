@@ -1,0 +1,60 @@
+{
+ "calendar_answers": [
+  {
+   "dataset": "futures_kline_r1",
+   "duration_seconds": 60,
+   "evidence_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+   "evidence_version": "cal-weekend-2026-09-r1",
+   "sessions": [],
+   "source_symbol": "KQ.m@SHFE.cu",
+   "status": "NO_TRADING_EVIDENCED",
+   "window_end_nano": 1789909200000000000,
+   "window_start_nano": 1789756200000000000
+  },
+  {
+   "dataset": "futures_kline_r1",
+   "duration_seconds": 60,
+   "evidence_sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+   "evidence_version": "cal-2026-09-20-r1",
+   "sessions": [
+    {
+     "end_nano": 1789929000000000000,
+     "start_nano": 1789909200000000000,
+     "trading_day": "2026-09-20"
+    }
+   ],
+   "source_symbol": "KQ.m@SHFE.cu",
+   "status": "VERIFIED_SESSIONS",
+   "window_end_nano": 1789930800000000000,
+   "window_start_nano": 1789909200000000000
+  },
+  {
+   "dataset": "futures_kline_r1",
+   "duration_seconds": 86400,
+   "evidence_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+   "evidence_version": "cal-weekend-2026-09-r1",
+   "sessions": [],
+   "source_symbol": "KQ.m@SHFE.cu",
+   "status": "NO_TRADING_EVIDENCED",
+   "window_end_nano": 1789909200000000000,
+   "window_start_nano": 1789756200000000000
+  },
+  {
+   "conflict_refs": [
+    "cal-ev-a-2026-09-20",
+    "cal-ev-b-2026-09-20"
+   ],
+   "dataset": "futures_kline_r1",
+   "duration_seconds": 60,
+   "evidence_sha256": "5555555555555555555555555555555555555555555555555555555555555555",
+   "evidence_version": null,
+   "sessions": [],
+   "source_symbol": "KQ.i@SHFE.cu",
+   "status": "CONFLICT",
+   "window_end_nano": 1789930800000000000,
+   "window_start_nano": 1789909200000000000
+  }
+ ],
+ "data_origin": "SYNTHETIC",
+ "schema": "dp06-fixtures/1"
+}

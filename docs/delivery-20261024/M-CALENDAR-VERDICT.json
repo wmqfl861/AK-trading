@@ -1,0 +1,82 @@
+{
+  "schema": "m-dce-calendar-source-product-hard-review-verdict/v1",
+  "task_id": "aktr-zcode-m-dce-calendar-product-review-recovery-20261024T121133Z-66392c96",
+  "verdict": "PASS",
+  "unconditional": true,
+  "conditional_pass": false,
+  "created_at_utc": "2026-10-24T12:25:00.000000+00:00",
+  "reviewer": "independent ZCode GLM-5.3/max session sess_67abb6c2-8c4f-46be-b580-3037ea96a6a5 (original BIP1 reviewer; no source development/repair participation)",
+  "review_scope": "Recovery of the interrupted HARD-001 review of the exact 42 frozen files under D:/AKS261024/R1/m-dce-calendar-source-001, against M-PRICE-CLOCK-RULING-20261024-002.md plus inherited effective authorities",
+  "verdict_scope": "Engineering acceptance of this 42-file documentary DCE calendar source delivery ONLY. NOT research-input delivery, NOT historical sessions/calendar, NOT consumer/MarketBar/FrozenInput, NOT fit/statistical credit.",
+  "prior_completed_evidence_cited": {
+    "owner_verifier_rerun": "HARD-001 evidence/owner-verifier-rerun-001: native0, all_checks_pass=true, 1310 pins, 1353 unique files, 16 slices, 42 members, 1145961 bytes",
+    "pre_pin_check": "HARD-001 evidence/pin-check-001/RESULTS-pre.json: 42/33/9 closure, 41 FROZEN members, 1310 pins, 0 failures",
+    "independent_check": "HARD-001 evidence/independent-check-001/RESULTS.json: 0 failures",
+    "prior_probes": "HARD-001 evidence/probes-001/RESULTS.json: 8/12 rejected correctly; 4 unresolved (now dispositioned)"
+  },
+  "recovery_probe_results": {
+    "positive_control": "unmutated facts verify clean against corrected verifier",
+    "all_four_unresolved_cases_now_rejected": true,
+    "dispositions": {
+      "option_rank1_mistaken_for_futures": "HARNESS_GAP_FIXED — prior verifier lacked requested_URL identity check; corrected evcheck3 adds it; mutation now rejected with requested_url_identity_mismatch",
+      "budget_reset": "HARNESS_EXPECTATION_FIXED — mutation was always detected as facts_source_budget_changed; probe expected-fragment string was stale; corrected",
+      "phantom_doc004": "HARNESS_EXPECTATION_FIXED — same",
+      "policy_applied_to_other_products": "HARNESS_GAP_FIXED — prior verifier lacked product_scope check; corrected evcheck3 adds policy_product_scope_changed invariant; mutation now rejected"
+    },
+    "evidence": "evidence/probes-002/RESULTS.json"
+  },
+  "freeze_integrity": {
+    "product_files_verified": 42,
+    "frozen_members": 41,
+    "input_pins": 1310,
+    "nested_pin_occurrences": 696,
+    "directory_bytes": 1145961,
+    "closure_pre_and_post_identical": true,
+    "post_evidence": "evidence/pin-check-001/RESULTS-post.json"
+  },
+  "total_probe_coverage": {
+    "original_h1_probes_rejected": 8,
+    "recovery_r2_probes_rejected": 4,
+    "positive_controls_clean": 2,
+    "total_meaningful_mutations": 12,
+    "total_all_rejected": true
+  },
+  "honored_boundaries": {
+    "source412_not_relabelled": "all three document fetches recorded as HTTP412_JS_CHALLENGE_NO_DOCUMENT_BODY",
+    "snippets_are_locators_only": true,
+    "budget": "scope 3q/3URLs; prior 1q/3URLs retained; cumulative M 4q/6URLs; doc004 NOT_RUN",
+    "established_missing": "new_qualified_remote_calendar_bodies=0; historical_session_version_chain_complete=false; full2023/full2024 calendars incomplete",
+    "four_clocks": "import bound unchanged; first_seen null; reconstructed A/policy/delay prospective only; manifest export clock separate",
+    "prospective_10800_policy": "m-tqsdk-daily-date-label-v1 + m-daily-price-reconstructed-v1 fixed under ruling002; research_assumption_not_observed_first_seen=true",
+    "known_prior_2022_99": "exact_original_FileRef_in_this_scope=null preserved; status PRIOR_BAD_DECODING_TERMINAL_RETAINED_NOT_RECOVERED",
+    "input_delivery_status": "INPUT_NOT_DELIVERED; credit 0; actual A rows 0",
+    "no_product_repair_or_source_replay_by_reviewer": true
+  },
+  "findings": {
+    "blocking": 0,
+    "nonblocking_product": 0,
+    "reviewer_harness_incidents": 6,
+    "file": "FINDINGS.json"
+  },
+  "prior_transport_failure": "HARD-001 watchdog terminal native1/stdout0 due to HTTP502 proxy error — preserved; not a product verdict; review completed in HARD-002",
+  "limitations": [
+    "No network replay; source verification is against pinned raw bytes.",
+    "The three DCE document URLs returned source HTTP412 with JS-challenge HTML only; no historical calendar body was obtained — this is the honest terminal, not a product defect.",
+    "The original Astra author's scope-closeout disposition and 2022-99 FileRef supplement are outside this frozen evidence cut and do not rewrite it."
+  ],
+  "next_action": "Root records the verdict; the 42-file audit package is read-only after verdict. Complete M research input remains INPUT_NOT_DELIVERED; next steps follow ruling002 §5 ordering.",
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_sends": 0,
+    "real_cancels": 0,
+    "credentials_read": false,
+    "DB": "NOT_RUN",
+    "SDK": "NOT_RUN",
+    "fit": "NOT_RUN",
+    "holdout": "NOT_RUN",
+    "model_configuration_changes": 0,
+    "reviewer_writes": "PROBES.py, VERDICT.json, FINDINGS.json, bounded scratch/ and evidence/ under D:/AKRV261024/R1-M-DCE-CALENDAR-HARD-002 only"
+  }
+}

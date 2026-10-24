@@ -1,0 +1,72 @@
+{
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "case_id": "v2/feature_prefix_cold",
+  "description": "SYNTHETIC cold-path case: one build_feature_snapshot per operation over pre-registered increasing minute-bar prefixes (90/150/300) with the production content-keyed caches cleared inside every timed operation; every evaluation cuts off at the last planned slot completion. Measures factors.py cold construction; not a hot-path or PIT-history claim.",
+  "origin": "SYNTHETIC",
+  "domain": "v2",
+  "backend": "python-inprocess",
+  "eligible_for_baseline": true,
+  "algorithm_version": "v2-factors-worktree-20260924",
+  "policy_version": "factor-registry-v2-no-policy-table",
+  "workload": {
+    "source": "tools/benchmarks/workloads/v2.py",
+    "entrypoint": "build"
+  },
+  "measured_modules": [
+    "ak_trading.v2.factors",
+    "ak_trading.v2.factor_specs",
+    "ak_trading.v2.contracts"
+  ],
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/workloads/v2.py",
+      "role": "workload"
+    },
+    {
+      "path": "tools/benchmarks/fixtures/v2/feature_prefix.json",
+      "role": "input"
+    }
+  ],
+  "params": {
+    "case": "feature_prefix_cold",
+    "seed": 20260924,
+    "case_family": "FEATURE_PREFIX",
+    "product": "SHFE.RB",
+    "contract": "RB2610"
+  },
+  "measurement": {
+    "sample_mode": "per_operation",
+    "units": "snapshots",
+    "units_per_operation": 1,
+    "min_operations": 60,
+    "batch_size": 60,
+    "reset_method": "none",
+    "includes_io": false
+  },
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "environment": {
+    "depends_on": []
+  },
+  "correctness": {
+    "kind": "digest",
+    "expected_digest": "de2bf86b7e19fd48fba0a81b152c0821daecc61b98b662280bae8313e25b4bff",
+    "normalizations": []
+  },
+  "budget": {
+    "smoke": {
+      "warmup_operations": 0,
+      "operations": 30,
+      "case_timeout_s": 30
+    },
+    "formal": {
+      "batches": 5,
+      "warmup_operations": 0,
+      "operations_per_batch": 20,
+      "case_timeout_s": 600
+    }
+  }
+}

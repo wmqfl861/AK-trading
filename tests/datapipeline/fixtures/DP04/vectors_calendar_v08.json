@@ -1,0 +1,388 @@
+{
+  "schema": "dp04-calendar-v08-vectors/1",
+  "synthetic_marker": "SYNTHETIC VECTORS - expectations hand-authored from work-order DP04-calendar.md H04.1-H04.7 and 04-validation-and-release.md V08 BEFORE pinning; fixtures are fictional SYNTHEX/2027 documents",
+  "notes": [
+    "Instant/window times are Asia/Shanghai ISO instants; as_of values exercise H04.6 knowability.",
+    "expected.status is the DP01 CalendarAnswerStatus; subranges summarize the key facts a reviewer can re-derive by hand from the fixture session tables.",
+    "These vectors prove LOGIC only; official historical calendar coverage is NOT_RUN/UNKNOWN until real evidence is handed off by DP00."
+  ],
+  "vectors": [
+    {
+      "id": "V08-01-WEEKEND-NIGHT-CROSSING",
+      "clause": "H04.4",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "KQ.m@SYNTH.rb",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-02-26T00:00:00+08:00",
+      "window_end_iso": "2027-03-01T12:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "UNKNOWN",
+        "verified_session_count": 3,
+        "verified_sessions_first_day": "2027-03-01",
+        "verified_sessions_last_day": "2027-03-01",
+        "unknown_reasons_include": [
+          "PARTIAL_GRID_SESSION_NOT_EVIDENCED"
+        ]
+      }
+    },
+    {
+      "id": "V08-02-TRADING-DAY-LABELS-AROUND-WEEKEND",
+      "clause": "H04.4",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "instants": [
+        {
+          "iso": "2027-02-26T20:59:59+08:00",
+          "expected_trading_day": null
+        },
+        {
+          "iso": "2027-02-26T21:00:00+08:00",
+          "expected_trading_day": "2027-03-01"
+        },
+        {
+          "iso": "2027-02-26T23:59:59+08:00",
+          "expected_trading_day": "2027-03-01"
+        },
+        {
+          "iso": "2027-02-27T00:30:00+08:00",
+          "expected_trading_day": "2027-03-01"
+        },
+        {
+          "iso": "2027-02-27T02:29:59+08:00",
+          "expected_trading_day": "2027-03-01"
+        },
+        {
+          "iso": "2027-02-27T02:30:00+08:00",
+          "expected_trading_day": null
+        },
+        {
+          "iso": "2027-02-27T12:00:00+08:00",
+          "expected_trading_day": null
+        },
+        {
+          "iso": "2027-02-28T21:00:00+08:00",
+          "expected_trading_day": null
+        },
+        {
+          "iso": "2027-03-01T09:00:00+08:00",
+          "expected_trading_day": "2027-03-01"
+        },
+        {
+          "iso": "2027-02-23T21:00:00+08:00",
+          "expected_trading_day": "2027-02-24"
+        },
+        {
+          "iso": "2027-02-24T00:59:59+08:00",
+          "expected_trading_day": "2027-02-24"
+        },
+        {
+          "iso": "2027-02-24T01:00:00+08:00",
+          "expected_trading_day": null
+        }
+      ]
+    },
+    {
+      "id": "V08-03-PRE-HOLIDAY-NIGHT-CANCELLED",
+      "clause": "H04.4",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "instants": [
+        {
+          "iso": "2027-02-12T21:00:00+08:00",
+          "expected_trading_day": null
+        },
+        {
+          "iso": "2027-02-22T08:59:59+08:00",
+          "expected_trading_day": null
+        },
+        {
+          "iso": "2027-02-22T09:00:00+08:00",
+          "expected_trading_day": "2027-02-22"
+        }
+      ]
+    },
+    {
+      "id": "V08-04-HOLIDAY-CLOSED-WINDOW",
+      "clause": "H04.4/Q05",
+      "fixtures": [
+        "synthetic_closed_dates_2027.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-02-15T00:00:00+08:00",
+      "window_end_iso": "2027-02-20T00:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "NO_TRADING_EVIDENCED",
+        "session_count": 0,
+        "evidence_hash_required": true
+      }
+    },
+    {
+      "id": "V08-05-HOLIDAY-EDGE-MIXED-UNKNOWN",
+      "clause": "H04.5",
+      "fixtures": [
+        "synthetic_closed_dates_2027.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-02-14T00:00:00+08:00",
+      "window_end_iso": "2027-02-15T12:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "UNKNOWN",
+        "session_count": 0,
+        "unknown_reasons_include": [
+          "CLOSED_DATES_ONLY_SESSIONS_UNKNOWN"
+        ],
+        "subrange_facts": [
+          {
+            "status": "UNKNOWN",
+            "end": "2027-02-15T00:00:00+08:00"
+          },
+          {
+            "status": "NO_TRADING_EVIDENCED",
+            "start": "2027-02-15T00:00:00+08:00",
+            "end": "2027-02-15T12:00:00+08:00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "V08-06-BEFORE-VALIDITY-PRE-2026-STYLE",
+      "clause": "H04.5/D06",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2026-06-01T00:00:00+08:00",
+      "window_end_iso": "2026-06-02T00:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "UNKNOWN",
+        "unknown_reasons_include": [
+          "BEFORE_EVIDENCE_VALIDITY_PRE_2026_STYLE"
+        ]
+      }
+    },
+    {
+      "id": "V08-07-AFTER-VALIDITY",
+      "clause": "H04.5",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2028-01-05T00:00:00+08:00",
+      "window_end_iso": "2028-01-06T00:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "UNKNOWN",
+        "unknown_reasons_include": [
+          "AFTER_EVIDENCE_VALIDITY"
+        ]
+      }
+    },
+    {
+      "id": "V08-08-PIT-BEFORE-OBTAINED",
+      "clause": "H04.6",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-03-01T09:00:00+08:00",
+      "window_end_iso": "2027-03-01T15:00:00+08:00",
+      "as_of_iso": "2027-03-02T20:00:00+08:00",
+      "expected": {
+        "status": "UNKNOWN",
+        "session_count": 0,
+        "unknown_reasons_include": [
+          "EVIDENCE_NOT_KNOWN_AT_AS_OF"
+        ]
+      }
+    },
+    {
+      "id": "V08-09-LATER-VERSION-PRESERVES-OLD-UNKNOWN",
+      "clause": "H04.5",
+      "fixtures": [
+        "synthetic_session_grid_partial.json",
+        "synthetic_later_version_grid.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-03-10T09:00:00+08:00",
+      "window_end_iso": "2027-03-10T15:00:00+08:00",
+      "as_of_iso": "2027-03-19T20:00:00+08:00",
+      "expected": {
+        "status": "UNKNOWN",
+        "session_count": 0
+      },
+      "followup_as_of_iso": "2027-03-21T20:00:00+08:00",
+      "followup_expected": {
+        "status": "VERIFIED_SESSIONS",
+        "verified_session_count": 3,
+        "verified_sessions_first_day": "2027-03-10"
+      }
+    },
+    {
+      "id": "V08-10-PIT-BASIS-UNKNOWN",
+      "clause": "H04.6",
+      "fixtures": [
+        "synthetic_pit_unknown.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-04-01T09:00:00+08:00",
+      "window_end_iso": "2027-04-01T15:00:00+08:00",
+      "as_of_iso": "2027-12-31T20:00:00+08:00",
+      "expected": {
+        "status": "UNKNOWN",
+        "unknown_reasons_include": [
+          "EVIDENCE_PIT_BASIS_UNKNOWN"
+        ]
+      }
+    },
+    {
+      "id": "V08-11-CONFLICT-GRIDS",
+      "clause": "H04.2/Q05",
+      "fixtures": [
+        "synthetic_session_grid_partial.json",
+        "synthetic_conflicting_grid.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-02-24T09:00:00+08:00",
+      "window_end_iso": "2027-02-24T15:00:00+08:00",
+      "as_of_iso": "2027-03-10T20:00:00+08:00",
+      "expected": {
+        "status": "CONFLICT",
+        "session_count": 0,
+        "conflict_refs_required": true
+      }
+    },
+    {
+      "id": "V08-12-CONFLICT-GRID-VS-CLOSED-DATE",
+      "clause": "H04.2/Q05",
+      "fixtures": [
+        "synthetic_session_grid_partial.json",
+        "synthetic_closed_dates_conflict.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-02-22T09:00:00+08:00",
+      "window_end_iso": "2027-02-22T15:00:00+08:00",
+      "as_of_iso": "2027-03-10T20:00:00+08:00",
+      "expected": {
+        "status": "CONFLICT",
+        "conflict_refs_required": true
+      }
+    },
+    {
+      "id": "V08-13-COMPLETE-GRID-WEEKEND-ENUMERATED",
+      "clause": "H04.3/H04.4",
+      "fixtures": [
+        "synthetic_session_grid_complete_week.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-03-06T00:00:00+08:00",
+      "window_end_iso": "2027-03-08T00:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "NO_TRADING_EVIDENCED",
+        "session_count": 0,
+        "evidence_hash_required": true
+      }
+    },
+    {
+      "id": "V08-14-COMPLETE-GRID-NO-FRIDAY-NIGHT",
+      "clause": "H04.4",
+      "fixtures": [
+        "synthetic_session_grid_complete_week.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-03-05T15:00:00+08:00",
+      "window_end_iso": "2027-03-06T12:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "NO_TRADING_EVIDENCED"
+      }
+    },
+    {
+      "id": "V08-15-POST-DELIST-CONTRACT",
+      "clause": "H04.4",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2701",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-02-22T00:00:00+08:00",
+      "window_end_iso": "2027-02-22T16:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "NO_TRADING_EVIDENCED",
+        "no_trading_reason": "POST_DELISTING_NO_TRADING"
+      }
+    },
+    {
+      "id": "V08-16-PRE-LIST-CONTRACT",
+      "clause": "H04.4",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2712",
+      "duration_seconds": 60,
+      "window_start_iso": "2027-04-01T00:00:00+08:00",
+      "window_end_iso": "2027-04-01T16:00:00+08:00",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "expected": {
+        "status": "NO_TRADING_EVIDENCED",
+        "no_trading_reason": "PRE_LISTING_NO_TRADING"
+      }
+    },
+    {
+      "id": "V08-17-DAILY-SPAN-NOT-NATURAL-DAY",
+      "clause": "H04.3/Q01",
+      "fixtures": [
+        "synthetic_session_grid_partial.json"
+      ],
+      "dataset": "futures_kline",
+      "source_symbol": "SYNTH.rb2705",
+      "as_of_iso": "2027-03-09T20:00:00+08:00",
+      "trading_day": "2027-03-01",
+      "expected_span": {
+        "start_iso": "2027-02-26T21:00:00+08:00",
+        "end_iso": "2027-03-01T15:00:00+08:00",
+        "span_seconds": 237600
+      }
+    }
+  ]
+}

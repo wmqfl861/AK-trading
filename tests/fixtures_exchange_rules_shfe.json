@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "product": "RB",
+      "url": "https://www.shfe.com.cn/fixture/rb-rules.json",
+      "title": "SHFE RB fixture rules",
+      "content_type": "application/json",
+      "effective_date": "2026-08-01",
+      "content": {
+        "rules": [
+          {"product": "RB", "contract": "SHFE.rb2610", "category": "fee", "field": "open", "value": "0.0001", "unit": "rate_per_notional", "status": "candidate"},
+          {"product": "RB", "contract": "SHFE.rb2610", "category": "fee", "field": "close", "value": "0.0001", "unit": "rate_per_notional", "status": "candidate"},
+          {"product": "RB", "contract": "SHFE.rb2610", "category": "fee", "field": "close_today", "value": "0.0001", "unit": "rate_per_notional", "status": "candidate"},
+          {"product": "RB", "contract": "SHFE.rb2610", "category": "margin", "field": "ordinary_rate", "value": "0.07", "unit": "rate_of_notional", "status": "candidate"}
+        ]
+      }
+    }
+  ]
+}

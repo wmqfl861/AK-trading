@@ -1,0 +1,89 @@
+{
+  "schema": "ak-nf23-observer-payload-spec/1.0.0",
+  "description": "SYNTHETIC payload shape specification for the NF23 observer in-process benchmark cases (work order docs/devplan-next-frontier-20260924-r1/work-orders/NF23-observer-benchmark.md H23.1/H23.2). All payloads are synthetic constructions driven only by this spec plus the frozen workload seed; they contain no market data, no credentials, and never touch a real client, socket, or the deployed service. The workload module tools/benchmarks/workloads/observer.py reads this file; it is hash-frozen as a case fixture by the C20 harness.",
+  "shared": {
+    "exchange": "SHFE",
+    "instrument_id": "rb2610",
+    "symbol_count_per_payload": 1,
+    "trading_day": "20260924",
+    "market_status": "continuous",
+    "contract_price_tick": 1,
+    "contract_upper_limit": 4500,
+    "contract_lower_limit": 3500
+  },
+  "clock": {
+    "base_wall": "2026-09-24T01:30:00+00:00",
+    "base_mono_s": 1000.0,
+    "step_us_per_operation": 10000,
+    "tick_offset_s": 0.5,
+    "tick_stride_us": 50000
+  },
+  "cases": {
+    "parse_accept_typical_inprocess": {
+      "shape": "envelope",
+      "ticks": 4,
+      "tick_field_set": "standard",
+      "fixed_batch_id": "nf23-parse-canonical"
+    },
+    "parse_reject_malformed_inprocess": {
+      "shape": "reject_bytes",
+      "flavors": ["invalid_json", "duplicate_key", "non_finite_number"]
+    },
+    "parse_max_legal_inprocess": {
+      "shape": "envelope_padded_to_max_body_bytes",
+      "ticks": 4,
+      "tick_field_set": "standard",
+      "fixed_batch_id": "nf23-parse-max"
+    },
+    "normalize_accept_typical_inprocess": {
+      "shape": "envelope",
+      "ticks": 4,
+      "tick_field_set": "standard",
+      "fixed_batch_id": "nf23-normalize-canonical"
+    },
+    "normalize_reject_violations_inprocess": {
+      "shape": "reject_envelope",
+      "flavors": ["invalid_tick", "ticks_limit", "invalid_quote"]
+    },
+    "normalize_max_legal_inprocess": {
+      "shape": "envelope",
+      "ticks": 1000,
+      "tick_field_set": "minimal",
+      "fixed_batch_id": "nf23-normalize-max"
+    },
+    "analyze_accept_typical_inprocess_hold_double": {
+      "shape": "envelope",
+      "ticks": 4,
+      "tick_field_set": "standard",
+      "batch_prefix": "nf23-analyze-accept",
+      "audit_log": true,
+      "raw_sink": "disabled",
+      "evaluator": "deterministic_hold_double"
+    },
+    "analyze_replay_duplicate_inprocess_hold_double": {
+      "shape": "envelope",
+      "ticks": 4,
+      "tick_field_set": "standard",
+      "fixed_batch_id": "nf23-replay-seed",
+      "audit_log": true,
+      "raw_sink": "disabled",
+      "evaluator": "deterministic_hold_double"
+    },
+    "heartbeat_typical_inprocess_hold_double": {
+      "shape": "heartbeat",
+      "audit_log": true,
+      "raw_sink": "disabled",
+      "evaluator": "deterministic_hold_double"
+    },
+    "status_snapshot_inprocess_hold_double": {
+      "shape": "envelope",
+      "ticks": 4,
+      "tick_field_set": "standard",
+      "batch_prefix": "nf23-status-seed",
+      "seed_receipts": 20,
+      "audit_log": true,
+      "raw_sink": "disabled",
+      "evaluator": "deterministic_hold_double"
+    }
+  }
+}

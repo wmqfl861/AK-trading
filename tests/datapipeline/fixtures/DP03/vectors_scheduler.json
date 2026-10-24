@@ -1,0 +1,58 @@
+{
+ "schema": "dp03-scheduler-vectors/1",
+ "synthetic_marker": "All vectors are SYNTHETIC contract vectors for V06 (subscription fairness); no real market data.",
+ "source_id": "tqsdk-free-realtime-get_kline-serial",
+ "scale": {
+  "r1_target_symbols": 942,
+  "durations": [60, 86400],
+  "tasks": 1884,
+  "symbols_per_group": 4,
+  "serials_per_group": 8,
+  "expected_groups": 236,
+  "serial_attempts_per_run": 24,
+  "groups_per_run_at_budget": 3
+ },
+ "fairness": {
+  "full_cycle_runs_min": 79,
+  "invariant": "max(served_count) - min(served_count) <= 1 after any whole number of complete rotations",
+  "retry_separation": {
+   "backoff_ladder_seconds": [60, 300, 900],
+   "attempts_max_including_initial": 4,
+   "note": "retry timing (next_eligible_at_nano) is independent of wait deadlines and of rotation priority"
+  },
+  "not_ready": {
+   "scenario": "one serial in a group never becomes ready",
+   "expectations": [
+    "other serials in the same group still capture and commit",
+    "the not-ready task ends RETRYABLE_FAILURE with TRANSIENT class",
+    "subsequent groups are still served (no starvation, no infinite occupancy)"
+   ]
+  }
+ },
+ "capacity": {
+  "continuous_gate": "continuous only when all target symbols <= active_symbols_max AND all serials <= active_serials_max",
+  "deferral": {
+   "when": "serial attempt budget exhausted or connection-start budget exhausted",
+   "task_state": "DEFERRED_BUDGET",
+   "terminal": "DEFERRED_BUDGET",
+   "exit_code": 4
+  }
+ },
+ "period_validation": {
+  "invalid_durations": [15, 300, 3600, true, "60"],
+  "expectations": [
+   "invalid-duration task state UNSUPPORTED before any subscribe",
+   "group continues serving the remaining tasks"
+  ]
+ },
+ "restart": {
+  "rule": "restart resumes from the persisted rotation pointer; suppression requires committed window with no registered gap; a gap keeps the task scheduled with a fresh attempt budget (never max(ts))"
+ },
+ "window": {
+  "outside_free_window": "requested window below the earliest row ever returned is gap evidence, not silently claimed; min(first_nano) never decreases across reconnects"
+ },
+ "mixed_keys": {
+  "symbols": ["KQ.m@SHFE.rb", "KQ.i@SHFE.rb", "SHFE.rb2601"],
+  "expectation": "three distinct task keys; main-continuous, index and concrete contract never fold into one key"
+ }
+}

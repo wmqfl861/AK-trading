@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "expected_products": ["RB", "TA", "M"],
+  "calendar": {
+    "valid_from": "2026-01-01",
+    "valid_through": "2026-12-31",
+    "closed_dates": [
+      "2026-01-01",
+      "2026-01-02",
+      "2026-02-16",
+      "2026-02-17",
+      "2026-02-18",
+      "2026-02-19",
+      "2026-02-20",
+      "2026-02-23",
+      "2026-04-06",
+      "2026-05-01",
+      "2026-05-04",
+      "2026-05-05",
+      "2026-06-19",
+      "2026-09-25",
+      "2026-10-01",
+      "2026-10-02",
+      "2026-10-05",
+      "2026-10-06",
+      "2026-10-07"
+    ],
+    "source_url": "https://www.shfe.com.cn/services/calenderandholidays/holiday/",
+    "last_reviewed_date": "2026-07-28"
+  },
+  "broker_markup": {
+    "mode": "absolute_per_lot",
+    "value": "0.01",
+    "applies_to": ["open", "close", "close_today"],
+    "confirmed_with_broker": false,
+    "assumption": "User instruction interpreted as CNY 0.01 per lot for each charged side."
+  },
+  "products": [
+    {
+      "code": "RB",
+      "name_zh": "螺纹钢",
+      "exchange": "SHFE",
+      "official_domain": "shfe.com.cn",
+      "main_symbol": "KQ.m@SHFE.rb",
+      "research_contract": "SHFE.rb2610",
+      "last_trading_day": "2026-10-15",
+      "contract_size_tons": "10",
+      "price_tick_cny_per_ton": "1",
+      "sessions": {
+        "day": ["09:00-10:15", "10:30-11:30", "13:30-15:00"],
+        "night": ["21:00-23:00"]
+      },
+      "notice_query": "site:shfe.com.cn 螺纹钢 手续费 保证金 2026",
+      "last_reviewed_date": "2026-07-28",
+      "static_provenance": {
+        "source_url": "https://www.shfe.com.cn/regulation/exchangerules/productrules/202512/t20251231_829962.html",
+        "source_title": "上海期货交易所螺纹钢期货业务细则",
+        "publication_date": "2025-12-31",
+        "transcribed_by": "Codex-assisted research",
+        "transcribed_at": "2026-07-28",
+        "access_method": "official_search_index_snippet",
+        "values_verified": false
+      },
+      "fees": {
+        "basis": "rate_per_notional",
+        "applicable_contracts": ["SHFE.rb2610"],
+        "components": {
+          "open": {"status": "value", "value": "0.0001"},
+          "close": {"status": "value", "value": "0.0001"},
+          "close_today": {"status": "value", "value": "0.0001"}
+        },
+        "effective_from": "2026-02-12",
+        "must_reverify_before": "2026-08-04",
+        "provenance": {
+          "source_url": "https://www.shfe.com.cn/reports/businessdata/feeandcharges/202602/W020260212599967916286.xlsx",
+          "source_title": "上海期货交易所2026年收费一览表",
+          "publication_date": "2026-02-12",
+          "transcribed_by": "Codex-assisted research",
+          "transcribed_at": "2026-07-28",
+          "access_method": "official_file_search_index_and_secondary_cross_check",
+          "values_verified": false
+        }
+      },
+      "margin": {
+        "rate_of_notional": "0.07",
+        "applicable_contracts": ["SHFE.rb2610"],
+        "price_basis": "settlement_price",
+        "effective_from": "2026-05-19",
+        "must_reverify_before": "2026-08-04",
+        "note": "General-position exchange margin for the listed rb2606-rb2702 contracts; hedging and delivery-stage rules differ.",
+        "provenance": {
+          "source_url": "https://www.shfe.com.cn/publicnotice/notice/202605/t20260515_831713.html",
+          "source_title": "关于调整螺纹钢等期货相关合约涨跌停板幅度和交易保证金比例的通知",
+          "publication_date": "2026-05-15",
+          "transcribed_by": "Codex-assisted research",
+          "transcribed_at": "2026-07-28",
+          "access_method": "official_search_index_snippet",
+          "values_verified": false
+        }
+      }
+    },
+    {
+      "code": "TA",
+      "name_zh": "PTA",
+      "exchange": "CZCE",
+      "official_domain": "czce.com.cn",
+      "main_symbol": "KQ.m@CZCE.TA",
+      "research_contract": "CZCE.TA609",
+      "last_trading_day": "2026-09-14",
+      "contract_size_tons": "5",
+      "price_tick_cny_per_ton": "2",
+      "sessions": {
+        "day": ["09:00-10:15", "10:30-11:30", "13:30-15:00"],
+        "night": ["21:00-23:00"]
+      },
+      "notice_query": "site:czce.com.cn PTA 手续费 保证金 2026",
+      "last_reviewed_date": "2026-07-28",
+      "static_provenance": {
+        "source_url": "https://www.czce.com.cn/cn/sspz/pta/bzhy/qhhy/H077002005001001index_1.htm",
+        "source_title": "郑州商品交易所PTA期货合约",
+        "publication_date": "2024-11-01",
+        "transcribed_by": "Codex-assisted research",
+        "transcribed_at": "2026-07-28",
+        "access_method": "official_search_index_snippet",
+        "values_verified": false
+      },
+      "fees": {
+        "basis": "cny_per_lot",
+        "applicable_contracts": ["CZCE.TA609"],
+        "components": {
+          "open": {"status": "value", "value": "3"},
+          "close": {"status": "value", "value": "3"},
+          "close_today": {"status": "explicit_zero", "value": "0"}
+        },
+        "effective_from": "2022-06-10",
+        "must_reverify_before": "2026-08-04",
+        "provenance": {
+          "source_url": "https://www.czce.com.cn/cn/gyjys/jysdt/ggytz/webinfo/2022/06/1655814284557745.htm",
+          "source_title": "关于调整部分期货合约交易保证金标准、涨跌停板幅度和交易手续费标准的通知",
+          "publication_date": "2022-06-08",
+          "transcribed_by": "Codex-assisted research",
+          "transcribed_at": "2026-07-28",
+          "access_method": "official_search_index_and_current_secondary_cross_check",
+          "values_verified": false
+        }
+      },
+      "margin": {
+        "rate_of_notional": "0.10",
+        "applicable_contracts": ["CZCE.TA609"],
+        "price_basis": "settlement_price",
+        "effective_from": "2026-06-24",
+        "must_reverify_before": "2026-08-04",
+        "note": "Exchange margin snapshot for PTA2608 and PTA2609; other delivery months may use different rates.",
+        "provenance": {
+          "source_url": "https://www.czce.com.cn/cn/gyjys/jysdt/ggytz/webinfo/2026/6/9c4c45f4d3594b28934613798bfccb4a.htm",
+          "source_title": "关于调整部分期货合约交易保证金标准、涨跌停板幅度、交易手续费标准和交易指令每次最小开仓下单量的公告",
+          "publication_date": "2026-06-22",
+          "transcribed_by": "Codex-assisted research",
+          "transcribed_at": "2026-07-28",
+          "access_method": "official_search_index_snippet_and_republished_notice_cross_check",
+          "values_verified": false
+        }
+      }
+    },
+    {
+      "code": "M",
+      "name_zh": "豆粕",
+      "exchange": "DCE",
+      "official_domain": "dce.com.cn",
+      "main_symbol": "KQ.m@DCE.m",
+      "research_contract": "DCE.m2609",
+      "last_trading_day": "2026-09-14",
+      "contract_size_tons": "10",
+      "price_tick_cny_per_ton": "1",
+      "sessions": {
+        "day": ["09:00-10:15", "10:30-11:30", "13:30-15:00"],
+        "night": ["21:00-23:00"]
+      },
+      "notice_query": "site:dce.com.cn 豆粕 手续费 保证金 2026",
+      "last_reviewed_date": "2026-07-28",
+      "static_provenance": {
+        "source_url": "http://www.dce.com.cn/dalianshangpin/fgfz/6142914/6142926/6146515/index.html",
+        "source_title": "大连商品交易所豆粕期货业务细则",
+        "publication_date": "2024-11-01",
+        "transcribed_by": "Codex-assisted research",
+        "transcribed_at": "2026-07-28",
+        "access_method": "official_search_index_snippet",
+        "values_verified": false
+      },
+      "fees": {
+        "basis": "cny_per_lot",
+        "applicable_contracts": ["DCE.m2609"],
+        "components": {
+          "open": {"status": "value", "value": "1.5"},
+          "close": {"status": "value", "value": "1.5"},
+          "close_today": {"status": "value", "value": "1.5"}
+        },
+        "effective_from": "2024-01-22",
+        "must_reverify_before": "2026-08-04",
+        "provenance": {
+          "source_url": "http://www.dce.com.cn/dce/channel/list/1028.html",
+          "source_title": "大连商品交易所结算参数与手续费标准",
+          "publication_date": "2026-01-01",
+          "transcribed_by": "Codex-assisted research",
+          "transcribed_at": "2026-07-28",
+          "access_method": "official_search_index_and_current_secondary_cross_check",
+          "values_verified": false
+        }
+      },
+      "margin": {
+        "rate_of_notional": "0.07",
+        "applicable_contracts": ["DCE.m2609"],
+        "price_basis": "settlement_price",
+        "effective_from": "2026-05-07",
+        "must_reverify_before": "2026-08-04",
+        "note": "Restored post-holiday exchange margin snapshot; contract and risk-control escalation can override it.",
+        "provenance": {
+          "source_url": "http://www.dce.com.cn/dce/content/2026/ywggytz/18629001.html",
+          "source_title": "关于2026年劳动节假期调整相关品种期货合约涨跌停板幅度和交易保证金水平的通知",
+          "publication_date": "2026-04-27",
+          "transcribed_by": "Codex-assisted research",
+          "transcribed_at": "2026-07-28",
+          "access_method": "official_search_index_snippet_and_restoration_notice",
+          "values_verified": false
+        }
+      }
+    }
+  ]
+}

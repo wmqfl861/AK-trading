@@ -1,0 +1,1386 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-08-05T20:30:00+08:00",
+  "sources": [
+    {
+      "exchange": "SHFE",
+      "official_domains": [
+        "shfe.com.cn"
+      ],
+      "catalog_url": "https://www.shfe.com.cn/products/futures/",
+      "calendar_url": "https://www.shfe.com.cn/services/calenderandholidays/holiday/",
+      "rule_query_template": "site:shfe.com.cn {product} 交易手续费 交易保证金 涨跌停板"
+    },
+    {
+      "exchange": "INE",
+      "official_domains": [
+        "ine.cn"
+      ],
+      "catalog_url": "https://www.ine.cn/products/futures/",
+      "calendar_url": "https://www.ine.cn/services/calenderandholidays/holiday/",
+      "rule_query_template": "site:ine.cn {product} 交易手续费 交易保证金 涨跌停板"
+    },
+    {
+      "exchange": "DCE",
+      "official_domains": [
+        "dce.com.cn"
+      ],
+      "catalog_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "calendar_url": "http://www.dce.com.cn/dce/zwzx/gglz/holiday/index.html",
+      "rule_query_template": "site:dce.com.cn {product} 交易手续费 交易保证金 涨跌停板"
+    },
+    {
+      "exchange": "CZCE",
+      "official_domains": [
+        "czce.com.cn"
+      ],
+      "catalog_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "calendar_url": "https://www.czce.com.cn/cn/gyjys/jysdt/ggytz/H770103index_1.htm",
+      "rule_query_template": "site:czce.com.cn {product} 交易手续费 交易保证金 涨跌停板"
+    },
+    {
+      "exchange": "CFFEX",
+      "official_domains": [
+        "cffex.com.cn"
+      ],
+      "catalog_url": "http://www.cffex.com.cn/cn/jysgz.html",
+      "calendar_url": "http://www.cffex.com.cn/jysj/jyrl/",
+      "rule_query_template": "site:cffex.com.cn {product} 交易手续费 交易保证金 涨跌停板"
+    },
+    {
+      "exchange": "GFEX",
+      "official_domains": [
+        "gfex.com.cn"
+      ],
+      "catalog_url": "https://www.gfex.com.cn/",
+      "calendar_url": "https://www.gfex.com.cn/gfex/jyrl/list.shtml",
+      "rule_query_template": "site:gfex.com.cn {product} 交易手续费 交易保证金 涨跌停板"
+    }
+  ],
+  "calendars": [
+    {
+      "exchange": "CFFEX",
+      "valid_from": "2026-01-01",
+      "valid_through": "2026-12-31",
+      "closed_dates": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-02-16",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-02-20",
+        "2026-02-23",
+        "2026-04-06",
+        "2026-05-01",
+        "2026-05-04",
+        "2026-05-05",
+        "2026-06-19",
+        "2026-09-25",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "source_url": "http://www.cffex.com.cn/jysj/jyrl/",
+      "status": "review_required"
+    },
+    {
+      "exchange": "CZCE",
+      "valid_from": "2026-01-01",
+      "valid_through": "2026-12-31",
+      "closed_dates": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-02-16",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-02-20",
+        "2026-02-23",
+        "2026-04-06",
+        "2026-05-01",
+        "2026-05-04",
+        "2026-05-05",
+        "2026-06-19",
+        "2026-09-25",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "source_url": "https://www.czce.com.cn/cn/gyjys/jysdt/ggytz/H770103index_1.htm",
+      "status": "review_required"
+    },
+    {
+      "exchange": "DCE",
+      "valid_from": "2026-01-01",
+      "valid_through": "2026-12-31",
+      "closed_dates": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-02-16",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-02-20",
+        "2026-02-23",
+        "2026-04-06",
+        "2026-05-01",
+        "2026-05-04",
+        "2026-05-05",
+        "2026-06-19",
+        "2026-09-25",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "source_url": "http://www.dce.com.cn/dce/zwzx/gglz/holiday/index.html",
+      "status": "review_required"
+    },
+    {
+      "exchange": "GFEX",
+      "valid_from": "2026-01-01",
+      "valid_through": "2026-12-31",
+      "closed_dates": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-02-16",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-02-20",
+        "2026-02-23",
+        "2026-04-06",
+        "2026-05-01",
+        "2026-05-04",
+        "2026-05-05",
+        "2026-06-19",
+        "2026-09-25",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "source_url": "https://www.gfex.com.cn/gfex/jyrl/list.shtml",
+      "status": "review_required"
+    },
+    {
+      "exchange": "INE",
+      "valid_from": "2026-01-01",
+      "valid_through": "2026-12-31",
+      "closed_dates": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-02-16",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-02-20",
+        "2026-02-23",
+        "2026-04-06",
+        "2026-05-01",
+        "2026-05-04",
+        "2026-05-05",
+        "2026-06-19",
+        "2026-09-25",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "source_url": "https://www.ine.cn/services/calenderandholidays/holiday/",
+      "status": "review_required"
+    },
+    {
+      "exchange": "SHFE",
+      "valid_from": "2026-01-01",
+      "valid_through": "2026-12-31",
+      "closed_dates": [
+        "2026-01-01",
+        "2026-01-02",
+        "2026-02-16",
+        "2026-02-17",
+        "2026-02-18",
+        "2026-02-19",
+        "2026-02-20",
+        "2026-02-23",
+        "2026-04-06",
+        "2026-05-01",
+        "2026-05-04",
+        "2026-05-05",
+        "2026-06-19",
+        "2026-09-25",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "source_url": "https://www.shfe.com.cn/services/calenderandholidays/holiday/",
+      "status": "review_required"
+    }
+  ],
+  "products": [
+    {
+      "exchange": "CFFEX",
+      "code": "IC",
+      "name_zh": "中证500股指",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.cffex.com.cn/cn/zz500.html",
+      "spec_urls": [
+        "http://www.cffex.com.cn/sj/jscs/202607/20/20260720_1.csv"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CFFEX.ICYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CFFEX",
+      "code": "IF",
+      "name_zh": "沪深300股指",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.cffex.com.cn/cn/hs300.html",
+      "spec_urls": [
+        "http://www.cffex.com.cn/sj/jscs/202607/20/20260720_1.csv"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CFFEX.IFYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CFFEX",
+      "code": "IH",
+      "name_zh": "上证50股指",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.cffex.com.cn/cn/sz50.html",
+      "spec_urls": [
+        "http://www.cffex.com.cn/sj/jscs/202607/20/20260720_1.csv"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CFFEX.IHYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CFFEX",
+      "code": "IM",
+      "name_zh": "中证1000股指",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.cffex.com.cn/cn/jysgz.html",
+      "spec_urls": [
+        "http://www.cffex.com.cn/sj/jscs/202607/20/20260720_1.csv"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CFFEX.IMYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CFFEX",
+      "code": "T",
+      "name_zh": "10年期国债",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.cffex.com.cn/cn/10ts.html",
+      "spec_urls": [
+        "http://www.cffex.com.cn/sj/jscs/202607/20/20260720_1.csv"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CFFEX.TYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CFFEX",
+      "code": "TF",
+      "name_zh": "5年期国债",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.cffex.com.cn/cn/5ts.html",
+      "spec_urls": [
+        "http://www.cffex.com.cn/sj/jscs/202607/20/20260720_1.csv"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CFFEX.TFYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CFFEX",
+      "code": "TL",
+      "name_zh": "30年期国债",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.cffex.com.cn/cn/jysgz.html",
+      "spec_urls": [
+        "http://www.cffex.com.cn/sj/jscs/202607/20/20260720_1.csv"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CFFEX.TLYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CFFEX",
+      "code": "TS",
+      "name_zh": "2年期国债",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.cffex.com.cn/cn/2ts.html",
+      "spec_urls": [
+        "http://www.cffex.com.cn/sj/jscs/202607/20/20260720_1.csv"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CFFEX.TSYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "AP",
+      "name_zh": "苹果",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/pg/bzhy/qhhy/H077002021001001index_1.htm",
+      "spec_urls": [],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.APYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "CF",
+      "name_zh": "棉花",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/mh/bzhy/qhhy/H077002003001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.CFYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "CJ",
+      "name_zh": "红枣",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/hzqh/bzhy/qhhy/H077002022002001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.CJYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "CY",
+      "name_zh": "棉纱",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/miansha/pzjs/qh/H077002019003001index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/miansha/H077002019index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.CYYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "FG",
+      "name_zh": "玻璃",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/bl/pzjs/qh/webinfo/2026/6/5771ea18421e4f2fbc44eb99d171dd3c.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/bl/bzhy/qhhy/H077002009001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.FGYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "JR",
+      "name_zh": "粳稻",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/jd/H077002013index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.JRYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "LR",
+      "name_zh": "晚籼稻",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/wxd/bzhy/qhhy/H077002014001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.LRYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "MA",
+      "name_zh": "甲醇",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/jc/bzhy/qhhy/H077002008001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.MAYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "OI",
+      "name_zh": "菜籽油",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/czy/bzhy/qhhy/H077002006001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.OIYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "PF",
+      "name_zh": "短纤",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/dxqh/bzhy/qhhy/H077002025002001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.PFYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "PK",
+      "name_zh": "花生",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/hsqh/bzhy/qhhy/H077002026002001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.PKYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "PM",
+      "name_zh": "普麦",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/pm/bzhy/qhhy/H077002002001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.PMYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "PR",
+      "name_zh": "瓶片",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/ppqh/pzjs/qh/webinfo/2026/5/2520a04206b24de7bbe2b9b11c4971ba.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/ppqh/bzhy/qhhy/H077002029002001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.PRYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "PX",
+      "name_zh": "对二甲苯",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/dejbqhqq/bzhy/qhhy/H077002027002001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.PXYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "RI",
+      "name_zh": "早籼稻",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/zxd/bzhy/qhhy/H077002007001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.RIYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "RM",
+      "name_zh": "菜籽粕",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/czp/bzhy/qhhy/H077002011001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.RMYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "SA",
+      "name_zh": "纯碱",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/cjqh/bzhy/qhhy/H077002024002001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.SAYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "SF",
+      "name_zh": "硅铁",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/gt/pzjs/qh/webinfo/2026/6/2896cc346df940cfbcfc2dc9b1ae2e57.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/gt/bzhy/qhhy/H077002017001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.SFYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "SH",
+      "name_zh": "烧碱",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/sjqhqq/bzhy/qhhy/H077002028002001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.SHYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "SM",
+      "name_zh": "锰硅",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/gt/pzjs/qh/webinfo/2026/6/2896cc346df940cfbcfc2dc9b1ae2e57.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/meng/bzhy/qhhy/H077002020001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.SMYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "SR",
+      "name_zh": "白糖",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/bt/bzhy/qhhy/H077002004001001index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/bt/bzhy/qhhy/webinfo/2022/09/1655822320756765.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.SRYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "TA",
+      "name_zh": "PTA",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/pta/bzhy/qhhy/H077002005001001index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/flfg/zcjywgz/pzxz/webinfo/2024/11/1726395728638580.htm"
+      ],
+      "representative_contract": "CZCE.TA609",
+      "contract_pattern": "CZCE.TAYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "UR",
+      "name_zh": "尿素",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/H077002index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/nsqh/bzhy/qhhy/H077002023002001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.URYYMM",
+      "note": null
+    },
+    {
+      "exchange": "CZCE",
+      "code": "WH",
+      "name_zh": "强麦",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.czce.com.cn/cn/sspz/qm/H077002001index_1.htm",
+      "spec_urls": [
+        "https://www.czce.com.cn/cn/sspz/qm/bzhy/qhhy/H077002001001001index_1.htm"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "CZCE.WHYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "A",
+      "name_zh": "黄大豆1号",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487124/487128/1391009/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.aYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "B",
+      "name_zh": "黄大豆2号",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487153/487157/6040854/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.bYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "C",
+      "name_zh": "玉米",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/ym/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/ym/hyygz/486238/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.cYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "CS",
+      "name_zh": "玉米淀粉",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/2081746/2081749/2081867/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.csYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "EB",
+      "name_zh": "苯乙烯",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/byx/hyygz42/6189178/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.ebYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "EG",
+      "name_zh": "乙二醇",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/yec63/6138350/6139005/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.egYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "I",
+      "name_zh": "铁矿石",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487477/487481/1500303/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.iYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "J",
+      "name_zh": "焦炭",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/487450/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487423/487427/1499525/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.jYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "JD",
+      "name_zh": "鸡蛋",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487261/487265/1498768/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.jdYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "JM",
+      "name_zh": "焦煤",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/487450/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487450/487454/1500228/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.jmYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "L",
+      "name_zh": "聚乙烯",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487342/487346/1498988/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.lYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "LG",
+      "name_zh": "原木",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/8621114/8621115/8622329/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.lgYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "LH",
+      "name_zh": "生猪",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/sz/hyygz30/6264142/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.lhYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "M",
+      "name_zh": "豆粕",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/487180/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487180/487184/1391326/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": "DCE.m2609",
+      "contract_pattern": "DCE.mYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "P",
+      "name_zh": "棕榈油",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487234/487238/1495874/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.pYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "PG",
+      "name_zh": "液化石油气",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/yhsyq/hyygz7622/6210766/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.pgYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "PP",
+      "name_zh": "聚丙烯",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487396/487400/1499431/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.ppYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "RR",
+      "name_zh": "粳米",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/jm43/hyygz18/6178989/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.rrYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "V",
+      "name_zh": "聚氯乙烯",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487369/487373/1499103/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.vYYMM",
+      "note": null
+    },
+    {
+      "exchange": "DCE",
+      "code": "Y",
+      "name_zh": "豆油",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/index.html",
+      "spec_urls": [
+        "http://www.dce.com.cn/dalianshangpin/sspz/487207/487211/1472342/index.html",
+        "http://www.dce.com.cn/dalianshangpin/ywfw/ywcs/jycs/2082281/index.html"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "DCE.yYYMM",
+      "note": null
+    },
+    {
+      "exchange": "GFEX",
+      "code": "LC",
+      "name_zh": "碳酸锂",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.gfex.com.cn/gfex/tslhyygz/list_notime.shtml",
+      "representative_contract": null,
+      "contract_pattern": "GFEX.lcYYMM",
+      "note": null,
+      "spec_urls": [
+        "https://www.gfex.com.cn/gfex/tsl/sspz.shtml"
+      ]
+    },
+    {
+      "exchange": "GFEX",
+      "code": "PD",
+      "name_zh": "钯",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.gfex.com.cn/gfex/phyygz/list_notime.shtml",
+      "spec_urls": [
+        "https://www.gfex.com.cn/gfex/tzts/202602/7721a6a255bd477c9f317bd88c12daa8.shtml",
+        "https://www.gfex.com.cn/gfex/sspzp/sspz.shtml"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "GFEX.pdYYMM",
+      "note": null
+    },
+    {
+      "exchange": "GFEX",
+      "code": "PS",
+      "name_zh": "多晶硅",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.gfex.com.cn/gfex/djghyygz/list_notime.shtml",
+      "representative_contract": null,
+      "contract_pattern": "GFEX.psYYMM",
+      "note": null,
+      "spec_urls": [
+        "https://www.gfex.com.cn/gfex/djg/sspz.shtml"
+      ]
+    },
+    {
+      "exchange": "GFEX",
+      "code": "PT",
+      "name_zh": "铂",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.gfex.com.cn/gfex/phyygz/list_notime.shtml",
+      "representative_contract": null,
+      "contract_pattern": "GFEX.ptYYMM",
+      "note": null,
+      "spec_urls": [
+        "https://www.gfex.com.cn/gfex/tzts/202602/7721a6a255bd477c9f317bd88c12daa8.shtml",
+        "https://www.gfex.com.cn/gfex/sspzb/sspz.shtml"
+      ]
+    },
+    {
+      "exchange": "GFEX",
+      "code": "SI",
+      "name_zh": "工业硅",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.gfex.com.cn/gfex/gyeg/sspz.shtml",
+      "spec_urls": [
+        "https://www.gfex.com.cn/gfex/tzts/202507/3d7313cf35384467a7c739ee23abcc65.shtml"
+      ],
+      "representative_contract": null,
+      "contract_pattern": "GFEX.siYYMM",
+      "note": null
+    },
+    {
+      "exchange": "INE",
+      "code": "BC",
+      "name_zh": "国际铜",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.ine.cn/products/futures/metal/nonferrousmetal/bc_f/",
+      "representative_contract": null,
+      "contract_pattern": "INE.bcYYMM",
+      "note": null,
+      "spec_urls": [
+        "https://www.ine.cn/reports/businessdata/feeandcharges/202604/W020260427606255890773.xlsx"
+      ]
+    },
+    {
+      "exchange": "INE",
+      "code": "EC",
+      "name_zh": "集运指数（欧线）",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.ine.cn/products/futures/index_f/ec_f/",
+      "representative_contract": null,
+      "contract_pattern": "INE.ecYYMM",
+      "note": null,
+      "spec_urls": [
+        "https://www.ine.cn/reports/businessdata/feeandcharges/202604/W020260427606255890773.xlsx"
+      ]
+    },
+    {
+      "exchange": "INE",
+      "code": "LU",
+      "name_zh": "低硫燃料油",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.ine.cn/products/futures/energyandchemical/lu_f/",
+      "representative_contract": null,
+      "contract_pattern": "INE.luYYMM",
+      "note": null,
+      "spec_urls": [
+        "https://www.ine.cn/reports/businessdata/feeandcharges/202604/W020260427606255890773.xlsx"
+      ]
+    },
+    {
+      "exchange": "INE",
+      "code": "NR",
+      "name_zh": "20号胶",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.ine.cn/products/futures/energyandchemical/nr_f/",
+      "representative_contract": null,
+      "contract_pattern": "INE.nrYYMM",
+      "note": null,
+      "spec_urls": [
+        "https://www.ine.cn/reports/businessdata/feeandcharges/202604/W020260427606255890773.xlsx"
+      ]
+    },
+    {
+      "exchange": "INE",
+      "code": "SC",
+      "name_zh": "原油",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.ine.cn/products/futures/energyandchemical/sc_f/",
+      "representative_contract": null,
+      "contract_pattern": "INE.scYYMM",
+      "note": null,
+      "spec_urls": [
+        "https://www.ine.cn/reports/businessdata/feeandcharges/202604/W020260427606255890773.xlsx"
+      ]
+    },
+    {
+      "exchange": "SHFE",
+      "code": "AD",
+      "name_zh": "铸造铝合金",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/index/othercontents/2025_AD/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.adYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "AG",
+      "name_zh": "白银",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/preciousmetal/ag_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.agYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "AL",
+      "name_zh": "铝",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/nonferrousmetal/al_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.alYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "AO",
+      "name_zh": "氧化铝",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/nonferrousmetal/ao_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.aoYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "AU",
+      "name_zh": "黄金",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/preciousmetal/au_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.auYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "BR",
+      "name_zh": "丁二烯橡胶",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/energyandchemical/br_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.brYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "BU",
+      "name_zh": "石油沥青",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/energyandchemical/bu_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.buYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "CU",
+      "name_zh": "铜",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/nonferrousmetal/cu_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.cuYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "FU",
+      "name_zh": "燃料油",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/energyandchemical/fu_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.fuYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "HC",
+      "name_zh": "热轧卷板",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/ferrousandpreciousmetal/hc_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.hcYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "NI",
+      "name_zh": "镍",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/nonferrousmetal/ni_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.niYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "PB",
+      "name_zh": "铅",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/nonferrousmetal/pb_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.pbYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "RB",
+      "name_zh": "螺纹钢",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/ferrousandpreciousmetal/rb_f/",
+      "representative_contract": "SHFE.rb2610",
+      "contract_pattern": "SHFE.rbYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "RU",
+      "name_zh": "天然橡胶",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/energyandchemical/ru_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.ruYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "SN",
+      "name_zh": "锡",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/nonferrousmetal/sn_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.snYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "SP",
+      "name_zh": "纸浆",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/energyandchemical/sp_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.spYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "SS",
+      "name_zh": "不锈钢",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/steel/ss_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.ssYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "WR",
+      "name_zh": "线材",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/ferrousandpreciousmetal/wr_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.wrYYMM",
+      "note": null
+    },
+    {
+      "exchange": "SHFE",
+      "code": "ZN",
+      "name_zh": "锌",
+      "instrument_kind": "future",
+      "status": "listed",
+      "source_url": "https://www.shfe.com.cn/products/futures/metal/nonferrousmetal/zn_f/",
+      "representative_contract": null,
+      "contract_pattern": "SHFE.znYYMM",
+      "note": null
+    }
+  ],
+  "excluded_options": [
+    {
+      "exchange": "CFFEX",
+      "code": "IF_OPTION",
+      "name_zh": "沪深300股指期权",
+      "instrument_kind": "option",
+      "status": "excluded_option",
+      "source_url": "http://www.cffex.com.cn/cn/gzqqjczs.html",
+      "reason": "Options are deliberately outside the current collection scope."
+    },
+    {
+      "exchange": "CZCE",
+      "code": "TA_OPTION",
+      "name_zh": "PTA期权",
+      "instrument_kind": "option",
+      "status": "excluded_option",
+      "source_url": "https://www.czce.com.cn/cn/sspz/pta/bzhy/qqhy/H077002005001002index_1.htm",
+      "reason": "Options are deliberately outside the current collection scope."
+    },
+    {
+      "exchange": "DCE",
+      "code": "M_OPTION",
+      "name_zh": "豆粕期权",
+      "instrument_kind": "option",
+      "status": "excluded_option",
+      "source_url": "http://www.dce.com.cn/dalianshangpin/sspz/dpqq/index.html",
+      "reason": "Options are deliberately outside the current collection scope."
+    },
+    {
+      "exchange": "GFEX",
+      "code": "LC_OPTION",
+      "name_zh": "碳酸锂期权",
+      "instrument_kind": "option",
+      "status": "excluded_option",
+      "source_url": "https://www.gfex.com.cn/gfex/tslhyygz/list_notime.shtml",
+      "reason": "Options are deliberately outside the current collection scope."
+    },
+    {
+      "exchange": "INE",
+      "code": "SC_OPTION",
+      "name_zh": "原油期权",
+      "instrument_kind": "option",
+      "status": "excluded_option",
+      "source_url": "https://www.ine.cn/products/futures/energyandchemical/sc_f/",
+      "reason": "Options are deliberately outside the current collection scope."
+    },
+    {
+      "exchange": "SHFE",
+      "code": "RB_OPTION",
+      "name_zh": "螺纹钢期权",
+      "instrument_kind": "option",
+      "status": "excluded_option",
+      "source_url": "https://www.shfe.com.cn/index/othercontents/FUTURES-OPTIONS/",
+      "reason": "Options are deliberately outside the current collection scope."
+    }
+  ],
+  "review_reason": "Official exchange directory anchors are retained as catalog evidence. Product membership remains review-required until each exchange-specific catalog adapter refreshes and archives the current directory document."
+}

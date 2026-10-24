@@ -1,0 +1,59 @@
+{
+  "operation": "20261024-001-download-run002",
+  "sdk_version": "3.10.2",
+  "channel": "tqsdk_free_realtime_recent_serial",
+  "enable_trading": false,
+  "broker": "NOT_RUN",
+  "real_sends": 0,
+  "real_cancels": 0,
+  "target_complete_trading_day": "2026-10-23",
+  "series": [
+    {
+      "symbol": "KQ.m@CZCE.LR",
+      "duration_seconds": 60,
+      "requested_rows": 10000,
+      "frame_rows": 10000,
+      "raw_path": "data/market_data_backfill/20261024-001/download-run002/LR-main-60.raw.csv",
+      "raw_sha256": "ae3ebda66fe16a69c2d62d9cec1993f2e26bc9bddb7dff5372f0eea6f6fa8555",
+      "quote_metadata": {
+        "datetime": "2026-01-16 14:59:59.000001",
+        "ins_class": "CONT",
+        "underlying_symbol": "CZCE.LR601",
+        "expired": false
+      },
+      "valid_rows": 10000,
+      "selected_closed_rows": 10000,
+      "first_datetime_nano": 1763004000000000000,
+      "last_datetime_nano": 1768546740000000000,
+      "closed_path": "data/market_data_backfill/20261024-001/download-run002/LR-main-60.closed.csv",
+      "closed_rows_written": 10000,
+      "closed_sha256": "14fc74f8a5af30bee51d3865f8ddafd7aff5b608913d223c4f03da212a9bbf5d",
+      "status": "RAW_STAGED"
+    },
+    {
+      "symbol": "KQ.i@CZCE.LR",
+      "duration_seconds": 86400,
+      "requested_rows": 128,
+      "frame_rows": 128,
+      "raw_path": "data/market_data_backfill/20261024-001/download-run002/LR-index-86400.raw.csv",
+      "raw_sha256": "514ff269e058859737f7cb0172435e3a24a1985bc474c1c3b1cd7f43308559e9",
+      "quote_metadata": {
+        "datetime": "2026-01-16 14:59:59.000001",
+        "ins_class": "INDEX",
+        "underlying_symbol": "",
+        "expired": false
+      },
+      "valid_rows": 128,
+      "selected_closed_rows": 128,
+      "first_datetime_nano": 1752163200000000000,
+      "last_datetime_nano": 1768492800000000000,
+      "closed_path": "data/market_data_backfill/20261024-001/download-run002/LR-index-86400.closed.csv",
+      "closed_rows_written": 128,
+      "closed_sha256": "6f5679c7730ae05c12daf1bf0922faec6fa420731e8331cb2ccf7dc818967882",
+      "status": "RAW_STAGED"
+    }
+  ],
+  "lr_unexpired_futures": [],
+  "elapsed_seconds": 41.625,
+  "status": "STAGING_COMPLETE"
+}

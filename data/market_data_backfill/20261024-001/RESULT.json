@@ -1,0 +1,156 @@
+{
+  "schema": "aktr-free-market-data-backfill-result/v1",
+  "generated_at_utc": "2026-10-24T12:26:58.742769+00:00",
+  "owner_status": "READY_FOR_INDEPENDENT_REVIEW",
+  "data_disposition": "NO_IMPORT_NEEDED_IN_VERIFIED_WINDOWS",
+  "target_complete_trading_day": "2026-10-23",
+  "tracked_main_60s_series": 81,
+  "tracked_index_daily_series": 81,
+  "latest_session_nonempty_main_series": 80,
+  "latest_session_nonempty_index_series": 80,
+  "latest_main_minute_rows": 26250,
+  "minute_tail_window_shanghai": {
+    "start_inclusive": "2026-10-08T00:00:00+08:00",
+    "end_exclusive": "2026-10-23T16:00:00+08:00"
+  },
+  "minute_tail_rows_checked": 306930,
+  "minute_tail_duplicate_nano_keys": 0,
+  "minute_tail_invalid_ohlcv_oi_rows": 0,
+  "minute_tail_nonincreasing_keys": 0,
+  "minute_tail_unaligned_minute_keys": 0,
+  "minute_tail_queries_at_limit": 0,
+  "rb_ta_m_exact_reference_grid_rows_each": 4020,
+  "rb_ta_m_grid_missing_or_extra_nanos": 0,
+  "stored_unknown_trading_day_rows_retained": 2100,
+  "stored_unknown_trading_day_series": 13,
+  "index_daily_window_inclusive": [
+    "2026-09-01",
+    "2026-10-23"
+  ],
+  "reference_calendar_trading_days": 33,
+  "index_daily_complete_observed_series": 80,
+  "index_daily_rows_checked": 2640,
+  "index_daily_duplicate_keys": 0,
+  "index_daily_invalid_ohlcv_oi_rows": 0,
+  "index_daily_empty_series": [
+    "KQ.i@CZCE.LR"
+  ],
+  "concrete_latest_anchors": [
+    "SHFE.rb2701",
+    "CZCE.TA701",
+    "DCE.m2701"
+  ],
+  "concrete_latest_rows_each": {
+    "60": 345,
+    "86400": 1
+  },
+  "lr_free_source": {
+    "main_minute_rows": 10000,
+    "index_daily_rows": 128,
+    "latest_observed_market_date": "2026-01-16",
+    "main_underlying_symbol": "CZCE.LR601",
+    "unexpired_futures_query_result": [],
+    "observation_does_not_establish_permanent_exchange_delisting": true
+  },
+  "lr_db_comparison": {
+    "equal_nano_keys_and_all_seven_values": 10128,
+    "missing_rows": 0,
+    "conflicting_rows": 0,
+    "db_extra_keys_in_source_bounds": 0,
+    "bounded_query_rows": [
+      5000,
+      5000,
+      128
+    ],
+    "detail": "LR-OVERLAP-COMPARISON.json"
+  },
+  "database_rows_imported": 0,
+  "database_write": "NOT_RUN_NOT_NEEDED",
+  "runtime": {
+    "interpreter": "D:/Programs/Python/Python312/python.exe",
+    "tqsdk": "3.10.2",
+    "project_dependency_pin_unchanged": true,
+    "independent_3_10_3_environment_unchanged": true
+  },
+  "transport_attempts": [
+    {
+      "id": "run001",
+      "native_exit": 2,
+      "stage": "session",
+      "exception_type": "SSLError",
+      "csv_downloaded": false,
+      "replayed": false
+    },
+    {
+      "id": "run002",
+      "native_exit": 0,
+      "elapsed_supervisor_seconds": 56.172,
+      "peak_rss_bytes": 246267904,
+      "tls_or_proxy_configuration_changed": false,
+      "replayed": false
+    }
+  ],
+  "tls_root_cause": "UNDETERMINED_FIRST_FAILURE_NOT_REPRODUCED",
+  "credentials": {
+    "input": "Root hidden temporary stdin",
+    "persisted": false,
+    "echoed": false,
+    "model_read_credentials": false
+  },
+  "trading": {
+    "enable_trading": false,
+    "broker": "NOT_RUN",
+    "real_sends": 0,
+    "real_cancels": 0
+  },
+  "effective_existing_plan": {
+    "path": "data/maintenance_artifacts/acquisition-execution-arbitration-20260919-r1/decision.md",
+    "clauses": [
+      "H01",
+      "H03.4",
+      "H07"
+    ],
+    "old_target_and_request_budget_not_reused_as_current_authorization": true
+  },
+  "limitations": [
+    "No full database history or all-concrete-contract completeness claim.",
+    "Complete reference session nano grid was checked for RB/TA/M only; other main-series quality and physical latest-session coverage do not prove every expected session slot.",
+    "2100 physically present long-night rows retain NULL trading_day labels; public calendar behavior was not repaired.",
+    "Pre-2026 labels, old 2018 invalid-source gaps and ranges outside the observed free serial windows were not repaired or fully rescanned.",
+    "Free get_kline_serial is bounded recent history and cannot page backwards.",
+    "No PIT research-input/source qualification was inferred.",
+    "Independent DB seven-field equality re-run remains reviewer responsibility; offline report arithmetic alone cannot substitute for it."
+  ],
+  "preserved_diagnostic_failures": [
+    {
+      "kind": "optional docs discovery timeout",
+      "native_exit": 1,
+      "semantic": "TimeoutExpired after 25 seconds, not NO_MATCH",
+      "tool_chunk": "959f36"
+    },
+    {
+      "kind": "offline cached-expiry summary",
+      "native_exit": 1,
+      "semantic": "TypeError comparing None expiry; later bounded read explicitly separated unknown expiry",
+      "tool_chunk": "beaf42"
+    },
+    {
+      "kind": "independent 3.10.3 helper import probe",
+      "native_exit": 0,
+      "semantic": "Probe reported helper_import FAIL/ModuleNotFoundError dotenv; not used for online operation",
+      "tool_chunk": "136e32"
+    }
+  ],
+  "review_handoff": "REVIEW-HANDOFF.md",
+  "publication_allowlist": "PUBLICATION-FILES.json",
+  "local_raw_csv_publication": false,
+  "owner_offline_recheck": {
+    "initial_native_exit": 1,
+    "initial_artifact": "OFFLINE-RECHECK-RESULT.json",
+    "initial_reason": "Offline verifier assumed raw nano text was decimal integer; actual raw CSV used scientific notation. No source CSV changed.",
+    "successor_native_exit": 0,
+    "successor_artifact": "OFFLINE-RECHECK-RESULT-002.json",
+    "parse_policy": "Decimal exact integral nano; never float rounding",
+    "independent_review_credit": false
+  }
+}

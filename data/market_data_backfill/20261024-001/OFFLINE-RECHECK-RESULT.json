@@ -1,0 +1,9 @@
+{
+  "purpose": "Owner recheck of exact read-only command published in REVIEW-HANDOFF.md; not independent review",
+  "native_exit": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"<stdin>\", line 24, in <module>\nValueError: invalid literal for int() with base 10: '1.763004e+18'\n",
+  "database_access": "NOT_RUN",
+  "sdk_constructed": false,
+  "network": "NOT_RUN"
+}

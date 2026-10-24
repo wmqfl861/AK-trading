@@ -1,0 +1,74 @@
+{
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "case_id": "v2/validation_replay_metrics",
+  "description": "SYNTHETIC case: one evaluate_replay call per operation over the filled synthetic replay built once in (untimed) setup; exercises the episode FIFO accounting, fee verification and reconciliation path. With one closed synthetic episode the production report honestly stays INSUFFICIENT - this case measures the accounting path, never statistical quality.",
+  "origin": "SYNTHETIC",
+  "domain": "v2",
+  "backend": "python-inprocess",
+  "eligible_for_baseline": true,
+  "algorithm_version": "v2-validation-worktree-20260924",
+  "policy_version": "research-policy-v2.1.0",
+  "workload": {
+    "source": "tools/benchmarks/workloads/v2.py",
+    "entrypoint": "build"
+  },
+  "measured_modules": [
+    "ak_trading.v2.validation.metrics",
+    "ak_trading.v2.decision.replay"
+  ],
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/workloads/v2.py",
+      "role": "workload"
+    },
+    {
+      "path": "tools/benchmarks/fixtures/v2/validation.json",
+      "role": "input"
+    },
+    {
+      "path": "tools/benchmarks/fixtures/v2/decision_replay.json",
+      "role": "input"
+    }
+  ],
+  "params": {
+    "case": "validation_replay_metrics",
+    "seed": 20260924,
+    "case_family": "VALIDATION_METRICS",
+    "bootstrap_replicates": 1000
+  },
+  "measurement": {
+    "sample_mode": "per_operation",
+    "units": "evaluate_replay_calls",
+    "units_per_operation": 1,
+    "min_operations": 100,
+    "batch_size": 100,
+    "reset_method": "none",
+    "includes_io": false
+  },
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "environment": {
+    "depends_on": []
+  },
+  "correctness": {
+    "kind": "digest",
+    "expected_digest": "431040dea57573431dfe12cd792e53ff4837fdd144dba512ad0d57ec88ba60d3",
+    "normalizations": []
+  },
+  "budget": {
+    "smoke": {
+      "warmup_operations": 10,
+      "operations": 100,
+      "case_timeout_s": 30
+    },
+    "formal": {
+      "batches": 5,
+      "warmup_operations": 10,
+      "operations_per_batch": 20,
+      "case_timeout_s": 600
+    }
+  }
+}

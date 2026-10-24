@@ -1,0 +1,70 @@
+{
+  "algorithm_version": "UNKNOWN",
+  "backend": "python-inprocess",
+  "budget": {
+    "formal": {
+      "batches": 5,
+      "case_timeout_s": 600,
+      "operations_per_batch": 20,
+      "warmup_operations": 20
+    },
+    "smoke": {
+      "case_timeout_s": 30,
+      "operations": 200,
+      "warmup_operations": 20
+    }
+  },
+  "case_id": "observer/parse_accept_typical_inprocess",
+  "correctness": {
+    "expected_digest": "1c3e2ae6cce1cbfe1ad1a2e915f9729744b21739a173e84b9b1d991435f60d92",
+    "kind": "digest",
+    "normalizations": []
+  },
+  "description": "SYNTHETIC in-process measurement of protocol.parse_json_body on one canonical legal request body (SHFE.rb2610, 1 symbol, 4 standard ticks, fixed byte count; see payload-spec fixture). Pure in-process CPU measurement: no I/O, no sockets, no service objects. Not an HTTP measurement.",
+  "domain": "observer",
+  "eligible_for_baseline": true,
+  "environment": {
+    "depends_on": [
+      "ak_trading"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/fixtures/observer/payload-spec.json",
+      "role": "input"
+    },
+    {
+      "path": "tools/benchmarks/workloads/observer.py",
+      "role": "workload"
+    }
+  ],
+  "measured_modules": [
+    "ak_trading.infiny_bridge.protocol"
+  ],
+  "measurement": {
+    "batch_size": 100,
+    "includes_io": false,
+    "min_operations": 100,
+    "reset_method": "none",
+    "sample_mode": "per_operation",
+    "units": "payloads",
+    "units_per_operation": 1
+  },
+  "origin": "SYNTHETIC",
+  "params": {
+    "case": "observer/parse_accept_typical_inprocess",
+    "payload_spec": "tools/benchmarks/fixtures/observer/payload-spec.json",
+    "seed": 20260924
+  },
+  "policy_version": "nf23-observer-bench-r1",
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "workload": {
+    "entrypoint": "build_parse_accept",
+    "source": "tools/benchmarks/workloads/observer.py"
+  }
+}

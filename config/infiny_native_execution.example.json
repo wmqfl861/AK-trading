@@ -1,0 +1,20 @@
+{
+  "exchange": "",
+  "instrument_id": "",
+  "additional_symbols": "",
+  "api_url": "http://127.0.0.1:17778/analyze",
+  "execution_api_url": "http://127.0.0.1:17779/execution/v1/poll",
+  "batch_size": 10,
+  "account_tag": "",
+  "investor_id": "",
+  "hedge_flag": "",
+  "enable_trading": false,
+  "execution_mode": "disabled",
+  "order_volume": 1,
+  "order_type": "GFD",
+  "risk_policy_id": "",
+  "authorization_id": "",
+  "parameter_confirmation": "",
+  "max_native_sends": 0,
+  "max_native_cancels": 0
+}

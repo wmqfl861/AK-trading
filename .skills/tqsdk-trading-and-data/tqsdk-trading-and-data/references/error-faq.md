@@ -1,0 +1,216 @@
+# Error FAQ
+
+## Use This Reference For
+
+- Common TqSdk error messages
+- Authentication input failures and application states such as `WAITING_AUTH`
+- "Why is nothing updating?"
+- "Why is my order or `TargetPosTask` not moving?"
+- Multi-account mistakes
+- Stock versus futures mistakes
+
+## Table Of Contents
+
+- Authentication inputs versus SDK or server rejection
+- No data, `NaN`, or empty fields
+- `insert_order()` or `cancel_order()` does nothing
+- `TargetPosTask` does not act
+- `TargetPosTask` and minimum open volume contracts
+- Multi-account errors
+- Multi-strategy setup errors
+- `offset` errors
+- Stock and futures mixed up
+- `wait_update()` blocks too long
+- Backtest behavior looks wrong
+- `DataDownloader` errors
+- "未初始化 TqApi"
+- Named exception classes
+- Error triage order
+
+## Authentication Inputs Versus SDK Or Server Rejection
+
+`WAITING_AUTH` is an application-defined status, not a general TqSdk exception. Read the application condition before diagnosing it. For example, if an application checks two inherited strings after `.strip()` and emits this status when either is empty, it establishes only that this process has no usable complete pair. It does not prove the machine has no credentials, that SDK login was attempted, or that the server rejected the account.
+
+TqAuth identifies the Tianqin/Quick service user; it is distinct from a real broker login. TqSdk 3.10.1 already introduced local empty-input checking. Upgrading to 3.10.3 does not inject credentials or restore an application authentication chain. Investigate the authorized process-launch/input path without reading or displaying actual secrets, including for presence checks. Environment changes made after a host started may require an authorized host restart before future children inherit them. Respect the application policy on loading `.env`; it is not a universal SDK rule.
+
+Read [install-auth-and-validation.md](install-auth-and-validation.md) before choosing an offline or online diagnostic.
+
+## No Data, `NaN`, Or Empty Fields
+
+Typical cause:
+
+- the user created the object but did not keep calling `wait_update()`
+- the first data packet has not arrived yet
+- the symbol is expired or not the one they meant
+
+Check:
+
+1. Is the code still calling `api.wait_update()`?
+2. Is `quote.datetime` still empty?
+3. Did the user hardcode an expired contract?
+
+## `insert_order()` Or `cancel_order()` "Does Nothing"
+
+Typical cause:
+
+- the user called the API but never called `wait_update()` afterward
+
+Reuse this explanation:
+
+- "`insert_order()` and `cancel_order()` queue the request. The actual packet is sent on the next `wait_update()`."
+
+## `TargetPosTask` Does Not Act
+
+Typical causes:
+
+- no `wait_update()` after `set_target_volume()`
+- the user mixed `TargetPosTask` with manual `insert_order()` on the same symbol
+- the user created another `TargetPosTask` for the same account and symbol with different parameters
+- the task was canceled or already finished
+
+Relevant messages:
+
+- "已经结束的 TargetPosTask 实例不可以再设置手数。"
+- "您试图用不同的 ... 参数创建两个 ... 调仓任务"
+
+## `TargetPosTask` And Minimum Open Volume Contracts
+
+Typical cause:
+
+- the contract has `quote.open_min_market_order_volume > 1` or `quote.open_min_limit_order_volume > 1`
+- by default, `TargetPosTask` refuses these contracts during later `wait_update()` calls
+
+Fix:
+
+- if exact target-position adjustment is required, use manual order control instead
+- if approximate completion is acceptable, create the task with `support_open_min_volume=True`
+- judge completion with `abs(position.pos - target_volume) < quote.open_min_limit_order_volume`
+- if `min_volume` and `max_volume` are used, both must be at least `quote.open_min_limit_order_volume`
+- if the same account and symbol already has a `TargetPosTask`, cancel it before recreating it with a different `support_open_min_volume` value
+
+## Multi-Account Error: "需要指定账户实例 account"
+
+Typical cause:
+
+- the API was created with `TqMultiAccount`, but `account=` was omitted
+
+Fix:
+
+- pass `account=` to account-sensitive APIs
+- or switch to `account_obj.get_account()`, `account_obj.get_position()`, `account_obj.get_order()`, `account_obj.get_trade()`
+
+## Legacy Multi-Strategy: Support Has Stopped
+
+Do not use `TqTradingUnit` in new strategies. Its class is retained for existing strategies and instantiation emits `UserWarning`. The former `tqsdk-zq` front-account setup and management workflows are historical context; do not suggest installing or updating them as a supported fix.
+
+For an existing deployment, separate a public class import/signature check from optional old service runtime failures. Keep the actual traceback and determine whether it shows a required dependency problem, a stopped-support runtime capability, or an API mismatch. Do not install an optional discontinued service merely to inspect a class signature. The official notice is `doc/advanced/tq_trading_unit.rst`; see [install-auth-and-validation.md](install-auth-and-validation.md).
+
+## `offset` Errors
+
+Typical causes:
+
+- futures code used an invalid `offset`
+- stock code wrongly set `offset`
+
+Fix:
+
+- futures: use `OPEN`, `CLOSE`, or `CLOSETODAY`
+- stock: do not pass `offset`
+
+## Stock And Futures Mixed Up
+
+Typical symptoms:
+
+- using futures fields on stock objects
+- expecting `TargetPosTask` to work for stock trading
+- expecting stock orders to accept futures-style `offset`
+
+Fix:
+
+- determine whether the account is futures-like or stock-like first
+- use `SecurityAccount`, `SecurityPosition`, `SecurityOrder`, `SecurityTrade` semantics for stock
+
+## `wait_update()` Blocks Too Long
+
+Typical cause:
+
+- the user expects polling behavior from a blocking update loop
+- the code is running in Jupyter and hangs waiting for updates
+- the first real-account `TqScenario` margin-rate lookup is waiting for OTG data synchronously
+
+Fix:
+
+- use `deadline=...` when the user truly needs a timeout
+- in Jupyter, prefer simple synchronous examples and explicitly mention the limitation
+- if the code uses `TqScenario(account=TqAccount(...))` or `TqScenario(account=TqKq())`, explain that the first uncached margin-rate lookup may block while TqSdk fetches the account-specific rate
+
+## Backtest Behavior Looks Wrong
+
+Typical confusion:
+
+- one `wait_update()` updates only order state
+- the next `wait_update()` advances time
+- multiple series advance in timestamp order
+
+Fix:
+
+- explain that backtest progression differs from live mode
+- point to subscribed series and `is_changing(...)` checks
+
+## `DataDownloader` Errors
+
+Common cases:
+
+- account does not have permission for historical download
+- tick download attempted with multiple symbols
+- unsupported `adj_type`
+- unsupported output argument types
+
+If the user asks about a download error, check `symbol_list`, `dur_sec`, `adj_type`, and whether the account has download permission.
+
+## "未初始化 TqApi"
+
+Typical cause:
+
+- the user called account-object getters before wiring the account into `TqApi`
+
+Fix:
+
+- create `api = TqApi(...)` first
+- only then call `account.get_account()` or similar account-object getters
+
+## Named Exception Classes
+
+These exception names are worth recognizing explicitly:
+
+- Top-level exports from `tqsdk.__init__`: `BacktestFinished`, `TqTimeoutError`, `TqBacktestPermissionError`, `TqRiskRuleError`
+- `TqContextManagerError`: context-manager misuse; import it from `tqsdk.exceptions` if the user is already using that name directly
+
+If the user reports one of these names directly, prefer explaining the meaning of the exception before proposing code changes.
+
+## Error Triage Order
+
+When debugging, first establish whether application input validation, SDK construction, or server authentication was reached, without inspecting secrets. Then check:
+
+1. wrong account type
+2. missing `wait_update()`
+3. futures versus stock mismatch
+4. missing `account=` in multi-account mode
+5. wrong symbol or expired symbol
+6. wrong `offset`, `advanced`, or order-price mode
+7. unsupported target-position workflow
+
+## Repository Sources
+
+- `tqsdk/api.py`
+- `tqsdk/lib/utils.py`
+- `tqsdk/lib/target_pos_task.py`
+- `tqsdk/lib/target_pos_scheduler.py`
+- `tqsdk/tools/downloader.py`
+- `tqsdk/tradeable/mixin.py`
+- `tqsdk/tradeable/otg/tqtradingunit.py`
+- `doc/advanced/tq_trading_unit.rst`
+- `tqsdk/exceptions.py`
+- `doc/usage/framework.rst`
+- `doc/usage/backtest.rst`
+- `doc/usage/jupyter.rst`

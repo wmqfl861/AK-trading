@@ -1,0 +1,2166 @@
+{
+ "schema_version": "acq_w2_inventory_v1",
+ "observed_at_nano": 1789776000000000000,
+ "synthetic": true,
+ "products": [
+  {
+   "product_key": "SHFE.rb",
+   "exchange": "SHFE",
+   "source_product_code": "rb",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.au",
+   "exchange": "SHFE",
+   "source_product_code": "au",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.cu",
+   "exchange": "SHFE",
+   "source_product_code": "cu",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.ag",
+   "exchange": "SHFE",
+   "source_product_code": "ag",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.al",
+   "exchange": "SHFE",
+   "source_product_code": "al",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.zn",
+   "exchange": "SHFE",
+   "source_product_code": "zn",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.pb",
+   "exchange": "SHFE",
+   "source_product_code": "pb",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.ni",
+   "exchange": "SHFE",
+   "source_product_code": "ni",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.sn",
+   "exchange": "SHFE",
+   "source_product_code": "sn",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.ss",
+   "exchange": "SHFE",
+   "source_product_code": "ss",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.hc",
+   "exchange": "SHFE",
+   "source_product_code": "hc",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.wr",
+   "exchange": "SHFE",
+   "source_product_code": "wr",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.bu",
+   "exchange": "SHFE",
+   "source_product_code": "bu",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.ru",
+   "exchange": "SHFE",
+   "source_product_code": "ru",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.fu",
+   "exchange": "SHFE",
+   "source_product_code": "fu",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.sp",
+   "exchange": "SHFE",
+   "source_product_code": "sp",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.ao",
+   "exchange": "SHFE",
+   "source_product_code": "ao",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.br",
+   "exchange": "SHFE",
+   "source_product_code": "br",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "SHFE.ad",
+   "exchange": "SHFE",
+   "source_product_code": "ad",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "INE.sc",
+   "exchange": "INE",
+   "source_product_code": "sc",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "INE.nr",
+   "exchange": "INE",
+   "source_product_code": "nr",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "INE.lu",
+   "exchange": "INE",
+   "source_product_code": "lu",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "INE.bc",
+   "exchange": "INE",
+   "source_product_code": "bc",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "INE.ec",
+   "exchange": "INE",
+   "source_product_code": "ec",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.i",
+   "exchange": "DCE",
+   "source_product_code": "i",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.m",
+   "exchange": "DCE",
+   "source_product_code": "m",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.v",
+   "exchange": "DCE",
+   "source_product_code": "v",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.pp",
+   "exchange": "DCE",
+   "source_product_code": "pp",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.l",
+   "exchange": "DCE",
+   "source_product_code": "l",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.y",
+   "exchange": "DCE",
+   "source_product_code": "y",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.p",
+   "exchange": "DCE",
+   "source_product_code": "p",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.a",
+   "exchange": "DCE",
+   "source_product_code": "a",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.b",
+   "exchange": "DCE",
+   "source_product_code": "b",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.c",
+   "exchange": "DCE",
+   "source_product_code": "c",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.cs",
+   "exchange": "DCE",
+   "source_product_code": "cs",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.jd",
+   "exchange": "DCE",
+   "source_product_code": "jd",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.eg",
+   "exchange": "DCE",
+   "source_product_code": "eg",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.eb",
+   "exchange": "DCE",
+   "source_product_code": "eb",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.j",
+   "exchange": "DCE",
+   "source_product_code": "j",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.jm",
+   "exchange": "DCE",
+   "source_product_code": "jm",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.lh",
+   "exchange": "DCE",
+   "source_product_code": "lh",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.rr",
+   "exchange": "DCE",
+   "source_product_code": "rr",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.fb",
+   "exchange": "DCE",
+   "source_product_code": "fb",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "DCE.bb",
+   "exchange": "DCE",
+   "source_product_code": "bb",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.TA",
+   "exchange": "CZCE",
+   "source_product_code": "TA",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.MA",
+   "exchange": "CZCE",
+   "source_product_code": "MA",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.SR",
+   "exchange": "CZCE",
+   "source_product_code": "SR",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.CF",
+   "exchange": "CZCE",
+   "source_product_code": "CF",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.CY",
+   "exchange": "CZCE",
+   "source_product_code": "CY",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.AP",
+   "exchange": "CZCE",
+   "source_product_code": "AP",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.CJ",
+   "exchange": "CZCE",
+   "source_product_code": "CJ",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.SF",
+   "exchange": "CZCE",
+   "source_product_code": "SF",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.SM",
+   "exchange": "CZCE",
+   "source_product_code": "SM",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.FG",
+   "exchange": "CZCE",
+   "source_product_code": "FG",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.SA",
+   "exchange": "CZCE",
+   "source_product_code": "SA",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.UR",
+   "exchange": "CZCE",
+   "source_product_code": "UR",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.PF",
+   "exchange": "CZCE",
+   "source_product_code": "PF",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.PX",
+   "exchange": "CZCE",
+   "source_product_code": "PX",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.RS",
+   "exchange": "CZCE",
+   "source_product_code": "RS",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.RM",
+   "exchange": "CZCE",
+   "source_product_code": "RM",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.OU",
+   "exchange": "CZCE",
+   "source_product_code": "OU",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.RI",
+   "exchange": "CZCE",
+   "source_product_code": "RI",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.LR",
+   "exchange": "CZCE",
+   "source_product_code": "LR",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.JR",
+   "exchange": "CZCE",
+   "source_product_code": "JR",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.WH",
+   "exchange": "CZCE",
+   "source_product_code": "WH",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.PM",
+   "exchange": "CZCE",
+   "source_product_code": "PM",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.ZC",
+   "exchange": "CZCE",
+   "source_product_code": "ZC",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CZCE.SH",
+   "exchange": "CZCE",
+   "source_product_code": "SH",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CFFEX.IF",
+   "exchange": "CFFEX",
+   "source_product_code": "IF",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CFFEX.IH",
+   "exchange": "CFFEX",
+   "source_product_code": "IH",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CFFEX.IC",
+   "exchange": "CFFEX",
+   "source_product_code": "IC",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CFFEX.IM",
+   "exchange": "CFFEX",
+   "source_product_code": "IM",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CFFEX.T",
+   "exchange": "CFFEX",
+   "source_product_code": "T",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CFFEX.TF",
+   "exchange": "CFFEX",
+   "source_product_code": "TF",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CFFEX.TS",
+   "exchange": "CFFEX",
+   "source_product_code": "TS",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "CFFEX.TL",
+   "exchange": "CFFEX",
+   "source_product_code": "TL",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "GFEX.si",
+   "exchange": "GFEX",
+   "source_product_code": "si",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "GFEX.lc",
+   "exchange": "GFEX",
+   "source_product_code": "lc",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "GFEX.ps",
+   "exchange": "GFEX",
+   "source_product_code": "ps",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "GFEX.ck",
+   "exchange": "GFEX",
+   "source_product_code": "ck",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  },
+  {
+   "product_key": "GFEX.my",
+   "exchange": "GFEX",
+   "source_product_code": "my",
+   "status": "SYNTHETIC_BASELINE_MEMBER",
+   "priority": "P2",
+   "is_baseline": true,
+   "notes": [
+    "SYNTHETIC fixture product"
+   ]
+  }
+ ],
+ "symbols": [
+  {
+   "source_symbol": "SHFE.rb2601",
+   "product_key": "SHFE.rb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.rb2605",
+   "product_key": "SHFE.rb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.au2601",
+   "product_key": "SHFE.au",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.au2605",
+   "product_key": "SHFE.au",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.cu2601",
+   "product_key": "SHFE.cu",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.cu2605",
+   "product_key": "SHFE.cu",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ag2601",
+   "product_key": "SHFE.ag",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ag2605",
+   "product_key": "SHFE.ag",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.al2601",
+   "product_key": "SHFE.al",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.al2605",
+   "product_key": "SHFE.al",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.zn2601",
+   "product_key": "SHFE.zn",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.zn2605",
+   "product_key": "SHFE.zn",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.pb2601",
+   "product_key": "SHFE.pb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.pb2605",
+   "product_key": "SHFE.pb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ni2601",
+   "product_key": "SHFE.ni",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ni2605",
+   "product_key": "SHFE.ni",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.sn2601",
+   "product_key": "SHFE.sn",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.sn2605",
+   "product_key": "SHFE.sn",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ss2601",
+   "product_key": "SHFE.ss",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ss2605",
+   "product_key": "SHFE.ss",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.hc2601",
+   "product_key": "SHFE.hc",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.hc2605",
+   "product_key": "SHFE.hc",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.wr2601",
+   "product_key": "SHFE.wr",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.wr2605",
+   "product_key": "SHFE.wr",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.bu2601",
+   "product_key": "SHFE.bu",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.bu2605",
+   "product_key": "SHFE.bu",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ru2601",
+   "product_key": "SHFE.ru",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ru2605",
+   "product_key": "SHFE.ru",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.fu2601",
+   "product_key": "SHFE.fu",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.fu2605",
+   "product_key": "SHFE.fu",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.sp2601",
+   "product_key": "SHFE.sp",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.sp2605",
+   "product_key": "SHFE.sp",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ao2601",
+   "product_key": "SHFE.ao",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ao2605",
+   "product_key": "SHFE.ao",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.br2601",
+   "product_key": "SHFE.br",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.br2605",
+   "product_key": "SHFE.br",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ad2601",
+   "product_key": "SHFE.ad",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.ad2605",
+   "product_key": "SHFE.ad",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.sc2601",
+   "product_key": "INE.sc",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.sc2605",
+   "product_key": "INE.sc",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.nr2601",
+   "product_key": "INE.nr",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.nr2605",
+   "product_key": "INE.nr",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.lu2601",
+   "product_key": "INE.lu",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.lu2605",
+   "product_key": "INE.lu",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.bc2601",
+   "product_key": "INE.bc",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.bc2605",
+   "product_key": "INE.bc",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.ec2601",
+   "product_key": "INE.ec",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "INE.ec2605",
+   "product_key": "INE.ec",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.i2601",
+   "product_key": "DCE.i",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.i2605",
+   "product_key": "DCE.i",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.m2601",
+   "product_key": "DCE.m",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.m2605",
+   "product_key": "DCE.m",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2601",
+   "product_key": "DCE.v",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2605",
+   "product_key": "DCE.v",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2601",
+   "product_key": "DCE.pp",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2605",
+   "product_key": "DCE.pp",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2601",
+   "product_key": "DCE.l",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2605",
+   "product_key": "DCE.l",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.y2601",
+   "product_key": "DCE.y",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.y2605",
+   "product_key": "DCE.y",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.p2601",
+   "product_key": "DCE.p",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.p2605",
+   "product_key": "DCE.p",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.a2601",
+   "product_key": "DCE.a",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.a2605",
+   "product_key": "DCE.a",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.b2601",
+   "product_key": "DCE.b",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.b2605",
+   "product_key": "DCE.b",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.c2601",
+   "product_key": "DCE.c",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.c2605",
+   "product_key": "DCE.c",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.cs2601",
+   "product_key": "DCE.cs",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.cs2605",
+   "product_key": "DCE.cs",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.jd2601",
+   "product_key": "DCE.jd",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.jd2605",
+   "product_key": "DCE.jd",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.eg2601",
+   "product_key": "DCE.eg",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.eg2605",
+   "product_key": "DCE.eg",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.eb2601",
+   "product_key": "DCE.eb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.eb2605",
+   "product_key": "DCE.eb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.j2601",
+   "product_key": "DCE.j",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.j2605",
+   "product_key": "DCE.j",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.jm2601",
+   "product_key": "DCE.jm",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.jm2605",
+   "product_key": "DCE.jm",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.lh2601",
+   "product_key": "DCE.lh",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.lh2605",
+   "product_key": "DCE.lh",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.rr2601",
+   "product_key": "DCE.rr",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.rr2605",
+   "product_key": "DCE.rr",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.fb2601",
+   "product_key": "DCE.fb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.fb2605",
+   "product_key": "DCE.fb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.bb2601",
+   "product_key": "DCE.bb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.bb2605",
+   "product_key": "DCE.bb",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.TA601",
+   "product_key": "CZCE.TA",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.TA605",
+   "product_key": "CZCE.TA",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.MA601",
+   "product_key": "CZCE.MA",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.MA605",
+   "product_key": "CZCE.MA",
+   "expired": false,
+   "expire_datetime_nano": 1778828400000000000
+  },
+  {
+   "source_symbol": "CZCE.SR601",
+   "product_key": "CZCE.SR",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SR605",
+   "product_key": "CZCE.SR",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.CF601",
+   "product_key": "CZCE.CF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.CF605",
+   "product_key": "CZCE.CF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.CY601",
+   "product_key": "CZCE.CY",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.CY605",
+   "product_key": "CZCE.CY",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.AP601",
+   "product_key": "CZCE.AP",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.AP605",
+   "product_key": "CZCE.AP",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.CJ601",
+   "product_key": "CZCE.CJ",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.CJ605",
+   "product_key": "CZCE.CJ",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SF601",
+   "product_key": "CZCE.SF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SF605",
+   "product_key": "CZCE.SF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SM601",
+   "product_key": "CZCE.SM",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SM605",
+   "product_key": "CZCE.SM",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.FG601",
+   "product_key": "CZCE.FG",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.FG605",
+   "product_key": "CZCE.FG",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SA601",
+   "product_key": "CZCE.SA",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SA605",
+   "product_key": "CZCE.SA",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.UR601",
+   "product_key": "CZCE.UR",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.UR605",
+   "product_key": "CZCE.UR",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.PF601",
+   "product_key": "CZCE.PF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.PF605",
+   "product_key": "CZCE.PF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.PX601",
+   "product_key": "CZCE.PX",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.PX605",
+   "product_key": "CZCE.PX",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.RS601",
+   "product_key": "CZCE.RS",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.RS605",
+   "product_key": "CZCE.RS",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.RM601",
+   "product_key": "CZCE.RM",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.RM605",
+   "product_key": "CZCE.RM",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.OU601",
+   "product_key": "CZCE.OU",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.OU605",
+   "product_key": "CZCE.OU",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.RI601",
+   "product_key": "CZCE.RI",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.RI605",
+   "product_key": "CZCE.RI",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.LR601",
+   "product_key": "CZCE.LR",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.LR605",
+   "product_key": "CZCE.LR",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.JR601",
+   "product_key": "CZCE.JR",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.JR605",
+   "product_key": "CZCE.JR",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.WH601",
+   "product_key": "CZCE.WH",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.WH605",
+   "product_key": "CZCE.WH",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.PM601",
+   "product_key": "CZCE.PM",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.PM605",
+   "product_key": "CZCE.PM",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.ZC601",
+   "product_key": "CZCE.ZC",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.ZC605",
+   "product_key": "CZCE.ZC",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SH601",
+   "product_key": "CZCE.SH",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CZCE.SH605",
+   "product_key": "CZCE.SH",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.IF2601",
+   "product_key": "CFFEX.IF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.IF2605",
+   "product_key": "CFFEX.IF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.IH2601",
+   "product_key": "CFFEX.IH",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.IH2605",
+   "product_key": "CFFEX.IH",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.IC2601",
+   "product_key": "CFFEX.IC",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.IC2605",
+   "product_key": "CFFEX.IC",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.IM2601",
+   "product_key": "CFFEX.IM",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.IM2605",
+   "product_key": "CFFEX.IM",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.T2601",
+   "product_key": "CFFEX.T",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.T2605",
+   "product_key": "CFFEX.T",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.TF2601",
+   "product_key": "CFFEX.TF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.TF2605",
+   "product_key": "CFFEX.TF",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.TS2601",
+   "product_key": "CFFEX.TS",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.TS2605",
+   "product_key": "CFFEX.TS",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.TL2601",
+   "product_key": "CFFEX.TL",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "CFFEX.TL2605",
+   "product_key": "CFFEX.TL",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.si2601",
+   "product_key": "GFEX.si",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.si2605",
+   "product_key": "GFEX.si",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.lc2601",
+   "product_key": "GFEX.lc",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.lc2605",
+   "product_key": "GFEX.lc",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.ps2601",
+   "product_key": "GFEX.ps",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.ps2605",
+   "product_key": "GFEX.ps",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.ck2601",
+   "product_key": "GFEX.ck",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.ck2605",
+   "product_key": "GFEX.ck",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.my2601",
+   "product_key": "GFEX.my",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "GFEX.my2605",
+   "product_key": "GFEX.my",
+   "expired": false,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "KQ.m@SHFE.rb",
+   "product_key": "SHFE.rb",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "KQ.i@SHFE.rb",
+   "product_key": "SHFE.rb",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "KQ.m@DCE.i",
+   "product_key": "DCE.i",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "KQ.i@DCE.i",
+   "product_key": "DCE.i",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "KQ.m@INE.sc",
+   "product_key": "INE.sc",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "KQ.i@INE.sc",
+   "product_key": "INE.sc",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2602F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2603F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2604F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2605F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2606F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2607F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2608F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2609F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2610F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2611F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2612F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2701F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2702F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.l2703F",
+   "product_key": "DCE.l",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2602F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2603F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2604F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2605F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2606F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2607F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2608F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2609F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2610F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2611F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2612F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2701F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2702F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.pp2703F",
+   "product_key": "DCE.pp",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2602F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2603F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2604F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2605F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2606F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2607F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2608F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2609F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2610F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2611F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2612F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2701F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2702F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "DCE.v2703F",
+   "product_key": "DCE.v",
+   "expired": null,
+   "expire_datetime_nano": null
+  },
+  {
+   "source_symbol": "SHFE.rb2510",
+   "product_key": "SHFE.rb",
+   "expired": null,
+   "expire_datetime_nano": null
+  }
+ ]
+}

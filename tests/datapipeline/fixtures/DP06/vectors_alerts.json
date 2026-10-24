@@ -1,0 +1,104 @@
+{
+ "cooldown_nano": 1800000000000,
+ "data_origin": "SYNTHETIC",
+ "now_asof": 1789929300000000000,
+ "scenarios": [
+  {
+   "description": "fresh heartbeat, run healthy; commit failure + empty streak + permission + disconnects + backlog + calendar unknown/conFLICT",
+   "expected_absent": [
+    "HEARTBEAT_EXPIRED|worker=w1",
+    "RUN_LOST|run=run-20260920-x",
+    "WINDOW_LOST|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60",
+    "WINDOW_LOST|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400",
+    "WINDOW_LOST|task=tqsdk-free-realtime-get-kline-serial|KQ.i@SHFE.cu|60",
+    "CALENDAR_UNKNOWN|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60"
+   ],
+   "expected_health": {
+    "tqsdk-free-realtime-get-kline-serial|KQ.i@SHFE.cu|60": "FAILING",
+    "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60": "DEGRADED",
+    "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400": "FAILING"
+   },
+   "expected_present": [
+    "DB_COMMIT_FAILED|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400",
+    "PERSISTENT_EMPTY_SOURCE|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400",
+    "PERMISSION_DENIED|task=tqsdk-free-realtime-get-kline-serial|KQ.i@SHFE.cu|60",
+    "CALENDAR_CONFLICT|task=tqsdk-free-realtime-get-kline-serial|KQ.i@SHFE.cu|60",
+    "SESSION_DISCONNECTED|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60",
+    "BACKLOG|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60",
+    "CALENDAR_UNKNOWN|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400"
+   ],
+   "id": "S1-baseline-async-of",
+   "modifications": {},
+   "now_nano": 1789929300000000000
+  },
+  {
+   "description": "Saturday noon; closure evidenced -> heartbeat may expire (process liveness) but NO window-loss fault fabricated",
+   "expected_absent": [
+    "WINDOW_LOST|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60",
+    "WINDOW_LOST|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400",
+    "CALENDAR_UNKNOWN|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60",
+    "CALENDAR_UNKNOWN|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400"
+   ],
+   "expected_health": {},
+   "expected_present": [
+    "HEARTBEAT_EXPIRED|worker=w1",
+    "CALENDAR_UNKNOWN|task=tqsdk-free-realtime-get-kline-serial|KQ.i@SHFE.cu|60"
+   ],
+   "id": "S2-weekend-closure-no-fabricated-fault",
+   "modifications": {
+    "set_heartbeat_at": 1789756470000000000
+   },
+   "now_nano": 1789819200000000000
+  },
+  {
+   "description": "inside VERIFIED session, 16 minutes without observation on the 60s stream",
+   "expected_absent": [
+    "WINDOW_LOST|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400"
+   ],
+   "expected_health": {
+    "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60": "FAILING"
+   },
+   "expected_present": [
+    "WINDOW_LOST|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60"
+   ],
+   "id": "S3-night-window-loss",
+   "modifications": {
+    "set_task_last_observed": {
+     "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60": 1789928400000000000
+    }
+   },
+   "now_nano": 1789929360000000000
+  },
+  {
+   "description": "run says RUNNING but no heartbeat/event for > run_lost threshold",
+   "expected_absent": [],
+   "expected_health": {},
+   "expected_present": [
+    "RUN_LOST|run=run-20260920-x",
+    "HEARTBEAT_EXPIRED|worker=w1"
+   ],
+   "id": "S4-run-lost",
+   "modifications": {},
+   "now_nano": 1789929900000000000
+  },
+  {
+   "description": "fresh heartbeat but zero task events -> t1/t2 UNKNOWN (never OK); t3 keeps its manifest terminal PERMISSION_DENIED (FAILING); no window fabrication",
+   "expected_absent": [
+    "CALENDAR_UNKNOWN|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60",
+    "WINDOW_LOST|task=tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60"
+   ],
+   "expected_health": {
+    "tqsdk-free-realtime-get-kline-serial|KQ.i@SHFE.cu|60": "FAILING",
+    "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|60": "UNKNOWN",
+    "tqsdk-free-realtime-get-kline-serial|KQ.m@SHFE.cu|86400": "UNKNOWN"
+   },
+   "expected_present": [],
+   "id": "S8-silent-collector-no-task-events",
+   "modifications": {
+    "remove_all_task_events": true
+   },
+   "now_nano": 1789929300000000000
+  }
+ ],
+ "schema": "dp06-alert-vectors/1"
+}

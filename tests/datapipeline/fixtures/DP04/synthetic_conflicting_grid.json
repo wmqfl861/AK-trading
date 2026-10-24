@@ -1,0 +1,56 @@
+{
+  "schema_version": "datapipeline-calendar-evidence-v1",
+  "dataset": "futures_kline",
+  "source_id": "tqsdk-free-realtime-get-kline-serial",
+  "data_origin": "SYNTHETIC",
+  "synthetic_marker": "SYNTHETIC FIXTURE - fictional exchange SYNTHEX year 2027 - proves calendar LOGIC only, never a historical or live-market fact",
+  "announced_at_nano": null,
+  "evidence_text_sha256": null,
+  "review_status": "synthetic_fixture",
+  "evidence_version": "synth-grid-conflict-r1",
+  "evidence_kind": "SESSION_GRID",
+  "applicability": {
+    "exchanges": [],
+    "products": [
+      "synth.rb"
+    ],
+    "source_symbols": []
+  },
+  "valid_from_nano": "1798732800000000000",
+  "valid_through_nano": "1830268800000000000",
+  "coverage": "PARTIAL_DAYS_LISTED",
+  "pit_basis": "OBTAINED_AT",
+  "obtained_at_nano": "1804593600000000000",
+  "evidence_reference": "SYNTHETIC: hand-authored DP04 fixture (synthetic_conflicting_grid.json)",
+  "sessions": [
+    {
+      "trading_day": "2027-02-24",
+      "segments": [
+        {
+          "kind": "NIGHT",
+          "start_nano": "1803387600000000000",
+          "end_nano": "1803400200000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1803430800000000000",
+          "end_nano": "1803435300000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1803436200000000000",
+          "end_nano": "1803439800000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1803447000000000000",
+          "end_nano": "1803452400000000000"
+        }
+      ]
+    }
+  ],
+  "closed_dates": [],
+  "notes": [
+    "SYNTHETIC fixture conflicting with synth-grid-r1 on trading day 2027-02-24 (night ends 00:30 vs 01:00) - drives the CONFLICT answer with both evidence refs (H04.2)."
+  ]
+}

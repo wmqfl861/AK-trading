@@ -1,0 +1,26 @@
+{
+  "credential_input": "NONE",
+  "http_request_sent": false,
+  "tls_verification_disabled": false,
+  "at_utc": "2026-10-24T11:51:58.971415+00:00",
+  "checks": [
+    {
+      "host": "auth.shinnytech.com",
+      "port": 443,
+      "status": "TLS_VERIFIED",
+      "tls_version": "TLSv1.3",
+      "verify_mode": 2,
+      "check_hostname": true,
+      "elapsed_seconds": 1.109
+    },
+    {
+      "host": "free-api.shinnytech.com",
+      "port": 443,
+      "status": "TLS_VERIFIED",
+      "tls_version": "TLSv1.3",
+      "verify_mode": 2,
+      "check_hostname": true,
+      "elapsed_seconds": 2.985
+    }
+  ]
+}

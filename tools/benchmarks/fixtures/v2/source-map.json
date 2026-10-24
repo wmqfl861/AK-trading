@@ -1,0 +1,594 @@
+{
+  "schema": "ak-benchmark-source-map/1.0.0",
+  "description": "NF21 v2 benchmark source map (r2, NF21-HARD-r1 F1 repair): the transitive import closure of the seven v2 cases' measured module roots plus the workload's own direct ak_trading imports, computed by ast.parse over every import statement (module-level, lazy in-function and conditional). Cross-checked against a sys.modules snapshot after executing all 7 cases: runtime loads 61 of these 64 modules (decision.payoff_paths / validation.reports / validation.shadow are mapped conditional imports the 7 cases do not exercise). Includes cross-domain ak_trading.futures.*/ak_trading.probability.* files reached via v2.baseline (marked cross_domain). Worktree snapshot, not an audited release manifest.",
+  "modules": [
+    {
+      "logical_module": "ak_trading",
+      "source_relative_path": "src/ak_trading/__init__.py",
+      "sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+      "bytes": 22,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.futures",
+      "source_relative_path": "src/ak_trading/futures/__init__.py",
+      "sha256": "2318f251a62df6ff1e5199fbe4098dd315eb9bd3c53abbf29f573af69087723b",
+      "bytes": 1125,
+      "owner": "NF21-cross-domain-snapshot",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "cross_domain": true,
+      "cross_domain_note": "runtime dependency of the v2 measured closure via ak_trading.v2.baseline (NF21-HARD-r1 F1/O2); file owned outside the v2 domain - snapshot only, not an NF21 deliverable"
+    },
+    {
+      "logical_module": "ak_trading.futures.spec",
+      "source_relative_path": "src/ak_trading/futures/spec.py",
+      "sha256": "81bd129f200a7b8fad9d905e544fb57e69ad0ab5c13dc16dea33854c2e699bfd",
+      "bytes": 20333,
+      "owner": "NF21-cross-domain-snapshot",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "cross_domain": true,
+      "cross_domain_note": "runtime dependency of the v2 measured closure via ak_trading.v2.baseline (NF21-HARD-r1 F1/O2); file owned outside the v2 domain - snapshot only, not an NF21 deliverable"
+    },
+    {
+      "logical_module": "ak_trading.futures.structures",
+      "source_relative_path": "src/ak_trading/futures/structures.py",
+      "sha256": "5738ae5b3c2b8a56871cdb8347fbd9480bb4f122b9a8cca65bb49a48060e8b0a",
+      "bytes": 8626,
+      "owner": "NF21-cross-domain-snapshot",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "cross_domain": true,
+      "cross_domain_note": "runtime dependency of the v2 measured closure via ak_trading.v2.baseline (NF21-HARD-r1 F1/O2); file owned outside the v2 domain - snapshot only, not an NF21 deliverable"
+    },
+    {
+      "logical_module": "ak_trading.probability",
+      "source_relative_path": "src/ak_trading/probability/__init__.py",
+      "sha256": "ecd032cc9f9974b67dbd333279f87fa9aff16552dff1290780da88a5e68e6912",
+      "bytes": 82,
+      "owner": "NF21-cross-domain-snapshot",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "cross_domain": true,
+      "cross_domain_note": "runtime dependency of the v2 measured closure via ak_trading.v2.baseline (NF21-HARD-r1 F1/O2); file owned outside the v2 domain - snapshot only, not an NF21 deliverable"
+    },
+    {
+      "logical_module": "ak_trading.probability.contracts",
+      "source_relative_path": "src/ak_trading/probability/contracts.py",
+      "sha256": "0baa04254935aaf552623175ac910274725bed325829ab810294c24855eac48a",
+      "bytes": 5644,
+      "owner": "NF21-cross-domain-snapshot",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "cross_domain": true,
+      "cross_domain_note": "runtime dependency of the v2 measured closure via ak_trading.v2.baseline (NF21-HARD-r1 F1/O2); file owned outside the v2 domain - snapshot only, not an NF21 deliverable"
+    },
+    {
+      "logical_module": "ak_trading.probability.factors",
+      "source_relative_path": "src/ak_trading/probability/factors.py",
+      "sha256": "cb9da5fb92d484e97b07bc4c625d65ac1538047ef68fca5706d7570f45948a8d",
+      "bytes": 9730,
+      "owner": "NF21-cross-domain-snapshot",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT",
+      "cross_domain": true,
+      "cross_domain_note": "runtime dependency of the v2 measured closure via ak_trading.v2.baseline (NF21-HARD-r1 F1/O2); file owned outside the v2 domain - snapshot only, not an NF21 deliverable"
+    },
+    {
+      "logical_module": "ak_trading.v2",
+      "source_relative_path": "src/ak_trading/v2/__init__.py",
+      "sha256": "7d3dd5c252bac5608f4fa010ad926427f2e2fe9094cc47b53ea876bd967fda31",
+      "bytes": 667,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.artifacts",
+      "source_relative_path": "src/ak_trading/v2/artifacts.py",
+      "sha256": "3ee742013664253c26242d8c8c8aa93734454ffd7774e3ae9a9d0106684e480b",
+      "bytes": 96793,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.baseline",
+      "source_relative_path": "src/ak_trading/v2/baseline.py",
+      "sha256": "aa79f1c3e4acec91033ce8bb701683428073565ef268a9e18f2165c8117bd5e4",
+      "bytes": 36713,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.clock",
+      "source_relative_path": "src/ak_trading/v2/clock.py",
+      "sha256": "793771e4633a92398a513983ea3f62713ce6c9f2ab10a4e49df4000eda77660b",
+      "bytes": 22427,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.contracts",
+      "source_relative_path": "src/ak_trading/v2/contracts.py",
+      "sha256": "bcd290615ea837dd086c4bb4166ed6bd2dc474a410da8501c7040474b1860f15",
+      "bytes": 178477,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.data",
+      "source_relative_path": "src/ak_trading/v2/data.py",
+      "sha256": "16bb89c5a78cbb35a084ee2ef122838b91cf18c33597430db910583fce402e3d",
+      "bytes": 25102,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision",
+      "source_relative_path": "src/ak_trading/v2/decision/__init__.py",
+      "sha256": "44d324035a75bf02d7d2c8a959b0e8dc084c579ac762f5a7371852c540c5ec93",
+      "bytes": 139,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.execution",
+      "source_relative_path": "src/ak_trading/v2/decision/execution.py",
+      "sha256": "f06be6642c07e8698d41ebf02c30acb39a3976faf9571c9ad7bf408e559772aa",
+      "bytes": 14120,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.gates",
+      "source_relative_path": "src/ak_trading/v2/decision/gates.py",
+      "sha256": "4b3db13f5c42b6838b44d4fef0401cb2da5e4b2af40fc43884d8793bc0849e68",
+      "bytes": 19271,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.ledger",
+      "source_relative_path": "src/ak_trading/v2/decision/ledger.py",
+      "sha256": "27e57becb79f21343ca45bd1f27816b1a023636f15490f03d4176d5af2c4bef8",
+      "bytes": 29164,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.payoff_paths",
+      "source_relative_path": "src/ak_trading/v2/decision/payoff_paths.py",
+      "sha256": "c5993cccea6bc0effa8f352abf5f71e518034038c81069d7e0abc9a68462725b",
+      "bytes": 38542,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.payoffs",
+      "source_relative_path": "src/ak_trading/v2/decision/payoffs.py",
+      "sha256": "2f22820639daad72df087dee3526e6754545c507851486989a13f4f92f9270c4",
+      "bytes": 71352,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.pipeline",
+      "source_relative_path": "src/ak_trading/v2/decision/pipeline.py",
+      "sha256": "328f342b77827678540719bf2a93cd9a46f21ff61ef530c5e1b03a0d26acaf0e",
+      "bytes": 22362,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.replay",
+      "source_relative_path": "src/ak_trading/v2/decision/replay.py",
+      "sha256": "f196a593270d6a6fc14389fb21fd6f5d856d31f60641da2045e963fb9de46528",
+      "bytes": 39915,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.risk",
+      "source_relative_path": "src/ak_trading/v2/decision/risk.py",
+      "sha256": "bc776e037290773fb7534702c2cb84138cadf56cadab88ca2db28388b2ea9294",
+      "bytes": 9955,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.decision.routing",
+      "source_relative_path": "src/ak_trading/v2/decision/routing.py",
+      "sha256": "8341998461a982f7821527f22e721edf960122f6bb45b085ad537d7d0b333a4c",
+      "bytes": 5475,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits",
+      "source_relative_path": "src/ak_trading/v2/exits/__init__.py",
+      "sha256": "61014a4df936ccc421e159f2de9cf08628a49ab0d5710b26ecbb98f2f017e182",
+      "bytes": 386,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.arbitration",
+      "source_relative_path": "src/ak_trading/v2/exits/arbitration.py",
+      "sha256": "7c3c7303563f2089c69dabe34cc8a985b031f8670143a4c5e27056bf8aed402f",
+      "bytes": 8340,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.drawdown",
+      "source_relative_path": "src/ak_trading/v2/exits/drawdown.py",
+      "sha256": "edbb695b0a07fb0a602723551f59498132a6ab1823e1f8b3bd72010ed4c6eea4",
+      "bytes": 7354,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.features",
+      "source_relative_path": "src/ak_trading/v2/exits/features.py",
+      "sha256": "4691f38e8ad93a1be2a809b0c0c7029c0195ed0343402c85ee2de76120709a43",
+      "bytes": 43807,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.legacy",
+      "source_relative_path": "src/ak_trading/v2/exits/legacy.py",
+      "sha256": "e92b1c2278b9280f7c64d2f77862e558bfd493e1f13edd50b2f027d51f8db933",
+      "bytes": 3534,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.profit_ladder",
+      "source_relative_path": "src/ak_trading/v2/exits/profit_ladder.py",
+      "sha256": "3d1a92b57094be9defd39aa8bc50bdffe288837fb0811972fdd793017007d300",
+      "bytes": 12764,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.registry",
+      "source_relative_path": "src/ak_trading/v2/exits/registry.py",
+      "sha256": "488b95d6c1a9154cf39156e906fc222d2cae0c4778990e04b4a3b4a5323ba367",
+      "bytes": 17449,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.signal_reversal",
+      "source_relative_path": "src/ak_trading/v2/exits/signal_reversal.py",
+      "sha256": "feeab32d49dddab34cf478917095009323032180d0ae75dae194e3c620a5c3a6",
+      "bytes": 19982,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.sizing",
+      "source_relative_path": "src/ak_trading/v2/exits/sizing.py",
+      "sha256": "1e011574728a2505f88a1b84b3af6e48173ddcd2dc443b2e45bdd86f1fe6bf40",
+      "bytes": 6192,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.state",
+      "source_relative_path": "src/ak_trading/v2/exits/state.py",
+      "sha256": "037a2ff9283c470073053fce69bcb9a52987eb576750a7b2aa9631e4fa3ec663",
+      "bytes": 24550,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.time_decay",
+      "source_relative_path": "src/ak_trading/v2/exits/time_decay.py",
+      "sha256": "c764e1c22ad1b85c66d28eee490c909a21e19b1148ff69dd93c24896264a01ef",
+      "bytes": 8631,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.trailing",
+      "source_relative_path": "src/ak_trading/v2/exits/trailing.py",
+      "sha256": "17879aef29c3d5f0960c50237b4d09f3867823cafca4ab7bbadd02678e1f258e",
+      "bytes": 14036,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.exits.volatility_stop",
+      "source_relative_path": "src/ak_trading/v2/exits/volatility_stop.py",
+      "sha256": "f725d5dcbb99fee95292f0d17d3c6e79c7b1d99ccd905d83112fed0cf3f9d9f7",
+      "bytes": 14897,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.factor_specs",
+      "source_relative_path": "src/ak_trading/v2/factor_specs.py",
+      "sha256": "4f805702637a547b89a3d2fe2bc1e5bc5f9d04a6bf6a0845bfd0db60e4ee3baa",
+      "bytes": 35822,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.factors",
+      "source_relative_path": "src/ak_trading/v2/factors.py",
+      "sha256": "bf20860d247752b428003ec14599ecf22cda6eb21696689e9365d349d7b7912d",
+      "bytes": 67018,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.macro",
+      "source_relative_path": "src/ak_trading/v2/macro.py",
+      "sha256": "ca6e51c725047e92602434fb1dc8075fb4eb7671d601ff0e7296306935a7bfe1",
+      "bytes": 32255,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.policy",
+      "source_relative_path": "src/ak_trading/v2/policy.py",
+      "sha256": "9e9c560bbf1d757ce5c0644bb2907ac2fddcd566ae587628b3a8cb589f55e32c",
+      "bytes": 9240,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.probability",
+      "source_relative_path": "src/ak_trading/v2/probability/__init__.py",
+      "sha256": "dbc3879fd440cce2fe9b64a9551a192e955e78529be246334f6aaaf34dac85f3",
+      "bytes": 1056,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.probability.calibration",
+      "source_relative_path": "src/ak_trading/v2/probability/calibration.py",
+      "sha256": "49757c0993bedce1006f29ae597928dd8516497111ccb3303ed95bf3602d87ab",
+      "bytes": 24140,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.probability.forecast",
+      "source_relative_path": "src/ak_trading/v2/probability/forecast.py",
+      "sha256": "f70826449f64a271285387edbfb00e9da0a6c0d43fdc1cd72b6e1810b0f5822c",
+      "bytes": 19759,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.probability.labels",
+      "source_relative_path": "src/ak_trading/v2/probability/labels.py",
+      "sha256": "d0ff9c6ee1038bce1246cae4cfd97811f78c3ea20899050693dbd69440d1faa5",
+      "bytes": 23442,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.probability.models",
+      "source_relative_path": "src/ak_trading/v2/probability/models.py",
+      "sha256": "1e9197ddd678bd50959de998ef82bf11c4e872137ba43e05405c167ab469df42",
+      "bytes": 105155,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.probability.regimes",
+      "source_relative_path": "src/ak_trading/v2/probability/regimes.py",
+      "sha256": "d646588f6efc9812f2b921618b07eae299ac83d94b21b3bddb041587a3c1ba23",
+      "bytes": 21218,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.schemas",
+      "source_relative_path": "src/ak_trading/v2/schemas.py",
+      "sha256": "25a41de562a09dc49c33de553842713da721cf842ef0caabd3d8b78fd35d7b36",
+      "bytes": 47784,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.seasonality",
+      "source_relative_path": "src/ak_trading/v2/seasonality.py",
+      "sha256": "950630b072d95e2f5705e94c2d544de9ae55b14eeab96cc22f6cb46d7d2c9ea4",
+      "bytes": 36039,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies",
+      "source_relative_path": "src/ak_trading/v2/strategies/__init__.py",
+      "sha256": "b18466079a9a6f80a1cb905fb5d9cedfc0696ac93e84f0e91577548786dc1b62",
+      "bytes": 462,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.breakout",
+      "source_relative_path": "src/ak_trading/v2/strategies/breakout.py",
+      "sha256": "829efdd024c93ba4ee933920835a020a7799863d1bd8049b1f51e8f1b408d2fd",
+      "bytes": 10395,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.grid",
+      "source_relative_path": "src/ak_trading/v2/strategies/grid.py",
+      "sha256": "302fdef412895354cc288a033febf33c48bd7be37ddae5dfe6de25231b17343a",
+      "bytes": 9677,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.martingale",
+      "source_relative_path": "src/ak_trading/v2/strategies/martingale.py",
+      "sha256": "1052ba633aed957256ce058fd6ec54ec8d92c51b881eb7123fed0f440f12c412",
+      "bytes": 12086,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.pullback",
+      "source_relative_path": "src/ak_trading/v2/strategies/pullback.py",
+      "sha256": "b6101923ab6b344da67bca0f6594d59cc03cf5d6e23971e700597f9f3860d6da",
+      "bytes": 8678,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.registry",
+      "source_relative_path": "src/ak_trading/v2/strategies/registry.py",
+      "sha256": "7ff35ba5b8118bde09c4465e5ce0418dcfed9e0d8cdf3d79e733307817ba71f7",
+      "bytes": 58903,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.reversion",
+      "source_relative_path": "src/ak_trading/v2/strategies/reversion.py",
+      "sha256": "abfd41ca0368d22d32b5ec2b9d57c39783dfb01678896d3934a801e497b3a817",
+      "bytes": 6268,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.state",
+      "source_relative_path": "src/ak_trading/v2/strategies/state.py",
+      "sha256": "c5e8ba4ce58ad0291fe5f3f5cca38f7cd040c43089e747f7c5f3fa8411aae2f3",
+      "bytes": 29513,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.trend",
+      "source_relative_path": "src/ak_trading/v2/strategies/trend.py",
+      "sha256": "68efde9bb844af9ad65d5c9bc0f3e3fa7eced596bbdded36bd3feeb08457e2ac",
+      "bytes": 9387,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.strategies.wait",
+      "source_relative_path": "src/ak_trading/v2/strategies/wait.py",
+      "sha256": "666de8542f201324fa601e84a7c72200aa778c09a672f3483a4fdb202c7f2eb7",
+      "bytes": 3295,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.validation",
+      "source_relative_path": "src/ak_trading/v2/validation/__init__.py",
+      "sha256": "fc5411eb2a6e7d5689031c06e71fc9d3e9c4d8d13686c9e4a384de10cd099bc8",
+      "bytes": 115,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.validation.experiments",
+      "source_relative_path": "src/ak_trading/v2/validation/experiments.py",
+      "sha256": "700294c9a7f6492c838b2435b475d57e40710c931a8fa2f4bcfb60b23cf6917b",
+      "bytes": 97487,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.validation.metrics",
+      "source_relative_path": "src/ak_trading/v2/validation/metrics.py",
+      "sha256": "36b7b84610b23175dbb75bf3c869d068b6f1e576cef05ebac8253e09acbad7f6",
+      "bytes": 30630,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.validation.reports",
+      "source_relative_path": "src/ak_trading/v2/validation/reports.py",
+      "sha256": "0d28dbeb67baf91e3d128b53b22fe462f40258cbb3f58b3e20074112af573fa5",
+      "bytes": 21274,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.validation.shadow",
+      "source_relative_path": "src/ak_trading/v2/validation/shadow.py",
+      "sha256": "ae5600428faa5a0ac37e00cc100ac97240d06ca099c7dc573f372c18bbf36320",
+      "bytes": 74500,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    },
+    {
+      "logical_module": "ak_trading.v2.validation.splits",
+      "source_relative_path": "src/ak_trading/v2/validation/splits.py",
+      "sha256": "b8b238e5e91f2928ba0affc535fae9ac7e0eab9a079d6022f1c62bf28ff25c18",
+      "bytes": 9619,
+      "owner": "NF21",
+      "release_id": "WORKTREE_SNAPSHOT-20260924-r2",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    }
+  ]
+}

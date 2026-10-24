@@ -1,0 +1,12 @@
+{
+  "schema_version": "ak_probability_risk_report_v2.1.0",
+  "status": "COMPLETE",
+  "maximum_inventory": 14,
+  "peak_margin_cny": "180400.00",
+  "loss_cvar95_cny": "12600.00",
+  "stress_losses": {"bud-1|GAP": "8000.00", "bud-2|GAP": "3200.00"},
+  "margin_shortfalls": {"bud-1|GAP": "0.00"},
+  "blocked_counts": {"CAP": 3},
+  "open_positions": {"CU2506.SHFE": 2},
+  "reconciliation": {"status": "PASS"}
+}

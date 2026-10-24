@@ -1,0 +1,12 @@
+{
+  "schema_version": "ak_probability_risk_report_v2.1.0",
+  "status": "INCOMPLETE",
+  "maximum_inventory": 0,
+  "peak_margin_cny": "0",
+  "loss_cvar95_cny": null,
+  "stress_losses": {},
+  "margin_shortfalls": {},
+  "blocked_counts": {},
+  "open_positions": {},
+  "reconciliation": {"status": "PARTIAL"}
+}

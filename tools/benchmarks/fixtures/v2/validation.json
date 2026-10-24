@@ -1,0 +1,24 @@
+{
+  "schema": "nf21-v2-fixture-params/1",
+  "label": "SYNTHETIC",
+  "case_family": "VALIDATION_METRICS",
+  "seed": 20260924,
+  "bootstrap_replicates": 1000,
+  "initial_cash_cny": "100000",
+  "forecasts": {
+    "days": 40,
+    "requests_per_day": 5,
+    "base_forecast_provenance": "SYNTHETIC replica of the M4 gates example() forecast (TREND family, DIRECTION/PATH/PERSIST events, five return quantiles)",
+    "label_formula": "direction=UP if (d+i)%2==0 else DOWN; path=UP_FIRST if (d+i)%3==0 else DOWN_FIRST; terminal_return=0.001*((d%7)-3)",
+    "block_rule": "one trading-day block per synthetic day (day-%03d); same day never split into blocks"
+  },
+  "bootstrap": {
+    "days": 40,
+    "values_per_block": 6,
+    "value_formula": "float((i%13)-6)+0.25*(i%5)"
+  },
+  "replay_metrics": {
+    "episode_block": "2026-01-12",
+    "input": "the decision_replay_filled SYNTHETIC replay result built once in setup (not timed)"
+  }
+}

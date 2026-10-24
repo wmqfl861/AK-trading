@@ -1,0 +1,75 @@
+{
+  "snapshot_kind": "coordination-readiness-register-snapshot",
+  "snapshot_version": 1,
+  "provenance": "SYNTHETIC",
+  "description": "SYNTHETIC fixture with zero seeded contradictions, mirroring the healthy states of the 2026-09 case: retired identity mentioned historically without being marked current; AUTH_ISSUED prerequisite with PREPARED/NOT_READY successor (preparation never upgraded); frozen payload transcribed as frozen; exact path/sha256/revision transcription; placeholder UTC kept as placeholder; a real precise UTC claimed precise.",
+  "source_register": "SYNTHETIC-fixture-register",
+  "records": {
+    "syn_ok_historical_identity": {
+      "identity_refs": {
+        "fpcold_freeze": {
+          "value": "freeze-r2",
+          "marked_current": false
+        }
+      }
+    },
+    "syn_ok_current_identity": {
+      "identity_refs": {
+        "fpcold_freeze": {
+          "value": "freeze-r3",
+          "marked_current": true
+        }
+      }
+    },
+    "syn_ok_gate_chain": {
+      "gate_states": {
+        "B-G08": {
+          "status": "CLOSED",
+          "declared_at_utc": "2026-09-26T10:00:00Z"
+        },
+        "B-G09-R1": {
+          "status": "AUTH_ISSUED",
+          "declared_at_utc": "2026-09-27T08:00:00Z"
+        },
+        "B-G10-R1": {
+          "status": "PREPARED_NOT_READY"
+        }
+      }
+    },
+    "syn_ok_payload_frozen": {
+      "payload_states": {
+        "fpcold-candidate-r2": "FROZEN"
+      }
+    },
+    "syn_ok_failed_candidate_kept": {
+      "payload_states": {
+        "publication-syn-r8": "FROZEN_UNSEALED_FAILED_PRESEAL"
+      }
+    },
+    "syn_ok_transcription": {
+      "file_transcriptions": {
+        "fp-launch-binding": {
+          "path": "rounds/<run-id>/launch/binding.json",
+          "sha256": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+          "revision": "r_10"
+        }
+      }
+    },
+    "syn_ok_utc_placeholder": {
+      "timestamps": {
+        "first_sample_at_utc": "TO_BE_DETERMINED_AT_LAUNCH"
+      },
+      "timestamp_precision_claims": {
+        "first_sample_at_utc": "placeholder"
+      }
+    },
+    "syn_ok_utc_precise": {
+      "timestamps": {
+        "dispatch_completed_at_utc": "2026-09-27T12:34:56Z"
+      },
+      "timestamp_precision_claims": {
+        "dispatch_completed_at_utc": "precise"
+      }
+    }
+  }
+}

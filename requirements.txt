@@ -1,0 +1,4 @@
+# Prefer: pip install -e ".[test,postgres]"
+tqsdk==3.10.1
+python-dotenv>=1.0.0
+fastmcp>=4.0

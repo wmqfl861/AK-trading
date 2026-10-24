@@ -1,0 +1,115 @@
+{
+  "review_id": "review-product-001",
+  "reviewer": "independent ZCode (GLM-5.3, max); advisory-only in plan phase, no implementation of this product",
+  "decided_utc": "2026-10-24T02:20:07.970884+00:00",
+  "scope": "Frozen TqSdk 3.10.3 tool (ordinary venv D:/Tools/tqsdk-3.10.3) and the seven-path skill updates across five published roots, plus the frozen implementation evidence. Offline verification only.",
+  "verdict": "PASS",
+  "unconditional": true,
+  "required_command_rerun": {
+    "argv": [
+      "D:\\\\Tools\\\\tqsdk-3.10.3\\\\Scripts\\\\python.exe",
+      "-I",
+      "-B",
+      "-X",
+      "utf8",
+      "D:\\\\Maintenance\\\\tqsdk-update-20261024\\\\implementation\\\\verify_offline.py",
+      "--skill",
+      "D:\\\\Maintenance\\\\tqsdk-update-20261024\\\\implementation\\\\candidate\\\\skill",
+      "--baseline",
+      "D:\\\\Maintenance\\\\tqsdk-update-20261024\\\\implementation\\\\baseline.json",
+      "--phase",
+      "published"
+    ],
+    "raw_exit_code": 0,
+    "stderr": "SDK fixed disclaimer only (165 bytes)",
+    "deterministic_reproduction": "stdout byte-identical to owner published-verification record after line-ending normalization (sha256 equal; 263 CR bytes explained, see rerun/stdout-format-note.txt)",
+    "key_counts": {
+      "signatures": 26,
+      "python_fragments_ast_parsed": 28,
+      "relative_links_resolved": 22,
+      "protected_files_hash_unchanged": 11,
+      "installed_distributions": 33,
+      "venv_pip_check_raw": 0,
+      "skill_creator_quick_validate_raw": 0,
+      "write_set_exactly_allowed_7_paths": true
+    }
+  },
+  "tool_and_isolation": {
+    "venv_prefix": "D:/Tools/tqsdk-3.10.3",
+    "tqsdk": "3.10.3 (module file inside venv)",
+    "numpy": "2.5.4 (venv)",
+    "pandas": "3.1.0 (venv)",
+    "ak_trading_in_venv": "NOT_INSTALLED",
+    "pyvenv_cfg_include_system_site_packages": "false",
+    "global_sitepackages_on_venv_sys_path": [],
+    "venv_pip_check": {
+      "raw_exit": 0,
+      "stdout": "No broken requirements found."
+    },
+    "global_unchanged": {
+      "tqsdk": "3.10.2",
+      "numpy": "2.5.1",
+      "pandas": "3.0.3",
+      "ak_trading": "0.1.0"
+    },
+    "global_pip_check": {
+      "raw_exit": 1,
+      "matches_recorded_baseline": "exit+stdout+stderr all equal (CRLF-normalized); sole conflict ak-trading 0.1.0 requires tqsdk==3.10.1 vs global 3.10.2 — PRE_EXISTING, not caused by this maintenance"
+    },
+    "protected_files_rechecked": "11/11 hashes unchanged (3 packages x entry/METADATA/RECORD + pyproject.toml + requirements.txt)",
+    "tqtradingunit_3_10_3": "signature has account_id; docstring marks stopped support; source contains UserWarning on instantiation",
+    "tqtradingunit_3_10_2_global": "no deprecation docstring/UserWarning — documents a real 3.10.3 behavior difference"
+  },
+  "skills_five_roots": {
+    "roots": [
+      "shared(.agents)",
+      "codex",
+      "claude",
+      "opencode",
+      "project(AK-trading)"
+    ],
+    "five_roots_identical_to_candidate": true,
+    "changed_set_per_root_exactly_allowed_7": true,
+    "frozen_6_files_plus_openai_yaml_byte_unchanged": true,
+    "publication_cross_check": "35/35 before/after records consistent with baseline.json and current disk",
+    "content_consistency": "stopped-support phrasing 7 and do-not-use-in-new-strategies 4 per root (identical across five); tqsdk-zq only as historical context, zero install/upgrade recommendations; no credential-assignment patterns; auth=None appears only inside the prohibition sentence; release table 3.10.1/3.10.2/3.10.3 matches official version history; wheel SHA documented equals verified value"
+  },
+  "frozen_manifest_integrity": {
+    "manifest": "implementation/freeze-manifest.json (1.45MB, read programmatically; concise counts only)",
+    "before": "ALL sections matched: tool 10109/10109, candidate 13/13, published 5x13/13, evidence 95/95, protected 9+2, inputs 6/6; zero mismatch/missing/unexpected-extra",
+    "after": "identical result after review — no frozen byte changed during review (see checks/manifest-validation-before2.json and checks/manifest-validation-after.json)"
+  },
+  "counterexamples": [
+    {
+      "probe": "1 wrong-interpreter negative control",
+      "action": "owner verify_offline.py run under global Python312 with otherwise-valid args",
+      "expected_failure": "AssertionError: WRONG_INTERPRETER, non-zero exit, no success JSON",
+      "confirmed": true,
+      "evidence": "probes/probe1-*"
+    },
+    {
+      "probe": "2 scratch-copy defect injection",
+      "action": "isolated copy of candidate; injected broken relative link, syntax-broken python block, one-byte tamper",
+      "expected_failure": "checker exit non-zero flagging exactly the injected link and file; hash compare flags exactly the three tampered files",
+      "confirmed": true,
+      "baseline_control": "clean copy: 28 blocks/22 links, zero findings",
+      "evidence": "probes/probe2-*, probes/scratch-skill-{clean,defect}/"
+    },
+    {
+      "probe": "3 five-copy sync-omission simulation (data-level)",
+      "action": "simulate missing error-faq.md in one root and corrupted SKILL.md hash in another",
+      "expected_failure": "comparator flags exactly opencode/references/error-faq.md and claude/SKILL.md; other three clean",
+      "confirmed": true,
+      "evidence": "probes/probe3-result.json"
+    }
+  ],
+  "reviewer_harness_repairs": "Four reviewer-side defects found and repaired in distinct attempts with attempt-1 evidence preserved: (1) manifest validator walked shared maintenance root for source-input section; (2) skills changed-set not union-based; (3) probe2 injected into prose instead of a markdown link and its own DEFECTS-INJECTED.txt polluted the expected diff; (4) bash per-root phrase counting split Windows colon paths wrongly. None touched product; none masked a product defect.",
+  "online_items": "NOT_RUN — online authentication, market data, historical download, backtest data, broker connectivity, order/cancel were never executed. This PASS is an offline installation/documentation acceptance only and must not be cited as online or trading acceptance.",
+  "evidence_index": [
+    "REVIEW.md",
+    "evidence-hashes.json",
+    "rerun/",
+    "checks/",
+    "probes/"
+  ]
+}

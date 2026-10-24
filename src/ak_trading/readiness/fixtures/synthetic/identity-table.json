@@ -1,0 +1,21 @@
+{
+  "table_kind": "coordination-readiness-identity-table",
+  "table_version": 1,
+  "provenance": "SYNTHETIC",
+  "description": "SYNTHETIC fixture mirroring the fpcold identity succession classes of the 2026-09 case (old freeze identity retired, freeze-r3 current; old sampling_version retired; interface freeze superseded). Values are fixture-internal constants, not real artifacts.",
+  "confirmed_by": "synthetic selftest (mirrors codex-project-review-report-r1 A1.2)",
+  "slots": {
+    "fpcold_freeze": {
+      "current": "freeze-r3",
+      "retired": ["freeze-r2", "268e2045-old-freeze-id"]
+    },
+    "fpcold_sampling_version": {
+      "current": "q47nf21-fpcold-pt-sv1-1562be5963396361",
+      "retired": ["q47nf21-fpcold-pt-sv1-268e2045"]
+    },
+    "fpcold_interface_freeze": {
+      "current": "I1-freeze-r2",
+      "retired": ["I1-freeze-r1"]
+    }
+  }
+}

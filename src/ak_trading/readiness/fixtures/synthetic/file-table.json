@@ -1,0 +1,29 @@
+{
+  "table_kind": "coordination-readiness-file-table",
+  "table_version": 1,
+  "provenance": "SYNTHETIC",
+  "description": "SYNTHETIC fixture mirroring the transcription classes of the 2026-09 case: authoritative layout uses rounds/<run-id> (not runs/), r_10 revision spelling, frozen-only payload states for failed/unsealed candidates. sha256 values are fixture-internal constants, not real artifacts.",
+  "confirmed_by": "synthetic selftest (mirrors codex-project-review-report-r1 A3 PG-06, A5)",
+  "files": {
+    "fp-launch-binding": {
+      "path": "rounds/<run-id>/launch/binding.json",
+      "sha256": "deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+      "revision": "r_10"
+    },
+    "pub-r8-binding": {
+      "path": "rounds/pub-syn-r8/binding.json",
+      "sha256": "feedfacefeedfacefeedfacefeedfacefeedfacefeedfacefeedfacefeedface",
+      "revision": "r8"
+    }
+  },
+  "payloads": {
+    "publication-syn-r8": {
+      "payload_state": "FROZEN_UNSEALED_FAILED_PRESEAL",
+      "files": ["pub-r8-binding"]
+    },
+    "fpcold-candidate-r2": {
+      "payload_state": "FROZEN",
+      "files": ["fp-launch-binding"]
+    }
+  }
+}

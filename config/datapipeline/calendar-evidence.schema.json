@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "datapipeline-calendar-evidence-v1.schema.json",
+  "title": "DP04 versioned trading-calendar evidence envelope",
+  "description": "Envelope contract for DP04 calendar evidence documents (work-order DP04-calendar.md H04.1/H04.2; data-quality contract Q05/D06). The authoritative validator is src/ak_trading/datapipeline/calendar.py::calendar_evidence_document_from_mapping - this schema mirrors it and must not drift (tests cross-check the required-field sets). Nothing here authorizes natural-day, weekday or fixed-20:00 inference; every calendar fact must arrive in an evidence document.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "evidence_version",
+    "dataset",
+    "source_id",
+    "evidence_kind",
+    "data_origin",
+    "applicability",
+    "valid_from_nano",
+    "valid_through_nano",
+    "pit_basis"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "datapipeline-calendar-evidence-v1"
+    },
+    "evidence_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Append-only version label; one version is exactly one document byte-wise (binding conflicts are hard errors)."
+    },
+    "dataset": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Data-source channel identity (no accounts, no secrets)."
+    },
+    "evidence_kind": {
+      "enum": ["EXCHANGE_CLOSED_DATES", "SESSION_GRID"]
+    },
+    "data_origin": {
+      "enum": ["REAL_SOURCE", "SYNTHETIC", "SCENARIO", "LEGACY_UNVERIFIED"]
+    },
+    "synthetic_marker": {
+      "type": "string",
+      "description": "REQUIRED (and must contain 'SYNTHETIC') when data_origin is SYNTHETIC or SCENARIO; forbidden otherwise. Covered by document_sha256 (finding F16)."
+    },
+    "applicability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "exchanges": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Upper-case exchange codes, e.g. SHFE."
+        },
+        "products": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z]+\\.[a-z]+$" },
+          "description": "Lower-case 'exchange.product' keys."
+        },
+        "source_symbols": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Exact source_symbol matches (e.g. instrument lifecycle documents)."
+        }
+      },
+      "description": "At least one of the three arrays must be non-empty."
+    },
+    "valid_from_nano": { "$ref": "#/$defs/nanoString" },
+    "valid_through_nano": { "$ref": "#/$defs/nanoString" },
+    "coverage": {
+      "enum": ["PARTIAL_DAYS_LISTED", "COMPLETE_IN_VALIDITY_DOMAIN"],
+      "description": "PARTIAL_DAYS_LISTED (default): unlisted time inside the validity domain is UNKNOWN. COMPLETE_IN_VALIDITY_DOMAIN: the grid enumerates every session in the window, so non-session time is NO_TRADING_EVIDENCED by enumeration."
+    },
+    "pit_basis": {
+      "enum": ["OBTAINED_AT", "UNKNOWN"],
+      "description": "OBTAINED_AT requires obtained_at_nano (possession proof; informs as_of >= obtained_at only). UNKNOWN forbids obtained_at_nano and lets the document inform NO query (H04.6)."
+    },
+    "obtained_at_nano": { "$ref": "#/$defs/nanoString" },
+    "announced_at_nano": { "$ref": "#/$defs/nanoString" },
+    "evidence_reference": {
+      "type": "string",
+      "description": "Where the evidence came from; REQUIRED for REAL_SOURCE."
+    },
+    "evidence_text_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Hash of the underlying evidence text; REQUIRED for REAL_SOURCE."
+    },
+    "review_status": {
+      "type": "string",
+      "default": "review_required",
+      "description": "Carried verbatim (never laundered), e.g. the DP00 2026 anchor is review_required."
+    },
+    "sessions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/sessionDay" },
+      "description": "SESSION_GRID only: per trading-day session segments with the exchange trading-day label retained verbatim (H04.4)."
+    },
+    "closed_dates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/closedDate" },
+      "description": "Exchange-level closed civil dates. Required non-empty for EXCHANGE_CLOSED_DATES."
+    },
+    "instrument_windows": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/instrumentWindow" },
+      "description": "Listing/delisting validity windows per exact source_symbol (H04.4)."
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "nanoString": {
+      "type": ["integer", "string"],
+      "description": "Integer nanoseconds within signed int64; strings of digits are the canonical JSON form (no float round-trip).",
+      "pattern": "^[0-9]+$"
+    },
+    "sessionDay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trading_day", "segments"],
+      "properties": {
+        "trading_day": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "segments": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/segment" }
+        }
+      }
+    },
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "start_nano", "end_nano"],
+      "properties": {
+        "kind": { "enum": ["DAY", "NIGHT"] },
+        "start_nano": { "$ref": "#/$defs/nanoString" },
+        "end_nano": { "$ref": "#/$defs/nanoString" }
+      }
+    },
+    "closedDate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exchange", "date", "reason"],
+      "properties": {
+        "exchange": { "type": "string", "minLength": 1 },
+        "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    },
+    "instrumentWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_symbol", "valid_from_nano", "valid_through_nano", "event"],
+      "properties": {
+        "source_symbol": { "type": "string", "minLength": 1 },
+        "valid_from_nano": { "$ref": "#/$defs/nanoString" },
+        "valid_through_nano": { "$ref": "#/$defs/nanoString" },
+        "event": { "const": "LISTED_UNTIL_DELISTED" }
+      }
+    }
+  }
+}

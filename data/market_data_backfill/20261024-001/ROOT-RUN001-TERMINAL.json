@@ -1,0 +1,19 @@
+{
+  "schema": "aktr-root-free-tq-data-operation-terminal/v1",
+  "at_utc": "2026-10-24T11:37:08.395368+00:00",
+  "process": {
+    "pid": 51440,
+    "creation_time": 1792841803.9660976
+  },
+  "raw_native_exit": 2,
+  "resource_abort": null,
+  "elapsed_seconds": 24.484,
+  "peak_observed_rss_bytes": 163315712,
+  "raw_stdout_bytes": 78,
+  "raw_stderr_bytes": 902,
+  "credentials_persisted": false,
+  "streams_saved": "explicitly redacted copies",
+  "slot_released": true,
+  "application_result": "D:\\Projects\\AK-trading\\data\\market_data_backfill\\20261024-001\\download-run001\\RESULT.json",
+  "application_result_exists": true
+}

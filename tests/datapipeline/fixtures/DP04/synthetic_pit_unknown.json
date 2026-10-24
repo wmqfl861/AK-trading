@@ -1,0 +1,50 @@
+{
+  "schema_version": "datapipeline-calendar-evidence-v1",
+  "dataset": "futures_kline",
+  "source_id": "tqsdk-free-realtime-get-kline-serial",
+  "data_origin": "SYNTHETIC",
+  "synthetic_marker": "SYNTHETIC FIXTURE - fictional exchange SYNTHEX year 2027 - proves calendar LOGIC only, never a historical or live-market fact",
+  "announced_at_nano": null,
+  "evidence_text_sha256": null,
+  "review_status": "synthetic_fixture",
+  "evidence_version": "synth-grid-pit-unknown-r1",
+  "evidence_kind": "SESSION_GRID",
+  "applicability": {
+    "exchanges": [],
+    "products": [
+      "synth.rb"
+    ],
+    "source_symbols": []
+  },
+  "valid_from_nano": "1798732800000000000",
+  "valid_through_nano": "1830268800000000000",
+  "coverage": "PARTIAL_DAYS_LISTED",
+  "pit_basis": "UNKNOWN",
+  "evidence_reference": "SYNTHETIC: hand-authored DP04 fixture (synthetic_pit_unknown.json) - possession time deliberately unreconstructable",
+  "sessions": [
+    {
+      "trading_day": "2027-04-01",
+      "segments": [
+        {
+          "kind": "DAY",
+          "start_nano": "1806541200000000000",
+          "end_nano": "1806545700000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1806546600000000000",
+          "end_nano": "1806550200000000000"
+        },
+        {
+          "kind": "DAY",
+          "start_nano": "1806557400000000000",
+          "end_nano": "1806562800000000000"
+        }
+      ]
+    }
+  ],
+  "closed_dates": [],
+  "notes": [
+    "SYNTHETIC fixture with pit_basis=UNKNOWN and NO obtained_at: the document informs NO as_of query; its ranges answer UNKNOWN with the PIT reason (H04.6)."
+  ]
+}

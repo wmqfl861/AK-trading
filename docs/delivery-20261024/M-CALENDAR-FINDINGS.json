@@ -1,0 +1,60 @@
+{
+  "schema": "m-dce-calendar-hard-review-findings/v1",
+  "task_id": "aktr-zcode-m-dce-calendar-product-review-recovery-20261024T121133Z-66392c96",
+  "blocking_findings": [],
+  "nonblocking_product_findings": [],
+  "reviewer_harness_incidents": [
+    {
+      "id": "H1",
+      "phase": "HARD-001",
+      "summary": "evcheck3 initial runs: key casing Unicode_codepoint_* vs unicode_codepoint_*; source_views nested {pointer,file}; challenge evidence file is plain text source.html.txt while pointer targets RESPONSE.json /data/html requiring response-based resolution. Three failed runs before green.",
+      "classification": "REVIEWER_SCHEMA_DISCOVERY_NOT_PRODUCT_DEFECT"
+    },
+    {
+      "id": "H2",
+      "summary": "HARD-001 probe option_rank1_mistaken_for_futures mutated requested_URL but evcheck3 had no requested_URL invariant — false_claim_accepted. Root observed. Classified HARNESS_GAP.",
+      "repair": "HARD-002 evcheck3 adds: per-remote-source requested_URL must equal raw REQUEST payload url; locator file must hash-match and its JSON_pointer resolution must equal that url. Rejected with requested_url_identity_mismatch.",
+      "classification": "HARNESS_GAP_FIXED_IN_HARD002"
+    },
+    {
+      "id": "H3",
+      "summary": "HARD-001 probes budget_reset and phantom_doc004 were correctly rejected (facts_source_budget_changed) but probe expected-fragment strings were stale (cumulative_consumption_mismatch / doc004_status_changed).",
+      "repair": "HARD-002 expectations updated to facts_source_budget_changed; both now fragment_found=true.",
+      "classification": "HARNESS_EXPECTATION_FIXED_IN_HARD002"
+    },
+    {
+      "id": "H4",
+      "summary": "HARD-001 probe policy_applied_to_other_products mutated product_scope but evcheck3 had no product_scope invariant — false_claim_accepted. Root observed. Classified HARNESS_GAP.",
+      "repair": "HARD-002 evcheck3 adds: if product_scope present it must be 'DCE M individual futures only'; facts.scope must be M_DCE_CALENDAR_FACTS_001. Mutation now rejected with policy_product_scope_changed. Initial version incorrectly required the field to be present (the frozen product legitimately omits it, restating only the ruling's version/delay); corrected to conditional check.",
+      "classification": "HARNESS_GAP_FIXED_IN_HARD002"
+    },
+    {
+      "id": "H5",
+      "summary": "HARD-001 evcheck3 locator URL check initially keyed on the doc's own RESPONSE (wrong file: locator points into the *search* RESPONSE); KeyError 'web'. Fixed to use locator.file path.",
+      "classification": "REVIEWER_SCHEMA_DISCOVERY_NOT_PRODUCT_DEFECT"
+    },
+    {
+      "id": "H6",
+      "summary": "Prior model call transport failure (HTTP502 proxy) terminated HARD-001 before verdict; watchdog terminal native1/stdout0. Not a product verdict; review completed in HARD-002 per work order.",
+      "classification": "REVIEWER_TRANSPORT_INCIDENT_NOT_PRODUCT_DEFECT"
+    }
+  ],
+  "verified_claims_with_evidence": [
+    {"claim": "42-file exact inventory (33 raw + 9 controls); FD pins 41 non-self; directory 1145961 bytes", "evidence": "HARD-001 evidence/pin-check-001/RESULTS-pre.json + HARD-002 RESULTS-post.json"},
+    {"claim": "1310 INPUT-PINS all verified; 696 nested FileRef occurrences all match", "evidence": "same pin-check results"},
+    {"claim": "Exact owner verifier independently executed native0, all_checks_pass=true (1310 pins, 1353 unique files, 16 slices)", "evidence": "HARD-001 evidence/owner-verifier-rerun-001/{COMMAND,RESULT,stdout}.txt"},
+    {"claim": "All 16 exact slices verified (6 challenge HTML + 10 local e4/419 quotes) with FileRef hashes and codepoint positions", "evidence": "HARD-001 evidence/independent-check-001/RESULTS.json + HARD-002 corrected evcheck3 re-verification"},
+    {"claim": "Six serial requests in exact order; each child0/localHTTP200/APItrue; all three docs sourceHTTP412 with empty markdown/links and challenge-only HTML; snippets remain locators", "evidence": "same verifier + CAPTURE-TERMINAL read"},
+    {"claim": "Budget: scope 3q/3URLs; prior 1q/3URLs permanent; cumulative M 4q/6URLs; doc004 NOT_RUN_NO_BODY_BOUND_NECESSARY_ATTACHMENT; scope CLOSED", "evidence": "facts source_budget + terminal scope_consumption fields verified"},
+    {"claim": "requested_URL identity: each doc's requested_URL equals its raw REQUEST payload url; each locator's file hash matches and its JSON_pointer resolves to that same url in the search RESPONSE", "evidence": "HARD-002 corrected evcheck3 (new invariant)"},
+    {"claim": "Four clocks separate; prospective policy v1/10800 fixed under ruling002; research_assumption_not_observed_first_seen=true; actual A rows 0; INPUT_NOT_DELIVERED; credit 0", "evidence": "facts prospective_M_policy + established_and_missing verified"},
+    {"claim": "known_prior_2022_99.exact_original_FileRef_in_this_scope=null preserved; status PRIOR_BAD_DECODING_TERMINAL_RETAINED_NOT_RECOVERED; author's later supplement outside frozen cut", "evidence": "facts known_prior_2022_99 verified"},
+    {"claim": "12/12 total mutations rejected: 8 in HARD-001 (source412→qualified, snippet→fact, current→historical, risk-dates→calendar, backdate, READY, quote tamper, hash tamper) + 4 in HARD-002 recovery (rank1→futures, budget reset, phantom doc004, other-product policy); 2 positive controls clean", "evidence": "HARD-001 probes-001 + HARD-002 probes-002 RESULTS.json"},
+    {"claim": "All 42 product files unchanged pre and post entire review", "evidence": "HARD-002 evidence/pin-check-001/RESULTS-post.json 0 failures"}
+  ],
+  "boundary_notes": [
+    "INPUT_NOT_DELIVERED, 0 qualified components, 0 research credit remain distinct from this engineering acceptance.",
+    "The three 412 responses honestly terminate the scope: no historical calendar body was obtained; this is not proof of non-existence.",
+    "The author's M-DCE-CALENDAR-FACTS-20261024-001-DISPOSITION.md and 2022-99 FileRef supplement are current factual context outside the frozen 42 and do not rewrite the evidence cut."
+  ]
+}

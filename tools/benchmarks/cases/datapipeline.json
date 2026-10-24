@@ -1,0 +1,67 @@
+{
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "case_id": "datapipeline/frame_synthetic",
+  "description": "SYNTHETIC offline case (H22 FRAME_SYNTHETIC, r1 interim form): construction + validation cost of SDK-shaped synthetic kline frames across three pre-registered row tiers (small 380 / medium 1705 / large 6490 total rows) cycled deterministically; one frame per timed operation; units = accepted input rows (padding/invalid/duplicate rows counted, never accepted). Measured code is the NF22-owned generator (logical module benchmark.datapipeline.frame_synthetic): the DP-owner release source-map handover is PENDING, so NO ak_trading.datapipeline production module is measured yet. This is NOT a database-throughput case (generation cost is deliberately separated from commit cost; COLLECT_STORE_SQLITE is a separate NOT_RUN leg) and NOT a PostgreSQL claim of any kind.",
+  "origin": "SYNTHETIC",
+  "domain": "datapipeline",
+  "backend": "python-inprocess",
+  "eligible_for_baseline": false,
+  "algorithm_version": "nf22-frame-synth-r1",
+  "policy_version": "nf22-datapipeline-r1",
+  "workload": {
+    "source": "tools/benchmarks/workloads/datapipeline.py",
+    "entrypoint": "build"
+  },
+  "measured_modules": [
+    "benchmark.datapipeline.frame_synthetic"
+  ],
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/fixtures/datapipeline/frame_tiers.json",
+      "role": "input"
+    },
+    {
+      "path": "tools/benchmarks/workloads/datapipeline.py",
+      "role": "workload"
+    }
+  ],
+  "params": {
+    "seed": 20260922,
+    "tiers_fixture": "tools/benchmarks/fixtures/datapipeline/frame_tiers.json"
+  },
+  "measurement": {
+    "sample_mode": "per_operation",
+    "units": "accepted_input_rows",
+    "units_per_operation": 1,
+    "min_operations": 30,
+    "batch_size": 10,
+    "reset_method": "none",
+    "includes_io": false
+  },
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "environment": {
+    "depends_on": []
+  },
+  "correctness": {
+    "kind": "digest",
+    "expected_digest": "498b364688d0483cce028eb75e799a53beaf8af39f4e89b61b65aeb7685504e1",
+    "normalizations": []
+  },
+  "budget": {
+    "smoke": {
+      "warmup_operations": 6,
+      "operations": 30,
+      "case_timeout_s": 30
+    },
+    "formal": {
+      "batches": 5,
+      "warmup_operations": 6,
+      "operations_per_batch": 30,
+      "case_timeout_s": 600
+    }
+  }
+}

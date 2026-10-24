@@ -1,0 +1,15 @@
+{
+  "schema": "ak-benchmark-source-map/1.0.0",
+  "description": "NF22 datapipeline-domain source map (r1). Only the NF22-owned synthetic workload is bound here (WORKTREE_SNAPSHOT). The DP production module binding (src/ak_trading/datapipeline/* and the distributed DP node sources) is PENDING until the DP owner hands over the approved non-secret release source-map; no DP hash is guessed or pre-filled.",
+  "modules": [
+    {
+      "logical_module": "benchmark.datapipeline.frame_synthetic",
+      "source_relative_path": "tools/benchmarks/workloads/datapipeline.py",
+      "sha256": "3a116e9fb2a796bfdb8e900d1a4f79b7b64a3653a9cf143600504cb3aba5e167",
+      "bytes": 12760,
+      "owner": "NF22",
+      "release_id": "WORKTREE_SNAPSHOT",
+      "provenance_kind": "WORKTREE_SNAPSHOT"
+    }
+  ]
+}

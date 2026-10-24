@@ -1,0 +1,89 @@
+{
+ "schema": "dp03-collector-vectors/1",
+ "synthetic_marker": "All vectors are SYNTHETIC contract vectors for V02 (origin/PIT) and V07 (reconnect/window); no real market data.",
+ "source_id": "tqsdk-free-realtime-get_kline-serial",
+ "time_base_nano": 1700000000000000000,
+ "observed_2026_nano": 1790000000000000000,
+ "v02": {
+  "two_year_old_backfill": {
+   "scenario": "first connect delivers bars whose event time is 2024-01 era; observed/available are 2026-09",
+   "expectations": [
+    "every baseline bar row is acquisition_mode=SESSION_BACKFILL",
+    "observed_at_nano >= event_start_nano for every row (zero backdating)",
+    "first_observed_at_nano equals the earliest provable observation and is never rewritten"
+   ]
+  },
+  "realtime_chain": {
+   "scenario": "in-formation bar observed PROVISIONAL, then CLOSED on the same connection_epoch/continuity_id with unbroken health",
+   "expectations": [
+    "PROVISIONAL sighting verdict PROVISIONAL_OBSERVATION",
+    "CLOSED sighting acquisition_mode=REALTIME with verdict REALTIME_EVIDENCED",
+    "availability_basis LIVE_CAPTURE_EVIDENCE for every REALTIME-mode sighting (in-formation and closed)"
+   ]
+  },
+  "reconnect_backfill": {
+   "scenario": "disconnect; reconnect (new epoch/continuity); bar that formed before the disconnect is seen CLOSED for the first time after reconnect",
+   "expectations": [
+    "the post-reconnect CLOSED sighting is SESSION_BACKFILL",
+    "continuity_id changed across the disconnect (reset recorded)"
+   ]
+  },
+  "synthetic_origin": {
+   "expectation": "SYNTHETIC sessions mark every envelope data_origin=SYNTHETIC with a prominent marker; SYNTHETIC never upgrades"
+  },
+  "duplicate_content": {
+   "same_value": "same K + same canonical content replays idempotently (COMMITTED_SAME_CONTENT, ACCEPTED)",
+   "different_value": "same K + different CLOSED content is CONFLICT: task QUARANTINED, conflict evidence emitted, default consumption blocked"
+  }
+ },
+ "v07": {
+  "disconnect_backoff": {
+   "ladder_seconds": [60, 300, 900],
+   "jitter_bound_factor": 0.25,
+   "expectation": "reconnect sleeps lie in [base, base*1.25]; after the ladder the connection-start budget (3 per rolling 600s) forces deferral instead of reconnect storms"
+  },
+  "rate_limit": {
+   "expectations": [
+    "pause honored conservatively (>= 60s)",
+    "two consecutive account rate limits stop new requests (remaining tasks DEFERRED_BUDGET)"
+   ]
+  },
+  "permission_denied": {
+   "expectations": [
+    "circuit breaker: no further subscribe attempts after denial",
+    "task states PERMISSION_DENIED, run terminal FAILED",
+    "zero trading-method calls on the wrapped api"
+   ]
+  },
+  "db_failure": {
+   "expectations": [
+    "commit failure persists the snapshot as pending (never dropped)",
+    "task stays RAW_VERIFIED (no checkpoint advance)",
+    "run terminal RECOVERY_REQUIRED, exit code 5"
+   ]
+  },
+  "queue_full": {
+   "expectations": [
+    "bounded queue full pauses NEW tasks and records backpressure",
+    "no unconfirmed data dropped; after drain the run finalizes honestly"
+   ]
+  },
+  "schema_and_window": {
+   "expectations": [
+    "broken OHLC rows classify INVALID with reasons; NaN head rows PADDING",
+    "frame = padding + invalid + valid conserved; requested=8192 counted independently of returned",
+    "daily rows without calendar session-end stay row_status UNKNOWN",
+    "requested window below min returned first-nano yields OUTSIDE_FREE_WINDOW gap evidence"
+   ]
+  }
+ },
+ "v12_aspects_owned_by_dp03": {
+  "trading_surface": "facade exposes exactly subscribe/wait_update/ready/copy_snapshot/close; forbidden methods raise AttributeError; assert_no_trading_surface passes on facade and doubles",
+  "import_purity": "no tqsdk import, no socket, no .env at module import",
+  "secret_shapes": "status reasons with credential shape are rejected by the frozen sanitizer"
+ },
+ "worker_isolation": {
+  "construction_hang": "hanging factory create() inside the engine-owned worker; total deadline abandons only the engine-owned thread; run reports worker_abandoned",
+  "stop_restart": "graceful stop persists queue + evidence; only confirmed commits counted; restart keeps gaps scheduled"
+ }
+}

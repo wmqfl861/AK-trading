@@ -1,0 +1,67 @@
+{
+  "scope": "Only exact source-returned LR free recent windows; authoritative nano key and seven decimal OHLCV/OI fields",
+  "series": [
+    {
+      "symbol": "KQ.m@CZCE.LR",
+      "duration_seconds": 60,
+      "source_rows": 10000,
+      "source_sha256": "14fc74f8a5af30bee51d3865f8ddafd7aff5b608913d223c4f03da212a9bbf5d",
+      "first_timestamp_utc": "2025-11-13T03:20:00+00:00",
+      "last_timestamp_utc": "2026-01-16T06:59:00+00:00",
+      "read_only_transaction_verified": "on",
+      "bounded_queries": [
+        {
+          "start_nano_inclusive": 1763004000000000000,
+          "end_nano_exclusive": 1765779000000000000,
+          "rows": 5000,
+          "limit": 10000,
+          "at_limit": false
+        },
+        {
+          "start_nano_inclusive": 1765779000000000000,
+          "end_nano_exclusive": 1768546740000000001,
+          "rows": 5000,
+          "limit": 10000,
+          "at_limit": false
+        }
+      ],
+      "overlap_equal_keys_and_all_7_values": 10000,
+      "missing_source_keys_in_db": 0,
+      "missing_nanos": [],
+      "conflicting_keys": 0,
+      "conflicts": [],
+      "db_extra_keys_in_source_bounds": 0
+    },
+    {
+      "symbol": "KQ.i@CZCE.LR",
+      "duration_seconds": 86400,
+      "source_rows": 128,
+      "source_sha256": "6f5679c7730ae05c12daf1bf0922faec6fa420731e8331cb2ccf7dc818967882",
+      "first_timestamp_utc": "2025-07-10T16:00:00+00:00",
+      "last_timestamp_utc": "2026-01-15T16:00:00+00:00",
+      "read_only_transaction_verified": "on",
+      "bounded_queries": [
+        {
+          "start_nano_inclusive": 1752163200000000000,
+          "end_nano_exclusive": 1768492800000000001,
+          "rows": 128,
+          "limit": 10000,
+          "at_limit": false
+        }
+      ],
+      "overlap_equal_keys_and_all_7_values": 128,
+      "missing_source_keys_in_db": 0,
+      "missing_nanos": [],
+      "conflicting_keys": 0,
+      "conflicts": [],
+      "db_extra_keys_in_source_bounds": 0
+    }
+  ],
+  "database_write": "NOT_RUN",
+  "real_sends": 0,
+  "real_cancels": 0,
+  "total_source_rows": 10128,
+  "total_missing_rows": 0,
+  "total_conflicting_rows": 0,
+  "disposition": "NO_IMPORT_NEEDED"
+}

@@ -1,0 +1,70 @@
+{
+  "status": "READY_FOR_ROOT_AUTHORIZED_INPUT_INJECTION",
+  "entrypoint": "D:\\Projects\\AK-trading\\data\\market_data_backfill\\20261024-001\\download_recent_run001.py",
+  "entrypoint_sha256": "333102500ca73cfff477378314deea822ee102c0f65d6245dab72fbe1043cfe0",
+  "argv": [
+    "D:/Programs/Python/Python312/python.exe",
+    "-B",
+    "-I",
+    "-X",
+    "utf8",
+    "D:\\Projects\\AK-trading\\data\\market_data_backfill\\20261024-001\\download_recent_run001.py"
+  ],
+  "cwd": "D:\\Projects\\AK-trading",
+  "stdin_schema_keys": [
+    "tq_user",
+    "tq_pass"
+  ],
+  "credential_policy": "Root injects authorized input; never persist stdin or read dotenv",
+  "sdk_version": "3.10.2",
+  "symbols": [
+    "KQ.m@SHFE.rb",
+    "KQ.m@CZCE.TA",
+    "KQ.m@DCE.m"
+  ],
+  "duration_seconds": 60,
+  "requested_rows": 10000,
+  "target_complete_trading_day": "2026-10-23",
+  "maximum_active_apis": 1,
+  "maximum_simultaneous_fetches": 1,
+  "operation_budget_seconds": 420,
+  "recommended_supervisor_budget_seconds": 480,
+  "requested_memory_ceiling_bytes": 1073741824,
+  "expected_output_bytes_upper_bound": 5242880,
+  "output_directory": "D:\\Projects\\AK-trading\\data\\market_data_backfill\\20261024-001\\download-run001",
+  "output_directory_exists": false,
+  "source_pins": [
+    {
+      "path": "scripts/fill_recent_main_minute.py",
+      "bytes": 16198,
+      "sha256": "5014de39c93d8430b19df7c7ffd4c3e8d11ca771d9654b8cef3e2fdff20ad668"
+    },
+    {
+      "path": "src/ak_trading/persistence/market_data.py",
+      "bytes": 18379,
+      "sha256": "f4c0f7220de00040b27681fb5e653e5350c388a839165e68248fb394a07659ec"
+    },
+    {
+      "path": "config/market_reference.json",
+      "bytes": 9342,
+      "sha256": "0ee5168017f4a6aad7be743b147b45fced791a4426b94d7c9310f78cb79a459e"
+    },
+    {
+      "path": "data/downloads/kqm_symbols.txt",
+      "bytes": 1024,
+      "sha256": "764749bfa6c61619feae3d1b2a1e046253580260a353f1b25b5d7fec4f15a5ca"
+    }
+  ],
+  "offline_helper_import_pass": true,
+  "api_constructed": false,
+  "database_access": "NOT_RUN",
+  "enable_trading": false,
+  "broker": "NOT_RUN",
+  "real_sends": 0,
+  "real_cancels": 0,
+  "known_discovery_failure": {
+    "command_scope": "optional docs plan filename/content discovery",
+    "native_exit": 1,
+    "meaning": "subprocess.TimeoutExpired after 25 seconds; not evidence of absent plan; no retry of broad scan"
+  }
+}

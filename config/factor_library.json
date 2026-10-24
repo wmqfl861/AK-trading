@@ -1,0 +1,45 @@
+{
+  "schema_version": "ak_factor_library_registry_v1",
+  "active_catalog": "china_futures_v1_20260913",
+  "catalogs": [
+    {
+      "catalog_id": "china_futures_v1_20260913",
+      "title": "中国境内期货全品种量化因子库",
+      "version": "1.0",
+      "as_of": "2026-09-13",
+      "archive_path": "data/factor_library/china_futures_v1_20260913/original/中国期货量化因子库_完整数据包_20260913.zip",
+      "archive_sha256": "9a62a670064b89964577dc197065101c4d31b97d1def9fa188057d4bb2c9b43c",
+      "sqlite_path": "data/factor_library/china_futures_v1_20260913/source/中国期货因子库_v1.0/factor_catalog.sqlite",
+      "sqlite_sha256": "e3d6e2f807941a1d4273c5f491b02500975f6f7f738929874ce6350343e15507",
+      "checksums_path": "data/factor_library/china_futures_v1_20260913/source/中国期货因子库_v1.0/SHA256SUMS.txt",
+      "checksums_sha256": "7a3de2a0ba4dff445ea4214ea181b8b42cc2f8b064c757b9a29b683f72017494",
+      "source_directory": "data/factor_library/china_futures_v1_20260913/source/中国期货因子库_v1.0",
+      "table_counts": {
+        "data_dictionary": 75,
+        "factor_values": 0,
+        "factors": 605,
+        "operators_parameters": 40,
+        "product_factor_map": 18153,
+        "product_family_map": 1473,
+        "product_index": 91,
+        "products": 91,
+        "raw_metric_requirements": 316,
+        "raw_observations": 0,
+        "sources": 43,
+        "spread_recipes": 40,
+        "starter_factors": 30,
+        "validation_checklist": 34
+      },
+      "status": "research_definitions_only",
+      "calculator_status": "not_integrated",
+      "historical_factor_values": false,
+      "notes": [
+        "605条是研究定义，不是605个已实现、互相独立或已验证盈利的因子。",
+        "原始文件完整保留；项目实现差异和验证记录保存在源目录之外。",
+        "P0/P1/P2为研发优先级，不是收益排序。",
+        "品种ID不等于实际行情或下单代码；91条规格不覆盖现有交易目录。",
+        "现有14项计算器继续使用各自口径，不能将名称相近的定义自动视为等价。"
+      ]
+    }
+  ]
+}

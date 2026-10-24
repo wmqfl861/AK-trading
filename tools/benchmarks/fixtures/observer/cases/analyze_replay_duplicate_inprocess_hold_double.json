@@ -1,0 +1,72 @@
+{
+  "algorithm_version": "UNKNOWN",
+  "backend": "python-inprocess",
+  "budget": {
+    "formal": {
+      "batches": 5,
+      "case_timeout_s": 600,
+      "operations_per_batch": 20,
+      "warmup_operations": 20
+    },
+    "smoke": {
+      "case_timeout_s": 30,
+      "operations": 200,
+      "warmup_operations": 20
+    }
+  },
+  "case_id": "observer/analyze_replay_duplicate_inprocess_hold_double",
+  "correctness": {
+    "expected_digest": "1304350d5646605678d2a486a894c4868a549ac7c4d8f2043d5f11be75a3f0b4",
+    "kind": "digest",
+    "normalizations": []
+  },
+  "description": "SYNTHETIC in-process measurement of the duplicate-batch CACHE-HIT (replay) path: one seed analyze caches the response, every measured operation replays the same batch id and must NOT re-invoke the evaluator (replay counter must equal the op count). Reported separately from the business-processing case so cache hits never masquerade as processing speed. Timed operation includes one temp-audit JSONL write+flush in the run temporary directory (audit log enabled); single evaluator worker, raw sink disabled; no HTTP/socket.",
+  "domain": "observer",
+  "eligible_for_baseline": true,
+  "environment": {
+    "depends_on": [
+      "ak_trading"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tools/benchmarks/fixtures/observer/payload-spec.json",
+      "role": "input"
+    },
+    {
+      "path": "tools/benchmarks/workloads/observer.py",
+      "role": "workload"
+    }
+  ],
+  "measured_modules": [
+    "ak_trading.infiny_bridge.service",
+    "ak_trading.infiny_bridge.protocol",
+    "ak_trading.infiny_bridge.connection"
+  ],
+  "measurement": {
+    "batch_size": 100,
+    "includes_io": true,
+    "min_operations": 100,
+    "reset_method": "none",
+    "sample_mode": "per_operation",
+    "units": "requests",
+    "units_per_operation": 1
+  },
+  "origin": "SYNTHETIC",
+  "params": {
+    "case": "observer/analyze_replay_duplicate_inprocess_hold_double",
+    "payload_spec": "tools/benchmarks/fixtures/observer/payload-spec.json",
+    "seed": 20260924
+  },
+  "policy_version": "nf23-observer-bench-r1",
+  "resources": {
+    "network": false,
+    "production_db": false,
+    "temp_sqlite": false
+  },
+  "schema": "ak-benchmark-case-manifest/1.0.0",
+  "workload": {
+    "entrypoint": "build_analyze_replay",
+    "source": "tools/benchmarks/workloads/observer.py"
+  }
+}

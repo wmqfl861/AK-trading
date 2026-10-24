@@ -1,0 +1,78 @@
+{
+  "snapshot_kind": "coordination-readiness-register-snapshot",
+  "snapshot_version": 1,
+  "provenance": "SYNTHETIC",
+  "description": "SYNTHETIC fixture seeding one instance of each of the five error classes from the 2026-09 case (retired identity marked current; successor READY with prerequisite AUTH_ISSUED; frozen payload written SEALED; runs/ vs rounds/ path, wrong sha256, r10 vs r_10 revision; placeholder UTC claimed precise). Every record, path and digest below is synthetic.",
+  "source_register": "SYNTHETIC-fixture-register",
+  "records": {
+    "syn_prose_only_record": "seat holds paperwork only; no structured blocks (must be counted, never interpreted)",
+    "syn_rec_01_retired_current": {
+      "identity_refs": {
+        "fpcold_freeze": {
+          "value": "freeze-r2",
+          "marked_current": true
+        }
+      }
+    },
+    "syn_rec_01_historical_mention_ok": {
+      "identity_refs": {
+        "fpcold_freeze": {
+          "value": "freeze-r2",
+          "marked_current": false
+        }
+      }
+    },
+    "syn_rec_02_gate_jump": {
+      "gate_states": {
+        "B-G09-R1": {
+          "status": "AUTH_ISSUED",
+          "declared_at_utc": "2026-09-27T08:00:00Z"
+        },
+        "B-G10-R1": {
+          "status": "READY",
+          "declared_at_utc": "2026-09-27T09:00:00Z"
+        }
+      }
+    },
+    "syn_rec_03_sealed_claim": {
+      "payload_claims": {
+        "publication-syn-r8": "SEALED"
+      }
+    },
+    "syn_rec_04_transcription": {
+      "file_transcriptions": {
+        "fp-launch-binding": {
+          "path": "runs/<run-id>/launch/binding.json",
+          "sha256": "beefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdead",
+          "revision": "r10"
+        }
+      }
+    },
+    "syn_rec_05_utc_placeholder_precise": {
+      "timestamps": {
+        "first_sample_at_utc": "TO_BE_DETERMINED_AT_LAUNCH"
+      },
+      "timestamp_precision_claims": {
+        "first_sample_at_utc": "precise"
+      }
+    },
+    "syn_rec_05_utc_placeholder_kept_ok": {
+      "timestamps": {
+        "window_close_utc": "TBD"
+      },
+      "timestamp_precision_claims": {
+        "window_close_utc": "placeholder"
+      }
+    },
+    "syn_rec_preparation_ok": {
+      "gate_states": {
+        "Q30-G1": {
+          "status": "WAITING_SEAT_PREPARED"
+        },
+        "Q30-G2": {
+          "status": "NOT_STARTED"
+        }
+      }
+    }
+  }
+}
