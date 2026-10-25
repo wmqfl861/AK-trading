@@ -1,0 +1,35 @@
+{
+  "main_commit": "3336c62635a3d67d3bce2cbfc70df66d39b77849",
+  "modules": [
+    {
+      "module": "P27",
+      "developer_session": "sess_0de26f7d-3511-42c8-9277-ca74307b5d13",
+      "source_commit": "8cb767b",
+      "independent_verdict": "PASS",
+      "integration_native_exit": 0,
+      "integration_report_local_only": "D:\\Maintenance\\aktr-development-20261025\\p27-owner-integration-002\\work\\INTEGRATION.md",
+      "freeze_local_only": "D:\\Maintenance\\aktr-development-20261025\\p27-owner-integration-002\\work\\FREEZE.json",
+      "main_source_matches_reviewed_bytes": true
+    },
+    {
+      "module": "REPLAY",
+      "developer_session": "sess_0de37b1e-589d-481f-9e1e-449c6ecfe8c7",
+      "source_commit": "f979e88c1266b8a3a4966dfeca89678217b1300b",
+      "independent_verdict": "PASS",
+      "integration_native_exit": 0,
+      "integration_report_local_only": "D:\\Maintenance\\aktr-development-20261025\\replay-owner-integration-003\\work\\INTEGRATION.md",
+      "freeze_local_only": "D:\\Maintenance\\aktr-development-20261025\\replay-owner-integration-003\\work\\FREEZE.json",
+      "main_source_matches_reviewed_bytes": true
+    }
+  ],
+  "source_hashes": {
+    "src/ak_trading/futures/data.py": "c08e56484a3345eb66a0d6ca1c7dd87c36ee3a8a655c590d03a53d8ffe6e88b1",
+    "tests/test_futures_data.py": "78eb9ff44d299d20c8bcb2eeeecfe6e7961945fc9cda899edb11e6eb0dd4c7a1",
+    "src/ak_trading/v2/decision/replay.py": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+    "tests/test_v2_m4_replay.py": "afe72aceae18723fc8416e2bb99a84d947db72627c25c6bf275e1035e6ede182"
+  },
+  "independent_integrated_forward_acceptance": "PENDING; isolated PASS and smoke checks do not grant forward PASS",
+  "closeout": "docs/strategy-first-blueprint-20261015-r1/implementation-clarifications/forward-paper-start-20261015-r1/review-evidence/formal-full13-20261025-003/OLD-SUBMISSION-CLOSEOUT.json",
+  "old_forward_acceptance": "NOT_ACCEPTED",
+  "canonical_source_status": "New actual bytes; never described as old377 unchanged"
+}

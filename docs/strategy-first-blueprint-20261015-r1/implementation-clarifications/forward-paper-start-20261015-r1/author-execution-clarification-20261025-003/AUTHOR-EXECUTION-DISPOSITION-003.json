@@ -1,0 +1,323 @@
+{
+  "schema": "aktr-forward-execution-recovery-and-freeze-disposition/v3",
+  "task_id": "forward-existing-execution-recovery-author003-20261025",
+  "issued_utc": "2026-10-25T11:46:25.333605+00:00",
+  "status": "EFFECTIVE_CLOSE_INCOMPLETE_OLD_REVIEW_AND_RECUT",
+  "identity_and_scope": {
+    "author": "/root/astra_backtest_input_delivery_plan_20261015",
+    "role": "Same existing Astra/max execution-author identity",
+    "historical_authorship": {
+      "author": "/root/astra_backtest_input_delivery_plan_20261015",
+      "role": "Existing Astra/max; unchanged configuration",
+      "historical_plan_author": "/root/astra_forward_paper_start_plan_20261015",
+      "historical_authorship_preserved": true,
+      "existing_transfer": {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r11\\AUTHORSHIP-TRANSFER-001.json",
+        "bytes": 2317,
+        "sha256": "a75ee5a5f52372c5e9c117e9a5895a8a4d28a644667a7a5675adc1e7827b888d"
+      },
+      "root_request": {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\author-execution-clarification-20261024-002\\REQUEST.json",
+        "bytes": 25115,
+        "sha256": "1d049331680f28255f3d11780f8d4aaa3f3d222834f6a3a1608ef3c98ea432f0"
+      },
+      "root_authority_field": "root_instruction_verbatim",
+      "scope": "Second narrow execution/acceptance clarification for this existing forward-paper module only. Prior M scope remains closed."
+    },
+    "request": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\author-execution-clarification-20261025-003\\REQUEST.json",
+      "bytes": 6358,
+      "sha256": "24e2a4151b8da6d0c9c1701fa6ca99f4c2fb16dc68686743c4a88c9ebb58177c"
+    },
+    "scope": "Forward execution/review recovery and its active write-freeze only; no new product plan, M4/SH schema ruling or product repair.",
+    "current_rules": [
+      {
+        "path": "D:\\Projects\\AK-trading\\AGENTS.md",
+        "bytes": 21520,
+        "sha256": "224d213d60107599a6590b64394215b92a1b9c109072eed8bb13eb79f6327bf2"
+      },
+      {
+        "path": "D:\\Projects\\AK-trading\\PROJECT-MODEL-ROLES.md",
+        "bytes": 5172,
+        "sha256": "e2766d80af5d4df4add39ab31d94d21dd94cf3721dd079267c6dd3092f4f7b06"
+      },
+      {
+        "path": "D:\\Projects\\AK-trading\\PROJECT-WORKFLOW-RULES.md",
+        "bytes": 4999,
+        "sha256": "5d9003614c82b29f2d566f32ec5ac0e1b53b1b1ba575f67e072422f6c34a9ca6"
+      }
+    ],
+    "development_route": "Current2026-10-25 rules: dedicated ZCode CLI developer with existing configuration; explicit handoff from stopped Sol owner. Independent product reviewer remains separate ZCode GLM-5.3/max.",
+    "no_model_configuration_change": true
+  },
+  "decision": {
+    "selected": "Retire the incomplete old review scope without product acceptance, preserve its recoverable bytes and actual terminal evidence, release only that review's active write-freeze, then integrate already-authorized accepted candidates and submit one new frozen revision for one independent formal run.",
+    "ADOPTED_reason": "The old attempt is consumed and has no captured helper result/session finish/verdict. A complete old-baseline rerun before integrating already accepted overlapping changes would add another full review cycle without accepting the integrated revision.",
+    "NOT_ADOPTED": "No relaunch of independent-full13-001, no fabricated terminal/product verdict, no automatic cap expansion, no speculative fix and no plan-advice/PASS cycle.",
+    "review_scope_authority": "This is the explicit forward-review scope re-cut permitted by AGENTS section2. It retires a review lease; it grants no product PASS or unrelated write authority.",
+    "effective_condition": "The operational release takes effect when Root completes the concrete preservation/termination steps below, not merely because this JSON exists."
+  },
+  "preserved_actual_facts": {
+    "source_freeze": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r13\\SOURCE-FREEZE.json",
+      "bytes": 2472,
+      "sha256": "774bed17641b3a2686847385052ff2ca782c85d38efaf202ac6db7e3ced79838"
+    },
+    "old_closure": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r7\\RUNTIME-CLOSURE-CANDIDATE.json",
+      "bytes": 58773,
+      "sha256": "2a34e4ad3cbd33ac5466d50647442511eb41ed17cd37bec2cf53b001b67bb83b"
+    },
+    "canonical377_status": "REQUEST reports a fresh exact match; this author does not substitute that fact for the next pre-integration pin check.",
+    "old_attempt_request": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\independent-full13-001\\REQUEST.json",
+      "bytes": 94586,
+      "sha256": "4ec92a1a1bb2b848715102aad5810c9445380ec18e61acef424282bfd20ed013"
+    },
+    "job": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\independent-full13-001\\JOB-ENROLLMENT.json",
+      "bytes": 506,
+      "sha256": "4fffc53ab2e22815b005da3fe5248e1bf4d614e05afad49501caecf24d990d55"
+    },
+    "watchdog_terminal": {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-zcode-forward-paper-host-closeout-20261016-001\\reviewer-hard-review-001\\invocation-sdk-serial-formal-20261024-002\\ROOT-WATCHDOG-TERMINAL.json",
+      "bytes": 1186,
+      "sha256": "9aa1a89ababf447a516a4056ed1d9eba5f82bc4c8225f7e63b4e6cf649a1354c"
+    },
+    "CLI_result": {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-zcode-forward-paper-host-closeout-20261016-001\\reviewer-hard-review-001\\invocation-sdk-serial-formal-20261024-002\\RESULT.json",
+      "bytes": 282,
+      "sha256": "bf6d06b241946c9c36c55baa6b34550eff0c2889645610f86904d65c6f204b2f"
+    },
+    "attempt_consumed": true,
+    "CLI_raw_exit": 1,
+    "watchdog_raw_exit": 1,
+    "CLI_parse_status": "ERROR",
+    "CLI_parse_error": "Expecting value: line 1 column 1 (char 0)",
+    "helper_exit": "UNKNOWN_NOT_CAPTURED",
+    "pytest_exit": "UNKNOWN_NOT_CAPTURED",
+    "helper_resource_result": "UNKNOWN_NOT_CAPTURED",
+    "helper_RESULT": "ABSENT",
+    "session_finish": "ABSENT",
+    "old_reviewer_product_verdict": "NOT_ISSUED",
+    "partial_observation": {
+      "observed_utc": "2026-10-25T11:46:25.333605+00:00",
+      "stderr_snapshot": {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\independent-full13-001\\stderr.log",
+        "bytes": 103052,
+        "sha256": "a53aafeeb964130e6ea96793381077f8665423406530de0bd8f4e3e857130c76"
+      },
+      "stdout_snapshot": {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\independent-full13-001\\stdout.log",
+        "bytes": 49,
+        "sha256": "3aed9ed4b0c5171aab0d64b774a1e7152ae77c53fa7d553f91d921c77514b256"
+      },
+      "events": 249,
+      "contiguous": true,
+      "complete_passing_nodes": 49,
+      "started_nodes": 50,
+      "last_event": {
+        "sequence": 249,
+        "monotonic": 569336.171,
+        "event": "phase_report",
+        "node_id": "tests/test_v2_forward_paper.py::test_missing_confirmation_never_signs_from_restart_clock_and_releases_entry[s_returned]",
+        "when": "setup",
+        "outcome": "passed",
+        "duration": 0.005964500014670193
+      },
+      "failed_reports_observed": 0,
+      "terminal_custody": "NOT_ASSERTED_BY_AUTHOR; Root must establish producer termination before sealing these streams."
+    },
+    "limits": "Do not infer timeout, successful child completion, interruption cause or product correctness from CLI1, partial dots or absence of RESULT.",
+    "history": "Keep r7F/124, r9/r10 greens, r12DEADLINE, r13owner coverage, original authorship and all consumed grants unchanged."
+  },
+  "immediate_executable_next_step": {
+    "owner": "Root coordination/custody; no product or helper execution",
+    "maximum_closeout_passes": 1,
+    "closeout_path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261025-003\\OLD-SUBMISSION-CLOSEOUT.json",
+    "ordered_actions": [
+      "Check the recorded watchdog, helper and worker by PID plus creation_time, and known descendants from existing invocation evidence. CLI termination alone is insufficient.",
+      "If any exact old producer is alive, use its existing authorized supervisor lifecycle to quiesce only that invocation and record the result before proceeding. PID reuse is not the old process; preserve unknowns rather than invent exits.",
+      "Before canonical integration, preserve an independently verifiable immutable copy of all377 old closure members plus the old helper/reporters and pinned audit material. Reuse an existing recoverable snapshot/commit only if every required old byte/hash is proved; otherwise make one append-only snapshot and verify it against SOURCE-FREEZE/closure. A hash list alone is not a recoverable source snapshot.",
+      "After all old producers terminate, seal original partial streams and invocation artifacts in append-only custody. Retain missing RESULT/session_finish/verdict explicitly. Do not create a fake RESULT inside the old attempt.",
+      "Publish the closeout at the new sibling path with review_scope_status=RETIRED_INCOMPLETE_NO_VERDICT, acceptance=NOT_ACCEPTED, actual CLI1, unknown child/helper facts, consumed=true, old snapshot/custody pins and effective release timestamp. Record that the old forward review's canonical write lease is retired; its archived source/audit remain immutable."
+    ],
+    "recorded_process_identity_sources": {
+      "watchdog": {
+        "pid": 122048,
+        "creation_time": 1792857695.7925332
+      },
+      "helper": {
+        "pid": 78336,
+        "creation_time": 1792859062.8617468
+      },
+      "worker": {
+        "pid": 47036,
+        "creation_time": 1792859065.4497428
+      }
+    },
+    "remaining_hard_dependency": "Only actual producer quiescence and recoverable old bytes/custody block this lease release. Root owns these specific actions; no optional reviewer response or new plan PASS is added."
+  },
+  "original_reviewer": {
+    "session_id": "sess_01d66719-8b1f-4620-b9b2-a130611ff58f",
+    "allowed_continuation": "If Root resumes this exact independent session, use its original REQUEST cwd/store and current watchdog route for document-only old-review closeout. No old helper/test launch.",
+    "honest_result": "Record incomplete verification/no acceptance and missing terminal evidence. If its verdict schema requires PASS/FAIL, a newly authored FAIL may mean acceptance evidence incomplete, with no asserted product defect; preserve that the original invocation issued no verdict.",
+    "not_required_for_recut": "Root's evidence-bound explicit scope closeout above is sufficient to retire this active lease under AGENTS2. Do not wait indefinitely for the old reviewer to produce a label.",
+    "independence": "Never turn this reviewer into the developer or writer of the helper/product it reviews."
+  },
+  "file_freeze_and_integration": {
+    "old_freeze_release_scope": "Only the active canonical write-freeze imposed by the old forward r13 submission. All other active review freezes/ownership contracts remain binding; old source/audit snapshot remains read-only.",
+    "candidate_facts": "P2-7 and P0-2 isolated PASS are Root-provided facts in REQUEST, not independently re-reviewed by this author.",
+    "next_owner_action": "After the above explicit closeout, Root assigns/resumes the dedicated ZCode integration/development owners under those candidates' existing effective plans and exact approved write sets. Bind actual candidate revisions, independent verdicts and hashes; preserve their integration order and ownership.",
+    "transcription": "A report-only transcription correction is not a new product PASS cycle; Root must bind the correct actual verdict/identity evidence. A real identity/hash/required-evidence mismatch remains that candidate owner's concrete dependency.",
+    "authority_limit": "This disposition removes the old forward review lease obstacle. It neither authorizes unplanned candidate changes nor settles any M4/SH schema conflict. Such a conflict goes to that existing plan/contract author with the exact conflicting field/file and reproduction.",
+    "new_review_cut": "After accepted integrations and their already-required owner checks, freeze the resulting actual closure and product/helper write set as a new revision. Never reuse the old377-unchanged label for changed bytes."
+  },
+  "reuse_and_readiness": {
+    "owner_readiness": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r13\\OWNER-COVERAGE-READINESS.json",
+      "bytes": 2304,
+      "sha256": "9f4a2a6177011a6f5aa91f9a5127771c91f0ef1e57077d477898d0a34728f382"
+    },
+    "coverage_mapping": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r13\\OWNER-COVERAGE-MAPPING.json",
+      "bytes": 189990,
+      "sha256": "37f9b7d8228436dfa1e83cb277d0117a61bcce8834d4c53fbcf146b4cfba9b90"
+    },
+    "tail_result": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r13\\remaining115-001\\RESULT.json",
+      "bytes": 1924,
+      "sha256": "68fd187d326c28d3796af3893f4461ef64efa3093ebda4c0f5a182dd0eeaa9e7"
+    },
+    "observed_old_T_seconds": "449.375",
+    "valid_reuse": "Preserve all existing green coverage and accepted candidate evidence with its exact source identities. Reuse unaffected evidence; run only the already-required checks for changed/integrated paths. Do not repeat old183/115 subsets merely to recreate historical evidence.",
+    "changed_closure_limit": "Old coverage is not proof for changed files or their affected behavior. The ZCode integration owner records which old evidence remains applicable and the actual candidate/integration verification supplying changed coverage.",
+    "readiness_not_PASS": "Owner/candidate coverage permits submission of the new frozen revision for independent review. It cannot replace the whole formal run or issue forward product PASS.",
+    "no_new_governance_loop": "Use existing handoff/freeze/evidence records plus this disposition; no new plan or preliminary helper-only PASS gate."
+  },
+  "one_bounded_successor": {
+    "authorization": "One prospectively distinct formal attempt after closeout, accepted integration, required owner verification and new hash freeze; separately dispatched to an independent ZCode reviewer by Root.",
+    "attempt_id": "independent-full13-002",
+    "evidence_prefix": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261025-003",
+    "attempt_directory": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261025-003\\independent-full13-002",
+    "cwd": "D:\\Projects\\AK-trading",
+    "child_argv": [
+      "python",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/test_v2_forward_paper.py",
+      "tests/test_v2_forward_paper_feed.py",
+      "tests/test_session.py",
+      "tests/test_v2_m4_execution.py",
+      "tests/test_v2_m4_ledger.py",
+      "tests/test_v2_m4_risk.py",
+      "tests/test_v2_m4_causality.py",
+      "tests/test_v2_m4_gates.py",
+      "tests/test_v2_m4_routing.py",
+      "tests/test_v2_m4_replay.py",
+      "tests/test_v2_m3b_directional.py",
+      "tests/test_v2_m3b_causality.py",
+      "tests/test_v2_m3b_state.py",
+      "--tb=long",
+      "--maxfail=1",
+      "-p",
+      "akfp_full13_reporting_001"
+    ],
+    "argv_authority": {
+      "ref": {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\FORMAL-EXECUTION-BINDING.json",
+        "bytes": 5323,
+        "sha256": "859f9fd729e55035c1f40d1a25afa2fa3b82608558b136e0419874c63d40072d"
+      },
+      "field": "argv"
+    },
+    "test_population": "Keep original13-file order, every original298 required node/assertion, and any additional cases required by the accepted integrated plans. Recollect/freeze the actual new ordered population; no removal/deselection/xfail/weaker assertion or subset acceptance. An intentional original-node identity replacement needs that test owner's existing explicit equivalence disposition, not a silent helper edit.",
+    "deadline_seconds": 2100,
+    "memory_limit_bytes": 2147483648,
+    "output_limit_bytes": 1073741824,
+    "terminal_reserve_bytes": 65536,
+    "deadline_basis": {
+      "ref": {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\FORMAL-EXECUTION-BINDING.json",
+        "bytes": 5323,
+        "sha256": "859f9fd729e55035c1f40d1a25afa2fa3b82608558b136e0419874c63d40072d"
+      },
+      "calculation": {
+        "P": "850.797",
+        "T": "449.375",
+        "intermediate": "34.0043",
+        "ceiling_units": 35,
+        "D": 2100
+      }
+    },
+    "deadline_limit": "Retain the existing measured2100s cap. The old CLI interruption does not justify more wall time. If the new integrated scope needs a different cap, return its concrete timing/evidence to the existing execution author; no automatic expansion.",
+    "constructor_assertion_seconds": 5,
+    "one_pytest_process_one_windows_job": true,
+    "guards": "Suspended Job enrollment before imports/resume, same offline/credential guards, aggregate process-tree accounting, immediate phase/trace reports, exact source/input pins and post-terminal sealing.",
+    "fresh_Root_admission": true,
+    "capture_precondition": "Before launch, Root/reviewer verify that the actual wrapper/tool wait/capture path can observe the2100s child lifecycle and retain its native result and streams through termination. Do not assume the prior missing result was a product timeout or rerun a consumed operation to test capture.",
+    "success": "All actual required nodes pass in one process/order, raw pytest/helper/supervisor0, complete session finish/resource/custody evidence within caps, unchanged new frozen inputs, required independent plan-bound counterexamples/checks and unconditional ZCode product PASS.",
+    "failure": "Preserve actual error/partial/timeout. No automatic second successor, same-helper replay, deadline extension or inferred PASS. Evidence of an owned defect returns to its actual ZCode developer; cross-owner defects through Root."
+  },
+  "minimal_separately_dispatched_helper_delta": {
+    "developer": "Dedicated ZCode CLI owner under current roles, independent from reviewer; no Sol continuation",
+    "new_executable_write_set_exact": [
+      "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\zcode-execution-recovery-20261025-r1\\verify_forward_acceptance_003.py"
+    ],
+    "immutable_old_helper": {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r13\\verify_forward_acceptance_002.py",
+      "bytes": 129201,
+      "sha256": "d2e0e8149dda6d6b3c957200d2e8d754dd872afd995a69aed8f58f0a38ae529a"
+    },
+    "allowed": "Append-only mechanical successor binding new attempt/output paths, current role/handoff, new registered closure/freeze and exact recollected node baseline while retaining existing argv/observational hooks,2100s,2GiB/1GiB, Job/offline/custody logic. Replace old exact-closure readiness pins with the new evidence-bound integration readiness; retain old records as history.",
+    "not_allowed": "Modify/relaunch fixed old helper, overwrite old evidence, product repair, selection filtering, assertions/caps/configuration changes or general runner redesign.",
+    "execution": "Root separately dispatches helper preparation and actual review under existing skill/watchdog/session rules; this author executes neither.",
+    "new_prefix": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\zcode-execution-recovery-20261025-r1"
+  },
+  "acceptance_and_stop": {
+    "old_review": "INCOMPLETE_NOT_ACCEPTED; this author issues no product PASS or retrospective FAIL.",
+    "new_product": "Only the new complete independent formal verification and unconditional product PASS accept the integrated forward revision. Isolated candidate PASS does not grant integrated forward PASS.",
+    "runtime": "NOT_AUTHORIZED here; existing product-PASS, runtime-admission and trading-safety gates remain. No SDK/broker/orders/UI/service/deployment action.",
+    "parallelism": "Unrelated ready modules and candidate preparation continue under their own write sets; do not use this narrow recut as a broad development hold.",
+    "completion": "Root handles current-task completion, authorized push and stop; no new module."
+  },
+  "hygiene": {
+    "incidents": [
+      {
+        "path": "D:\\Projects\\AK-trading\\docs\\maintenance\\20261004-rg-no-match-r1\\INCIDENT.md",
+        "bytes": 4196,
+        "sha256": "fe91f55e34e7562ce283344cdcd784408465377b5a061c6a4931a312dd4bb4be"
+      },
+      {
+        "path": "D:\\Projects\\AK-trading\\docs\\maintenance\\20261004-grok-headless-cancel-r1\\INCIDENT.md",
+        "bytes": 18515,
+        "sha256": "857421ef518fc0987f00d5a7218a4c740527e25934af0958c5c44c1e273d7ded"
+      }
+    ],
+    "rules": "Path at boundaries; programmatic authoritative paths/argv/pins; explicit absent future outputs; serialize/validate before exclusive create. Only optional rg1 with empty stderr is NO_MATCH. Preserve native/tool/resource/artifact/product distinctions and seal only terminated producers.",
+    "no_overwrite_or_consumed_replay": true
+  },
+  "author_receipt": {
+    "input_request_refs_verified": 8,
+    "additional_pinned_reads": [
+      {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r13\\OWNER-COVERAGE-READINESS.json",
+        "bytes": 2304,
+        "sha256": "9f4a2a6177011a6f5aa91f9a5127771c91f0ef1e57077d477898d0a34728f382"
+      },
+      {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\FORMAL-EXECUTION-BINDING.json",
+        "bytes": 5323,
+        "sha256": "859f9fd729e55035c1f40d1a25afa2fa3b82608558b136e0419874c63d40072d"
+      }
+    ],
+    "current_rules_read": true,
+    "output_observed_absent_utc": "2026-10-25T11:46:25.333605+00:00",
+    "sole_write": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\author-execution-clarification-20261025-003\\AUTHOR-EXECUTION-DISPOSITION-003.json",
+    "write_method": "Serialize/parse-validate, exclusive xb, byte-exact readback",
+    "tests_helpers_product_edits_external_CLI_nested_agents_network_SDK_credentials_configuration_actions": 0,
+    "producer_termination_checked_by_this_author": false,
+    "final_action": "Return path/bytes/SHA/native exit and stop."
+  }
+}

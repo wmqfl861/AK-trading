@@ -1,0 +1,95 @@
+{
+  "task_id": "forward-existing-execution-recovery-author003-20261025",
+  "created_utc": "2026-10-25T11:37:12.042414+00:00",
+  "classification": "Existing execution-author narrow recovery/acceptance clarification; no new product plan",
+  "assigned_existing_author": "/root/astra_backtest_input_delivery_plan_20261015",
+  "route_basis": "Continuation of exactly the native Astra/max author named by author002 identity_and_transfer and REQUEST.author_route; no new agent, no model/config change",
+  "actual_facts": {
+    "canonical_closure_count": 377,
+    "current_source_mismatches": [],
+    "old_full13_attempt_consumed": true,
+    "attempt_files": {
+      "JOB-ENROLLMENT.json": {
+        "bytes": 506
+      },
+      "REQUEST.json": {
+        "bytes": 94586
+      },
+      "stderr.log": {
+        "bytes": 103052
+      },
+      "stdout.log": {
+        "bytes": 49
+      }
+    },
+    "result_exists": false,
+    "reviewer_sid": "sess_01d66719-8b1f-4620-b9b2-a130611ff58f",
+    "new_accepted_candidates": [
+      "P2-7 independent PASS on dedicated worktree",
+      "P0-2 replay slice independent PASS; reviewer correcting report transcription only"
+    ],
+    "not_claimed": [
+      "cause of old interruption",
+      "old product PASS/FAIL",
+      "automatic unfreeze",
+      "authority to rerun consumed attempt"
+    ]
+  },
+  "input_refs": [
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\author-execution-clarification-20261024-002\\REQUEST.json",
+      "bytes": 25115,
+      "sha256": "1d049331680f28255f3d11780f8d4aaa3f3d222834f6a3a1608ef3c98ea432f0"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\author-execution-clarification-20261024-002\\AUTHOR-EXECUTION-DISPOSITION-002.json",
+      "bytes": 48117,
+      "sha256": "e7694700851502a60425c54a73ed774813e374d7d1c1e5ccb34efcb9fe416efe"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r7\\RUNTIME-CLOSURE-CANDIDATE.json",
+      "bytes": 58773,
+      "sha256": "2a34e4ad3cbd33ac5466d50647442511eb41ed17cd37bec2cf53b001b67bb83b"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r13\\SOURCE-FREEZE.json",
+      "bytes": 2472,
+      "sha256": "774bed17641b3a2686847385052ff2ca782c85d38efaf202ac6db7e3ced79838"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-zcode-forward-paper-host-closeout-20261016-001\\reviewer-hard-review-001\\invocation-sdk-serial-formal-20261024-002\\ROOT-WATCHDOG-TERMINAL.json",
+      "bytes": 1186,
+      "sha256": "9aa1a89ababf447a516a4056ed1d9eba5f82bc4c8225f7e63b4e6cf649a1354c"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-zcode-forward-paper-host-closeout-20261016-001\\reviewer-hard-review-001\\invocation-sdk-serial-formal-20261024-002\\RESULT.json",
+      "bytes": 282,
+      "sha256": "bf6d06b241946c9c36c55baa6b34550eff0c2889645610f86904d65c6f204b2f"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\independent-full13-001\\REQUEST.json",
+      "bytes": 94586,
+      "sha256": "4ec92a1a1bb2b848715102aad5810c9445380ec18e61acef424282bfd20ed013"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\independent-full13-001\\JOB-ENROLLMENT.json",
+      "bytes": 506,
+      "sha256": "4fffc53ab2e22815b005da3fe5248e1bf4d614e05afad49501caecf24d990d55"
+    }
+  ],
+  "decisions_requested": [
+    "Choose the smallest lawful recovery for the interrupted existing review, using actual preserved partial evidence. Determine whether the original reviewer should close the old frozen submission as incomplete/FAIL with documented missing verification, or one specifically bounded successor run is appropriate; state exact limits and review/acceptance consequence. Do not require another plan-advice/PASS cycle for this execution clarification.",
+    "Clarify a concrete lawful file-freeze/review-recut path that permits independently accepted isolated candidates to integrate without destroying the old submission, widening your contract authority or crediting unverified forward work. Only the existing forward execution scope is yours; no M4/SH schema ruling. If outside your scope, state exact remaining owner/action, not an indefinite broad gate.",
+    "Reuse valid owner coverage and unaffected evidence. Preserve old attempt and original raw1; no relaunch of fixed old helper, deletion/overwrite of old attempt, guessed terminal, speculative product fix or arbitrary budget expansion. Actual runtime and any helper changes remain separately dispatched to ZCode developer/reviewer under current roles."
+  ],
+  "hard_boundaries": [
+    "This request authorizes only one read-based author disposition, no tests, helper runs, source changes, services, credentials/.env, SDK/network/broker or nested agents.",
+    "Developer is now ZCode under 0cc3054; any executable repair goes to dedicated ZCode owner, independent ZCode hard review unchanged.",
+    "User authorized recommended problem resolution and requested faster real development. Keep decision concise, finite and executable; do not create a new governance package or plan/review loop.",
+    "Respect AGENTS7/8, original failures and one-use grants. No source or prior audit mutations."
+  ],
+  "write_set": [
+    "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\author-execution-clarification-20261025-003\\AUTHOR-EXECUTION-DISPOSITION-003.json"
+  ],
+  "output_precondition": "ABSENT; serialize full JSON before exclusive write; future output is not an input"
+}

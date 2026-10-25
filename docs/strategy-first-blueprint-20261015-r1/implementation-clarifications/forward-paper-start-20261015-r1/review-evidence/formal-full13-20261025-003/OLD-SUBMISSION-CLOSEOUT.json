@@ -1,0 +1,74 @@
+{
+  "review_scope_status": "RETIRED_INCOMPLETE_NO_VERDICT",
+  "acceptance": "NOT_ACCEPTED",
+  "effective_release_utc": "2026-10-25T11:55:53.025292+00:00",
+  "authority": {
+    "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\author-execution-clarification-20261025-003\\AUTHOR-EXECUTION-DISPOSITION-003.json",
+    "bytes": 24882,
+    "sha256": "8bdffe8ff1813e75dc287c7c1131e871c90ee2465f8d4b847ae4c1c92fc9b162"
+  },
+  "process_observations": {
+    "watchdog": {
+      "recorded": {
+        "pid": 122048,
+        "creation_time": 1792857695.7925332
+      },
+      "state": "ABSENT"
+    },
+    "helper": {
+      "recorded": {
+        "pid": 78336,
+        "creation_time": 1792859062.8617468
+      },
+      "state": "ABSENT"
+    },
+    "worker": {
+      "recorded": {
+        "pid": 47036,
+        "creation_time": 1792859065.4497428
+      },
+      "state": "ABSENT"
+    },
+    "CLI": {
+      "recorded": {
+        "pid": 123452,
+        "creation_time": 1792857696.428297
+      },
+      "state": "ABSENT"
+    }
+  },
+  "current_known_or_matching_descendants": [],
+  "uninspectable_candidate_processes": [],
+  "processes_signalled": 0,
+  "snapshot": {
+    "path": "D:\\AKSN261025\\FWD-R7-002\\SNAPSHOT.json",
+    "bytes": 182820,
+    "sha256": "7877ed94cc4b8f893190685a3d521f4dde5a078647f6a8e2610b256e761d0ac0"
+  },
+  "snapshot_file_count": 458,
+  "canonical377_verified": true,
+  "old_cli_native_exit": 1,
+  "old_watchdog_native_exit": 1,
+  "old_helper_native_exit": "UNKNOWN_NOT_CAPTURED",
+  "old_pytest_native_exit": "UNKNOWN_NOT_CAPTURED",
+  "helper_resource_result": "UNKNOWN_NOT_CAPTURED",
+  "consumed": true,
+  "result_present": false,
+  "session_finish": "ABSENT",
+  "old_product_verdict": "NOT_ISSUED",
+  "old_streams": [
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\independent-full13-001\\stdout.log",
+      "bytes": 49,
+      "sha256": "3aed9ed4b0c5171aab0d64b774a1e7152ae77c53fa7d553f91d921c77514b256"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261024-002\\independent-full13-001\\stderr.log",
+      "bytes": 103052,
+      "sha256": "a53aafeeb964130e6ea96793381077f8665423406530de0bd8f4e3e857130c76"
+    }
+  ],
+  "release_scope": "Only old forward r13 canonical write lease retired. Other ownership/freezes persist. Old snapshot/audit immutable; current forward product not accepted.",
+  "next": "Dedicated ZCode owners integrate accepted exact write sets; new freeze and one separately admitted independent-full13-002 per author003. No runtime authorized.",
+  "snapshot_preparation_failure_preserved": "D:/Maintenance/aktr-development-20261025/forward-retired-r7-snapshot-001 retained; raw1 FileNotFoundError on overlong audit destination before final manifest or closeout; not accepted"
+}
