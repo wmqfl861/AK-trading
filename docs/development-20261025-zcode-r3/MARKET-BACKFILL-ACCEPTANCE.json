@@ -1,0 +1,69 @@
+{
+  "schema": "aktr-market-backfill-offline-acceptance/v1",
+  "recorded_utc": "2026-10-25T16:20:35.541120+00:00",
+  "verdict": "PASS",
+  "unconditional": true,
+  "scope": "Unconditional PASS for the stated effective offline scope only: frozen-byte integrity of all 38 manifest members; tooling/safety properties of the two operational scripts and their executed helper surface (stdin-only credentials, TqSim-only, no orders, no paid DataDownloader, no TLS bypass, no DB-write path, secret-safe error reporting); raw/closed CSV Decimal-exact seven-field and nano key/order/alignment/OHLCV verification for the 10,128 returned LR rows; compact report arithmetic incl. 306930/2640/2100 and at_limit=false; preserved run001 native-2 / run002 native-0; publication allowlist hygiene; discrimination of every claimed check proven by SYNTHETIC counterexamples. This PASS grants no credit for DB equality, live-source behavior, or any completeness beyond the delivery's own stated windows.",
+  "reviewer_session_id": "sess_1b3d02af-2444-4d79-8d34-05238701899a",
+  "native_exit": 0,
+  "frozen_inputs_unchanged": true,
+  "current_manifest_members_matching": 38,
+  "manifest": {
+    "path": "D:\\Projects\\AK-trading\\data\\market_data_backfill\\20261024-001\\FILE-HASHES.json",
+    "bytes": 8836,
+    "sha256": "80e2589e0765ef3c26bc0f9a73ab8a645d6d7444e350ab6683bdf8939dd8414f"
+  },
+  "review": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\MARKET-BACKFILL-REVIEW.md",
+    "bytes": 13582,
+    "sha256": "0c4016df15e772bb542b5a6aa54cd3629caadbcc9fcec59b877f4773e74ea434"
+  },
+  "independent_verdict": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\MARKET-BACKFILL-VERDICT.json",
+    "bytes": 12903,
+    "sha256": "a12486265c65c6a9dfff2e98cfb20772612d968b9b250bf9904ddd4f906889cd"
+  },
+  "terminal_local_only": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\market-backfill-hard-review-002\\TERMINAL.json",
+    "bytes": 339,
+    "sha256": "7741a8b36d84b2e4caca17823af20817a71046f3d6fe32cd26eaedb97b1821aa"
+  },
+  "publication_files": [
+    "data/market_data_backfill/20261024-001/RESULT.md",
+    "data/market_data_backfill/20261024-001/RESULT.json",
+    "data/market_data_backfill/20261024-001/REVIEW-HANDOFF.md",
+    "data/market_data_backfill/20261024-001/download_recent_run001.py",
+    "data/market_data_backfill/20261024-001/download_recent_run002.py",
+    "data/market_data_backfill/20261024-001/RUN001-PRECONDITIONS.json",
+    "data/market_data_backfill/20261024-001/RUN002-PRECONDITIONS.json",
+    "data/market_data_backfill/20261024-001/ROOT-RUN001-TERMINAL.json",
+    "data/market_data_backfill/20261024-001/ROOT-RUN002-TERMINAL.json",
+    "data/market_data_backfill/20261024-001/download-run001/RESULT.json",
+    "data/market_data_backfill/20261024-001/download-run002/RESULT.json",
+    "data/market_data_backfill/20261024-001/TLS-NOAUTH-001.json",
+    "data/market_data_backfill/20261024-001/latest81-coverage-run001.jsonl",
+    "data/market_data_backfill/20261024-001/latest81-index-daily-run001.jsonl",
+    "data/market_data_backfill/20261024-001/index-daily-continuity-run001.jsonl",
+    "data/market_data_backfill/20261024-001/minute-tail-quality-run001.jsonl",
+    "data/market_data_backfill/20261024-001/latest-concrete-anchors-run001.jsonl",
+    "data/market_data_backfill/20261024-001/LR-OVERLAP-COMPARISON.json",
+    "data/market_data_backfill/20261024-001/OFFLINE-RECHECK-RESULT.json",
+    "data/market_data_backfill/20261024-001/OFFLINE-RECHECK-RESULT-002.json",
+    "data/market_data_backfill/20261024-001/PUBLICATION-FILES.json",
+    "data/market_data_backfill/20261024-001/FILE-HASHES.json"
+  ],
+  "published_source_bytes_unchanged": true,
+  "independent_DB_rerun": "NOT_RUN",
+  "online_SDK_replay": "NOT_RUN",
+  "whole_history_complete": false,
+  "unknown_trading_day_rows_preserved": 2100,
+  "database_rows_imported_by_delivery": 0,
+  "raw_CSVs_and_capture_streams": "LOCAL_ONLY",
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_sends": 0,
+    "real_cancels": 0
+  }
+}

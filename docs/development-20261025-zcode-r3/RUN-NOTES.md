@@ -24,3 +24,7 @@
 - DP08 r3首次Git发布检查raw2，仅因已审冻结文件release-verification-summary.md末尾原有空行。未改已审字节、未提交或推送。后继对其余精确写集保持原严格whitespace检查，仅对此一个冻结文档关闭blank-at-eof检查，并核index blob与接受hash一致；该格式例外不豁免产品测试、漂移或其他格式错误。
 
 - Root接续时误将RUN-NOTES.md定位到Maintenance根，Get-Content原生1；实际文件位于docs/development-20261025-zcode-r3。只读失败没有修改产品。后继先枚举已知小目录确认路径再读取，raw0；今后从已发布路径取得输入，对可选发现先检查存在性，不把推测路径当必需文件批量读取。
+
+- N8 transport039首次Root启动前算术检查`cd3cc2` raw1：current033保留已结束OpenCode槽的1GiB磁盘扣账，但Root重算只加活跃lane，漏了这笔保留量；在admission文件、watchdog或CLI启动前即停止，CLI/验证消耗均0。完整旧REQUEST、ROOT-LAUNCH和失败说明以无损ZIP保存并逐字节回验，计入author063已有失败增长额度；仅修正尚未派发的Root控制文件，产品和旧038未改。后继从033固定的032原lane程序化取保留量，先验总和再执行，真实039已START。以后资源重算必须包含保留历史扣账，不能把活跃lane之和当总额，也不能为消除断言删掉保留量。
+
+- 行情交付发布预检`f202eb` raw1发生于提交前：Root错误要求所有22个发布文件都出现在Git staged diff，但它们已被跟踪且字节未变，真实差异仅为新增审核记录和Root状态。后继同时核对“实际staged差异不越精确allowlist”和“全部发布文件的index blob等于已审字节”，复用已有跟踪文件，不造空修改、不更改冻结字节。

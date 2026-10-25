@@ -25,3 +25,9 @@
 2026-10-25 15:45 UTC并行状态：C05 owner006、Forward owner003、DISPATCH owner002正在实施/修复；M5 C1 reviewer002、行情补全reviewer002正在独立审核；N8原Astra作者063正在处置既有审核038的服务失败恢复。每路使用独立固定会话库和不重叠写集。M5已绑定当前C1后继，旧producer-index问题不再派修；前两阶段通过后才进入唯一full100。Forward最终集成仍等C05接受，不提前消耗full13-002。多路HTTP502是真实上游调用失败，不能称服务已根治或产品测试失败，原SID有界恢复与原始失败均保留。
 
 TqSdk 3.10.3工具及五处skill发布已复用原独立无条件PASS并完成Root接收，当前65份发布文件与原冻结一致；未重复派审。见[TQSDK-ACCEPTANCE](TQSDK-ACCEPTANCE.json)及[TQSDK-VERDICT](TQSDK-VERDICT.json)。范围仅离线工具安装与文档，在线认证、行情、回测、broker仍为NOT_RUN；不替代正在审核的免费行情补全交付，也不改变项目原SDK依赖。
+
+2026-10-25 16:20 UTC：免费行情补全独立审核002已native0结束、38冻结成员不变，离线路线无条件PASS并完成Root接收，见[MARKET-BACKFILL-ACCEPTANCE](MARKET-BACKFILL-ACCEPTANCE.json)、[REVIEW](MARKET-BACKFILL-REVIEW.md)和[VERDICT](MARKET-BACKFILL-VERDICT.json)。原22文件发布清单接受，CSV和原始流留本地。独立重算10,128条LR源数据、306,930条分钟尾窗、2,640条日线；2,100条未知trading_day如实保留，DB现场七字段复核/在线SDK仍NOT_RUN，不宣称全历史完整。
+
+C05独立短复核004已native0，确认RF1在冻结006字节上修复；同一owner007立即进入原完整验证。新完整收集6015 selected/9既有deselected、10域全部派发，剩3历史DP收集错误、unresolved0；完整执行已启动，尚无最终产品PASS。Forward helper004六文件交付完毕，35静态检查及4正例/93反例通过；只属源码与SYNTHETIC协议验证，真实最终集成/唯一full13-002仍待C05接受。
+
+DISPATCH owner002已完成27字节loader修复并停写；原Astra作者053核实还须在测试执行层恢复受控module注册与finally清理，已发布有效窄裁定(native0/receiver0)，同一ZCode owner003立即实施。M5 C1独立审核002、N8原独立reviewer039继续；后者保持原候选及attempt-038，先核原五条工具调用的实际消耗，不能重放已用验证。所有实际开发仍为ZCode，审核会话独立；未派Sol/Claude开发。

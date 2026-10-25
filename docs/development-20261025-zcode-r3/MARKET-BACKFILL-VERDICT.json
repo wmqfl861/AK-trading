@@ -1,0 +1,310 @@
+{
+  "schema": "aktr-market-backfill-hard-review-002-verdict/v1",
+  "generated_at_utc": "2026-10-25T16:15:08.934891+00:00",
+  "review_id": "market-backfill-hard-review-002",
+  "continuation_of": {
+    "failed_dispatch": "market-backfill-hard-review-001",
+    "failure": "upstream HTTP 502 / native 1, empty stdout, no work artifacts; original failure preserved"
+  },
+  "reviewer": "independent ZCode GLM-5.3/max session; took no part in the delivery's development or repair; no prior bound reviewer SID/store existed, this session is the actual reviewer",
+  "review_object": {
+    "delivery": "data/market_data_backfill/20261024-001",
+    "manifest": "FILE-HASHES.json",
+    "manifest_sha256": "80e2589e0765ef3c26bc0f9a73ab8a645d6d7444e350ab6683bdf8939dd8414f",
+    "manifest_members": 38,
+    "manifest_role_counts": {
+      "PUBLICATION": 21,
+      "LOCAL_ONLY_MARKET_PAYLOAD": 4,
+      "EXISTING_READ_ONLY_INPUT": 13
+    },
+    "review_handoff_sha256": "6269a067ebac61720577f5d5d15c62c05d82419c4472e188341ea8f74fc66e91",
+    "publication_allowlist_sha256": "93b7e649a8fa83b081767767282ce476cba622696d3eb80ce372abdc1dca2b94"
+  },
+  "standard": {
+    "arbitration": "data/maintenance_artifacts/acquisition-execution-arbitration-20260919-r1/decision.md",
+    "arbitration_sha256": "6c3af0581002e44c56a8c65da66b1228f24d2992e638da18060d4f635cb5d890",
+    "clauses": [
+      "H01",
+      "H03.4",
+      "H07"
+    ],
+    "route": "fully-offline review route explicitly permitted by REVIEW-HANDOFF.md; independent DB seven-field re-run must be and is reported NOT_RUN, old-summary readback not credited"
+  },
+  "verdict": "PASS",
+  "verdict_scope": "Unconditional PASS for the stated effective offline scope only: frozen-byte integrity of all 38 manifest members; tooling/safety properties of the two operational scripts and their executed helper surface (stdin-only credentials, TqSim-only, no orders, no paid DataDownloader, no TLS bypass, no DB-write path, secret-safe error reporting); raw/closed CSV Decimal-exact seven-field and nano key/order/alignment/OHLCV verification for the 10,128 returned LR rows; compact report arithmetic incl. 306930/2640/2100 and at_limit=false; preserved run001 native-2 / run002 native-0; publication allowlist hygiene; discrimination of every claimed check proven by SYNTHETIC counterexamples. This PASS grants no credit for DB equality, live-source behavior, or any completeness beyond the delivery's own stated windows.",
+  "verified": {
+    "official_offline_recheck": {
+      "block_extraction": "byte-exact programmatic slice of frozen handoff",
+      "block_sha256": "b049180cc00beca78d8be138fc7a9df789bf8c53ba3ba32ad4a2e33e43b4a30a",
+      "native_exit": 0,
+      "stdout": "{\"status\": \"OFFLINE_RECHECK_OK\", \"lr_source_rows\": 10128, \"minute_tail_rows\": 306930, \"index_daily_rows\": 2640, \"stored_unknown_trading_day_rows\": 2100}",
+      "stderr_bytes": 0,
+      "stdout_sha256": "d08b84f21403e5a981ec22481c27b055c71130bca34a3877aaae29214085b6ed",
+      "evidence": [
+        "results/offline-recheck-r1.stdout.txt",
+        "results/offline-recheck-r1.stderr.txt",
+        "results/offline-recheck-r1.exit.txt",
+        "scratch/block-extract.json",
+        "scratch/offline-recheck-exact.ps1"
+      ]
+    },
+    "static_tooling_scan": {
+      "ops_scripts_zero_forbidden_hits": true,
+      "expected_positive_anchors_present": true,
+      "synthetic_detector_discriminates": {
+        "bad_flags_all_categories": true,
+        "clean_zero_flags": true
+      },
+      "executed_path_r2": {
+        "imported_function_bodies_zero_forbidden_calls": true,
+        "helper_modules_inert_at_import": true,
+        "ops_imports_limited_to_expected_modules": true,
+        "imported_function_count": 9
+      },
+      "imported_function_bodies": [
+        "backfill_recent_free.py -> backfill_recent_free.py::fetch_recent_frame",
+        "backfill_recent_free.py -> backfill_recent_free.py::select_valid_rows",
+        "fill_recent_main_minute.py -> fill_recent_main_minute.py::fetch_snapshot",
+        "fill_recent_main_minute.py -> fill_recent_main_minute.py::select_closed_frame",
+        "fill_recent_main_minute.py -> market_data.py::datetime_from_nano",
+        "fill_recent_main_minute.py -> market_data.py::trading_day_for_timestamp",
+        "fill_recent_main_minute.py -> market_data.py::write_recent_kline_frame_csv",
+        "fill_recent_main_minute.py -> market_reference.py::load_reference_book",
+        "market_data.py -> market_data.py::write_recent_kline_frame_csv"
+      ],
+      "context": "text hits in helper modules are unimported legacy DB-CLI definitions, a docstring mention, SELECT-only connection.execute, and ssl used solely for exception classification; none on the delivery's executed path",
+      "evidence": [
+        "probes/static-scan.json",
+        "probes/static-scan-r2.json",
+        "scratch/synthetic_bad.py",
+        "scratch/synthetic_clean.py"
+      ]
+    },
+    "sci_notation_nano_policy": {
+      "raw_sci_cells": {
+        "LR-main-60.raw.csv": 10000,
+        "LR-index-86400.raw.csv": 128
+      },
+      "direct_int_valueerrors": {
+        "LR-main-60.raw.csv": 10000,
+        "LR-index-86400.raw.csv": 128
+      },
+      "decimal_exact_all_rows": true,
+      "float_roundtrip_honesty": "int(float(text)) happened to be exact on this dataset (0 mismatches); recorded as coincidence, not safety proof; Decimal is exact by construction",
+      "closed_plain_integer_text": true,
+      "evidence": [
+        "probes/sci-nano-probe.json"
+      ]
+    },
+    "synthetic_counterexamples": {
+      "cases": [
+        {
+          "case": "ctrl-d-unmutated-data",
+          "expected": "pass",
+          "native_exit": 0,
+          "met_expectation": true
+        },
+        {
+          "case": "ctrl-r-unmutated-reports",
+          "expected": "pass",
+          "native_exit": 0,
+          "met_expectation": true
+        },
+        {
+          "case": "ce-00-raw-tamper",
+          "expected": "reject",
+          "native_exit": 1,
+          "met_expectation": true
+        },
+        {
+          "case": "ce-01-duplicate-nano",
+          "expected": "reject",
+          "native_exit": 1,
+          "met_expectation": true
+        },
+        {
+          "case": "ce-02-unaligned-minute",
+          "expected": "reject",
+          "native_exit": 1,
+          "met_expectation": true
+        },
+        {
+          "case": "ce-03-ohlc-violation",
+          "expected": "reject",
+          "native_exit": 1,
+          "met_expectation": true
+        },
+        {
+          "case": "ce-04-value-mismatch",
+          "expected": "reject",
+          "native_exit": 1,
+          "met_expectation": true
+        },
+        {
+          "case": "ce-06-at-limit",
+          "expected": "reject",
+          "native_exit": 1,
+          "met_expectation": true
+        },
+        {
+          "case": "ce-07-overlap-missing",
+          "expected": "reject",
+          "native_exit": 1,
+          "met_expectation": true
+        },
+        {
+          "case": "ce-08-run001-exit-swap",
+          "expected": "reject",
+          "native_exit": 1,
+          "met_expectation": true
+        }
+      ],
+      "all_met": true,
+      "frozen_inputs_modified": false,
+      "replica_derivation": {
+        "full": {
+          "file": "D:\\Maintenance\\aktr-development-20261025\\market-backfill-hard-review-002\\work\\scratch\\full_replica.py",
+          "sha256": "1e7d2d3da634d3138b146bcf574fae21e743fdb14aaa22c9d417917b8a82af34",
+          "modifications_from_frozen_block": [
+            "root line parameterized to sys.argv[1]; everything else byte-identical"
+          ]
+        },
+        "data": {
+          "file": "D:\\Maintenance\\aktr-development-20261025\\market-backfill-hard-review-002\\work\\scratch\\data_replica.py",
+          "sha256": "ec2a3c70e7588679722176b3f06caba115875e142ff20cb9f5fc432fbd488fa5",
+          "modifications_from_frozen_block": [
+            "root line parameterized to sys.argv[1]",
+            "removed the two per-series sha256 pin asserts (SHA tampering is covered by full replica ce-00 and the official run)",
+            "truncated after 'assert count == 10128' (report section excluded)"
+          ]
+        },
+        "reports": {
+          "file": "D:\\Maintenance\\aktr-development-20261025\\market-backfill-hard-review-002\\work\\scratch\\reports_replica.py",
+          "sha256": "c3ced168d851a2bdcc4b707fb7c2d78823c213e6dc8721c3bcdc4ef531d34bd6",
+          "modifications_from_frozen_block": [
+            "header (imports/task/read/lines) reused verbatim with parameterized root",
+            "report-arithmetic section from 'minute = lines(' through the RUN002 terminal assert only"
+          ]
+        }
+      },
+      "evidence": [
+        "probes/counterexamples.json",
+        "probes/ce-*.stdout.txt",
+        "probes/ce-*.stderr.txt",
+        "probes/ce-*.exit.txt",
+        "probes/ce-*/mutation.json"
+      ]
+    },
+    "publication_manifest_consistency": {
+      "checks": {
+        "manifest_has_38_members": true,
+        "roles_match_21_4_13": true,
+        "no_duplicate_manifest_paths": true,
+        "publication_count_declared_matches": true,
+        "publication_equals_pinned_plus_self": true,
+        "manifest_self_exclusion_is_only_gap": true,
+        "csv_payloads_excluded_from_publication": true,
+        "declared_excluded_payloads_are_local_role": true,
+        "no_csv_in_publication_list": true,
+        "no_stream_or_log_files_in_publication": true,
+        "all_publication_paths_inside_task_dir": true,
+        "no_database_paths_anywhere": true
+      },
+      "all_checks_pass": true,
+      "evidence": [
+        "probes/manifest-check.json"
+      ]
+    }
+  },
+  "not_run_or_unverified": [
+    "Independent DB seven-field equality re-run: NOT_RUN (offline route); LR-OVERLAP-COMPARISON.json remains owner-run summary, not independent DB evidence.",
+    "Network / SDK / TqApi live behavior and current free-source reachability: NOT_RUN.",
+    "On-disk database unchanged-ness: not independently verifiable offline (static executed path proven free of DB writes).",
+    "Full-history / all-concrete-contract completeness: neither claimed by the delivery nor verified here.",
+    "Pre-2026 trading-day labels, 2018 invalid-source fragments, and ranges outside observed windows: not rescanned.",
+    "run001 TLS first-failure root cause: remains UNDETERMINED; no new attribution by this review."
+  ],
+  "reviewer_side_preserved_failures": [
+    {
+      "command": "scan_static.py attempt 1",
+      "native_exit": 1,
+      "cause": "reviewer harness verdict-aggregation TypeError; fixed in successor attempt"
+    },
+    {
+      "command": "scan_static.py attempt 2",
+      "native_exit": 1,
+      "cause": "same-family AttributeError; attempt 3 exited 0 and static-scan.json was kept unmodified"
+    },
+    {
+      "command": "scan_static_r2.py attempt 1",
+      "native_exit": 1,
+      "cause": "re-export chain unresolved for datetime_from_nano (AssertionError); transitive resolution added, attempt 2 exited 0"
+    }
+  ],
+  "command_log": [
+    {
+      "id": 1,
+      "command": "python -B -I -X utf8 scratch/extract_block.py",
+      "native_exit": 0
+    },
+    {
+      "id": 2,
+      "command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scratch/offline-recheck-exact.ps1 (stdout/stderr redirected to results/)",
+      "native_exit": 0
+    },
+    {
+      "id": "3-5",
+      "command": "python -B -I -X utf8 scratch/scan_static.py (three attempts)",
+      "native_exit": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "id": "6-7",
+      "command": "python -B -I -X utf8 scratch/scan_static_r2.py (two attempts)",
+      "native_exit": [
+        1,
+        0
+      ]
+    },
+    {
+      "id": 8,
+      "command": "python -B -I -X utf8 scratch/sci_nano_probe.py",
+      "native_exit": 0
+    },
+    {
+      "id": 9,
+      "command": "python -B -I -X utf8 scratch/prep_and_run_ce.py",
+      "native_exit": 0
+    },
+    {
+      "id": 10,
+      "command": "python -B -I -X utf8 scratch/manifest_check.py",
+      "native_exit": 0
+    },
+    {
+      "id": 11,
+      "command": "python -B -I -X utf8 scratch/make_verdict.py",
+      "native_exit": 0
+    }
+  ],
+  "reviewed_byte_set": {
+    "manifest": "FILE-HASHES.json (self-excluded by design; own sha256 pinned above)",
+    "members_verified": 38,
+    "verification": "size+sha256 loop of the official offline recheck run in results/"
+  },
+  "outputs": {
+    "review": "work/REVIEW.md",
+    "verdict": "work/VERDICT.json",
+    "work_root": "D:\\Maintenance\\aktr-development-20261025\\market-backfill-hard-review-002\\work"
+  },
+  "trading": {
+    "enable_trading": false,
+    "broker": "NOT_RUN",
+    "real_sends": 0,
+    "real_cancels": 0,
+    "reviewer_actions": "no network, no DB, no credentials/.env access, no SDK construction, no git/service/UI operations, no nested agents"
+  }
+}
