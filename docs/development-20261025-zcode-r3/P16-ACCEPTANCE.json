@@ -1,0 +1,22 @@
+{
+  "module": "P1-6",
+  "product_verdict": "PASS",
+  "unconditional": true,
+  "reviewer_session": "sess_05fbc6b7-b371-42cd-9903-b396f5423422",
+  "developer_session": "sess_94359608-7177-48ad-a860-7c67fecefa22",
+  "independent_sessions": true,
+  "review_native_exit": 0,
+  "frozen_inputs_unchanged": true,
+  "review_source": "D:\\Maintenance\\aktr-development-20261025\\p16-hard-review-002\\work",
+  "raw_evidence_availability": "LOCAL_ONLY; original relative references resolve under the corresponding p16-hard-review-001/002 work directories",
+  "verdict_sha256": "73c07b701d59474adddf4cb70884d9c8e714bae323340bd00525fd1e155e0fb5",
+  "reviewed_source_hashes": {
+    "scripts/sql/create_mcp_readonly_role.sql": "f3cd484ab0ca04e5088f2fd3154b12ebbebf9f78aab2bc50e6cbd1b355d648db",
+    "scripts/setup_mcp_readonly.py": "512af47fa2554633ced08adbc0fe1bca806a08863aacd3fbb0a6c9c511758209",
+    "tests/test_mcp_readonly_role.py": "68466e0444f7c137c536b5758fb81b9abb4eeab345a430caff3cfe9cc7bfa121",
+    "docs/mcp-readonly-role.md": "f7398e486724c3571a62b6c08722e9680c4b2a64cfe3291249707fd8bdfaedf2"
+  },
+  "source_commit": "58683fd1817af32be1b898de59faaeeaaa4590de",
+  "canonical377_overlap": [],
+  "production_adoption": "NOT_RUN; operator-only actions remain with the user"
+}

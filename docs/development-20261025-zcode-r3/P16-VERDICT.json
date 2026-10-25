@@ -1,0 +1,70 @@
+{
+  "module": "P1-6",
+  "review": "p16-hard-review-002 (bounded completion of p16-hard-review-001)",
+  "verdict": "PASS",
+  "verdict_scope": "The frozen 4-file write-set satisfies the P1-6 narrow contract: syntax-correct executable least-privilege role SQL, idempotent new/existing-role behavior with genuine password rotation, hostile-quoting-safe secret channel (SCRAM-verified byte-exact storage), fail-closed refusal on missing/empty secret, whole-script transaction rollback on forced error, and no password in argv, echoed output or logs. Unconditional; no material defect found.",
+  "reviewer_session": "sess_05fbc6b7-b371-42cd-9903-b396f5423422",
+  "reviewer_model": "ZCode GLM-5.3 (max), configuration unchanged",
+  "developer_session": "sess_94359608-7177-48ad-a860-7c67fecefa22",
+  "recorded_utc": "2026-10-25T11:30:00Z",
+  "reviewed_hashes": {
+    "scripts/sql/create_mcp_readonly_role.sql": {
+      "bytes": 2566,
+      "sha256": "f3cd484ab0ca04e5088f2fd3154b12ebbebf9f78aab2bc50e6cbd1b355d648db",
+      "verified": ["start (001/010)", "before-reuse re-hash (002/101)", "end after cluster shutdown (002/210)"]
+    },
+    "scripts/setup_mcp_readonly.py": {
+      "bytes": 2820,
+      "sha256": "512af47fa2554633ced08adbc0fe1bca806a08863aacd3fbb0a6c9c511758209",
+      "verified": ["start (001/010)", "before-reuse re-hash (002/101)", "end after cluster shutdown (002/210)"]
+    },
+    "tests/test_mcp_readonly_role.py": {
+      "bytes": 12662,
+      "sha256": "68466e0444f7c137c536b5758fb81b9abb4eeab345a430caff3cfe9cc7bfa121",
+      "verified": ["start (001/010)", "before-reuse re-hash (002/101)", "end after cluster shutdown (002/210)"]
+    },
+    "docs/mcp-readonly-role.md": {
+      "bytes": 4565,
+      "sha256": "f7398e486724c3571a62b6c08722e9680c4b2a64cfe3291249707fd8bdfaedf2",
+      "verified": ["start (001/010)", "before-reuse re-hash (002/101)", "end after cluster shutdown (002/210)"]
+    }
+  },
+  "independent_test_results": {
+    "offline_guard_no_dsn": {"evidence": "p16-hard-review-001/work/evidence/070-guard-nodsn.*", "raw_exit": 0, "counts": "12 passed, 3 skipped"},
+    "offline_guard_with_dsn_guard_intact": {"evidence": "p16-hard-review-001/work/evidence/080-guard-dsn.*", "raw_exit": 1, "counts": "12 passed, 3 failed (OfflineViolation; guard unchanged, preserved as observed)"},
+    "authorized_direct_pytest_e2e": {"evidence": "p16-hard-review-001/work/evidence/090-e2e-pytest.*", "raw_exit": 0, "counts": "15 passed, 0 skipped (6.59s)", "note": "cluster required scram-sha-256 for mcp_readonly, so read-DSN success is genuine password verification"}
+  },
+  "counterexamples": {
+    "getenv_unset_fail_closed": {"evidence": "002/120-*", "raw_exit": 3, "result": "syntax error at interpolation, no role created"},
+    "real_helper_subprocess_path_hostile_A": {"evidence": "002/131-*", "raw_exit": 0, "result": "role created; no secret echo"},
+    "scram_auth_exact_storage": {"evidence": "002/132-*, 002/133-*", "raw_exits": [0, 2], "result": "A authenticates, WRONG rejected"},
+    "password_rotation_B": {"evidence": "002/140-*, 002/141-*", "raw_exits": [0, 0, 2], "result": "B authenticates, old A rejected after re-run"},
+    "least_privilege_attributes": {"evidence": "002/134-*", "result": "rolsuper/createdb/createrole/replication/bypassrls all false, canlogin true"},
+    "allowlist_and_denials": {"evidence": "002/142-*, 002/142b-*, 002/143-*", "result": "4 allowlisted SELECTs OK; pre-existing non-allowlisted table, reference_snapshots, INSERT, and post-grant table all 'permission denied'; row count unchanged"},
+    "existing_role_keeps_grants_no_duplicates": {"evidence": "002/145-*", "result": "extra grant persists (documented); exactly 1 SELECT grant after 3 runs"},
+    "secret_leak_greps": {"evidence": "002/150-secret-greps.txt", "result": "0 hits for all 4 raw SYNTHETIC secrets across all 001/002 stdout/stderr evidence and both server logs"}
+  },
+  "material_defects": [],
+  "non_blocking_observations": [
+    "O1: frozen e2e forced-error test writes a fixed transient sibling into scripts/sql (created+unlinked during run; verified absent after); parallel-run collision / hard-kill debris risk is test hygiene only",
+    "O2: owner e2e ran under trust auth, so its read-DSN pass alone did not prove exact password storage; closed by this review's SCRAM runs",
+    "O3: docs conflate unset-env (interpolation syntax error, exit 3) and empty-env (DO-block RAISE) refusal paths; outcome identical (non-zero, rollback, no role)",
+    "O4: existing role keeps extra pre-existing grants across re-runs (documented header behavior); converging a drifted role is an operator action outside the script contract",
+    "O5: one discarded reviewer quoting attempt preserved under 002/evidence/discarded (bash exit 2, no product content), redone cleanly",
+    "O6: 080 guard stdout contains the SYNTHETIC test literal (escaped source form) and percent-encoded DSN via pytest traceback; synthetic-by-design, already public in the frozen test file"
+  ],
+  "boundaries": {
+    "production_adoption_claimed": false,
+    "production_db_touched": false,
+    "production_postgres_5432_connected": false,
+    "env_or_credentials_read": false,
+    "secrets_used": "SYNTHETIC only; none in argv, echoed output or evidence",
+    "source_modified": false,
+    "commits_or_pushes": false,
+    "model_or_config_changes": false,
+    "nested_agents": false,
+    "trading": "enable_trading=False, observer=hold, broker=NOT_RUN, real send/cancel=0",
+    "clusters": "001 (port 55432) shut down by Root per receipt; 002 (port 55433) shut down by reviewer, pg_ctl exit 0, postmaster.pid absent",
+    "original_cli_native_1": "preserved (HTTP502 provider failure; not relabeled)"
+  }
+}
