@@ -1,18 +1,19 @@
 # r3 修复开发批次当前状态
 
-更新于 2026-10-25 16:55 UTC。用户已恢复开发并指定实际开发/修复统一调用 ZCode；当前权威为 PROJECT-MODEL-ROLES.md 和 PROJECT-WORKFLOW-RULES.md。Astra/max 负责计划与契约澄清，独立 ZCode GLM-5.3/max 负责成果硬审。开发和审核分别使用固定独立会话库，不恢复旧 Sol/Claude 开发。
+更新于 2026-10-25 17:39 UTC。用户已恢复开发并指定实际开发/修复统一调用 ZCode；当前权威为 PROJECT-MODEL-ROLES.md 和 PROJECT-WORKFLOW-RULES.md。Astra/max 负责计划与契约澄清，独立 ZCode GLM-5.3/max 负责成果硬审。开发和审核分别使用固定独立会话库，不恢复旧 Sol/Claude 开发。
 
 ## 当前并行工作
 
 | 模块 | 当前真实阶段 | 下一步 |
 | --- | --- | --- |
-| C05 导入隔离 | 原 ZCode owner007 正在跑原完整离线验证。source006 焦点45项全通过；独立 reviewer004 已确认 RF1 碰撞修复。完整收集6015 selected/9既有 deselected，10域全派发，3个历史DP收集错误，unresolved0；完整执行尚未终止。 | 完成原完整执行及正反序验证后，立即由原独立 reviewer 做最终硬审；不刷新历史pin、不删失败。 |
-| DISPATCH | 原 Astra author053 已发布有效裁定；原 ZCode owner003 实施测试执行入口的受控 module 注册/清理及当前 owner 绑定。此前27字节 loader 修复仅属中间源码，不是运行接受。 | 接收真实交付后，Root执行原计划未消耗的 owner005，再立即独立硬审。 |
-| M5 C1 | 原独立 reviewer003 已于16:43 UTC启动。前一002因上游502/429/socket中断，native1、输入不变；已核16条实际工具记录，两项正式阶段未启动。 | 复用有效源码检查，修正审核者自有探针；原 affected与generation各执行一次，真实通过后Root立即绑定唯一full100。 |
-| N8 | transport039再次因上游502结束，native1、输入不变、无产品结论；实际4条Bash只读和1条Todo，原两验证均未执行。原 Astra author064正在限定调整这一既有服务恢复边界。 | 原作者处置生效后同一独立 reviewer接续；不重放已用步骤，不以native1换取产品FAIL/PASS。 |
+| C05 导入隔离 | 原 ZCode owner007 的第二份完整执行正在运行。source006 焦点45项全通过；独立 reviewer004 已确认 RF1 碰撞修复。完整收集6015 selected/9既有 deselected，10域全派发，3个历史DP收集错误，unresolved0。owner误判第一份已死而重复启动，随后终止第一份；该事实及其未知退出码保留，未获验证信用。 | 保留当前进程，完成原验证后立即交原独立 reviewer；审核必须处置重复运行窗口及证据限制，不刷新历史pin、不删失败。 |
+| DISPATCH | 原 owner003因上游502/native1结束，未写产品。原 ZCode owner004于17:00 UTC沿原SID/store续接author053，已写出六个源码文件的受控注册、owner绑定与新版本校验，尚未交付运行结果。 | 接收真实交付后，Root执行原计划未消耗的 owner005，再立即独立硬审。 |
+| M5 C1 | 原reviewer004于17:37 UTC实际启动。此前003再次502/native1，Root逐工具核实正式阶段未启动、644输入未变；基于后续实际peer源码进展、已完成probe和38分钟间隔，进行一次有限原会话续接，无服务已修好宣称。 | 直接完成原affected与generation；真实通过后才绑定唯一full100。禁止额外探索性fit、盲重启或以自测替代硬审。 |
+| N8 | 原 Astra author064已完成有效处置；同一独立 reviewer的transport040于17:14 UTC实际启动，仍运行，保持原11文件和F10。 | 等真实终态；仅在064全部条件满足时允许一次041，不允许042循环，不重放已消耗验证。 |
 | Forward paper | 原 ZCode owner已完成 helper004的6文件源码准备，35静态检查及4正例/93反例通过；只属静态/SYNTHETIC信用。 | 等C05真实接受并集成，原owner立即完成无环最终绑定，再交原独立reviewer执行唯一full13-002。 |
+| T7 接受版本核对 | 默认配置 OpenCode辅助任务于17:25 UTC实际启动；专门追溯64pins中的12个当前漂移，包括新接受的replay变更。无产品写权限。 | 交付逐文件原版本、当前来源、实际独立接受范围及缺失项，让原计划方据此明确最小修复。 |
 
-C05、DISPATCH、M5是当前三个实际运行的 ZCode 调用；N8是原 Astra 作者的限定澄清。Forward源码已停写等待真实依赖，没有重复派writer。当前调用与工具句柄保存在本地 `D:/Maintenance/aktr-development-20261025/CURRENT-RUN.json`，终态及产物才是完成依据。
+C05、DISPATCH、N8、M5是当前四个实际运行的 ZCode 调用，另有一个OpenCode辅助调用，共五路。旧M5 reviewer003与Astra064均已结束，不重复计数。Forward源码已停写等待真实依赖，没有重复派writer。当前调用与工具句柄保存在本地 `D:/Maintenance/aktr-development-20261025/CURRENT-RUN.json`，终态及产物才是完成依据。
 
 ## 已接受并推送的成果
 
@@ -29,7 +30,7 @@ C05、DISPATCH、M5是当前三个实际运行的 ZCode 调用；N8是原 Astra 
 
 ## 依赖与资源
 
-当前调度采用 PARALLEL-CAPACITY-FACTS-20261025-035。已结束行情审核释放1GiB RAM；Forward因等待C05而临时释放2GiB RAM，真正接续前须按原合同重新预留。全部历史磁盘和UNKNOWN扣账保留；内存/磁盘底线不降低。C05仍在运行，不因空缓冲输出或短观察窗口重复启动。
+当前新派工采用 PARALLEL-CAPACITY-FACTS-20261025-036，在035上新增2GiB RAM/256MiB磁盘的有限只读辅助槽；旧活动请求的035固定输入未改。已结束行情审核释放1GiB RAM；Forward因等待C05而临时释放2GiB RAM，真正接续前须按原合同重新预留。全部历史磁盘和UNKNOWN扣账保留；内存/磁盘底线不降低。C05仍在运行，不因空缓冲输出或一次进程枚举阴性重复启动。
 
 T7接受基线、ordinary shadow的R19→R20→R21以及R1历史输入仍有具体证据/契约/数据依赖。仅对实际消费者阻断，不让它们阻塞互不干扰的已授权工作。未为了增加数量派重复writer或新功能。
 

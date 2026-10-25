@@ -1,0 +1,31 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "recorded_utc": "2026-10-25T17:24:33.747863+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-035.json",
+    "bytes": 13759,
+    "sha256": "9b4c833093072a8efb364408d275488ebb9e38519c1f9f1c6160635052065854"
+  },
+  "parent_reserved_ram_bytes": 16106127360,
+  "parent_charged_d_bytes": 18522046464,
+  "additional_lane": {
+    "slot_id": "OpenCode-T7-acceptance-lineage-readonly",
+    "ram_bytes": 2147483648,
+    "D_bytes": 268435456,
+    "max_active": 1,
+    "scope": "Bounded read-only12-drift acceptance lineage lookup; no product/runtime/testing"
+  },
+  "total_reserved_ram_bytes": 18253611008,
+  "total_charged_d_bytes": 18790481920,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "fresh_capacity": {
+    "available_ram_bytes": 25743069184,
+    "D_free_bytes": 25131655168
+  },
+  "retired_ram_bytes": 0,
+  "released_disk_bytes": 0,
+  "unknown_charges_changed": false,
+  "existing_frozen_requests_changed": false,
+  "note": "Adds only a disjoint auxiliary. Existing035 input pins remain unchanged; Root enforces this larger aggregate for future admissions. All old M5/Forward disk and UNKNOWN charges retained."
+}

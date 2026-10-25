@@ -33,3 +33,10 @@
 - Root准备M5续接的`88aea3` raw1来自真实内存余量低于033完整预留+6GiB；发生在新目录、REQUEST或CLI创建前，启动/验证消耗均0。034仅回收已终止且已接受的行情审核1GiB RAM；035临时回收等待C05的已停写Forward2GiB RAM。磁盘与UNKNOWN全部保留，未来Forward需原合同重新预留。资源前置失败不能归为模型或产品失败，也不能通过降低底线处理。
 - Root可选WMI进程枚举`bf31fa` raw1返回`Call cancelled`和不完整一行；未将其当成完整进程清单。后续用原START绑定的准确PID及psutil子树核对C05实际测试仍在计算，不再全局WMI枚举，不终止无关进程。
 - N8 transport039于16:45 UTC再次native1，trace `60655964-478f-4bab-8933-8030a8904687`，8模型请求/49内部重试，上游502；实际4条只读Bash及1条Todo。Root连同038原5条Bash逐命令核对，两项正式验证均未调用，所有失败和输入保持。063只授一次039且禁止自动040，故交原Astra作者064处理既有恢复边界，未擅自再启动040或降低验证标准。
+
+- C05 owner007在约16:47 UTC依据一次不可靠的CIM/进程枚举阴性，误判完整测试已停止，启动第二份。Root此前按准确PID观察到第一份仍计算；owner于16:57 UTC发现第一份PID139612及子142388仍在，执行taskkill终止旧树。重复运行窗口约10分钟，原第一份无真实捕获终态、无验证信用；其后写入的exit.txt=1不能等同原进程实际退出码。owner称两份都在normal域、尚未碰DP staging，但该说法不足以独立证明完全无干扰，必须交原reviewer处置。第二份当前PID136012/create_time1792947105.6197352继续，不再次启动。避免方式：保留原Popen/系统进程句柄和创建身份；一次枚举阴性、空stdout或壳结束不证明测试结束；确认真实终态前不得重新启动，同一套验证不允许重叠。
+- DISPATCH owner003于16:47 UTC因HTTP502/native1结束，trace `94a298c7-3d76-4f12-a861-2ba0c787a259`；实际工具无写入，九文件及文件身份与preimages一致。原owner004同SID/store/cwd于17:00 UTC有界续接，已产生实际源码改动；已完成分析复用，不把服务错误转为产品FAIL或旧owner005重试。
+- M5 reviewer003于16:58 UTC再次HTTP502/native1，trace `a8c8fdc3-5e67-4278-b43b-5feeb789fba2`，644输入未变。三次工具调用含自有probe改动及又一次普通leaf探索，均不替代正式affected/generation。当前暂列服务阻塞，不无依据重提第四次或换模型。
+- N8 author064实际native0/receiver0后发布有限040及条件041恢复；040于17:14 UTC启动。Root准备时`08d630` raw1为猜错admission文件名，`027dfe` raw1为多层生成Python命令的换行语法错误，均发生于CLI启动前，消费0；后继从实际路径与已验证模板取值，完整compile后才发布/执行，原失败保留。这些是Root准备错误，不归为ZCode服务失败。
+
+- M5 reviewer004的恢复依据：Root再次按exactSID/trace核对003的三条工具，正式两阶段均未调用，644旧输入全部重核匹配，旧CLI及supervisor均不存在；9248字节reviewer自有probe另存pre004，不回滚为7624字节。DISPATCH随后于17:23:52 UTC产生实际新源码进展；间隔2294秒后只授一次原SID/store/cwd续接，于17:37 UTC真实启动，采用含T7辅助的当前036完整资源总额。服务仍可能失败，不自动循环、换模型或重放已完成的验证；新工单直接要求原affected/generation，不重复探索性fit或源码阅读。
