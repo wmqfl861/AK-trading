@@ -1,0 +1,35 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "recorded_utc": "2026-10-25T20:45:09.526211+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-041.json",
+    "bytes": 2025,
+    "sha256": "3d65fcb5eee8e6ce6e62583de454762d23731a82daef3bce3142d8a5676213a6"
+  },
+  "total_reserved_ram_bytes": 18253611008,
+  "total_charged_d_bytes": 18790481920,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "readmitted_lane": {
+    "slot_id": "M5-C1-independent-review",
+    "ram_restored_bytes": 2147483648,
+    "disk_increase_bytes": 0,
+    "retained_original_disk_charge": true,
+    "max_active": 1,
+    "original_contract_unchanged": true,
+    "scope": "Same frozen C1 independent affected then generation stages; full100 requires actual stage success and separate exact Root binding."
+  },
+  "N8_review_lane_remains_suspended": true,
+  "other_lanes_and_unknown_charges_unchanged": true,
+  "fresh_capacity": {
+    "available_ram_bytes": 26618941440,
+    "D_free_bytes": 23853895680,
+    "C_free_bytes": 73881858048
+  }
+}

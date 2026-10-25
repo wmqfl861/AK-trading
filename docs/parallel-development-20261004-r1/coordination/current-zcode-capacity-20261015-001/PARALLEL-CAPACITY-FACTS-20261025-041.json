@@ -1,0 +1,48 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "recorded_utc": "2026-10-25T20:42:26.143909+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-040.json",
+    "bytes": 17466,
+    "sha256": "cebd34dc475b4c3fcc57acb4d3d5437619bf13d10f88147af621045e2dff3fa3"
+  },
+  "total_reserved_ram_bytes": 16106127360,
+  "total_charged_d_bytes": 18790481920,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "temporarily_suspended_lane": {
+    "slot_id": "N8-E-existing-repair",
+    "ram_released_bytes": 2147483648,
+    "disk_released_bytes": 0,
+    "terminal": {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-zcode-n8-existing-f02-r20-review043-service-recovery-20261025-044\\TERMINAL.json",
+      "bytes": 357,
+      "sha256": "900eefb17f9421a5dbfe51f492f0de212560a892f5139f111c6326bdb21d7ea5"
+    },
+    "verdict": {
+      "path": "D:\\AKF261004\\R\\N8-F02-RESOURCE-R20-261024-r7\\attempts\\attempt-042\\VERDICT.json",
+      "bytes": 9573,
+      "sha256": "d6c1738fe7e3d3dde2dcd292e187034f9952e7b784834243f2afcb02155e5569"
+    },
+    "exact_original_pids_absent": {
+      "144700": true,
+      "141744": true
+    },
+    "reason": "review044 closed native0 with formal reviewer-side FAIL; no candidate child launched. Suspend idle review RAM while the existing author clarifies the same repair using the already reserved EX-SIM slot.",
+    "future_N8_review_requires_original_2GiB_readmission": true
+  },
+  "other_lanes_and_unknown_charges_unchanged": true,
+  "fresh_capacity": {
+    "available_ram_bytes": 25449611264,
+    "D_free_bytes": 23865856000,
+    "C_free_bytes": 73880285184
+  },
+  "source_or_review_bytes_modified": false,
+  "product_credit": false
+}

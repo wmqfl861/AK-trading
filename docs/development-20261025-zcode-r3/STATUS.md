@@ -1,20 +1,20 @@
 # r3 修复开发批次当前状态
 
-更新于 2026-10-25 20:17 UTC。实际开发/修复使用专用 ZCode 会话；Astra/max 负责原计划及契约处置；另一独立 ZCode GLM-5.3/max 会话做成果硬审核。当前权威为 PROJECT-MODEL-ROLES.md、PROJECT-WORKFLOW-RULES.md。
+更新于 2026-10-25 21:02 UTC。实际开发/修复使用专用 ZCode 会话；Astra/max 负责原计划及契约处置；另一独立 ZCode GLM-5.3/max 会话做成果硬审核。当前权威为 PROJECT-MODEL-ROLES.md、PROJECT-WORKFLOW-RULES.md。
 
 ## 当前并行工作
 
 | 模块 | 当前实际阶段 | 接续动作与限制 |
 | --- | --- | --- |
-| T7-A 四策略合同接受 | owner 原七条单文件及合并命令全 raw0，209通过/0失败/0跳过。独立 reviewer 的七条单文件和恢复后的合并命令也已 raw0；尚无最终产品判决。原 reviewer003 于20:10 UTC续接。 | 完成独立反例与 helper 审查，发布实际判决；已闭合的八条独立验证不因服务中断重跑。当前源码零生产改动。 |
-| T7-B MINUTE/DAILY夹具 | 原 owner 已写出具体 M1-GAP：旧 F 格式与当前 verifier 不符、测试引用不存在的锁路径。004于20:10 UTC继续实际实现；20:15采样时 tracked 源码尚无差异。 | 只改原三测试/支持文件和明确夹具。最终清单绑定等待A实际接受；不能把现存旧锁直接称为最终新锁，保留R0→L0→R1→L1→R2。 |
-| C05 导入隔离 | 两文件006冻结；owner完整命令结束：6015选中/运行，5754通过、171失败、30跳过、60错误、3个收集错误，raw2。原独立reviewer005于19:59 UTC启动。 | 收齐原始结果后直接硬审，无需为补摘要再调用owner。独立执行规定验证，检查正反序多出的一项collector失败，并处理第一份运行退出未知/曾重叠的真实限制。 |
-| DISPATCH | 准备002因成员契约和未定义sha失败，属于第七次准备失败且已消耗。author056明确实际纯函数预检和竞态/捕获修复；原owner007于20:08 UTC实施，已有源码进度记录。 | 先修完整缺陷并实际预检，再执行唯一新准备003。成功后Root才执行原owner005完整验证与独立硬审。产品验证尚NOT_RUN。 |
-| N8 | 原reviewer043因HTTP502结束，并保留两次编辑错误；未执行precheck004/final002。原author067已native0/receiver0；reviewer044于20:14 UTC实际启动。 | 保留A42旧草稿，只在harness-044修复审核工具。原25s/35s正式人口不变；仅满足精确条件时可续045，不自动重试。F02仍FAIL，F01仍OPEN/INSUFFICIENT，runtime002未运行。 |
-| M5 C1 | reviewer004的HTTP502终态及615成员冻结保留；正式验证阶段尚未执行。 | 原2GiB RAM已临时给A，当前余量不足以再加2GiB；重新满足资源条件后恢复原reviewer。affected/generation真实PASS后才full100。 |
+| T7-A 四策略合同接受 | 独立 reviewer003 已于20:26 UTC结束，真实无条件FAIL F01：TREND/PULLBACK重复同bar会多计确认。原209项通过没有覆盖这一缺陷。原owner修复002及003均HTTP502、零工具调用结束；尚无修复源码。 | 保留原SID/store/cwd与F01，停止连续盲重试。恢复后按既有合同修复同bar幂等性、补新bar/重启回归、验证新字节并立即复审，不开新计划或换模型。 |
+| T7-B MINUTE/DAILY夹具 | 004于20:10 UTC继续实际实现；最新观测support源码已有580新增/104删除，尚未完成验证或冻结。旧F格式和不存在的锁引用为已定位问题。 | 只改原三测试/支持文件和明确夹具。最终清单必须等待A修复后的实际接受；不能消费A的失败字节或把现存旧锁当最终新锁，保留R0→L0→R1→L1→R2。 |
+| C05 导入隔离 | 两文件006冻结；owner完整命令raw2：6015选中/运行，5754通过、171失败、30跳过、60错误、3个收集错误。原reviewer005会话HTTP502结束，但独立batch原supervisor及full子进程仍运行；focused raw0、collect-full raw2已闭合。 | 继续原完整进程，不因模型退出重复启动。随后完成规定置换和collector差异检查，由原reviewer接收实际结果；保留owner旧重叠限制，不能无证据把全部失败称为基线。 |
+| DISPATCH | owner007已实现修改并运行准备003一次，child1/wrapper1，旧late receipt与当前validator绑定不符，成为第八次失败。CLI随后HTTP502；原author057于20:53 UTC实际启动。 | 保留已生成PREIMAGES003/derivation002/controls和失败；原作者处理具体绑定及前检保留缺口，再交原owner修复。不得重放003；owner005产品验证仍NOT_RUN。 |
+| N8 | reviewer044于20:27 UTC native0结束，真实FAIL/REVIEWER_SIDE：Path与字符串比较和publisher扩展名不一致。precheck004已消耗，final002未执行。原author068于20:42 UTC实际启动同一修复澄清。 | A42完整FAIL包只读；045条件不成立，禁止启动。原25s/35s和完整人口不放宽，先解决审核工具确定性错误。F02仍FAIL，F01仍OPEN/INSUFFICIENT，runtime002未运行。 |
+| M5 C1 | 651原输入核对一致，615冻结保留；原reviewer005于20:53 UTC再次HTTP502/native1，零工具调用，正式阶段未开始。 | capacity042已恢复原2GiB RAM，但服务阻塞；保留原会话和探针，不立即盲重试。恢复后执行未消耗的affected/generation；两项真实PASS后才绑定full100。 |
 | Forward paper | helper004六文件准备完成，35静态检查与4正例/93反例通过，仅静态/SYNTHETIC信用。 | 等C05实际接受并集成，再绑定原owner与原独立reviewer的未消耗full13-002。 |
 
-本次采样五路实际外部调用：A独立硬审、B开发、C05独立硬审、DISPATCH修复、N8独立硬审。不同模块使用独立会话库/写集；这些外部CLI不会显示为Codex原生子代理。真实身份和终态以各任务START/TERMINAL及本地CURRENT-RUN.json为准。已经结束的计划作者不计入活跃数。
+本轮曾实际达到六路并行。当前三个模型会话为B开发、N8原作者澄清、DISPATCH原作者澄清，另有C05独立验证进程继续；A/M5暂被重复HTTP502阻塞。不同模块使用独立会话库/写集；这些外部CLI不会显示为Codex原生子代理。真实身份和终态以各任务START/TERMINAL及本地CURRENT-RUN.json为准。已经结束的会话不计入活跃数。
 
 ZCode服务仍有重复HTTP502/native1，尚未证明已修复。保留每次实际进度，续接原会话，不把CLI退出与测试结果/产品判决混为一谈。当前没有新增无条件产品PASS；不能用已通过的单项验证或诊断文档增加产品完成率。
 
@@ -37,7 +37,7 @@ T7有效计划、一次计划意见及作者处置见T7-PLAN.md、T7-PLAN-ADVICE
 
 ## 依赖与资源
 
-仍使用capacity040，既有冻结请求不改。RAM总预留18,253,611,008字节、D扣账18,790,481,920字节，保留6GiB RAM/4GiB D底线及C盘10GiB预留。所有UNKNOWN、历史实际最大占用和失败保留；不删除文件或降低底线凑并发。M5恢复需要重新预留2GiB；不同模块可做轻量开发，但重型冷链须避免资源与共享staging冲突。
+前瞻调度现使用capacity042，既有冻结请求不改。RAM总预留18,253,611,008字节、D扣账18,790,481,920字节，保留6GiB RAM/4GiB D底线及C盘10GiB预留。041临时释放已结束N8审核的2GiB空闲RAM，原作者使用既有EX-SIM槽；042恢复M5原2GiB。恢复N8审核前须重新准入。所有UNKNOWN、历史实际最大占用和失败保留；不删除文件或降低底线凑并发。B冷拟合仍须满足真实输入和重型批次调度条件。
 
 完成实施及必要验证即独立硬审，FAIL回原ZCode开发者。计划意见、封存、CLI native0和开发者自测均不替代产品PASS。普通可重复离线验证不另加一次性审批；已有特殊一次授权按实际消费状态处理。
 

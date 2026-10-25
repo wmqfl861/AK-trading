@@ -58,3 +58,13 @@ Root只读7e703b误将ZCode stdout.json写为Astra式stdout.ndjson，raw1保留�
 - DISPATCH preparation002为第七次失败，原交付误写第六保留。author056native0/receiver1源于Split-Path参数集错误，作者已修正读取，Root从实际CHILD-START路径复核并写独立接收记录，未改写TERMINAL。007只按056修复并实际非消费预检，再允许preparation003一次。
 - N8043有6工具、两个编辑raw1及HTTP502，未运行正式位置；author067native0/receiver0明确原地保存69480B草稿，044写新H44。044于20:14实际启动；045只在067的有限条件成立后使用，无046。F10/010 launch_identity程序化比对保持一致。
 - 保持同SID/store/cwd、独立reviewer、原rawcode。五路实际ZCode调用；无原生Sol开发者，无持久模型配置变更。
+
+- T7-A独立003实际native0但产品FAIL F01：TREND/PULLBACK重复同一bar会累计确认并提前OPEN。209项原测试通过不能覆盖反例；11项probe中的两项断言的是坏行为复现，也不能解读为产品PASS。原owner002的修复调用随后HTTP502/native1、11模型请求/4内部重试/零工具，源码未改；003保持原SID/store/cwd有界续接，不改配置、不另开计划。审核报告的published_utc晚于实际终态，保留原件并以原生进程/文件时间记录真实顺序。
+- N8 reviewer044实际native0但正式FAIL/REVIEWER_SIDE：Path(plan_root)与str(leaf)恒不等，precheck004在子进程前失败且已消费；publisher检查.log却pin.json，发布曾失败。A42完整失败包只读，final002未消费；045的纯服务恢复条件不成立。原author068处理同一工具修复，提出正式消费前验证实际纯函数/合成路径和发布逻辑，完整产品人口及25s/35s预算不降低。
+- Root启动author068的工具b31082 raw1来自author_receiver.py:22的真实物理资源准入，发生在PRELAUNCH/CLI前，model/runtime启动数均0。保留原REQUEST与错误；041只暂停已结束N8审核的空闲2GiB RAM、磁盘不释放，作者沿既有EX-SIM槽启动。随后042恢复M5原2GiB并通过新采样，不降低6GiB/4GiB底线。资源准入失败不是模型或产品失败，恢复审核前必须重新预留。
+- Root只读查询工具4e3905 raw1把容量032的日期猜成20261025；实际权威输入列明20261024。未改文件或启动任务。后继从实际035的base_authority及原REQUEST取得引用，禁止按序号猜日期/路径，先核具体引用存在再读取。
+
+- C05 reviewer005于20:42 UTC HTTP502/native1结束，但原batch supervisor PID139988/创建20:15:34.229928 UTC及full子进程146392、工作进程142488在20:50仍活跃。模型退出不等于测试结束；继续原进程，禁止重新启动整套验证。M5 reviewer005于20:53 UTC再次HTTP502/native1，trace67ae79d2-04fc-43de-ae98-f4c6c2840076，1请求/10内部重试/零工具；正式阶段均未消费，不立即盲重试。
+- DISPATCH owner007在HTTP502前已真实运行preparation003一次：helper005:464调用旧late receipt，当前contract:18428拒绝R52_AUTHENTIC_LATE_COLLECTION_AND_CURRENT_VALIDATOR_REQUIRED，child1/wrapper1，成为第八次失败。Bash末尾tail使工具显示0，原WRAPPER_EXIT=1及OUTER-NATIVE必须保留。另发现owner重复删除重建失败的SYNTHETIC precheck目录，违反056保留要求；42条精确工具记录已保存，不能伪造已删字节。部分PREIMAGES003/derivation002/controls已经存在，禁止把它们当未创建输出重用。原author057正在处置相同修复，owner005仍NOT_RUN。
+
+- T7-A owner003于20:55:30 UTC又遇HTTP502/native1，trace f2febee7-e7c8-48d6-8a14-42877b79692c，11模型请求/5内部重试/零工具/无上下文超限，仍无源码修复。停止连续盲重试，保留原会话、写集和F01，不以并发数量代替实际交付。
