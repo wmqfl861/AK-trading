@@ -49,3 +49,12 @@ Root N8启动准备错误保留：2f93fc REQUEST超过原尺寸上限；e0b62d�
 Root只读7e703b误将ZCode stdout.json写为Astra式stdout.ndjson，raw1保留，随后按实际目录识别stdout.json。不要混用两种CLI流命名。DISPATCH owner005准备失败保留为真实已消耗事件，交原作者055处理，未擅自重跑。
 
 2026-10-25 19:23 UTC：A已完成7单文件和完整合并209/0/0验证，原3个realRBskip实际执行通过；19:22:43立即启动独立硬审38807，无产品PASS。DISPATCH055完成0/0，原owner006已运行84328。N8 reviewer042为HTTP502/native1、精确trace工具0、A42ABSENT，原作者066运行62041。root d41597资源预检raw1发生在任何attempt创建/CLI前；capacity040依据实际已闭合T7任务仅收回未用未来增长预留，所有文件/产品/UNKNOWN保持。
+
+### 2026-10-25 20:17 UTC：真实并行接续与失败分类
+
+- T7-A reviewer001/002均HTTP502/native1，原七单文件raw0保留，002完成独立合并209通过/raw0。r1-c8无RESULT且实际Python生产者已不在，保留UNKNOWN；r2-c8为新的明确恢复验证，未覆盖前者。003续原SID/store补反例和最终结论。
+- T7-B 002/003HTTP502/native1；003只完成M1-GAP写入，无tracked源码改动。004交回原owner立即实施，不把诊断算完成。旧F格式/锁路径具体问题保留；不能以既存锁代替合法候选/最终锁。
+- C05 owner007/008因HTTP502退出，真实完整运行和四置换已有关闭的原始结果。Root机械交接给原reviewer005，省去无产品收益的摘要重试。完整raw2以及171失败/60错误保持；正反序差异为test_restart_resumes_pointer_and_keeps_gaps_scheduled。首份运行曾与第二份重叠、原生退出未捕获，手写exit1无效；交独立reviewer处置。
+- DISPATCH preparation002为第七次失败，原交付误写第六保留。author056native0/receiver1源于Split-Path参数集错误，作者已修正读取，Root从实际CHILD-START路径复核并写独立接收记录，未改写TERMINAL。007只按056修复并实际非消费预检，再允许preparation003一次。
+- N8043有6工具、两个编辑raw1及HTTP502，未运行正式位置；author067native0/receiver0明确原地保存69480B草稿，044写新H44。044于20:14实际启动；045只在067的有限条件成立后使用，无046。F10/010 launch_identity程序化比对保持一致。
+- 保持同SID/store/cwd、独立reviewer、原rawcode。五路实际ZCode调用；无原生Sol开发者，无持久模型配置变更。
