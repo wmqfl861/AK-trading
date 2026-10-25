@@ -1,0 +1,122 @@
+{
+  "module": "P0-2 M4 replay qualification-evidence wiring — pin correction of the independent product hard review record",
+  "correction_of": {
+    "review": "replay-hard-review-002",
+    "reviewer_session": "sess_5cf8971a-54d0-4748-ad5a-f68c8067904c",
+    "old_report_file_sha256": {
+      "replay-hard-review-002/work/REVIEW.md": "a95dcb77d7dd253840b56bfc7f31675fa7fa215b6470c2bbcbb2d31084a31b30",
+      "replay-hard-review-002/work/VERDICT.json": "bb5cd982e0864c7ab5d4b4773c41f99158185f6340d977c830fc65846094e12a"
+    },
+    "old_reports_unchanged": true
+  },
+  "classification": "REPORT_TRANSCRIPTION_ERROR",
+  "candidate": {
+    "root": "D:\\AKWorktrees\\aktr-r3-replay-20261025",
+    "branch": "work/zcode-r3-replay-20261025",
+    "baseline_commit": "0cc305454d06643e93b14e426d04a6a755094d84",
+    "reviewed_hashes": {
+      "src/ak_trading/v2/decision/replay.py": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+      "tests/test_v2_m4_replay.py": "afe72aceae18723fc8416e2bb99a84d947db72627c25c6bf275e1035e6ede182"
+    },
+    "reviewed_bytes": {
+      "src/ak_trading/v2/decision/replay.py": 40650,
+      "tests/test_v2_m4_replay.py": 58147
+    }
+  },
+  "authoritative_pins": {
+    "freeze_sha256_after": {
+      "src/ak_trading/v2/decision/replay.py": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+      "tests/test_v2_m4_replay.py": "afe72aceae18723fc8416e2bb99a84d947db72627c25c6bf275e1035e6ede182"
+    },
+    "request_input_pin": {
+      "src/ak_trading/v2/decision/replay.py": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+      "tests/test_v2_m4_replay.py": "afe72aceae18723fc8416e2bb99a84d947db72627c25c6bf275e1035e6ede182"
+    },
+    "source_matches_pins_now": {
+      "src/ak_trading/v2/decision/replay.py": true,
+      "tests/test_v2_m4_replay.py": true
+    }
+  },
+  "recorded_in_old_reports": {
+    "VERDICT_json": {
+      "src/ak_trading/v2/decision/replay.py": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+      "tests/test_v2_m4_replay.py": "afe72aceae18723fc8418e2bb99a84d947db72627c25c6bf275e1035e6ede182"
+    },
+    "REVIEW_md_lines": {
+      "src/ak_trading/v2/decision/replay.py": [
+        "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64"
+      ],
+      "tests/test_v2_m4_replay.py": [
+        "afe72aceae18723fc8418e2bb99a84d947db72627c25c6bf275e1035e6ede182"
+      ]
+    },
+    "char_diff_verdict_vs_authoritative": {
+      "src/ak_trading/v2/decision/replay.py": "identical",
+      "tests/test_v2_m4_replay.py": {
+        "first_mismatch_index": 20,
+        "mismatch_positions": [
+          20
+        ],
+        "recorded_chars_at_positions": {
+          "20": "8"
+        },
+        "authoritative_chars_at_positions": {
+          "20": "6"
+        }
+      }
+    }
+  },
+  "effective_verdict": {
+    "verdict": "PASS",
+    "scope": "bounded to the frozen two-file write set; unconditional within that scope; identical scope and bounds as replay-hard-review-002",
+    "basis": "current source bytes re-verified equal to the original REQUEST input pins and owner FREEZE sha256_after; all original runs reused unchanged; the only defect was the hash string transcription in the 002 report files, now corrected here from machine-derived values"
+  },
+  "not_granted": [
+    "full M4 acceptance (8-file population native exit 1; B01 open)",
+    "shadow / SHCP7 / M5 acceptance",
+    "B01 fix or waiver (preserved as PRE_EXISTING_AT_BASELINE, routed to owning node)",
+    "T7 pin coordination (Root/P1-3 queue action upon accepted integration)"
+  ],
+  "runs_reused_no_rerun": [
+    {
+      "id": "rerun1-replay-file",
+      "result": "native exit 0; 20 selected; 20 passed / 0 failed / 0 skipped",
+      "evidence": "../replay-hard-review-001/work/rerun1-replay-file.*"
+    },
+    {
+      "id": "rerun2-eight-file",
+      "result": "native exit 1; 205 selected; 191 passed / 14 failed / 0 skipped",
+      "evidence": "../replay-hard-review-002/work/rerun2-eight-file.*"
+    },
+    {
+      "id": "probe_counterexamples_v2",
+      "result": "native exit 0; 24/24 checks passed",
+      "evidence": "../replay-hard-review-002/work/probe-v2.*"
+    }
+  ],
+  "supplementary_artifact_pins_in_sealed_verdict": [
+    {
+      "artifact": "rerun2-eight-file.stdout.txt",
+      "recorded": "3a9f66b0d46c331a2c44326ccaecc361d6ba3d5cc51e950370c3a41e7e25d445",
+      "actual": "3a9f66b0d46c331a2c44326ccaecc361d6ba3d5cc51e950370c3a41e7e25d445",
+      "match": true
+    },
+    {
+      "artifact": "probe-v2.stdout.txt",
+      "recorded": "406dae62e5223727f032f4fff0b15440dadaedae2b738287d7038daeaac88915",
+      "actual": "406dae62e5223727f032f4fff0b15440dadaedae2b738287d7038daeaac88915",
+      "match": true
+    }
+  ],
+  "safety": {
+    "source_modifications": "none (this correction wrote no candidate file)",
+    "old_artifacts_modified": false,
+    "tests_rerun": false,
+    "network_db_sdk_broker_services": "none",
+    "credentials_env": "none read or printed",
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_cancel": "0/0"
+  }
+}

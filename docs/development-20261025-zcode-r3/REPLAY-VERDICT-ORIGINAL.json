@@ -1,0 +1,97 @@
+{
+  "module": "P0-2 M4 replay qualification-evidence wiring — independent product hard review",
+  "review": "replay-hard-review-002 (bounded recovery of replay-hard-review-001; same reviewer session sess_5cf8971a-54d0-4748-ad5a-f68c8067904c)",
+  "verdict": "PASS",
+  "verdict_scope": "bounded to the frozen two-file write set; unconditional within that scope; no unmet in-scope requirement",
+  "not_granted": [
+    "full M4 acceptance (8-file population native exit 1; B01 open)",
+    "shadow / SHCP7 / M5 acceptance",
+    "B01 fix or waiver (preserved as PRE_EXISTING_AT_BASELINE, routed to owning node)",
+    "T7 pin coordination (Root/P1-3 queue action upon accepted integration)"
+  ],
+  "candidate": {
+    "root": "D:\\AKWorktrees\\aktr-r3-replay-20261025",
+    "branch": "work/zcode-r3-replay-20261025",
+    "baseline_commit": "0cc305454d06643e93b14e426d04a6a755094d84",
+    "reviewed_hashes": {
+      "src/ak_trading/v2/decision/replay.py": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+      "tests/test_v2_m4_replay.py": "afe72aceae18723fc8418e2bb99a84d947db72627c25c6bf275e1035e6ede182"
+    },
+    "hashes_unchanged_start_to_end": true,
+    "diff_scope": "only the two write-set files; all other modules byte-identical to baseline"
+  },
+  "effective_plan": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\M4-REPLAY-PLAN.md",
+    "bytes": 10643,
+    "sha256": "346ca2596fe85110b4a258793e0e7a2684a0bc76c612d10033714baed969c018"
+  },
+  "independent_reruns": [
+    {
+      "id": "rerun1-replay-file",
+      "location": "../replay-hard-review-001/work",
+      "argv": ["D:/Programs/Python/Python312/python.exe", "scripts/test_offline.py", "-q", "tests/test_v2_m4_replay.py"],
+      "cwd": "D:\\AKWorktrees\\aktr-r3-replay-20261025",
+      "native_exit": 0,
+      "selected": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "deselected": 0,
+      "note": "reused after recovery verified write-set hashes unchanged; not repeated for bookkeeping"
+    },
+    {
+      "id": "rerun2-eight-file",
+      "location": "work/",
+      "argv": ["D:/Programs/Python/Python312/python.exe", "scripts/test_offline.py", "-q",
+               "tests/test_v2_m4_payoffs.py", "tests/test_v2_m4_gates.py", "tests/test_v2_m4_routing.py",
+               "tests/test_v2_m4_risk.py", "tests/test_v2_m4_execution.py", "tests/test_v2_m4_ledger.py",
+               "tests/test_v2_m4_replay.py", "tests/test_v2_m4_causality.py"],
+      "cwd": "D:\\AKWorktrees\\aktr-r3-replay-20261025",
+      "native_exit": 1,
+      "selected": 205,
+      "passed": 191,
+      "failed": 14,
+      "skipped": 0,
+      "deselected": 0,
+      "duration_s": 570.98,
+      "stdout": {"file": "rerun2-eight-file.stdout.txt", "bytes": 18687, "sha256": "3a9f66b0d46c331a2c44326ccaecc361d6ba3d5cc51e950370c3a41e7e25d445"},
+      "stderr": {"file": "rerun2-eight-file.stderr.txt", "bytes": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+      "prior_attempt": "interrupted by prior CLI HTTP502; 148-byte partial preserved as interrupted-attempt1-*, never counted"
+    }
+  ],
+  "baseline_blocker": {
+    "id": "B01",
+    "tests": "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[*] (14 variants)",
+    "classification": "PRE_EXISTING_AT_BASELINE",
+    "independent_evidence": [
+      "my 14 failing IDs byte-identical to owner run2 IDs",
+      "my 14 failing IDs byte-identical to owner pristine-baseline (0cc3054) run IDs (66 passed/14 failed there)",
+      "producing files test_v2_m4_payoffs.py and pipeline.py byte-identical to baseline commit in candidate"
+    ],
+    "disposition": "preserved unresolved; routed to exit-binding registration owner via Root/Astra; not fixed, not suppressed, no constants refreshed"
+  },
+  "counterexample_probes": {
+    "final": {"file": "probe_counterexamples_v2.py", "native_exit": 0, "checks_passed": 24, "checks_failed": 0,
+              "stdout": {"file": "probe-v2.stdout.txt", "bytes": 1371, "sha256": "406dae62e5223727f032f4fff0b15440dadaedae2b738287d7038daeaac88915"}},
+    "preserved_failed_attempt": {"file": "probe-attempt1.py", "native_exit": 1,
+      "cause": "reviewer premise error in P2a: legacy_exit_spec is mode-keyed, TREND-MINUTE and WAIT-MINUTE legitimately share one registry; product correctly admitted the then-valid chain"},
+    "coverage": [
+      "public API keyword-only required params unchanged (replay + verifier)",
+      "P1 positive: real verifier accept + real SHADOW OPEN fill at independent parameters",
+      "P2a real distinct exit-registry confusion rejected with zero new risk",
+      "P2b run-binding substitution rejected with zero new risk",
+      "P3 not-yet-effective qualification blocked QUALIFICATION_EXPIRED, zero new risk",
+      "P4 duplicate different bindings rejected duplicate_exit_bindings at boundary"
+    ]
+  },
+  "safety": {
+    "source_modifications": "none (verified by start/end hashes and git scope)",
+    "network_db_sdk_broker_services": "none",
+    "credentials_env": "none read or printed",
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_cancel": "0/0",
+    "mode": "offline SYNTHETIC/SCENARIO engineering validation"
+  }
+}

@@ -9,3 +9,7 @@
 - 后续真实进展：`p16-owner-003`源码阶段native0，12项离线通过/3项隔离测试待执行。`p16-owner-004`完成新建独立PostgreSQL集群、直接pytest的15项全通过、角色新建/重复执行和自身集群关闭后，CLI再次因HTTP502/native1终止。原guard入口为12 passed/3 failed，直接隔离入口为15 passed/raw0；保留两者，不削弱guard。Root核对终止、准确四文件写集与实际结果后发布机械冻结收据并立即独立硬审；没有把CLI失败改记成功，也没有重跑测试只为补一份交付文档。
 - `c05-owner-001`在HTTP502后native1，trace=`4bc63956-5ca0-4d4e-8da0-413b9827ecbc`，当时尚无产品源码变更。核实前次终止、输入未变、原库及SID后，基于同时间其他调用的实际进展，仅作一次分步恢复`c05-owner-002`，先交真实源码与焦点测试，后续原验收不削减；源码改动已出现。模型/provider配置未改。
 - `replay-owner-002`沿原SID恢复后真实native0；完整八文件raw1的14项失败与干净基线相同，均属旧退出绑定hash常量对照。开发者保留失败并冻结两文件提交，独立审核已启动。后续不可通过刷新常量、删除测试或将CLI native0等同产品PASS来掩盖基线问题。
+
+- `replay-hard-review-002`与`p16-hard-review-002`均由原独立审核者续接，真实native0、输入未变，并给出对应窄写集无条件PASS。复用了前次已经完成且输入未变的焦点20项、SQL15项，不因调用恢复重复成功测试；各次HTTP502/native1原件保留。replay独立完整回归仍是191 passed/14旧基线failed，SQL生产采用仍为NOT_RUN。
+- replay审核者手写报告时把测试文件SHA-256的一位抄错。Root在提交前逐项比较实际字节、原REQUEST、FREEZE与VERDICT，发现差异；原审核者以`replay-review-pin-correction-003`追加机器生成的更正，native0、输入未变，确认是报告抄写错误，原报告不覆盖、产品不重跑。以后报告中的pins直接由权威记录及实际文件计算生成，禁止手抄长hash。
+- Root提交replay前的一次JSON读取（工具记录`d5a18b`）因`Path.read_text()`未指定编码而使用Windows默认GBK，遇UTF-8标点触发`UnicodeDecodeError`，raw1。失败发生在任何git add/commit/push之前，没有部分提交。后继命令显式`encoding="utf-8-sig"`并以`python -B -X utf8 -`运行，完成原冻结字节核对、提交和推送，raw0（`472cc4`，提交`f979e88`）。以后本批所有Python协调命令均启用`-X utf8`，文本读取明确编码；保留原失败，不用忽略解码错误掩盖数据问题。

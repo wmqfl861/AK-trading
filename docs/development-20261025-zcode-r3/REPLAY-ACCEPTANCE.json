@@ -1,0 +1,21 @@
+{
+  "module": "P0-2 replay slice",
+  "product_verdict": "PASS",
+  "unconditional_within_scope": true,
+  "reviewer_session": "sess_5cf8971a-54d0-4748-ad5a-f68c8067904c",
+  "developer_session": "sess_0de37b1e-589d-481f-9e1e-449c6ecfe8c7",
+  "independent_sessions": true,
+  "review_native_exit": 0,
+  "frozen_inputs_unchanged": true,
+  "review_source": "D:\\Maintenance\\aktr-development-20261025\\replay-hard-review-002\\work",
+  "correction_source": "D:\\Maintenance\\aktr-development-20261025\\replay-review-pin-correction-003\\work",
+  "raw_evidence_availability": "LOCAL_ONLY; preserved REVIEW/VERDICT relative paths resolve in their original work directories",
+  "corrected_verdict_sha256": "777f33cacabe69e8e74ca96398f5b26ca9822107edd17655a7db5ae60cadd22d",
+  "reviewed_source_hashes": {
+    "src/ak_trading/v2/decision/replay.py": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+    "tests/test_v2_m4_replay.py": "afe72aceae18723fc8416e2bb99a84d947db72627c25c6bf275e1035e6ede182"
+  },
+  "source_commit": "f979e88c1266b8a3a4966dfeca89678217b1300b",
+  "publication": "pushed dedicated repair branch; canonical377 remains frozen pending original forward execution-author disposition",
+  "open_baseline": "14 pre-existing payoff binding failures; full M4 not PASS; shadow slice not closed"
+}
