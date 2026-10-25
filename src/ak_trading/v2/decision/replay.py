@@ -249,9 +249,15 @@ def run_decision_replay(bundle: FrozenInput, forecast_models: ForecastModelSet,
     if replay_start_nano>=replay_end_nano:
         raise ValueError("replay_interval_must_be_nonempty_half_open")
     registry=registry_hash_for(specs)
-    from ak_trading.v2.decision.pipeline import exit_registry_hash_for, legacy_exit_binding
+    from ak_trading.v2.decision.pipeline import exit_registry_hash_for
     exit_registry=exit_registry_hash_for(exit_specs)
-    bindings_by_strategy={b.strategy_id:b for b in exit_bindings}
+    # Duplicate bindings for one strategy must fail here, before the dict below
+    # can silently fold them; the exact-spec-set check only catches missing or
+    # extra strategies (007 §5.4).
+    binding_owners=[b.strategy_id for b in exit_bindings]
+    if len(binding_owners)!=len(set(binding_owners)):
+        raise ValueError("duplicate_exit_bindings")
+    bindings_by_strategy=dict(zip(binding_owners,exit_bindings))
     if set(bindings_by_strategy)!={s.strategy_id for s in specs}:
         raise ValueError("exit_bindings_must_match_specs_exactly")
     hashes=model_hashes_for(forecast_models,payoff_model,regime_reference,seasonality_model)
@@ -290,7 +296,13 @@ def run_decision_replay(bundle: FrozenInput, forecast_models: ForecastModelSet,
         try:
             if len(matching)!=1:
                 raise ValueError("qualification_spec_missing")
-            verify_qualification_evidence(q,matching[0],qualification_evidence,contract_lock_sha256,registry)
+            # 007 §5.4: evidence is verified against this run's own frozen exit
+            # registry and the unique binding of the matching strategy; the
+            # qualification's own recorded hashes never substitute as trusted
+            # dependencies here.
+            verify_qualification_evidence(q,matching[0],qualification_evidence,contract_lock_sha256,registry,
+                exit_registry_sha256=exit_registry,
+                exit_binding=bindings_by_strategy[q.strategy_id])
         except (ValueError,TypeError):
             required=(q.report_sha256,q.review_sha256,q.experiment_sha256,contract_lock_sha256,registry)
             invalid_q[q.qualification_id]=("QUALIFICATION_EVIDENCE_MISSING" if any(k not in qualification_evidence for k in required)
