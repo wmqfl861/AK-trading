@@ -1,0 +1,55 @@
+{
+  "schema": "aktr-t7-A-f01-re-review-verdict/v1",
+  "task": "t7-strategy-f01-hard-review-004/005 (independent re-review of the F01-repaired T7 unitA revision)",
+  "verdict": "PASS",
+  "unconditional": true,
+  "scope_bounded": true,
+  "review_identity": {
+    "reviewer": "independent ZCode GLM-5.3/max, session sess_9fd6415c-e5c6-4717-b1bf-3e49f5ed0a3b — the same reviewer who issued the 003 FAIL/F01; no participation in the repair",
+    "owner_under_review": "same dedicated ZCode implementation owner sess_d0863a28-47b2-49fa-90ed-9e0716c38b89 (append-only repair per F01 repair_route)",
+    "work_orders": [
+      "D:/Maintenance/aktr-development-20261025/t7-strategy-f01-hard-review-004/WORKORDER.md",
+      "D:/Maintenance/aktr-development-20261025/t7-strategy-f01-hard-review-005/WORKORDER.md"
+    ],
+    "effective_plan": "D:/Maintenance/aktr-development-20261025/astra-t7-existing-plan-detail-001/T7-EXISTING-REPAIR-PLAN.md §2 (unit A) with author disposition astra-t7-advice-disposition-002 (EFFECTIVE); no new plan review, no new acceptance criteria",
+    "contracts": ["docs/devplan-v2/04-M3B-策略库.md §2, §4–§7, §9–§11", "…/m3b-p0-plan-20261014/PLAN.md applicable clauses (incl. §6.3, §9.6–§9.8, §10.2, §10.3)"]
+  },
+  "scope": {
+    "product_write_set": ["src/ak_trading/v2/strategies/breakout.py", "src/ak_trading/v2/strategies/pullback.py", "src/ak_trading/v2/strategies/registry.py", "src/ak_trading/v2/strategies/trend.py"],
+    "test_write_set": ["tests/test_v2_m3b_registry.py", "tests/test_v2_m3b_directional.py", "tests/test_v2_m3b_matrix.py", "tests/test_v2_m3b_causality.py"],
+    "helper_review_scope_item": "C:/AKWorktrees/aktr-r3-t7-A-work-20261025/evidence/runner/run_bounded.py @ f54d9e978f24170231b610f83cefbfb38f567ab7f7aceb421f86e484b59dbf57 (delta assessed; preservation deviation recorded as O-1/O-2, non-blocking)",
+    "exact_bytes": "see HASHES.json; three files changed by the F01 repair exactly as declared, five byte-identical to the prior frozen r1; 32 real-RB delivered inputs equal",
+    "grants": "this PASS closes F01 and immediately unlocks the accepted-byte handoff of these exact bytes to unit B",
+    "out_of_scope": "remaining M3B files, experiments.py, M5/T7 consumption, historical backtests, profitability, C05/DP03/DP08 states, any other node's PASS"
+  },
+  "basis": {
+    "required_population_independent_rerun_on_repaired_bytes": {
+      "commands": "P0 §10.2 exact population via scripts/test_offline.py -q, each in its own Windows Job under the reviewer's own harness (suspended child joined before execution, 2 GiB job memory, 600 s deadline, 1 GiB output cap, race-tolerant walk, native exit captured after process closure)",
+      "runs": [
+        {"key": "c1_registry", "run": "f01rv-r1-c1_registry", "raw_native_exit": 0, "nodes": "77 passed, 0 deselected"},
+        {"key": "c2_matrix", "run": "f01rv-r1-c2_matrix", "raw_native_exit": 0, "nodes": "68 passed, 0 deselected, 0 skipped (three real-RB nodes executed)"},
+        {"key": "c3_directional", "run": "f01rv-r1-c3_directional", "raw_native_exit": 0, "nodes": "19 passed = 16 prior + 3 new F01 regressions, 0 deselected"},
+        {"key": "c4_reversion_grid", "run": "f01rv-r1-c4_reversion_grid", "raw_native_exit": 0, "nodes": "12 passed, 0 deselected"},
+        {"key": "c5_martingale", "run": "f01rv-r1-c5_martingale", "raw_native_exit": 0, "nodes": "14 passed, 0 deselected"},
+        {"key": "c6_state", "run": "f01rv-r1-c6_state", "raw_native_exit": 0, "nodes": "17 passed, 0 deselected"},
+        {"key": "c7_causality", "run": "f01rv-r1-c7_causality", "raw_native_exit": 0, "nodes": "5 passed, 0 deselected"},
+        {"key": "c8_full", "run": "f01rv-r1-c8_full", "raw_native_exit": 0, "nodes": "212 passed = 77+68+19+12+14+17+5, 0 deselected"}
+      ],
+      "source_pin_drift": "none in any run (40 pins per run: 8 write-set + 32 real-RB inputs)",
+      "note": "the historical 209-pass on faulty bytes and the owner's own 212-pass were NOT reused as acceptance evidence; the reviewer's nine closed envelopes were hash-verified against ROOT-HANDOFF-005 after the 004 CLI interruption"
+    },
+    "counterexamples": "11 reviewer probes under evidence/probes/probe_f01_repair.py, run f01rv-r2-probe-f01_repair raw exit 0, 11 passed — all asserting correct behaviour on the repaired bytes: F01 duplicate-bar reproductions flipped positive (hold, no premature OPEN), genuine new-bar advancement, restart/redelivery equivalence, gate-fail interplay, long-mirror pullback hold, breakout idempotence unchanged, evidence rejection paths, clock-only horizon first-fit, full-window OPEN rejection, code_sha256 binding the repaired bytes, signed short hysteresis HOLD and hard-risk EXIT priority",
+    "f01_resolution": "verified resolved by code review (same-bar guard mirrors breakout.py, sound expiry transition, minimal diff) and by the independent probes above; details in FINDINGS.json",
+    "verdict_basis_statement": "PASS rests on the independently rerun full population plus repaired-behavior counterexamples on the exact frozen hashes — never on raw 0 alone, owner claims, or the historical 209/11 counts"
+  },
+  "routing": "Product PASS unlocks the accepted-byte handoff to unit B (B's final freeze consumes these exact bytes). The five other M3B/lease files keep their prior acceptance lineage; nothing here obliges other modules to finish first.",
+  "limitations": [
+    "O-1: owner helper was modified in place after the first c3 race (read-only-reuse deviation); old bytes survive via pins; no acceptance credit drawn from any owner run or from the UNKNOWN first c3 (O-3).",
+    "O-5: REVERSION/GRID/MARTINGALE counters not probed for the F01 pattern (outside write set).",
+    "No historical backtest, PIT completeness, profitability, M5/T7 consumption, or node-level acceptance granted.",
+    "The 004 CLI interruption (native 1 / HTTP 502) and one interrupted TodoWrite are tool events, not product facts (O-4); no command was rerun because of them."
+  ],
+  "safety": {"enable_trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_count": 0, "real_cancel_count": 0, "product_files_modified": false},
+  "package_immutability": "Post-verdict, this package (VERDICT.json, FINDINGS.json, HASHES.json, REVIEW.md, evidence/) is immutable; the prior 003 review package remains untouched.",
+  "published_utc": "2026-10-25T22:35:00Z"
+}

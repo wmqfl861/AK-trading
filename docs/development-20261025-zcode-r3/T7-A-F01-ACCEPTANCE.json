@@ -1,0 +1,98 @@
+{
+  "schema": "aktr-root-exact-reviewed-byte-integration/v1",
+  "received_utc": "2026-10-25T22:33:14.051198+00:00",
+  "independent_verdict": {
+    "path": "C:\\AKWorktrees\\aktr-r3-t7-A-review-f01-20261025\\VERDICT.json",
+    "bytes": 6412,
+    "sha256": "f720d080ab37eaac3b908958192ca60acb69c778fbc6421b616751ae38e01500"
+  },
+  "independent_hashes": {
+    "path": "C:\\AKWorktrees\\aktr-r3-t7-A-review-f01-20261025\\HASHES.json",
+    "bytes": 5534,
+    "sha256": "573cf435f75113ddc2c09a84641194cec587923c8f37332fa55e0bff2e82a127"
+  },
+  "reviewer_terminal": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-strategy-f01-hard-review-005\\TERMINAL.json",
+    "bytes": 337,
+    "sha256": "5eec82ae6534f09f1ef8e70ee6e015f0769fc7a9b735ecde29bc6ecda9778749"
+  },
+  "reviewer_session": "sess_9fd6415c-e5c6-4717-b1bf-3e49f5ed0a3b",
+  "reviewer_model": "GLM-5.3/max",
+  "actual_model_verified_from_exact_trace": "0813e496-c45c-482b-a97f-d1e3046bc85d",
+  "native_exit": 0,
+  "inputs_unchanged": true,
+  "product_verdict": "PASS",
+  "unconditional": true,
+  "accepted_repository_files": [
+    {
+      "path": "src/ak_trading/v2/strategies/breakout.py",
+      "bytes": 12339,
+      "sha256": "56b76a730f2201b0171f962e043d73fbb8fadb8646a44b76e75bf9b465aba840"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/pullback.py",
+      "bytes": 9797,
+      "sha256": "093d8405f86579a8c5f2e128bde27abb890a4543376cffd5ba41b5f8069f6eaa"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/registry.py",
+      "bytes": 64999,
+      "sha256": "c3dfa1f7fed21d2afa1b7ff1395033ced484abf0987a2e9b5f192429ed617303"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/trend.py",
+      "bytes": 10484,
+      "sha256": "c1879eb73e16ba81666d30a1bb73c5a31abd34fbbd787289eaef0bb29e0127e0"
+    },
+    {
+      "path": "tests/test_v2_m3b_registry.py",
+      "bytes": 18189,
+      "sha256": "3d6f1ed9cac463b9b32a33f79d24392d858ddb6b4f1cab157cca0c773edaf68e"
+    },
+    {
+      "path": "tests/test_v2_m3b_directional.py",
+      "bytes": 24006,
+      "sha256": "a88d8d44df9b4a97979836f2bbfd89ab8f7da6a3537b273d15d0e51b71f12e0d"
+    },
+    {
+      "path": "tests/test_v2_m3b_matrix.py",
+      "bytes": 63247,
+      "sha256": "88775919b6bb6323f3d39bcaad5f8b4f4d4508a68bd10aff340b3721593a88e9"
+    },
+    {
+      "path": "tests/test_v2_m3b_causality.py",
+      "bytes": 10089,
+      "sha256": "30c54ba727a4ff2bf76546e879549115ead905f16ada890349d2fb82f7d63df5"
+    }
+  ],
+  "changed_repository_files": [
+    {
+      "path": "src/ak_trading/v2/strategies/pullback.py",
+      "prior_sha256": "7f573fe723834c68fc2958fa323cfecda3b55c0440ddfc4c1d845af2373ba763"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/trend.py",
+      "prior_sha256": "e680ba05001f5ac82eb9bfb73200b85c1aadb3abdf7e1b3e27c09f19b49d0230"
+    },
+    {
+      "path": "tests/test_v2_m3b_directional.py",
+      "prior_sha256": "ca0446d9f71ef003a8946b36a7add0051a09d4189733f916cd1f93b8001c6b00"
+    }
+  ],
+  "checks": "8 required independent commands raw0, combined212passed/0skips;11 independent repaired-behavior probes raw0; exact8main bytes verified; no acceptance from owner tests or historical209",
+  "integration": "Mechanical copy of exactly reviewed bytes; main matched original baseline for every target, no conflicts or active-review input intersections. Prior forward canonical lease retired with377-member snapshot.",
+  "publication_timestamp_disposition": {
+    "reported_in_immutable_verdict": "2026-10-25T22:35:00Z",
+    "authoritative_closed_CLI_utc": "2026-10-25T22:25:26.747216+00:00",
+    "finding": "Reported publication time lies after actual CLI closure; not used as provenance. Original report retained unchanged; actual terminal and hashes are authority."
+  },
+  "historical_limitations": "Old helper overwritten in place/firstc3UNKNOWN retained. Current helper independently assessed in scope, external LOCAL_ONLY. No backtest/profitability/T7B acceptance.",
+  "next": "T7-B can consume these accepted A bytes; its full fit/lock chain and independent review remain required.",
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_count": 0,
+    "real_cancel_count": 0
+  }
+}

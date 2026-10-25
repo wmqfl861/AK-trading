@@ -1,0 +1,77 @@
+{
+  "schema": "aktr-t7-A-f01-re-review-findings/v1",
+  "task": "t7-strategy-f01-hard-review-004/005",
+  "verdict_companion": "VERDICT.json (PASS, scope-bounded)",
+  "f01_resolution_assessment": {
+    "finding_reference": "F01 in C:/AKWorktrees/aktr-r3-t7-A-review-20261025/FINDINGS.json (blocking PRODUCT_CONTRACT_DEFECT; 003 verdict FAIL)",
+    "repair_sites": "trend.py _observe and pullback.py _observe: same_bar computed from the committed setup identity (state.setup is not None, context.now_nano <= setup.expires_at_nano, setup.last_bar_id == bars[-1].bar_id); confirmation holds on same-bar re-delivery, resets to 0 on gate failure (unchanged), increments only on a distinct completed bar",
+    "reviewer_code_assessment": "semantics now identical to breakout.py's confirmation branch; the expiry-transition clause is sound (a re-delivery landing after setup expiry re-founds a new setup whose first observation legitimately counts, and further duplicates of that bar then hold); diff is minimal and confined to the two defect sites plus three regressions; thresholds, setup freezing, mirrors, exits and registry untouched",
+    "independent_probe_confirmation": [
+      "test_probe_trend_duplicate_same_bar_holds_and_never_opens: identical qualifying bar b21 delivered 4x -> trajectory [(WAIT,1,b21)]*4 (pre-repair this exact world OPENed on the third duplicate per the 003 probe)",
+      "test_probe_trend_new_distinct_bars_still_advance_and_open: distinct b21/b22/b23 -> [(WAIT,1),(WAIT,2),(OPEN,3)] — the guard does not over-hold",
+      "test_probe_trend_restart_redelivery_matches_no_restart: clean [1,2,OPEN@3rd] vs every-bar-redelivered [1,1,2,2,OPEN@same-3rd-distinct-bar] (04-M3B §10-11 restart equivalence)",
+      "test_probe_trend_gate_fail_resets_then_same_bar_holds_reset: valid(1) -> gate-fail duplicate(0, FORECAST_NOT_YET_PUBLISHED) -> valid duplicate holds 0 (conservative, breakout-consistent)",
+      "test_probe_pullback_long_mirror_duplicate_reclaim_holds: b10 arm(1), b11 reclaim(2), duplicate b11 holds 2, third distinct bar b12 -> OPEN(3)",
+      "test_probe_breakout_duplicate_same_bar_still_idempotent: unchanged breakout.py still holds (2,2) under duplicate — no collateral damage"
+    ],
+    "owner_regressions_assessment": "the three added directional tests assert repaired trajectories that fail on the pre-repair bytes (duplicate b23 x4 stays (WAIT,1,b23); restart equivalence; short-mirror pullback holds 1/2 and OPENs on the third distinct bar) — genuine positive regressions, not weakened assertions",
+    "status": "RESOLVED, verified on the repaired frozen bytes by independent rerun and probes"
+  },
+  "findings": [],
+  "non_blocking_observations": [
+    {
+      "id": "O-1",
+      "class": "HELPER_PRESERVATION_DISCIPLINE_DEVIATION (history limitation, honestly preserved)",
+      "item": "owner modified C:/AKWorktrees/aktr-r3-t7-A-work-20261025/evidence/runner/run_bounded.py in place (9833 B / sha 2503565121… -> 10128 B / sha f54d9e978f…) after the first c3 supervisor hit the pytest-temporary-cleanup stat race (same core as reviewer incident R-1), instead of appending a new helper revision",
+      "mitigations_verified": "Root preserved both exact pins and the UNKNOWN first c3 (f01-r1-c3_directional: no RESULT.json, no fabricated native exit, classification OWNER_HARNESS_DEFECT); the delta is confined to the race-tolerant walk with no limit weakening and no change to child execution or native-exit capture; this verdict draws zero credit from any owner run — all nine acceptance runs are the reviewer's own under the reviewer's hash-pinned harness",
+      "acceptance_impact": "none on this PASS; recorded so the deviation is not silently normalized"
+    },
+    {
+      "id": "O-2",
+      "class": "DOCUMENTATION_GAP",
+      "item": "owner FREEZE.json's eight-file write-set list omits the helper's separate hash even though the helper is part of the actual review write-set",
+      "mitigations_verified": "ROOT-HANDOFF-004 helper_actual_write_set pins f54d9e978f… / 10128 B; independently recomputed from the actual bytes and equal; reviewer HASHES.json records it explicitly",
+      "acceptance_impact": "none (pin exists and matches)"
+    },
+    {
+      "id": "O-3",
+      "class": "PRESERVED_UNKNOWN (no accepted credit)",
+      "item": "owner's first c3 attempt f01-r1-c3_directional remains UNKNOWN_NOT_ACCEPTED (supervisor crash, child killed by Job kill-on-close, no RESULT.json); process scan had confirmed no orphan child",
+      "acceptance_impact": "none — c3 population credit derives from the owner's fresh f01-r2 rerun and independently from the reviewer's own f01rv-r1-c3_directional (19 passed, raw 0)"
+    },
+    {
+      "id": "O-4",
+      "class": "REVIEWER_TOOL_INTERRUPTION (not a product event)",
+      "item": "the 004 CLI ended native 1 / HTTP 502 AFTER all eight population commands and the 11-probe suite had completed raw 0; one TodoWrite call was interrupted mid-stream (stream_recovery_interrupted_tool) — it was a progress-list update, not a test or evidence write",
+      "disposition": "all nine closed result envelopes were hash-verified against ROOT-HANDOFF-005 pins before this publication; no command was rerun because of the interruption"
+    },
+    {
+      "id": "O-5",
+      "class": "SCOPE_NOTE",
+      "item": "REVERSION/GRID/MARTINGALE confirmation counters were not probed for the F01 pattern (outside the unit-A write set, unchanged bytes equal to prior frozen r1); any future assessment belongs to their owning node"
+    }
+  ],
+  "counterexample_coverage_repaired_bytes": [
+    "F01 duplicate-bar hold (TREND long world, 4x re-delivery) — repaired",
+    "genuine new-bar advancement (TREND b21/b22/b23 -> OPEN at third distinct bar)",
+    "restart/redelivery equivalence (04-M3B §10-11)",
+    "gate-fail reset + same-bar hold interplay",
+    "PULLBACK long-mirror duplicate reclaim hold + third-distinct-bar OPEN (short mirror covered by owner regression and by 003 contrast semantics)",
+    "BREAKOUT duplicate same-bar idempotence unchanged",
+    "evidence gates: order-independent EVIDENCE_AMBIGUOUS, FAILED not dropped, EVIDENCE_EXPIRED, EVIDENCE_NOT_YET_AVAILABLE",
+    "select_management_horizon clock-only first fit (60/30/15/5/1; 20/5/1), None case, input validation",
+    "full-window OPEN rejected outright when deadline < window end (never shortened)",
+    "code_sha256 identity binds the repaired family+registry+state bytes; 14 unique IDs; WAIT 0/0",
+    "signed short HOLD -2 in the 0.65–0.70 hysteresis band with frozen stop/target; PERSISTENCE_BELOW_EXIT; EVENT_SHOCK hard-risk EXIT at persistence 0.92"
+  ],
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_count": 0,
+    "real_cancel_count": 0,
+    "credentials_read": false,
+    "network_sdk_db_services_ui_git_writes": "NOT_RUN",
+    "product_files_modified_by_reviewer": false
+  }
+}

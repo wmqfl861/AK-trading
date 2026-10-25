@@ -439,3 +439,89 @@ def test_pullback_background_failure_exits():
     proposal = TrendPullback(spec).evaluate(context, holding)
     assert proposal.action == "EXIT"
     assert "BACKGROUND_TREND_LOST" in proposal.reasons
+
+
+# --- duplicate same-bar delivery / restart re-delivery (04-M3B §7, §10-11) -----
+
+
+def _trend_world(closes, ma20=Decimal("101"), ma60=Decimal("100"), atr=Decimal("4")):
+    from ak_trading.v2.strategies.trend import TrendFollowing
+    spec = build_strategy_spec("TREND", "MINUTE")
+    last = Decimal(str(closes[-1]))
+    snap = features(last, atr,
+                    {"close": last, "ma20": ma20, "ma60": ma60,
+                     "atr14": atr, "er20": Decimal("0.5")})
+    context = make_context(spec, bars=minute_bars(closes),
+                           forecasts=trend_forecasts(snap), regime_obj=regime("UP_TREND"),
+                           features_snap=snap)
+    return TrendFollowing(spec), context
+
+
+def test_trend_duplicate_same_bar_never_advances_confirmation_or_opens():
+    # A single qualifying bar re-delivered any number of times counts once:
+    # no counter growth, no setup redraw and no premature OPEN candidate.
+    strategy, context = _trend_world([100 + index for index in range(24)])
+    trajectory = []
+    state = None
+    for _ in range(4):
+        proposal = strategy.evaluate(context, state)
+        state = commit_observation(state, proposal)
+        trajectory.append((proposal.action, state.confirmation_count,
+                           state.setup.last_bar_id))
+    assert trajectory == [("WAIT", 1, "b23")] * 4
+
+
+def test_trend_restart_redelivery_third_distinct_bar_matches_no_restart():
+    closes = [100 + index for index in range(24)]
+
+    def run(lengths):
+        state = None
+        steps = []
+        for length in lengths:
+            strategy, context = _trend_world(closes[:length])
+            proposal = strategy.evaluate(context, state)
+            state = commit_observation(state, proposal)
+            steps.append((proposal.action, state.confirmation_count))
+        return steps
+
+    clean = run([22, 23, 24])
+    assert clean == [("WAIT", 1), ("WAIT", 2), ("OPEN", 3)]
+    # Re-delivering each decision bar (restart re-delivery) holds the counter;
+    # genuinely new eligible bars still advance exactly once, so the third
+    # distinct bar confirms identically to the uninterrupted run.
+    restarted = run([22, 22, 23, 23, 24])
+    assert restarted == [("WAIT", 1), ("WAIT", 1), ("WAIT", 2), ("WAIT", 2),
+                         ("OPEN", 3)]
+
+
+def _pullback_short_world(closes):
+    from ak_trading.v2.strategies.pullback import TrendPullback
+    spec = build_strategy_spec("PULLBACK", "MINUTE")
+    last = Decimal(str(closes[-1]))
+    snap = features(last, Decimal("2"),
+                    {"close": last, "ma20": Decimal("95"), "ma60": Decimal("100"),
+                     "atr14": Decimal("2")})
+    context = make_context(spec, bars=minute_bars(closes),
+                           forecasts=pullback_forecasts(snap, "DOWN_TREND"),
+                           regime_obj=regime("DOWN_TREND", ("PULLBACK",)),
+                           features_snap=snap)
+    return TrendPullback(spec), context
+
+
+def test_pullback_short_mirror_duplicate_reclaim_bar_holds_confirmation():
+    # Short-mirror pullback: arming bar b10, reclaim bar b11, confirming bar
+    # b12. Duplicate deliveries of b10/b11 hold the confirmation counter, and
+    # the OPEN candidate appears only on the third distinct bar.
+    closes = [95] * 10 + [95, 94.5, 94.4]
+    strategy, _ = _pullback_short_world(closes)
+    state = None
+    steps = []
+    for length in (11, 11, 12, 12, 13):
+        _, context = _pullback_short_world(closes[:length])
+        proposal = strategy.evaluate(context, state)
+        state = commit_observation(state, proposal)
+        steps.append((proposal.action, state.confirmation_count,
+                      state.setup.last_bar_id if state.setup else None))
+    assert steps == [("WAIT", 1, "b10"), ("WAIT", 1, "b10"),
+                     ("WAIT", 2, "b11"), ("WAIT", 2, "b11"),
+                     ("OPEN", 3, "b12")]

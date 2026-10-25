@@ -1,0 +1,47 @@
+{
+  "schema": "aktr-t7-A-f01-re-review-hashes/v1",
+  "task": "t7-strategy-f01-hard-review-004/005 (independent re-review of the F01-repaired T7 unitA revision)",
+  "reviewer": "independent ZCode GLM-5.3/max, session sess_9fd6415c-e5c6-4717-b1bf-3e49f5ed0a3b (same reviewer who issued FAIL F01; separate store from owner sess_d0863a28-47b2-49fa-90ed-9e0716c38b89; no repair participation)",
+  "candidate_root": "C:\\AKWorktrees\\aktr-r3-t7-strategies-20261025",
+  "review_root": "C:\\AKWorktrees\\aktr-r3-t7-A-review-f01-20261025 (new immutable root; the 003 review package C:/AKWorktrees/aktr-r3-t7-A-review-20261025 is untouched)",
+  "baseline_commit": "cf647ea88b3bf48b8b8e5c4ec7451d762b7f5198",
+  "freeze_reference": "D:\\Maintenance\\aktr-development-20261025\\t7-strategy-owner-f01-repair-004\\FREEZE.json (sha256 per ROOT-HANDOFF 0299f34a77873d531ff1b1e7b4b7a31d6690c087e8bdcf8f03e6b39efcdc4f9f, frozen_at 2026-10-25T21:45:36Z)",
+  "write_set": [
+    {"path": "src/ak_trading/v2/strategies/breakout.py", "bytes": 12339, "sha256": "56b76a730f2201b0171f962e043d73fbb8fadb8646a44b76e75bf9b465aba840", "changed_by_f01_repair": false, "equals_prior_frozen_r1": true},
+    {"path": "src/ak_trading/v2/strategies/pullback.py", "bytes": 9797, "sha256": "093d8405f86579a8c5f2e128bde27abb890a4543376cffd5ba41b5f8069f6eaa", "changed_by_f01_repair": true, "prior_frozen_r1_sha256": "7f573fe723834c68fc2958fa323cfecda3b55c0440ddfc4c1d845af2373ba763"},
+    {"path": "src/ak_trading/v2/strategies/registry.py", "bytes": 64999, "sha256": "c3dfa1f7fed21d2afa1b7ff1395033ced484abf0987a2e9b5f192429ed617303", "changed_by_f01_repair": false, "equals_prior_frozen_r1": true},
+    {"path": "src/ak_trading/v2/strategies/trend.py", "bytes": 10484, "sha256": "c1879eb73e16ba81666d30a1bb73c5a31abd34fbbd787289eaef0bb29e0127e0", "changed_by_f01_repair": true, "prior_frozen_r1_sha256": "e680ba05001f5ac82eb9bfb73200b85c1aadb3abdf7e1b3e27c09f19b49d0230"},
+    {"path": "tests/test_v2_m3b_registry.py", "bytes": 18189, "sha256": "3d6f1ed9cac463b9b32a33f79d24392d858ddb6b4f1cab157cca0c773edaf68e", "changed_by_f01_repair": false, "equals_prior_frozen_r1": true},
+    {"path": "tests/test_v2_m3b_directional.py", "bytes": 24006, "sha256": "a88d8d44df9b4a97979836f2bbfd89ab8f7da6a3537b273d15d0e51b71f12e0d", "changed_by_f01_repair": true, "prior_frozen_r1_sha256": "ca0446d9f71ef003a8946b36a7add0051a09d4189733f916cd1f93b8001c6b00"},
+    {"path": "tests/test_v2_m3b_matrix.py", "bytes": 63247, "sha256": "88775919b6bb6323f3d39bcaad5f8b4f4d4508a68bd10aff340b3721593a88e9", "changed_by_f01_repair": false, "equals_prior_frozen_r1": true},
+    {"path": "tests/test_v2_m3b_causality.py", "bytes": 10089, "sha256": "30c54ba727a4ff2bf76546e879549115ead905f16ada890349d2fb82f7d63df5", "changed_by_f01_repair": false, "equals_prior_frozen_r1": true}
+  ],
+  "helper_in_review_scope": {
+    "path": "C:/AKWorktrees/aktr-r3-t7-A-work-20261025/evidence/runner/run_bounded.py",
+    "bytes": 10128,
+    "sha256": "f54d9e978f24170231b610f83cefbfb38f567ab7f7aceb421f86e484b59dbf57",
+    "prior_sha256_before_inplace_patch": "2503565121ee934f58e1b6cc4bb002915cf1fc43bae335cf1132f1313d7d3cba (9833 B; pinned in 003 HASHES.json and ROOT-HANDOFF explicit_prior_to_current_deltas)",
+    "delta_assessment": "walk loop only: race-tolerant output-size accounting (is_file + try/except OSError skip of files vanishing under pytest TemporaryDirectory cleanup, with comment); Job core, suspend-assign-resume, 2 GiB/600 s/1 GiB limits, peak-after-exit, pre/post pins and native-exit capture unchanged; correct supervisor hardening, no limit weakening",
+    "preservation_limitation": "in-place edit after the first owner c3 attempt contradicted read-only-reuse discipline; old bytes survive via pinned hashes only; owner FREEZE's eight-file list omits the helper hash (covered by ROOT-HANDOFF helper_actual_write_set); owner run envelopes do not record which helper bytes each run used — however the walk patch cannot affect child execution or native exit capture, and this verdict draws no credit from any owner run (see VERDICT.basis)"
+  },
+  "real_rb_inputs": {
+    "delivered_count": 32,
+    "delivery_record": "D:\\Maintenance\\aktr-development-20261025\\t7-strategy-owner-001\\ROOT-REAL-INPUT-DELIVERY.json",
+    "all_candidate_hashes_equal_delivery": true,
+    "post_run_recheck_equal": true
+  },
+  "reviewer_artifacts": {
+    "runner/run_review_bounded.py": "07ec6c7716546c7ad5c935d73d22d75b3bd0f396c86ca2d569bbce3afde33a26",
+    "runner/probes.json": "390a38a9682067ff55c2949041e8c32cea45b4cd338c88189574518bcb234c07",
+    "evidence/probes/probe_f01_repair.py": "b7f0055b055a3f5c0b852874957a5643a1b4d93ad50c0ba4c56f786e7874e19d"
+  },
+  "closed_run_envelopes": "nine runs under evidence/runs/ (f01rv-r1-c1…c8, f01rv-r2-probe-f01_repair); every RESULT.json hash-verified against ROOT-HANDOFF-005 pins after the 004 CLI interruption; each run held all 40 source pins (8 write-set + 32 real-RB inputs) with zero mismatches",
+  "post_run_candidate_invariance": {
+    "checked_after_all_runs": true,
+    "write_set_mismatches": [],
+    "real_rb_mismatches": [],
+    "helper_still_f54d9e97": true,
+    "product_modified_by_review": false
+  },
+  "code_sha_identity_probe": "test_probe_code_sha256_binds_repaired_bytes recomputed sha256(family module + b'\\n' + registry.py + b'\\n' + state.py + b'\\n') over the REPAIRED bytes and matched build_strategy_spec/code_sha256_for for TREND/BREAKOUT/PULLBACK (spec identity moved with the repair as required); 14 unique IDs; WAIT 0/0"
+}

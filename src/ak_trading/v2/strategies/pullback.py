@@ -92,7 +92,18 @@ class TrendPullback:
         event = "PERSIST:UP_TREND" if side == 1 else "PERSIST:DOWN_TREND"
         gate = admission_decision(context, event=event, side=side, horizon=spec.max_holding,
             checked_at_nano=checked_at_nano)
-        confirmation = state.confirmation_count + 1 if gate.ok else 0
+        # §7/§10-11: confirmation advances once per distinct completed bar; a
+        # re-delivered decision context holds the counter (same-bar hold as
+        # breakout.py's confirmation branch).
+        same_bar = (state.setup is not None
+                    and context.now_nano <= state.setup.expires_at_nano
+                    and state.setup.last_bar_id == bars[-1].bar_id)
+        if not gate.ok:
+            confirmation = 0
+        elif same_bar:
+            confirmation = state.confirmation_count
+        else:
+            confirmation = state.confirmation_count + 1
         required = int(spec.parameters["entry_confirmation_bars"])
         confirmed = setup.consecutive_confirmations >= 1 and setup.armed
         if not confirmed or confirmation < required:
