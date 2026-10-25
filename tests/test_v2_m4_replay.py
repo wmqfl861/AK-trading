@@ -501,3 +501,394 @@ def test_exit_bindings_and_states_survive_restart_consistently():
     with pytest.raises(ValueError,match="dependency"):
         ContinuousLedger.restore(cp,(instrument(),),(rule(),),run_policy(),HASH,HASH,
                                  MODELS,{},exit_registry_sha256="e"*64)
+
+
+# --- M4-REPLAY-PLAN §3/§4: qualification-evidence wiring into the real verifier ---
+# SYNTHETIC/SCENARIO in-memory fixtures only: chains are built from the frozen
+# public types with canonical encoding and the production hash functions, and
+# every acceptance below is engineering validation of the verifier wiring, not
+# a real research or independent product opinion.
+
+SHADOW_SIX=("BASE","FEE_X2","SLIPPAGE_X2","MARGIN_X1_5","GAP","NO_STOP")
+_REVIEW_CHECK_KEYS=("scope_registered","groups_complete","metrics_recomputed",
+                    "thresholds_unchanged","holdout_once","causality_passed",
+                    "source_hashes_match")
+
+
+def _qualification_chain(spec,*,exit_registry,binding,model_hashes,
+                         issued_at_nano=1,valid_until_nano=1000*NS):
+    """Private in-memory evidence-chain helper (M1 `_evidence_chain` pattern).
+
+    Returns (evidence, qualification, contract_lock_sha256, registry_sha256,
+    metrics, review, experiment) where evidence carries the original
+    experiment/metrics/review bytes under their real SHA-256 keys plus the
+    contract-lock and strategy-registry payloads of this run, so the REAL
+    verifier accepts the chain byte-for-byte."""
+    import json
+    from ak_trading.v2 import artifacts as a
+    from ak_trading.v2 import contracts as ct
+    from ak_trading.v2.schemas import encode_record
+    horizon=spec.max_holding
+    bundle=a.sha256_hex(a.canonical_json_bytes(dict(model_hashes)))
+    def group_key(scenario,strategy=None,product="SHFE.RB"):
+        return json.dumps(["STRATEGY","split-shadow","3"*64,strategy or spec.strategy_id,
+            product,"rb" if strategy is None else "other-contract",spec.mode,
+            horizon.unit,horizon.value,"PRICE_ONLY",scenario])
+    six=[group_key(x) for x in SHADOW_SIX]
+    other=group_key("BASE",strategy="other-strat",product="SHFE.CU")
+    def group(key,scenario,status="PASS",strategy=None,product="SHFE.RB",fixed=True):
+        return {"group_key":key,"split_id":"split-shadow","model_bundle_sha256":bundle,
+            "run_policy_sha256":"3"*64,"routing_mode":"FIXED",
+            "fixed_strategy_id":strategy or spec.strategy_id,"account_id":"acc-shadow",
+            "strategy_id":strategy or spec.strategy_id,"product":product,
+            "contract_id":"rb" if strategy is None else "other-contract","mode":spec.mode,
+            "horizon_unit":horizon.unit,"horizon_value":horizon.value,
+            "macro_mode":"PRICE_ONLY","cost_scenario":scenario,"episodes":10,"blocks":5,
+            "admission_rate":0.5,"no_trade_rate":0.5,"net_pnl_cny":"100",
+            "conservative_ev_cny":"10","max_drawdown_ratio":0.01,"cvar95_cny":"50",
+            "maximum_stress_loss_ratio":0.01,"margin_shortfall_cny":"0",
+            "peak_margin_cny":"1000","max_inventory":3,"longest_recovery_days":2,
+            "status":status,"reasons":[],"exit_binding_sha256":binding.binding_sha256,
+            "exit_spec_sha256s":list(binding.exit_spec_sha256s),
+            "fixed_exit_binding_sha256":binding.binding_sha256 if fixed else None}
+    metrics={"schema_version":"ak_probability_metrics_v2.1.4",
+        "research_policy_version":"research-policy-v2.1.0",
+        "macro_policy_version":"macro-risk-v2.1.0","cost_scenarios":list(SHADOW_SIX),
+        "required_group_keys":[*six,other],"model_bundles":{bundle:dict(model_hashes)},
+        "forecast_groups":[],
+        "strategy_groups":[group(key,x) for key,x in zip(six,SHADOW_SIX)]+[group(other,"BASE",
+            status="FAIL",strategy="other-strat",product="SHFE.CU",fixed=False)],
+        "exclusions":{},"bootstrap":{"method":"TRADING_DAY_BLOCK","replicates":1000,"seed":7},
+        "exit_registry_sha256":exit_registry,
+        "exit_bindings":{binding.binding_sha256:encode_record(binding)},
+        "exit_groups":[],
+        "replay_summaries":[{"account_id":"acc-shadow","initial_equity_cny":"1000000",
+            "terminal_equity_cny":"1000600","closed_episode_net_pnl_cny":"600",
+            "open_episode_realized_net_pnl_cny":None,"terminal_unrealized_cny":None,
+            "open_episode_ids":[],"pending_intent_ids":[],"reconciliation_status":"PASS",
+            "status":"COMPLETE","reasons":[],"split_id":"split-shadow",
+            "run_policy_sha256":"3"*64,"model_bundle_sha256":bundle}]}
+    metrics_bytes=a.canonical_json_bytes(metrics)
+    experiment={"schema_version":"ak_probability_experiment_v2.1.1","spec":{
+        "experiment_id":"exp-shadow","run_id":"run-shadow","input_manifest_hashes":["6"*64],
+        "contract_lock_sha256":None,"source_sha256":"f"*64,"parameter_sha256":"7"*64,
+        "split_specs":[],"holdout_id":"hold-shadow","holdout_scope":{},"run_policies":[],
+        "required_group_keys":[*six,other],"seed":7,
+        "research_policy_version":"research-policy-v2.1.0",
+        "macro_policy_version":"macro-risk-v2.1.0","macro_mode":"PRICE_ONLY",
+        "evaluation_as_of_nano":1,"exit_registry_sha256":exit_registry,
+        "exit_bindings":[encode_record(binding)]}}
+    lock_bytes=b"aktr-synthetic-contract-lock-SCENARIO\n"
+    contract_lock=a.sha256_hex(lock_bytes)
+    experiment["spec"]["contract_lock_sha256"]=contract_lock
+    experiment_bytes=a.canonical_json_bytes(experiment)
+    review={"schema_version":"ak_probability_qualification_review_v2.1.1",
+        "scope":"OFFLINE_STATISTICS","verdict":"PASS","independent":True,
+        "reviewer_id":"reviewer-shadow","report_sha256":a.sha256_hex(metrics_bytes),
+        "contract_lock_sha256":contract_lock,"registry_sha256":None,
+        "experiment_sha256":a.sha256_hex(experiment_bytes),"model_hashes":dict(model_hashes),
+        "research_policy_version":"research-policy-v2.1.0",
+        "macro_policy_version":"macro-risk-v2.1.0","cost_scenarios":list(SHADOW_SIX),
+        "source_hashes":{"code":spec.code_sha256},"exit_registry_sha256":exit_registry,
+        "exit_binding_sha256s":[binding.binding_sha256],"required_group_keys":[*six,other],
+        "checks":{key:"PASS" for key in _REVIEW_CHECK_KEYS},"reasons":[]}
+    registry_payload=a.canonical_json_bytes([encode_record(spec)])
+    registry=a.sha256_hex(registry_payload)
+    review["registry_sha256"]=registry
+    review_bytes=a.canonical_json_bytes(review)
+    evidence={a.sha256_hex(metrics_bytes):metrics_bytes,a.sha256_hex(review_bytes):review_bytes,
+        a.sha256_hex(experiment_bytes):experiment_bytes,contract_lock:lock_bytes,
+        registry:registry_payload}
+    qualification=ct.StrategyQualification(
+        qualification_id="qual-shadow",strategy_id=spec.strategy_id,
+        strategy_version=spec.version,parameter_version=spec.parameter_version,
+        code_sha256=spec.code_sha256,exit_registry_sha256=exit_registry,
+        exit_binding_sha256=binding.binding_sha256,
+        exit_spec_sha256s=binding.exit_spec_sha256s,product="SHFE.RB",contract_ids=("rb",),
+        mode=spec.mode,horizons=(horizon,),macro_mode="PRICE_ONLY",
+        research_policy_version="research-policy-v2.1.0",
+        macro_policy_version="macro-risk-v2.1.0",cost_scenarios=SHADOW_SIX,
+        model_hashes=dict(model_hashes),experiment_sha256=a.sha256_hex(experiment_bytes),
+        statistics="PASS",report_sha256=a.sha256_hex(metrics_bytes),
+        review_sha256=a.sha256_hex(review_bytes),issued_at_nano=issued_at_nano,
+        valid_until_nano=valid_until_nano,reasons=())
+    return evidence,qualification,contract_lock,registry,metrics,review,experiment
+
+
+def _shadow_scheduler_fixture(monkeypatch,c,bars,entry_nano=100*NS):
+    """Deterministic SHADOW scheduler fixture: same frozen forecast/strategy
+    inputs as `_scheduler_fixture`, with the qualification attached to the
+    context exactly as the real `build_strategy_context` selects it
+    (strategy_id + product match) and the single OPEN attempt at entry_nano.
+    The qualification verifier, gates and routing stay real."""
+    import ak_trading.v2.decision.replay as replay_module
+    from ak_trading.v2.strategies.registry import fresh_state
+    from ak_trading.v2.decision.execution import position_for
+    from test_v2_m4_gates import example
+    from test_v2_m4_ledger import MODELS
+    bundle,models,empty,reference=replay_inputs()
+    bundle=replace(bundle,bars=tuple(bars))
+    bound={"payoff":None}
+    def fixture_context(bundle,contract,now,account,previous,fm,pm,spec,seasonal,ref,rp,qs,*,exit_binding,forecast_provider):
+        _p,ctx=example()
+        qualification=next((q for q in qs if q.strategy_id==spec.strategy_id
+                             and q.product=="SHFE.RB"),None)
+        ctx=replace(ctx,exit_binding=exit_binding,qualification=qualification)
+        fs=replace(ctx.features,snapshot_id=f"features-{now}",decision_nano=now,available_at_nano=now,
+                   values=tuple(replace(v,available_at_nano=now) for v in ctx.features.values))
+        reg=replace(ctx.regime,assessment_id=f"regime-{now}",snapshot_id=fs.snapshot_id,decision_nano=now)
+        f=replace(ctx.forecasts[0],forecast_id=f"forecast-{now}",snapshot_id=fs.snapshot_id,
+            assessment_id=reg.assessment_id,decision_nano=now,published_at_nano=now,
+            expires_at_nano=now+2*NS,window_start_nano=now+NS,window_end_nano=now+31*NS)
+        hashes={**MODELS,"payoff":bound["payoff"]}
+        return replace(ctx,now_nano=now,features=fs,forecasts=(f,),regime=reg,account=account,
+            spec=spec,run_policy=rp,position=position_for(account,contract),model_hashes=hashes,
+            macro=replace(ctx.macro,decision_nano=now),bars=tuple(b for b in bundle.bars if b.end_nano<=now))
+    class FixtureStrategy:
+        def __init__(self,spec): self.spec=spec
+        def evaluate(self,ctx,previous):
+            p,_=example()
+            now=ctx.now_nano
+            if previous is not None and previous.episode_id:
+                p=replace(p,proposal_id=f"hold-{now}",decision_nano=now,action="HOLD",target_lots=1,
+                    earliest_execution_nano=now+NS,valid_until_nano=now+2*NS,
+                    next_state=previous,budget=previous.budget,payoff=None,forecast_id=None)
+            elif now==entry_nano:
+                p=replace(p,decision_nano=now,earliest_execution_nano=now+NS,
+                    valid_until_nano=now+2*NS,forecast_id=ctx.forecasts[0].forecast_id,
+                    assessment_id=ctx.regime.assessment_id)
+            else:
+                p=replace(p,proposal_id=f"wait-{now}",decision_nano=now,action="WAIT",target_lots=0,budget=None,
+                    episode_id=None,next_state=previous or fresh_state(self.spec.strategy_id,"rb"),
+                    earliest_execution_nano=now+NS,valid_until_nano=now+2*NS,forecast_id=None,payoff=None)
+            return p
+    monkeypatch.setattr(replay_module,"build_strategy_context",fixture_context)
+    monkeypatch.setattr(replay_module,"strategy_registry_v2",lambda mode:{c.spec.strategy_id:FixtureStrategy(c.spec)})
+    return bundle,models,reference,bound
+
+
+def _run_shadow(c,bundle,models,reference,pm,qualifications,evidence,exit_specs,exit_bindings,
+                contract_lock,start=100*NS,end=106*NS,checkpoint=None):
+    from ak_trading.v2.decision.replay import run_decision_replay
+    from ak_trading.v2.policy import research_policy
+    from test_v2_m4_ledger import account,run_policy
+    return run_decision_replay(bundle,models,pm,(c.spec,),account("100000"),
+        replace(run_policy(),purpose="SHADOW_OPERATIONAL"),tuple(qualifications),dict(evidence),
+        research_policy(),None,reference,contract_lock,checkpoint,start,end,
+        exit_specs=exit_specs,exit_bindings=tuple(exit_bindings))
+
+
+def _shadow_setup(monkeypatch,bar_minutes=range(70,110),entry_nano=100*NS):
+    from test_v2_m4_gates import example
+    from test_v2_m4_payoffs import observations
+    from ak_trading.v2.decision.payoffs import fit_path_payoff_model
+    from test_v2_m4_ledger import exit_fixtures_for,MODELS
+    base,c=example()
+    bars=tuple(bar(t=t*NS,price="100") for t in bar_minutes)
+    bundle,models,reference,bound=_shadow_scheduler_fixture(monkeypatch,c,bars,entry_nano=entry_nano)
+    pm=fit_path_payoff_model(observations(base,c,profits=("80","-30")),3*NS,c.run_policy.research_policy_version)
+    bound["payoff"]=pm.content_hash()
+    exit_specs,bindings,exit_registry=exit_fixtures_for((c.spec,))
+    return c,bundle,models,reference,pm,bound,exit_specs,bindings,exit_registry,{**MODELS,"payoff":pm.content_hash()}
+
+
+def test_valid_qualification_evidence_admits_shadow_open_through_real_verifier(monkeypatch):
+    """P0-2 positive control: a complete nonempty chain is first accepted by
+    the REAL verifier with this run's exit registry/binding, then the REAL
+    replay in SHADOW_OPERATIONAL mode admits the OPEN — the qualification is
+    not misrecorded missing/invalid by a verifier call defect."""
+    from ak_trading.v2 import artifacts as a
+    from ak_trading.v2.artifacts import verify_qualification_evidence
+    from ak_trading.v2.decision.pipeline import exit_registry_hash_for,registry_hash_for
+    c,bundle,models,reference,pm,_bound,exit_specs,bindings,exit_registry,model_hashes=_shadow_setup(monkeypatch)
+    evidence,qualification,contract_lock,registry,_met,_rev,_exp=_qualification_chain(
+        c.spec,exit_registry=exit_registry,binding=bindings[0],model_hashes=model_hashes,
+        issued_at_nano=100*NS,valid_until_nano=1000*NS)
+    assert registry==registry_hash_for((c.spec,))
+    assert qualification.exit_registry_sha256==exit_registry==exit_registry_hash_for(exit_specs)
+    assert {qualification.report_sha256,qualification.review_sha256,
+            qualification.experiment_sha256}<=set(evidence)
+    for key in (qualification.report_sha256,qualification.review_sha256,qualification.experiment_sha256):
+        assert a.sha256_hex(evidence[key])==key
+    verify_qualification_evidence(qualification,c.spec,evidence,contract_lock,registry,
+        exit_registry_sha256=exit_registry,exit_binding=bindings[0])
+    result=_run_shadow(c,bundle,models,reference,pm,(qualification,),evidence,
+        exit_specs,bindings,contract_lock,start=100*NS,end=102*NS)
+    entry=next(d for d in result.decisions if d.decision_nano==100*NS)
+    assert entry.purpose=="SHADOW_OPERATIONAL" and entry.selected_proposal_id is not None
+    assert entry.qualification_ids==(qualification.qualification_id,)
+    proposal=next(p for p in entry.proposals if p.proposal_id==entry.selected_proposal_id)
+    assert entry.weights[proposal.proposal_id]==1.0 and entry.weights["CASH"]==0.0
+    assert result.fills and result.fills[0].offset=="OPEN" and result.fills[0].execution_nano==101*NS
+    tokens=("QUALIFICATION_MISMATCH","QUALIFICATION_EVIDENCE_MISSING","QUALIFICATION_EVIDENCE_INVALID",
+            "QUALIFICATION_EXPIRED","STATISTICS_NOT_PASSED")
+    assert not [r for d in result.decisions for g in d.gates for r in g.reasons if r in tokens]
+
+
+def test_broken_qualification_evidence_rejected_by_real_verifier_with_zero_new_risk(monkeypatch):
+    """Negative controls on the same tradable fixture: missing files, tampered
+    bytes, semantically narrowed re-hashed scopes and exit-dependency
+    mismatches are rejected by the REAL verifier with a visible reason, and
+    the replay marks them invalid with zero added risk weight."""
+    import pytest
+    from dataclasses import replace as dc_replace
+    from ak_trading.v2 import artifacts as a
+    from ak_trading.v2.artifacts import ArtifactsError,verify_qualification_evidence
+    from ak_trading.v2.contracts import ExitPolicyBinding,exit_binding_content_hash
+    from ak_trading.v2.decision.pipeline import registry_hash_for
+    from ak_trading.v2.strategies.registry import build_strategy_spec as _bss
+    c,bundle,models,reference,pm,_bound,exit_specs,bindings,exit_registry,model_hashes=_shadow_setup(monkeypatch)
+    def chain(**overrides):
+        kwargs=dict(exit_registry=exit_registry,binding=bindings[0],model_hashes=model_hashes,
+                    issued_at_nano=100*NS,valid_until_nano=1000*NS)
+        kwargs.update(overrides)
+        return _qualification_chain(c.spec,**kwargs)
+    forged_values=dict(strategy_id=c.spec.strategy_id,
+        entry_spec_sha256=_bss("WAIT","MINUTE").code_sha256,
+        exit_spec_sha256s=bindings[0].exit_spec_sha256s,sizing_spec_sha256=None,
+        priority=bindings[0].priority,legacy_rules_version=bindings[0].legacy_rules_version)
+    forged=ExitPolicyBinding(binding_sha256=exit_binding_content_hash(**forged_values),**forged_values)
+    cases=[]
+    evidence,qualification,lock,reg,_m,_r,_e=chain()
+    del evidence[qualification.experiment_sha256]
+    cases.append(("missing_file",evidence,qualification,bindings,
+                  "required_evidence_file_missing","QUALIFICATION_EVIDENCE_MISSING"))
+    evidence,qualification,lock,reg,metrics,review,experiment=chain()
+    evidence[qualification.report_sha256]=b"tampered-synthetic-bytes"
+    cases.append(("tampered_bytes",evidence,qualification,bindings,
+                  "evidence_hash_mismatch","QUALIFICATION_EVIDENCE_INVALID"))
+    evidence,qualification,lock,reg,metrics,review,experiment=chain()
+    groups=list(metrics["strategy_groups"])
+    groups[0]={**groups[0],"status":"FAIL"}
+    report=a.canonical_json_bytes({**metrics,"strategy_groups":groups})
+    review2={**review,"report_sha256":a.sha256_hex(report)}
+    review_bytes2=a.canonical_json_bytes(review2)
+    evidence={a.sha256_hex(report):report,a.sha256_hex(review_bytes2):review_bytes2,
+        qualification.experiment_sha256:evidence[qualification.experiment_sha256],
+        lock:evidence[lock],reg:evidence[reg]}
+    qualification=dc_replace(qualification,report_sha256=a.sha256_hex(report),
+        review_sha256=a.sha256_hex(review_bytes2))
+    cases.append(("rehashed_scope_narrowed",evidence,qualification,bindings,
+                  "scope_group_not_passing","QUALIFICATION_EVIDENCE_INVALID"))
+    evidence,qualification,lock,reg,_m,_r,_e=chain(binding=forged)
+    cases.append(("wrong_entry_attribution",evidence,qualification,(forged,),
+                  "exit_binding_entry_spec_mismatch","QUALIFICATION_EVIDENCE_INVALID"))
+    evidence,qualification,lock,reg,_m,_r,_e=chain()
+    cases.append(("other_exit_version",evidence,dc_replace(qualification,exit_binding_sha256="9"*64),
+                  bindings,"qualification_exit_binding_mismatch","QUALIFICATION_EVIDENCE_INVALID"))
+    evidence,qualification,lock,reg,_m,_r,_e=chain()
+    cases.append(("other_exit_registry",evidence,dc_replace(qualification,exit_registry_sha256="9"*64),
+                  bindings,"qualification_exit_registry_mismatch","QUALIFICATION_EVIDENCE_INVALID"))
+    evidence,qualification,lock,reg,_m,_r,_e=chain()
+    cases.append(("other_strategy_spec",evidence,dc_replace(qualification,code_sha256="0"*64),
+                  bindings,"qualification_spec_mismatch","QUALIFICATION_EVIDENCE_INVALID"))
+    registry=registry_hash_for((c.spec,))
+    for label,ev,qual,run_bindings,verifier_reason,replay_token in cases:
+        with pytest.raises(ArtifactsError,match=verifier_reason):
+            verify_qualification_evidence(qual,c.spec,ev,lock,registry,
+                exit_registry_sha256=exit_registry,exit_binding=run_bindings[0])
+        result=_run_shadow(c,bundle,models,reference,pm,(qual,),ev,exit_specs,run_bindings,lock,
+                           start=100*NS,end=102*NS)
+        decision=next(d for d in result.decisions if d.decision_nano==100*NS)
+        gate=decision.gates[0]
+        assert not gate.eligible,(label)
+        assert {"QUALIFICATION_MISMATCH",replay_token}<=set(gate.reasons),(label)
+        assert decision.selected_proposal_id is None,(label)
+        assert decision.weights["CASH"]==1.0,(label)
+        assert decision.weights[decision.proposals[0].proposal_id]==0.0,(label)
+        assert result.intents==() and result.fills==(),(label)
+
+
+def test_exit_bindings_missing_extra_or_folded_duplicates_rejected_at_boundary():
+    """Replay boundary rejects binding sets that are missing, extra, or carry
+    two bindings for one strategy — the last would otherwise be silently
+    folded by a dict and masquerade as a unique binding (007 §5.4)."""
+    import pytest
+    from ak_trading.v2.contracts import ExitPolicyBinding,exit_binding_content_hash
+    from ak_trading.v2.decision.pipeline import legacy_exit_binding
+    from ak_trading.v2.decision.replay import run_decision_replay
+    from ak_trading.v2.policy import research_policy
+    from test_v2_m4_ledger import account,run_policy,exit_fixtures_for
+    specs=(build_strategy_spec("WAIT","MINUTE"),)
+    exit_specs,bindings,_registry=exit_fixtures_for(specs)
+    bundle,models,payoff,reference=replay_inputs()
+    def attempt(exit_bindings):
+        return run_decision_replay(bundle,models,payoff,specs,account("100000"),run_policy(),(),{},
+            research_policy(),None,reference,HASH,None,70*NS,75*NS,
+            exit_specs=exit_specs,exit_bindings=exit_bindings)
+    with pytest.raises(ValueError,match="exit_bindings_must_match_specs_exactly"):
+        attempt(())
+    with pytest.raises(ValueError,match="exit_bindings_must_match_specs_exactly"):
+        attempt(tuple(bindings)+(legacy_exit_binding(build_strategy_spec("TREND","MINUTE")),))
+    with pytest.raises(ValueError,match="duplicate_exit_bindings"):
+        attempt(tuple(bindings)+tuple(bindings))
+    folded_values=dict(strategy_id=specs[0].strategy_id,entry_spec_sha256=specs[0].code_sha256,
+        exit_spec_sha256s=bindings[0].exit_spec_sha256s,sizing_spec_sha256=None,
+        priority=("exit-legacy-folded-counterexample",),
+        legacy_rules_version=bindings[0].legacy_rules_version)
+    folded=ExitPolicyBinding(binding_sha256=exit_binding_content_hash(**folded_values),**folded_values)
+    with pytest.raises(ValueError,match="duplicate_exit_bindings"):
+        attempt((bindings[0],folded))
+
+
+def test_qualification_validity_window_boundaries_block_only_new_risk(monkeypatch):
+    """`issued_at <= decision < valid_until` per the original contract: expired
+    or not-yet-effective qualifications add no risk weight (inclusive lower,
+    exclusive upper bound); the evidence chain itself stays verifier-valid."""
+    from ak_trading.v2.artifacts import verify_qualification_evidence
+    from ak_trading.v2.decision.pipeline import registry_hash_for
+    c,bundle,models,reference,pm,_bound,exit_specs,bindings,exit_registry,model_hashes=_shadow_setup(
+        monkeypatch,bar_minutes=range(70,110),entry_nano=103*NS)
+    registry=registry_hash_for((c.spec,))
+    def windowed(issued,valid):
+        return _qualification_chain(c.spec,exit_registry=exit_registry,binding=bindings[0],
+            model_hashes=model_hashes,issued_at_nano=issued,valid_until_nano=valid)
+    evidence,expired,lock,_reg,_m,_r,_e=windowed(1,103*NS)
+    verify_qualification_evidence(expired,c.spec,evidence,lock,registry,
+        exit_registry_sha256=exit_registry,exit_binding=bindings[0])
+    for qualification in (expired,windowed(104*NS,200*NS)[1]):
+        ev,qual,lock2,_r,_m,_x,_e=windowed(qualification.issued_at_nano,qualification.valid_until_nano)
+        result=_run_shadow(c,bundle,models,reference,pm,(qual,),ev,exit_specs,bindings,lock2,
+                           start=103*NS,end=105*NS)
+        decision=next(d for d in result.decisions if d.decision_nano==103*NS)
+        assert "QUALIFICATION_EXPIRED" in decision.gates[0].reasons
+        assert decision.selected_proposal_id is None
+        assert decision.weights[decision.proposals[0].proposal_id]==0.0
+        assert decision.weights["CASH"]==1.0
+        assert result.intents==() and result.fills==()
+    evidence,inclusive,lock,_reg,_m,_r,_e=windowed(103*NS,106*NS)
+    result=_run_shadow(c,bundle,models,reference,pm,(inclusive,),evidence,exit_specs,bindings,lock,
+                       start=103*NS,end=106*NS)
+    assert result.fills and result.fills[0].offset=="OPEN" and result.fills[0].execution_nano==104*NS
+    evidence,edge,lock,_reg,_m,_r,_e=windowed(103*NS,104*NS)
+    result=_run_shadow(c,bundle,models,reference,pm,(edge,),evidence,exit_specs,bindings,lock,
+                       start=103*NS,end=106*NS)
+    admitted=[d for d in result.decisions if d.selected_proposal_id is not None]
+    assert admitted and admitted[0].weights["CASH"]==0.0
+    assert not result.fills
+    assert any("MODEL_EXPIRED" in r.reasons for r in result.execution_results)
+
+
+def test_expired_qualification_still_leaves_timer_exit_channel_open(monkeypatch):
+    """After mid-run expiry no new OPEN is added, the blocked gates show the
+    rejection, and the pre-deadline risk-timer exit still closes the held
+    position — the REDUCE/EXIT safe channel never depended on qualification."""
+    c,bundle,models,reference,pm,_bound,exit_specs,bindings,exit_registry,model_hashes=_shadow_setup(
+        monkeypatch,bar_minutes=range(70,140))
+    evidence,qualification,lock,_reg,_m,_r,_e=_qualification_chain(
+        c.spec,exit_registry=exit_registry,binding=bindings[0],model_hashes=model_hashes,
+        issued_at_nano=100*NS,valid_until_nano=102*NS)
+    result=_run_shadow(c,bundle,models,reference,pm,(qualification,),evidence,exit_specs,bindings,lock,
+                       start=100*NS,end=134*NS)
+    opens=[f for f in result.fills if f.offset=="OPEN"]
+    closes=[f for f in result.fills if f.offset!="OPEN"]
+    assert opens and opens[0].execution_nano==101*NS
+    assert all(f.execution_nano<102*NS for f in opens)
+    # no new entry risk is even proposed after expiry (the gate's SHADOW
+    # qualification block only ever applied to OPEN/ADD; HOLD/WAIT gates
+    # return early by original contract).
+    assert not [i for i in result.intents if i.offset=="OPEN" and i.created_at_nano>=102*NS]
+    timer=[d for d in result.decisions if "RISK_TIMER_EXIT" in d.reasons]
+    assert timer and timer[0].outcome=="MANAGE_POSITION"
+    assert closes and all(f.execution_nano>=timer[0].decision_nano+NS for f in closes)
+    assert not result.equity[-1].lots and result.status=="COMPLETE"
