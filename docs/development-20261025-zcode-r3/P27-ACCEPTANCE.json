@@ -1,0 +1,18 @@
+{
+  "module": "P2-7",
+  "product_verdict": "PASS",
+  "unconditional": true,
+  "reviewer_session": "sess_1ccd8182-d4ba-4f9e-a7b2-6ca4fcf50efc",
+  "developer_session": "sess_0de26f7d-3511-42c8-9277-ca74307b5d13",
+  "independent_sessions": true,
+  "review_native_exit": 0,
+  "frozen_inputs_unchanged": true,
+  "review_source": "D:/Maintenance/aktr-development-20261025/p27-hard-review-001/work",
+  "raw_evidence_availability": "LOCAL_ONLY; copied REVIEW/VERDICT preserve their original relative evidence names, resolved under review_source",
+  "verdict_sha256": "0113be82263a1f700ff81d3ca9de3a2349ae410e7691f4296f680d998d1b1525",
+  "reviewed_source_hashes": {
+    "src/ak_trading/futures/data.py": "c08e56484a3345eb66a0d6ca1c7dd87c36ee3a8a655c590d03a53d8ffe6e88b1",
+    "tests/test_futures_data.py": "78eb9ff44d299d20c8bcb2eeeecfe6e7961945fc9cda899edb11e6eb0dd4c7a1"
+  },
+  "publication": "dedicated repair branch; canonical377 source remains frozen and unchanged"
+}

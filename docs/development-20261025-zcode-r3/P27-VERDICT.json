@@ -1,0 +1,132 @@
+{
+  "review_id": "p27-hard-review-001",
+  "date": "2026-10-25",
+  "module": "P2-7",
+  "reviewer": "independent ZCode GLM-5.3/max, fresh session/store, no part in development or repair",
+  "verdict": "PASS",
+  "unconditional": true,
+  "candidate": "D:/AKWorktrees/aktr-r3-p27-20261025",
+  "branch": "work/zcode-r3-p27-20261025",
+  "baseline_commit": "0cc305454d06643e93b14e426d04a6a755094d84",
+  "reviewed_write_set": {
+    "src/ak_trading/futures/data.py": {
+      "change": "delete one __all__ entry line: instance_observation_start",
+      "working_sha256_start": "c08e56484a3345eb66a0d6ca1c7dd87c36ee3a8a655c590d03a53d8ffe6e88b1",
+      "working_sha256_finish": "c08e56484a3345eb66a0d6ca1c7dd87c36ee3a8a655c590d03a53d8ffe6e88b1",
+      "matches_freeze_frozen_sha256": true,
+      "head_blob_sha256": "50db8742fea1aefb0b5b66a29688fdc40a1004de17bc120135fa0223994ce332",
+      "matches_freeze_prior_head_sha256": true,
+      "reverse_reconstruct_equals_head_blob": true,
+      "single_hunk": true
+    },
+    "tests/test_futures_data.py": {
+      "change": "insert 16 lines: test_star_import_binds_exactly_all_and_every_export_resolves",
+      "working_sha256_start": "78eb9ff44d299d20c8bcb2eeeecfe6e7961945fc9cda899edb11e6eb0dd4c7a1",
+      "working_sha256_finish": "78eb9ff44d299d20c8bcb2eeeecfe6e7961945fc9cda899edb11e6eb0dd4c7a1",
+      "matches_freeze_frozen_sha256": true,
+      "head_blob_sha256": "3375fe80403fd26bab4781cb0d4d0e60b37cff753eaaa412dcc725726ed79028",
+      "matches_freeze_prior_head_sha256": true,
+      "reverse_reconstruct_equals_head_blob": true,
+      "single_hunk": true
+    }
+  },
+  "git_scope": {
+    "head_at_start": "0cc305454d06643e93b14e426d04a6a755094d84",
+    "head_at_finish": "0cc305454d06643e93b14e426d04a6a755094d84",
+    "modified_files": ["src/ak_trading/futures/data.py", "tests/test_futures_data.py"],
+    "diff_stat": "1 deletion, 16 insertions, no other changes",
+    "core_autocrlf": "true (byte-level reconstruct check used to rule out masked differences)"
+  },
+  "commands": [
+    {
+      "purpose": "freeze hash + byte-reconstruct verification at review start",
+      "argv": ["D:/Programs/Python/Python312/python.exe", "work/reviewer_verify_bytes.py", "--label", "start", "--out", "work/evidence/bytes-verify-start.json"],
+      "exit": 0,
+      "outcome": "overall_ok=true; working hashes match FREEZE; HEAD blobs match prior hashes; both single hunks reverse-reconstruct byte-exactly",
+      "evidence": "work/evidence/bytes-verify-start.*"
+    },
+    {
+      "purpose": "freeze hash + byte-reconstruct verification at review finish",
+      "argv": ["D:/Programs/Python/Python312/python.exe", "work/reviewer_verify_bytes.py", "--label", "finish", "--out", "work/evidence/bytes-verify-finish.json"],
+      "exit": 0,
+      "outcome": "overall_ok=true; hashes unchanged from start; reviewed code untouched by review",
+      "evidence": "work/evidence/bytes-verify-finish.*"
+    },
+    {
+      "purpose": "required rerun 1: focused futures data tests",
+      "argv": ["D:/Programs/Python/Python312/python.exe", "scripts/test_offline.py", "-q", "tests/test_futures_data.py"],
+      "cwd": "D:/AKWorktrees/aktr-r3-p27-20261025",
+      "exit": 0,
+      "outcome": "30 passed in 0.68s (30 selected, 0 deselected); stderr empty",
+      "evidence": "work/evidence/rerun1-focus.*"
+    },
+    {
+      "purpose": "required rerun 2: nine consumer test files with skip reasons",
+      "argv": ["D:/Programs/Python/Python312/python.exe", "scripts/test_offline.py", "-q", "-rs", "tests/test_futures_backtest.py", "tests/test_futures_export.py", "tests/test_futures_export_connections.py", "tests/test_futures_readiness.py", "tests/test_futures_strategies.py", "tests/test_futures_study_pair_confirmation.py", "tests/test_futures_study_sample.py", "tests/test_futures_study_signals.py", "tests/test_futures_validation.py"],
+      "cwd": "D:/AKWorktrees/aktr-r3-p27-20261025",
+      "exit": 0,
+      "outcome": "267 passed, 1 skipped in 109.41s; stderr empty",
+      "evidence": "work/evidence/rerun2-consumers.*"
+    },
+    {
+      "purpose": "fresh-process star import, export resolution, identity and named-import checks against candidate src (not canonical install)",
+      "argv": ["D:/Programs/Python/Python312/python.exe", "work/reviewer_probe_star_import.py"],
+      "exit": 0,
+      "outcome": "module+package proven from candidate src; __all__=31 unique strings; star-bound set == __all__ exactly; unresolved=[]; identity mismatches=[]; named import of all exports OK",
+      "evidence": "work/probe-star-import.json, work/evidence/probe-star-import.*"
+    },
+    {
+      "purpose": "optional discovery: stale name absent from candidate src+tests",
+      "argv": ["rg", "-n", "instance_observation_start", "<candidate>/src", "<candidate>/tests"],
+      "exit": 1,
+      "outcome": "NO_MATCH (exit 1, stdout 0 bytes, stderr 0 bytes)"
+    },
+    {
+      "purpose": "no star-import consumers of the module exist",
+      "argv": ["rg", "-n", "from ak_trading\\.futures\\.data import \\*", "<candidate>/src", "<candidate>/tests", "<candidate>/scripts"],
+      "exit": 0,
+      "outcome": "single match is the new regression test itself (tests/test_futures_data.py:95); no production or other-test star-import consumers",
+      "evidence": "work/evidence/rg-star-import-consumers.*"
+    },
+    {
+      "purpose": "observation-start semantics covered elsewhere",
+      "argv": ["rg", "-n", "research_window_start", "<candidate>/src/ak_trading/futures", "<candidate>/tests/test_futures_data.py"],
+      "exit": 0,
+      "outcome": "method at src/ak_trading/futures/data.py:119; exercised at tests/test_futures_data.py:193-196 (passed in rerun 1)",
+      "evidence": "work/evidence/rg-research-window-start.*"
+    },
+    {
+      "purpose": "effective REPAIR-ORDER P2-7 entry lookup (second attempt, successful)",
+      "argv": ["rg", "-n", "P2-7", "D:/Projects/AK-trading/docs/strategy-first-blueprint-20261015-r1/revisions/r3-001/REPAIR-ORDER.md"],
+      "exit": 0,
+      "outcome": "REPAIR-ORDER.md:41 confirms defect and disposition: delete stale export or supply genuinely needed implementation, no empty stub; acceptance met (see REVIEW.md §5)",
+      "evidence": "work/evidence/rg-repair-order-p27-r2.*"
+    },
+    {
+      "purpose": "REPAIR-ORDER lookup (first attempt, failed, preserved per AGENTS §7/§8)",
+      "argv": ["rg", "-n", "P2-7", "D:/Projects/AK-trading/docs/repo-audit-20261025-claude/REPAIR-ORDER.md"],
+      "exit": 2,
+      "outcome": "error, not NO_MATCH: file does not exist (directory holds only REPORT.md and VERIFICATION.md); preserved and resolved via second lookup",
+      "evidence": "work/evidence/rg-repair-order-p27.*"
+    }
+  ],
+  "skip_assessment": {
+    "skip": "tests/test_futures_validation.py:232: frozen real-input-02 bundle not present",
+    "classification": "pre-existing environmental conditional skip (frozen bundle directory absent, test -d exit 1); file not in write-set; unrelated to __all__/imports; not required by narrow P2-7 acceptance",
+    "full_suite_pass_claimed": false
+  },
+  "counterexample": {
+    "method": "isolated child process appended the absent historical name 'instance_observation_start' to __all__ in memory only (frozen source never written), then executed a real star import",
+    "result": "AttributeError: module 'ak_trading.futures.data' has no attribute 'instance_observation_start'",
+    "child_returncode": 0,
+    "precise_expected_outcome": true,
+    "meaning": "reproduces the exact C10 defect mode and shows the new regression test would catch reintroduction"
+  },
+  "findings": [],
+  "non_blocking_observations": [
+    "O1: pre-existing environmental skip in tests/test_futures_validation.py:232 (see skip_assessment)",
+    "O2: first REPAIR-ORDER lookup failed rg exit 2 (file not found); preserved and resolved via the effective r3-001 REPAIR-ORDER"
+  ],
+  "boundaries": "no reviewed-code writes (hashes identical start/finish); no commits/pushes; no nested agents; no credentials/.env reads; no database/server/network/broker; enable_trading=False; observer=hold; broker=NOT_RUN; real send/cancel=0/0; outputs only under work/",
+  "evidence_index": "work/REVIEW.md section 8"
+}

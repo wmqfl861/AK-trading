@@ -84,6 +84,22 @@ def make_bar(
 
 
 # ---------------------------------------------------------------------------
+# Public interface
+# ---------------------------------------------------------------------------
+
+
+def test_star_import_binds_exactly_all_and_every_export_resolves() -> None:
+    namespace: dict[str, object] = {}
+    # A star import rebinds every ``__all__`` entry, so a stale name that no
+    # longer exists on the module raises AttributeError here (P2-7 defect).
+    exec("from ak_trading.futures.data import *", namespace)
+    # exec injects ``__builtins__`` into the globals it runs in.
+    assert set(namespace) - {"__builtins__"} == set(futures_data.__all__)
+    unresolved = [name for name in futures_data.__all__ if not hasattr(futures_data, name)]
+    assert unresolved == []
+
+
+# ---------------------------------------------------------------------------
 # ProductKey / tokens
 # ---------------------------------------------------------------------------
 

@@ -46,7 +46,6 @@ __all__ = [
     "FIXED_UNIVERSE",
     "load_universe_cache",
     "resolve_product_contracts",
-    "instance_observation_start",
     "build_day_sequence",
     "build_observation_grid",
     "median_volume",
