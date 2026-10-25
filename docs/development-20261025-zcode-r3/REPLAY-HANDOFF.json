@@ -1,0 +1,42 @@
+{
+  "module": "replay",
+  "candidate": "D:\\AKWorktrees\\aktr-r3-replay-20261025",
+  "branch": "work/zcode-r3-replay-20261025",
+  "baseline_commit": "0cc305454d06643e93b14e426d04a6a755094d84",
+  "write_set": [
+    "src/ak_trading/v2/decision/replay.py",
+    "tests/test_v2_m4_replay.py"
+  ],
+  "logical_owner": "zcode-replay-owner-001",
+  "previous_actual_writer": "no currently live writer for this exact new candidate; old canonical/other module owners have no write grant here",
+  "historical_authorship": "preserved, no fabricated session continuity",
+  "plan": "M4-REPLAY-PLAN.md",
+  "state": "IMPLEMENTATION_AUTHORIZED",
+  "canonical_freeze_preserved": true,
+  "authorization": "User resumed parallel development using ZCode; separate candidate under effective Astra scope, no release of canonical files or adoption of G proposals",
+  "inputs_before": [
+    {
+      "path": "D:\\Projects\\AK-trading\\src\\ak_trading\\v2\\decision\\replay.py",
+      "bytes": 39915,
+      "sha256": "f196a593270d6a6fc14389fb21fd6f5d856d31f60641da2045e963fb9de46528"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\tests\\test_v2_m4_replay.py",
+      "bytes": 31844,
+      "sha256": "2db88a09195a3f744987a44afbeb565d1a4fc6e1afc916bc939b20f9fc9ff54a"
+    }
+  ],
+  "plan_ref": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\M4-REPLAY-PLAN.md",
+    "bytes": 10643,
+    "sha256": "346ca2596fe85110b4a258793e0e7a2684a0bc76c612d10033714baed969c018"
+  },
+  "disposition_ref": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\M4-REPLAY-DISPOSITION.md",
+    "bytes": 3775,
+    "sha256": "18f75758d60e3be34cc7083aa9f0010f40d40d528c3d25deefeeeadc3e59f54b"
+  },
+  "store": "D:\\Maintenance\\aktr-development-20261025\\replay-owner-001\\session.sqlite",
+  "cwd": "D:\\AKWorktrees\\aktr-r3-replay-20261025",
+  "actual_session": "assigned by this fresh dispatch; actual SID to be recorded in its RESULT/startup log, not fabricated"
+}

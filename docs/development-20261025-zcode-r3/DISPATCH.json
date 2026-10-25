@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-25T08:27:58.033687+00:00",
+  "user_instruction": "继续开发，原规则中开发agent改成调用zcode，其他不变，多模块，多子代理开发",
+  "baseline_commit": "0cc305454d06643e93b14e426d04a6a755094d84",
+  "canonical_freeze_preserved": true,
+  "planning_authority": "Astra/max; r3-001 with completed advice disposition",
+  "developers": "dedicated ZCode sessions using existing configuration",
+  "hard_review": "independent ZCode GLM-5.3/max sessions",
+  "modules": [
+    {
+      "id": "P2-7",
+      "candidate": "D:/AKWorktrees/aktr-r3-p27-20261025",
+      "branch": "work/zcode-r3-p27-20261025",
+      "write_set": [
+        "src/ak_trading/futures/data.py",
+        "tests/test_futures_data.py"
+      ],
+      "owner": "fresh ZCode P27 owner; no current live owner for this legacy interface; historical authors preserved",
+      "plan": "r3-001 IMPLEMENTATION-PLAN sections 1,5 and REPAIR-ORDER P2-7; existing final-plan interface contract must be checked",
+      "candidate_authorization": "Root establishes this separate repair candidate before copying; no canonical release or acceptance implied"
+    },
+    {
+      "id": "P1-6",
+      "candidate": "D:/AKWorktrees/aktr-r3-p16-20261025",
+      "branch": "work/zcode-r3-p16-20261025",
+      "write_set": [
+        "scripts/sql/create_mcp_readonly_role.sql",
+        "scripts/setup_mcp_readonly.py",
+        "tests/test_mcp_readonly_role.py",
+        "docs/mcp-readonly-role.md"
+      ],
+      "owner": "fresh ZCode P16 owner; no currently active owner for this helper",
+      "plan": "r3-001 IMPLEMENTATION-PLAN section 5; REPAIR-ORDER P1-6; VERIFICATION P1-6",
+      "candidate_authorization": "isolated helper repair and local throwaway database only; no production credentials, roles or services"
+    }
+  ],
+  "planning_handoff": {
+    "previous_module_planner": "/root/plan_research_astra",
+    "availability": "not present in live/recoverable collaboration list on this turn",
+    "new_author_session": "01a171b2-3f04-7413-85f6-fb5423ee127d",
+    "scope": "explicit narrow takeover for current P0-2 replay separation and C05 test-isolation execution clarification only; no SH schema/threshold rewrite",
+    "history": "r3 author previously owned blueprint only; this record explicitly grants the narrow module-planning handoff; existing contract requirements remain binding"
+  },
+  "not_authorized": [
+    "edit canonical frozen files",
+    "P0-1 production actions",
+    "read credentials or .env",
+    "adopt G proposals or broad architecture migrations",
+    "real broker or trading enablement"
+  ]
+}

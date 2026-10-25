@@ -16,3 +16,5 @@
 [历史 r2 蓝图](revisions/r2-001/BLUEPRINT.md)及其[作者处置](revisions/r2-001/DISPOSITION.md)、r1 原件和既有审核记录均不改写。历史计划 PASS 只保留其咨询性计划结论，不能充当产品信用或今日启动门。策略、数据、风险及验收硬合同继续继承[20261010-r2 研究蓝图](../strategy-research-blueprint-20261010-r2/BLUEPRINT.md)；缺失的本地模块原件按 r3 的 LOCAL_ONLY 清单在实际派发时提供，不能声称新克隆具备全部运行条件。
 
 canonical 377 及活动审核写冻结、单一 writer、R19→R20→R21 等实际消费门不变；`enable_trading=False`、observer=`hold`、broker=`NOT_RUN`、真实 send/cancel=`0/0`。恢复开发和更新路由本身不增加产品硬审、研究、模拟或策略资格信用。
+
+本次恢复开发的具体模块、已完成硬审和剩余问题见[2026-10-25 开发批次状态](../development-20261025-zcode-r3/STATUS.md)；P0-2 replay 与 C05 的窄执行计划及原作者处置位于同目录。

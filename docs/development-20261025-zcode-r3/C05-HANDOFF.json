@@ -1,0 +1,47 @@
+{
+  "module": "c05",
+  "candidate": "D:\\AKWorktrees\\aktr-r3-c05-20261025",
+  "branch": "work/zcode-r3-c05-20261025",
+  "baseline_commit": "0cc305454d06643e93b14e426d04a6a755094d84",
+  "write_set": [
+    "scripts/test_offline.py",
+    "tests/test_offline_launcher.py"
+  ],
+  "logical_owner": "zcode-c05-owner-001",
+  "previous_actual_writer": "no currently live writer for this exact new candidate; old canonical/other module owners have no write grant here",
+  "historical_authorship": "preserved, no fabricated session continuity",
+  "plan": "C05-PLAN.md",
+  "state": "IMPLEMENTATION_AUTHORIZED",
+  "canonical_freeze_preserved": true,
+  "authorization": "User resumed parallel development using ZCode; separate candidate under effective Astra scope, no release of canonical files or adoption of G proposals",
+  "inputs_before": [
+    {
+      "path": "D:\\Projects\\AK-trading\\scripts\\test_offline.py",
+      "bytes": 5639,
+      "sha256": "4509681f2b593a300fae305ca3bce6d4fae5431bc4144c8e733ec08b3b615528"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\tests\\test_offline_launcher.py",
+      "bytes": 29689,
+      "sha256": "cd12cb37fdd7e196f3a39a5312e0f598d29e1389e7352a9ed08a5dbca0cbda56"
+    }
+  ],
+  "plan_ref": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\C05-PLAN.md",
+    "bytes": 15328,
+    "sha256": "73b8e13e90614dbd091cafd635d17cfacd091ddf309d1ff27d24d26284b979ae"
+  },
+  "disposition_ref": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\C05-DISPOSITION.md",
+    "bytes": 3257,
+    "sha256": "3c5310a6236504faffe3950ae4616061918517ca89ba9c8ecebde51e7664c220"
+  },
+  "local_inputs_receipt": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\C05-LOCAL-INPUTS.json",
+    "bytes": 57927,
+    "sha256": "a37f0282d38aeeac05e60ce64857bd885bd55b3535c458841289642bb3563257"
+  },
+  "store": "D:\\Maintenance\\aktr-development-20261025\\c05-owner-001\\session.sqlite",
+  "cwd": "D:\\AKWorktrees\\aktr-r3-c05-20261025",
+  "actual_session": "fresh dispatch; actual SID will come from startup/RESULT, not invented"
+}
