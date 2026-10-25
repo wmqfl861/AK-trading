@@ -22,3 +22,5 @@
 - M5 C1审核准备001于2026-10-25 14:53:46 UTC实际native1、stdout0，615冻结成员及所有输入未变；尚无review root或产品执行。精确trace581937ee-b40a-40f3-8573-5ae9039dabcf记录上游Bad Gateway/HTTP502；原流保留本地，不输出headers/cookie。此事不是测试失败或NO_MATCH。其他多路同窗出现502，暂停盲目增开；等待真实完成证据后，仅允许有界原SID/store/cwd续接，不换模型或配置。DP08随后真实native0完成，不等于服务已彻底恢复。
 
 - DP08 r3首次Git发布检查raw2，仅因已审冻结文件release-verification-summary.md末尾原有空行。未改已审字节、未提交或推送。后继对其余精确写集保持原严格whitespace检查，仅对此一个冻结文档关闭blank-at-eof检查，并核index blob与接受hash一致；该格式例外不豁免产品测试、漂移或其他格式错误。
+
+- Root接续时误将RUN-NOTES.md定位到Maintenance根，Get-Content原生1；实际文件位于docs/development-20261025-zcode-r3。只读失败没有修改产品。后继先枚举已知小目录确认路径再读取，raw0；今后从已发布路径取得输入，对可选发现先检查存在性，不把推测路径当必需文件批量读取。

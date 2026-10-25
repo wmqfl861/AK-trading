@@ -1,0 +1,30 @@
+{
+  "schema": "aktr-existing-tqsdk-acceptance/v1",
+  "recorded_utc": "2026-10-25T15:26:34.785245+00:00",
+  "verdict": "PASS",
+  "conditional": false,
+  "scope": "Frozen TqSdk 3.10.3 tool (ordinary venv D:/Tools/tqsdk-3.10.3) and the seven-path skill updates across five published roots, plus the frozen implementation evidence. Offline verification only.",
+  "reviewer_session_id": "sess_19375ee8-ad33-4d65-bcbe-15a036768670",
+  "native_exit": 0,
+  "frozen_inputs_unchanged_at_review": true,
+  "source_freeze": {
+    "path": "D:\\Maintenance\\tqsdk-update-20261024\\implementation\\freeze-manifest.json",
+    "bytes": 1449091,
+    "sha256": "ac424e0c2ca66bce8244736e9572c31ea6ec2dcb8ec41790f67bc286140556c8"
+  },
+  "independent_verdict": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\TQSDK-VERDICT.json",
+    "bytes": 6240,
+    "sha256": "4f0b99e2b4c4c4883b448d6e38c466b14749632cf75ba2aa0e9002509190b507"
+  },
+  "terminal_local_only": {
+    "path": "D:\\Maintenance\\tqsdk-update-20261024\\review-product-001\\TERMINAL.json",
+    "bytes": 341,
+    "sha256": "b1ed81859f01acf2665a36753a88dcfc6b48a4daca74324f80e651d069f54306"
+  },
+  "root_current_published_skill_files_matching": 65,
+  "independent_verified_tool_file_count": 10109,
+  "tool_integrity_basis": "Existing independent before/after verification reused; Root did not repeat package installation or tests.",
+  "online_and_trading_credit": "NOT_RUN",
+  "product_source_edits_by_root": false
+}

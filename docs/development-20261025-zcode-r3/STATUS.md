@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | P2-7 公共导出 | 独立ZCode无条件PASS；焦点30 passed、消费者267 passed/1既有缺夹具skip；原owner完成canonical精确集成和30项smoke，源码已合main提交3336c62；原修复分支8cb767b保留 | `D:/AKWorktrees/aktr-r3-p27-20261025` |
 | P0-2 replay | 两文件修复独立ZCode无条件PASS；独立焦点20 passed、反例24/24；报告hash更正已接受。原owner完成canonical精确集成和20项smoke，源码已合main提交3336c62；原修复分支f979e88保留。完整八文件仍191 passed/14旧基线failed，不授完整M4或shadow接受 | `D:/AKWorktrees/aktr-r3-replay-20261025` |
-| C05导入隔离 | 四项夹具问题修复后焦点40 passed；全收集6010 selected/3历史DP错误。独立源码预检又发现域名碰撞、无参数规划失败误报空选择两项缺陷，Root已按准确进程身份受控停止旧完整验证（raw15/INCOMPLETE），原owner005正在修复两文件。先做独立短反例再完成原完整验证、冻结和硬审 | `D:/AKWorktrees/aktr-r3-c05-20261025` |
+| C05导入隔离 | 原独立reviewer003复现路径边界碰撞并给出FAIL RF1；同一ZCode owner006已运行45项焦点测试全部通过，仍待冻结交付、独立短复核、原完整验证与最终硬审。旧004完整验证raw15/INCOMPLETE及历史DP失败保留 | `D:/AKWorktrees/aktr-r3-c05-20261025` |
 | P1-6 SQL helper | 四文件独立ZCode无条件PASS；独立临时库15 passed/0 skip，SCRAM真实认证、轮换、权限拒绝及回滚反例通过。已合入并推送main，源码ddf5c67、审核记录10cd59f；生产采用NOT_RUN | `D:/AKWorktrees/aktr-r3-p16-20261025` |
 
 原forward执行作者003已明确重切旧审核。Root逐一核实旧进程不存在并保存可恢复的377源文件和旧审核材料后，追加OLD-SUBMISSION-CLOSEOUT，将旧审核记为RETIRED_INCOMPLETE_NO_VERDICT / NOT_ACCEPTED，仅解除它的canonical写冻结；旧快照和审核保持只读，其他所有权/冻结仍有效。P27/replay原ZCode owner据此集成通过的精确字节。SQL四文件原本不在377内。C05继续在独立候选验证。P0-1生产操作、G治理提案、大规模架构变更、真实交易不纳入本批。
@@ -21,3 +21,7 @@
 2026-10-25 并行续接：C05 owner005已修复并冻结两文件，焦点43项通过；原独立reviewer003正在执行短反例，完整验证仍待完成。Forward原作者004已完成无环绑定协议裁定，同一ZCode owner003已立即实施helper004及限定静态/SYNTHETIC协议验证，不消耗正式full13。DP08 r3九文件release-manifest接续包已进入独立硬审，不代表整个DP08真实存储接受。M5发现已完成的R16-R4-C1后继，615个冻结成员已核对一致；原独立reviewer已恢复源码审查和运行准备，正式测试等待真实资源底线满足。两路OpenCode按默认配置只读核对其他既有交付与可释放的已结束预留；未新增产品计划。
 
 2026-10-25 DP08 r3接续包独立硬审已无条件PASS，实际CLI native0、137输入不变、9个接受文件逐一与当前字节匹配。独立verifier重跑117/117 CLEAN，38项结构检查及4项反例通过；原DP08全模块、V15/live/DB/SDK等NOT_RUN保留。见DP08R3-REVIEW.md、DP08R3-VERDICT.json、DP08R3-ACCEPTANCE.json。
+
+2026-10-25 15:45 UTC并行状态：C05 owner006、Forward owner003、DISPATCH owner002正在实施/修复；M5 C1 reviewer002、行情补全reviewer002正在独立审核；N8原Astra作者063正在处置既有审核038的服务失败恢复。每路使用独立固定会话库和不重叠写集。M5已绑定当前C1后继，旧producer-index问题不再派修；前两阶段通过后才进入唯一full100。Forward最终集成仍等C05接受，不提前消耗full13-002。多路HTTP502是真实上游调用失败，不能称服务已根治或产品测试失败，原SID有界恢复与原始失败均保留。
+
+TqSdk 3.10.3工具及五处skill发布已复用原独立无条件PASS并完成Root接收，当前65份发布文件与原冻结一致；未重复派审。见[TQSDK-ACCEPTANCE](TQSDK-ACCEPTANCE.json)及[TQSDK-VERDICT](TQSDK-VERDICT.json)。范围仅离线工具安装与文档，在线认证、行情、回测、broker仍为NOT_RUN；不替代正在审核的免费行情补全交付，也不改变项目原SDK依赖。
