@@ -6,9 +6,10 @@
 
 ## 从哪里开始
 
-- [策略研究主线蓝图（2026-10-10 r2）](docs/strategy-research-blueprint-20261010-r2/BLUEPRINT.md)：当前有效路线，围绕分钟与日线策略、真实历史实验、样本外比较及模拟验证组织开发。
-- [研究实施计划](docs/strategy-research-blueprint-20261010-r2/IMPLEMENTATION-PLAN.md)与[修改修复清单](docs/strategy-research-blueprint-20261010-r2/REPAIR-BACKLOG.md)：首批实验、实际依赖、文件归属、研究所需修复与后置工作。
-- [项目状态快照（2026-10-10）](PROJECT-STATUS.md)：现有成果、独立审核范围和未完成事项。
+- [策略优先蓝图（2026-10-25 r3-001）](docs/strategy-first-blueprint-20261015-r1/revisions/r3-001/BLUEPRINT.md)：当前有效规划，围绕正确策略、分钟与日线独立回测及本地 paper 组织交付；版本与意见处置见[当前规划入口](docs/strategy-first-blueprint-20261015-r1/CURRENT.md)。
+- [实施计划](docs/strategy-first-blueprint-20261015-r1/revisions/r3-001/IMPLEMENTATION-PLAN.md)与[修复顺序](docs/strategy-first-blueprint-20261015-r1/revisions/r3-001/REPAIR-ORDER.md)：七个里程碑、实际消费依赖、文件归属与 22 项问题处置；本次规划发布不自动启动开发或运行。
+- [外部审计逐项核实（2026-10-25）](docs/repo-audit-20261025-claude/VERIFICATION.md)：11 项成立、11 项部分成立及实际核验结果，不是产品硬审核。
+- [项目历史状态快照（保留至 2026-10-18 的记录）](PROJECT-STATUS.md)：历史成果、审核范围与运行过程；当前规划及新核验事实以以上入口为准。
 - [上一版现状审核与工程积压](docs/development-blueprint-20261010-r1/REVIEW-AND-PLAN.md)：保留原 32 条工作线的证据核对；调度优先级以策略研究主线蓝图为准。
 - [数据库、历史行情、策略与回测操作手册](docs/data-and-backtesting.md)：地址、连接、字段、查询、Python API、冻结导出、真实日线回测及策略开发。
 - [运维与当前缺口](docs/operations.md)：计划任务、备份、迁移和诊断边界。
@@ -87,4 +88,8 @@ python scripts/check_data_freshness.py --expected-through 2026-09-07 --symbol SH
 python scripts/test_offline.py -q
 ```
 
-此入口隔离项目凭据并排除真实数据库/外网测试。2026-09-08 概率研究第一版的最新完整验收为 **1,589 passed，9 deselected，0 failed**，真实研究15文件重放一致，详见[概率研究验收](docs/probability-strategy-results-2026-09-08.md)。此前工程修复阶段的1,273项回归、三组审核及六文件回放记录保留在[项目复盘](docs/project-review-2026-09-08.md)。新增策略位于 `src/ak_trading/futures/strategies.py`，数据类型在 `spec.py`，单合约研究回测在 `scenario_backtest.py`；测试放在 `tests/`。数据库查询、策略计算和实验输出分别负责自己的输入输出，详细调用契约见[操作手册](docs/data-and-backtesting.md#7-在哪里写策略)。
+此入口隔离项目凭据并排除真实数据库/外网测试。
+
+**最新核验（2026-10-25）**：C05 的 `python scripts/test_offline.py -q` 原生退出码为 **2**，出现 **174 个收集错误、0 个测试执行**；DP03/DP08 基线漂移与导入污染存在级联，不能当成 174 个独立缺陷。C07 的 T7 清单单项测试原生退出码为 **1**，1 failed、11 条 code_drift。详见[逐项核实与命令证据](docs/repo-audit-20261025-claude/VERIFICATION.md)；当前没有全套测试通过结论，本次文档发布未重跑产品测试。
+
+**历史记录**：2026-09-08 概率研究第一版曾完成 **1,589 passed，9 deselected，0 failed**，真实研究15文件重放一致，详见[概率研究验收](docs/probability-strategy-results-2026-09-08.md)。该记录不代表当前代码的绿色基线。此前工程修复阶段的1,273项回归、三组审核及六文件回放记录保留在[项目复盘](docs/project-review-2026-09-08.md)。新增策略位于 `src/ak_trading/futures/strategies.py`，数据类型在 `spec.py`，单合约研究回测在 `scenario_backtest.py`；测试放在 `tests/`。数据库查询、策略计算和实验输出分别负责自己的输入输出，详细调用契约见[操作手册](docs/data-and-backtesting.md#7-在哪里写策略)。

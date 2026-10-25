@@ -1,0 +1,52 @@
+{
+  "schema": "aktr-blueprint-plan-advice-receipt/v1",
+  "task_id": "aktr-zcode-blueprint-r3-plan-advice-20261025-003",
+  "review_kind": "ADVISORY_PLAN_FEEDBACK_ONLY",
+  "plan_pass_required": false,
+  "product_review_credit": false,
+  "reviewer": "independent ZCode",
+  "session_id": "sess_f357aabb-6e47-4c73-a216-3f4a20a57634",
+  "trace_id": "74a6f01c-6b77-438d-93d1-ee7d2c451920",
+  "native_exit_code": 0,
+  "inputs_unchanged": true,
+  "observed_runtime_model": "bigmodel-api/GLM-5.3",
+  "required_effort": "max",
+  "effort_runtime_observation": "NOT_OBSERVED_IN_SELECTED_LOG_FIELDS",
+  "model_config_read": false,
+  "model_config_changed": false,
+  "reviewer_hash_tests_execution": "NOT_RUN",
+  "reviewer_git_tracking_check": "NOT_RUN",
+  "advice_findings": [
+    "F01",
+    "F02",
+    "F03",
+    "F04",
+    "F05",
+    "F06"
+  ],
+  "advice_sha256": "0310ae89347d03c4c95623da2cc2a883af94d955072d7a03a245dad72650f89b",
+  "reviewed_drafts": [
+    {
+      "bytes": 11254,
+      "sha256": "2e761526167ae3190d17310f4a81fce3159310a6bf869c561c82da768b421afd",
+      "path": "BLUEPRINT.md"
+    },
+    {
+      "bytes": 17251,
+      "sha256": "0d9b1f4e610250f52a13a54e4c5ddf7e5d9e28c2d5756b8609d142ad661dd7a2",
+      "path": "IMPLEMENTATION-PLAN.md"
+    },
+    {
+      "bytes": 18668,
+      "sha256": "f72e7cc441561e9c877352ec35bdcbf0983424093240632666a7e480709125ca",
+      "path": "REPAIR-ORDER.md"
+    }
+  ],
+  "known_invocation_limitations": [
+    "Two previous scheduling attempts held before CLI launch, native96; retained locally.",
+    "Current invocation recovered from upstream502 errors; two optional Glob calls timed out; adviser completed named-document Read comparisons and disclosed no shell/test/hash/git execution.",
+    "F02 proposed SOURCE-025 budget figure is an unverified reviewer suggestion; author must not promote it to a new budget."
+  ],
+  "raw_invocation_local_only": "D:\\Maintenance\\aktr-blueprint-update-20261025\\zcode-plan-003",
+  "ended_utc": "2026-10-25T07:19:28.545592+00:00"
+}
