@@ -5,12 +5,12 @@
      conflicts with this file, this file prevails. Global Iron Law (user-level AGENTS.md)
      remains fully in force and is not restated here. -->
 
-## 1. Roles: Astra Plans, Sol Subagents Build, Independent ZCode Reviews
+## 1. Roles: Astra Plans, ZCode Builds, Independent ZCode Reviews
 
-Current role authority: `PROJECT-MODEL-ROLES.md`, corrected by the user's explicit
-instructions on 2026-10-16 and 2026-10-18. The user's latest 2026-10-18 instruction
-assigns development and product repairs to Codex subagents `gpt-6.1-sol` / `max`;
-it supersedes older Claude Code and ZCode developer wording in plans, work orders and session history
+Current role authority: `PROJECT-MODEL-ROLES.md`, updated by the user's explicit
+instruction on 2026-10-25 to resume parallel development and use ZCode for development.
+Actual development and product repairs are assigned to ZCode CLI sessions;
+this supersedes older Sol and Claude Code developer wording in plans, work orders and session history
 for every new dispatch or continuation. Role-specific assignments take precedence over the default
 model for otherwise-unspecified auxiliary subagents.
 
@@ -31,21 +31,23 @@ model for otherwise-unspecified auxiliary subagents.
   request for an update is advisory and cannot itself become a development gate. Root must
   not require repeated plan reviews to obtain PASS. The author's decisions must respect
   the user's authorized scope and existing hard acceptance requirements.
-- **Actual development and product repairs use Codex subagents `gpt-6.1-sol` / `max`.**
-  Create the implementation owner with explicit `model="gpt-6.1-sol"`,
-  `reasoning_effort="max"` and `fork_turns="none"`. Assign an owner independent
+- **Actual development and product repairs use ZCode CLI.**
+  Invoke the installed `zcode-cli` skill using ZCode's existing model and reasoning
+  configuration; this routing change does not authorize changing that configuration.
+  Assign a dedicated owner session independent
   from the plan author and product reviewer, with the effective plan, dependencies,
   exact file ownership, findings, acceptance criteria and evidence paths supplied in
   the work order. Do not rely on inherited conversation context.
-  Continue the same Sol developer for fixes with `followup_task`; record a necessary
-  ownership transfer explicitly. Existing Claude Code or ZCode developers must stop
-  writing before their effective plans, current revisions, unresolved findings and
-  verification state transfer explicitly to Sol. Preserve historical authorship,
+  Continue the same ZCode developer for fixes with its exact `--resume` session ID,
+  original cwd and fixed session store; record a necessary ownership transfer explicitly.
+  Existing Sol or Claude Code developers must stop writing before their effective
+  plans, current revisions, unresolved findings and verification state transfer
+  explicitly to ZCode. Preserve historical authorship,
   old failures and consumed one-use grants; do not overlap writers or restart a
-  consumed command. Claude Code and ZCode must not be dispatched or resumed for
+  consumed command. Sol and Claude Code must not be dispatched or resumed for
   further development under their old work orders. Auxiliary agents cannot replace
-  the designated Sol developer or be labeled as that developer. This is task-scoped
-  model/effort authorization, not permission to edit persistent provider, credential,
+  the designated ZCode developer or be labeled as that developer. This is task-scoped
+  routing authorization, not permission to edit persistent provider, credential,
   model, context or compression configuration. No silent model fallback is allowed.
 - **Independent ZCode supplies plan feedback and performs product hard reviews.** Use
   independent ZCode `GLM-5.3` / `max` sessions that took no part in the reviewed node's
@@ -114,14 +116,15 @@ model for otherwise-unspecified auxiliary subagents.
 
 ## 5. Infrastructure
 
-- External CLI dispatch (codex/claude/opencode) only through the watchdog wrapper with unique
+- External CLI dispatch (codex/claude/opencode/zcode) only through the watchdog wrapper with unique
   task_id + dedicated log path (Iron Law Art. 2–3). ZCode-native Agent-tool subagents need no
-  wrapper. Codex's own Sol development subagents use the native collaboration tools;
-  this is not an external CLI dispatch and does not require that wrapper.
+  wrapper. ZCode CLI uses the established session-store-aware watchdog: each owner
+  and independent reviewer has its own fixed store, with at most one active call per store.
+  Different verified stores may run in parallel; preserve session identity on continuation.
 - Before every dispatch or continuation, classify the actual task and read the current
-  role/workflow authority. For development, verify the explicit Sol model/effort settings
-  and file owner. Old work-order pins, owner history or convenience cannot restore a
-  superseded Claude Code/ZCode development route.
+  role/workflow authority. For development, verify the ZCode owner/session, existing
+  configuration and exact file ownership. Old work-order pins, owner history or convenience
+  cannot restore a superseded Sol/Claude Code development route.
 - Web search only via the local stack (Iron Law Art. 4). No agent may modify any model/LLM
   configuration (Iron Law Art. 1).
 - Running services: the observer bridge server (127.0.0.1:17778) is project infrastructure;
@@ -265,7 +268,7 @@ conflicting rules and work-order wording for subsequent dispatches.
   updated effective plan or confirms the existing plan without changes. Whether to modify
   the plan belongs to Astra, not the reviewer or Root; plan review need not PASS.
 - Once that effective plan and its required preconditions are ready, Root immediately
-  assigns a Codex `gpt-6.1-sol` / `max` implementation subagent, independent from the plan
+  assigns a ZCode implementation session, independent from the plan
   author. Do not wait for plan-review PASS, add a second planning round, repeat review
   merely to obtain a favorable label, or wait for another Root or user confirmation.
 - After implementation, required verification, and file/hash freeze finish, Root
@@ -277,7 +280,7 @@ conflicting rules and work-order wording for subsequent dispatches.
   diagnostics must be recorded without becoming an extra approval gate; unrelated ready
   modules continue in parallel. A plan-review label or an unadopted recommendation is
   not itself a hard dependency.
-- A hard-review FAIL returns to the same actual Sol implementation owner for an append-only repair;
+- A hard-review FAIL returns to the same actual ZCode implementation owner for an append-only repair;
   the repaired frozen revision is immediately re-reviewed by independent ZCode.
 
 ## 10. TqSdk、凭据与默认交易模式
