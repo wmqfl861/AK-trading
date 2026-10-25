@@ -1,20 +1,20 @@
 # r3 修复开发批次当前状态
 
-更新于 2026-10-25 21:02 UTC。实际开发/修复使用专用 ZCode 会话；Astra/max 负责原计划及契约处置；另一独立 ZCode GLM-5.3/max 会话做成果硬审核。当前权威为 PROJECT-MODEL-ROLES.md、PROJECT-WORKFLOW-RULES.md。
+更新于 2026-10-25 21:28 UTC。实际开发/修复使用专用 ZCode 会话；Astra/max 负责原计划及契约处置；另一独立 ZCode GLM-5.3/max 会话做成果硬审核。当前权威为 PROJECT-MODEL-ROLES.md、PROJECT-WORKFLOW-RULES.md。
 
 ## 当前并行工作
 
 | 模块 | 当前实际阶段 | 接续动作与限制 |
 | --- | --- | --- |
-| T7-A 四策略合同接受 | 独立 reviewer003 已于20:26 UTC结束，真实无条件FAIL F01：TREND/PULLBACK重复同bar会多计确认。原209项通过没有覆盖这一缺陷。原owner修复002及003均HTTP502、零工具调用结束；尚无修复源码。 | 保留原SID/store/cwd与F01，停止连续盲重试。恢复后按既有合同修复同bar幂等性、补新bar/重启回归、验证新字节并立即复审，不开新计划或换模型。 |
-| T7-B MINUTE/DAILY夹具 | 004于20:10 UTC继续实际实现；最新观测support源码已有580新增/104删除，尚未完成验证或冻结。旧F格式和不存在的锁引用为已定位问题。 | 只改原三测试/支持文件和明确夹具。最终清单必须等待A修复后的实际接受；不能消费A的失败字节或把现存旧锁当最终新锁，保留R0→L0→R1→L1→R2。 |
+| T7-A 四策略合同接受 | 独立 reviewer003 已于20:26 UTC结束，真实无条件FAIL F01：TREND/PULLBACK重复同bar会多计确认。原209项通过没有覆盖这一缺陷。原owner修复002及003均HTTP502、零工具；实际观察到其他ZCode新工具操作后，004于21:25 UTC接续原开发者。 | 按既有合同修复同bar幂等性、补新bar/重启回归、验证新字节并立即复审。保留原SID/store/cwd，不开新计划或换模型；不把调用启动计为缺陷已修复。 |
+| T7-B MINUTE/DAILY夹具 | 004已真实修改support源码（587新增/104删除），随后HTTP502。daily探针真实raw3，69组件insufficient_inner_split；原结果和工具记录已保存。005于21:13 UTC接续原开发者。 | 修SYNTHETIC夹具构造，不降样本/成熟/purge/embargo/DAILY20门槛，不改生产模型。最终清单等待A修复后的实际接受及合法R0→L0→R1→L1→R2；重型批次门未开前不启动探索或冷fit。 |
 | C05 导入隔离 | 两文件006冻结；owner完整命令raw2：6015选中/运行，5754通过、171失败、30跳过、60错误、3个收集错误。原reviewer005会话HTTP502结束，但独立batch原supervisor及full子进程仍运行；focused raw0、collect-full raw2已闭合。 | 继续原完整进程，不因模型退出重复启动。随后完成规定置换和collector差异检查，由原reviewer接收实际结果；保留owner旧重叠限制，不能无证据把全部失败称为基线。 |
-| DISPATCH | owner007已实现修改并运行准备003一次，child1/wrapper1，旧late receipt与当前validator绑定不符，成为第八次失败。CLI随后HTTP502；原author057于20:53 UTC实际启动。 | 保留已生成PREIMAGES003/derivation002/controls和失败；原作者处理具体绑定及前检保留缺口，再交原owner修复。不得重放003；owner005产品验证仍NOT_RUN。 |
-| N8 | reviewer044于20:27 UTC native0结束，真实FAIL/REVIEWER_SIDE：Path与字符串比较和publisher扩展名不一致。precheck004已消耗，final002未执行。原author068于20:42 UTC实际启动同一修复澄清。 | A42完整FAIL包只读；045条件不成立，禁止启动。原25s/35s和完整人口不放宽，先解决审核工具确定性错误。F02仍FAIL，F01仍OPEN/INSUFFICIENT，runtime002未运行。 |
-| M5 C1 | 651原输入核对一致，615冻结保留；原reviewer005于20:53 UTC再次HTTP502/native1，零工具调用，正式阶段未开始。 | capacity042已恢复原2GiB RAM，但服务阻塞；保留原会话和探针，不立即盲重试。恢复后执行未消耗的affected/generation；两项真实PASS后才绑定full100。 |
+| DISPATCH | author057已实际native0/receiver0，明确原路径FileRef与同字节保存副本的路径不同，导致整FileRef误比较。原owner008于21:12 UTC接续并已有实际工具操作。 | 只修原身份比较与保存映射验证，旧receipt和当前validator分别保持；完整纯函数预检后才一次preparation004。preparation003已消费、部分产物保留；owner005产品验证仍NOT_RUN。 |
+| N8 | author068已完成原修复处置，Root按完整产物与真实命令接收，并保留receiver1的已恢复SSE提示。原reviewer046于21:09 UTC启动，已创建新A46并写审核工具。 | 旧A42只读，045不合格。按068先有限构造检查，再完整precheck005及条件final002，合计60s、资源限额不变；不授权047/P/runtime002。F02仍FAIL，F01仍OPEN/INSUFFICIENT。 |
+| M5 C1 | 原reviewer005于20:53 UTC再次HTTP502/native1，零工具；657既有输入重核一致、615源冻结保持。新实际服务进展后，006于21:26 UTC接续原独立审核者。 | capacity044重新预留原2GiB RAM；直接执行未消耗的affected一次及条件generation一次，不重复探索fit。两项真实PASS后才绑定full100。 |
 | Forward paper | helper004六文件准备完成，35静态检查与4正例/93反例通过，仅静态/SYNTHETIC信用。 | 等C05实际接受并集成，再绑定原owner与原独立reviewer的未消耗full13-002。 |
 
-本轮曾实际达到六路并行。当前三个模型会话为B开发、N8原作者澄清、DISPATCH原作者澄清，另有C05独立验证进程继续；A/M5暂被重复HTTP502阻塞。不同模块使用独立会话库/写集；这些外部CLI不会显示为Codex原生子代理。真实身份和终态以各任务START/TERMINAL及本地CURRENT-RUN.json为准。已经结束的会话不计入活跃数。
+当前五路ZCode实际并行：T7-A开发、T7-B开发、DISPATCH修复、N8独立审核、M5独立审核；另有C05原独立完整测试进程继续。不同模块使用独立会话库和写集；这些外部CLI不会显示为Codex原生子代理。真实身份和终态以各任务START/TERMINAL及本地CURRENT-RUN.json为准。已经结束的会话不计入活跃数。
 
 ZCode服务仍有重复HTTP502/native1，尚未证明已修复。保留每次实际进度，续接原会话，不把CLI退出与测试结果/产品判决混为一谈。当前没有新增无条件产品PASS；不能用已通过的单项验证或诊断文档增加产品完成率。
 
@@ -37,7 +37,7 @@ T7有效计划、一次计划意见及作者处置见T7-PLAN.md、T7-PLAN-ADVICE
 
 ## 依赖与资源
 
-前瞻调度现使用capacity042，既有冻结请求不改。RAM总预留18,253,611,008字节、D扣账18,790,481,920字节，保留6GiB RAM/4GiB D底线及C盘10GiB预留。041临时释放已结束N8审核的2GiB空闲RAM，原作者使用既有EX-SIM槽；042恢复M5原2GiB。恢复N8审核前须重新准入。所有UNKNOWN、历史实际最大占用和失败保留；不删除文件或降低底线凑并发。B冷拟合仍须满足真实输入和重型批次调度条件。
+前瞻调度现使用capacity044，既有冻结请求不改。RAM总预留20,401,094,656字节、D扣账18,790,481,920字节，保留6GiB RAM/4GiB D底线及C盘10GiB预留。043恢复N8并暂停M5空闲RAM；044在真实余量足够时恢复M5原2GiB，N8继续保留，Forward空闲槽仍暂停。所有UNKNOWN、历史实际最大占用和失败保留；不删除文件或降低底线凑并发。B冷拟合仍须满足真实输入和重型批次调度条件。
 
 完成实施及必要验证即独立硬审，FAIL回原ZCode开发者。计划意见、封存、CLI native0和开发者自测均不替代产品PASS。普通可重复离线验证不另加一次性审批；已有特殊一次授权按实际消费状态处理。
 

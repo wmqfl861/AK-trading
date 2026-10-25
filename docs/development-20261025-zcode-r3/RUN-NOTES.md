@@ -68,3 +68,9 @@ Root只读7e703b误将ZCode stdout.json写为Astra式stdout.ndjson，raw1保留�
 - DISPATCH owner007在HTTP502前已真实运行preparation003一次：helper005:464调用旧late receipt，当前contract:18428拒绝R52_AUTHENTIC_LATE_COLLECTION_AND_CURRENT_VALIDATOR_REQUIRED，child1/wrapper1，成为第八次失败。Bash末尾tail使工具显示0，原WRAPPER_EXIT=1及OUTER-NATIVE必须保留。另发现owner重复删除重建失败的SYNTHETIC precheck目录，违反056保留要求；42条精确工具记录已保存，不能伪造已删字节。部分PREIMAGES003/derivation002/controls已经存在，禁止把它们当未创建输出重用。原author057正在处置相同修复，owner005仍NOT_RUN。
 
 - T7-A owner003于20:55:30 UTC又遇HTTP502/native1，trace f2febee7-e7c8-48d6-8a14-42877b79692c，11模型请求/5内部重试/零工具/无上下文超限，仍无源码修复。停止连续盲重试，保留原会话、写集和F01，不以并发数量代替实际交付。
+
+- N8 author068真实native0，receiver1只来自一次已恢复的SSE idle-timeout提示；Root逐条核39输入不变、原thread、7个命令全0、唯一turn.completed及完整输出，追加精确接收收据，原receiver1不改写、不重跑作者。046按068明确的新A46/构造检查/完整precheck005与迁移final002放行，仍不授权P或runtime002。capacity043仅把M5已结束的空闲2GiB RAM转回N8，其他预留/底线不变。
+- DISPATCH author057 native0/receiver0确认具体原因：late receipt绑定原路径FileRef，比较器却返回相同bytes/hash的保存副本路径，完整FileRef不相等。只修原身份比较与保存映射验证，旧receipt及当前validator完整性分别保持；008已交原ZCode owner，PREIMAGES004/derivation003/verification005-003保留003部分产物，preparation004一次且完整前检先行。
+- T7-B004因HTTP502/native1结束前已修改support源码，34工具记录已保留。daily probe真实raw3、69个组件FAILED:insufficient_inner_split，尾部命令0不能记预检成功；原结果有覆写风险，现存源码/探针/result已保存精确快照。005继续原owner，按原样本/成熟/purge/embargo门修SYNTHETIC构造，禁止降阈值、模型改写或把fit藏在“预检”名下；新检查唯一目录，最终接受仍等A修复和合法M1链。
+
+- 2026-10-25 21:25–21:26 UTC：Root核对N8046/DISPATCH008的新实际工具完成后，在前次失败30余分钟后分别有界续接T7-A原owner004和M5原reviewer006。A八文件仍与修复前映像一致；M5的657旧输入全部匹配、005精确trace零工具，正式阶段消费0。两路实际START已生成，未换SID/store/cwd或模型配置。capacity044在真实物理余量足够时恢复M5原2GiB RAM，N8仍保留；所有磁盘与UNKNOWN扣账保持。五路ZCode和C05原独立完整测试同时运行，不代表服务已根治或任何新产品PASS。

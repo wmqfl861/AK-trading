@@ -1,0 +1,51 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "recorded_utc": "2026-10-25T21:06:00.838491+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-042.json",
+    "bytes": 1335,
+    "sha256": "4e9afd3e64ff1dd3885da2d762755f7ce4550bdbdb59bd74c3890463b6cd2090"
+  },
+  "total_reserved_ram_bytes": 18253611008,
+  "total_charged_d_bytes": 18790481920,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "temporarily_suspended_lane": {
+    "slot_id": "M5-C1-independent-review",
+    "ram_released_bytes": 2147483648,
+    "disk_released_bytes": 0,
+    "terminal": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\m5-c1-hard-review-recovery-005\\TERMINAL.json",
+      "bytes": 334,
+      "sha256": "c7ad6f9b2a708f2696cf4b64cd40cce5667b7941752f92a9ea84029ff1711183"
+    },
+    "exact_original_processes_absent": true,
+    "current_tool_count": 0,
+    "formal_stages_consumed": 0,
+    "future_M5_requires_original_2GiB_readmission": true
+  },
+  "readmitted_lane": {
+    "slot_id": "N8-E-existing-repair",
+    "ram_restored_bytes": 2147483648,
+    "disk_increase_bytes": 0,
+    "original_D_reservation_retained": true,
+    "authority": {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-astra-n8-existing-review044-capture-repair-20261025-068\\AUTHOR-REVIEW044-CAPTURE-REPAIR-DISPOSITION.md",
+      "bytes": 15613,
+      "sha256": "acfe3a755bb9f7163e472c8f9354ac15252194a9a7004b2fc380d6605e29f118"
+    },
+    "scope": "Original reviewer046, author068 finite exact harness and formal flows. No runtime002/P publication."
+  },
+  "all_other_lanes_and_unknown_charges_unchanged": true,
+  "fresh_capacity": {
+    "available_ram_bytes": 29496815616,
+    "D_free_bytes": 23801479168,
+    "C_free_bytes": 73695760384
+  }
+}

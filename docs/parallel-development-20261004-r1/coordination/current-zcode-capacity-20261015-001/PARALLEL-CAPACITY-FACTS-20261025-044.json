@@ -1,0 +1,41 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "recorded_utc": "2026-10-25T21:26:24.215708+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-043.json",
+    "bytes": 2082,
+    "sha256": "af90d93f18616051476c1b189edb2a767e54520e226f39d597c1ad3e1b4435a6"
+  },
+  "total_reserved_ram_bytes": 20401094656,
+  "total_charged_d_bytes": 18790481920,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "readmitted_lane": {
+    "slot_id": "M5-C1-independent-review",
+    "ram_restored_bytes": 2147483648,
+    "disk_increase_bytes": 0,
+    "original_D_reservation_retained": true,
+    "last_terminal": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\m5-c1-hard-review-recovery-005\\TERMINAL.json",
+      "bytes": 334,
+      "sha256": "c7ad6f9b2a708f2696cf4b64cd40cce5667b7941752f92a9ea84029ff1711183"
+    },
+    "current_trace_tool_calls": 0,
+    "formal_stages_consumed": 0
+  },
+  "all_other_lanes_and_unknown_charges_unchanged": true,
+  "fresh_capacity": {
+    "utc": "2026-10-25T21:26:24.215708+00:00",
+    "available_ram_bytes": 28590985216,
+    "D_free_bytes": 23773032448,
+    "C_free_bytes": 73574944768
+  },
+  "N8_lane_remains_reserved": true,
+  "Forward_lane_remains_suspended": true
+}
