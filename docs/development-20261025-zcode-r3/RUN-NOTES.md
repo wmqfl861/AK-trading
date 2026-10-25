@@ -40,3 +40,12 @@
 - N8 author064实际native0/receiver0后发布有限040及条件041恢复；040于17:14 UTC启动。Root准备时`08d630` raw1为猜错admission文件名，`027dfe` raw1为多层生成Python命令的换行语法错误，均发生于CLI启动前，消费0；后继从实际路径与已验证模板取值，完整compile后才发布/执行，原失败保留。这些是Root准备错误，不归为ZCode服务失败。
 
 - M5 reviewer004的恢复依据：Root再次按exactSID/trace核对003的三条工具，正式两阶段均未调用，644旧输入全部重核匹配，旧CLI及supervisor均不存在；9248字节reviewer自有probe另存pre004，不回滚为7624字节。DISPATCH随后于17:23:52 UTC产生实际新源码进展；间隔2294秒后只授一次原SID/store/cwd续接，于17:37 UTC真实启动，采用含T7辅助的当前036完整资源总额。服务仍可能失败，不自动循环、换模型或重放已完成的验证；新工单直接要求原affected/generation，不重复探索性fit或源码阅读。
+
+
+2026-10-25 19:00 UTC：T7一次计划意见完成，原Astra disposition002 native0/receiver0，A/B立即实际派给两个ZCode开发会话。旧r2确有窄PASS，意见A1误判已由原作者纠正；真实RB输入已交付A，禁止故意缺数据沿用skip。当前5路调用，详见STATUS。
+
+Root N8启动准备错误保留：2f93fc REQUEST超过原尺寸上限；e0b62d沿交接摘要使用了缺失-001后缀的记录名；377d80误用capacity036.new_lane（真实字段additional_lane）。均发生在CLI前，启动数0。eae297/400cdc/b0a2a9是归档容量预检失败、发布数0。原REQUEST/ROOT-LAUNCH精确字节已保存在042/ROOT-PREFLIGHT-001-PRESERVED.zip；同文件身份更新、保留实际分配最大值，显式收紧未用的launch上限并在原131072控制总额内容纳预映像。41184b才是真正审核CLI启动，句柄62334。避免办法：枚举真实文件名、读取实际记录schema后生成；全部序列化/编译/容量校验在发布和启动前完成，不把摘要字段当权威。不宣称这些Root错误为产品缺陷或服务错误。
+
+Root只读7e703b误将ZCode stdout.json写为Astra式stdout.ndjson，raw1保留，随后按实际目录识别stdout.json。不要混用两种CLI流命名。DISPATCH owner005准备失败保留为真实已消耗事件，交原作者055处理，未擅自重跑。
+
+2026-10-25 19:23 UTC：A已完成7单文件和完整合并209/0/0验证，原3个realRBskip实际执行通过；19:22:43立即启动独立硬审38807，无产品PASS。DISPATCH055完成0/0，原owner006已运行84328。N8 reviewer042为HTTP502/native1、精确trace工具0、A42ABSENT，原作者066运行62041。root d41597资源预检raw1发生在任何attempt创建/CLI前；capacity040依据实际已闭合T7任务仅收回未用未来增长预留，所有文件/产品/UNKNOWN保持。

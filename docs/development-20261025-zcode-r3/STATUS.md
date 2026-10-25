@@ -1,19 +1,22 @@
 # r3 修复开发批次当前状态
 
-更新于 2026-10-25 17:39 UTC。用户已恢复开发并指定实际开发/修复统一调用 ZCode；当前权威为 PROJECT-MODEL-ROLES.md 和 PROJECT-WORKFLOW-RULES.md。Astra/max 负责计划与契约澄清，独立 ZCode GLM-5.3/max 负责成果硬审。开发和审核分别使用固定独立会话库，不恢复旧 Sol/Claude 开发。
+更新于 2026-10-25 19:23 UTC。实际开发/修复调用专用 ZCode 会话；Astra/max 负责计划和契约处置，另一独立 ZCode GLM-5.3/max 会话硬审核。当前职责权威为 PROJECT-MODEL-ROLES.md、PROJECT-WORKFLOW-RULES.md。
 
 ## 当前并行工作
 
-| 模块 | 当前真实阶段 | 下一步 |
+| 模块 | 当前实际阶段 | 接续动作 |
 | --- | --- | --- |
-| C05 导入隔离 | 原 ZCode owner007 的第二份完整执行正在运行。source006 焦点45项全通过；独立 reviewer004 已确认 RF1 碰撞修复。完整收集6015 selected/9既有 deselected，10域全派发，3个历史DP收集错误，unresolved0。owner误判第一份已死而重复启动，随后终止第一份；该事实及其未知退出码保留，未获验证信用。 | 保留当前进程，完成原验证后立即交原独立 reviewer；审核必须处置重复运行窗口及证据限制，不刷新历史pin、不删失败。 |
-| DISPATCH | 原 owner003因上游502/native1结束，未写产品。原 ZCode owner004于17:00 UTC沿原SID/store续接author053，已写出六个源码文件的受控注册、owner绑定与新版本校验，尚未交付运行结果。 | 接收真实交付后，Root执行原计划未消耗的 owner005，再立即独立硬审。 |
-| M5 C1 | 原reviewer004于17:37 UTC实际启动。此前003再次502/native1，Root逐工具核实正式阶段未启动、644输入未变；基于后续实际peer源码进展、已完成probe和38分钟间隔，进行一次有限原会话续接，无服务已修好宣称。 | 直接完成原affected与generation；真实通过后才绑定唯一full100。禁止额外探索性fit、盲重启或以自测替代硬审。 |
-| N8 | 原 Astra author064已完成有效处置；同一独立 reviewer的transport040于17:14 UTC实际启动，仍运行，保持原11文件和F10。 | 等真实终态；仅在064全部条件满足时允许一次041，不允许042循环，不重放已消耗验证。 |
-| Forward paper | 原 ZCode owner已完成 helper004的6文件源码准备，35静态检查及4正例/93反例通过；只属静态/SYNTHETIC信用。 | 等C05真实接受并集成，原owner立即完成无环最终绑定，再交原独立reviewer执行唯一full13-002。 |
-| T7 接受版本核对 | 默认配置 OpenCode辅助任务于17:25 UTC实际启动；专门追溯64pins中的12个当前漂移，包括新接受的replay变更。无产品写权限。 | 交付逐文件原版本、当前来源、实际独立接受范围及缺失项，让原计划方据此明确最小修复。 |
+| T7-A 四策略合同接受 | 专用ZCode owner于19:14 UTC交付零生产改动冻结版；七单文件及完整合并命令全raw0，209通过/0失败/0跳过。另一独立ZCode于19:22:43 UTC实际启动硬审。 | 独立重跑规定人口并增加审核者反例；尚无产品PASS。通过后B消费精确接受字节，不需重复开发当前正确代码。 |
+| T7-B MINUTE/DAILY夹具 | 另一ZCode owner已于18:57:09 UTC启动，独立工作区，只写三测试/支持文件和明确列出的夹具。与A不重叠。 | 立即修复DAILY正例/负例及清单，提前检查M1锁引用；最终冻结消费A已接受字节。重型冷链避开当前C05批次，保留原4h/profile预算。 |
+| C05 导入隔离 | 原owner007第二份完整验证继续运行；焦点45通过，完整收集6015selected/9既有deselected，3个历史DP收集错误。 | 不重启现进程。完成后原独立reviewer必须处置曾重复运行/终止第一份及未知真实退出的限制，不能宣传干净全套通过。 |
+| N8 | 原reviewer042于18:59 UTC因HTTP502/native1结束；精确trace内0工具调用、A42未创建，原11文件/F10不变。原Astra066于19:20 UTC处理这一服务中断。 | 040的REVIEW_INCOMPLETE/REVIEWER_DEFECT保留；042未消耗precheck004/final002，也无产品结论。只在原作者明确有效续接后恢复，runtime002仍NOT_RUN。 |
+| DISPATCH | 原owner005于18:25 UTC交付源码，但唯一行政准备因外层目录与子进程ABSENT契约冲突失败，包装器也未完整捕获终态。 | author055已native0/receiver0完成，指出六处准备/捕获确定性问题。原ZCode owner006于19:11:37 UTC实际续接，一次修复后再执行唯一新准备002；owner005产品验证尚未运行。 |
+| M5 C1 | reviewer004于17:51 UTC再次HTTP502/native1结束，正式验证阶段未执行，冻结615成员不变。 | 暂挂闲置RAM并保留全部历史扣账；恢复前重新入场，完成原affected/generation后才full100。无服务已修好或产品PASS宣称。 |
+| Forward paper | helper004六文件准备完成，35静态检查与4正例/93反例通过，仅静态/SYNTHETIC信用。 | 等C05真实接受并集成，原owner绑定，原独立reviewer执行未消耗的full13-002。 |
 
-C05、DISPATCH、N8、M5是当前四个实际运行的 ZCode 调用，另有一个OpenCode辅助调用，共五路。旧M5 reviewer003与Astra064均已结束，不重复计数。Forward源码已停写等待真实依赖，没有重复派writer。当前调用与工具句柄保存在本地 `D:/Maintenance/aktr-development-20261025/CURRENT-RUN.json`，终态及产物才是完成依据。
+当前五路实际调用：A独立硬审、B开发、C05验证、DISPATCH006修复四个ZCode，以及N8原Astra服务恢复处置。T7计划作者和计划意见会话均已结束，不重复计入。外部CLI并行不会显示为Codex原生子代理；真实任务和进程身份保存在各自START/TERMINAL以及本地CURRENT-RUN.json。
+
+T7有效执行补充、一次独立意见及作者处置分别见T7-PLAN.md、T7-PLAN-ADVICE.md、T7-PLAN-DISPOSITION.md。作者已纠正意见A1：旧M3B r2确有结束后的窄范围无条件PASS；复用其三测试接受，不把旧READY当成活跃审核，也不把该PASS扩成四源接受。A已交付当前真实RB日历/规则输入，不用隔离目录缺数据制造历史skip。
 
 ## 已接受并推送的成果
 
@@ -30,10 +33,8 @@ C05、DISPATCH、N8、M5是当前四个实际运行的 ZCode 调用，另有一�
 
 ## 依赖与资源
 
-当前新派工采用 PARALLEL-CAPACITY-FACTS-20261025-036，在035上新增2GiB RAM/256MiB磁盘的有限只读辅助槽；旧活动请求的035固定输入未改。已结束行情审核释放1GiB RAM；Forward因等待C05而临时释放2GiB RAM，真正接续前须按原合同重新预留。全部历史磁盘和UNKNOWN扣账保留；内存/磁盘底线不降低。C05仍在运行，不因空缓冲输出或一次进程枚举阴性重复启动。
+当前新派工使用capacity040；旧活动请求固定的容量文件保持不变。M5已结束调用的2GiB闲置RAM临时让给T7-A，T7计划完成释放的2GiB给T7-B；M5恢复前必须重新预留。全部产品、UNKNOWN及历史实际占用保留。新增候选和测试输出在C盘独立worktree，总预留10GiB C及128MiB D。040核对四个已结束T7辅助/计划/意见/处置任务后，测得实际原生占用6,638,592字节；仍保留128MiB覆盖全部文件及历史WAL余量，只收回384MiB未使用的未来增长预留，删除或移动文件0。RAM/D/C底线保持。
 
-T7接受基线、ordinary shadow的R19→R20→R21以及R1历史输入仍有具体证据/契约/数据依赖。仅对实际消费者阻断，不让它们阻塞互不干扰的已授权工作。未为了增加数量派重复writer或新功能。
+A/B分别绑定真实owner SID、独立store、cwd和写集。准备和计划意见不算开发成果硬审，CLI native0也不算产品PASS。谁完成实施和必要验证就立即独立审核，不等待其他模块。普通可重复离线验证不新增逐次一次性审批。
 
-旧forward审核已由原作者003合法重切，377源文件和旧审核保留于原快照；旧full13-001已消耗，49完整通过/50启动、无终态和产品判决，不重放。新full13-002仍未消耗，保持原完整人口及2100秒/2GiB/1GiB预算。
-
-交易安全边界不变：enable_trading=False，observer=hold，broker=NOT_RUN，真实send/cancel=0。P0-1由用户亲自执行，G治理建议及大范围架构/配置变更不纳入本次派工。
+交易安全边界：enable_trading=False，observer=hold，broker=NOT_RUN，真实send/cancel=0。P0-1由用户亲自执行，G治理建议不擅自实施。

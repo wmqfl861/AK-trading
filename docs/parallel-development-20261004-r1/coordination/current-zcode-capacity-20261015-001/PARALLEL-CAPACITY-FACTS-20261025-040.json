@@ -1,0 +1,560 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "recorded_utc": "2026-10-25T19:10:23.728434+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-039.json",
+    "bytes": 1648,
+    "sha256": "9c3e536ae326ea37af9491124b74f5d9686b73b2b941c7cbdc973a568ae7365a"
+  },
+  "total_reserved_ram_bytes": 18253611008,
+  "total_charged_d_bytes": 18790481920,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "closed_T7_planning_reservations": {
+    "original_two_reservations_bytes": 536870912,
+    "retained_bytes": 134217728,
+    "released_unused_future_growth_bytes": 402653184,
+    "physical_bytes_deleted_or_moved": 0,
+    "retained_per_closed_lane_bytes": 67108864,
+    "observed_native_charge": 6638592,
+    "extra_historical_transient_reserve_per_lane": 8388608,
+    "known_prior_WAL_maximum": 4136512,
+    "closed_tasks": [
+      {
+        "name": "aux-t7-acceptance-lineage-001",
+        "terminal": {
+          "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\TERMINAL.json",
+          "bytes": 185,
+          "sha256": "e8ea3df367b9a4e9d6bab19378dc7550723f8f33c123cdb18ed4ced297245750"
+        },
+        "start": {
+          "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\START.json",
+          "bytes": 226,
+          "sha256": "8a7c3212ed13eb6369dab8a20c25dcff61c03497364267134ae595ece4de3a3d"
+        },
+        "original_producer_absent": true
+      },
+      {
+        "name": "astra-t7-existing-plan-detail-001",
+        "terminal": {
+          "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\TERMINAL.json",
+          "bytes": 52878,
+          "sha256": "5bea4389e15e339b4d04b2827ffa32928f05bdaf5e7d97ffae987bfc94fbfbf3"
+        },
+        "start": {
+          "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\START.json",
+          "bytes": 334,
+          "sha256": "4d199ff577d4e0cea9585368b6c790f7f6c527e6423e510fafbd60022bda3b98"
+        },
+        "original_producer_absent": true
+      },
+      {
+        "name": "t7-plan-advice-001",
+        "terminal": {
+          "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\TERMINAL.json",
+          "bytes": 325,
+          "sha256": "59b51500e8e307b675dd78a98ebb4882c937b8d0f449531f67735f0136e7809c"
+        },
+        "start": {
+          "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\START.json",
+          "bytes": 357,
+          "sha256": "dab0de615b4d93df34d14fc24df4f63e44871b9dd5d0bf102825db84bdb33711"
+        },
+        "original_producer_absent": true
+      },
+      {
+        "name": "astra-t7-advice-disposition-002",
+        "terminal": {
+          "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\TERMINAL.json",
+          "bytes": 1077,
+          "sha256": "05dd90287b6374d4532fae295167c945a2120a7f146e90b8cfb46143326350b9"
+        },
+        "start": {
+          "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\START.json",
+          "bytes": 333,
+          "sha256": "512557b9bfb3d83e8d9333d62e2c88a3dfa086c3a086e8014a843de0facff46f"
+        },
+        "original_producer_absent": true
+      }
+    ],
+    "current_native_rows": [
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001",
+        "directory": true,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\CURRENT-DRIFTS.json",
+        "bytes": 4986,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          281474988224707
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\REQUEST.json",
+        "bytes": 1641,
+        "allocation": 4096,
+        "file_identity": [
+          6872396381994587338,
+          281474988224709
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\RESULT.md",
+        "bytes": 6470,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          562949964938723
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\START.json",
+        "bytes": 226,
+        "allocation": 232,
+        "file_identity": [
+          6872396381994587338,
+          1407374895067324
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\stderr.txt",
+        "bytes": 0,
+        "allocation": 0,
+        "file_identity": [
+          6872396381994587338,
+          1407374895067262
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\stdout.jsonl",
+        "bytes": 2196059,
+        "allocation": 2199552,
+        "file_identity": [
+          6872396381994587338,
+          1125899918356605
+        ],
+        "links": 1,
+        "charge": 2199808
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\TERMINAL.json",
+        "bytes": 185,
+        "allocation": 192,
+        "file_identity": [
+          6872396381994587338,
+          562949964938722
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\watchdog.log",
+        "bytes": 2195899,
+        "allocation": 2199552,
+        "file_identity": [
+          6872396381994587338,
+          844424941646089
+        ],
+        "links": 1,
+        "charge": 2199808
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\WORKORDER.md",
+        "bytes": 4533,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          562949964935252
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\aux-t7-acceptance-lineage-001\\workspace",
+        "directory": true,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001",
+        "directory": true,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\PRELAUNCH.json",
+        "bytes": 1680,
+        "allocation": 4096,
+        "file_identity": [
+          6872396381994587338,
+          562949964938875
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\REQUEST.json",
+        "bytes": 9243,
+        "allocation": 12288,
+        "file_identity": [
+          6872396381994587338,
+          562949964938865
+        ],
+        "links": 1,
+        "charge": 12544
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\START.json",
+        "bytes": 334,
+        "allocation": 336,
+        "file_identity": [
+          6872396381994587338,
+          562949964938878
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\stderr.bin",
+        "bytes": 0,
+        "allocation": 0,
+        "file_identity": [
+          6872396381994587338,
+          562949964938877
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\stdout.ndjson",
+        "bytes": 562458,
+        "allocation": 565248,
+        "file_identity": [
+          6872396381994587338,
+          562949964938876
+        ],
+        "links": 1,
+        "charge": 565504
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\T7-EXISTING-REPAIR-PLAN.md",
+        "bytes": 12267,
+        "allocation": 12288,
+        "file_identity": [
+          6872396381994587338,
+          281474988270328
+        ],
+        "links": 1,
+        "charge": 12544
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\TERMINAL.json",
+        "bytes": 52878,
+        "allocation": 53248,
+        "file_identity": [
+          6872396381994587338,
+          281474988270391
+        ],
+        "links": 1,
+        "charge": 53504
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\watchdog.log",
+        "bytes": 562304,
+        "allocation": 565248,
+        "file_identity": [
+          6872396381994587338,
+          844424941649512
+        ],
+        "links": 1,
+        "charge": 565504
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-existing-plan-detail-001\\WORKORDER.md",
+        "bytes": 5520,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          844424941649478
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001",
+        "directory": true,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\CLOSED-RESERVATION-CHECK.json",
+        "bytes": 153,
+        "allocation": 160,
+        "file_identity": [
+          6872396381994587338,
+          281474988291248
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\OWNER-REPORT.md",
+        "bytes": 6349,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          562949965002050
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\PLAN-ADVICE.md",
+        "bytes": 6349,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          562949965017263
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\REQUEST.json",
+        "bytes": 4745,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          281474988291020
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\RESULT.json",
+        "bytes": 831,
+        "allocation": 4096,
+        "file_identity": [
+          6872396381994587338,
+          562949965009885
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\session.sqlite",
+        "bytes": 704512,
+        "allocation": 704512,
+        "file_identity": [
+          6872396381994587338,
+          281474988291392
+        ],
+        "links": 1,
+        "charge": 704768
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\START-INTENT.json",
+        "bytes": 453,
+        "allocation": 456,
+        "file_identity": [
+          6872396381994587338,
+          281474988291249
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\START.json",
+        "bytes": 357,
+        "allocation": 360,
+        "file_identity": [
+          6872396381994587338,
+          281474988291252
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\stderr.txt",
+        "bytes": 14855,
+        "allocation": 16384,
+        "file_identity": [
+          6872396381994587338,
+          281474988291251
+        ],
+        "links": 1,
+        "charge": 16640
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\stdout.json",
+        "bytes": 7040,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          281474988291250
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\TERMINAL.json",
+        "bytes": 325,
+        "allocation": 328,
+        "file_identity": [
+          6872396381994587338,
+          844424941712705
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\t7-plan-advice-001\\WORKORDER.md",
+        "bytes": 2552,
+        "allocation": 4096,
+        "file_identity": [
+          6872396381994587338,
+          281474988290653
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002",
+        "directory": true,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\PRELAUNCH.json",
+        "bytes": 1664,
+        "allocation": 4096,
+        "file_identity": [
+          6872396381994587338,
+          1407374895149279
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\REQUEST.json",
+        "bytes": 6291,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          1125899918438617
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\START.json",
+        "bytes": 333,
+        "allocation": 336,
+        "file_identity": [
+          6872396381994587338,
+          281474988306662
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\stderr.bin",
+        "bytes": 0,
+        "allocation": 0,
+        "file_identity": [
+          6872396381994587338,
+          281474988306661
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\stdout.ndjson",
+        "bytes": 58060,
+        "allocation": 61440,
+        "file_identity": [
+          6872396381994587338,
+          1125899918438624
+        ],
+        "links": 1,
+        "charge": 61696
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\T7-ADVICE-DISPOSITION.md",
+        "bytes": 6171,
+        "allocation": 8192,
+        "file_identity": [
+          6872396381994587338,
+          281474988309139
+        ],
+        "links": 1,
+        "charge": 8448
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\TERMINAL.json",
+        "bytes": 1077,
+        "allocation": 4096,
+        "file_identity": [
+          6872396381994587338,
+          844424941730459
+        ],
+        "links": 1,
+        "charge": 4352
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\watchdog.log",
+        "bytes": 57906,
+        "allocation": 61440,
+        "file_identity": [
+          6872396381994587338,
+          1125899918438646
+        ],
+        "links": 1,
+        "charge": 61696
+      },
+      {
+        "path": "D:\\Maintenance\\aktr-development-20261025\\astra-t7-advice-disposition-002\\WORKORDER.md",
+        "bytes": 2675,
+        "allocation": 4096,
+        "file_identity": [
+          6872396381994587338,
+          1125899918438616
+        ],
+        "links": 1,
+        "charge": 4352
+      }
+    ],
+    "future_use": "closed advice/author/aux stores are not active; any new continuation requires fresh prospective reservation; original files/pins retained",
+    "scope": "only task-specific unused future growth of two completed T7 planning/readonly auxiliary slots; no product lease, N8 reserved controls, unknown charge, M5/Forward/other retained maximum is released"
+  },
+  "unknown_or_other_lane_changes": false,
+  "fresh_capacity": {
+    "available_ram_bytes": 25730240512,
+    "D_free_bytes": 23373209600,
+    "C_free_bytes": 74003148800
+  },
+  "root_preflight_failure": {
+    "tool": "d41597",
+    "raw_exit": 1,
+    "phase": "resource admission before attempt directory/source preimages/CLI",
+    "CLI_launches": 0,
+    "attempt_directory_created": false,
+    "D_post_bytes_observed": 4275822592,
+    "required_D_floor": 4294967296
+  }
+}
