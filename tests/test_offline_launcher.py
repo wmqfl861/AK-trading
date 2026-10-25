@@ -3,8 +3,10 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import textwrap
@@ -592,3 +594,692 @@ def test_exit_code_targeted_selection_and_new_basetemp_are_preserved(tmp_path):
     failed = _run(tmp_path / "test_probe.py", "-q", "-k", "failure")
     assert failed.returncode == 1, failed.stdout + failed.stderr
     assert "intentional launcher failure" in failed.stdout
+
+
+# --- C05 import-domain isolation regressions (synthetic, real subprocesses) ---
+
+MINI_PYPROJECT = """
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+"""
+
+MINI_NORMAL = '''
+"""Normal-domain probe: module-level import, like ordinary business tests."""
+from pathlib import Path
+
+import ak_trading
+from ak_trading.testing import offline_guard
+
+def _sandbox_root() -> Path:
+    # Depth-independent: the sandbox root is the nearest ancestor carrying the
+    # pinned pyproject.toml.
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "pyproject.toml").is_file():
+            return parent
+    raise AssertionError("no pyproject.toml above this probe")
+
+
+def test_module_origin_and_identity(tmp_path):
+    assert Path(ak_trading.__file__).resolve() == (
+        _sandbox_root() / "src" / "ak_trading" / "__init__.py"
+    )
+    plugin = offline_guard.OfflinePlugin()
+    assert type(plugin) is offline_guard.OfflinePlugin
+    import importlib
+
+    again = importlib.import_module("ak_trading.testing.offline_guard")
+    assert again.OfflinePlugin is type(plugin)
+    (tmp_path / "normal-proof.txt").write_text("retained", encoding="utf-8")
+'''
+
+MINI_HISTORY = '''
+"""Historical-domain probe: evict ak_trading.* and re-root onto an incomplete
+package at collection time, exactly like the DP03/DP04/DP08 bootstraps."""
+import sys
+import types
+from pathlib import Path
+
+STUB_ROOT = Path(__file__).resolve().parent / "broken_package"
+
+for _name in [
+    name for name in list(sys.modules)
+    if name == "ak_trading" or name.startswith("ak_trading.")
+]:
+    del sys.modules[_name]
+_pkg = types.ModuleType("ak_trading")
+_pkg.__path__ = [str(STUB_ROOT)]
+sys.modules["ak_trading"] = _pkg
+
+
+def test_history_domain_uses_rebuilt_package(tmp_path):
+    import ak_trading
+
+    assert ak_trading.__path__[0] == str(STUB_ROOT)
+    try:
+        from ak_trading.testing import offline_guard  # incomplete stub tree
+    except ImportError:
+        pass
+    else:
+        raise AssertionError("synthetic history stub unexpectedly complete")
+    (tmp_path / "history-proof.txt").write_text("retained", encoding="utf-8")
+'''
+
+MINI_BROKEN = "raise ImportError('synthetic historical collection error (raw2 probe)')\n"
+
+MINI_PIN = '''
+"""Historical pin sample: a deliberately wrong sha256 pin must keep failing."""
+import hashlib
+from pathlib import Path
+
+WRONG_PIN = "0" * 64
+
+
+def test_pinned_fixture_bytes():
+    target = Path(__file__).resolve().parent / "synthetic_pinned.txt"
+    assert hashlib.sha256(target.read_bytes()).hexdigest() == WRONG_PIN
+'''
+
+
+def _mini_repo(tmp_path: Path) -> Path:
+    """Build a throwaway repository that runs the real candidate launcher+guard."""
+    root = tmp_path / "mini"
+    (root / "scripts").mkdir(parents=True)
+    (root / "src" / "ak_trading" / "testing").mkdir(parents=True)
+    (root / "tests" / "datapipeline").mkdir(parents=True)
+    launcher_target = root / "scripts" / "test_offline.py"
+    guard_target = root / "src" / "ak_trading" / "testing" / "offline_guard.py"
+    shutil.copyfile(SCRIPT, launcher_target)
+    guard_source = ROOT / "src" / "ak_trading" / "testing" / "offline_guard.py"
+    shutil.copyfile(guard_source, guard_target)
+    # The sandbox must exercise the candidate bytes, not a drifting copy; the
+    # guard copy must stay byte-identical because _bridged_run trusts it to
+    # guard every process in the sandbox subtree.
+    assert launcher_target.read_bytes() == SCRIPT.read_bytes()
+    assert guard_target.read_bytes() == guard_source.read_bytes()
+    assert (root / "src" / "ak_trading" / "__init__.py").write_text("") == 0
+    assert (root / "src" / "ak_trading" / "testing" / "__init__.py").write_text("") == 0
+    (root / "pyproject.toml").write_text(MINI_PYPROJECT, encoding="utf-8")
+    (root / "tests" / "test_normal_identity.py").write_text(MINI_NORMAL, encoding="utf-8")
+    datapipeline = root / "tests" / "datapipeline"
+    (datapipeline / "test_synthetic_history.py").write_text(MINI_HISTORY, encoding="utf-8")
+    (datapipeline / "broken_package").mkdir()
+    (datapipeline / "test_synthetic_broken.py").write_text(MINI_BROKEN, encoding="utf-8")
+    (datapipeline / "test_synthetic_pin.py").write_text(MINI_PIN, encoding="utf-8")
+    (datapipeline / "synthetic_pinned.txt").write_bytes(b"synthetic pinned bytes\n")
+    return root
+
+
+_BRIDGE_RUNNER_PS1 = textwrap.dedent('''
+    param([string]$Python, [string]$LogDir)
+    $ErrorActionPreference = "Stop"
+    # Start the bridge interpreter without the repository startup chain: the
+    # outer guard legitimately forces that chain into this PowerShell process
+    # too, and a bridge python started with it would re-force the chain onto
+    # the sandbox launcher (observed as the sandbox resolving ak_trading to the
+    # outer worktree). The sandbox launcher re-establishes the full guard
+    # chain from candidate bytes in every process that executes test code.
+    Remove-Item Env:PYTHONPATH -ErrorAction SilentlyContinue
+    Remove-Item Env:PYTHONHOME -ErrorAction SilentlyContinue
+    Remove-Item Env:PYTHONSTARTUP -ErrorAction SilentlyContinue
+    Remove-Item Env:PYTEST_ADDOPTS -ErrorAction SilentlyContinue
+    Remove-Item Env:PYTEST_PLUGINS -ErrorAction SilentlyContinue
+    $env:PYTHONIOENCODING = "utf-8"
+    & $Python -B (Join-Path $LogDir "bridge.py")
+    exit $LASTEXITCODE
+''')
+
+_BRIDGE_PY = '''\
+"""Clean-start bridge for sandbox launcher runs (see _bridged_run)."""
+import json
+import os
+import subprocess
+import sys
+
+here = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(here, "command.json"), encoding="utf-8") as handle:
+    payload = json.load(handle)
+environment = {
+    name: value for name, value in os.environ.items()
+    if name.upper() not in {
+        "PYTHONPATH", "PYTHONHOME", "PYTHONSTARTUP",
+        "PYTEST_ADDOPTS", "PYTEST_PLUGINS",
+    }
+}
+environment["PYTHONIOENCODING"] = "utf-8"
+with open(payload["stdout"], "wb") as out, open(payload["stderr"], "wb") as err:
+    code = subprocess.run(
+        [payload["python"], *payload["argv"]],
+        cwd=payload["cwd"], env=environment,
+        stdout=out, stderr=err,
+    ).returncode
+sys.exit(code)
+'''
+
+
+class _BridgedResult:
+    def __init__(self, returncode, stdout, stderr):
+        self.returncode = returncode
+        self.stdout = stdout
+        self.stderr = stderr
+
+
+_bridge_counter = 0
+
+
+def _bridged_run(root: Path, argv: list[str], timeout: int = 240) -> _BridgedResult:
+    """Run a sandbox command with a production-like clean interpreter start.
+
+    Harness-vs-product cause of the first three focused failures: this test
+    file executes inside the repository's guarded pytest child, and
+    offline_guard._check_python_child force-overwrites PYTHONPATH with the
+    repository startup chain for every direct python child spawned here. A
+    sandbox launcher started that way never sees its own bootstrap: the outer
+    sitecustomize pre-imports this repository's ak_trading and the guard
+    installed inside the sandbox launcher rewrites the sandbox children's
+    PYTHONPATH, so the sandbox src tree is bypassed (observed as the mini-repo
+    normal domain resolving ak_trading to this worktree's src). Production
+    launcher processes are not pre-guarded this way. The repair starts the
+    sandbox through the guard's own sanctioned native-fixture bridge
+    (offline_guard.allow_powershell_fixture, exact 11-argument contract); the
+    bridge's python child is the sandbox launcher itself, which installs the
+    guard - byte-identical to the candidate, asserted in _mini_repo - in every
+    process that executes test code. No guard protection is removed anywhere.
+    """
+    global _bridge_counter
+    from ak_trading.testing import offline_guard
+
+    _bridge_counter += 1
+    logdir = root.parent / "bridge-runs" / f"run-{_bridge_counter:03d}"
+    logdir.mkdir(parents=True, exist_ok=True)
+    (logdir / "runner.ps1").write_text(_BRIDGE_RUNNER_PS1, encoding="utf-8-sig")
+    (logdir / "bridge.py").write_text(_BRIDGE_PY, encoding="utf-8")
+    command = {
+        "python": sys.executable,
+        "argv": [str(part) for part in argv],
+        "cwd": str(root),
+        "stdout": str(logdir / "stdout.txt"),
+        "stderr": str(logdir / "stderr.txt"),
+    }
+    (logdir / "command.json").write_text(json.dumps(command), encoding="utf-8")
+    executable = shutil.which("powershell") or shutil.which("pwsh")
+    assert executable, "offline sandbox bridge requires PowerShell"
+    fixture_argv = [
+        executable, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass",
+        "-File", str(logdir / "runner.ps1"), "-Python", sys.executable,
+        "-LogDir", str(logdir),
+    ]
+    with offline_guard.allow_powershell_fixture(logdir / "runner.ps1", executable):
+        completed = subprocess.run(
+            fixture_argv, cwd=root, capture_output=True, text=True,
+            encoding="utf-8", errors="replace", timeout=timeout, check=False,
+        )
+    stdout_file = logdir / "stdout.txt"
+    stderr_file = logdir / "stderr.txt"
+    stdout = (
+        stdout_file.read_text(encoding="utf-8", errors="replace")
+        if stdout_file.exists() else ""
+    )
+    stderr = (
+        stderr_file.read_text(encoding="utf-8", errors="replace")
+        if stderr_file.exists() else ""
+    )
+    if not stdout_file.exists() or completed.stderr:
+        stderr = f"{stderr}\n[powershell-bridge] {completed.stdout}{completed.stderr}".strip("\n")
+    return _BridgedResult(completed.returncode, stdout, stderr)
+
+
+def _mini_run(root: Path, *arguments, timeout=240):
+    return _bridged_run(
+        root, ["-B", str(root / "scripts" / "test_offline.py"), *map(str, arguments)],
+        timeout=timeout,
+    )
+
+
+def _collect_only_nodeids(result) -> list[str]:
+    return [
+        line.strip()
+        for line in result.stdout.splitlines()
+        if line.startswith("tests/") and "::" in line
+    ]
+
+
+def test_isolated_domains_survive_contamination_collection_error_and_pin_failure(tmp_path):
+    root = _mini_repo(tmp_path)
+    result = _mini_run(root, "-q")
+    combined = result.stdout + result.stderr
+    assert result.returncode == 2, combined  # collection error outranks test failure
+    assert (
+        "Offline plan: 4 domain(s): datapipeline-test_synthetic_broken.py, "
+        "datapipeline-test_synthetic_history.py, datapipeline-test_synthetic_pin.py, normal"
+    ) in result.stdout
+    assert "=== offline domain datapipeline-test_synthetic_broken.py: exit 2 ===" in result.stdout
+    assert "=== offline domain datapipeline-test_synthetic_history.py: exit 0 ===" in result.stdout
+    assert "=== offline domain datapipeline-test_synthetic_pin.py: exit 1 ===" in result.stdout
+    # Isolation: the normal domain still passes despite its polluted siblings.
+    assert "=== offline domain normal: exit 0 ===" in result.stdout
+    assert "1 passed" in result.stdout
+    assert "OFFLINE-DOMAIN-STATS" in result.stdout
+    assert "unresolved_files 0" in result.stdout
+    assert "Offline overall exit: 2" in result.stdout
+    # The deliberately wrong pin keeps failing; its failure text stays visible.
+    pin_section = result.stdout.split(
+        "=== offline domain datapipeline-test_synthetic_pin.py: exit 1 ===", 1
+    )[1]
+    assert "AssertionError" in pin_section
+
+
+def test_shared_process_run_proves_the_contamination_probe_has_teeth(tmp_path):
+    root = _mini_repo(tmp_path)
+    history = root / "tests" / "datapipeline" / "test_synthetic_history.py"
+    normal = root / "tests" / "test_normal_identity.py"
+    shared = _bridged_run(
+        root, ["-B", "-m", "pytest", "-q", str(history), str(normal)], timeout=120
+    )
+    # One plain pytest process: the evicted/stubbed package breaks the normal
+    # module at collection, so the isolation probes above are not vacuous.
+    assert shared.returncode != 0, shared.stdout + shared.stderr
+    assert "ModuleNotFoundError" in shared.stdout + shared.stderr
+
+
+def test_domain_order_permutations_preserve_nodeids_and_results(tmp_path):
+    root = _mini_repo(tmp_path)
+    normal = "tests/test_normal_identity.py"
+    history = "tests/datapipeline/test_synthetic_history.py"
+    forward = _mini_run(root, "--collect-only", "-q", normal, history)
+    reverse = _mini_run(root, "--collect-only", "-q", history, normal)
+    assert forward.returncode == 0, forward.stdout + forward.stderr
+    assert reverse.returncode == 0, reverse.stdout + reverse.stderr
+    forward_ids = _collect_only_nodeids(forward)
+    reverse_ids = _collect_only_nodeids(reverse)
+    assert sorted(forward_ids) == sorted(reverse_ids)
+    assert len(forward_ids) == len(set(forward_ids)) == 2  # each node exactly once
+    run_forward = _mini_run(root, "-q", normal, history)
+    run_reverse = _mini_run(root, "-q", history, normal)
+    assert run_forward.returncode == run_reverse.returncode == 0
+    assert "=== offline domain normal: exit 0 ===" in run_forward.stdout
+    assert "=== offline domain normal: exit 0 ===" in run_reverse.stdout
+    assert (
+        "=== offline domain datapipeline-test_synthetic_history.py: exit 0 ==="
+        in run_forward.stdout
+    )
+    assert (
+        "=== offline domain datapipeline-test_synthetic_history.py: exit 0 ==="
+        in run_reverse.stdout
+    )
+    for run in (run_forward, run_reverse):
+        assert "Offline totals: selected 2 (+0 deselected), ran 2, passed 2" in run.stdout
+
+
+def test_reversed_historical_file_order_keeps_native_domain_results(tmp_path):
+    root = _mini_repo(tmp_path)
+    broken = "tests/datapipeline/test_synthetic_broken.py"
+    pin = "tests/datapipeline/test_synthetic_pin.py"
+    history = "tests/datapipeline/test_synthetic_history.py"
+    forward = _mini_run(root, "-q", broken, pin, history)
+    reverse = _mini_run(root, "-q", history, pin, broken)
+    for run in (forward, reverse):
+        assert run.returncode == 2, run.stdout + run.stderr
+        assert "=== offline domain datapipeline-test_synthetic_broken.py: exit 2 ===" in run.stdout
+        assert "=== offline domain datapipeline-test_synthetic_pin.py: exit 1 ===" in run.stdout
+        assert "=== offline domain datapipeline-test_synthetic_history.py: exit 0 ===" in run.stdout
+        assert "Offline overall exit: 2" in run.stdout
+
+
+def test_directory_selection_routes_each_datapipeline_file_to_its_own_domain(tmp_path):
+    root = _mini_repo(tmp_path)
+    result = _mini_run(root, "-q", "tests/datapipeline")
+    combined = result.stdout + result.stderr
+    assert result.returncode == 2, combined
+    plan_lines = [line for line in result.stdout.splitlines() if line.startswith("Offline plan:")]
+    assert plan_lines == [
+        "Offline plan: 3 domain(s): datapipeline-test_synthetic_broken.py, "
+        "datapipeline-test_synthetic_history.py, datapipeline-test_synthetic_pin.py"
+    ]
+    assert "datapipeline-test_synthetic_broken.py" in result.stdout
+
+
+def test_explicit_node_selection_routes_single_node_to_single_domain(tmp_path):
+    root = _mini_repo(tmp_path)
+    result = _mini_run(
+        root, "-q",
+        "tests/datapipeline/test_synthetic_history.py::test_history_domain_uses_rebuilt_package",
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 0, combined
+    assert "Offline plan: 1 domain(s): datapipeline-test_synthetic_history.py" in result.stdout
+    assert "1 passed" in result.stdout
+
+
+def test_option_values_are_not_routed_as_paths_and_empty_domain_is_neutral(tmp_path):
+    root = _mini_repo(tmp_path)
+    result = _mini_run(
+        root, "-q",
+        "tests/test_normal_identity.py", "tests/datapipeline/test_synthetic_history.py",
+        "--deselect", "tests/test_normal_identity.py::test_module_origin_and_identity",
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 0, combined  # raw5 empty normal domain is neutral
+    assert "Offline plan: 2 domain(s): normal, datapipeline-test_synthetic_history.py" in result.stdout
+    assert "=== offline domain normal: exit 5 ===" in result.stdout
+    assert "=== offline domain datapipeline-test_synthetic_history.py: exit 0 ===" in result.stdout
+    assert "deselected 1" in result.stdout
+    assert "Offline overall exit: 0" in result.stdout
+
+
+def test_all_domains_empty_selection_returns_five(tmp_path):
+    root = _mini_repo(tmp_path)
+    result = _mini_run(
+        root, "-q",
+        "tests/test_normal_identity.py", "tests/datapipeline/test_synthetic_history.py",
+        "-k", "no_such_test_exists_anywhere",
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 5, combined
+    assert "=== offline domain normal: exit 5 ===" in result.stdout
+    assert (
+        "=== offline domain datapipeline-test_synthetic_history.py: exit 5 ===" in result.stdout
+    )
+    assert "Offline overall exit: 5" in result.stdout
+
+
+def test_test_failure_without_collection_error_propagates_exit_one(tmp_path):
+    root = _mini_repo(tmp_path)
+    result = _mini_run(
+        root, "-q",
+        "tests/datapipeline/test_synthetic_pin.py",
+        "tests/datapipeline/test_synthetic_history.py",
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 1, combined
+    assert "=== offline domain datapipeline-test_synthetic_pin.py: exit 1 ===" in result.stdout
+    assert "=== offline domain datapipeline-test_synthetic_history.py: exit 0 ===" in result.stdout
+    assert "Offline overall exit: 1" in result.stdout
+
+
+def test_per_domain_basetemp_is_derived_and_requested_directory_retained(tmp_path):
+    root = _mini_repo(tmp_path)
+    requested = tmp_path / "requested-results"
+    sentinel = tmp_path / "caller-owned.txt"
+    sentinel.write_text("keep", encoding="utf-8")
+    result = _mini_run(
+        root, "-q",
+        "tests/test_normal_identity.py", "tests/datapipeline/test_synthetic_history.py",
+        "--basetemp", requested,
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 0, combined
+    # pytest materializes a given --basetemp lazily on first tmp-fixture use,
+    # which the synthetic probes now exercise; content must be retained.
+    assert (requested / "normal").is_dir()
+    assert list((requested / "normal").rglob("normal-proof.txt"))
+    assert (requested / "datapipeline-test_synthetic_history.py").is_dir()
+    assert list((requested / "datapipeline-test_synthetic_history.py").rglob("history-proof.txt"))
+    assert requested.is_dir()  # accepted requested root is retained
+    assert sentinel.read_text(encoding="utf-8") == "keep"
+
+
+def test_real_datapipeline_calendar_failures_are_preserved_through_isolation():
+    result = subprocess.run(
+        [sys.executable, "-B", str(SCRIPT), "-q", "tests/datapipeline/test_calendar.py"],
+        cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+        errors="replace", timeout=240, check=False,
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 1, combined
+    assert "Offline plan: 1 domain(s): datapipeline-test_calendar.py" in result.stdout
+    assert "=== offline domain datapipeline-test_calendar.py: exit 1 ===" in result.stdout
+    assert '"failed": ' in result.stdout
+    failed_count = [
+        line for line in result.stdout.splitlines() if line.startswith("Offline domain")
+    ]
+    assert any("failed 9, skipped 0, errors 0" in line for line in failed_count), failed_count
+    assert "unresolved_files 0" in result.stdout
+    assert "Offline overall exit: 1" in result.stdout
+
+
+class _InterruptingPopen:
+    """Fake child that raises KeyboardInterrupt in the parent on communicate()."""
+
+    def __init__(self, *arguments, **keywords):
+        self.returncode = None
+
+    def communicate(self):
+        raise KeyboardInterrupt
+
+    def kill(self):
+        return None
+
+
+class _OneGoodThenInterruptPopen:
+    """First child completes with a real stats line; later ones interrupt.
+
+    A completed fake child must set returncode like a real exited process,
+    otherwise the launcher honestly reports "no child exit" for it.
+    """
+
+    popens = 0
+    STATS = (
+        'OFFLINE-DOMAIN-STATS {"selected": 1, "deselected": 0, "collected": 1, "ran": 1, '
+        '"passed": 1, "failed": 0, "skipped": 0, "errors": 0, "selected_nodeids": ["tests/x"], '
+        '"failed_nodeids": [], "error_nodeids": [], "collection_errors": [], '
+        '"collected_files": ["tests/test_config.py"]}\n'
+    )
+
+    def __init__(self, *arguments, **keywords):
+        self.returncode = None
+        type(self).popens += 1
+
+    def communicate(self):
+        if type(self).popens == 1:
+            self.returncode = 0
+            return self.STATS, ""
+        raise KeyboardInterrupt
+
+    def kill(self):
+        return None
+
+
+def test_parent_keyboardinterrupt_on_first_domain_returns_130_and_lists_unrun(
+    tmp_path, monkeypatch, capsys
+):
+    launcher = _launcher()
+    monkeypatch.setattr(subprocess, "Popen", _InterruptingPopen)
+    code = launcher.main([
+        "-q", "tests/test_config.py", "tests/datapipeline/test_calendar.py",
+    ])
+    output = capsys.readouterr().out
+    assert code == 130
+    assert "Offline plan: 2 domain(s): normal, datapipeline-test_calendar.py" in output
+    assert "domains not run: datapipeline-test_calendar.py" in output
+    assert "Offline overall exit: 130" in output
+
+
+def test_parent_keyboardinterrupt_mid_dispatch_keeps_completed_domain(
+    monkeypatch, capsys
+):
+    launcher = _launcher()
+    _OneGoodThenInterruptPopen.popens = 0
+    monkeypatch.setattr(subprocess, "Popen", _OneGoodThenInterruptPopen)
+    # Three domains: the first completes, the second is interrupted mid-run,
+    # the third is never dispatched and must be listed as not run.
+    code = launcher.main([
+        "-q", "tests/test_config.py", "tests/datapipeline/test_calendar.py",
+        "tests/datapipeline/test_collector.py",
+    ])
+    output = capsys.readouterr().out
+    assert code == 130
+    assert "=== offline domain normal: exit 0 ===" in output
+    assert "=== offline domain datapipeline-test_calendar.py" in output
+    assert "domains not run: datapipeline-test_collector.py" in output
+    assert "Offline overall exit: 130" in output
+    assert _OneGoodThenInterruptPopen.popens == 2
+
+
+# --- F1/F2/F3 source-repair regressions (independent preparation findings) ---
+
+def test_nested_datapipeline_file_names_never_share_a_domain(tmp_path):
+    """tests/datapipeline/sub/test_x.py and tests/datapipeline/sub-test_x.py
+    must never flatten to one domain name: the shared subprocess would let the
+    evict-and-stub history file contaminate the identity probe exactly like
+    the historical DP03/DP04/DP08 bootstraps (plan §4.1)."""
+    root = _mini_repo(tmp_path)
+    nested = root / "tests" / "datapipeline" / "sub"
+    nested.mkdir()
+    (nested / "test_x.py").write_text(MINI_HISTORY, encoding="utf-8")
+    (nested / "broken_package").mkdir()
+    (root / "tests" / "datapipeline" / "sub-test_x.py").write_text(MINI_NORMAL, encoding="utf-8")
+    result = _mini_run(
+        root, "-q",
+        "tests/datapipeline/sub/test_x.py", "tests/datapipeline/sub-test_x.py",
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 0, combined
+    assert (
+        "Offline plan: 2 domain(s): datapipeline-sub%stest_x.py, datapipeline-sub%dtest_x.py"
+        in result.stdout
+    )
+    assert "=== offline domain datapipeline-sub%stest_x.py: exit 0 ===" in result.stdout
+    assert "=== offline domain datapipeline-sub%dtest_x.py: exit 0 ===" in result.stdout
+    assert result.stdout.count("1 passed") == 2  # each file executed in its own process
+    assert "unresolved_files 0" in result.stdout
+
+
+def test_planning_failure_without_paths_preserves_native_failure(tmp_path):
+    """A planning failure (corrupted pinned ini) with zero positional arguments
+    must surface the native child failure instead of reporting a legal empty
+    selection (plan §4.5: collection errors and missing input are never 'no
+    tests collected')."""
+    root = _mini_repo(tmp_path)
+    (root / "pyproject.toml").write_text(
+        "[tool.pytest.ini_options\nthis is not valid toml ][\n", encoding="utf-8"
+    )
+    result = _mini_run(root)
+    combined = result.stdout + result.stderr
+    assert result.returncode == 4, combined  # native usage/config failure, not 5
+    assert "Offline planning failed" in result.stderr
+    assert "Offline plan: 1 domain(s): normal" in result.stdout
+    assert "1 domain(s) planned, 1 launched, 0 skipped-empty" in result.stdout
+    assert "=== offline domain normal: exit 4 ===" in result.stdout
+    assert "Offline overall exit: 4" in result.stdout
+
+
+def test_not_dispatched_files_are_reported_separately_from_unresolved(tmp_path):
+    """Files of domains never given a completed collection attempt (user stop,
+    interrupt, launcher failure) must not be reported as unresolved enumeration
+    disagreements; the not-dispatched listing keeps the accounting exact."""
+    root = _mini_repo(tmp_path)
+    result = _mini_run(
+        root, "-q",
+        "tests/datapipeline/test_synthetic_pin.py",
+        "tests/datapipeline/test_synthetic_history.py",
+        "--maxfail", "1",
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 1, combined  # pin failure is the user stop trigger
+    assert "=== offline domain datapipeline-test_synthetic_pin.py: exit 1 ===" in result.stdout
+    assert "domains not run: datapipeline-test_synthetic_history.py" in result.stdout
+    assert "unresolved_files 0" in result.stdout
+    assert (
+        "Offline not-dispatched files (no completed collection attempt): "
+        "tests/datapipeline/test_synthetic_history.py" in result.stdout
+    )
+    assert "Offline unresolved files:" not in result.stdout
+    assert "Offline overall exit: 1" in result.stdout
+
+
+# --- RF1 repair regressions (reviewer-confirmed encoding collision) ---
+
+def test_rf1_dash_separator_adjacent_paths_never_share_a_domain(tmp_path):
+    """The reviewer's exact boundary pair: tests/datapipeline/a-/b/test_x.py
+    and tests/datapipeline/a/-b/test_x.py previously flattened to one domain
+    name ('a---b-test_x.py') and the shared subprocess let the collection-time
+    evict-and-stub file destroy both files' native results. With the
+    prefix-free escape encoding they must run as two isolated domains."""
+    root = _mini_repo(tmp_path)
+    first = root / "tests" / "datapipeline" / "a-" / "b"
+    first.mkdir(parents=True)
+    (first / "test_x.py").write_text(MINI_HISTORY, encoding="utf-8")
+    (first / "broken_package").mkdir()
+    second = root / "tests" / "datapipeline" / "a" / "-b"
+    second.mkdir(parents=True)
+    (second / "test_x.py").write_text(MINI_NORMAL, encoding="utf-8")
+    result = _mini_run(
+        root, "-q",
+        "tests/datapipeline/a-/b/test_x.py", "tests/datapipeline/a/-b/test_x.py",
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 0, combined
+    assert (
+        "Offline plan: 2 domain(s): datapipeline-a%d%sb%stest_x.py, "
+        "datapipeline-a%s%db%stest_x.py" in result.stdout
+    )
+    assert "=== offline domain datapipeline-a%d%sb%stest_x.py: exit 0 ===" in result.stdout
+    assert "=== offline domain datapipeline-a%s%db%stest_x.py: exit 0 ===" in result.stdout
+    assert result.stdout.count("1 passed") == 2  # each file executed in its own process
+    assert "unresolved_files 0" in result.stdout
+    # Reversed argument order must yield the identical isolated outcome.
+    reversed_result = _mini_run(
+        root, "-q",
+        "tests/datapipeline/a/-b/test_x.py", "tests/datapipeline/a-/b/test_x.py",
+    )
+    assert reversed_result.returncode == 0, reversed_result.stdout + reversed_result.stderr
+    assert reversed_result.stdout.count("1 passed") == 2
+
+
+def test_domain_name_encoding_is_prefix_free_roundtrip_and_unique():
+    """Property check of the product encoder itself (not a re-implementation):
+    over an adversarial universe of remainders built from the escape char,
+    dashes, separators and pass-through characters, the encoding must be
+    unique and must round-trip through the inverse defined by the documented
+    prefix-free code. The exact F1/RF1 boundary pairs are asserted explicitly."""
+    launcher = _launcher()
+    inverse = {"p": "%", "d": "-", "s": "/"}
+
+    def decode(encoded: str) -> str:
+        assert encoded.startswith("datapipeline-")
+        body = encoded[len("datapipeline-"):]
+        out = []
+        index = 0
+        while index < len(body):
+            character = body[index]
+            if character == "%":
+                index += 1
+                out.append(inverse[body[index]])
+            else:
+                out.append(character)
+            index += 1
+        return "".join(out)
+
+    alphabet = "ab-%x"
+    universe = [""]
+    for _ in range(4):
+        universe = [item + character for item in universe for character in alphabet]
+    suffixed = sorted(set(
+        candidate + variant
+        for candidate in universe
+        for variant in ("", "/test_x.py", "-test_x.py", ".py", "/a-/b.py", "a%")
+    ))
+    encodings = {launcher._datapipeline_domain_name(item) for item in suffixed}
+    assert len(encodings) == len(suffixed)  # uniqueness on the adversarial universe
+    for item in suffixed:
+        assert decode(launcher._datapipeline_domain_name(item)) == item
+
+    # Exact boundary pairs, including the reviewer's reproduced collision.
+    names = [
+        launcher._datapipeline_domain_name(path)
+        for path in (
+            "a-/b/test_x.py", "a/-b/test_x.py",       # RF1 pair
+            "sub/test_x.py", "sub-test_x.py",         # F1 pair
+            "a--b/test.py", "a/-/-b/test.py",         # dash runs and separators
+            "100%/full.py", "100%25.py",              # escape char itself
+            "sub/test", "sub/test.py",                # extension boundary
+        )
+    ]
+    assert len(names) == len(set(names))
+    assert launcher._datapipeline_domain_name("a-/b/test_x.py") == (
+        "datapipeline-a%d%sb%stest_x.py"
+    )
+    assert launcher._datapipeline_domain_name("a/-b/test_x.py") == (
+        "datapipeline-a%s%db%stest_x.py"
+    )

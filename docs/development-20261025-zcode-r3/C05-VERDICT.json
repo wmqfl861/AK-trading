@@ -1,0 +1,58 @@
+{
+  "phase": "c05-product-hard-review-005 (closed by -006 continuation)",
+  "date": "2026-10-25",
+  "reviewer": "independent C05 ZCode product reviewer, original SID/store/cwd, GLM-5.3/max unchanged",
+  "verdict": "PASS",
+  "scope": "bounded to the frozen two-file C05 write-set under the effective plan (73b8e13e... / disposition 3c5310a6...)",
+  "unconditional": true,
+  "write_set": {
+    "scripts/test_offline.py": {"sha256": "5d9f3b0590095d70ad200cccf12165ebd8dcda83bda5cc9863c4378405e75eb4", "bytes": 28967},
+    "tests/test_offline_launcher.py": {"sha256": "300ef264e90fd24448f65942bfbee57f4d06c50ea07ec2869dbdd1e554e0860a", "bytes": 61083}
+  },
+  "basis": {
+    "required_validation_all_independently_executed": true,
+    "batch": {
+      "root": "D:\\Maintenance\\aktr-development-20261025\\c05-product-hard-review-005\\work\\batch1",
+      "supervisor_pid": 139988,
+      "created_utc": "2026-10-25T20:15:36Z",
+      "completed_utc": "2026-10-25T22:33:16Z",
+      "single_instance": true,
+      "restarted": false,
+      "no_overlap_verified": "process scan before launch showed zero test_offline/offline_domain_stats processes",
+      "steps_native_exits": {
+        "focused": 0,
+        "collect-full": 2,
+        "full": 2,
+        "perm-fwd-co": 2,
+        "perm-fwd-run": 2,
+        "perm-rev-co": 2,
+        "perm-rev-run": 2,
+        "adj-collector-alone": 1,
+        "adj-calendar-then-collector": 1,
+        "adj-scheduler-then-collector": 1,
+        "adj-collector-then-calendar": 1
+      }
+    },
+    "key_matches_with_owner_closed_results": [
+      "focused 45/45 exit 0",
+      "collect-full selected 6015 (+9 deselected), same 3 collection-error files, unresolved 0",
+      "full totals identical: ran 6015, 5754 passed, 171 failed, 30 skipped, 60 errors, same 3 collection errors",
+      "permutations: same calendar-9 + e2e collection error in both orders; reviewer sets identical across orders"
+    ],
+    "source_pins_identical_before_after_batch": true
+  },
+  "non_claims": [
+    "full C05 baseline is NOT green; remaining business/pin failures stay with their owners for closure (normal-domain baseline failures, collector CLI test, restart-test timing robustness)",
+    "no research/backtest/simulation/deployment qualification granted",
+    "historical pin mismatches preserved, not refreshed (DP08 old-consumption f5cf3d0e... vs 64387dda..., DP04 calendar anchors, boundaries/release collection errors)",
+    "owner validation004 stop and full attempt-1 remain INCOMPLETE/uncredited"
+  ],
+  "disposition": "PASS bounded two-file write-set; Root may integrate the exact frozen bytes and unlock Forward per work order",
+  "safety": "enable_trading=false, observer=hold, broker=NOT_RUN, real send/cancel 0/0; no candidate writes, no git, no network/DB/SDK/services, no credentials/.env, no nested delegation",
+  "artifacts": {
+    "review": "work/REVIEW.md",
+    "findings": "work/FINDINGS.json",
+    "hashes": "work/HASHES.json",
+    "batch_evidence": "work/batch1/<step>/{COMMAND.json,stdout.txt,stderr.txt,exit.txt,end.txt} and work/batch1/snapshots/*.json"
+  }
+}

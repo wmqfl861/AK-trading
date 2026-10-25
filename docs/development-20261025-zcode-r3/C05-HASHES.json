@@ -1,0 +1,31 @@
+{
+  "phase": "c05-product-hard-review-005 (closed by -006 continuation)",
+  "date": "2026-10-25",
+  "product_write_set": {
+    "scripts/test_offline.py": {
+      "sha256": "5d9f3b0590095d70ad200cccf12165ebd8dcda83bda5cc9863c4378405e75eb4",
+      "bytes": 28967,
+      "lineage": ["4509681f2b593a300fae305ca3bce6d4fae5431bc4144c8e733ec08b3b615528 (baseline)", "f77297d200b7a5ac17e65ae388cb0f264c22d5e17cb575431c16fa69081776fa (FREEZE004-era)", "70f2f9396cc1b75157ed2783dccb534b144aa63e4fc5a6162515ed9f699e991a (FREEZE005)", "5d9f3b05... (FREEZE006, frozen, verified before and after batch)"]
+    },
+    "tests/test_offline_launcher.py": {
+      "sha256": "300ef264e90fd24448f65942bfbee57f4d06c50ea07ec2869dbdd1e554e0860a",
+      "bytes": 61083,
+      "lineage": ["cd12cb37fdd7e196f3a39a5312e0f598d29e1389e7352a9ed08a5dbca0cbda56 (baseline)", "55d7f91513ab7a2291c882bb18f9afdb4f32a555dcbb384ca7e62ac9139aaff3", "1c633488c271f8166baa8f802c7bbef1f9a234bee80ddd20ef71f0a1a5a068e4", "300ef264... (FREEZE006, frozen, verified before and after batch)"]
+    }
+  },
+  "read_only_inputs": {
+    "src/ak_trading/testing/offline_guard.py": {"sha256": "e0a667d551f3f8cb68e67b336caee759935c7d6debe84df55b2f5e97cc2d8623", "bytes": 15397},
+    "effective_plan_C05-PLAN.md": {"sha256": "73b8e13e90614dbd091cafd635d17cfacd091ddf309d1ff27d24d26284b979ae"},
+    "C05-DISPOSITION.md": {"sha256": "3c5310a6236504faffe3950ae4616061918517ca89ba9c8ecebde51e7664c220"},
+    "baseline_commit": "0cc305454d06643e93b14e426d04a6a755094d84"
+  },
+  "batch_evidence_pins": {
+    "batch1/state.json": {"sha256": "8afeb5256c1e3ca0f645a9bc699faa24754f4a207b68114adbfd9f77f723a91f", "bytes": 2498, "pinned_by": "ROOT-INDEPENDENT-BATCH-HANDOFF.json"},
+    "batch1/manifest.json": {"sha256": "7b1f0263e73dfc350b233e67783bfc02324a94fd4056518b6a9d6e98f6a389", "bytes": 5587, "pinned_by": "ROOT-INDEPENDENT-BATCH-HANDOFF.json"},
+    "supervisor_pid": 139988,
+    "created_utc": "2026-10-25T20:15:36Z",
+    "completed_utc": "2026-10-25T22:33:16Z",
+    "source_pins_before_after_identical": true
+  },
+  "verification_method": "sha256sum + wc -c at phase start; manifest.json source_pins_before before any child launch; state.json source_pins_after after natural completion; all three product pins identical across the entire review"
+}

@@ -1,0 +1,77 @@
+{
+  "phase": "c05-product-hard-review-005 (closed by -006 continuation)",
+  "date": "2026-10-25",
+  "reviewer": "independent C05 ZCode product reviewer, original SID/store/cwd, GLM-5.3/max unchanged",
+  "write_set": {
+    "scripts/test_offline.py": {"sha256": "5d9f3b0590095d70ad200cccf12165ebd8dcda83bda5cc9863c4378405e75eb4", "bytes": 28967},
+    "tests/test_offline_launcher.py": {"sha256": "300ef264e90fd24448f65942bfbee57f4d06c50ea07ec2869dbdd1e554e0860a", "bytes": 61083}
+  },
+  "findings": [
+    {
+      "id": "HR1",
+      "title": "Owner full attempt-1 supervision failure preserved; INCOMPLETE and uncredited",
+      "classification": "historical_infrastructure_limitation_not_product_defect",
+      "facts": "wrapper died while launcher survived; dual launcher window 16:47Z-16:57Z (both in normal domain, no staging race); duplicate killed deliberately; later exit 1 handwritten not native; stdout/stderr 0 bytes",
+      "disposition": "preserved as-is; fresh no-overlap verification supplied by reviewer batch1 (single supervisor PID 139988, process-scan-verified clean start, natural completion 22:33:16Z, pins identical before/after)",
+      "blocking": false
+    },
+    {
+      "id": "HR2",
+      "title": "Permutation failure-set difference adjudicated: load-sensitive historical restart test, not a C05 isolation defect",
+      "classification": "pre_existing_test_timing_sensitivity_owner_closure",
+      "evidence": {
+        "owner_difference": "reverse-only failure tests/datapipeline/test_collector.py::test_restart_resumes_pointer_and_keeps_gaps_scheduled (fwd 10 vs rev 11 failed)",
+        "owner_failure_signature": "assert 5 == 0 with pending_uncommitted=1 on the test's own run_deadline_seconds=20.0 wall clock, identical in run-full-attempt2 and perm-rev-run",
+        "reviewer_execution": "PASSED in 6/6 executions: perm-fwd-run, perm-rev-run, adj-collector-alone, adj-calendar-then-collector, adj-scheduler-then-collector, adj-collector-then-calendar",
+        "reviewer_permutations_order_invariant": "189 ran each direction, 179 passed / 10 failed each, identical failed node sets",
+        "state_coupling_excluded": "DP03 and DP04 bootstraps build disjoint staging trees (.tmp/datapipeline/DP03/staging vs DP04/staging); no cross-domain state path",
+        "load_context": "host carried documented heavy foreign-project processes during owner windows"
+      },
+      "disposition": "owner-closure item for test robustness (20s wall-clock deadline under load); outside the two-file write-set; not masked as noise; not a launcher defect",
+      "blocking": false
+    },
+    {
+      "id": "HR3",
+      "title": "Collector CLI synthetic test fails deterministically in all orders",
+      "classification": "pre_existing_or_environment_failure_owner_closure_not_established_here",
+      "evidence": "test_cli_synthetic_run_writes_summary failed in 10/10 executions (owner 3, reviewer 7 incl. collector-alone) with IndexError parsing empty CLI subprocess stdout; same class every order; per-domain reporting faithful",
+      "note": "guard PYTHONPATH startup-chain overwrite for test-spawned python children predates C05 and lives in unchanged offline_guard.py; root cause belongs to full-baseline owner closure",
+      "blocking": false
+    },
+    {
+      "id": "HR4",
+      "title": "Normal-domain failures are the pre-existing baseline with timing-sensitive membership",
+      "classification": "pre_existing_baseline_made_executable_owner_closure",
+      "evidence": "reviewer full: normal 5829 selected, 5584 passed / 155 failed / 30 skipped / 60 errors; owner full2: 5585/154/30/60; membership differs only inside timing-heavy files (benchmarks/test_harness.py, docs_reference/test_static_reference.py) by small counts; old entry executed none of these (174 collection errors, 0 executed)",
+      "checks": "deselected exactly 9 mandatory nodes in every run; unresolved_files 0 everywhere; no failure class implicates routing/guard/exclusions/basetemp/exit codes",
+      "blocking": false
+    },
+    {
+      "id": "HR5",
+      "title": "Historical DP failures preserved exactly, no pin refresh or masking",
+      "classification": "preserved_required_failures",
+      "evidence": "test_end_to_end.py collection error = DP08 old-consumption pin mismatch (collector.py manifest f5cf3d0e... vs tracked 64387dda...); test_boundaries.py and test_release.py collection errors; calendar DP04 9 failures identical in every run/order; task_installation 6 identical in both fulls; identical 3 collection-error files in owner and reviewer collect/full runs",
+      "blocking": false
+    },
+    {
+      "id": "HR6",
+      "title": "Isolation conformance confirmed on the frozen bytes",
+      "classification": "conformance_verified",
+      "evidence": {
+        "focused": "45 selected/ran/passed, native exit 0 (reviewer and owner)",
+        "collect_full": "selected 6015 (+9 deselected), 3 collection errors, unresolved 0, exit 2 - identical to owner",
+        "full": "ran 6015, 5754/171/30/60, same 3 collection errors, exit 2 - totals identical to owner",
+        "permutations": "fwd and rev identical failed sets (10 each), normal domain 45/45 both directions, e2e collection error both",
+        "rf1_encoder": "prefix-free percent-escape verified injective by reviewer's independent 37448-string uniqueness/roundtrip universe (c05-reviewer-rf1-recheck-004)",
+        "guard": "byte-identical offline_guard.py in every test-executing process; regression strength unchanged (shared-process counterexample still required to fail)"
+      },
+      "blocking": false
+    }
+  ],
+  "reused_prior_results": {
+    "probes003_B_to_F": "applicable: FREEZE005->006 launcher diff confined to _datapipeline_domain_name (full-file comparison); behaviors also covered by focused 45 green on frozen bytes",
+    "probes003_static_and_A_FAIL": "historical, bound to FREEZE005, superseded by repair and 004",
+    "recheck004_RF1": "binding on these frozen bytes (same hashes)",
+    "validation004_and_owner_attempt1": "preserved INCOMPLETE/uncredited; never rerun"
+  }
+}

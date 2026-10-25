@@ -1,0 +1,60 @@
+{
+  "schema": "aktr-root-exact-reviewed-byte-integration/v1",
+  "received_utc": "2026-10-25T22:56:34.235000+00:00",
+  "product_verdict": "PASS",
+  "unconditional": true,
+  "scope": "C05 two-file offline launcher import isolation",
+  "independent_verdict": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\c05-product-hard-review-005\\work\\VERDICT.json",
+    "bytes": 3098,
+    "sha256": "e8320d0ab10763a62fbe0dd9660548de1dc57fa1bf4403e44a860a01f8bda071"
+  },
+  "independent_hashes": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\c05-product-hard-review-005\\work\\HASHES.json",
+    "bytes": 2290,
+    "sha256": "68026114d6704f60bb1c102b3381ba5032cebc41dd7a0a7d046b9e7b9571ae9a"
+  },
+  "terminal": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\c05-product-hard-review-006\\TERMINAL.json",
+    "bytes": 334,
+    "sha256": "28cd504bf330ea0416fa4e7f9848a1dbc0e600012a9560eae10b8d8581bb1859"
+  },
+  "reviewer_session": "sess_26c4a825-059a-4bba-b54d-b371986ef225",
+  "reviewer_model": "GLM-5.3/max",
+  "trace_id": "a54a9af9-f966-4a2a-be31-771bcdaf1915",
+  "native_exit": 0,
+  "frozen_inputs_unchanged": true,
+  "accepted_repository_files": [
+    {
+      "path": "scripts/test_offline.py",
+      "bytes": 28967,
+      "sha256": "5d9f3b0590095d70ad200cccf12165ebd8dcda83bda5cc9863c4378405e75eb4",
+      "prior_sha256": "4509681f2b593a300fae305ca3bce6d4fae5431bc4144c8e733ec08b3b615528"
+    },
+    {
+      "path": "tests/test_offline_launcher.py",
+      "bytes": 61083,
+      "sha256": "300ef264e90fd24448f65942bfbee57f4d06c50ea07ec2869dbdd1e554e0860a",
+      "prior_sha256": "cd12cb37fdd7e196f3a39a5312e0f598d29e1389e7352a9ed08a5dbca0cbda56"
+    }
+  ],
+  "validation": {
+    "focused": "45passed raw0",
+    "independent_original_batch_steps": 11,
+    "collect_full_native": 2,
+    "full_native": 2,
+    "full": "6015ran/5754passed/171failed/30skipped/60errors;3collectionerrors",
+    "permutations": "both189ran/179passed/10failed;samefailednodes",
+    "baseline_green": false
+  },
+  "integration": "Exact reviewed bytes only; both main targets matched prior reviewed baseline. Active M5 input set has no intersections. No other owner source changes.",
+  "preserved_limits": "Historical owner overlap/UNKNOWN, test timing sensitivity, business/pin failures remain; no backtest or simulation acceptance.",
+  "next": "Resume original Forward owner with accepted C05 and current integrated closure; original independent full13-002 remains unconsumed.",
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_count": 0,
+    "real_cancel_count": 0
+  }
+}
