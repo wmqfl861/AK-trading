@@ -1,0 +1,46 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "total_reserved_ram_bytes": 19327352832,
+  "total_charged_d_bytes": 18924699648,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-048.json",
+    "bytes": 1763,
+    "sha256": "823871a49cdbefa58181a6c2a42a45275033fdea255539076c7baebf15718a79"
+  },
+  "recorded_utc": "2026-10-25T23:15:08.644466+00:00",
+  "fresh_capacity": {
+    "available_ram_bytes": 27002630144,
+    "D_free_bytes": 23652409344,
+    "C_free_bytes": 73911525376
+  },
+  "released_idle_RAM_only": {
+    "slot_id": "T7-A-strategy-implementation-review",
+    "bytes": 2147483648,
+    "terminal": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\t7-strategy-f01-hard-review-005\\TERMINAL.json",
+      "bytes": 337,
+      "sha256": "5eec82ae6534f09f1ef8e70ee6e015f0769fc7a9b735ecde29bc6ecda9778749"
+    },
+    "accepted": {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\T7-A-F01-ACCEPTANCE.json",
+      "bytes": 4211,
+      "sha256": "75a324cf208a67c7f698af720683fd162c991046a33738f1398990909d33a98c"
+    }
+  },
+  "additional_lane": {
+    "slot_id": "T7-M1-existing-lock-owner",
+    "RAM_reserved_bytes": 1073741824,
+    "D_reserved_bytes": 67108864,
+    "scope": "Existing T7 contract-lock generation using existing accepted generator; this first call bounded read-only preparation and exact concrete path/command, no product tests/fits."
+  },
+  "all_historical_disk_unknown_charges_retained": true,
+  "original_heavy_fit_serial_gate_unchanged": true
+}

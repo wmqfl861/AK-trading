@@ -1,0 +1,47 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "recorded_utc": "2026-10-25T22:22:15.012879+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-046.json",
+    "bytes": 1700,
+    "sha256": "fc6356abaede0b08476e995d9fb51560e6f3ab68f8baa02e8bcac1fb78af0d5c"
+  },
+  "total_reserved_ram_bytes": 20401094656,
+  "total_charged_d_bytes": 18857590784,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "restored_lanes": [
+    {
+      "slot_id": "N8-original-independent-review",
+      "ram_bytes": 2147483648
+    },
+    {
+      "slot_id": "T7-B-fixture-implementation",
+      "ram_bytes": 2147483648
+    }
+  ],
+  "released_idle_RAM_only": {
+    "slot_id": "bounded-zcode502-readonly-diagnosis",
+    "bytes": 1073741824,
+    "terminal": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\aux-zcode-502-context-diagnosis-001\\TERMINAL.json",
+      "bytes": 334,
+      "sha256": "4fe67cece5e9a28ba32e9fae99b40454fa7f12b5378276d18a279ca8ffd641ee"
+    }
+  },
+  "historical_disk_unknown_and_all_other_charges_unchanged": true,
+  "fresh_capacity": {
+    "available_ram_bytes": 29607784448,
+    "D_free_bytes": 23745167360,
+    "C_free_bytes": 73909731328
+  },
+  "N8_author069_storage_supplement_bytes": 720896,
+  "N8_supplement_within_existing_reserved_disk_lane": true,
+  "original_heavy_fit_serial_gate_unchanged": true
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "total_reserved_ram_bytes": 20401094656,
+  "total_charged_d_bytes": 18857590784,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "recorded_utc": "2026-10-25T23:03:48.232312+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-047.json",
+    "bytes": 1642,
+    "sha256": "f66520e52b0bb61c072992edc80a0aac9993a2aa4b653fc01738a9f7df52a12b"
+  },
+  "fresh_capacity": {
+    "available_ram_bytes": 29333835776,
+    "D_free_bytes": 23736659968,
+    "C_free_bytes": 73904607232
+  },
+  "released_idle_RAM_only": {
+    "slot_id": "C05-current-existing-isolation",
+    "bytes": 2147483648,
+    "terminal": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\c05-product-hard-review-006\\TERMINAL.json",
+      "bytes": 334,
+      "sha256": "28cd504bf330ea0416fa4e7f9848a1dbc0e600012a9560eae10b8d8581bb1859"
+    },
+    "accepted": {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\C05-ACCEPTANCE.json",
+      "bytes": 2630,
+      "sha256": "61ebbcd1aba687321fa9a6b9ebc63441987ef0961391114a49a1eae128a94890"
+    }
+  },
+  "restored_lanes": [
+    {
+      "slot_id": "strategy-input-or-forward-runtime",
+      "ram_bytes": 2147483648,
+      "scope": "original Forward offline integration/finalization and subsequent full13 under author003/004"
+    }
+  ],
+  "all_disk_unknown_and_other_lane_charges_unchanged": true,
+  "original_heavy_fit_serial_gate_unchanged": true
+}

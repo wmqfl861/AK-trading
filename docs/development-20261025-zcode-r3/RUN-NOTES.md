@@ -74,3 +74,18 @@ Root只读7e703b误将ZCode stdout.json写为Astra式stdout.ndjson，raw1保留�
 - T7-B004因HTTP502/native1结束前已修改support源码，34工具记录已保留。daily probe真实raw3、69个组件FAILED:insufficient_inner_split，尾部命令0不能记预检成功；原结果有覆写风险，现存源码/探针/result已保存精确快照。005继续原owner，按原样本/成熟/purge/embargo门修SYNTHETIC构造，禁止降阈值、模型改写或把fit藏在“预检”名下；新检查唯一目录，最终接受仍等A修复和合法M1链。
 
 - 2026-10-25 21:25–21:26 UTC：Root核对N8046/DISPATCH008的新实际工具完成后，在前次失败30余分钟后分别有界续接T7-A原owner004和M5原reviewer006。A八文件仍与修复前映像一致；M5的657旧输入全部匹配、005精确trace零工具，正式阶段消费0。两路实际START已生成，未换SID/store/cwd或模型配置。capacity044在真实物理余量足够时恢复M5原2GiB RAM，N8仍保留；所有磁盘与UNKNOWN扣账保持。五路ZCode和C05原独立完整测试同时运行，不代表服务已根治或任何新产品PASS。
+
+- T7-B005于21:31 HTTP502/native1，11模型请求/18内部重试/零工具，无上下文超限记录；004的支持源码逐字节未变。006在观察到其他会话真实源码编辑后有界接续原SID，不重启冷fit、不修改模型配置。DISPATCH008虽native0，却只交付部分修改，并改变了057明确要求保留的访问器语义；Root定点核对原文和实际源码后交原owner009修复，没有把自述或CLI0当成完成。
+- N8046的HTTP502/native1与两个实际源工具raw1分开保留：publisher8406B超过8192限制、一次trim发生AST错误，随后同名源和plan被原地改写。15条精确工具记录保留，但不冒称覆盖过的文件字节仍在。构造及正式目录均未创建；069原作者只处置已有中断，047未启动。Root工具459879因199628B的工具记录超过本地控制预算在发布和调用前raw1，任何author/CLI/正式检查启动数均0；9280b4用无损gzip保留完全相同记录，解压字节和hash回验，控制包43198B。不是改变代理上下文或压缩配置。
+- T7-A004八条必需命令真实raw0、合并212通过。首次c3监督器目录统计与pytest临时清理竞争而未生成RESULT，保留UNKNOWN；开发者修改了旧runner，当前hash和旧9833B hash差异显式纳入新独立复审，未将旧输入漂移涂改为不变。21:52原reviewer在新审计根启动，原FAIL包保留；源码与helper全部停写。
+
+
+2026-10-25 23:16 UTC：T7-A原reviewer005补齐终结评估，复用已执行212通过/11反例，不重跑，独立无条件PASS并推送d46274c；报告手填时刻偏差保留，以真实终态和hash解释。C05原独立batch自然结束22:33:16，reviewer006 native0并签两文件窄PASS，集成推送3238ff5；完整raw2/171失败/60错误/3收集错误保留。Git检查对已审CRLF报raw2时，未改冻结字节，仅命令级cr-at-eol重新检查raw0，无持久配置改变。
+
+Forward004在C05解除依赖后立即恢复。T7-B007完成实际DAILY源码与容量/清单验证，Root交付已接受A/C05精确十文件（五个不同字节）；008修原计划要求的真实候选锁校验，禁止以旧2.1.2锁或_bypass_lock给昂贵冷链接受信用。M1专用ZCode001并行准备合法锁接口，未新开计划。M5原reviewer007 HTTP502/native1，精确trace36工具只有只读核查和三处reviewer探针编辑；两个发现raw1保留，affected/generation未运行，008继续真实审核。
+
+DISPATCH准备004实际raw2/zerochild、第九次失败；author058定位schema和helper key双端失配及failed_history先使用后赋值，011原owner实施最小修复及真正入口纯检查，再仅准备005一次。058 native0但receiver1是已恢复SSE提示，原值保留、Root独立接收，不为此重跑作者。N8047 native0但正式FAIL/审核工具原因，两构造位已消费；070原作者有限澄清计时与失败发布，产品谓词尚未执行，不归咎于候选，也不发布P/runtime。
+
+Root本轮两项调用错误保留：工具fe61e7假设T7-B007产物在work目录，PowerShell给MissingPath而后续目录枚举0不能证明该读取成功；按实际派工目录读取完成。327885把watchdog/Codex混合JSON流当逐行NDJSON解析而raw1，发生在派工/接收文件发布前。实际流先有合法多行codex bundle JSON，再有typed事件；复用现有receiver的JSONDecoder.raw_decode顺序解析并严格核bundle字段和唯一turn.completed，3efa99成功。以后从真实schema与已验证解析器取得数据，不按文件后缀猜格式；原失败及首次诊断“不含JSON”的不准确表述以追加更正保留。
+
+Root状态文档提交第一次raw128：仓库没有持久user.name/user.email，裸git commit未取得作者身份，没有生成提交或推送。后继核3238ff5实际作者，沿用wmqfl861及其GitHub noreply邮箱，以命令级-c提供身份后提交，不修改全局/仓库配置。后续本仓提交须显式使用已核身份。

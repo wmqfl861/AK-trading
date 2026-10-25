@@ -1,0 +1,45 @@
+{
+  "schema": "aktr-root-prospective-parallel-capacity-delta/v1",
+  "recorded_utc": "2026-10-25T22:05:29.543825+00:00",
+  "parent": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-045.json",
+    "bytes": 1507,
+    "sha256": "81f94f7a8956b3b2280dc27fcc2e8a04ea1e3b4b0d5c6488441c1f8650d41e97"
+  },
+  "total_reserved_ram_bytes": 17179869184,
+  "total_charged_d_bytes": 18857590784,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "additional_volume": {
+    "path": "C:/",
+    "parent_reserved_bytes": 2147483648,
+    "reserved_bytes": 10737418240,
+    "floor_bytes": 4294967296
+  },
+  "temporarily_suspended_lane": {
+    "slot_id": "T7-B-fixture-implementation",
+    "ram_released_bytes": 2147483648,
+    "disk_released_bytes": 0,
+    "terminal": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\t7-fixture-owner-implementation-006\\TERMINAL.json",
+      "bytes": 339,
+      "sha256": "4023716ba26f759e9645d711b527abe1af6af546f6c8df9aa747bd31a0a77e63"
+    },
+    "future_B_requires_original2GiB_readmission": true
+  },
+  "author_slot": "EX-SIM-existing-root-delta",
+  "all_other_lanes_and_unknown_charges_unchanged": true,
+  "fresh_capacity": {
+    "available_ram_bytes": 28541448192,
+    "D_free_bytes": 23760130048,
+    "C_free_bytes": 73442508800
+  },
+  "additional_lane": {
+    "slot_id": "bounded-zcode502-readonly-diagnosis",
+    "RAM_reserved_bytes": 1073741824,
+    "D_reserved_bytes": 67108864,
+    "write_scope": "new diagnostic artifacts only",
+    "model": "OpenCode configured default, no selectors"
+  },
+  "N8_lane_remains_suspended": true
+}
