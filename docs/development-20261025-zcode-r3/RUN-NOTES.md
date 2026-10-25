@@ -28,3 +28,8 @@
 - N8 transport039首次Root启动前算术检查`cd3cc2` raw1：current033保留已结束OpenCode槽的1GiB磁盘扣账，但Root重算只加活跃lane，漏了这笔保留量；在admission文件、watchdog或CLI启动前即停止，CLI/验证消耗均0。完整旧REQUEST、ROOT-LAUNCH和失败说明以无损ZIP保存并逐字节回验，计入author063已有失败增长额度；仅修正尚未派发的Root控制文件，产品和旧038未改。后继从033固定的032原lane程序化取保留量，先验总和再执行，真实039已START。以后资源重算必须包含保留历史扣账，不能把活跃lane之和当总额，也不能为消除断言删掉保留量。
 
 - 行情交付发布预检`f202eb` raw1发生于提交前：Root错误要求所有22个发布文件都出现在Git staged diff，但它们已被跟踪且字节未变，真实差异仅为新增审核记录和Root状态。后继同时核对“实际staged差异不越精确allowlist”和“全部发布文件的index blob等于已审字节”，复用已有跟踪文件，不造空修改、不更改冻结字节。
+
+- M5 hard-review002于16:25 UTC native1，精确trace `6fbca89a-9f89-4436-937f-039f34019fba`：18个模型请求、82次模型内部重试、16个工具，存在HTTP502/429和socket中断；输入不变，无正式affected/generation启动。Root按精确SID/trace只读工具记录核消费，不读取配置或推理消息。审核者一条错误签名探针产生TypeError，被`2>&1 | head`掩盖为shell0，故明确记审核者失败、不计产品验证；后续普通leaf观察也不计正式阶段。原探针留快照，原SID在17.7分钟间隔后仅作一次有界003续接。今后验证不得用管道尾命令的退出码代表Python/测试结果。
+- Root准备M5续接的`88aea3` raw1来自真实内存余量低于033完整预留+6GiB；发生在新目录、REQUEST或CLI创建前，启动/验证消耗均0。034仅回收已终止且已接受的行情审核1GiB RAM；035临时回收等待C05的已停写Forward2GiB RAM。磁盘与UNKNOWN全部保留，未来Forward需原合同重新预留。资源前置失败不能归为模型或产品失败，也不能通过降低底线处理。
+- Root可选WMI进程枚举`bf31fa` raw1返回`Call cancelled`和不完整一行；未将其当成完整进程清单。后续用原START绑定的准确PID及psutil子树核对C05实际测试仍在计算，不再全局WMI枚举，不终止无关进程。
+- N8 transport039于16:45 UTC再次native1，trace `60655964-478f-4bab-8933-8030a8904687`，8模型请求/49内部重试，上游502；实际4条只读Bash及1条Todo。Root连同038原5条Bash逐命令核对，两项正式验证均未调用，所有失败和输入保持。063只授一次039且禁止自动040，故交原Astra作者064处理既有恢复边界，未擅自再启动040或降低验证标准。

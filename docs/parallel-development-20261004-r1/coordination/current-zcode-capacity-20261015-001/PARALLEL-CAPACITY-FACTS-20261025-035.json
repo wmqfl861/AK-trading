@@ -1,0 +1,280 @@
+{
+  "schema": "aktr-root-current-parallel-capacity-facts/v1",
+  "issuer": "/root",
+  "recorded_utc": "2026-10-25T16:41:37.417839+00:00",
+  "base_authority": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\RESERVATIONS-SUCCESSOR-20261019-025.json",
+    "bytes": 19101,
+    "sha256": "77d0eff7005a6331b30a8a9ac9be44ef6d034cf573ba2418da2631fdfe4d4a73"
+  },
+  "base_retained_slots": [
+    "root-light",
+    "M5-full100-standing",
+    "runtime-boundary-diagnostic",
+    "N8-E-existing-repair",
+    "EX-SIM-existing-root-delta",
+    "DISPATCH-existing-census-author-disposition"
+  ],
+  "base_reserved_ram_bytes": 11811160064,
+  "base_charged_D_bytes": 13958643712,
+  "additional_lanes": [
+    {
+      "slot_id": "DISPATCH-successor",
+      "ram_bytes": 2147483648,
+      "D_bytes": 1073741824,
+      "max_active": 1
+    },
+    {
+      "slot_id": "C05-current-existing-isolation",
+      "ram_bytes": 2147483648,
+      "D_bytes": 1073741824,
+      "max_active": 1,
+      "scope": "Current authorized guarded offline launcher repair and original verification, isolated C05 worktree; one workload at a time."
+    }
+  ],
+  "total_reserved_ram_bytes": 16106127360,
+  "total_charged_d_bytes": 18522046464,
+  "floor_ram_bytes": 6442450944,
+  "floor_d_bytes": 4294967296,
+  "released_prospective_lane": {
+    "task": "aktr-opencode-existing-push-files-check-20261023-002",
+    "ram_bytes": 2147483648,
+    "D_bytes": 1073741824,
+    "raw_terminal": 15,
+    "tool_terminal": "d444aa",
+    "reason": "Root interrupted only exact task and snapshot child; their and wrapper identities are now absent. No success claimed.",
+    "control_record": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-opencode-existing-push-files-check-20261023-002\\ROOT-CONTROLLED-INTERRUPTION-001.json"
+  },
+  "unchanged_unknown_charges": "All old008 DISPATCH and N8 replacement002 charges remain in base025; no reduction.",
+  "scope": "Prospective suspension only of currently idle strategy/forward RAM reservation while C05 hard dependency remains. Completed forward source prep and original input owners are stopped. All base/UNKNOWN charges unchanged; all original disk charges retained. No new runtime authority or source/plan/configuration change.",
+  "supersedes_prospective_scheduling_only": {
+    "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\PARALLEL-CAPACITY-FACTS-20261025-034.json",
+    "bytes": 12336,
+    "sha256": "f594aabbe61233d7314307d907c94897ae32437f5dc81aa1b0e56e42a4e46527"
+  },
+  "prospective_AU_plan": {
+    "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\backtest-input-delivery-20261015-r1\\DAILY-AU-NEXT-INPUT-20261024-001.md",
+    "bytes": 18081,
+    "sha256": "2f4243ff32ef019c6ed46d5be21d152df64f2ac463fa7e7648d704667fed1f16",
+    "role": "DRAFT_FOR_ADVISORY_NOT_YET_IMPLEMENTED"
+  },
+  "M_advisory_terminal": {
+    "path": "D:/AKRV261024/R1-M-CLOCK-PLAN-001/TERMINAL.json",
+    "state": "CLOSED",
+    "native_exit_code": 0,
+    "root_terminal_chunk": "873373",
+    "session_id": "sess_67abb6c2-8c4f-46be-b580-3037ea96a6a5",
+    "product_review_credit": false
+  },
+  "effective_plan_authority": "Original Astra DAILY-M-PRICE-CLOCK-EVIDENCE-20261024-001 plus its actual author disposition, once published; scope extension is prospective only.",
+  "fresh_capacity_sample": {
+    "at_utc": "2026-10-25T16:41:37.418759+00:00",
+    "available_ram_bytes": 24277737472,
+    "D_free_bytes": 25159864320,
+    "post_reserved_ram_bytes": 8171610112,
+    "post_charged_D_bytes": 6637817856
+  },
+  "retired_known_completed_lane": {
+    "slot": {
+      "slot_id": "M-source002-independent-review",
+      "ram_bytes": 2147483648,
+      "D_bytes": 1073741824,
+      "max_active": 1,
+      "scope": "Only independent source002 product hard002 review of 16 frozen files and pinned evidence, original independent BIP1 store/session; no source/network/SDK/fits. May run concurrently with disjoint forward offline verification or its independent review. No automatic conversion to another workload.",
+      "store": "D:/AKRV261015/BIP1/session.sqlite"
+    },
+    "terminal_ref": {
+      "path": "D:\\AKRV261024\\R1-M-CLOCK-HARD-002\\TERMINAL.json",
+      "bytes": 365,
+      "sha256": "6ead38f5c675a1f1572de4258e5f19521379603182838fa558ae4351666ab4ff"
+    },
+    "root_receipt_ref": {
+      "path": "D:\\AKRV261024\\R1-M-CLOCK-HARD-002\\ROOT-TERMINAL-RECEIPT-001.json",
+      "bytes": 2455,
+      "sha256": "abb57a5b092278af85045a1a538b8b7bf97e6984e0420f9b5f1b30f4188f5022"
+    },
+    "original_pid_currently_absent": true,
+    "retirement_utc": "2026-10-24T10:47:12.792020+00:00",
+    "future_M_review_requires_separate_fresh_admission": true
+  },
+  "ram_retirement_033": {
+    "retired_slots": [
+      "EX06-existing-repair-delta",
+      "OpenCode-EX06-delivery-check002"
+    ],
+    "ram_released_bytes": 4294967296,
+    "disk_released_bytes": 0,
+    "disk_reason": "Conservatively retain both complete old disk charges; no need to re-enumerate or delete old artifacts.",
+    "auxiliary_report": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\aux-resource-retirement-001\\RESULT.md",
+      "bytes": 10720,
+      "sha256": "7cbc08b780ad70f98346cf7f4304ac5ed980fc414e37abce871bc856f11cae13"
+    },
+    "auxiliary_terminal": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\aux-resource-retirement-001\\TERMINAL.json",
+      "bytes": 178,
+      "sha256": "b2fde82de198182049b5c921dfed084827f27945dcd8de751291c3b15162c537"
+    },
+    "opencode_terminal": {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-opencode-existing-ex06-delivery-check-20261023-002\\ROOT-TERMINAL.json",
+      "bytes": 303,
+      "sha256": "becc05ac2d44f3794649f0a7ff0737510bfbf1fd7481c073da4c274ff3505217"
+    },
+    "opencode_delivery": {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-opencode-existing-ex06-delivery-check-20261023-002\\ROOT-DELIVERY-CHECK-001.json",
+      "bytes": 4602,
+      "sha256": "d9b3b0f792d2a8e99dff52b0da140bbde28999c96f3294ff155a442560c8ad2b"
+    },
+    "native_owner_succession": {
+      "path": "D:\\AKF261004\\R\\DISPATCH-PARENT-PREFIX-261021-sol-r31-review008-handoff-003\\RECOVERY-20261023-001\\RECOVERY-STATE.json",
+      "bytes": 10807,
+      "sha256": "21da372adb0ecbda2921bd9248c7a1daf2b06f9dc2fdaf3bbd9009878a63eb64"
+    },
+    "slot_transfer": {
+      "path": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\coordination\\current-zcode-capacity-20261015-001\\DISPATCH-R9-READ-SLOT-TRANSFER-001.json",
+      "bytes": 2151,
+      "sha256": "e2db22f0e4c2149da61afebda68a07d238c6982b2fca4f384ab00247c3809cb9"
+    },
+    "current_old_opencode_identities": [
+      {
+        "pid": 103684,
+        "expected_creation_filetime": 134372460712008015,
+        "state": "ABSENT",
+        "winerror": 87
+      },
+      {
+        "pid": 110860,
+        "expected_creation_filetime": 134372460979185629,
+        "actual_creation_filetime": 134372933055110658,
+        "state": "PID_REUSED_DIFFERENT_PROCESS"
+      }
+    ],
+    "current_DISPATCH_owner_assignment": "ZCode owner-recovery001 uses existing DISPATCH-successor, does not inherit retired EX06 slot; existing Sol and helpers completed/WRITE_STOP per native collaboration registry.",
+    "old_native_completion_basis": "Auxiliary bounded exact-thread metadata observes final task_complete2026-10-22T08:29:26.948Z; explicit2026-10-23 succession; no later EX06 slot assignment within searched dispatch/coordination.",
+    "unknown_charges_released": false,
+    "future_reuse_requires_fresh_reservation": true
+  },
+  "current_readiness_not_authorization": {
+    "ram_floor_met": true,
+    "D_floor_met": true,
+    "fresh_sampling_before_each_actual_runtime": true
+  },
+  "ram_retirement_034": {
+    "retired_slot": {
+      "slot_id": "market-backfill-existing-offline-review",
+      "ram_bytes": 1073741824,
+      "D_bytes": 268435456,
+      "max_active": 1,
+      "scope": "Existing38-file backfill review, local CSV/offline probes only; noDB/SDK/network."
+    },
+    "terminal_ref": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\market-backfill-hard-review-002\\TERMINAL.json",
+      "bytes": 339,
+      "sha256": "7741a8b36d84b2e4caca17823af20817a71046f3d6fe32cd26eaedb97b1821aa"
+    },
+    "acceptance_ref": {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\MARKET-BACKFILL-ACCEPTANCE.json",
+      "bytes": 4113,
+      "sha256": "da3b6d5999d706e5e1e76494ebe80381c41b271456e94f640ff652a5fcd87521"
+    },
+    "actual_original_pid_absent": true,
+    "ram_released_bytes": 1073741824,
+    "disk_released_bytes": 0,
+    "retained_D_charge_bytes": 268435456,
+    "retained_D_reason": "Files remain on disk; retain all prior disk charges including this ended lane and old OpenCode lane.",
+    "future_reuse_requires_fresh_reservation": true
+  },
+  "root_preflight_failure_retained": {
+    "tool": "88aea3",
+    "raw_exit": 1,
+    "cause": "fresh available RAM did not meet full033 reservations plus6GiB floor",
+    "location": "before successor directory/request creation and before CLI launch",
+    "CLI_launch_count": 0,
+    "runtime_stage_consumptions": 0,
+    "not_a_product_or_provider_failure": true
+  },
+  "temporarily_suspended_forward_lane_035": {
+    "slot": {
+      "slot_id": "strategy-input-or-forward-runtime",
+      "ram_bytes": 2147483648,
+      "D_bytes": 1073741824,
+      "max_active": 2,
+      "workload_constraints": {
+        "forward_capture": {
+          "max_active": 1,
+          "exclusive_against_RB_CU_offline": true,
+          "ram_bytes": 2147483648,
+          "D_bytes": 1073741824,
+          "exclusive_against_strategy_input_or_review": true
+        },
+        "network_source_requests_max_active": 1,
+        "bounded_strategy_input_commands": {
+          "max_active": 2,
+          "per_command_ram_bytes": 1073741824,
+          "per_command_D_bytes": 268435456,
+          "aggregate_ram_bytes_max": 2147483648,
+          "aggregate_D_bytes_max": 1073741824,
+          "eligible_scopes": [
+            "previous RB/CU effective scopes",
+            "AU source/consumer subject to original author disposition",
+            "M price-clock source and metadata provenance under the original Astra effective plan/disposition; two disjoint original Sol owners; source requests serial1"
+          ]
+        },
+        "independent_advisory_or_product_review": {
+          "max_active": 1,
+          "exclusive_against_strategy_input_and_forward_capture": true,
+          "ram_bytes": 2147483648,
+          "D_bytes": 1073741824
+        },
+        "forward_offline_verification": {
+          "max_active": 1,
+          "ram_bytes": 2147483648,
+          "D_bytes": 1073741824,
+          "focused_wall_seconds_max": 600,
+          "full13_wall_seconds_max": 1200,
+          "network": false,
+          "credentials": false,
+          "exclusive_against_strategy_input_runtime_review_and_capture": true,
+          "owner": "/root/sol_forward_paper_continuation_20261024",
+          "plan": {
+            "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\PLAN.md",
+            "bytes": 24646,
+            "sha256": "71d7502bd21bda1f24008c355212e84d2a7ee255e0a191071eeda8a67e0307bc"
+          },
+          "budget_disposition": {
+            "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\PLAN-PASS-NO-UPDATE-DISPOSITION-002.md",
+            "bytes": 9892,
+            "sha256": "1dcd0049f53ad095035d1c444883b9ca50629aec33755d9beec73de0796571e1"
+          },
+          "source002_actual_network_terminal": {
+            "owner_reported_tool": "a0946b",
+            "child_pid": 69384,
+            "native_exit": 0,
+            "duration_seconds": 4.765,
+            "HTTP": 200,
+            "live_child": false
+          }
+        }
+      },
+      "closed_capture_basis": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\owner-evidence\\sol-continuation-20261024-r1\\LIVE-RESULT.json"
+    },
+    "terminal_ref": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\forward-recovery-owner-003\\TERMINAL.json",
+      "bytes": 334,
+      "sha256": "2fb6f9172c0b389b6b3a5c6f3b20217b5fa2ec7a4c32a6ac808028835cf27bb0"
+    },
+    "result_ref": {
+      "path": "D:\\Maintenance\\aktr-development-20261025\\forward-recovery-owner-003\\RESULT.json",
+      "bytes": 849,
+      "sha256": "3c8c4906a23ccdf9b48c68777c51c3ce11c7af35699ee7cddd6b4f6a96a05823"
+    },
+    "actual_original_pid_absent": true,
+    "native_strategy_owner_registry": "collaboration.list_agents at2026-10-25: all original backtest/forward owners completed; no native writer active",
+    "reason": "Forward helper004 source preparation complete; actual final integration/runtime depends on C05 acceptance, which is still running. Release idle RAM until dependency opens, preserve slot contract.",
+    "ram_released_bytes": 2147483648,
+    "disk_released_bytes": 0,
+    "retained_D_charge_bytes": 1073741824,
+    "future_Forward_or_R1_launch": "Requires new explicit prospective reservation with actual fresh capacity. Restore original2GiB RAM and unchanged workload contract, no automatic use while suspended. After C05 finishes, its ceased lane can be retired and this lane re-admitted.",
+    "product_credit": false
+  }
+}

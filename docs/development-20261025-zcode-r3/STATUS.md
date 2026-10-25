@@ -1,33 +1,38 @@
-# r3 修复开发批次
+# r3 修复开发批次当前状态
 
-2026-10-25 用户恢复开发并将开发者改为 ZCode。生效规则提交 `0cc3054` 已推送 GitHub main。Astra/max 计划、独立 ZCode GLM-5.3/max 产品硬审、其他原规则保持。
+更新于 2026-10-25 16:55 UTC。用户已恢复开发并指定实际开发/修复统一调用 ZCode；当前权威为 PROJECT-MODEL-ROLES.md 和 PROJECT-WORKFLOW-RULES.md。Astra/max 负责计划与契约澄清，独立 ZCode GLM-5.3/max 负责成果硬审。开发和审核分别使用固定独立会话库，不恢复旧 Sol/Claude 开发。
 
-| 模块 | 当前实际状态 | 候选 |
+## 当前并行工作
+
+| 模块 | 当前真实阶段 | 下一步 |
 | --- | --- | --- |
-| P2-7 公共导出 | 独立ZCode无条件PASS；焦点30 passed、消费者267 passed/1既有缺夹具skip；原owner完成canonical精确集成和30项smoke，源码已合main提交3336c62；原修复分支8cb767b保留 | `D:/AKWorktrees/aktr-r3-p27-20261025` |
-| P0-2 replay | 两文件修复独立ZCode无条件PASS；独立焦点20 passed、反例24/24；报告hash更正已接受。原owner完成canonical精确集成和20项smoke，源码已合main提交3336c62；原修复分支f979e88保留。完整八文件仍191 passed/14旧基线failed，不授完整M4或shadow接受 | `D:/AKWorktrees/aktr-r3-replay-20261025` |
-| C05导入隔离 | 原独立reviewer003复现路径边界碰撞并给出FAIL RF1；同一ZCode owner006已运行45项焦点测试全部通过，仍待冻结交付、独立短复核、原完整验证与最终硬审。旧004完整验证raw15/INCOMPLETE及历史DP失败保留 | `D:/AKWorktrees/aktr-r3-c05-20261025` |
-| P1-6 SQL helper | 四文件独立ZCode无条件PASS；独立临时库15 passed/0 skip，SCRAM真实认证、轮换、权限拒绝及回滚反例通过。已合入并推送main，源码ddf5c67、审核记录10cd59f；生产采用NOT_RUN | `D:/AKWorktrees/aktr-r3-p16-20261025` |
+| C05 导入隔离 | 原 ZCode owner007 正在跑原完整离线验证。source006 焦点45项全通过；独立 reviewer004 已确认 RF1 碰撞修复。完整收集6015 selected/9既有 deselected，10域全派发，3个历史DP收集错误，unresolved0；完整执行尚未终止。 | 完成原完整执行及正反序验证后，立即由原独立 reviewer 做最终硬审；不刷新历史pin、不删失败。 |
+| DISPATCH | 原 Astra author053 已发布有效裁定；原 ZCode owner003 实施测试执行入口的受控 module 注册/清理及当前 owner 绑定。此前27字节 loader 修复仅属中间源码，不是运行接受。 | 接收真实交付后，Root执行原计划未消耗的 owner005，再立即独立硬审。 |
+| M5 C1 | 原独立 reviewer003 已于16:43 UTC启动。前一002因上游502/429/socket中断，native1、输入不变；已核16条实际工具记录，两项正式阶段未启动。 | 复用有效源码检查，修正审核者自有探针；原 affected与generation各执行一次，真实通过后Root立即绑定唯一full100。 |
+| N8 | transport039再次因上游502结束，native1、输入不变、无产品结论；实际4条Bash只读和1条Todo，原两验证均未执行。原 Astra author064正在限定调整这一既有服务恢复边界。 | 原作者处置生效后同一独立 reviewer接续；不重放已用步骤，不以native1换取产品FAIL/PASS。 |
+| Forward paper | 原 ZCode owner已完成 helper004的6文件源码准备，35静态检查及4正例/93反例通过；只属静态/SYNTHETIC信用。 | 等C05真实接受并集成，原owner立即完成无环最终绑定，再交原独立reviewer执行唯一full13-002。 |
 
-原forward执行作者003已明确重切旧审核。Root逐一核实旧进程不存在并保存可恢复的377源文件和旧审核材料后，追加OLD-SUBMISSION-CLOSEOUT，将旧审核记为RETIRED_INCOMPLETE_NO_VERDICT / NOT_ACCEPTED，仅解除它的canonical写冻结；旧快照和审核保持只读，其他所有权/冻结仍有效。P27/replay原ZCode owner据此集成通过的精确字节。SQL四文件原本不在377内。C05继续在独立候选验证。P0-1生产操作、G治理提案、大规模架构变更、真实交易不纳入本批。
+C05、DISPATCH、M5是当前三个实际运行的 ZCode 调用；N8是原 Astra 作者的限定澄清。Forward源码已停写等待真实依赖，没有重复派writer。当前调用与工具句柄保存在本地 `D:/Maintenance/aktr-development-20261025/CURRENT-RUN.json`，终态及产物才是完成依据。
 
-派工记录：DISPATCH.json、REPLAY-HANDOFF.json、C05-HANDOFF.json。原始调用和验证记录位于 `D:/Maintenance/aktr-development-20261025/`；P2-7、P0-2 replay切片、P1-6已有独立硬审PASS，分别见P27、REPLAY、P16的ACCEPTANCE/REVIEW/VERDICT。原始流为LOCAL_ONLY；replay原报告保留，通过CORRECTION与最终VERDICT追加更正。C05没有开发或独立产品完成结论。
+## 已接受并推送的成果
 
-原ZCode开发会话`c05-owner-source-repair-005`处理独立源码预检发现的两项计划缺陷，旧004完整验证保留为未完成；新ZCode专用owner按原Astra作者003准备机械后继`verify_forward_acceptance_003.py`，明确从已停写Sol交接，不修改产品或执行runtime。待集成和必要验证齐备，冻结真实新版本，独立审核才可执行唯一新full13-002：2100秒、2GiB、1GiB，保留原298项及集成所需新增节点/断言。没有为此新增计划PASS或helper先审PASS门槛。各ZCode owner/reviewer使用独立固定store；未派Sol/Claude继续开发。
+| 成果 | 已接受范围及必要限制 |
+| --- | --- |
+| P2-7 公共导出 | 独立无条件PASS；焦点30通过、消费者267通过/1既有缺夹具skip。原owner精确集成，main3336c62；原分支8cb767b保留。 |
+| P0-2 replay窄修复 | 两文件独立无条件PASS；焦点20通过、反例24/24，审核报告hash更正已接收；main3336c62。完整八文件仍191通过/14旧基线失败，不关闭完整M4或shadow。 |
+| P1-6 SQL helper | 四文件独立无条件PASS，独立临时库15通过/0skip；源码ddf5c67、证据10cd59f。生产采用NOT_RUN。 |
+| DP08 r3接续包 | 九文件独立无条件PASS，verifier117/117 CLEAN、38结构检查和4反例通过；e196b8b。完整DP08、NR-DP08-08、V15/live/DB/SDK仍按原范围NOT_RUN。 |
+| TqSdk工具与skill | 复用独立无条件PASS，65份发布skill字节与冻结一致；5425b0a。仅离线工具安装/文档接受，项目SDK pin未改，在线功能不因本次接受升级。 |
+| 免费行情补全 | 38冻结成员的明确离线路线独立无条件PASS，22文件发布清单已接受；71ee657。重算10,128条LR源数据、306,930条分钟尾窗、2,640条日线；2,100条未知trading_day保留，DB七字段独立重跑/在线SDK/全历史完整性未获得本次证明。 |
 
-剩余基线问题分列：replay的14项失败属于`test_forwarded_binding_keeps_frozen_baseline_value`旧值对照，完整M4不记PASS；shadow切片仍未关闭。C05隔离与完整基线分列，不刷新历史pin掩盖错误。旧forward的full13-001确已消耗，只有49项完整通过、50项启动，没有RESULT/session finish或产品verdict；旧raw1及未知child/helper事实保留，不能冒充产品FAIL/PASS或重放。新集成forward尚未取得独立产品PASS。集成见MAIN-INTEGRATION-001.json；旧快照与原始流为LOCAL_ONLY。
+各项 ACCEPTANCE、REVIEW、VERDICT 位于本目录；原始CLI流、CSV及外部候选为LOCAL_ONLY。已有PASS只覆盖准确发布范围，不扩展到整个项目或策略有效性。
 
+## 依赖与资源
 
-2026-10-25 并行续接：C05 owner005已修复并冻结两文件，焦点43项通过；原独立reviewer003正在执行短反例，完整验证仍待完成。Forward原作者004已完成无环绑定协议裁定，同一ZCode owner003已立即实施helper004及限定静态/SYNTHETIC协议验证，不消耗正式full13。DP08 r3九文件release-manifest接续包已进入独立硬审，不代表整个DP08真实存储接受。M5发现已完成的R16-R4-C1后继，615个冻结成员已核对一致；原独立reviewer已恢复源码审查和运行准备，正式测试等待真实资源底线满足。两路OpenCode按默认配置只读核对其他既有交付与可释放的已结束预留；未新增产品计划。
+当前调度采用 PARALLEL-CAPACITY-FACTS-20261025-035。已结束行情审核释放1GiB RAM；Forward因等待C05而临时释放2GiB RAM，真正接续前须按原合同重新预留。全部历史磁盘和UNKNOWN扣账保留；内存/磁盘底线不降低。C05仍在运行，不因空缓冲输出或短观察窗口重复启动。
 
-2026-10-25 DP08 r3接续包独立硬审已无条件PASS，实际CLI native0、137输入不变、9个接受文件逐一与当前字节匹配。独立verifier重跑117/117 CLEAN，38项结构检查及4项反例通过；原DP08全模块、V15/live/DB/SDK等NOT_RUN保留。见DP08R3-REVIEW.md、DP08R3-VERDICT.json、DP08R3-ACCEPTANCE.json。
+T7接受基线、ordinary shadow的R19→R20→R21以及R1历史输入仍有具体证据/契约/数据依赖。仅对实际消费者阻断，不让它们阻塞互不干扰的已授权工作。未为了增加数量派重复writer或新功能。
 
-2026-10-25 15:45 UTC并行状态：C05 owner006、Forward owner003、DISPATCH owner002正在实施/修复；M5 C1 reviewer002、行情补全reviewer002正在独立审核；N8原Astra作者063正在处置既有审核038的服务失败恢复。每路使用独立固定会话库和不重叠写集。M5已绑定当前C1后继，旧producer-index问题不再派修；前两阶段通过后才进入唯一full100。Forward最终集成仍等C05接受，不提前消耗full13-002。多路HTTP502是真实上游调用失败，不能称服务已根治或产品测试失败，原SID有界恢复与原始失败均保留。
+旧forward审核已由原作者003合法重切，377源文件和旧审核保留于原快照；旧full13-001已消耗，49完整通过/50启动、无终态和产品判决，不重放。新full13-002仍未消耗，保持原完整人口及2100秒/2GiB/1GiB预算。
 
-TqSdk 3.10.3工具及五处skill发布已复用原独立无条件PASS并完成Root接收，当前65份发布文件与原冻结一致；未重复派审。见[TQSDK-ACCEPTANCE](TQSDK-ACCEPTANCE.json)及[TQSDK-VERDICT](TQSDK-VERDICT.json)。范围仅离线工具安装与文档，在线认证、行情、回测、broker仍为NOT_RUN；不替代正在审核的免费行情补全交付，也不改变项目原SDK依赖。
-
-2026-10-25 16:20 UTC：免费行情补全独立审核002已native0结束、38冻结成员不变，离线路线无条件PASS并完成Root接收，见[MARKET-BACKFILL-ACCEPTANCE](MARKET-BACKFILL-ACCEPTANCE.json)、[REVIEW](MARKET-BACKFILL-REVIEW.md)和[VERDICT](MARKET-BACKFILL-VERDICT.json)。原22文件发布清单接受，CSV和原始流留本地。独立重算10,128条LR源数据、306,930条分钟尾窗、2,640条日线；2,100条未知trading_day如实保留，DB现场七字段复核/在线SDK仍NOT_RUN，不宣称全历史完整。
-
-C05独立短复核004已native0，确认RF1在冻结006字节上修复；同一owner007立即进入原完整验证。新完整收集6015 selected/9既有deselected、10域全部派发，剩3历史DP收集错误、unresolved0；完整执行已启动，尚无最终产品PASS。Forward helper004六文件交付完毕，35静态检查及4正例/93反例通过；只属源码与SYNTHETIC协议验证，真实最终集成/唯一full13-002仍待C05接受。
-
-DISPATCH owner002已完成27字节loader修复并停写；原Astra作者053核实还须在测试执行层恢复受控module注册与finally清理，已发布有效窄裁定(native0/receiver0)，同一ZCode owner003立即实施。M5 C1独立审核002、N8原独立reviewer039继续；后者保持原候选及attempt-038，先核原五条工具调用的实际消耗，不能重放已用验证。所有实际开发仍为ZCode，审核会话独立；未派Sol/Claude开发。
+交易安全边界不变：enable_trading=False，observer=hold，broker=NOT_RUN，真实send/cancel=0。P0-1由用户亲自执行，G治理建议及大范围架构/配置变更不纳入本次派工。
