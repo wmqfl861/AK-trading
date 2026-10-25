@@ -1,0 +1,93 @@
+{
+ "changed_count": 3,
+ "changed_entries": [
+  {
+   "fields_changed": [
+    "pin_source",
+    "sha256"
+   ],
+   "node": "DP03",
+   "path": "src/ak_trading/datapipeline/collector.py",
+   "pin_source_r2": "dp-x08fix-r1-overlay",
+   "pin_source_r3": "dp03-r2-overlay",
+   "role": "write_set",
+   "sha256_r2": "f5cf3d0efd03706e5beed8c0b7d56986b1a0c5a78c042c20a0a562213f4db03e",
+   "sha256_r3": "64387dda306a2f8a477c91faa24539f4eccb878cd41937a4c4e05b8634ea4e0b"
+  },
+  {
+   "fields_changed": [
+    "pin_source",
+    "sha256"
+   ],
+   "node": "DP03",
+   "path": "tests/datapipeline/fixtures/DP03/synthetic_doubles.py",
+   "pin_source_r2": null,
+   "pin_source_r3": "dp03-r2-overlay",
+   "role": "write_set",
+   "sha256_r2": "5afba7eb72cdbf80c5dbace6d44646a49ce25200fbe48f3726e6921c32dd3e19",
+   "sha256_r3": "c9318daf65fe803c938627935a539437113573809881f8ef85132c31faf4317c"
+  },
+  {
+   "fields_changed": [
+    "pin_source",
+    "sha256"
+   ],
+   "node": "DP03",
+   "path": "tests/datapipeline/test_collector.py",
+   "pin_source_r2": null,
+   "pin_source_r3": "dp03-r2-overlay",
+   "role": "write_set",
+   "sha256_r2": "8363b95c6bef340c95f37f7befcd4de4f61c8a8be0c37a05b46502249cd15a34",
+   "sha256_r3": "3ca9617b973ff4e8bedf991b3493f9f8403ecdd39262b708588b15a4745b5933"
+  }
+ ],
+ "file_count_r2": 117,
+ "file_count_r3": 117,
+ "identical_count": 114,
+ "identical_entries_byte_equal": true,
+ "non_files_sections": {
+  "built_at_utc": {
+   "changed": true,
+   "reason_if_changed": "new r3 build timestamp"
+  },
+  "dp08": {
+   "changed": false,
+   "reason_if_changed": null
+  },
+  "node_test_results": {
+   "changed": false,
+   "reason_if_changed": null
+  },
+  "notes": {
+   "changed": true,
+   "reason_if_changed": "appended the r3 re-pin note"
+  },
+  "pin_overlays": {
+   "changed": true,
+   "reason_if_changed": "added dp03_r2_manifest + dp03_r2_files records; collector.py x08fix entry flagged superseded_by_dp03_r2_overlay"
+  },
+  "repo_root": {
+   "changed": false,
+   "reason_if_changed": null
+  },
+  "schema": {
+   "changed": false,
+   "reason_if_changed": null
+  },
+  "v_matrix": {
+   "changed": false,
+   "reason_if_changed": null
+  }
+ },
+ "overlay_source": {
+  "manifest": "docs/datapipeline-evidence-20260923-r1/DP03/r2/file-manifest.json",
+  "manifest_sha256": "7f70cdd95e5a1baa2ecf3cbf8cc28fda062b6c0ccae1e4dc00d8b96d8955ee53",
+  "record": "sha256_before_r2 -> sha256_after_r2 per changed file (zero hand-copying)"
+ },
+ "path_sets_identical": true,
+ "purpose": "prove the r3 release manifest re-pins EXACTLY the three routed DP03 r2 files",
+ "r2_manifest": "docs/datapipeline-evidence-20260923-r1/DP08/r2/release-manifest.json",
+ "r2_manifest_sha256": "e8de5ade5d6a2fe4db4507aa6bf1bfd6c343f0351e657963cb1ce3cbb4238285",
+ "r3_manifest": "docs/datapipeline-evidence-20260923-r1/DP08/r3/release-manifest.json",
+ "r3_manifest_sha256": "943dbe26e3b80fe9ea46d916c2b6e6efef0940297f91c9845974cb5307b80980"
+}

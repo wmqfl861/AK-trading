@@ -1,0 +1,81 @@
+{
+  "schema": "aktr-root-independent-review-acceptance/v1",
+  "accepted_utc": "2026-10-25T15:06:51.419471+00:00",
+  "scope": "BOUNDED: the existing 9-file DP08 r3 release-manifest successor under docs/datapipeline-evidence-20260923-r1/DP08/r3/ only, against DP-HARD-r2 routing/carry_forward and C05-PLAN section 2",
+  "verdict": "PASS",
+  "conditional": false,
+  "reviewer_session_id": "sess_2374e1b0-5acb-4847-a7b1-1f493d50cb1a",
+  "native_exit": 0,
+  "frozen_inputs_unchanged": true,
+  "reviewed_files": [
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\DP08-r3-report.md",
+      "bytes": 5565,
+      "sha256": "770045088b3cd549be6dac84e9c269dbbbd65478523faf7061ca45c3d4d9013d"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\build_evidence.py",
+      "bytes": 25717,
+      "sha256": "9b7fdde19a0ae63e2923071c9699f08234618c683ec551167c46d27ae524d2e3"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\manifest-diff-r2-r3.json",
+      "bytes": 2996,
+      "sha256": "c60d2cc5bc98e1034d8f738383f4c8bd2e6e279696a5186b8a1899d487f7433e"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\not-run-register.json",
+      "bytes": 3409,
+      "sha256": "7395204f3e7357a9f45c320b65add4d632144e1445d4bd1d9059ae41c1cd28eb"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\r2-manifest-recheck.json",
+      "bytes": 1523,
+      "sha256": "ebcb17ce602cc45b5dd4ad7a1126a779adb5c86536717a0ab75c78847f23a345"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\release-manifest.json",
+      "bytes": 38983,
+      "sha256": "943dbe26e3b80fe9ea46d916c2b6e6efef0940297f91c9845974cb5307b80980"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\release-verification-summary.md",
+      "bytes": 287,
+      "sha256": "58a6e739f1f0aaf958a84f839cbbdea93c01d5b2ca72dbe4d5d8769aca161e17"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\release-verification.json",
+      "bytes": 341,
+      "sha256": "c8d6db813412323c43914d2e48849f0a40ddbf051df1d5458305be5b317e1da8"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\datapipeline-evidence-20260923-r1\\DP08\\r3\\verification-runs.json",
+      "bytes": 1056,
+      "sha256": "86d178bd515eb21927e440a4aaf5a48ca63ca6831899cd9f318371f41c169853"
+    }
+  ],
+  "review": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\DP08R3-REVIEW.md",
+    "bytes": 9232,
+    "sha256": "495e9626b40049f1738e123f8cc5817151fd40129cd2d303215e27cf2ed7e91d"
+  },
+  "verdict_ref": {
+    "path": "D:\\Projects\\AK-trading\\docs\\development-20261025-zcode-r3\\DP08R3-VERDICT.json",
+    "bytes": 7806,
+    "sha256": "aa51e1ca71f306d8504a14149a691d4d761071c27985c8ef84a34d3b55e08b8e"
+  },
+  "terminal_local_only": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\dp08r3-hard-review-001\\TERMINAL.json",
+    "bytes": 329,
+    "sha256": "7a3cade300a570ef66cc8f37d02c3db4e872b1841cca651da3619115714f7c6f"
+  },
+  "scope_limits": [
+    "This PASS covers ONLY the bounded 9-file DP08 r3 release-manifest successor acceptance",
+    "NOT an overall/formal DP08 product PASS: NR-DP08-08 (independent hard review of DP08, blocks formal DP08 PASS) remains NOT_RUN and is NOT discharged or erased by this verdict",
+    "All other inherited NOT_RUNs preserved: V15 live canary (NR-DP08-01), PostgreSQL legs (NR-DP08-02), real TqSdk sessions (NR-DP08-03), and NR-DP08-04..07 as recorded",
+    "No coverage or claim for: full DP08 product/storage/live acceptance, C05 full baseline closure, T7, DP01 package drifts, or any live canary; no fresh live/network/DB/SDK operation was performed (all commands file-only)",
+    "No repairs were made and no self-repaired artifact was signed; canonical originals untouched throughout",
+    "Safety posture unchanged: enable_trading=False, observer=hold, broker=NOT_RUN, real send/cancel=0/0"
+  ],
+  "source_changed_by_root": false
+}

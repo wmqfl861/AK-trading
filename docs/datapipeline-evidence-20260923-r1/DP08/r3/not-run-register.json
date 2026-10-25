@@ -1,0 +1,61 @@
+{
+ "entries": [
+  {
+   "blocks": "live-collection claims; offline engineering release only",
+   "id": "NR-DP08-01",
+   "item": "V15 live canary (real quotes subscription in the user's controlled environment)",
+   "reason": "no live window authorized this round (H08.8); release verifier forces V15 NOT_RUN and refuses RUN claims without canary evidence"
+  },
+  {
+   "blocks": "DP08 full-chain PASS on real storage semantics; SQLite legs prove logic only",
+   "id": "NR-DP08-02",
+   "item": "PostgreSQL integration legs (V03 migration isolation, V05 two-process concurrency, V04 PG crash points, V14 PG capacity/EXPLAIN)",
+   "reason": "no isolated PostgreSQL database injected (DP08_TEST_POSTGRES_URL absent); explicit skip, never a silent pass"
+  },
+  {
+   "blocks": "any REAL_SOURCE collection claim",
+   "id": "NR-DP08-03",
+   "item": "real TqSdk sessions (collector driven by the real SDK)",
+   "reason": "real-source entry refused without authorization before any tqsdk import (verified in V12); SYNTHETIC timeline sessions only"
+  },
+  {
+   "evidence": "docs/datapipeline-evidence-20260923-r1/DP08/r2/pytest-run-r2.log",
+   "id": "NR-DP08-04",
+   "item": "full G2/G3/G4 chain THROUGH the collector publish path",
+   "reason": "r1: BLOCKED by routed defects X-08-1/X-08-2. r2: DP-X08FIX r1 fixed both seams; the chain now runs and is pinned by test_v13b_collect_publish_validate_monitor_single_identity (collect -> publish -> symbol-scoped view -> DP05 validator -> DP06 monitor, single run identity, SYNTHETIC)",
+   "status": "RESOLVED_AT_R2"
+  },
+  {
+   "blocks": "production run-root acceptance",
+   "id": "NR-DP08-05",
+   "item": "physical junction/reparse-point inspection on runtime output roots",
+   "reason": "lexical layers fully tested (V12); physical inspection needs an authorized runtime root (DP00 NR-05 chain)"
+  },
+  {
+   "blocks": "verbatim-copy deployment (files map 1:1 once materialized)",
+   "id": "NR-DP08-06",
+   "item": "candidate-tree materialization (D:/Projects/AK-trading-datapipeline-20260923-r1)",
+   "reason": "DP00 allowed-paths keeps the candidate root NOT_CREATED_NOT_AUTHORIZED; DP08 assembles a hash-verified staging tree under .tmp instead"
+  },
+  {
+   "blocks": "production cutover (runbook documents the gates)",
+   "id": "NR-DP08-07",
+   "item": "production migration / scheduled-task registration / any outbound notification",
+   "reason": "separate data-operations authorization (H08.8/H08.9); DP06 installers stay default dry-run"
+  },
+  {
+   "blocks": "formal DP08 PASS",
+   "id": "NR-DP08-08",
+   "item": "independent hard review of DP08",
+   "reason": "r2 is owner self-test (r1 verdict history: pending independent reviewer); independent reviewer re-runs this r2 package per 04-validation"
+  }
+ ],
+ "entry_changes": "none (byte-identical entry list)",
+ "generated_at_utc": "2026-09-23T20:36:58+00:00",
+ "inherited_file_sha256": "e4e820e640db8352ce3b2ec17f3bd1bb334f069372adff55b52fc2f403167b19",
+ "inherited_from": "docs/datapipeline-evidence-20260923-r1/DP08/r2/not-run-register.json",
+ "node": "DP08",
+ "revision": "r3",
+ "schema": "dp08-not-run-register/1",
+ "statement": "Verbatim inheritance of the r2 NOT_RUN register: r3 is the DP-HARD-r2-routed release-manifest re-pin (bookkeeping) - no new leg was executed or authorized, so no entry changes status and no entry is added or removed."
+}

@@ -1,0 +1,36 @@
+{
+ "agrees_with": "docs/datapipeline-review-20260923-r1/DP-HARD-r2/logs/release-117-recheck.json (independent reviewer replay)",
+ "command": "python -B scripts/verify_datapipeline_release.py --manifest docs/datapipeline-evidence-20260923-r1/DP08/r2/release-manifest.json --output .tmp/datapipeline/DP08/r3/r2-manifest-recheck",
+ "dependency_pin_mismatch": [],
+ "drift": [
+  {
+   "actual": "64387dda306a2f8a477c91faa24539f4eccb878cd41937a4c4e05b8634ea4e0b",
+   "manifest": "f5cf3d0efd03706e5beed8c0b7d56986b1a0c5a78c042c20a0a562213f4db03e",
+   "node": "DP03",
+   "path": "src/ak_trading/datapipeline/collector.py"
+  },
+  {
+   "actual": "c9318daf65fe803c938627935a539437113573809881f8ef85132c31faf4317c",
+   "manifest": "5afba7eb72cdbf80c5dbace6d44646a49ce25200fbe48f3726e6921c32dd3e19",
+   "node": "DP03",
+   "path": "tests/datapipeline/fixtures/DP03/synthetic_doubles.py"
+  },
+  {
+   "actual": "3ca9617b973ff4e8bedf991b3493f9f8403ecdd39262b708588b15a4745b5933",
+   "manifest": "8363b95c6bef340c95f37f7befcd4de4f61c8a8be0c37a05b46502249cd15a34",
+   "node": "DP03",
+   "path": "tests/datapipeline/test_collector.py"
+  }
+ ],
+ "exit_code": 1,
+ "expected": "exit 1, drift == exactly the three DP03 r2 re-pinned files, no other block",
+ "files_verified": 114,
+ "gate_errors": [],
+ "manifest_files": 117,
+ "missing": [],
+ "purpose": "verify-mode replay of the frozen r2 release manifest over the live tree at r3 build time",
+ "v15_gate": {
+  "canary_evidence": null,
+  "status": "NOT_RUN"
+ }
+}

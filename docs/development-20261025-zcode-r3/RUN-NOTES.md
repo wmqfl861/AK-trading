@@ -14,3 +14,11 @@
 - replay审核者手写报告时把测试文件SHA-256的一位抄错。Root在提交前逐项比较实际字节、原REQUEST、FREEZE与VERDICT，发现差异；原审核者以`replay-review-pin-correction-003`追加机器生成的更正，native0、输入未变，确认是报告抄写错误，原报告不覆盖、产品不重跑。以后报告中的pins直接由权威记录及实际文件计算生成，禁止手抄长hash。
 - Root提交replay前的一次JSON读取（工具记录`d5a18b`）因`Path.read_text()`未指定编码而使用Windows默认GBK，遇UTF-8标点触发`UnicodeDecodeError`，raw1。失败发生在任何git add/commit/push之前，没有部分提交。后继命令显式`encoding="utf-8-sig"`并以`python -B -X utf8 -`运行，完成原冻结字节核对、提交和推送，raw0（`472cc4`，提交`f979e88`）。以后本批所有Python协调命令均启用`-X utf8`，文本读取明确编码；保留原失败，不用忽略解码错误掩盖数据问题。
 - 原forward执行作者003明确允许结束旧的未完成审核并重切范围。Root已确认旧watchdog/CLI/helper/worker及已知后代均不存在；最初按原深目录复制快照时，Windows长路径导致`FileNotFoundError`、raw1（`eb8445`），当时没有最终快照清单、closeout或源码写入。保留该部分副本，后继采用`D:/AKSN261025/FWD-R7-002/files/<sha256>.bin`短路径及完整原路径映射，实际核对377源码和458份源/审核成员，raw0（`45a5b1`）。旧规则的三份字节从Git b98ef21精确恢复到快照，现行规则不回滚。以后Windows快照采用短目标或经过验证的长路径API，不机械叠加深前缀；复制失败不宣告冻结解除。
+- `forward-recovery-owner-001`于2026-10-25 12:42:57 UTC因服务HTTP502终止，native1、stdout为空、输入未变，新helper尚未产生。实际trace为`31699e39-ce85-40bd-9aed-7388eb80163f`。Root只读本任务独立库的session ID元数据，确认原owner为`sess_43fc3d2f-dc0c-4e1b-858d-28ffe727c1e2`，未查询消息、模型配置或凭据；身份记录在本地ROOT-FAILURE-IDENTITY.json。暂不连续重提相同调用；等待其他真实调用的成功进展后，才有界续接原SID/store/cwd。C05本地完整验证继续，不能把此服务失败当成helper产品FAIL。
+
+- `c05-reviewer-prepare-002`在36.8分钟间隔后的原会话有界续接真实native0，输入未变；这只是源码预检，未运行测试或签发产品verdict。它指出域名扁平化碰撞和无参数规划失败误报空选择两个既有计划缺陷。Root核对具体进程创建身份后受控停止旧验证004的19个进程，监督器保留真实raw15；该完整命令只记STARTED_INCOMPLETE，不记通过，也不把它解释为产品超时。原40项焦点和6010项收集结果保留；同一ZCode owner005修复原两文件。之后先用原独立审核者的廉价反例，再执行原完整验证，不删验收要求。
+- 两路OpenCode只读辅助任务在首次JSON事件前被自动快照的全仓`git ls-files --others`拖住，Root仅停止准确绑定的CLI及其git后代，保留raw15，并让watchdog正常捕获/释放。新attempt改在无Git的小工作目录启动，以绝对路径读项目的有限原计划；已核实项目级OpenCode配置文件不存在，未读改模型、provider或持久配置，未加选择器。以后辅助只读核查不要把巨大历史证据目录作为自动快照工作树。
+
+- M5 C1审核准备001于2026-10-25 14:53:46 UTC实际native1、stdout0，615冻结成员及所有输入未变；尚无review root或产品执行。精确trace581937ee-b40a-40f3-8573-5ae9039dabcf记录上游Bad Gateway/HTTP502；原流保留本地，不输出headers/cookie。此事不是测试失败或NO_MATCH。其他多路同窗出现502，暂停盲目增开；等待真实完成证据后，仅允许有界原SID/store/cwd续接，不换模型或配置。DP08随后真实native0完成，不等于服务已彻底恢复。
+
+- DP08 r3首次Git发布检查raw2，仅因已审冻结文件release-verification-summary.md末尾原有空行。未改已审字节、未提交或推送。后继对其余精确写集保持原严格whitespace检查，仅对此一个冻结文档关闭blank-at-eof检查，并核index blob与接受hash一致；该格式例外不豁免产品测试、漂移或其他格式错误。

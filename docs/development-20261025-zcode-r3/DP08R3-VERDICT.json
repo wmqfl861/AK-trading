@@ -1,0 +1,54 @@
+{
+ "schema": "dp08-r3-bounded-hard-review-verdict/1",
+ "task_id": "aktr-zcode-dp08r3-hard-review-20261025-001",
+ "reviewer": "independent ZCode GLM-5.3/max session (took no part in the DP08 r3 plan or implementation)",
+ "date_utc": "2026-10-25",
+ "scope": "BOUNDED: the existing 9-file DP08 r3 release-manifest successor under docs/datapipeline-evidence-20260923-r1/DP08/r3/ only, against DP-HARD-r2 routing/carry_forward and C05-PLAN section 2",
+ "verdict": "PASS",
+ "verdict_qualifier": "unconditional for the bounded scope; no conditions attached",
+ "accepted_files_sha256": {
+  "DP08-r3-report.md": "770045088b3cd549be6dac84e9c269dbbbd65478523faf7061ca45c3d4d9013d",
+  "build_evidence.py": "9b7fdde19a0ae63e2923071c9699f08234618c683ec551167c46d27ae524d2e3",
+  "manifest-diff-r2-r3.json": "c60d2cc5bc98e1034d8f738383f4c8bd2e6e279696a5186b8a1899d487f7433e",
+  "not-run-register.json": "7395204f3e7357a9f45c320b65add4d632144e1445d4bd1d9059ae41c1cd28eb",
+  "r2-manifest-recheck.json": "ebcb17ce602cc45b5dd4ad7a1126a779adb5c86536717a0ab75c78847f23a345",
+  "release-manifest.json": "943dbe26e3b80fe9ea46d916c2b6e6efef0940297f91c9845974cb5307b80980",
+  "release-verification-summary.md": "58a6e739f1f0aaf958a84f839cbbdea93c01d5b2ca72dbe4d5d8769aca161e17",
+  "release-verification.json": "c8d6db813412323c43914d2e48849f0a40ddbf051df1d5458305be5b317e1da8",
+  "verification-runs.json": "86d178bd515eb21927e440a4aaf5a48ca63ca6831899cd9f318371f41c169853"
+ },
+ "legs": {
+  "1_input_immutability_and_stage_fidelity": "PASS - all 137 canonical originals byte/hash-match the frozen STAGE-INPUTS pins; all 137 staged copies byte-equal canonical at review start; post-review re-hash: 137/137 canonical still match pins (zero product edits by this review)",
+  "2_routing_authority": "PASS - DP-HARD-r2 verdict PASS (2026-09-23) carry_forward routes exactly this re-pin to the release owner; its reviewed_bytes equal the three r3 pins; consistent with C05-PLAN section 2 (accepted tracked collector baseline, release owner publishes new consumption list)",
+  "3_structural_manifest_acceptance": "PASS - 38/38 independent checks: files[] pathset 117==117 with EXACTLY 3 changed entries (collector.py f5cf3d0e->64387dda, synthetic_doubles.py 5afba7eb->c9318daf, test_collector.py 8363b95c->3ca9617b; fields only sha256+pin_source) and 114 byte-identical; CAS chain closed independently (collector: DP03 r1 freeze 82e5615b -> DP-X08FIX after f5cf3d0e == r2 pin -> DP03 r2 after 64387dda == r3 pin == live canonical bytes == DP-HARD-r2 reviewed_bytes; other two: r2 pin == DP03 r1 freeze pin -> DP03 r2 after == r3 pin == live == reviewed_bytes); DP03 r2 unchanged 9 files before==after==pin==live; non-files deltas only built_at_utc/pin_overlays/notes; schema/v_matrix/node_test_results/dp08 identical; V15 NOT_RUN; x08fix readback.py overlay pin still effective; collector x08fix entry flagged superseded; all r3 evidence artifacts internally consistent",
+  "4_not_run_truthfulness": "PASS - r3 not-run-register inherits the r2 8-entry list verbatim with recorded source sha256; NR-DP08-01..08 all preserved; no new leg claimed; V15 NOT_RUN",
+  "5_independent_verifier_rerun_canonical": "PASS - python -B -X utf8 scripts/verify_datapipeline_release.py --manifest docs/datapipeline-evidence-20260923-r1/DP08/r3/release-manifest.json --output work/verify-canonical-001 -> native exit 0, CLEAN, 117/117 byte-identical, drift 0, missing 0, dependency pin mismatches 0, gate errors 0, V15 NOT_RUN (current evidence, not the historical 117/117)",
+  "6_builder_reproduction_isolated_stage": "PASS - byte-identical builder re-run inside the review stage only: preflight reproduced (frozen r2 manifest replay over live tree: exit 1, drift == exactly the routed triple, 114/117, no other blocks); build reproduced with every overlay assertion (path-already-pinned, CAS before==replaced pin, live-tree hash+bytes, changed-set==triple, unchanged-9); rebuilt r3 manifest is IDENTICAL to the canonical frozen r3 manifest in files[117], pin_overlays (incl. dp03_r2 chain records), v_matrix, node_test_results, notes, dp08, schema - differences exactly {built_at_utc, repo_root} (allowed timestamp/review-root metadata); regenerated r2-manifest-recheck.json is byte-identical to canonical; rebuilt manifest independently verifies CLEAN 117/117 exit 0 over the stage tree",
+  "7_counterexample_probes": "PASS - 4/4 discriminating legs on labeled SYNTHETIC copies: P1 one-byte drift on non-triple pinned file scripts/report_datapipeline.py -> exit 1, DRIFT exactly that path; P1-restore -> exit 0 CLEAN 117/117; P2 one-byte drift on collector.py -> exit 1, DRIFT enforced against the r3 pin 64387dda (not the superseded r2 pin f5cf3d0e); P3 tampered DP03 r2 sha256_after_r2 -> builder native exit 1 with assertion 'live tree != DP03 r2 after for tests/datapipeline/fixtures/DP03/synthetic_doubles.py', r3 release-manifest.json NOT rewritten"
+ },
+ "environment_notes": [
+  "Stage initially lacked 10 builder-required inputs cited in verifier source (7 NODE_MANIFESTS freeze manifests, DP-X08FIX fix-manifest, DP08/r1 file-manifest, DP04 pytest log whose harvest the DP04 delivery-manifest payload omits); copied read-only from canonical with bytes/sha256 recorded in work/04-stage-copies.json and work/06-stage-dp04log.json; stage-only, canonical untouched",
+  "builder re-run attempt-001 aborted on {node_test_results, v_matrix, repo_root} (DP04 harvest gap) - preserved in work/05-builder-rerun.stdout/stderr.txt; attempt-002 (after staging the cited log) aborted on {repo_root} only - the builder's own strictness about the review-stage root, unavoidable at any root != canonical; the remaining pipeline steps were completed by reviewer-equivalent runs (semantic comparison + verify-mode on the rebuilt manifest), see leg 6",
+  "stage r3 directory after the reproduction differs from its pre-review baseline ONLY in release-manifest.json (the rebuilt copy); pristine copies preserved in stage/.review-r3-baseline/",
+  "reviewer-side fixture defects, preserved: 02-structure.py initial B5 false-FAIL (read wrong manifest key; corrected in 02b/02c with true closure), 08-probes.py first run crashed mid-P2 on a NameError in the print statement (fixed; full suite re-run from scratch)"
+ ],
+ "scope_limits": [
+  "This PASS covers ONLY the bounded 9-file DP08 r3 release-manifest successor acceptance",
+  "NOT an overall/formal DP08 product PASS: NR-DP08-08 (independent hard review of DP08, blocks formal DP08 PASS) remains NOT_RUN and is NOT discharged or erased by this verdict",
+  "All other inherited NOT_RUNs preserved: V15 live canary (NR-DP08-01), PostgreSQL legs (NR-DP08-02), real TqSdk sessions (NR-DP08-03), and NR-DP08-04..07 as recorded",
+  "No coverage or claim for: full DP08 product/storage/live acceptance, C05 full baseline closure, T7, DP01 package drifts, or any live canary; no fresh live/network/DB/SDK operation was performed (all commands file-only)",
+  "No repairs were made and no self-repaired artifact was signed; canonical originals untouched throughout",
+  "Safety posture unchanged: enable_trading=False, observer=hold, broker=NOT_RUN, real send/cancel=0/0"
+ ],
+ "evidence_index": [
+  "work/01-hash-fidelity.json (+09-post-review-rehash.txt)",
+  "work/02-structure.json (38 checks) + 02b-b5-recheck.py + 02c-cas-closure.py",
+  "work/03-stage-gap.py output (stage gap analysis)",
+  "work/04-stage-copies.json, work/06-stage-dp04log.json",
+  "work/05-builder-rerun.stdout.txt/.stderr.txt (attempt-001), work/05-builder-rerun-attempt002.stdout.txt/.stderr.txt",
+  "work/05b-diagnose.py, work/07-rebuilt-compare.json",
+  "work/verify-canonical-001/ + stdout/stderr captures",
+  "work/verify-stage-rebuilt-001/ + stdout/stderr captures",
+  "work/08-probes.json + probe trees SYNTHETIC-DP08R3-PROBE-* under work/"
+ ]
+}

@@ -1,0 +1,968 @@
+{
+ "built_at_utc": "2026-09-23T20:36:57+00:00",
+ "dp08": {
+  "command": "-B -m pytest tests/datapipeline/test_end_to_end.py tests/datapipeline/test_boundaries.py tests/datapipeline/test_release.py --confcutdir tests/datapipeline -p no:cacheprovider --basetemp .tmp/datapipeline/DP08-r2-evidence",
+  "exit_code": 0,
+  "log": "docs/datapipeline-evidence-20260923-r1/DP08/r2/pytest-run-r2.log",
+  "pytest": "================== 48 passed, 1 skipped in 94.86s (0:01:34) ===================",
+  "recorded_at_utc": "2026-09-23T18:37:39+00:00",
+  "revision": "r2"
+ },
+ "files": [
+  {
+   "node": "DP04",
+   "path": "config/datapipeline/calendar-evidence.schema.json",
+   "role": "write_set",
+   "sha256": "80d72a31d49d33412c09772d1f55f3d92db7a98358e371d2a9f7da81b3c95fb6"
+  },
+  {
+   "node": "DP03",
+   "path": "docs/datapipeline-evidence-20260923-r1/DP03/r1/DP03-report.md",
+   "role": "write_set",
+   "sha256": "06bea02c4f4f84e9ada922d795a241cc079b954ce46c2253cbba07aee7395921"
+  },
+  {
+   "node": "DP03",
+   "path": "docs/datapipeline-evidence-20260923-r1/DP03/r1/dependency-hashes.json",
+   "role": "write_set",
+   "sha256": "c98f9cb8d16a9744c4c66626246d4a04ef744616d0f5e5eaae148105b8a61c8c"
+  },
+  {
+   "node": "DP03",
+   "path": "docs/datapipeline-evidence-20260923-r1/DP03/r1/not-run-register.json",
+   "role": "write_set",
+   "sha256": "9c0f9cb16b23a92b348a18a8f6e046d43c6cd81b7430c0ab2515f19337b19ab6"
+  },
+  {
+   "node": "DP03",
+   "path": "docs/datapipeline-evidence-20260923-r1/DP03/r1/pytest-run-r1.log",
+   "role": "write_set",
+   "sha256": "3d07afaeb77d886a5666adc4810819cd36a09169fef5ecbc0f5ce4993518fb89"
+  },
+  {
+   "node": "DP04",
+   "path": "docs/datapipeline-evidence-20260923-r1/DP04/r1/build_evidence.py",
+   "role": "write_set",
+   "sha256": "0d7475c0c8999fcda681bb44385830925e8ac5c622f2c62cf58930e6a925b29a"
+  },
+  {
+   "node": "DP04",
+   "path": "docs/datapipeline-evidence-20260923-r1/DP04/r1/build_fixtures.py",
+   "role": "write_set",
+   "sha256": "096e2be956b0b04c307393099bc57e77ef44ee26fcf10b14b119dad13b4b077a"
+  },
+  {
+   "node": "DP06",
+   "path": "docs/datapipeline-evidence-20260923-r1/DP06/r1/pytest-run-r1.log",
+   "role": "write_set",
+   "sha256": "035c46892935267da4903c3bb5dfb35e82edb6f90fd37cba457b631c3e61a352"
+  },
+  {
+   "node": "DP08",
+   "path": "docs/datapipeline-runbook.md",
+   "pin_source": "dp08-r2-file-manifest",
+   "role": "write_set",
+   "sha256": "f43ccffd14eccd0efe2ee25a1e1fb617a6c7fff091d4c4047d8df6e56ab7374b"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/config/datapipeline/policy.example.json",
+   "role": "write_set",
+   "sha256": "d43d695d01b388baf0d3177a089146be82267ef7d259d750b3a68ad94c55dc02"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/config/datapipeline/universe.example.json",
+   "role": "write_set",
+   "sha256": "cf3739457b44e0078c79bdc327070e7aaa0496c09555a9e88a24aa12f88ddf05"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/contract-freeze.json",
+   "role": "write_set",
+   "sha256": "6668734a311988973ca11d79348c55c4bb9e087fc6aa38ecf5e0ca936ab12d70"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/not-run-register.json",
+   "role": "write_set",
+   "sha256": "9e752cd9c8a6097ce5b6784b695b008dea281bd616973367d6a32a23a4625e4d"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/pytest-run-r1.log",
+   "role": "write_set",
+   "sha256": "f76879f2a1748b7099567e91997de037a2ba3ba75543abeaac2bed4d2bcc3840"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/src/ak_trading/__init__.py",
+   "role": "staging_scaffold",
+   "sha256": "5d6a7a32cc2dd1b534f2dfed7331d0bc0a069662f9fbaf191023452b5722f401"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/src/ak_trading/datapipeline/__init__.py",
+   "role": "write_set",
+   "sha256": "9013233fb7d6a44f99cb204d3b2c99bc0cae6aa27da6fa92fa61f6449e14a658"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/src/ak_trading/datapipeline/contracts.py",
+   "role": "write_set",
+   "sha256": "b13fd260d7b974c668a92e1fff41aa4f2f518ed918310a21f6419b2f8a3481f9"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/src/ak_trading/datapipeline/policy.py",
+   "role": "write_set",
+   "sha256": "3ddc3017c40d17a13cfa3a7717aa457d4ec45ca7961a4caa790e87f974aee727"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/src/ak_trading/datapipeline/ports.py",
+   "role": "write_set",
+   "sha256": "0faa82a0ee4be47410281c087db865ce6d5d42375a11f83cd3f5dc1d75b80cc8"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/fixtures/DP01/synthetic_snapshot_envelope.json",
+   "role": "write_set",
+   "sha256": "a9b8cb3dacb310c7ed9367a566a1ae33b429fafa11ba24971ab7d42aca8bb976"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/fixtures/DP01/synthetic_universe_minimal.json",
+   "role": "write_set",
+   "sha256": "82fd33d04831fc891d177aa835388f386dd72668a31c69c9397bd9229de2b7cf"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/fixtures/DP01/vectors_asof_pit.json",
+   "role": "write_set",
+   "sha256": "9720efaee1205f8380f9dbe0bd72ea4337be9f98b144674d4df28f4aa0612ee7"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/fixtures/DP01/vectors_coverage.json",
+   "role": "write_set",
+   "sha256": "449b54c8db3962717aff4026e131fb16efe9656e7ebfd52c8adb61777a2dc19f"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/fixtures/DP01/vectors_identity.json",
+   "role": "write_set",
+   "sha256": "632a7b38bbc8b82ac3e82544c4439348c90535531d49576ca491e81bd6021b8f"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/fixtures/DP01/vectors_realtime_gate.json",
+   "role": "write_set",
+   "sha256": "42a40919be2a45ff127e7da7abe3b117148dbed1d450135816466e8b667a0308"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/fixtures/DP01/vectors_run_exit.json",
+   "role": "write_set",
+   "sha256": "a03b616c08948943d8feaad407d666adaa3fb9891196958cd0639080a7978638"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/pytest.ini",
+   "role": "write_set",
+   "sha256": "eb08d7317474e57588004ddf977267d5545efbd5974dde468b240697cfa788d9"
+  },
+  {
+   "node": "DP01",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/test_contracts.py",
+   "role": "write_set",
+   "sha256": "0c4a9b4959032cda89c97a6b0f720410dcff7bcd4c13dbcb2a6e87c72cdfe258"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/migrations/datapipeline/env.py",
+   "role": "write_set",
+   "sha256": "bbaf845a65fe8d89180291561744a2b1915c6ee4612fa78eacc6eb3e5fe415e6"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/migrations/datapipeline/script.py.mako",
+   "role": "write_set",
+   "sha256": "67d688471cc52945a7798baa440446fd64770159eadb2dea0d72842764c9ee15"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/migrations/datapipeline/versions/20260923_dp01.py",
+   "role": "write_set",
+   "sha256": "bfa81eb40db592775903e2f34882b7971965445fda4a790fa597d59d9506332b"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/src/ak_trading/datapipeline/migrate.py",
+   "role": "write_set",
+   "sha256": "ce58fdafc1b8f9204fbfc75f3b443382579d9178a53fc95dc7c90ad56c1c0822"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/src/ak_trading/datapipeline/models.py",
+   "role": "write_set",
+   "sha256": "26af058017a779b47c5a267eab5d2d79d1cf5b0e35e9396912001e069d4f454e"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/src/ak_trading/datapipeline/readback.py",
+   "pin_source": "dp-x08fix-r1-overlay",
+   "role": "write_set",
+   "sha256": "986edefef85471ac271d21e66be7cd6492c2e84fd7bee7f971bf35d595a8825e"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/src/ak_trading/datapipeline/storage.py",
+   "role": "write_set",
+   "sha256": "9883bd4608cb09e488e4dd96dae53d7cf4c60f8e18ea439124d0eac66a98c825"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/fixtures/DP02/pinned_acquisition.py",
+   "role": "write_set",
+   "sha256": "563c7a1d9e5b1183a314095b2aba3a1f6b57ace4b160f8e9794b55ec1790aa01"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/fixtures/DP02/synthetic.py",
+   "role": "write_set",
+   "sha256": "049b1c4f42ffb148dcdd7a2e19a6632059e3378eb875ec856de40e603efb39cd"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/fixtures/DP02/vectors_commit.json",
+   "role": "write_set",
+   "sha256": "05cc110e825259e966c41c3ed8b69561c56ece6d32927a217195e92367388379"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/fixtures/DP02/vectors_recovery.json",
+   "role": "write_set",
+   "sha256": "54fbe8cb64142a22c8b916867ed2d847c1cbea96458d6b53876e90c0f9d9a5b6"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/test_migrations.py",
+   "role": "write_set",
+   "sha256": "15e891f33a1779b37cdd1ebc1d8a81e877f9e713b20aa477b87b018cbb28bf21"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/test_storage.py",
+   "role": "write_set",
+   "sha256": "06f0c14cb0201bcad3493fe361497ea2ff6f1e7bcb600d7474f90b8e890cdc88"
+  },
+  {
+   "node": "DP02",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/test_storage_postgres.py",
+   "role": "write_set",
+   "sha256": "1f826bff6f99aa22a9bb0849824cf0792e0567a4b6ad5246da24cb3ed0132b29"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/not-run-register.json",
+   "role": "write_set",
+   "sha256": "e950ee9ab7bcb680d22a5abe2156aa717f6a07b7fda98d9b6633668b6ebbb57f"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/pytest-run-r1.log",
+   "role": "write_set",
+   "sha256": "275a51bd5b006f9e73a05a54326b8a08d756ddd552c855b2b0984a3b60e2d804"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/scripts/validate_datapipeline.py",
+   "role": "write_set",
+   "sha256": "dca7d4c7260693f901b7ab3358cbab0b619b426e6ec4cb29a7fd93f41c43a37d"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/src/ak_trading/datapipeline/gaps.py",
+   "role": "write_set",
+   "sha256": "bbcca935ac3c40bf0af692d2e1531265b008388d189dc8707a35f8a4820613c3"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/src/ak_trading/datapipeline/validation.py",
+   "role": "write_set",
+   "sha256": "9b65b985a9c78143c298bad502ca7e1c1afdfe2f5a63659c5493dc833ba50d37"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline/fixtures/DP05/synthetic_cli_spec.json",
+   "role": "write_set",
+   "sha256": "6b727b44d2a6fa72def1317c16988217572bdee7da318a22144a6d52ceb6b014"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline/fixtures/DP05/synthetic_known_gaps.json",
+   "role": "write_set",
+   "sha256": "67a5dc81d665f1ff58e96acd542f61cac99639a5b116336b993bc72f6172540f"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline/fixtures/DP05/synthetic_scenario_minimal.json",
+   "role": "write_set",
+   "sha256": "485bbab58131544ede507b78c98e5048f8d4d8106c53cc0c169e16b437763836"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline/test_gaps.py",
+   "role": "write_set",
+   "sha256": "d3c59a86d587863a129c66e69f64d8892491a90f667e4e780e83f191d221f72a"
+  },
+  {
+   "node": "DP05",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline/test_validation.py",
+   "role": "write_set",
+   "sha256": "d617a9f5eebaaba7a0f93e3d463c504bdce96c8f35fbfbe8d00352176825f589"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/config/datapipeline/known-gaps.json",
+   "role": "write_set",
+   "sha256": "e2ba1434ecaca6dc60bc59160700f0d9f15cd39949bf0b022a8b2f61288793a4"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/not-run-register.json",
+   "role": "write_set",
+   "sha256": "bb347b8a3be2b45ee23a50908f47295735d3a5e3b5a75ae4de78c1f564391c31"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/pytest-run-r1.log",
+   "role": "write_set",
+   "sha256": "972199018ca9c7819a5c8c4a09e010e8f90084bf0aa9d45574ac32760b9f0c16"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/scripts/plan_rank_recovery.py",
+   "role": "write_set",
+   "sha256": "3ce8dc179dd88abdbf9b78287346bcf78ba408066c10ffca1f5d2c791df90e44"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/src/ak_trading/__init__.py",
+   "role": "staging_scaffold",
+   "sha256": "4ec444334edaf7f70362d80bd4d48f0f3ef973896e141244071c19e81ad1ec87"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/src/ak_trading/datapipeline/__init__.py",
+   "role": "staging_scaffold",
+   "sha256": "5e9b8046d53c09e6980c77bdf17e5b7eb4b2522933d3e0b872df5e7f065e8b29"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/src/ak_trading/datapipeline/legacy.py",
+   "role": "write_set",
+   "sha256": "4acbbee0dd39e1c9cd0a62200bb47cff7d942f36b66078994d9ce6e6fb1b2480"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/src/ak_trading/datapipeline/rank_recovery.py",
+   "role": "write_set",
+   "sha256": "cb0306b6cc458c699fdc95c021cae83337ab921a7101d45ef2f3bd05ded8ba2e"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/fixtures/DP07/defect_ledger_expectations.json",
+   "role": "write_set",
+   "sha256": "09b7e225eafd427fbef41fa6ba0a9894168e5fb70a4bdc9c35622ab79e1e748f"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/fixtures/DP07/dp01_dependency_pins.json",
+   "role": "write_set",
+   "sha256": "513c806a45bf89fec8f2e6e6a90e0580affc88f260eed128ecaa9f2c15335ad3"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/fixtures/DP07/known_gaps_seed_expectations.json",
+   "role": "write_set",
+   "sha256": "9a90e5c6bddfa18c71ea6c6445667f3aff4c4654e68e6721e81e4626c3d035af"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/fixtures/DP07/legacy_imported_at_vectors.json",
+   "role": "write_set",
+   "sha256": "e18c90056177488a3d8ac0fd0554393f2f114fbb8ca1fab727a18d48a312d80f"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/fixtures/DP07/legacy_source_pins.json",
+   "role": "write_set",
+   "sha256": "98d4af3aa01f301cbe4a608990f8bc54151ffda8c79d4a567ca6188181909cd6"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/fixtures/DP07/v10_rank_safety.json",
+   "role": "write_set",
+   "sha256": "6ef93b3c9864155565af0a68b30388ee8f684d7d5427a3ab981b57e34ffcca7f"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/fixtures/DP07/v10_recovery_ledger_vectors.json",
+   "role": "write_set",
+   "sha256": "d383e30e08a36091913697eedba5f415ff3a2dda6cade01ea469708e9836ae16"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/fixtures/DP07/v10_rule_suspects.json",
+   "role": "write_set",
+   "sha256": "eeb0bd43465d8abf52317e62d2a7328db3704f143d563f52ba7fa92e41a538ae"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/pytest.ini",
+   "role": "write_set",
+   "sha256": "2dcd5ff780d24e0ce5055fbc0f363dd2678a409a8a75231f2c945ab2ca0570d0"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/test_legacy.py",
+   "role": "write_set",
+   "sha256": "14f9785f6da13b00dec3c00c3f59311d703cbfd62d2376b113484b0a87982faf"
+  },
+  {
+   "node": "DP07",
+   "path": "docs/devplan-datapipeline-20260923-r1/DP07/r1/tests/datapipeline/test_rank_recovery.py",
+   "role": "write_set",
+   "sha256": "3c7a768d15070e4b68126ce3380271d74748e6d742e3180adb24ff41909be66d"
+  },
+  {
+   "node": "DP03",
+   "path": "scripts/collect_datapipeline.py",
+   "role": "write_set",
+   "sha256": "56de7e37063311a1ed70863acf369170080887523bd85f428982590d4ea4730c"
+  },
+  {
+   "node": "DP06",
+   "path": "scripts/install_datapipeline_task.ps1",
+   "role": "write_set",
+   "sha256": "f1e785c49db7564f95e01c8e90f487b0535b16a593e2aaf104612bb784ec1f21"
+  },
+  {
+   "node": "DP06",
+   "path": "scripts/report_datapipeline.py",
+   "role": "write_set",
+   "sha256": "13981464178e2ed8fec0a7604ce1d548767a4af5b48982032463116329195a21"
+  },
+  {
+   "node": "DP06",
+   "path": "scripts/run_datapipeline_daily.ps1",
+   "role": "write_set",
+   "sha256": "54eead2306f2e393b23893a613b615c7c7f268277da655a8129c27de120379d6"
+  },
+  {
+   "node": "DP08",
+   "path": "scripts/verify_datapipeline_release.py",
+   "pin_source": "dp08-r2-file-manifest",
+   "role": "write_set",
+   "sha256": "bb92f74deab9b646221dcbb4225f0bbb92c6b7b5854f78e2dcc18fea04cf36ac"
+  },
+  {
+   "node": "DP04",
+   "path": "src/ak_trading/datapipeline/calendar.py",
+   "role": "write_set",
+   "sha256": "1c7e5142904c38d60e705b03c03cd97ae881beaea85497e0946b05b27746428e"
+  },
+  {
+   "node": "DP03",
+   "path": "src/ak_trading/datapipeline/collector.py",
+   "pin_source": "dp03-r2-overlay",
+   "role": "write_set",
+   "sha256": "64387dda306a2f8a477c91faa24539f4eccb878cd41937a4c4e05b8634ea4e0b"
+  },
+  {
+   "node": "DP06",
+   "path": "src/ak_trading/datapipeline/dashboard.py",
+   "role": "write_set",
+   "sha256": "4792ca3e439ec580149185fb1d50380d952682f1d5045898d74e735d45a6848f"
+  },
+  {
+   "node": "DP06",
+   "path": "src/ak_trading/datapipeline/monitoring.py",
+   "role": "write_set",
+   "sha256": "543fdcad9e2c48d367fb9a348631d9165fac434bf8b1b51c7410bfb7fe383393"
+  },
+  {
+   "node": "DP06",
+   "path": "src/ak_trading/datapipeline/reporting.py",
+   "role": "write_set",
+   "sha256": "954f7227a4bc5a1cf0d7c5934e0f60f26d272268ad846393d5fe76cd4e774196"
+  },
+  {
+   "node": "DP03",
+   "path": "src/ak_trading/datapipeline/scheduler.py",
+   "role": "write_set",
+   "sha256": "db82fb43dbf7c65a3700733b4fdc35898cd76759988721e79f76e5c0a3aae1b1"
+  },
+  {
+   "node": "DP03",
+   "path": "src/ak_trading/datapipeline/session_factory.py",
+   "role": "write_set",
+   "sha256": "cfa727c275b36959e1bf3f61813a977c01296a0ae0da546e246296ecdf0b69d4"
+  },
+  {
+   "node": "DP03",
+   "path": "tests/datapipeline/fixtures/DP03/bootstrap.py",
+   "role": "write_set",
+   "sha256": "194e141299cebe2bcec0a03a5c6f8a68c4d2a31207963bc0fbeaeea3d1bed7a9"
+  },
+  {
+   "node": "DP03",
+   "path": "tests/datapipeline/fixtures/DP03/synthetic_doubles.py",
+   "pin_source": "dp03-r2-overlay",
+   "role": "write_set",
+   "sha256": "c9318daf65fe803c938627935a539437113573809881f8ef85132c31faf4317c"
+  },
+  {
+   "node": "DP03",
+   "path": "tests/datapipeline/fixtures/DP03/synthetic_universe_dp03.json",
+   "role": "write_set",
+   "sha256": "9348e23f11c86a53ba05ae9cfdee8802af9b1d893f8654baccfb5046ae412322"
+  },
+  {
+   "node": "DP03",
+   "path": "tests/datapipeline/fixtures/DP03/vectors_collector.json",
+   "role": "write_set",
+   "sha256": "6da21c18db6b0ba159a96d003c21422cc34c5045fcdf31ceca6d95d48a2feb6d"
+  },
+  {
+   "node": "DP03",
+   "path": "tests/datapipeline/fixtures/DP03/vectors_scheduler.json",
+   "role": "write_set",
+   "sha256": "77bbf50a1a46ec63ca95193d8da0603d36ad6b93ec55b99c7c6dee259a74b568"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/bootstrap.py",
+   "role": "write_set",
+   "sha256": "3af8784f5aa238e6bacf599b1d8473c8aee3084b500d21358e33592a2f4a668c"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/synthetic_closed_dates_2027.json",
+   "role": "write_set",
+   "sha256": "6441f62308d182de1704eacad9cc866a636af98465d2cfd063e58733b2a64111"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/synthetic_closed_dates_conflict.json",
+   "role": "write_set",
+   "sha256": "6ba4fbbd6f9765c991b024cf8ae1236ab829038d063ca03a2ac3acc6296f924c"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/synthetic_conflicting_grid.json",
+   "role": "write_set",
+   "sha256": "817ac156c84821448b357fd9cc91af1c80981503d3bc70f5cdfdb393099c7747"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/synthetic_later_version_grid.json",
+   "role": "write_set",
+   "sha256": "911dfe54413c55fc767013603beaf6253e2fb7bd4a80cd97b2a3ca81d174ffad"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/synthetic_pit_unknown.json",
+   "role": "write_set",
+   "sha256": "1d9b5c364e262ebe6c409053526c07e51293fb7c43fb2ac41a84a82ad6d3021c"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/synthetic_session_grid_complete_week.json",
+   "role": "write_set",
+   "sha256": "b046b3027e339379d412a7eb56e6e3f88d7b955379a93a94664e0a1201870170"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/synthetic_session_grid_partial.json",
+   "role": "write_set",
+   "sha256": "cb99982607ff97f9bce5fe2baf8f0f64348275e7264338a63e1b779fb7c17e11"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/fixtures/DP04/vectors_calendar_v08.json",
+   "role": "write_set",
+   "sha256": "9881ae331a3668ee86375fad7f9334ce9c8b5009edaf719991c8f8a50a644074"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/build_fixtures.py",
+   "role": "write_set",
+   "sha256": "59916828d61e283b9b8c0ec41ac605555376eed6cdc1feb53c459915e0f0f47f"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/inputs/events/worker-w1.jsonl",
+   "role": "write_set",
+   "sha256": "796b700043edbbaba0bcc74b9e1869582a22b2944bf1441e5ffb9c46a44c2532"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/inputs/heartbeats/w1.json",
+   "role": "write_set",
+   "sha256": "d2d74bcc289d1373b75b93c49f2ef963a7fe0d7469d98d801d1367bd38a138af"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/inputs/quality/q-20260920.json",
+   "role": "write_set",
+   "sha256": "d0a9f9b15987636948310bb1a3326708754e984a855f6d2d28a87b2c03ae2a92"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/inputs/synthetic_calendar_answers.json",
+   "role": "write_set",
+   "sha256": "f47fca23c43d0d85f732e975f5a3424a3cd2f7e1b4584d0427cfbf483724f101"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/inputs/synthetic_hashes.json",
+   "role": "write_set",
+   "sha256": "d3b5b30f8119dcd8ce505029567890292dfd397c327a09a549ab2de1c6cdce6d"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/inputs/synthetic_run_registry.json",
+   "role": "write_set",
+   "sha256": "22ad48080f38299c189453b3b0a84a508451bba5988c8a78414dca8608d3d92a"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/inputs/synthetic_tasks.json",
+   "role": "write_set",
+   "sha256": "510b0b9d43b6c4190c78b081a4b1eeec4fbf7086069ab8ab3f8801546c1a7dc7"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/fixtures/DP06/vectors_alerts.json",
+   "role": "write_set",
+   "sha256": "301954bc1c9332eb3ea9f8cbe036c2b087251277aa93b6a75b816b39facdd687"
+  },
+  {
+   "node": "DP08",
+   "path": "tests/datapipeline/fixtures/DP08/bootstrap.py",
+   "pin_source": "dp08-r2-file-manifest",
+   "role": "write_set",
+   "sha256": "35fe0b274d763766254e6ee23a166293a5ee592ecb038f193e70d93e8135d34a"
+  },
+  {
+   "node": "DP08",
+   "path": "tests/datapipeline/fixtures/DP08/synthetic_world.py",
+   "pin_source": "dp08-r2-file-manifest",
+   "role": "write_set",
+   "sha256": "69c1f27c6b71bdd3a978886fb89d3e284057e1af5f3498ae8794447a5d5eea11"
+  },
+  {
+   "node": "DP08",
+   "path": "tests/datapipeline/test_boundaries.py",
+   "pin_source": "dp08-r2-file-manifest",
+   "role": "write_set",
+   "sha256": "e4c7ccc19d30b992f45b8d12e90c043f3ade4c3c7aab6f4d4e726eafa4cb7095"
+  },
+  {
+   "node": "DP04",
+   "path": "tests/datapipeline/test_calendar.py",
+   "role": "write_set",
+   "sha256": "4e27cd389246a7e173cc41312c0e6e3f57571e102718546e1e5e1467ee9028fb"
+  },
+  {
+   "node": "DP03",
+   "path": "tests/datapipeline/test_collector.py",
+   "pin_source": "dp03-r2-overlay",
+   "role": "write_set",
+   "sha256": "3ca9617b973ff4e8bedf991b3493f9f8403ecdd39262b708588b15a4745b5933"
+  },
+  {
+   "node": "DP08",
+   "path": "tests/datapipeline/test_end_to_end.py",
+   "pin_source": "dp08-r2-file-manifest",
+   "role": "write_set",
+   "sha256": "77b8b7aef093deabee4bad260e22e121bf6654bc9f5c8e107af458439729d959"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/test_monitoring.py",
+   "role": "write_set",
+   "sha256": "2b1403f9df9288044b11ac41ebff8be2e722fbc87e581adcb0c42ca3c0e133a8"
+  },
+  {
+   "node": "DP08",
+   "path": "tests/datapipeline/test_release.py",
+   "pin_source": "dp08-r2-file-manifest",
+   "role": "write_set",
+   "sha256": "e86bc241337cdb2d7049d9d38e6165daf5e09f50d1af45b01a867bcf325b75ef"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/test_reporting.py",
+   "role": "write_set",
+   "sha256": "60189f27f51e3213d6948d96ed4177c93dfa454a6446158a1483804fe3851a2f"
+  },
+  {
+   "node": "DP03",
+   "path": "tests/datapipeline/test_scheduler.py",
+   "role": "write_set",
+   "sha256": "34fc5d4ff87226cc80071654f93da3e9d69b1dbf80774776f21ea0ff0a1fb500"
+  },
+  {
+   "node": "DP06",
+   "path": "tests/datapipeline/test_task_installation.py",
+   "role": "write_set",
+   "sha256": "02f3303fa1980f8db108eebbb85e1da7c7726ad110ab9ca3875d27ce6181e867"
+  }
+ ],
+ "node_test_results": {
+  "DP01": {
+   "command": "python -B -m pytest -c docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/pytest.ini --confcutdir docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline -p no:cacheprovider --basetemp .tmp/datapipeline/DP01-r1-final docs/devplan-datapipeline-20260923-r1/DP01/r1/tests/datapipeline/test_contracts.py",
+   "exit_code": null,
+   "freeze_manifest": "docs/devplan-datapipeline-20260923-r1/DP01/r1/dp01-freeze-manifest.json",
+   "log": "docs/devplan-datapipeline-20260923-r1/DP01/r1/pytest-run-r1.log",
+   "result": "104 passed"
+  },
+  "DP02": {
+   "command": "python -B -m pytest -c docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/pytest.ini --confcutdir docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline -p no:cacheprovider --basetemp .tmp/datapipeline/DP02-r1-final -v docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/test_storage.py docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/test_migrations.py docs/devplan-datapipeline-20260923-r1/DP02/r1/tests/datapipeline/test_storage_postgres.py",
+   "exit_code": null,
+   "freeze_manifest": "docs/devplan-datapipeline-20260923-r1/DP02/r1/dp02-freeze-manifest.json",
+   "log": "docs/devplan-datapipeline-20260923-r1/DP02/r1/pytest-run-r1.log",
+   "result": "================= 45 passed, 10 skipped in 338.70s (0:05:38) =================="
+  },
+  "DP03": {
+   "command": null,
+   "exit_code": null,
+   "freeze_manifest": "docs/datapipeline-evidence-20260923-r1/DP03/r1/file-manifest.json",
+   "log": "docs/datapipeline-evidence-20260923-r1/DP03/r1/pytest-run-r1.log",
+   "result": "43 passed in 27.11s ============================="
+  },
+  "DP04": {
+   "command": "-B -m pytest tests/datapipeline/test_calendar.py --confcutdir tests/datapipeline -p no:cacheprovider --basetemp .tmp/datapipeline/DP04-r1/pytest",
+   "exit_code": null,
+   "freeze_manifest": "docs/datapipeline-evidence-20260923-r1/DP04/r1/dp04-delivery-manifest.json",
+   "log": "docs/datapipeline-evidence-20260923-r1/DP04/r1/pytest-run-r1.log",
+   "result": "99 passed in 2.90s =============================="
+  },
+  "DP05": {
+   "command": "python -B -m pytest -c docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline/pytest.ini --confcutdir docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline -p no:cacheprovider --basetemp .tmp/datapipeline/DP05-r1 docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline/test_validation.py docs/devplan-datapipeline-20260923-r1/DP05/r1/tests/datapipeline/test_gaps.py",
+   "exit_code": null,
+   "freeze_manifest": "docs/devplan-datapipeline-20260923-r1/DP05/r1/dp05-freeze-manifest.json",
+   "log": "docs/devplan-datapipeline-20260923-r1/DP05/r1/pytest-run-r1.log",
+   "result": "72 passed in 5.50s"
+  },
+  "DP06": {
+   "command": null,
+   "exit_code": null,
+   "freeze_manifest": "docs/datapipeline-evidence-20260923-r1/DP06/r1/file-hashes.json",
+   "log": "docs/datapipeline-evidence-20260923-r1/DP06/r1/pytest-run-r1.log",
+   "result": "42 passed in 18.92s ============================="
+  },
+  "DP07": {
+   "command": null,
+   "exit_code": null,
+   "freeze_manifest": "docs/devplan-datapipeline-20260923-r1/DP07/r1/dp07-freeze-manifest.json",
+   "log": "docs/devplan-datapipeline-20260923-r1/DP07/r1/pytest-run-r1.log",
+   "result": "74 passed in 8.72s =============================="
+  },
+  "DP08": {
+   "command": "-B -m pytest tests/datapipeline/test_end_to_end.py tests/datapipeline/test_boundaries.py tests/datapipeline/test_release.py --confcutdir tests/datapipeline -p no:cacheprovider --basetemp .tmp/datapipeline/DP08-r2-evidence",
+   "exit_code": 0,
+   "freeze_manifest": null,
+   "log": "docs/datapipeline-evidence-20260923-r1/DP08/r2/pytest-run-r2.log",
+   "result": "================== 48 passed, 1 skipped in 94.86s (0:01:34) ==================="
+  }
+ },
+ "notes": [
+  "All SYNTHETIC results prove engineering behavior only; they are not real-market facts (D06/D07).",
+  "PG-required verifications stay NOT_RUN until an isolated PostgreSQL database is injected by the controlled test launcher.",
+  "The two DP-X08FIX-overlaid files pin their POST-FIX sha256 (defects X-08-1/2/3/5 fixed by DP-X08FIX r1; DP08 r2 re-integration verifies the fixes).",
+  "DP08 r3 re-pin overlay (DP-HARD-r2 PASS routing): the three DP03 r2 F-HARD-01 repaired files (collector.py, synthetic_doubles.py, test_collector.py) pin to their POST-REPAIR sha256 read from the DP03 r2 file manifest; every other pin is byte-identical to the r2 release manifest.  r3 is bookkeeping only - no source file changed and no new test leg ran; DP08's recorded pytest result is carried over from r2 (DP08 write set unchanged)."
+ ],
+ "pin_overlays": {
+  "dp03_r2_files": {
+   "src/ak_trading/datapipeline/collector.py": {
+    "bytes": 68962,
+    "chain": [
+     {
+      "label": "DP03 r1 freeze pin (deepest recorded origin)",
+      "sha256": "82e5615be36a8777295a72e30915e0dbc85b1d07bf1fa5a1bb721c49fb1297ee"
+     },
+     {
+      "label": "DP-X08FIX r1 post-fix overlay pin = r2 release-manifest pin",
+      "sha256": "f5cf3d0efd03706e5beed8c0b7d56986b1a0c5a78c042c20a0a562213f4db03e"
+     },
+     {
+      "label": "DP03 r2 post-repair pin = r3 release-manifest pin",
+      "sha256": "64387dda306a2f8a477c91faa24539f4eccb878cd41937a4c4e05b8634ea4e0b"
+     }
+    ],
+    "live_tree_verified": true,
+    "node": "DP03",
+    "pin_source_replaced": "dp-x08fix-r1-overlay",
+    "sha256": "64387dda306a2f8a477c91faa24539f4eccb878cd41937a4c4e05b8634ea4e0b",
+    "sha256_before": "f5cf3d0efd03706e5beed8c0b7d56986b1a0c5a78c042c20a0a562213f4db03e"
+   },
+   "tests/datapipeline/fixtures/DP03/synthetic_doubles.py": {
+    "bytes": 13772,
+    "chain": [
+     {
+      "label": "DP03 r1 freeze pin = r2 release-manifest pin",
+      "sha256": "5afba7eb72cdbf80c5dbace6d44646a49ce25200fbe48f3726e6921c32dd3e19"
+     },
+     {
+      "label": "r2 release-manifest pin",
+      "sha256": "5afba7eb72cdbf80c5dbace6d44646a49ce25200fbe48f3726e6921c32dd3e19"
+     },
+     {
+      "label": "DP03 r2 post-repair pin = r3 release-manifest pin",
+      "sha256": "c9318daf65fe803c938627935a539437113573809881f8ef85132c31faf4317c"
+     }
+    ],
+    "live_tree_verified": true,
+    "node": "DP03",
+    "pin_source_replaced": "node-freeze-manifest (DP03 r1)",
+    "sha256": "c9318daf65fe803c938627935a539437113573809881f8ef85132c31faf4317c",
+    "sha256_before": "5afba7eb72cdbf80c5dbace6d44646a49ce25200fbe48f3726e6921c32dd3e19"
+   },
+   "tests/datapipeline/test_collector.py": {
+    "bytes": 36657,
+    "chain": [
+     {
+      "label": "DP03 r1 freeze pin = r2 release-manifest pin",
+      "sha256": "8363b95c6bef340c95f37f7befcd4de4f61c8a8be0c37a05b46502249cd15a34"
+     },
+     {
+      "label": "r2 release-manifest pin",
+      "sha256": "8363b95c6bef340c95f37f7befcd4de4f61c8a8be0c37a05b46502249cd15a34"
+     },
+     {
+      "label": "DP03 r2 post-repair pin = r3 release-manifest pin",
+      "sha256": "3ca9617b973ff4e8bedf991b3493f9f8403ecdd39262b708588b15a4745b5933"
+     }
+    ],
+    "live_tree_verified": true,
+    "node": "DP03",
+    "pin_source_replaced": "node-freeze-manifest (DP03 r1)",
+    "sha256": "3ca9617b973ff4e8bedf991b3493f9f8403ecdd39262b708588b15a4745b5933",
+    "sha256_before": "8363b95c6bef340c95f37f7befcd4de4f61c8a8be0c37a05b46502249cd15a34"
+   }
+  },
+  "dp03_r2_manifest": "docs/datapipeline-evidence-20260923-r1/DP03/r2/file-manifest.json",
+  "files": {
+   "docs/devplan-datapipeline-20260923-r1/DP02/r1/src/ak_trading/datapipeline/readback.py": {
+    "node": "DP02",
+    "sha256": "986edefef85471ac271d21e66be7cd6492c2e84fd7bee7f971bf35d595a8825e",
+    "sha256_before": "92f7b023788cd8f82c0f05951acfa0b3be0d09d6dad3cadceafd138be58bdc47"
+   },
+   "src/ak_trading/datapipeline/collector.py": {
+    "node": "DP03",
+    "sha256": "f5cf3d0efd03706e5beed8c0b7d56986b1a0c5a78c042c20a0a562213f4db03e",
+    "sha256_before": "82e5615be36a8777295a72e30915e0dbc85b1d07bf1fa5a1bb721c49fb1297ee",
+    "superseded_by_dp03_r2_overlay": true
+   }
+  },
+  "x08fix_manifest": "docs/datapipeline-evidence-20260923-r1/DP-X08FIX/r1/fix-manifest.json"
+ },
+ "repo_root": "D:\\Projects\\AK-trading",
+ "schema": "dp08-release-manifest/1",
+ "v_matrix": {
+  "V01": {
+   "node_log": "docs/devplan-datapipeline-20260923-r1/DP01/r1/pytest-run-r1.log",
+   "node_result": "104 passed",
+   "owner": "DP01",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V02": {
+   "node_log": "docs/devplan-datapipeline-20260923-r1/DP01/r1/pytest-run-r1.log",
+   "node_result": "104 passed",
+   "owner": "DP01/DP02/DP03",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V03": {
+   "node_log": "docs/devplan-datapipeline-20260923-r1/DP02/r1/pytest-run-r1.log",
+   "node_result": "================= 45 passed, 10 skipped in 338.70s (0:05:38) ==================",
+   "owner": "DP02",
+   "status": "NOT_RUN"
+  },
+  "V04": {
+   "node_log": "docs/devplan-datapipeline-20260923-r1/DP02/r1/pytest-run-r1.log",
+   "node_result": "================= 45 passed, 10 skipped in 338.70s (0:05:38) ==================",
+   "owner": "DP02",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V05": {
+   "node_log": "docs/devplan-datapipeline-20260923-r1/DP02/r1/pytest-run-r1.log",
+   "node_result": "================= 45 passed, 10 skipped in 338.70s (0:05:38) ==================",
+   "owner": "DP02",
+   "status": "NOT_RUN"
+  },
+  "V06": {
+   "node_log": "docs/datapipeline-evidence-20260923-r1/DP03/r1/pytest-run-r1.log",
+   "node_result": "43 passed in 27.11s =============================",
+   "owner": "DP03",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V07": {
+   "node_log": "docs/datapipeline-evidence-20260923-r1/DP03/r1/pytest-run-r1.log",
+   "node_result": "43 passed in 27.11s =============================",
+   "owner": "DP03",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V08": {
+   "node_log": "docs/datapipeline-evidence-20260923-r1/DP04/r1/pytest-run-r1.log",
+   "node_result": "99 passed in 2.90s ==============================",
+   "owner": "DP04",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V09": {
+   "node_log": "docs/devplan-datapipeline-20260923-r1/DP05/r1/pytest-run-r1.log",
+   "node_result": "72 passed in 5.50s",
+   "owner": "DP05",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V10": {
+   "node_log": "docs/devplan-datapipeline-20260923-r1/DP07/r1/pytest-run-r1.log",
+   "node_result": "74 passed in 8.72s ==============================",
+   "owner": "DP07",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V11": {
+   "node_log": "docs/datapipeline-evidence-20260923-r1/DP06/r1/pytest-run-r1.log",
+   "node_result": "42 passed in 18.92s =============================",
+   "owner": "DP06",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V12": {
+   "node_log": "docs/datapipeline-evidence-20260923-r1/DP08/r2/pytest-run-r2.log",
+   "node_result": "================== 48 passed, 1 skipped in 94.86s (0:01:34) ===================",
+   "owner": "DP08",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V13": {
+   "node_log": "docs/datapipeline-evidence-20260923-r1/DP08/r2/pytest-run-r2.log",
+   "node_result": "================== 48 passed, 1 skipped in 94.86s (0:01:34) ===================",
+   "owner": "DP08",
+   "status": "RUN_SYNTHETIC"
+  },
+  "V14": {
+   "node_log": "docs/devplan-datapipeline-20260923-r1/DP02/r1/pytest-run-r1.log",
+   "node_result": "================= 45 passed, 10 skipped in 338.70s (0:05:38) ==================",
+   "owner": "DP02/DP03/DP08",
+   "status": "PARTIAL_SYNTHETIC"
+  },
+  "V15": {
+   "owner": "DP08",
+   "reason": "no user-controlled live canary window executed; offline engineering release only (H08.8)",
+   "status": "NOT_RUN"
+  }
+ }
+}

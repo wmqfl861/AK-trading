@@ -1,0 +1,34 @@
+{
+ "independent": {
+  "clean": true,
+  "command": "python -B scripts/verify_datapipeline_release.py --manifest docs/datapipeline-evidence-20260923-r1/DP08/r3/release-manifest.json --output .tmp/datapipeline/DP08-r3-independent-check",
+  "dependency_pin_mismatch": [],
+  "drift": [],
+  "exit_code": 0,
+  "files_verified": 117,
+  "gate_errors": [],
+  "manifest_files": 117,
+  "missing": [],
+  "v15_gate": {
+   "canary_evidence": null,
+   "status": "NOT_RUN"
+  },
+  "verified_at_utc": "2026-09-23T20:36:58+00:00"
+ },
+ "main": {
+  "clean": true,
+  "command": "python -B scripts/verify_datapipeline_release.py --manifest docs/datapipeline-evidence-20260923-r1/DP08/r3/release-manifest.json --output .tmp/datapipeline/DP08/r3/verification-output",
+  "dependency_pin_mismatch": [],
+  "drift": [],
+  "exit_code": 0,
+  "files_verified": 117,
+  "gate_errors": [],
+  "manifest_files": 117,
+  "missing": [],
+  "v15_gate": {
+   "canary_evidence": null,
+   "status": "NOT_RUN"
+  },
+  "verified_at_utc": "2026-09-23T20:36:57+00:00"
+ }
+}

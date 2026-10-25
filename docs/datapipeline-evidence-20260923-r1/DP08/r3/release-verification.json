@@ -1,0 +1,16 @@
+{
+ "clean": true,
+ "dependency_pin_mismatch": [],
+ "drift": [],
+ "exit_code": 0,
+ "files_verified": 117,
+ "gate_errors": [],
+ "manifest_files": 117,
+ "missing": [],
+ "schema": "dp08-release-verification/1",
+ "v15_gate": {
+  "canary_evidence": null,
+  "status": "NOT_RUN"
+ },
+ "verified_at_utc": "2026-09-23T20:36:57+00:00"
+}
