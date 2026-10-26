@@ -1,0 +1,57 @@
+{
+ "schema": "aktr-t7-memory-hard-review-freeze/v1",
+ "review": "t7-memory-hard-review-004",
+ "produced_by": "independent reviewer session sess_a365bf07-cae0-4d44-9933-bbb1daa4a354",
+ "source_at_verdict": {
+  "src/ak_trading/v2/_fold_records.py": {
+   "sha256": "52d6c7396176644705820f0c57fae932d6da4d295ea3d3f6b7c41462c6501c26",
+   "bytes": 40357
+  },
+  "src/ak_trading/v2/probability/models.py": {
+   "sha256": "3dc31eed9363faaadc7c27f80705c33e3cc25d557bb14a39b8675c3c1211248d",
+   "bytes": 113533
+  },
+  "src/ak_trading/v2/probability/regimes.py": {
+   "sha256": "b085797c5e86ee01784a120521d5cc5753c7f41e7c4425196a407abc0a1322b0",
+   "bytes": 22555
+  },
+  "src/ak_trading/v2/probability/calibration.py": {
+   "sha256": "962eb84cc2e8a1f32ec8f7fb3ab41cd14676b47ccb6494a1c46db5c680c9993b",
+   "bytes": 30409
+  },
+  "tests/test_v2_m3a_models.py": {
+   "sha256": "4ac45866de4045c9d93c1b5b45b5dffa8cdd5dd59e5c3aac266df94dc1a21c8d",
+   "bytes": 70874
+  },
+  "tests/test_v2_m3a_calibration.py": {
+   "sha256": "41a11ec4906f1a0d33091bf606828253616d1aaee76d046ce8e1fcde45f376c6",
+   "bytes": 37069
+  }
+ },
+ "review_outputs": {
+  "REVIEW.md": {
+   "sha256": "96a88a6966a28d87cae48c41970e1c961254eb2c38528a0184772d04f746e858",
+   "bytes": 4997
+  },
+  "FINDINGS.json": {
+   "sha256": "bec3e835cced064c0f286df3656cfe15450d122f656dd3aa14cd69833da3fe23",
+   "bytes": 5952
+  },
+  "VERDICT.json": {
+   "sha256": "ebbf5d0bed807d62b63d055f5487b4cfd77c706729336cdd82d7b988dd327b27",
+   "bytes": 4243
+  }
+ },
+ "evidence_sealed": {
+  "004_m3a_RUN-META": "96766fca5ecd480c84473c28bcbfd985b5e8fa19869d80b9df997c019c04dee5",
+  "004_m3a_stdout": "2ce3743974e8b3b5f91080a86861513b32ce19f57f371de482e1c24fb2b4163e",
+  "004_candidate_attempt1": "751c606a7d6bed5e42afa12c6052ee64c634eeab55cbed846795d7ae4064af18",
+  "004_baseline_attempt1": "5601e7107fa60c29f3565e4aa42290844e4e84c3666003f82dfd68466e6c48c2",
+  "004_freeze_before": "f043b2bb87cf2e12b8890716be0e4582a93ff1da267ff0ab093dc9a5d11931eb",
+  "004_freeze_after": "adf78fcaec2959bec238099b0251f2a70a7dafb15485ec8f3a6eb1b30b71809d",
+  "004_staging_check": "3670efd903e9d16cd2a53927c70c323d1646a49c59ac0232b04cf58beb1503e5",
+  "004_calibration_repair_diff": "0e649ffbbb36c8b8f6f08c88f90afe8b160f2e99565ff55ace1ec1e738246165",
+  "004_tests_cumulative_diff": "662ccc286640d41d279610d31e1d8a37e6eb79169c7d4eda2b7e9ced09b70ebe"
+ },
+ "note": "all hashed producers terminated before sealing; written last via temp sibling + atomic replace"
+}

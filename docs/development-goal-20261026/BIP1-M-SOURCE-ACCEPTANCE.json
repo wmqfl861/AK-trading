@@ -1,0 +1,35 @@
+{
+  "schema": "aktr-bounded-source-engineering-acceptance/v1",
+  "recorded_utc": "2026-10-26 21:03 UTC",
+  "scope": "M_HOLIDAY_SESSION_ORIGINALS_002",
+  "independent_verdict": "PASS",
+  "unconditional_scoped_engineering": true,
+  "reviewer_session": "sess_04859f53-8964-4180-b432-3900accd95ba",
+  "reviewer_native_exit": 0,
+  "actual_closed_terminal_utc": "2026-10-26T20:49:53.981539+00:00",
+  "review_report": "bip1-m-source-review/REVIEW.md",
+  "business_input_delivery": "INPUT_NOT_DELIVERED",
+  "new_qualified_sources": 0,
+  "new_calendar_relations": 0,
+  "missing_relations_retained": 12,
+  "queries": {
+    "2023": "NO_APPLICABLE_LOCATOR; excluded already-consumed annual notice",
+    "2024": "QUERY_FAILED; HTTP502/native22, not an empty-success result"
+  },
+  "independent_checks": {
+    "semantic": "20/20",
+    "counterexamples": "10/10 rejected as expected",
+    "owner_verifier": "13/14; known additional FROZEN-DELIVERY writer footprint recorded and independently dispositioned"
+  },
+  "qualifications": [
+    "F-01 FROZEN-DELIVERY writer deviation (Root-003 instruction + separate Root post-terminal reception; V01 whitelist footprint accounted)",
+    "F-02 search-001 custody gap: PID/creation identity/RSS/peak UNKNOWN, honestly retained; termination proven by child-sealed transport metadata",
+    "F-03 disclosed loopback health probe preceded baseline freeze (infrastructure, zero consumption)",
+    "F-04 duplicate top-level keys in the raw 2023 RESPONSE.json (service artifact; pointer unambiguous)",
+    "F-05 owner-scratch stderr overwrite (both events recorded; first-failure bytes not independently available)",
+    "F-06 search-002 liveness-probe artifact child_live_at_terminal=true (probe semantics recorded as-is)"
+  ],
+  "consumption": "6 queries/6 URLs cumulative; closed bounded scope; no query or URL replay authorized",
+  "research_credit": false,
+  "safety": "false/hold/NOT_RUN/0/0"
+}

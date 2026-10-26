@@ -38,8 +38,10 @@ from ak_trading.v2.contracts import (
 from ak_trading.v2.policy import confidence_policy
 from ak_trading.v2.seasonality import SeasonalityModel
 from ak_trading.v2.schemas import canonical_json_bytes
+from ak_trading.v2._fold_records import RecordView
 from ak_trading.v2.probability.calibration import (
     LABEL_VERSION,
+    _build_calibration_evidence_from_view,
     build_calibration_evidence,
     canonical_evidence_id,
     evidence_projection_without_back_references,
@@ -293,13 +295,20 @@ class ForecastModelSet:
 
 def feature_vector(features: FeatureSnapshot, feature_keys: tuple[str, ...]) -> tuple[float, ...] | None:
     """Numeric vector in ``feature_keys`` order; None when any key is missing."""
-    values: dict[str, Decimal | float | None] = {}
-    for factor in features.values:
-        if factor.factor_key not in values:
-            values[factor.factor_key] = factor.value
+    return _feature_vector_values(features.values, feature_keys)
+
+
+def _feature_vector_values(values: tuple[FactorValue, ...],
+                           feature_keys: tuple[str, ...]) -> tuple[float, ...] | None:
+    """Shared first-occurrence-wins walk over factor values (identical
+    semantics for tuple and compact view paths)."""
+    seen: dict[str, Decimal | float | None] = {}
+    for factor in values:
+        if factor.factor_key not in seen:
+            seen[factor.factor_key] = factor.value
     vector: list[float] = []
     for key in feature_keys:
-        value = values.get(key)
+        value = seen.get(key)
         if value is None:
             return None
         vector.append(float(value))
@@ -1014,27 +1023,191 @@ class _Sample:
         return _condition_levels(self.product, self.session_kind, self.base_regime)
 
 
-def _validate_join(features: tuple[FeatureSnapshot, ...],
-                   regimes: tuple[RegimeAssessment, ...],
-                   requests: tuple[ForecastRequest, ...],
-                   labels: tuple[PathLabel, ...],
-                   feature_keys: tuple[str, ...], label_version: str,
-                   label_deadline: int, deadline_reason: str) -> list[_Sample]:
-    snapshots: dict[str, FeatureSnapshot] = {}
-    for snapshot in features:
-        if snapshot.snapshot_id in snapshots:
+class _RequestFields:
+    """Join-relevant request fields (value-identical on both paths)."""
+
+    __slots__ = ("request_id", "horizon", "window_start", "window_end",
+                 "barrier", "frozen_range", "features_handle",
+                 "features_snapshot_id")
+
+    def __init__(self, request_id, horizon, window_start, window_end, barrier,
+                 frozen_range, features_handle, features_snapshot_id) -> None:
+        self.request_id = request_id
+        self.horizon = horizon
+        self.window_start = window_start
+        self.window_end = window_end
+        self.barrier = barrier
+        self.frozen_range = frozen_range
+        self.features_handle = features_handle
+        self.features_snapshot_id = features_snapshot_id
+
+
+class _TupleSegmentAccess:
+    """Segment access over the public tuple inputs (objects resident)."""
+
+    def __init__(self, features, requests) -> None:
+        self._features = features
+        self._requests = requests
+
+    def iter_snapshot_handles(self):
+        return iter(self._features)
+
+    def snapshot_id(self, handle) -> str:
+        return handle.snapshot_id
+
+    def snapshot_scalars(self, handle):
+        return handle  # the dataclass already carries every join scalar
+
+    def factor_values(self, handle) -> tuple[FactorValue, ...]:
+        return handle.values
+
+    def features_equal(self, left, right) -> bool:
+        return left != right
+
+    def iter_request_handles(self):
+        return iter(self._requests)
+
+    def request_id(self, handle) -> str:
+        return handle.request_id
+
+    def request_fields(self, handle) -> _RequestFields:
+        return _RequestFields(
+            request_id=handle.request_id,
+            horizon=handle.horizon,
+            window_start=handle.window_start_nano,
+            window_end=handle.window_end_nano,
+            barrier=handle.barrier_key,
+            frozen_range=handle.frozen_range,
+            features_handle=handle.features,
+            features_snapshot_id=handle.features.snapshot_id)
+
+    def seasonal_column_exists(self) -> bool:
+        return any(factor.factor_key.startswith("SEASONAL:")
+                   for snapshot in self._features for factor in snapshot.values)
+
+    def snapshot_id_and_decision(self, handle):
+        return handle.snapshot_id, handle.decision_nano
+
+    def decision_nanos(self):
+        return [snapshot.decision_nano for snapshot in self._features]
+
+    def request_getter(self, requests_by_id=None):
+        table = {request.request_id: request for request in self._requests} \
+            if requests_by_id is None else requests_by_id
+        return table.get
+
+    def evidence_features(self, referenced):
+        return tuple(snapshot for snapshot in self._features
+                     if snapshot.snapshot_id in referenced)
+
+
+class _ViewSegmentAccess:
+    """Segment access over store views (compact records, bounded
+    materialization; join value equality via the store's same_snapshot)."""
+
+    def __init__(self, features_view, requests_view) -> None:
+        if not isinstance(features_view, RecordView) \
+                or features_view.record_kind != "FeatureSnapshot":
+            raise TypeError("features_view_must_be_snapshot_RecordView")
+        if not isinstance(requests_view, RecordView) \
+                or requests_view.record_kind != "ForecastRequest":
+            raise TypeError("requests_view_must_be_request_RecordView")
+        if features_view.store is not requests_view.store:
+            raise TypeError("segment_views_must_share_one_store")
+        self._features_view = features_view
+        self._requests_view = requests_view
+        self._store = features_view.store
+
+    def _snapshot_compact(self, handle):
+        return self._store._resolve_snapshot_ref(handle)
+
+    def iter_snapshot_handles(self):
+        for index in range(len(self._features_view)):
+            yield self._features_view.meta(index).handle
+
+    def snapshot_id(self, handle) -> str:
+        return self._snapshot_compact(handle).snapshot_id
+
+    def snapshot_scalars(self, handle):
+        return self._snapshot_compact(handle)
+
+    def factor_values(self, handle) -> tuple[FactorValue, ...]:
+        return self._snapshot_compact(handle).values
+
+    def features_equal(self, left, right) -> bool:
+        return not self._store.same_snapshot(left, right)
+
+    def iter_request_handles(self):
+        for index in range(len(self._requests_view)):
+            yield self._requests_view.meta(index).handle
+
+    def request_id(self, handle) -> str:
+        return self._store._request_compact(handle).request_id
+
+    def request_fields(self, handle) -> _RequestFields:
+        meta = self._store._meta("ForecastRequest", handle.slot)
+        return _RequestFields(
+            request_id=meta.request_id,
+            horizon=meta.horizon,
+            window_start=meta.window_start_nano,
+            window_end=meta.window_end_nano,
+            barrier=meta.barrier_key,
+            frozen_range=meta.frozen_range,
+            features_handle=meta.features_ref,
+            features_snapshot_id=meta.features_snapshot_id)
+
+    def seasonal_column_exists(self) -> bool:
+        return any(factor.factor_key.startswith("SEASONAL:")
+                   for handle in self.iter_snapshot_handles()
+                   for factor in self.factor_values(handle))
+
+    def decision_nanos(self):
+        return [self.snapshot_id_and_decision(handle)[1]
+                for handle in self.iter_snapshot_handles()]
+
+    def snapshot_id_and_decision(self, handle):
+        compact = self._snapshot_compact(handle)
+        return compact.snapshot_id, compact.decision_nano
+
+    def request_getter(self, requests_by_id=None):
+        def getter(request_id: str):
+            handle = self._store._request_handle_by_id(request_id)
+            if handle is None:
+                return None
+            return self._store._materialize("ForecastRequest", handle.slot)
+        return getter
+
+    def evidence_features(self, referenced):
+        selected = [index for index in range(len(self._features_view))
+                    if self._features_view.meta(index).snapshot_id in referenced]
+        return self._features_view.select(selected)
+
+
+def _validate_join_access(snapshot_access, request_access,
+                          regimes: tuple[RegimeAssessment, ...],
+                          labels: tuple[PathLabel, ...],
+                          feature_keys: tuple[str, ...], label_version: str,
+                          label_deadline: int, deadline_reason: str) -> list[_Sample]:
+    """Shared join validation core (public tuple path and internal view path
+    run the identical checks, in the identical order, with the identical
+    messages; only the record access differs)."""
+    snapshots_by_id = {}
+    for handle in snapshot_access.iter_snapshot_handles():
+        snapshot_id = snapshot_access.snapshot_id(handle)
+        if snapshot_id in snapshots_by_id:
             raise FitError("duplicate_snapshot_id")
-        snapshots[snapshot.snapshot_id] = snapshot
+        snapshots_by_id[snapshot_id] = handle
     assessments: dict[str, RegimeAssessment] = {}
     for assessment in regimes:
         if assessment.snapshot_id in assessments:
             raise FitError("duplicate_regime_snapshot")
         assessments[assessment.snapshot_id] = assessment
-    request_map: dict[str, ForecastRequest] = {}
-    for request in requests:
-        if request.request_id in request_map:
+    request_map = {}
+    for handle in request_access.iter_request_handles():
+        request_id = request_access.request_id(handle)
+        if request_id in request_map:
             raise FitError("duplicate_request_id")
-        request_map[request.request_id] = request
+        request_map[request_id] = handle
     label_map: dict[str, PathLabel] = {}
     for label in labels:
         if label.request_id in label_map:
@@ -1044,53 +1217,73 @@ def _validate_join(features: tuple[FeatureSnapshot, ...],
         label_map[label.request_id] = label
 
     samples: list[_Sample] = []
-    for request in requests:
-        label = label_map.get(request.request_id)
+    vector_by_snapshot: dict[str, tuple[float, ...]] = {}
+    for handle in request_access.iter_request_handles():
+        fields = request_access.request_fields(handle)
+        label = label_map.get(fields.request_id)
         if label is None:
             raise FitError("label_missing_for_request")
         if label.status != "MATURE" or label.available_at_nano is None:
             raise FitError("label_not_mature")
         if label.available_at_nano > label_deadline:
             raise FitError(deadline_reason)
-        if label.horizon != request.horizon:
+        if label.horizon != fields.horizon:
             raise FitError("label_horizon_mismatch")
-        if label.window_start_nano != request.window_start_nano \
-                or label.window_end_nano != request.window_end_nano:
+        if label.window_start_nano != fields.window_start \
+                or label.window_end_nano != fields.window_end:
             raise FitError("label_window_mismatch")
-        snapshot = snapshots.get(request.features.snapshot_id)
-        if snapshot is None or snapshot != request.features:
+        snapshot_handle = snapshots_by_id.get(fields.features_snapshot_id)
+        if snapshot_handle is None or snapshot_access.features_equal(
+                snapshot_handle, fields.features_handle):
             raise FitError("request_feature_snapshot_mismatch")
-        assessment = assessments.get(snapshot.snapshot_id)
+        scalars = snapshot_access.snapshot_scalars(snapshot_handle)
+        assessment = assessments.get(scalars.snapshot_id)
         if assessment is None:
             raise FitError("regime_snapshot_mismatch")
-        if assessment.decision_nano != snapshot.decision_nano:
+        if assessment.decision_nano != scalars.decision_nano:
             raise FitError("regime_decision_mismatch")
-        vector = feature_vector(snapshot, feature_keys)
+        vector = vector_by_snapshot.get(scalars.snapshot_id)
         if vector is None:
-            continue
+            vector = _feature_vector_values(
+                snapshot_access.factor_values(snapshot_handle), feature_keys)
+            if vector is None:
+                continue
+            vector_by_snapshot[scalars.snapshot_id] = vector
         label_range = label.range_id
-        request_range = request.frozen_range.range_id if request.frozen_range is not None else None
+        request_range = fields.frozen_range.range_id if fields.frozen_range is not None else None
         if label_range != request_range:
             raise FitError("label_range_mismatch")
         samples.append(_Sample(
-            request_id=request.request_id,
-            snapshot_id=snapshot.snapshot_id,
-            contract_id=snapshot.contract_id,
-            product=snapshot.product,
-            session_kind=snapshot.session_kind,
-            duration_seconds=snapshot.duration_seconds,
-            trading_day=snapshot.trading_day,
-            decision_nano=snapshot.decision_nano,
+            request_id=fields.request_id,
+            snapshot_id=scalars.snapshot_id,
+            contract_id=scalars.contract_id,
+            product=scalars.product,
+            session_kind=scalars.session_kind,
+            duration_seconds=scalars.duration_seconds,
+            trading_day=scalars.trading_day,
+            decision_nano=scalars.decision_nano,
             base_regime=assessment.base,
-            barrier=request.barrier_key,
-            horizon=request.horizon,
-            window_start=request.window_start_nano,
-            window_end=request.window_end_nano,
+            barrier=fields.barrier,
+            horizon=fields.horizon,
+            window_start=fields.window_start,
+            window_end=fields.window_end,
             label_available_at=label.available_at_nano,
             label=label,
             vector=vector,
         ))
     return samples
+
+
+def _validate_join(features: tuple[FeatureSnapshot, ...],
+                   regimes: tuple[RegimeAssessment, ...],
+                   requests: tuple[ForecastRequest, ...],
+                   labels: tuple[PathLabel, ...],
+                   feature_keys: tuple[str, ...], label_version: str,
+                   label_deadline: int, deadline_reason: str) -> list[_Sample]:
+    return _validate_join_access(_TupleSegmentAccess(features, requests),
+                                 _TupleSegmentAccess(features, requests),
+                                 regimes, labels, feature_keys, label_version,
+                                 label_deadline, deadline_reason)
 
 
 def _cell_key(sample: _Sample) -> tuple[str, str, str, int]:
@@ -1342,6 +1535,45 @@ def fit_forecast_models(training_features: tuple[FeatureSnapshot, ...],
     calibration segment only chooses temperatures; evidence is generated for
     both ordinary and martingale policies and references the new model id.
     """
+    training_access = _TupleSegmentAccess(training_features, training_requests)
+    calibration_access = _TupleSegmentAccess(calibration_features, calibration_requests)
+    return _fit_forecast_models_core(
+        training_access, training_regimes, training_labels,
+        calibration_access, calibration_regimes, calibration_labels,
+        fit_config, reference, seasonality=seasonality)
+
+
+def _fit_forecast_models_from_views(training_features,
+                                    training_regimes: tuple[RegimeAssessment, ...],
+                                    training_requests,
+                                    training_labels: tuple[PathLabel, ...],
+                                    calibration_features,
+                                    calibration_regimes: tuple[RegimeAssessment, ...],
+                                    calibration_requests,
+                                    calibration_labels: tuple[PathLabel, ...],
+                                    fit_config: Mapping[str, JsonValue],
+                                    reference: RegimeReference, *,
+                                    seasonality: SeasonalityModel | None) -> ForecastModelSet:
+    """Internal view entry (MEMORY-DISPOSITION §3): identical validation,
+    error order and numeric implementation as ``fit_forecast_models``; the
+    snapshot/request collection positions are bound store views."""
+    training_access = _ViewSegmentAccess(training_features, training_requests)
+    calibration_access = _ViewSegmentAccess(calibration_features, calibration_requests)
+    return _fit_forecast_models_core(
+        training_access, training_regimes, training_labels,
+        calibration_access, calibration_regimes, calibration_labels,
+        fit_config, reference, seasonality=seasonality)
+
+
+def _fit_forecast_models_core(training_access,
+                              training_regimes: tuple[RegimeAssessment, ...],
+                              training_labels: tuple[PathLabel, ...],
+                              calibration_access,
+                              calibration_regimes: tuple[RegimeAssessment, ...],
+                              calibration_labels: tuple[PathLabel, ...],
+                              fit_config: Mapping[str, JsonValue],
+                              reference: RegimeReference, *,
+                              seasonality: SeasonalityModel | None) -> ForecastModelSet:
     config = _validate_fit_config(fit_config)
     feature_keys = tuple(config["feature_keys"])
     training_end = int(config["training_end_nano"])
@@ -1352,14 +1584,14 @@ def fit_forecast_models(training_features: tuple[FeatureSnapshot, ...],
     if reference.available_at_nano > training_end:
         raise FitError("regime_reference_available_after_training_end")
     seasonal_bound_hash = _bind_seasonality(
-        training_features, calibration_features, feature_keys, seasonality,
+        training_access, calibration_access, feature_keys, seasonality,
         training_end)
 
-    training_samples = _validate_join(
-        training_features, training_regimes, training_requests, training_labels,
+    training_samples = _validate_join_access(
+        training_access, training_access, training_regimes, training_labels,
         feature_keys, str(config["label_version"]), training_end, "label_late_for_training")
-    calibration_samples = _validate_join(
-        calibration_features, calibration_regimes, calibration_requests, calibration_labels,
+    calibration_samples = _validate_join_access(
+        calibration_access, calibration_access, calibration_regimes, calibration_labels,
         feature_keys, str(config["label_version"]), calibration_end, "label_late_for_calibration")
 
     training_ids = {sample.request_id for sample in training_samples}
@@ -1494,21 +1726,25 @@ def fit_forecast_models(training_features: tuple[FeatureSnapshot, ...],
     # back-fill every evidence.model_id → canonical evidence ids → assemble.
     pending_evidence: list[CalibrationEvidence] = []
     if calibration_samples and not insufficient:
-        requests_by_id = {request.request_id: request for request in calibration_requests}
+        request_getter = calibration_access.request_getter()
         predictions = _calibration_predictions(
             models, PENDING_MODEL_SET_ID, config, calibration_samples,
-            calibration_regimes, reference, requests_by_id)
+            calibration_regimes, reference, request_getter)
         block_ids = {sample.request_id: sample.trading_day.isoformat()
                      for sample in calibration_samples}
         referenced_snapshots = {prediction.snapshot_id for prediction in predictions}
-        evidence_features = tuple(
-            snapshot for snapshot in calibration_features
-            if snapshot.snapshot_id in referenced_snapshots)
+        evidence_features = calibration_access.evidence_features(referenced_snapshots)
         for policy in (confidence_policy("TREND"), confidence_policy("MARTINGALE")):
-            pending_evidence.extend(build_calibration_evidence(
-                tuple(predictions), tuple(s.label for s in calibration_samples),
-                block_ids, policy, calibration_end, valid_until,
-                features=evidence_features))
+            if isinstance(evidence_features, tuple):
+                pending_evidence.extend(build_calibration_evidence(
+                    tuple(predictions), tuple(s.label for s in calibration_samples),
+                    block_ids, policy, calibration_end, valid_until,
+                    features=evidence_features))
+            else:
+                pending_evidence.extend(_build_calibration_evidence_from_view(
+                    tuple(predictions), tuple(s.label for s in calibration_samples),
+                    block_ids, policy, calibration_end, valid_until,
+                    features=evidence_features))
 
     projected_evidence = sorted(
         (evidence_projection_without_back_references(row) for row in pending_evidence),
@@ -1723,8 +1959,7 @@ def _candidate_dev_loss(task: str, samples: list[_Sample], predictions: list,
     return _time_brier_loss(samples, predictions, task, horizon_value)
 
 
-def _bind_seasonality(training_features: tuple[FeatureSnapshot, ...],
-                      calibration_features: tuple[FeatureSnapshot, ...],
+def _bind_seasonality(training_access, calibration_access,
                       feature_keys: tuple[str, ...],
                       seasonality: SeasonalityModel | None,
                       training_end: int) -> str | None:
@@ -1733,14 +1968,13 @@ def _bind_seasonality(training_features: tuple[FeatureSnapshot, ...],
 
     S is the existence of any ``SEASONAL:`` factor column across the actual
     union of training+calibration snapshot values — rows whose value is
-    None/MISSING/WARMUP/INVALID still count as existing columns.
+    None/MISSING/WARMUP/INVALID still count as existing columns. Shared by
+    the public tuple entry and the internal view entry.
     """
     if seasonality is not None and not isinstance(seasonality, SeasonalityModel):
         raise TypeError("seasonality_must_be_SeasonalityModel_or_None")
-    seasonal_columns = any(
-        factor.factor_key.startswith("SEASONAL:")
-        for snapshot in (*training_features, *calibration_features)
-        for factor in snapshot.values)
+    seasonal_columns = (training_access.seasonal_column_exists()
+                        or calibration_access.seasonal_column_exists())
     declared = any(key.startswith("SEASONAL:") for key in feature_keys)
     if declared and not seasonal_columns:
         raise FitError("seasonal_feature_keys_declared_without_columns")
@@ -1754,8 +1988,8 @@ def _bind_seasonality(training_features: tuple[FeatureSnapshot, ...],
         raise FitError("seasonality_model_id_mismatch")
     if seasonality.fit_end_nano > training_end:
         raise FitError("seasonality_fit_end_after_training_end")
-    for snapshot in calibration_features:
-        if seasonality.fit_end_nano > snapshot.decision_nano:
+    for handle in calibration_access.iter_snapshot_handles():
+        if seasonality.fit_end_nano > calibration_access.snapshot_id_and_decision(handle)[1]:
             raise FitError("seasonality_fit_end_after_calibration_decision")
     return seasonality.content_hash()
 
@@ -2087,13 +2321,13 @@ def _calibration_predictions(models: dict[str, dict[str, JsonValue]], model_set_
                              config: dict[str, JsonValue], samples: list[_Sample],
                              calibration_regimes: tuple[RegimeAssessment, ...],
                              reference: RegimeReference,
-                             requests_by_id: Mapping[str, ForecastRequest]) -> list[MarketForecast]:
+                             request_getter) -> list[MarketForecast]:
     feature_keys = tuple(config["feature_keys"])
     minimum_leaf_blocks = int(config["minimum_leaf_blocks"])
     assessments = {assessment.snapshot_id: assessment for assessment in calibration_regimes}
     predictions: list[MarketForecast] = []
     for sample in samples:
-        request = requests_by_id.get(sample.request_id)
+        request = request_getter(sample.request_id)
         assessment = assessments.get(sample.snapshot_id)
         if request is None or assessment is None:
             continue

@@ -1,0 +1,38 @@
+{
+ "schema": "aktr-t7-memory-hard-review-verdict/v1",
+ "review": "t7-memory-hard-review-004 (F01 repair re-review; same independent reviewer session sess_a365bf07-cae0-4d44-9933-bbb1daa4a354)",
+ "reviewed_unit": "T7 six-file memory unit per astra-t7-memory-disposition-003/MEMORY-DISPOSITION.md sections 2-6 (repaired revision)",
+ "candidate": "C:\\AKWorktrees\\aktr-goal-t7memory-20261026",
+ "baseline_commit": "9d875a4121319ef203b91a3b9050f676c750fe66",
+ "frozen_six_file_hashes_at_verdict": {
+  "src/ak_trading/v2/_fold_records.py": "52d6c7396176644705820f0c57fae932d6da4d295ea3d3f6b7c41462c6501c26",
+  "src/ak_trading/v2/probability/models.py": "3dc31eed9363faaadc7c27f80705c33e3cc25d557bb14a39b8675c3c1211248d",
+  "src/ak_trading/v2/probability/regimes.py": "b085797c5e86ee01784a120521d5cc5753c7f41e7c4425196a407abc0a1322b0",
+  "src/ak_trading/v2/probability/calibration.py": "962eb84cc2e8a1f32ec8f7fb3ab41cd14676b47ccb6494a1c46db5c680c9993b",
+  "tests/test_v2_m3a_models.py": "4ac45866de4045c9d93c1b5b45b5dffa8cdd5dd59e5c3aac266df94dc1a21c8d",
+  "tests/test_v2_m3a_calibration.py": "41a11ec4906f1a0d33091bf606828253616d1aaee76d046ce8e1fcde45f376c6"
+ },
+ "verdict": "PASS",
+ "unconditional": true,
+ "scope": "the six-file memory unit only (src/ak_trading/v2/_fold_records.py, probability/models.py, probability/regimes.py, probability/calibration.py, tests/test_v2_m3a_models.py, tests/test_v2_m3a_calibration.py) at the hashes above, against MEMORY-DISPOSITION.md sections 2-6 and the effective CPU/memory author clauses",
+ "basis": [
+  "F01 REPAIRED: the duplicate-feature check now raises at the original shared-core position; reviewer battery shows exact candidate-vs-baseline parity on all five combined-defect cases (8/8 Section A) and tuple/view parity (Section B); module origins proven in-band per mode",
+  "Independent required rerun on the final repaired bytes: 183 selected / 183 ran / 183 passed / 0 failed / 0 skipped / 0 errors via scripts/test_offline.py, native exit 0, stderr empty, 522.61 s; population 182->183 with the new combined-defect regression and no lost nodes",
+  "Repair is minimal and append-only in effect: one hunk in _TupleFeatureAccess (verified against the hash-matched pre-repair root); test file remains purely additive vs baseline (+206/-0, zero deletions, no skips); the other four files byte-identical to the review-003 frozen revision",
+  "Review 001-003 evidence remains valid for the byte-identical dependencies (store, encoding, capacity); changed calibration.py was fully re-exercised through public entry, view entry and fit-evidence paths",
+  "Append-only CORRECTION-F02-F03.md verified accurate against independently recomputed hashes"
+ ],
+ "observations_non_blocking": [
+  "O04: owner-004 DELIVERY.md prose table carries a corrupted regimes.py hash string (65 chars, diverges from FREEZE.json); FREEZE.json equals the real bytes, so no accepted pin is affected",
+  "O05: this reviewer's 003 narrative said 36/36 store checks; the correct count is 35/35 — conclusion unaffected"
+ ],
+ "explicit_exclusions_from_verdict": [
+  "full MINUTE output and cold chain (capacity-blocked per MEMORY-DISPOSITION section 5; the capacity conclusion stands on reservation facts independently validated in review-003)",
+  "experiments.py wiring (CPU owner's separate unit, to follow this acceptance)",
+  "whole-population 2 GiB in-process verification (NOT_RUN; requires CPU owner wiring)",
+  "DAILY/aggregate-frequency and label output sizes (UNKNOWN, correctly not zeroed)"
+ ],
+ "next_step_per_plan": "with this unit independently accepted at the pinned hashes, the original CPU owner may integrate the exact interface bytes at the call boundary per MEMORY-DISPOSITION section 6; no acceptance of full output, cold chain or wiring is implied here",
+ "reviewer_constraints_honored": "no product/source edits; no model/provider/effort configuration changes; no .env/credentials/network/DB/SDK/services/UI/broker/Git access; enable_trading=False, observer=hold, broker=NOT_RUN, real send/cancel=0/0; failed harness attempts from 002 preserved immutably; this review's streams sealed only after their producers terminated; hashes derived from real bytes before and after",
+ "recorded_utc": "2026-10-26"
+}

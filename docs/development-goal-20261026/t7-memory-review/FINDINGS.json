@@ -1,0 +1,51 @@
+{
+ "schema": "aktr-t7-memory-hard-review-findings/v1",
+ "review": "t7-memory-hard-review-004 (F01 repair re-review)",
+ "reviewer_session": "sess_a365bf07-cae0-4d44-9933-bbb1daa4a354 (same independent reviewer as 001-003; no part in plan/development/repair)",
+ "candidate": "C:\\AKWorktrees\\aktr-goal-t7memory-20261026",
+ "baseline_commit": "9d875a4121319ef203b91a3b9050f676c750fe66",
+ "previous_verdict": "review-003 FAIL on F01 (public calibration validation-priority change)",
+ "f01_resolution": {
+  "status": "REPAIRED_AND_VERIFIED",
+  "repair": "src/ak_trading/v2/probability/calibration.py: the eager duplicate-feature check moved from _TupleFeatureAccess.__init__ into scalars_by_id(), raising duplicate_feature_snapshot_id at the original shared-core position inside _validate_connections_core (after the forecast/label/block-id checks), exactly where _ViewFeatureAccess already performed it; _snapshot_map is built there and returned by the public _validate_connections wrapper; snapshot() initializes lazily",
+  "repair_diff_scope": "exactly one hunk in _TupleFeatureAccess (verified against the preserved pre-repair root, whose calibration.py hash matches review-003 REVIEW-FREEZE); no other calibration.py changes; work/repair-diffs/calibration-repair-only.diff",
+  "owner_regression": "tests/test_v2_m3a_calibration.py::test_combined_defect_priority_matches_baseline_and_view_parity — meaningful: all five combined-defect cases from the finding assert the staged baseline's original errors on BOTH the tuple entry and the view entry, plus single-defect controls and the all-empty view case",
+  "reviewer_battery": "work/probe-runs-004/candidate.attempt1.stdout.json vs baseline.attempt1.stdout.json: Section A 8/8 exact candidate-baseline parity (all five combined cases raise features_required_whenever_predictions_exist / duplicate_forecast_id / duplicate_label_request_id / block_id_key_set_must_equal_prediction_request_ids / mixed_model_id_in_calibration_inputs; single-defect and empty cases unchanged); Section B tuple/view parity on the same inputs; module origins asserted in-band (candidate -> t7memory src, baseline -> D:\\Projects\\AK-trading\\src)",
+  "required_suite": "work/m3a-rerun-004: scripts/test_offline.py over all six M3A files on the final repaired bytes — 183 selected / 183 collected / 183 ran / 183 passed / 0 failed / 0 skipped / 0 errors, offline overall exit 0, stderr 0 bytes, 522.61 s wall; the new regression node is present; population grew 182->183 with no lost nodes"
+ },
+ "findings": [
+  {
+   "id": "O04",
+   "severity": "OBSERVATION_PROSE",
+   "title": "owner-004 DELIVERY.md prose table carries a corrupted regimes.py hash string",
+   "detail": "The DELIVERY.md freeze table's regimes.py cell is 65 characters and diverges from FREEZE.json at index 26 (tail 'c0a1322b0' vs '0a1322b0'). FREEZE.json derives programmatically and equals the real file bytes; this review independently re-derived all six hashes from the real bytes before and after the review (all match). Impact: none on accepted pins — the accepted freeze is FREEZE.json + this review's own byte-derived hashes; the DELIVERY prose row is cosmetic only and did not silently corrupt any pin.",
+   "evidence": [
+    "zcode-dispatch/t7-memory-owner-004/DELIVERY.md line 81",
+    "zcode-dispatch/t7-memory-owner-004/FREEZE.json",
+    "zcode-dispatch/t7-memory-hard-review-004/work/freeze-check-before-004.json",
+    "zcode-dispatch/t7-memory-hard-review-004/work/freeze-after-004.json"
+   ]
+  },
+  {
+   "id": "O05",
+   "severity": "OBSERVATION_RECORD_HYGIENE",
+   "title": "review-003 REVIEW.md prose said '36/36' store checks; the battery has 35 checks",
+   "detail": "This reviewer's own 003 narrative over-counted by one; the underlying evidence (002 attempt7) contains 35 store checks, all true, so the 003 conclusion is unaffected. Corrected here for the record."
+  }
+ ],
+ "corrections_reviewed": {
+  "CORRECTION-F02-F03.md": "verified accurate and append-only: recomputed hashes match (CAPACITY-008 a6ed0088..., CAPACITY-009 7fe511f9...); F03 prose corrections (11 not 10 regressions; features bound ~16% of D free / 0.81x of the 4 GiB floor) match the review-003 findings; original records untouched"
+ },
+ "verified_clean": {
+  "write_set_integrity": "six files match owner-004 FREEZE.json before and after this review; exactly calibration.py and tests/test_v2_m3a_calibration.py changed vs the review-003 frozen revision (the four others byte-identical); staged 600-file footprint: 595 unchanged, 0 missing, five changed files are the unit's cumulative authorized set; _fold_records.py still absent from staging",
+  "test_integrity": "test file vs baseline 9d875a4: single end-of-file hunk, +206/-0 (001's +140 lines intact plus the new regression); 27 original + 6 (001) + 1 (repair) = 34 test functions; zero deletions or modifications of existing tests; no skip/xfail markers",
+  "unchanged_evidence_reused": "store/encoding/capacity conclusions from reviews 001-003 remain valid for the four byte-identical files; the changed calibration.py was fully re-exercised (battery Sections A/B/E include the calibration-dependent paths: public entry, view entry, fit evidence)",
+  "battery_004": "Section C 35/35 true; Section D all boolean parity checks true (NaN remains unconstructible via record constructors: ValueError:*_must_be_finite); Section E all tuple/view equivalences true on the reviewer population (model_set_id, content_hash(), source_hashes, models, evidence; reference equality; identical future-input rejection; join error parity)"
+ },
+ "not_run_or_excluded": {
+  "full_minute_output_and_cold_chain": "capacity-blocked per MEMORY-DISPOSITION section 5; excluded from this unit's verdict",
+  "whole_population_2gib_in_process": "NOT_RUN — requires CPU owner wiring after acceptance",
+  "experiments_py_wiring": "CPU owner's separate unit",
+  "daily_aggregate_label_sizes": "UNKNOWN, correctly not zeroed"
+ }
+}

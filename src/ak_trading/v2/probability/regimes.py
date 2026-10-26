@@ -186,12 +186,38 @@ def fit_regime_reference(training_features: tuple[FeatureSnapshot, ...],
         raise TypeError("training_end_nano_must_be_int")
     if isinstance(available_at_nano, bool) or not isinstance(available_at_nano, int):
         raise TypeError("available_at_nano_must_be_int")
-    for snapshot in training_features:
+    return _reference_from_snapshots(training_features, training_end_nano,
+                                     available_at_nano)
+
+
+def _fit_regime_reference_from_view(training_features, training_end_nano: int,
+                                    available_at_nano: int) -> RegimeReference:
+    """Internal view entry (MEMORY-DISPOSITION §3): same core and checks as
+    the public tuple entry; records are materialized one at a time through
+    the view's bounded cache, never held as a full population."""
+    from ak_trading.v2._fold_records import RecordView
+
+    if not isinstance(training_features, RecordView) \
+            or training_features.record_kind != "FeatureSnapshot":
+        raise TypeError("training_features_must_be_snapshot_RecordView")
+    if isinstance(training_end_nano, bool) or not isinstance(training_end_nano, int):
+        raise TypeError("training_end_nano_must_be_int")
+    if isinstance(available_at_nano, bool) or not isinstance(available_at_nano, int):
+        raise TypeError("available_at_nano_must_be_int")
+    return _reference_from_snapshots(training_features, training_end_nano,
+                                     available_at_nano)
+
+
+def _reference_from_snapshots(snapshots, training_end_nano: int,
+                              available_at_nano: int) -> RegimeReference:
+    for snapshot in snapshots:
         if snapshot.decision_nano > training_end_nano:
             raise RegimeError("reference_rejects_features_after_training_end")
 
     samples: dict[str, list[float]] = {}
-    for snapshot in training_features:
+    snapshot_ids: list[str] = []
+    for snapshot in snapshots:
+        snapshot_ids.append(snapshot.snapshot_id)
         value = _factor_float(snapshot, vol001_factor_key(snapshot.duration_seconds))
         if value is None:
             continue
@@ -200,9 +226,8 @@ def fit_regime_reference(training_features: tuple[FeatureSnapshot, ...],
         samples.setdefault(key, []).append(value)
     frozen = {key: tuple(sorted(values)) for key, values in sorted(samples.items())}
 
-    snapshot_ids = sorted(snapshot.snapshot_id for snapshot in training_features)
     source_hashes = {
-        "snapshots": sha256_hex("\n".join(snapshot_ids).encode("utf-8")),
+        "snapshots": sha256_hex("\n".join(sorted(snapshot_ids)).encode("utf-8")),
         "regime_reference_version": REGIME_REFERENCE_VERSION,
     }
     provisional = RegimeReference("pending", training_end_nano, available_at_nano,

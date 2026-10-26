@@ -1,0 +1,184 @@
+{
+  "schema": "independent-hard-review-freeze/v1",
+  "task_id": "aktr-zcode-goal-bip1-m-holiday-hard-review-20261026-001",
+  "review_id": "bip1-m-holiday-hard-review-001",
+  "sealed_at_utc": "2026-10-26T20:47:24.581185+00:00",
+  "reviewer_python": {
+    "path": "D:\\Programs\\Python\\Python312\\python.exe",
+    "sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+  },
+  "review_cwd": "D:\\Projects\\AK-trading",
+  "network_used": false,
+  "model_config_changes": 0,
+  "source_root_freeze": {
+    "root": "D:\\AKS261026\\R1\\m-holiday-source-001",
+    "file_count": 19,
+    "total_bytes": 163950,
+    "identical_to_review_start": true,
+    "files": {
+      "CAPTURE-TERMINAL.json": {
+        "sha256": "bbcfa5e099b018a74ef1eeb8a49884939b6935fb258b3cd6a8c5bd95c26d2ad9",
+        "bytes": 10483
+      },
+      "FROZEN-DELIVERY.json": {
+        "sha256": "442c9c5503e78705d58a7ca9d0e33b239ac22f4d79bda3b628266a7e1e8cc224",
+        "bytes": 5903
+      },
+      "INPUT-PINS.json": {
+        "sha256": "f93ff8bbc85686c9544b81a351e500d6c1d1e6c4939a11e978fa1bc5d8b800aa",
+        "bytes": 19376
+      },
+      "M-DCE-CALENDAR-FACTS.json": {
+        "sha256": "71104f9708f69364d13f6966cd2ee811986b85c71758f681264dcd982349430e",
+        "bytes": 33672
+      },
+      "OUTPUT-PRECONDITIONS.json": {
+        "sha256": "e0a5cb5dc58470c91f38184a44b75b3414b77b560c14a3c6cc7a5035fd5dc57d",
+        "bytes": 15498
+      },
+      "raw/m-holiday-session-search-001/REQUEST.json": {
+        "sha256": "6b4ea72b47a8cfeac3d73efed3715cda476ce1e9f70561e8bc74381cd1552dd0",
+        "bytes": 7549
+      },
+      "raw/m-holiday-session-search-001/RESPONSE.json": {
+        "sha256": "ec451161e48a1ad0a385eb57988e74c00f398de9ad1454f325489b22d12671a9",
+        "bytes": 1347
+      },
+      "raw/m-holiday-session-search-001/RESULT.json": {
+        "sha256": "08abaec7ebe8cc208c7f1503c235b66db99c5ba120db4c4fedcd117b16452cbb",
+        "bytes": 3954
+      },
+      "raw/m-holiday-session-search-001/stderr.txt": {
+        "sha256": "3eeb99c22c5ec94ffba911cad29b0667a80dab113a638d2a90187dfcf7740519",
+        "bytes": 674
+      },
+      "raw/m-holiday-session-search-001/stdout.txt": {
+        "sha256": "ec451161e48a1ad0a385eb57988e74c00f398de9ad1454f325489b22d12671a9",
+        "bytes": 1347
+      },
+      "raw/m-holiday-session-search-002/REQUEST.json": {
+        "sha256": "e44611806dba3fa38f25ba94c411d0200889b57249903a84890bc83e69282969",
+        "bytes": 7546
+      },
+      "raw/m-holiday-session-search-002/RESPONSE.json": {
+        "sha256": "2e460dca72b73830133553195c98e91940de07637a8c60cc0f06c56686925b3a",
+        "bytes": 83
+      },
+      "raw/m-holiday-session-search-002/RESULT.json": {
+        "sha256": "ebabfad644f2c9503c4239c65135c5e9852b804877531f7adea178d56d2a7548",
+        "bytes": 2952
+      },
+      "raw/m-holiday-session-search-002/stderr.txt": {
+        "sha256": "a36fe12e3fd6a01329cc0eeb53c9a9577a1726f99a213cd99fc5e9c0d877338f",
+        "bytes": 679
+      },
+      "raw/m-holiday-session-search-002/stdout.txt": {
+        "sha256": "2e460dca72b73830133553195c98e91940de07637a8c60cc0f06c56686925b3a",
+        "bytes": 83
+      },
+      "REQUESTS.json": {
+        "sha256": "82f07682f3ccc9a163fd4272c6825b46f4a155b0476d0bbe96be17b0d18d9ebb",
+        "bytes": 8125
+      },
+      "SUBMISSION.md": {
+        "sha256": "f6163b94e7e4e1cb59026cdef203ef499db65c65fa6470344012f5a8c7aac7e0",
+        "bytes": 3938
+      },
+      "VERIFICATION.json": {
+        "sha256": "550d455ba497f6fbe1aa1af1175f9d890233c74a37dfe2693fe8e6b488846214",
+        "bytes": 10296
+      },
+      "WORK-ORDER-BINDING.json": {
+        "sha256": "59c35080fa620fd9def3cd1fc9dbf1f3c4bbc0aa0ceb66e65771998f908552df",
+        "bytes": 30445
+      }
+    }
+  },
+  "owner_evidence_untouched": [
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\bip1-m-holiday-owner-003\\ROOT-POST-TERMINAL-RECEPTION.json",
+      "match": true
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\bip1-m-holiday-owner-003\\owner-tools\\verify-009.py",
+      "match": true
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\bip1-m-holiday-owner-003\\owner-tools\\verify-009-run1.results.json",
+      "match": true
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\bip1-m-holiday-owner-003\\owner-tools\\verify-009.results.json",
+      "match": true
+    }
+  ],
+  "review_outputs": {
+    "dispatch_files": {
+      "REVIEW.md": {
+        "sha256": "0d5f8129c462b6f92416c4ef024f23298614c54dc41662b881d42a523d91c114",
+        "bytes": 7513
+      },
+      "FINDINGS.json": {
+        "sha256": "610d090b84d87cce53b7da1b2e51d8afb6dcf372785dd5b81afc5719bec995b9",
+        "bytes": 9373
+      },
+      "VERDICT.json": {
+        "sha256": "5f033d53787dd31ad7bde7ded47755968947ec29518ea2e19ad73632f74ec98e",
+        "bytes": 3677
+      }
+    },
+    "work_files": {
+      "work/w1_pincheck.json": {
+        "sha256": "5533e08efdf1fdfc172e3ea7ef2f43e661cc0aa67ed72a515a899a866e634fba",
+        "bytes": 34710
+      },
+      "work/w1_pincheck.py": {
+        "sha256": "204b807203e671be4455de02191e0d7a0e9b8791befa9e80b4c74d971c588612",
+        "bytes": 3929
+      },
+      "work/w2_semantic.json": {
+        "sha256": "82def24f0a29d19a97846b82a4dea78d8152e239fab5a4ba7d1c8ca61d3a9b2d",
+        "bytes": 4832
+      },
+      "work/w2_semantic.py": {
+        "sha256": "7a1eae57e310780aa723e113352acdf190d64ef030b1f57773faf6da67954bed",
+        "bytes": 23178
+      },
+      "work/w2b_semantic.json": {
+        "sha256": "ea63487863a60552eff3c48c7de5e78b8cbcb937a753d1327515dc474b21a0e3",
+        "bytes": 5322
+      },
+      "work/w2b_semantic.py": {
+        "sha256": "68cdec508e9d74e8d2b383db71bd4336079e7488b93d300cf6cbe6f54b7a62f2",
+        "bytes": 23412
+      },
+      "work/w2b_semantic.run1-failed.json": {
+        "sha256": "efaaef645fb4982f599528c1eb563f46c5cbb9e4a3c33fa32533b56cd2a8e075",
+        "bytes": 5211
+      },
+      "work/w3_probes.json": {
+        "sha256": "f2e28feb149d0eb17de042af558e8b804c7a0cdc7f44d9a1a2f4e73fb03a3d96",
+        "bytes": 3619
+      },
+      "work/w3_probes.py": {
+        "sha256": "e136dfc8428d5cc36ff42f45f49c0388dc5a5bd957aee6803d7aa0be1a50a0cd",
+        "bytes": 14276
+      },
+      "work/w3_probes.run1-failed.json": {
+        "sha256": "aec5b8fc94768dfa69f7ebfeaa35c0704b8f2787888d37c2243c5195a6ed027f",
+        "bytes": 3432
+      },
+      "work/w4_verify009.py": {
+        "sha256": "f0826742166e34281582b443c4d9d7719092007b0c9f7c947466267d3630a2ea",
+        "bytes": 19266
+      },
+      "work/w4_verify009_reviewer_run.json": {
+        "sha256": "dbde551035960ad4f7e95f37eb6fe2c6d4e088fb2c6716b953de8bdc010e9472",
+        "bytes": 5630
+      }
+    },
+    "excluded": "REVIEW-FREEZE.json does not hash itself; session/, START/REQUEST/harness stdout+stderr belong to the launch harness, not the reviewer"
+  },
+  "verdict": "PASS (see VERDICT.json)",
+  "problems": []
+}

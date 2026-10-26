@@ -1,6 +1,6 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-26 19:27 UTC。当前 Goal 按有效 r3-001 蓝图继续开发至项目完成，适时推送；上一批 phase 0 已完成，不能把其停止状态解释为新 Goal 暂停。本文是执行状态，不替代 Astra 有效计划、作者处置或独立产品硬审。
+更新于 2026-10-26 21:03 UTC。当前 Goal 按有效 r3-001 蓝图继续开发至项目完成，适时推送；上一批 phase 0 已完成，不能把其停止状态解释为新 Goal 暂停。本文是执行状态，不替代 Astra 有效计划、作者处置或独立产品硬审。
 
 角色继续使用现行 PROJECT-MODEL-ROLES.md：Astra/max 负责计划与契约；专用 ZCode 会话开发；另一独立 ZCode 硬审；OpenCode 默认配置负责未指定的辅助任务。计划意见不设 PASS 门。
 
@@ -16,13 +16,13 @@
 | 模块 | 已核实际状态 | 正在执行的下一步 |
 | --- | --- | --- |
 | A4 CLI 入口保护 | **独立 ZCode 无条件 PASS，已推送 `c152e33`。** 开发者、独立审核、main 集成各 18 passed / raw 0；独立真实 CLI 反例 11/11 符合预期。 | 有限入口保护已完成；完整 ordinary shadow 接线仍未完成。见 [接受记录](A4-ACCEPTANCE.json)。 |
-| T7 / M4 与 DAILY | M4 独立 PASS 已推送 `a84d966`。DAILY014 的1P/3E/raw1保留。**r6b已恢复六周期、把真实配置解析前置，并新增两项回归；开发者2P预检及2P清单检查均raw0。** | **原独立 R0 reviewer005 已启动**，检查新F、四处改动和必需输入；实际R0后由原M1生成新L0，再运行完整DAILY四节点。 |
+| T7 / M4 与 DAILY | M4 PASS 已推送。r6b 六周期/真实配置预检修复已完成；独立 R0 reviewer005 完成，原 M1 新 L0 生成及独立进程验证 raw0。005 交接 JSON 语法错误由原 owner006 追加纠正，锁字节未变。 | 完整 DAILY016 四节点工单已准备，等待 chronological 释放实际重型运行和新容量检查；之后立即运行，不修改冻结 r6b。 |
 | T7 分钟线 CPU | **原独立 reviewer004 无条件 PASS**，四文件已按接受字节合入 main。独立 M2 96P、M3A 165P、M5 experiments 33P，均 raw0；main 集成 **60P/raw0/133.765秒**。 | 本项 CPU 优化完成，见 [接受记录](T7-CPU-ACCEPTANCE.json)。MINUTE 内存、接线和完整冷链仍须单独完成。 |
-| T7 分钟线内存 | 原独立审核 FAIL 的组合错误优先级问题尚未闭合。owner002 在部分校准源码修改后遭遇 HTTP502/raw1，测试及冻结未交齐。 | **同一原 owner003 正在继续已有部分修复**，仅校准实现及其测试；完成真实验证后立即独立复审，不重复未变的存储和容量检查。 |
-| DISPATCH | preparation027 实际 child1/wrapper1：九文件 PREIMAGES 的 original 映射错误；allocation004消耗1/1，旧结果保留。 | 原Astra004已授权共享真实验证、先局部验证再声明；**原ZCode owner024正实施既有修复及一次028**。不为每个局部修正重复计划审核，owner005仍NOT_RUN。 |
-| N8 F02 | 独立 reviewer056 native0，正式 **FAIL**。repair011局部7/7通过，但完整41项预检耗尽25秒；precheck009已消耗，final002未运行。 | **原Astra006正在处置预检时限与后继范围**；不把无结果解释为未消耗，不重放009。F01仍OPEN/INSUFFICIENT，runtime002未运行。 |
-| M5 | Root sealer012实际raw0完成；affected004随后实际raw1，在native_receipt预检以 `exact_source024_command_reference_source_and_receipt_required` 拒绝，尚未执行测试。原12节点义务保留；reviewer CLI后续又502/raw1。 | 保留本次正式消费与原003的11P/1F；generation001和full100未运行。下一步由原作者界定这处审核工具引用修复及后继，不能把封装成功当产品PASS。 |
-| 已有策略结果与下一交付 | 三个接受的 RB 日线 SCENARIO 结果见 [策略结果一页说明](STRATEGY-RESULTS.md)。历史 chronological-transfer 的三文件及既有252子回放结果已交独立审核。 | **chronological 原 reviewer002 正在继续源码、既有输出与适配后的离线检查**，完整独立回放等待重型时段。**M 春节公告来源增量已完成作者最终处置，专用 ZCode owner001 已开始实施**；仅两条限定查询、最多四个新官方原件，不把工程接受计作正式历史或 paper 验收。 |
+| T7 分钟线内存 | **独立 reviewer004 无条件 PASS：183P/raw0；main 集成 120P/raw0/276.094秒。** 六文件按审核字节合入。 | 原 CPU owner 已立即开始独立候选中的调用端接线，见 [内存接受记录](T7-MEMORY-ACCEPTANCE.json)。完整 MINUTE 输出/冷链仍受容量及合法后继接受限制。 |
+| DISPATCH | preparation028 child1/wrapper1：发布后命中旧 PREIMAGES 引用；allocation005耗尽，历史33。部分 derivation/controls 保留，owner005仍NOT_RUN。 | 原 Astra005 已把完整元数据构造和真实依赖闭包校验移到正式调用前，并给出有界029–031后继；**原 ZCode owner026 正在实施**。 |
+| N8 F02 | 057 CLI native1/HTTP502，固定输入未变，无最终结论；不得凭输出缺失判定额度未消耗。F02仍FAIL，F01OPEN/INSUFFICIENT。 | 原 Astra007 已完成处置；**原独立 reviewer058 正续接原 attempt057**，先核实际11工具消费，再只执行有证据证明剩余的检查；不重置旧额度、不自动059。 |
+| M5 | affected004 已消耗FAIL，pytest未启动；native receipt 指向旧证据目录。原 reviewer024 控制修复已完成 native0，正式执行数0。 | 核对真实共享引用验证、Root模板与预算后，Root 单次 seal005，再运行正式005；需等待重型时段。原003的11P/1F及004失败保留。 |
+| 已有策略结果与下一交付 | 三个既有 RB 日线 SCENARIO 结果仍有效。**M 春节来源增量获独立限定工程 PASS**，但0新合格来源/0新关系，12缺口仍在，INPUT_NOT_DELIVERED。 | chronological reviewer004 已实际进入独立252子回放及结果检查，尚未收到完整结论。M来源接受见 [记录](BIP1-M-SOURCE-ACCEPTANCE.json)，不计历史输入或 paper 交付。 |
 
 运行请求与原始流位于本机 `C:/AKWorktrees/aktr-goal-20261026/`；外部 CLI 不显示为 Codex 原生子代理。各模块使用独立会话库与不重叠写集；不得凭 CLI 原生 0 认定任务完成。
 
@@ -74,3 +74,11 @@ CAPACITY028保留历史文件与UNKNOWN费用，复用已结束任务的资源�
 CPU四文件主分支合入前逐项核对原基线与独立冻结字节，并确认没有与活跃审核输入相交。独立反例证明乱序插入后的覆盖缓存已正确失效，旧失败版本仍能复现。main命令为 `python -B -X utf8 scripts/test_offline.py -q tests/test_v2_m2_causality.py tests/test_v2_m5_experiments.py --basetemp <独立临时目录>`，60 passed / 0 failed / 0 errors / 0 skipped，raw0；实测峰值181035008 bytes。未以本项PASS替代MINUTE容量、完整冷链或paper接受。
 
 历史chronological审核已完成namespace-adapted H10四文件272P/raw0，另一次106P/raw0；随后CLI502保留，完整独立252子回放尚未执行。M来源owner001只完成部分前置工作后502，实际原SID已确认，owner002继续同一限定来源任务；旧query/URL消费上限不重置。
+
+## 2026-10-26 21:03 UTC 已接受内存与限定来源核查
+
+内存独立审核确认组合缺陷的错误顺序与真实 baseline 完全一致，公开 tuple 和内部 view 路径均通过；原模型、数值、规范输出及异常契约保持。主分支运行 `python -B -X utf8 scripts/test_offline.py -q tests/test_v2_m3a_models.py tests/test_v2_m3a_calibration.py tests/test_v2_m5_experiments.py --basetemp <独立目录>`，120 selected/ran/passed，0 failed/errors/skipped，raw0，进程树峰值178909184字节。无条件 PASS 只覆盖六文件内存单元，调用端接线和完整冷链另行审核。
+
+M来源工程审核独立完成20项语义检查及10项反例；原监督器捕获缺口、冻结文件作者偏离和旧失败保留。2024查询的HTTP502/native22仍记QUERY_FAILED，不能把本项PASS改称数据补齐。
+
+Root 在接线候选准备中错误地假设旧输入清单全部位于main，缺少DAILY清单时停止；又未先检查准备失败便调用watchdog，后者因REQUEST缺失在启动ZCode之前退出。两次raw1与部分候选保留。已按原清单的真实冻结来源补齐，先完整验证全部输入，再序列化发布REQUEST；后续只有准备进程终态raw0且REQUEST真实存在、pins通过才启动依赖调用。原M1的无效交接JSON则由同一owner以新006文件纠正，原文件和错误不覆盖。

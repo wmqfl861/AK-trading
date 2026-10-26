@@ -1,0 +1,96 @@
+{
+ "schema": "independent-hard-review-findings/v1",
+ "review_id": "bip1-m-holiday-hard-review-001",
+ "task_id": "aktr-zcode-goal-bip1-m-holiday-hard-review-20261026-001",
+ "reviewer": {
+  "role": "independent ZCode GLM-5.3/max product hard reviewer",
+  "session_store": "C:/AKWorktrees/aktr-goal-20261026/zcode-dispatch/bip1-m-holiday-hard-review-001/session/session.sqlite",
+  "participation_in_ownerwork": false,
+  "network_used": false,
+  "model_config_changes": 0
+ },
+ "scope": "M_HOLIDAY_SESSION_ORIGINALS_002 frozen bounded source delivery (19 files: 9 controls/facts + 10 raw capture files at D:/AKS261026/R1/m-holiday-source-001)",
+ "review_standard": "AUTHOR-DISPOSITION.md (100c8f44...) + FINAL-DISPOSITION.md (58ca4cc2...) effective plan; main AGENTS.md/PROJECT-MODEL-ROLES.md/PROJECT-WORKFLOW-RULES.md as pinned in REQUEST.json",
+ "product_defects": [],
+ "findings": [
+  {
+   "id": "F-01",
+   "severity": "OBSERVATION_NON_BLOCKING",
+   "subject": "FROZEN-DELIVERY.json writer deviation (VERIFICATION Q3)",
+   "fact": "The effective plan's file table assigns FROZEN-DELIVERY.json to Root after writer termination; the Root-003 work order instead instructed the owner to complete it offline. Root subsequently published a separate post-terminal reception (ROOT-POST-TERMINAL-RECEPTION.json, 2026-10-26T20:10:03Z) that independently re-verifies all 18 member hashes plus the freeze self-hash, records 'writer_deviation_preserved', and claims no product PASS.",
+   "assessment": "Process deviation from the letter of the file table. The freeze-discipline function (independent post-termination verification of the frozen member set) was actually performed by Root; member registry equals live bytes (independently re-verified, check R02). No sealed file was overwritten and no retroactive authorship is claimed. Owner whitelist check (owner verifier V01) fails only on ['FROZEN-DELIVERY.json'] - the exact footprint of this deviation, accounted for by the reception.",
+   "disposition": "Qualified acceptance; disclosed by owner (Q3) and Root; no repair possible or needed without violating the no-overwrite rule."
+  },
+  {
+   "id": "F-02",
+   "severity": "OBSERVATION_NON_BLOCKING",
+   "fact": "search-001 supervisor crashed post-termination (AttributeError GetProcessMemoryInfo, kernel32-vs-psapi): child PID, creation identity, handle-signal and peak RSS remain UNKNOWN; resource_bounds_pass=null; custody completed by successor script from sealed streams without network replay.",
+   "assessment": "Honest UNKNOWN, no invented resource proof (check R17). Termination and native exit 0 independently proven by child-authored sealed stderr transport metadata (deep-equals RESULT.transport_metadata; response_body_bytes 1347 == stdout bytes, check R08). The one-use query was consumed exactly once. Retroactive capture is impossible without a forbidden replay.",
+   "disposition": "Disclosed material custody limitation, retained as-is."
+  },
+  {
+   "id": "F-03",
+   "severity": "OBSERVATION_NON_BLOCKING",
+   "fact": "A loopback health probe (GET to http://127.0.0.1:3002, HTTP 200) ran at 2026-10-26T19:20:14Z, before the missing-relations baseline freeze at 19:25:07Z.",
+   "assessment": "Disclosed in WORK-ORDER-BINDING.capacity with 'budget_impact: none (loopback infrastructure probe, not a query/URL)'. F2 requires the baseline before the first real network request of this scope; the probe is local infrastructure liveness, not a scope query/URL, consumed nothing, and reached no external host. Baseline ordering against both actual scope requests is intact (check R04).",
+   "disposition": "Recorded as observation; not a contract violation."
+  },
+  {
+   "id": "F-04",
+   "severity": "OBSERVATION_NON_BLOCKING",
+   "fact": "search-001 RESPONSE.json (as returned by the capture service) contains duplicate top-level keys ('web','news','images' after 'data'); Python JSON semantics keep the last occurrence.",
+   "assessment": "Capture-service response artifact preserved verbatim; the adopted pointer /data/web/0 is unambiguous and the registry record matches it field-for-field (check R09). No effect on any conclusion.",
+   "disposition": "Noted; original bytes preserved."
+  },
+  {
+   "id": "F-05",
+   "severity": "OBSERVATION_NON_BLOCKING",
+   "fact": "Owner scratch file run-search-001.stderr.txt was written twice (argv-index AssertionError, then the later psapi AttributeError replaced it at the same path); only the second failure's bytes remain on disk (VERIFICATION Q5).",
+   "assessment": "Both events are recorded in CAPTURE-TERMINAL diagnostics; the lost first-failure bytes are owner-side scratch (not product write-set). The pre-launch failure is corroborated by REQUESTS.request_accounting and diagnostics entries.",
+   "disposition": "Minor evidence-preservation gap outside the product write-set; disclosed."
+  },
+  {
+   "id": "F-06",
+   "severity": "OBSERVATION_NON_BLOCKING",
+   "fact": "search-002 RESULT records child_live_at_terminal=true because the liveness probe ran while the supervisor's handle kept the PID resolvable (VERIFICATION Q2); termination is proven by wait() completion, sealed streams and native exit 22.",
+   "assessment": "Probe semantics recorded as-is, not relabeled; no contradiction with the sealed transport metadata (check R08/R17).",
+   "disposition": "Disclosed artifact; retained."
+  }
+ ],
+ "reviewer_side_defects_preserved": [
+  {
+   "run": "w2_semantic.py (run 1)",
+   "defects": "R10 naive substring ban on 'NO_MATCH' hit the legal 'not NO_MATCH' terminal-basis wording and the local-dedup NO_MATCH (AGENTS §7); R11 brittle string-match against old-M ledger serialization; R13 wrong JSON path for FROZEN-DELIVERY delivery_status",
+   "outcome": "3 FAIL/ERROR, all attributed to reviewer probes; output w2_semantic.json preserved"
+  },
+  {
+   "run": "w2b_semantic.py (run 1)",
+   "defects": "stage literal typo TERMINAL vs TERMINATION; old-M prior cross-check used the pre-old-scope prior field {1,3} instead of the pinned old-FACTS /source_budget cumulative {4,6} (derivation 1/3 + old-scope 3/3 = 4/6)",
+   "outcome": "R11/R18 FAIL, both reviewer-attributed; output preserved as w2b_semantic.run1-failed.json"
+  },
+  {
+   "run": "w3_probes.py (run 1)",
+   "defects": "P6 pin-key path used backslashes vs forward-slash keys (KeyError); P7 blanket '412'-absent assertion conflated the historical 'old source412' basis phrase with a this-scope body claim",
+   "outcome": "1 ERROR + 1 NOT_REJECTED, both reviewer-attributed; output preserved as w3_probes.run1-failed.json"
+  },
+  {
+   "run": "tool-orchestration",
+   "defects": "two streaming-recovery interruptions (a bash mv and an Edit call) reported as not executed; both verified against filesystem state before a single safe retry; no duplicate or lost artifacts",
+   "outcome": "state-verified recoveries, documented"
+  }
+ ],
+ "material_limitations_assessment": {
+  "query1_supervisor_crash": "Assessed (F-02): honest UNKNOWN, child-side sealed terminal metadata independently proves termination/native-0/response bytes; successor custody without replay.",
+  "metadata_custody_partial": "Assessed (F-02): transport metadata is child-authored terminal bytes, not a supervisor memory claim; whole-scope resource capture for search-001 peak is NOT proven and is recorded as such - partial custody, not fabricated.",
+  "owner_qualifications_Q1_Q6": "All six verified present and accurate in VERIFICATION.json; first CE fixture failure (Q6) preserved with both result files re-hashed during pin verification.",
+  "frozen_delivery_writer_conflict": "Assessed (F-01): Root-instructed owner write + separate Root post-terminal reception; no overwrite, no retro-author claim; independent reviewer accepts with qualification.",
+  "business_outcome_distinction": "Engineering acceptance is strictly distinct from input delivery: INPUT_NOT_DELIVERED, calendar_component_status=INPUT_NOT_DELIVERED, 0 new qualified components, 0 A-rows, research credit 0 - retained everywhere (check R13). The 2024 HTTP502/native22/backendNoResults is a true QUERY_FAILED, never NO_MATCH or success-empty (check R10); the 2023 sole hit is the excluded, already-consumed annual notice 8526813 (check R09)."
+ },
+ "evidence": {
+  "pin_verification": "work/w1_pincheck.json - 75/75 REQUEST pins byte-exact (inputs, capacity, python); freeze-before snapshot 19 files / 163950 bytes",
+  "independent_semantic": "work/w2b_semantic.json - 20/20 PASS (R01-R20); predecessor attempts preserved (work/w2_semantic.json, work/w2b_semantic.run1-failed.json)",
+  "owner_verifier_independent_rerun": "work/w4_verify009_reviewer_run.json - 13/14 checks PASS + 10/10 counterexamples REJECTED on the CURRENT 19-file root; sole FAIL is V01 ['FROZEN-DELIVERY.json'] = F-01 footprint; run via work/w4_verify009.py with output redirected to reviewer-owned path (owner result files untouched, re-hashed)",
+  "reviewer_probes": "work/w3_probes.json - 10/10 REJECTED_AS_EXPECTED (P1-P10: host boundary, identity aliasing, F5 relabel counterfactual, budget violations, unexecuted-slot fabrication, frozen-pin tamper, 412 masquerade, snippet-as-fact, baseline mutation, component masquerade); run 1 preserved as work/w3_probes.run1-failed.json",
+  "budget_chain": "prior 4/6 == old-FACTS /source_budget cumulative_M_actual (1/3 + old scope 3/3); scope 2/0 -> cumulative 6/6 within 6/10 (check R11)"
+ }
+}

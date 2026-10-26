@@ -535,3 +535,209 @@ def test_direction_all_row_hand_computed():
             for k, class_key in enumerate(("UP", "DOWN")))
         for i in range(4)) / 4
     assert abs(row.brier - brier) < 1e-12
+
+
+# ---------------------------------------------------------------------------
+# T7 memory unit (MEMORY-DISPOSITION 2026-10-26 §6): view-path calibration
+# connection checks, geometry and evidence equivalence against the public
+# tuple entry. Original population above stays untouched.
+# ---------------------------------------------------------------------------
+
+from ak_trading.v2._fold_records import FoldRecords  # noqa: E402
+from ak_trading.v2.probability.calibration import (  # noqa: E402
+    _build_calibration_evidence_from_view,
+)
+
+
+def _view_of(*snapshots):
+    store = FoldRecords(cache_max_records=2, cache_max_bytes=100_000)
+    for snapshot in snapshots:
+        store.append_snapshot(snapshot)
+    return store.snapshot_view()
+
+
+def _evidence_via_view(predictions, labels, snapshots, blocks):
+    return _build_calibration_evidence_from_view(
+        tuple(predictions), tuple(labels), blocks, ordinary_policy(), AS_OF,
+        VALID_UNTIL, features=_view_of(*snapshots))
+
+
+def test_view_evidence_rows_and_ids_match_tuple_entry():
+    """Full evidence equivalence: identical rows, identities and ordering."""
+    snapshots, predictions, labels = [], [], []
+    day = DAY0
+    blocks: dict[str, str] = {}
+    for day_index in range(4):
+        for _ in range(5):
+            snapshot, prediction, label = simple_triple(len(predictions), day=day)
+            snapshots.append(snapshot)
+            predictions.append(prediction)
+            labels.append(label)
+            blocks[prediction.request_id] = day.isoformat()
+        day += timedelta(days=1)
+    tuple_rows = bundle(predictions, labels, snapshots, blocks)
+    view_rows = _evidence_via_view(predictions, labels, snapshots, blocks)
+    assert view_rows == tuple_rows
+    assert [row.evidence_id for row in view_rows] == \
+        [row.evidence_id for row in tuple_rows]
+    assert [row.geometry_key for row in view_rows] == \
+        [row.geometry_key for row in tuple_rows]
+    assert tuple_rows
+
+
+def test_view_all_empty_inputs_return_no_evidence():
+    empty_view = FoldRecords(cache_max_records=1, cache_max_bytes=64).snapshot_view()
+    assert _build_calibration_evidence_from_view(
+        (), (), {}, ordinary_policy(), AS_OF, VALID_UNTIL,
+        features=empty_view) == ()
+
+
+def test_view_connection_counterexamples_match_tuple_entry():
+    snapshot, prediction, label = simple_triple(1)
+    blocks = {"req-1": DAY0.isoformat()}
+
+    def tuple_call(features):
+        return bundle((prediction,), (label,), features, blocks)
+
+    def view_call(features):
+        try:
+            _evidence_via_view((prediction,), (label,), features, blocks)
+            return None
+        except ValueError as exc:
+            return str(exc)
+
+    # duplicate snapshots rejected identically (never hidden by overwrite)
+    assert "duplicate_feature_snapshot_id" in view_call((snapshot, snapshot))
+    with pytest.raises(ValueError, match="duplicate_feature_snapshot_id"):
+        tuple_call((snapshot, snapshot))
+    # missing / extra feature sets
+    assert "feature_key_set" in view_call(())
+    assert "feature_key_set" in view_call((snapshot, make_snapshot(2)))
+    # field mismatch against the connected snapshot
+    tampered = make_snapshot(1, atr=3.0)
+    assert "prediction_snapshot_field_mismatch" in view_call((tampered,))
+    with pytest.raises(ValueError, match="prediction_snapshot_field_mismatch"):
+        tuple_call((tampered,))
+    # wrong view kind is rejected up front
+    wrong_kind = FoldRecords(cache_max_records=1, cache_max_bytes=64).request_view()
+    with pytest.raises(TypeError):
+        _build_calibration_evidence_from_view(
+            (), (), {}, ordinary_policy(), AS_OF, VALID_UNTIL,
+            features=wrong_kind)
+
+
+def test_view_geometry_hand_examples_and_range_free_events():
+    """M1 geometry via the view path reproduces the frozen hand examples."""
+    for reference, expected in ((99.0, "geometry-v2.1.1|STOP_TOUCH|1-2-2-3-2"),
+                                (100.0, "geometry-v2.1.1|STOP_TOUCH|1-3-3-3-2")):
+        snapshot = make_snapshot(1, reference=reference)
+        prediction = make_prediction(snapshot, request_id="req-1",
+                                     published=1_500 * NANO,
+                                     range_id="range-geo",
+                                     stop={"LONG": 0.06, "SHORT": 0.06})
+        label = make_label(prediction, stop={"LONG": True, "SHORT": False})
+        rows = _evidence_via_view((prediction,), (label,), (snapshot,),
+                                  {"req-1": DAY0.isoformat()})
+        stop_rows = [row.geometry_key for row in rows
+                     if row.event == "STOP_TOUCH:LONG"]
+        assert stop_rows and all(key == expected for key in stop_rows)
+        assert expected == calibration_geometry_key(
+            snapshot, prediction.frozen_range, "STOP_TOUCH")
+    # range-free events keep the ANCHOR_ATR tail through the view path
+    snapshot, prediction, label = simple_triple(1)
+    rows = _evidence_via_view((prediction,), (label,), (snapshot,),
+                              {"req-1": DAY0.isoformat()})
+    direction_rows = [row.geometry_key for row in rows if row.event == "DIRECTION"]
+    assert direction_rows and all(
+        key == "geometry-v2.1.1|DIRECTION|ANCHOR_ATR" for key in direction_rows)
+
+
+def test_view_range_event_row_skipped_when_geometry_unavailable():
+    snapshot = make_snapshot(1, tick=None)
+    prediction = make_prediction(snapshot, request_id="req-1",
+                                 published=1_500 * NANO, range_id="range-1",
+                                 stop={"LONG": 0.06, "SHORT": 0.06})
+    label = make_label(prediction, stop={"LONG": True, "SHORT": False})
+    rows = _evidence_via_view((prediction,), (label,), (snapshot,),
+                              {"req-1": DAY0.isoformat()})
+    assert not any(row.event.startswith("STOP_TOUCH") for row in rows)
+
+
+def test_view_entry_shares_published_after_as_of_and_valid_until_checks():
+    snapshot = make_snapshot(1)
+    late = make_prediction(snapshot, request_id="req-1", published=AS_OF + NANO,
+                           window_start=20_000 * NANO, window_end=21_000 * NANO)
+    label = make_label(late, window=(20_000 * NANO, 21_000 * NANO))
+    with pytest.raises(ValueError, match="prediction_published_after_as_of"):
+        _evidence_via_view((late,), (label,), (snapshot,), {"req-1": DAY0.isoformat()})
+    snapshot2, prediction2, label2 = simple_triple(1)
+    with pytest.raises(ValueError, match="valid_until_not_after"):
+        _build_calibration_evidence_from_view(
+            (prediction2,), (label2,), {"req-1": DAY0.isoformat()},
+            ordinary_policy(), AS_OF, 1_500 * NANO, features=_view_of(snapshot2))
+
+
+# ---------------------------------------------------------------------------
+# F01 repair regression (t7-memory-hard-review-003): combined-defect inputs
+# pin the staged baseline's original validation priority — the duplicate-
+# feature check NEVER preempts the empty/predictions/model/forecast/label/
+# block checks — and the tuple and view entries must agree on every case.
+# The pre-repair revision raised duplicate_feature_snapshot_id for the five
+# combined cases (verified against the preserved pre-repair source in
+# zcode-dispatch/t7-memory-owner-003/work/F01-REPAIR-VERIFICATION.json).
+# ---------------------------------------------------------------------------
+
+def test_combined_defect_priority_matches_baseline_and_view_parity():
+    snapshot, prediction, label = simple_triple(1)
+    duplicate_prediction = make_prediction(snapshot, request_id="req-1",
+                                           published=1_500 * NANO)
+    duplicate_label = make_label(prediction)
+    other_model = make_prediction(snapshot, request_id="req-2",
+                                  published=1_500 * NANO,
+                                  model_id="forecast_model_set:zzz")
+    other_label = make_label(other_model)
+    cases = [
+        ("dup_features_empty_predictions", (), (),
+         (snapshot, snapshot), {},
+         "features_required_whenever_predictions_exist"),
+        ("dup_features_plus_dup_forecast", (prediction, duplicate_prediction),
+         (label,), (snapshot, snapshot), {"req-1": DAY0.isoformat()},
+         "duplicate_forecast_id"),
+        ("dup_features_plus_dup_label", (prediction,),
+         (label, duplicate_label), (snapshot, snapshot),
+         {"req-1": DAY0.isoformat()},
+         "duplicate_label_request_id"),
+        ("dup_features_plus_bad_block_keys", (prediction,), (label,),
+         (snapshot, snapshot), {"other-req": DAY0.isoformat()},
+         "block_id_key_set_must_equal_prediction_request_ids"),
+        ("dup_features_plus_mixed_model", (prediction, other_model),
+         (label, other_label), (snapshot, snapshot),
+         {"req-1": DAY0.isoformat(), "req-2": DAY0.isoformat()},
+         "mixed_model_id_in_calibration_inputs"),
+    ]
+    for name, predictions, labels, features, blocks, expected in cases:
+        # tuple entry raises the baseline's ORIGINAL error, not the eager
+        # duplicate-feature error
+        with pytest.raises(CalibrationError, match=expected):
+            bundle(predictions, labels, features, blocks)
+        # view entry agrees exactly (same logical input, shared core)
+        store = FoldRecords(cache_max_records=8, cache_max_bytes=1 << 20)
+        for item in features:
+            store.append_snapshot(item)
+        with pytest.raises(CalibrationError, match=expected):
+            _build_calibration_evidence_from_view(
+                tuple(predictions), tuple(labels), blocks, ordinary_policy(),
+                AS_OF, VALID_UNTIL, features=store.snapshot_view())
+
+    # single-defect behavior is unchanged on both paths
+    with pytest.raises(CalibrationError, match="duplicate_feature_snapshot_id"):
+        bundle((prediction,), (label,), (snapshot, snapshot),
+               {"req-1": DAY0.isoformat()})
+    with pytest.raises(CalibrationError, match="duplicate_forecast_id"):
+        bundle((prediction, duplicate_prediction), (label,), (snapshot,),
+               {"req-1": DAY0.isoformat()})
+    # all-empty still returns no evidence through the view entry
+    empty_view = FoldRecords(cache_max_records=1, cache_max_bytes=64)         .snapshot_view()
+    assert _build_calibration_evidence_from_view(
+        (), (), {}, ordinary_policy(), AS_OF, VALID_UNTIL,
+        features=empty_view) == ()

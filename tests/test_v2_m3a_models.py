@@ -1006,3 +1006,417 @@ def test_same_content_different_instances_same_identity():
     second = _small_seasonal_fit(_seasonality_handle(training_end, buckets), seasonal=True)
     assert first.model_set_id == second.model_set_id
     assert first.content_hash() == second.content_hash()
+
+
+# ---------------------------------------------------------------------------
+# T7 memory unit (MEMORY-DISPOSITION 2026-10-26 §6): compact store, stable
+# views, exact size counting, streaming canonical output, and full
+# tuple-path/view-path equivalence. The heavy fixtures above stay untouched.
+# ---------------------------------------------------------------------------
+
+from ak_trading.v2._fold_records import (  # noqa: E402
+    FoldPageError,
+    FoldRecords,
+    SnapshotRef,
+    StoreClosedError,
+    StoreSealedError,
+    open_sealed,
+    record_file_size,
+    stream_record_file,
+)
+from ak_trading.v2.probability.models import (  # noqa: E402
+    FitError,
+    _fit_forecast_models_from_views,
+)
+from ak_trading.v2.probability.regimes import (  # noqa: E402
+    RegimeError,
+    _fit_regime_reference_from_view,
+)
+from ak_trading.v2.schemas import encode_record_file  # noqa: E402
+import dataclasses as _dc  # noqa: E402
+import io as _io  # noqa: E402
+
+
+def _memory_equivalence_inputs():
+    """Small deterministic segments for tuple/view equivalence (seed fixed)."""
+    rng = random.Random(7)
+    training = build_segment(DAYS[:40], "meq", rng)
+    calibration = build_segment(DAYS[42:46], "meqc", rng)
+    training_end = max(label.available_at_nano for label in training[2])
+    calibration_end = max(label.available_at_nano for label in calibration[2])
+    return training, calibration, training_end, calibration_end
+
+
+def _populate(store, features, requests):
+    for snapshot in features:
+        store.append_snapshot(snapshot)
+    for request in requests:
+        store.append_request(request)
+
+
+def test_view_path_fit_is_identical_to_tuple_path():
+    """Canonical equivalence: identical model_set_id, content hash, evidence
+    and every fitted model between the public tuple entry and the internal
+    view entry on the same inputs (records flow through the compact store)."""
+    training, calibration, training_end, calibration_end = _memory_equivalence_inputs()
+    reference = fit_regime_reference(training[0], training_end, training_end)
+    tr_regimes = regimes_for(training[0], "regime_reference:inner-train")
+    cal_regimes = regimes_for(calibration[0], reference.reference_id)
+    config = default_fit_config(FEATURE_KEYS, training_end, calibration_end,
+                                calibration_end + 30 * DAYN)
+    tuple_set = fit_forecast_models(
+        training[0], tr_regimes, training[1], training[2],
+        calibration[0], cal_regimes, calibration[1], calibration[2],
+        config, reference, seasonality=None)
+
+    store = FoldRecords(cache_max_records=3, cache_max_bytes=250_000)
+    _populate(store, training[0], training[1])
+    calibration_store = FoldRecords(cache_max_records=3, cache_max_bytes=250_000)
+    _populate(calibration_store, calibration[0], calibration[1])
+    view_set = _fit_forecast_models_from_views(
+        store.snapshot_view(), tr_regimes, store.request_view(), training[2],
+        calibration_store.snapshot_view(), cal_regimes,
+        calibration_store.request_view(), calibration[2],
+        config, reference, seasonality=None)
+
+    assert view_set.model_set_id == tuple_set.model_set_id
+    assert view_set.content_hash() == tuple_set.content_hash()
+    assert view_set.evidence == tuple_set.evidence
+    assert dict(view_set.models) == dict(tuple_set.models)
+    assert dict(view_set.source_hashes) == dict(tuple_set.source_hashes)
+
+
+def test_reference_from_view_matches_public_and_rejects_future():
+    training, _calibration, training_end, _ = _memory_equivalence_inputs()
+    store = FoldRecords(cache_max_records=2, cache_max_bytes=100_000)
+    _populate(store, training[0], training[1])
+    public = fit_regime_reference(training[0], training_end, training_end)
+    via_view = _fit_regime_reference_from_view(
+        store.snapshot_view(), training_end, training_end)
+    assert via_view == public
+    assert via_view.content_hash() == public.content_hash()
+    violating_end = training[0][0].decision_nano - 1
+    with pytest.raises(RegimeError, match="reference_rejects_features_after"):
+        fit_regime_reference(training[0], violating_end, violating_end)
+    with pytest.raises(RegimeError, match="reference_rejects_features_after"):
+        _fit_regime_reference_from_view(
+            store.snapshot_view(), violating_end, violating_end)
+    with pytest.raises(TypeError):
+        _fit_regime_reference_from_view(training[0], training_end, training_end)
+
+
+def test_record_file_size_and_stream_match_encode_record_file():
+    """Exact size counting and streaming output are byte-identical to the
+    canonical encoder across the required matrix (empty, multiple, full
+    15-request nesting, escaped/non-ASCII ids, Decimal encodings, labels)."""
+    plain_ids = tuple(f"SHFE.RB2605-M1-20260112-{i:04d}" for i in range(6))
+    tricky_ids = ("quote\"id", "backslash\\id", "非ascii-Ω", "nl\nid")
+    values = (
+        FactorValue("META:price_tick:v2.1.0", Decimal("1"), BASE, quality()),
+        FactorValue(FEATURE_KEYS[0], 0.5, BASE, quality()),
+    )
+
+    def snap(index, ids, price):
+        return FeatureSnapshot(
+            snapshot_id=f"snap-m{index}", contract_id=CONTRACT, raw_symbol="RB2605",
+            product=PRODUCT, trading_day=DAYS[0], session_id="sess", session_kind="DAY",
+            decision_nano=BASE + index, available_at_nano=BASE + index,
+            duration_seconds=60, source_bar_ids=ids, reference_price=Decimal(price),
+            atr_points=Decimal("2"), values=values, daily_background_id=None,
+            quality=quality())
+
+    snap_plain = snap(1, plain_ids, "3671")
+    snap_tricky = snap(2, tricky_ids, "3671.0")
+    snap_dec_a = snap(3, plain_ids[:2], "100.00")
+    snap_dec_b = snap(3, plain_ids[:2], "100.0")
+    fifteen = []
+    for horizon in (Horizon("TRADING_MINUTE", value) for value in (1, 5, 15, 30, 60)):
+        for barrier in ("ATR_0.5", "ATR_1", "ATR_2"):
+            fifteen.append(ForecastRequest(
+                request_id=stable_id("forecast_request", f"snap-m1|{horizon.value}|{barrier}"),
+                features=snap_plain, horizon=horizon, window_start_nano=BASE + 10,
+                window_end_nano=BASE + 20, barrier_key=barrier,
+                upper_distance=Decimal("1"), lower_distance=Decimal("1"),
+                frozen_range=None))
+    label = PathLabel(
+        request_id=fifteen[0].request_id, contract_id=CONTRACT,
+        label_version="path-label-v2.1.0", horizon=Horizon("TRADING_MINUTE", 1),
+        window_start_nano=BASE + 10, window_end_nano=BASE + 20,
+        available_at_nano=BASE + 30, status="MATURE", reasons=(), direction="UP",
+        terminal_return=0.01, terminal_points=Decimal("1"), terminal_atr=0.5,
+        path_outcome="UP_FIRST", first_up_step=1, first_down_step=None,
+        return_step=None, break_step=None, competing_outcome="NEITHER",
+        persistence={key: False for key in PERSISTENCE_KEYS}, stop_touched={},
+        range_id=None)
+    cases = [
+        ("FeatureSnapshot", ()),
+        ("FeatureSnapshot", (snap_plain,)),
+        ("FeatureSnapshot", (snap_plain, snap_tricky, snap_dec_a)),
+        ("FeatureSnapshot", (snap_dec_b,)),
+        ("ForecastRequest", tuple(fifteen)),
+        ("PathLabel", (label, label)),
+    ]
+    for kind, records in cases:
+        exact = encode_record_file(kind, "mem-v1", records)
+        assert record_file_size(kind, "mem-v1", records) == len(exact)
+        buffer = _io.BytesIO()
+        count, digest = stream_record_file(kind, "mem-v1", records, buffer)
+        assert buffer.getvalue() == exact
+        assert count == len(exact)
+        assert digest == hashlib.sha256(exact).hexdigest()
+    # equal Decimal values, different canonical encodings and sizes
+    assert snap_dec_a == snap_dec_b
+    assert record_file_size("FeatureSnapshot", "mem-v1", (snap_dec_a,)) != \
+        record_file_size("FeatureSnapshot", "mem-v1", (snap_dec_b,))
+    with pytest.raises(Exception):
+        record_file_size("NoSuchRecord", "mem-v1", ())
+
+
+def _memory_snap(index, ids, price="100"):
+    values = (
+        FactorValue("META:price_tick:v2.1.0", Decimal("1"), BASE + index, quality()),
+        FactorValue(FEATURE_KEYS[0], 0.5, BASE + index, quality()),
+        FactorValue(FEATURE_KEYS[1], -0.1, BASE + index, quality()),
+    )
+    return FeatureSnapshot(
+        snapshot_id=f"snap-x{index}", contract_id=CONTRACT, raw_symbol="RB2605",
+        product=PRODUCT, trading_day=DAYS[0], session_id="sess", session_kind="DAY",
+        decision_nano=BASE + index, available_at_nano=BASE + index,
+        duration_seconds=60, source_bar_ids=ids, reference_price=Decimal(price),
+        atr_points=Decimal("2"), values=values, daily_background_id=None,
+        quality=quality())
+
+
+def test_store_interior_insertion_and_exact_restore():
+    """Non-append (interior) source sequences survive the compact store
+    exactly; duplicates, order, select and repeated traversal are stable."""
+    base_ids = tuple(f"bar-{i}" for i in range(8))
+    interior = ("bar-0", "bar-1", "bar-new", *base_ids[2:])  # inserted mid-sequence
+    store = FoldRecords(cache_max_records=2, cache_max_bytes=100_000)
+    handles = [
+        store.append_snapshot(_memory_snap(1, base_ids[:3])),
+        store.append_snapshot(_memory_snap(2, base_ids[:5])),
+        store.append_snapshot(_memory_snap(3, interior)),
+        store.append_snapshot(_memory_snap(3, interior)),  # duplicate record, fresh tuples
+        store.append_snapshot(_memory_snap(5, base_ids)),
+    ]
+    view = store.snapshot_view()
+    assert len(view) == 5
+    restored = [snapshot.source_bar_ids for snapshot in view]
+    assert restored == [base_ids[:3], base_ids[:5], interior, interior, base_ids]
+    assert view[2] == _memory_snap(3, interior)
+    assert list(view) == list(view)  # repeated traversal stable
+    selected = view.select([4, 2, 2])
+    assert [snapshot.snapshot_id for snapshot in selected] == ["snap-x5", "snap-x3", "snap-x3"]
+    assert view.snapshot_by_id("snap-x1") == _memory_snap(1, base_ids[:3])
+    assert view.snapshot_by_id("missing") is None
+    with pytest.raises(ValueError, match="duplicate_snapshot_id"):
+        view.snapshot_by_id("snap-x3")  # duplicated id: never a dict overwrite
+    with pytest.raises(ValueError, match="duplicate_snapshot_id"):
+        # duplicate ids are never hidden by a dict overwrite
+        duplicate_view = FoldRecords(cache_max_records=4, cache_max_bytes=100_000)
+        duplicate_view.append_snapshot(_memory_snap(1, base_ids[:3]))
+        duplicate_view.append_snapshot(_memory_snap(1, base_ids[:4]))
+        duplicate_view.snapshot_view().snapshot_by_id("snap-x1")
+    # equal content through different construction paths compares equal
+    assert store.same_snapshot(handles[2], handles[3]) is True
+
+
+def test_same_snapshot_requires_full_value_equality():
+    """Equality is never decided by id, length, last element or chain
+    identity alone: a differing interior element with equal length and last
+    id must compare unequal."""
+    ids_a = ("b1", "b2", "b3", "b4")
+    ids_b = ("b1", "b2", "bX", "b4")  # same length, same last element
+    store = FoldRecords(cache_max_records=4, cache_max_bytes=100_000)
+    handle_a = store.append_snapshot(_memory_snap(1, ids_a))
+    handle_b = store.append_snapshot(_memory_snap(2, ids_b))
+    assert store.same_snapshot(handle_a, handle_b) is False
+    # same id, different value: unequal (and the join must reject it)
+    same_id = _dc.replace(_memory_snap(1, ids_a), reference_price=Decimal("101"))
+    handle_c = store.append_snapshot(same_id)
+    assert store.same_snapshot(handle_a, handle_c) is False
+    # refs bound to another store are rejected, never silently compared
+    other = FoldRecords(cache_max_records=4, cache_max_bytes=100_000)
+    foreign = other.append_snapshot(_memory_snap(1, ids_a))
+    with pytest.raises(TypeError):
+        store.same_snapshot(handle_a, foreign)
+    with pytest.raises(TypeError):
+        store.same_snapshot(SnapshotRef(store_id=0, slot=0), handle_a)
+
+
+def test_decimal_equal_value_different_encoding_in_store():
+    ids = ("b1", "b2")
+    store = FoldRecords(cache_max_records=4, cache_max_bytes=100_000)
+    handle_a = store.append_snapshot(_memory_snap(1, ids, "100.00"))
+    handle_b = store.append_snapshot(_memory_snap(1, ids, "100.0"))
+    assert store.same_snapshot(handle_a, handle_b) is True  # value equality
+    materialized_a = store._materialize("FeatureSnapshot", handle_a.slot)
+    materialized_b = store._materialize("FeatureSnapshot", handle_b.slot)
+    assert materialized_a == materialized_b
+    assert str(materialized_a.reference_price) == "100.00"
+    assert str(materialized_b.reference_price) == "100.0"
+    assert record_file_size("FeatureSnapshot", "v", (materialized_a,)) != \
+        record_file_size("FeatureSnapshot", "v", (materialized_b,))
+
+
+def test_request_nested_features_kept_faithful_not_replaced():
+    ids = ("b1",)
+    store = FoldRecords(cache_max_records=4, cache_max_bytes=100_000)
+    pool = store.append_snapshot(_memory_snap(1, ids, "100"))
+    nested_different = _memory_snap(1, ids, "101")  # same id, different value
+    request = ForecastRequest(
+        request_id="req-n1", features=nested_different,
+        horizon=Horizon("TRADING_MINUTE", 1), window_start_nano=BASE + 10,
+        window_end_nano=BASE + 20, barrier_key="ATR_1",
+        upper_distance=Decimal("1"), lower_distance=Decimal("1"), frozen_range=None)
+    request_handle = store.append_request(request)
+    view = store.request_view()
+    assert len(view) == 1
+    assert view[0] == request
+    assert view[0].features.reference_price == Decimal("101")
+    assert store.same_snapshot(pool, view.meta(0).features_ref) is False
+    assert view.meta(0).features_snapshot_id == "snap-x1"
+
+
+def test_bounded_cache_eviction_reseal_and_corrupt_pages(tmp_path):
+    """Dual-bounded cache: eviction releases objects only; sealed pages
+    reopen with full integrity checks and corruption raises."""
+    ids = tuple(f"bar-{i}" for i in range(6))
+    store = FoldRecords(cache_max_records=1, cache_max_bytes=64,
+                        page_dir=tmp_path / "pages")
+    for index in range(3):
+        store.append_snapshot(_memory_snap(index, ids[: index + 1]))
+    view = store.snapshot_view()
+    assert len(view) == 3
+    first = view[0]
+    second = view[1]  # evicts the first object
+    assert store.stats()["cache_entries"] <= 1
+    assert view[0] == first  # re-materialized after eviction: value equal
+    assert view[1] == second
+    store.seal()
+    with pytest.raises(StoreSealedError):
+        store.append_snapshot(_memory_snap(9, ids))
+    reopened = open_sealed(tmp_path / "pages")
+    assert [snapshot for snapshot in reopened.snapshot_view()] == \
+        [snapshot for snapshot in view]
+    page = sorted((tmp_path / "pages").glob("*.page"))[0]
+    raw = bytearray(page.read_bytes())
+    raw[len(raw) // 2] ^= 0x01
+    page.write_bytes(bytes(raw))
+    with pytest.raises(FoldPageError):
+        open_sealed(tmp_path / "pages")
+    store.close()
+    with pytest.raises(StoreClosedError):
+        len(store.snapshot_view())
+
+
+def test_store_isolation_between_instances(tmp_path):
+    ids = ("b1", "b2")
+    first = FoldRecords(cache_max_records=4, cache_max_bytes=100_000)
+    second = FoldRecords(cache_max_records=4, cache_max_bytes=100_000,
+                         page_dir=tmp_path / "p2")
+    handle_first = first.append_snapshot(_memory_snap(1, ids))
+    handle_second = second.append_snapshot(_memory_snap(1, ids))
+    assert first.logical_snapshot_count == 1
+    assert second.logical_snapshot_count == 1
+    assert first.snapshot_view()[0] == second.snapshot_view()[0]
+    with pytest.raises(TypeError):
+        first.same_snapshot(handle_first, handle_second)
+    # a second append in one store never leaks into the other
+    first.append_snapshot(_memory_snap(2, ids))
+    assert second.logical_snapshot_count == 1
+    second.close()
+
+
+def test_view_fit_error_priority_matches_tuple_path():
+    """Duplicate/error order and messages are identical on both paths."""
+    training, calibration, training_end, calibration_end = _memory_equivalence_inputs()
+    reference = fit_regime_reference(training[0], training_end, training_end)
+    tr_regimes = regimes_for(training[0], "regime_reference:inner-train")
+    cal_regimes = regimes_for(calibration[0], reference.reference_id)
+    config = default_fit_config(FEATURE_KEYS, training_end, calibration_end,
+                                calibration_end + 30 * DAYN)
+
+    def run_tuple(features, regimes, requests, labels):
+        try:
+            fit_forecast_models(features, regimes, requests, labels,
+                                calibration[0], cal_regimes, calibration[1],
+                                calibration[2], config, reference, seasonality=None)
+            return None
+        except (FitError, TypeError) as exc:
+            return f"{type(exc).__name__}:{exc}"
+
+    calibration_store = FoldRecords(cache_max_records=4, cache_max_bytes=250_000)
+    _populate(calibration_store, calibration[0], calibration[1])
+
+    def run_view(features, regimes, requests, labels):
+        store = FoldRecords(cache_max_records=4, cache_max_bytes=250_000)
+        _populate(store, features, requests)
+        try:
+            _fit_forecast_models_from_views(
+                store.snapshot_view(), regimes, store.request_view(), labels,
+                calibration_store.snapshot_view(), cal_regimes,
+                calibration_store.request_view(), calibration[2],
+                config, reference, seasonality=None)
+            return None
+        except (FitError, TypeError) as exc:
+            return f"{type(exc).__name__}:{exc}"
+
+    dup_snapshot_features = (*training[0], training[0][0])
+    dup_regimes = (*tr_regimes, tr_regimes[0])
+    dup_requests = (*training[1], training[1][0])
+    dup_labels = (*training[2], training[2][0])
+    late_label = _dc.replace(training[2][0], available_at_nano=training_end + 1)
+    tampered = _dc.replace(training[0][0], reference_price=Decimal("999"))
+    mismatch_requests = (_dc.replace(training[1][0], features=tampered), *training[1][1:])
+    cases = [
+        ("duplicate_snapshot_id", dup_snapshot_features, tr_regimes, training[1], training[2]),
+        ("duplicate_regime_snapshot", training[0], dup_regimes, training[1], training[2]),
+        ("duplicate_request_id", training[0], tr_regimes, dup_requests, training[2]),
+        ("duplicate_label_request_id", training[0], tr_regimes, training[1], dup_labels),
+        ("label_late_for_training", training[0], tr_regimes, training[1],
+         (late_label, *training[2][1:])),
+        ("request_feature_snapshot_mismatch", training[0], tr_regimes,
+         mismatch_requests, training[2]),
+    ]
+    for expected, features, regimes, requests, labels in cases:
+        tuple_error = run_tuple(features, regimes, requests, labels)
+        view_error = run_view(features, regimes, requests, labels)
+        assert tuple_error == view_error, (expected, tuple_error, view_error)
+        assert tuple_error is not None and expected in tuple_error, (expected, tuple_error)
+
+    # view-entry type rejections: wrong view kinds / stores
+    store = FoldRecords(cache_max_records=4, cache_max_bytes=250_000)
+    _populate(store, training[0], training[1])
+    other_store = FoldRecords(cache_max_records=4, cache_max_bytes=250_000)
+    _populate(other_store, calibration[0], calibration[1])
+    with pytest.raises(TypeError):
+        _fit_forecast_models_from_views(
+            store.request_view(), tr_regimes, store.request_view(), training[2],
+            other_store.snapshot_view(), cal_regimes, other_store.request_view(),
+            calibration[2], config, reference, seasonality=None)
+    with pytest.raises(TypeError):
+        _fit_forecast_models_from_views(
+            store.snapshot_view(), tr_regimes, store.request_view(), training[2],
+            other_store.snapshot_view(), cal_regimes, store.request_view(),
+            calibration[2], config, reference, seasonality=None)
+
+
+def test_view_population_counts_are_real(tmp_path):
+    """len() reflects every logical record (duplicates included), the same
+    counts an InnerFitCapture-style consumer derives from tuples."""
+    training, _calibration, _training_end, _calibration_end = _memory_equivalence_inputs()
+    store = FoldRecords(cache_max_records=2, cache_max_bytes=100_000,
+                        page_dir=tmp_path / "pages")
+    _populate(store, training[0], training[1])
+    store.append_snapshot(training[0][0])  # logical duplicate
+    store.append_request(training[1][0])
+    assert len(store.snapshot_view()) == len(training[0]) + 1
+    assert len(store.request_view()) == len(training[1]) + 1
+    assert store.logical_snapshot_count == len(training[0]) + 1
+    assert store.logical_request_count == len(training[1]) + 1
+    store.seal()
+    reopened = open_sealed(tmp_path / "pages")
+    assert len(reopened.snapshot_view()) == len(training[0]) + 1
+    assert len(reopened.request_view()) == len(training[1]) + 1

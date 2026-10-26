@@ -108,16 +108,111 @@ def geometry_event(event: str) -> str:
     return event
 
 
-def _validate_connections(
+class _SnapshotScalars:
+    """Small connection fields of one snapshot (no object materialization)."""
+
+    __slots__ = ("snapshot_id", "contract_id", "product", "trading_day",
+                 "session_id", "session_kind", "duration_seconds",
+                 "decision_nano", "reference_price", "atr_points",
+                 "available_at_nano")
+
+    def __init__(self, snapshot: FeatureSnapshot) -> None:
+        self.snapshot_id = snapshot.snapshot_id
+        self.contract_id = snapshot.contract_id
+        self.product = snapshot.product
+        self.trading_day = snapshot.trading_day
+        self.session_id = snapshot.session_id
+        self.session_kind = snapshot.session_kind
+        self.duration_seconds = snapshot.duration_seconds
+        self.decision_nano = snapshot.decision_nano
+        self.reference_price = snapshot.reference_price
+        self.atr_points = snapshot.atr_points
+        self.available_at_nano = snapshot.available_at_nano
+
+
+class _TupleFeatureAccess:
+    """Feature access over the public tuple input (objects already resident).
+
+    The duplicate-feature check runs lazily inside ``scalars_by_id`` — the
+    original business position after the empty/predictions/model checks and
+    the forecast/label/block checks — exactly like the view access, so both
+    entries keep the staged baseline's validation priority (F01 repair).
+    """
+
+    def __init__(self, features: tuple[FeatureSnapshot, ...]) -> None:
+        self._features = features
+        self._snapshot_map: dict[str, FeatureSnapshot] | None = None
+
+    def scalars_by_id(self) -> dict[str, _SnapshotScalars]:
+        snapshot_map: dict[str, FeatureSnapshot] = {}
+        table: dict[str, _SnapshotScalars] = {}
+        for snapshot in self._features:
+            if snapshot.snapshot_id in snapshot_map:
+                raise CalibrationError("duplicate_feature_snapshot_id")
+            snapshot_map[snapshot.snapshot_id] = snapshot
+            table[snapshot.snapshot_id] = _SnapshotScalars(snapshot)
+        self._snapshot_map = snapshot_map
+        return table
+
+    def snapshot(self, snapshot_id: str) -> FeatureSnapshot | None:
+        if self._snapshot_map is None:
+            self.scalars_by_id()
+        return self._snapshot_map.get(snapshot_id)
+
+    @property
+    def empty(self) -> bool:
+        return not self._features
+
+
+class _ViewFeatureAccess:
+    """Feature access over a snapshot RecordView (bounded materialization)."""
+
+    def __init__(self, view) -> None:
+        from ak_trading.v2._fold_records import RecordView
+
+        if not isinstance(view, RecordView) or view.record_kind != "FeatureSnapshot":
+            raise TypeError("features_view_must_be_snapshot_RecordView")
+        self._view = view
+
+    def scalars_by_id(self) -> dict[str, _SnapshotScalars]:
+        table: dict[str, _SnapshotScalars] = {}
+        for index in range(len(self._view)):
+            meta = self._view.meta(index)
+            if meta.snapshot_id in table:
+                raise CalibrationError("duplicate_feature_snapshot_id")
+            scalars = _SnapshotScalars.__new__(_SnapshotScalars)
+            scalars.snapshot_id = meta.snapshot_id
+            scalars.contract_id = meta.contract_id
+            scalars.product = meta.product
+            scalars.trading_day = meta.trading_day
+            scalars.session_id = meta.session_id
+            scalars.session_kind = meta.session_kind
+            scalars.duration_seconds = meta.duration_seconds
+            scalars.decision_nano = meta.decision_nano
+            scalars.reference_price = meta.reference_price
+            scalars.atr_points = meta.atr_points
+            scalars.available_at_nano = meta.available_at_nano
+            table[meta.snapshot_id] = scalars
+        return table
+
+    def snapshot(self, snapshot_id: str) -> FeatureSnapshot | None:
+        return self._view.snapshot_by_id(snapshot_id)
+
+    @property
+    def empty(self) -> bool:
+        return len(self._view) == 0
+
+
+def _validate_connections_core(
         predictions: tuple[MarketForecast, ...],
         labels: tuple[PathLabel, ...],
         block_ids: Mapping[str, str],
-        features: tuple[FeatureSnapshot, ...],
-        as_of_nano: int) -> dict[str, FeatureSnapshot]:
+        access, as_of_nano: int) -> dict[str, _SnapshotScalars]:
     """Full ID-exact and field-exact connection checks (002 §2 items 1-4).
 
-    Returns the snapshot map on success; raises CalibrationError on any
-    duplicate, missing, extra or field-mismatched input.
+    Returns the scalar snapshot table on success; raises CalibrationError on
+    any duplicate, missing, extra or field-mismatched input. Shared by the
+    public tuple entry and the internal view entry.
     """
     forecast_ids: set[str] = set()
     request_ids: set[str] = set()
@@ -137,17 +232,13 @@ def _validate_connections(
         raise CalibrationError("label_key_set_must_equal_prediction_request_ids")
     if set(block_ids) != request_ids:
         raise CalibrationError("block_id_key_set_must_equal_prediction_request_ids")
-    snapshot_map: dict[str, FeatureSnapshot] = {}
-    for snapshot in features:
-        if snapshot.snapshot_id in snapshot_map:
-            raise CalibrationError("duplicate_feature_snapshot_id")
-        snapshot_map[snapshot.snapshot_id] = snapshot
+    scalars_by_id = access.scalars_by_id()
     referenced = {prediction.snapshot_id for prediction in predictions}
-    if set(snapshot_map) != referenced:
+    if set(scalars_by_id) != referenced:
         raise CalibrationError("feature_key_set_must_equal_prediction_snapshot_ids")
 
     for prediction in predictions:
-        snapshot = snapshot_map[prediction.snapshot_id]
+        snapshot = scalars_by_id[prediction.snapshot_id]
         if (prediction.contract_id != snapshot.contract_id
                 or prediction.product != snapshot.product
                 or prediction.trading_day != snapshot.trading_day
@@ -171,14 +262,31 @@ def _validate_connections(
                 or label.range_id != (prediction.frozen_range.range_id
                                       if prediction.frozen_range is not None else None)):
             raise CalibrationError("label_prediction_field_mismatch")
-    return snapshot_map
+    return scalars_by_id
+
+
+def _validate_connections(
+        predictions: tuple[MarketForecast, ...],
+        labels: tuple[PathLabel, ...],
+        block_ids: Mapping[str, str],
+        features: tuple[FeatureSnapshot, ...],
+        as_of_nano: int) -> dict[str, FeatureSnapshot]:
+    """Public-path connection validation returning the snapshot map."""
+    access = _TupleFeatureAccess(features)
+    _validate_connections_core(predictions, labels, block_ids, access, as_of_nano)
+    return access._snapshot_map
 
 
 class _Geometry:
-    """Resolves the M1 geometry key per (prediction, evidence event)."""
+    """Resolves the M1 geometry key per (prediction, evidence event).
 
-    def __init__(self, features_by_snapshot: Mapping[str, FeatureSnapshot]) -> None:
-        self._features = dict(features_by_snapshot)
+    ``access.snapshot`` returns the connected full snapshot — an already
+    resident object on the tuple path, a bounded-cache materialization on
+    the view path (never a disguised partial object).
+    """
+
+    def __init__(self, access) -> None:
+        self._access = access
 
     def key(self, prediction: MarketForecast, event: str) -> str | None:
         """Exact M1 key from the connected snapshot; None when M1 declines.
@@ -187,7 +295,9 @@ class _Geometry:
         the fifth bucket is never filled with a placeholder (002 §2).
         """
         bare = geometry_event(event)
-        snapshot = self._features[prediction.snapshot_id]
+        snapshot = self._access.snapshot(prediction.snapshot_id)
+        if snapshot is None:  # pragma: no cover - excluded by validation
+            raise CalibrationError("feature_key_set_must_equal_prediction_snapshot_ids")
         return calibration_geometry_key(snapshot, prediction.frozen_range, bare)
 
 
@@ -370,36 +480,13 @@ def _binary_rows(model_id: str, policy_id: str, pairs, event_name: str,
     return rows
 
 
-def build_calibration_evidence(predictions: tuple[MarketForecast, ...],
-                               labels: tuple[PathLabel, ...],
-                               block_ids: Mapping[str, str],
-                               policy: ConfidencePolicy, as_of_nano: int,
-                               valid_until_nano: int, *,
-                               features: tuple[FeatureSnapshot, ...]) -> tuple[CalibrationEvidence, ...]:
-    """Build per-bucket calibration evidence from out-of-time predictions.
-
-    ``training_end_nano`` is derived as the earliest calibration decision
-    (training must have ended before it); ``calibration_end_nano`` is
-    ``as_of_nano``. ``valid_until_nano`` must postdate every calibration
-    input's visible time, else the registration itself is invalid. Geometry
-    keys come exclusively from the connected snapshots via M1's
-    ``calibration_geometry_key``; a None key refuses that evidence row.
-    """
-    if not isinstance(predictions, tuple) or any(
-            not isinstance(p, MarketForecast) for p in predictions):
-        raise TypeError("predictions_must_be_tuple_of_MarketForecast")
-    if not isinstance(labels, tuple) or any(not isinstance(l, PathLabel) for l in labels):
-        raise TypeError("labels_must_be_tuple_of_PathLabel")
-    if not isinstance(block_ids, Mapping):
-        raise TypeError("block_ids_must_be_mapping")
-    if not isinstance(policy, ConfidencePolicy):
-        raise TypeError("policy_must_be_ConfidencePolicy")
-    if not isinstance(features, tuple) or any(not isinstance(f, FeatureSnapshot) for f in features):
-        raise TypeError("features_must_be_tuple_of_FeatureSnapshot")
-    for name, value in (("as_of_nano", as_of_nano), ("valid_until_nano", valid_until_nano)):
-        if isinstance(value, bool) or not isinstance(value, int):
-            raise TypeError(f"{name}_must_be_int")
-    if not predictions and not labels and not features and not block_ids:
+def _build_evidence_core(predictions: tuple[MarketForecast, ...],
+                         labels: tuple[PathLabel, ...],
+                         block_ids: Mapping[str, str],
+                         policy: ConfidencePolicy, as_of_nano: int,
+                         valid_until_nano: int, access) -> tuple[CalibrationEvidence, ...]:
+    """Shared evidence construction over a tuple or view feature access."""
+    if not predictions and not labels and access.empty and not block_ids:
         return ()
     if not predictions:
         raise CalibrationError("features_required_whenever_predictions_exist")
@@ -409,7 +496,7 @@ def build_calibration_evidence(predictions: tuple[MarketForecast, ...],
         raise CalibrationError("mixed_model_id_in_calibration_inputs")
     model_id = model_ids.pop()
 
-    snapshot_map = _validate_connections(predictions, labels, block_ids, features, as_of_nano)
+    _validate_connections_core(predictions, labels, block_ids, access, as_of_nano)
 
     latest_visible = max(
         [prediction.published_at_nano for prediction in predictions]
@@ -417,7 +504,7 @@ def build_calibration_evidence(predictions: tuple[MarketForecast, ...],
     if valid_until_nano <= latest_visible:
         raise CalibrationError("valid_until_not_after_calibration_inputs")
 
-    geometry = _Geometry(snapshot_map)
+    geometry = _Geometry(access)
     training_end_nano = min(prediction.decision_nano for prediction in predictions)
     calibration_end_nano = as_of_nano
     pairs = _usable_pairs(predictions, labels, as_of_nano)
@@ -503,3 +590,62 @@ def build_calibration_evidence(predictions: tuple[MarketForecast, ...],
     identified.sort(key=lambda row: canonical_json_bytes(
         evidence_projection_without_back_references(row)))
     return tuple(identified)
+
+
+def build_calibration_evidence(predictions: tuple[MarketForecast, ...],
+                               labels: tuple[PathLabel, ...],
+                               block_ids: Mapping[str, str],
+                               policy: ConfidencePolicy, as_of_nano: int,
+                               valid_until_nano: int, *,
+                               features: tuple[FeatureSnapshot, ...]) -> tuple[CalibrationEvidence, ...]:
+    """Build per-bucket calibration evidence from out-of-time predictions.
+
+    ``training_end_nano`` is derived as the earliest calibration decision
+    (training must have ended before it); ``calibration_end_nano`` is
+    ``as_of_nano``. ``valid_until_nano`` must postdate every calibration
+    input's visible time, else the registration itself is invalid. Geometry
+    keys come exclusively from the connected snapshots via M1's
+    ``calibration_geometry_key``; a None key refuses that evidence row.
+    """
+    if not isinstance(predictions, tuple) or any(
+            not isinstance(p, MarketForecast) for p in predictions):
+        raise TypeError("predictions_must_be_tuple_of_MarketForecast")
+    if not isinstance(labels, tuple) or any(not isinstance(l, PathLabel) for l in labels):
+        raise TypeError("labels_must_be_tuple_of_PathLabel")
+    if not isinstance(block_ids, Mapping):
+        raise TypeError("block_ids_must_be_mapping")
+    if not isinstance(policy, ConfidencePolicy):
+        raise TypeError("policy_must_be_ConfidencePolicy")
+    if not isinstance(features, tuple) or any(not isinstance(f, FeatureSnapshot) for f in features):
+        raise TypeError("features_must_be_tuple_of_FeatureSnapshot")
+    for name, value in (("as_of_nano", as_of_nano), ("valid_until_nano", valid_until_nano)):
+        if isinstance(value, bool) or not isinstance(value, int):
+            raise TypeError(f"{name}_must_be_int")
+    return _build_evidence_core(predictions, labels, block_ids, policy,
+                                as_of_nano, valid_until_nano,
+                                _TupleFeatureAccess(features))
+
+
+def _build_calibration_evidence_from_view(predictions: tuple[MarketForecast, ...],
+                                          labels: tuple[PathLabel, ...],
+                                          block_ids: Mapping[str, str],
+                                          policy: ConfidencePolicy, as_of_nano: int,
+                                          valid_until_nano: int, *,
+                                          features) -> tuple[CalibrationEvidence, ...]:
+    """Internal view entry (MEMORY-DISPOSITION §3): identical checks, order
+    and rows as the public entry; ``features`` is a snapshot RecordView."""
+    if not isinstance(predictions, tuple) or any(
+            not isinstance(p, MarketForecast) for p in predictions):
+        raise TypeError("predictions_must_be_tuple_of_MarketForecast")
+    if not isinstance(labels, tuple) or any(not isinstance(l, PathLabel) for l in labels):
+        raise TypeError("labels_must_be_tuple_of_PathLabel")
+    if not isinstance(block_ids, Mapping):
+        raise TypeError("block_ids_must_be_mapping")
+    if not isinstance(policy, ConfidencePolicy):
+        raise TypeError("policy_must_be_ConfidencePolicy")
+    for name, value in (("as_of_nano", as_of_nano), ("valid_until_nano", valid_until_nano)):
+        if isinstance(value, bool) or not isinstance(value, int):
+            raise TypeError(f"{name}_must_be_int")
+    return _build_evidence_core(predictions, labels, block_ids, policy,
+                                as_of_nano, valid_until_nano,
+                                _ViewFeatureAccess(features))

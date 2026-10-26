@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "D:\\Programs\\Python\\Python312\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "scripts/test_offline.py",
+    "-q",
+    "tests/test_v2_m3a_models.py",
+    "tests/test_v2_m3a_calibration.py",
+    "tests/test_v2_m5_experiments.py",
+    "--basetemp",
+    "C:\\AKWorktrees\\aktr-goal-20261026\\memory-main-integration-001\\basetemp"
+  ],
+  "cwd": "D:\\Projects\\AK-trading",
+  "identity": {
+    "pid": 20392,
+    "create_time": 1793047942.877006
+  },
+  "raw_native_exit": 0,
+  "seconds": 276.094000000041,
+  "peak_tree_rss_bytes": 178909184,
+  "resource_limit": null,
+  "monitor_errors": [],
+  "ended_utc": "2026-10-26T20:56:58.979999+00:00",
+  "stdout_sha256": "551496191c5ab644777f56a2f2cb60462440d2eb9ac43f8a40195f03e921f86b",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_tail": "iments.py::test_recovery_does_not_consume_live_owner\", \"tests/test_v2_m5_experiments.py::test_two_processes_only_one_can_begin\", \"tests/test_v2_m5_experiments.py::test_reservation_freezes_all_experiment_parameters\", \"tests/test_v2_m5_experiments.py::test_cost_scenarios_apply_multiplier_once_and_require_real_stress_path\", \"tests/test_v2_m5_experiments.py::test_m4_stress_paths_use_base_rules_and_actual_trading_days\", \"tests/test_v2_m5_experiments.py::test_configuration_cash_is_positive_decimal_not_hardcoded_million\", \"tests/test_v2_m5_experiments.py::test_real_seasonality_applies_only_legal_prefix_and_frozen_calibration_model\", \"tests/test_v2_m5_experiments.py::test_sixty_days_and_twenty_day_tail_not_interchangeable\", \"tests/test_v2_m5_experiments.py::test_t6_fixed_nine_field_policy_single_binding_identity_chain\", \"tests/test_v2_m5_experiments.py::test_validation_failure_leaves_no_registration[no_model-smoke]\", \"tests/test_v2_m5_experiments.py::test_validation_failure_leaves_no_registration[no_model-walk-forward]\", \"tests/test_v2_m5_experiments.py::test_validation_failure_leaves_no_registration[fit_error-smoke]\", \"tests/test_v2_m5_experiments.py::test_validation_failure_leaves_no_registration[fit_error-walk-forward]\", \"tests/test_v2_m5_experiments.py::test_validation_duplicate_registration_rejected_before_fit[registered]\", \"tests/test_v2_m5_experiments.py::test_validation_duplicate_registration_rejected_before_fit[incomplete_frozen]\", \"tests/test_v2_m5_experiments.py::test_t8_missing_producer_fails_smoke_before_expensive_fit\", \"tests/test_v2_m5_experiments.py::test_t8_missing_producer_fails_shadow_replay_before_expensive_fit\", \"tests/test_v2_m5_experiments.py::test_t9_new_run_id_registers_once_and_old_bytes_stay_unchanged\", \"tests/test_v2_m5_experiments.py::test_t9_error_directory_is_not_completion_and_cannot_be_resumed\", \"tests/test_v2_m5_experiments.py::test_t9_old_relay_starter_stays_inert\", \"tests/test_v2_m5_experiments.py::test_ep1_exclusions_match_complete_frozen_codes_not_prefix\", \"tests/test_v2_m5_experiments.py::test_ep1_research_config_v2_1_3_requires_real_plan_set_hash\", \"tests/test_v2_m5_experiments.py::test_ep1_plan_set_is_deterministic_window_bounded_and_warmup_legal\", \"tests/test_v2_m5_experiments.py::test_t7cpu_build_snapshots_background_index_specs_hoist_and_order\", \"tests/test_v2_m5_experiments.py::test_t7cpu_six_duration_snapshots_cold_hot_byte_identical\"], \"failed_nodeids\": [], \"error_nodeids\": [], \"collection_errors\": [], \"collected_files\": [\"tests/test_v2_m3a_models.py\", \"tests/test_v2_m3a_calibration.py\", \"tests/test_v2_m5_experiments.py\"]}\nOffline summary: 1 domain(s) planned, 1 launched, 0 skipped-empty, 0 unrun, 0 launcher-failed\nOffline domain normal: exit 0, selected 120, deselected 0, ran 120, passed 120, failed 0, skipped 0, errors 0, collection_errors 0\nOffline totals: selected 120 (+0 deselected), ran 120, passed 120, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0\nOffline overall exit: 0\n",
+  "stderr_tail": ""
+}

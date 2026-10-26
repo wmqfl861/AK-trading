@@ -1,0 +1,28 @@
+{
+ "schema": "independent-hard-review-verdict/v1",
+ "task_id": "aktr-zcode-goal-bip1-m-holiday-hard-review-20261026-001",
+ "review_id": "bip1-m-holiday-hard-review-001",
+ "scope": "M_HOLIDAY_SESSION_ORIGINALS_002",
+ "verdict": "PASS",
+ "verdict_class": "UNCONDITIONAL_SCOPED_ENGINEERING_PASS",
+ "scope_bounds": "Frozen 19-file bounded source delivery at D:/AKS261026/R1/m-holiday-source-001 against AUTHOR-DISPOSITION.md + FINAL-DISPOSITION.md (effective plan) and the pinned current rules. Offline only; no network replay of the two consumed one-use queries under any circumstance.",
+ "what_passes": {
+  "contract_compliance": "Both exact queries issued once each in order with the accepted parameter-array transport (argv code sha 51dabe99..., identical to AU provenance and old-M search shape); limit 5; no scrape; no retry; serial network; 12-relation baseline frozen into WORK-ORDER-BINDING before the first network request and deep-equal-copied into M-DCE-CALENDAR-FACTS with live FileRef authority; budgets 2/0 scope + 4/6 prior = 6/6 cumulative within 6/10; four doc slots NOT_RUN with zero fabricated artifacts; 2023 NO_APPLICABLE_LOCATOR (sole hit = excluded consumed annual notice 8526813) vs 2024 QUERY_FAILED (HTTP 502 / native 22 / backend No-results) correctly distinguished per F5; owner whitelist + preterminal registry + FROZEN-DELIVERY + Root post-terminal reception all byte-consistent with live files.",
+  "evidence_honesty": "All custody gaps and owner-side defects (attempt-001 native1/HTTP502 zero-network, binding KeyError, argv-index assert, psapi post-termination crash, dedup-003 timeout, attempt-001 7/29 hand-transcription, CE01 run-1 fixture defect, stderr scratch overwrite) preserved and accurately qualified; no fabricated evidence; reviewer counterexamples 10/10 rejected; independent semantic validation 20/20."
+ },
+ "what_does_not_pass_and_is_not_claimed": {
+  "input_delivery": "INPUT_NOT_DELIVERED - zero new qualified calendar relations; all 12 M-CNY-2023/2024 relations NOT_ESTABLISHED_THIS_SCOPE; no qualified body obtained; no research credit; not convertible to input delivery by this PASS.",
+  "trading": "No trading authorization of any kind; enable_trading=False / observer=hold / broker=NOT_RUN / real send-cancel=0/0 unchanged.",
+  "replay": "The two consumed queries and all prior consumption remain permanently consumed; this PASS authorizes no rewording, retry, paging, crawl or new source round; any future increment requires a new author disposition."
+ },
+ "qualifications_retained": [
+  "F-01 FROZEN-DELIVERY writer deviation (Root-003 instruction + separate Root post-terminal reception; V01 whitelist footprint accounted)",
+  "F-02 search-001 custody gap: PID/creation identity/RSS/peak UNKNOWN, honestly retained; termination proven by child-sealed transport metadata",
+  "F-03 disclosed loopback health probe preceded baseline freeze (infrastructure, zero consumption)",
+  "F-04 duplicate top-level keys in the raw 2023 RESPONSE.json (service artifact; pointer unambiguous)",
+  "F-05 owner-scratch stderr overwrite (both events recorded; first-failure bytes not independently available)",
+  "F-06 search-002 liveness-probe artifact child_live_at_terminal=true (probe semantics recorded as-is)"
+ ],
+ "independence": "Fresh ZCode GLM-5.3/max session on the fixed reviewer store; no participation in any owner/author/advice session of this scope; all offline; 75/75 REQUEST pins verified before review; source write-freeze honored (no writes outside this dispatch's work/, REVIEW.md, FINDINGS.json, VERDICT.json, REVIEW-FREEZE.json); owner result files untouched (re-hashed).",
+ "published_utc": "2026-10-26T20:55:00Z"
+}
