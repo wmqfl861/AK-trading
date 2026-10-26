@@ -6,7 +6,7 @@
 
 | 项目 | 状态 | 说明 |
 | --- | --- | --- |
-| A2 / N1 | **独立 ZCode 硬审运行中** | 十一文件已冻结；开发者完整回归 948 passed / 14 既有 failed / 0 errors；审核者正独立重跑与执行反例 |
+| A2 / N1 | **独立硬审无条件 PASS，主树集成通过** | 已接受十一文件；外部探针 9/9、M3B 308/308，完整 962 中 948 passed / 14 同节点同因既有 failed / 0 errors |
 | A3 | **文档同步完成** | README 更新 C05 的真实结果；r3 实施计划六处角色文字同步；CLAUDE 两处按用户确认修改 |
 | A4 | **方案及修复顺序完成；产品 NOT_IMPLEMENTED** | 原作者选择 CLI 提前明确拒绝 shadow-replay；本批不实施完整 shadow、不关闭 P0-2 shadow/P1-2 |
 | B1 | **分诊完成，234/234 校验通过** | [机器清单](TRIAGE.json)及[简报](TRIAGE.md)；原失败保留，未修改产品或测试 |
@@ -72,3 +72,15 @@ C05 历史全量结果（供 B1 分诊，不是本轮重新执行）：`python -
 - 原开发会话纠正 M4 编辑造成的未改行换行变化，保留旧版本，证明恢复前后 `splitlines()` 内容一致、所有未改行与原件字节一致；其余十文件未变。恢复只涉及本文件，不实施 B4 全库规范化。
 - **09:56 UTC 已启动独立 ZCode 成果硬审**，绑定最终十一文件及三份原作者有效文本；独立重跑 26 / 110 / 9 / 308 / 962 项人口，并执行审核者自己的 15 个反例。审核尚未完成，尚无产品 PASS。
 - `1314fc7`：发布原作者 M4 时序裁定与修复过程实测；`git push origin main` raw 0。
+
+### 阶段 0 最终交付
+
+- **A2：独立 ZCode 无条件 PASS（限本项有效计划范围）**。见 [审核报告](a2-review/REVIEW.md)、[有效判决](a2-review/VERDICT.json)、[本次新增接受清单](A2-ACCEPTANCE.json)及[机器运行记录](a2-review/VALIDATION.json)。完整独立复跑 **962 ran / 948 passed / 14 failed / 0 errors / 0 skipped / 0 collection errors，raw 1，1661.078 秒**；十四项与修复前逐节点同原因，历史绑定常量未刷新。
+- 独立短项：26 passed / 110 passed / 外部 9 passed / M3B 308 passed，各 raw 0。反例实际参数化为 **17**（准备稿 15 为计数笔误）：首轮 16 passed / 1 failed，raw 1，系审核者对 BREAKOUT 过期后仍 OPEN 的错误预期；原探针和失败保留，另建符合原合同的修订，17 passed，raw 0，未改产品来迎合测试。
+- 原判决 JSON 有一处人工转录的 M4 哈希错误，已由**同一独立审核者**另发[更正](a2-review/CORRECTION.md)，旧判决保留。更正值及十一文件/三份计划哈希由程序取值，写后逐项核验；不重复已完成的测试。该错误只在判决字段，测试前后实际文件核对始终一致。
+- 最终十一文件原字节集成到 main 后，`python scripts/test_offline.py -q <26 affected nodeids>` 得 **26 passed，raw 0，22.782 秒**；`python scripts/test_offline.py -q tests/test_v2_m3b_*.py docs/repo-audit-20261026-claude/probes/test_range_duplicate_bar_probe.py` 得 **317 passed，raw 0，16.625 秒**。均 0 failed/errors/skipped，集成后所有文件哈希仍与硬审冻结一致。
+- **A3 已完成**：README 测试状态、r3 六处旧开发角色文字、用户批准的 CLAUDE 两处同步均已落实。**A4 方案及顺序已完成，产品仍 NOT_IMPLEMENTED**：选择 CLI 提前拒绝 shadow-replay；本次不关闭 P0-2 shadow/P1-2。**B1 已完成**：234/234 条分诊；分类不等于修复。
+- 新源代码接受没有改写历史 T7/M5 冻结清单，也不自动接受旧消费者的新身份。之后实际迁移消费者时，仍按原计划重新冻结与接受。
+- 待用户本人操作/确认：**A1** 仓库可见性及 P0-1；MCP 重启、生产数据库角色切换仍归用户。待用户决定：**A5 / 外部治理 F1–F6、B3 分支保护、B4 换行规范化、B6 Python 支持版本**。本批未采纳这些治理提案。
+- 本批安全边界保持 False / hold / NOT_RUN / 真实 send-cancel 0/0。未读取或修改凭据，旧 REPORT.md 和外部输入未改。阶段 0 交付后停止，不启动 A4 产品实现或新的研究/治理任务。
+- `144e6ec`：记录开发者完整回归与独立硬审启动；推送 raw 0。产品交付提交号将在推送成功后追加。

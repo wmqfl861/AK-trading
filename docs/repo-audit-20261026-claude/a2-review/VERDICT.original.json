@@ -1,0 +1,60 @@
+{
+ "verdict": "PASS",
+ "conditional": false,
+ "scope": "A2 effective plan only (PHASE0-PLAN.md + PHASE0-DISPOSITION.md + A2-M4-CONTRACT-RULING.md); NOT global-tests-green, NOT shadow availability (P0-2/P1-2 remain open), NOT acceptance of old bindings/locks/consumer manifests for the new code identities",
+ "reviewer": {
+  "session": "sess_89678d66-7293-47a4-adc9-bac4d32a684f",
+  "role": "independent ZCode GLM-5.3/max product hard reviewer; took no part in A2 development or repair",
+  "reviewed_at_utc": "2026-10-26"
+ },
+ "candidate": "C:/AKWorktrees/aktr-round2-a2-20261026",
+ "freeze_pin": "zcode-dispatch/a2-owner-eol-004/evidence/SOURCE-HASHES.json",
+ "effective_plan_pins": [
+  "astra-phase0-plan-001/PHASE0-PLAN.md (sha256 f1855d6bdc55d59a85d30c907f929ed343bf7b8140c7ea670dcd8c9a0058aa61)",
+  "astra-phase0-disposition-002/PHASE0-DISPOSITION.md",
+  "astra-a2-m4-contract-ruling-004/A2-M4-CONTRACT-RULING.md"
+ ],
+ "frozen_write_set": {
+  "files": 11,
+  "m4_final_sha256": "d62959fbd641593cb4b9c6fe686ba951fcd9e2eed5eb62047823f930c1b8200294",
+  "ten_others": "byte-identical to reviewer static-prepare-001/002 snapshots",
+  "pins_before_after_all_match": true
+ },
+ "independent_runs": [
+  {"step": "01-affected-26", "selected": 26, "ran": 26, "passed": 26, "failed": 0, "skipped": 0, "errors": 0, "raw_exit": 0, "budget_s": 600},
+  {"step": "02-probes-15-original", "selected": 17, "ran": 17, "passed": 16, "failed": 1, "raw_exit": 1, "note": "single reviewer-side probe construction defect (C3b fourth-continuation bar past BREAKOUT's 3-bar window); product behavior correct (no credit transfer, no OPEN); original preserved with raw streams"},
+  {"step": "02b-probes-r2", "selected": 17, "ran": 17, "passed": 17, "failed": 0, "skipped": 0, "errors": 0, "raw_exit": 0, "note": "corrected revision; only the defective delivery replaced by the legal fresh-creation step; no assertion weakened"},
+  {"step": "03-focused-110", "selected": 110, "ran": 110, "passed": 110, "failed": 0, "skipped": 0, "errors": 0, "raw_exit": 0, "budget_s": 600},
+  {"step": "04-external-9", "selected": 9, "ran": 9, "passed": 9, "raw_exit": 0, "note": "probe byte-identical to batch baseline pinned input"},
+  {"step": "05-m3b-308", "selected": 308, "ran": 308, "passed": 308, "failed": 0, "skipped": 0, "errors": 0, "raw_exit": 0, "note": "212 original incl. 3 real-input tests executed + 96 new permanent regression"},
+  {"step": "06-full-962", "selected": 962, "ran": 962, "passed": 948, "failed": 14, "skipped": 0, "errors": 0, "collection_errors": 0, "raw_exit": 1, "wall_seconds": 1661.078, "budget_s": 3600, "note": "raw 1 is the preserved expected old-test outcome; not a CLI/task failure"}
+ ],
+ "baseline_failure_comparison": {
+  "baseline": "baseline-m1-m4-001/SUMMARY.json",
+  "node_set_exactly_equal": true,
+  "every_failure_is_frozen_binding_comparison": true,
+  "frozen_constants_refreshed": false,
+  "live_hash_values_changed": true,
+  "live_values_change_allowed_by_ruling": true,
+  "detail": "evidence/failure-comparison.json"
+ },
+ "evidence": {
+  "root": "zcode-dispatch/a2-hard-review-001/",
+  "review": "REVIEW.md",
+  "raw_streams_strict_utf8_all": true,
+  "streams_count": 16,
+  "counterexamples": [
+   "counterexamples/test_a2_reviewer_probes_r2.py (17 nodes, all passed)",
+   "zcode-dispatch/a2-review-prepare-002/probes/test_a2_reviewer_probes.py (original revision, preserved)"
+  ],
+  "identities_recorded": {"family_code_sha256_distinct": 7, "live_legacy_exit_bindings": 14, "manifests_touched": false}
+ },
+ "reviewer_side_disclosures": [
+  "work-order/PREPARE said 15 counterexamples; actual parametrization is 17 (C2 has 10 nodes, not 8)",
+  "step 01 reported unresolved_files=1 for test_v2_m4_payoffs.py: node-ID-selection file-attribution artifact of scripts/test_offline.py; 26/26/0 outcome unambiguous",
+  "compare_failures.py required two parser fixes (short-name matching, multi-line assert detection) before producing the final ok:true comparison; iteration preserved in conversation, final evidence from the fixed script",
+  "record_identities.py first version used code_sha256_for(family, mode); corrected to family-scoped 7 code identities plus 14 live binding hashes"
+ ],
+ "product_findings": [],
+ "safety": "enable_trading=false, observer=hold, broker=NOT_RUN, real send/cancel=0/0; no credentials/.env reads; no network/DB/services/client; no git operations; candidate/main/old-evidence unmodified (pins-after all match)"
+}

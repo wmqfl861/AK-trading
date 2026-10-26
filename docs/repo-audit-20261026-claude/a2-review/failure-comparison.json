@@ -1,0 +1,122 @@
+{
+ "raw_exit": 1,
+ "status": "COMPLETED",
+ "wall_seconds": 1661.078,
+ "totals_line": "Offline totals: selected 962 (+0 deselected), ran 962, passed 948, failed 14, skipped 0, errors 0, collection_error_files 0, unresolved_files 0",
+ "counts": {
+  "selected": "962",
+  "ran": "962",
+  "passed": "948",
+  "failed": "14",
+  "skipped": "0",
+  "errors": "0"
+ },
+ "failed_count": 14,
+ "failed_nodes": [
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[breakout_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[breakout_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[grid_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[grid_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[martingale_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[martingale_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[pullback_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[pullback_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[reversion_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[reversion_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[trend_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[trend_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[wait_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[wait_m1_v2]"
+ ],
+ "baseline_failed_nodes": [
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[breakout_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[breakout_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[grid_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[grid_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[martingale_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[martingale_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[pullback_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[pullback_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[reversion_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[reversion_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[trend_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[trend_m1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[wait_d1_v2]",
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[wait_m1_v2]"
+ ],
+ "node_set_exactly_equal": true,
+ "every_failure_is_frozen_binding_comparison": true,
+ "per_node": {
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[breakout_d1_v2]": {
+   "cause_line": "E       AssertionError: assert '064b21e01c9b...ce03ee18b74e4' == 'a4bc54aee3a8...f640a314b2d33'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[breakout_m1_v2]": {
+   "cause_line": "E       AssertionError: assert '0118e630a937...e948c71e9e1aa' == '081f58e3c681...9e55a2e28363d'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[grid_d1_v2]": {
+   "cause_line": "E       AssertionError: assert 'e02ecedae101...06177eadceb2f' == '490e49342ae6...6672df3999fdc'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[grid_m1_v2]": {
+   "cause_line": "E       AssertionError: assert '18056604802c...d23ee35e8dd53' == 'd5008bd8119a...86e24544571f4'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[martingale_d1_v2]": {
+   "cause_line": "E       AssertionError: assert 'cb7b8960a6f7...1321e06f13b45' == 'd8e85b9a864b...45f37b090ee90'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[martingale_m1_v2]": {
+   "cause_line": "E       AssertionError: assert '334750c76211...588e48123390f' == 'a1274732cc5a...03f0692794a98'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[pullback_d1_v2]": {
+   "cause_line": "E       AssertionError: assert '27834a7eda5f...357fb3538eb29' == 'b313182b6fbc...d97ed6a27c7ba'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[pullback_m1_v2]": {
+   "cause_line": "E       AssertionError: assert 'a7e539660ddd...d34bc26b4c679' == '13cab9f39410...5f48217288bf0'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[reversion_d1_v2]": {
+   "cause_line": "E       AssertionError: assert 'c38a0f2bcee5...20e4fa77b2314' == '8924cede5f54...c1cf129911782'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[reversion_m1_v2]": {
+   "cause_line": "E       AssertionError: assert '832806a19bb6...5a639d87bad04' == 'eb8a9fb55752...b354ce09678d6'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[trend_d1_v2]": {
+   "cause_line": "E       AssertionError: assert '279c497d6161...d9458bf311358' == 'd9809e272fbf...f35e60f796eb5'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[trend_m1_v2]": {
+   "cause_line": "E       AssertionError: assert '7f2ee3fa4c01...88b9003bdccfb' == 'fcca840cdd0b...20ffcf699564e'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[wait_d1_v2]": {
+   "cause_line": "E       AssertionError: assert '33397b3a9c19...0d83897190fec' == 'ebf4ce49080a...c6a794f242847'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  },
+  "tests/test_v2_m4_payoffs.py::test_forwarded_binding_keeps_frozen_baseline_value[wait_m1_v2]": {
+   "cause_line": "E       AssertionError: assert 'f06b7661fbac...ce8b07f4235f1' == 'c89f32ee6bb3...aaca286aea463'",
+   "frozen_binding_comparison_assert": true,
+   "in_baseline": true
+  }
+ },
+ "summary_line": "14 failed, 948 passed in 1650.37s (0:27:30)"
+}

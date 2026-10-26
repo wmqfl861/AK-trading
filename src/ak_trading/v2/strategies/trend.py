@@ -20,6 +20,7 @@ from ak_trading.v2.contracts import (
     StrategySetup,
 )
 from ak_trading.v2.strategies.registry import (
+    advance_confirmation_count,
     atr_of,
     can_open_now,
     episode_id_for,
@@ -119,18 +120,11 @@ class TrendFollowing:
         gate = admission_decision(
             context, event=event, side=side, horizon=spec.max_holding,
             checked_at_nano=checked_at_nano)
-        # §7/§10-11: confirmation advances once per distinct completed bar; a
-        # re-delivered decision context holds the counter (same-bar hold as
-        # breakout.py's confirmation branch).
-        same_bar = (state.setup is not None
-                    and context.now_nano <= state.setup.expires_at_nano
-                    and state.setup.last_bar_id == bars[-1].bar_id)
-        if not gate.ok:
-            confirmation = 0
-        elif same_bar:
-            confirmation = state.confirmation_count
-        else:
-            confirmation = state.confirmation_count + 1
+        # §7/§10-11 (shared counter): advances once per distinct completed
+        # bar; a re-delivered decision context holds the counter, and an
+        # expired observation period never lends credit to a rebuilt one.
+        confirmation = advance_confirmation_count(
+            context, state, gate_ok=gate.ok, setup=setup)
         required = int(spec.parameters["entry_confirmation_bars"])
         if structure_count < required or confirmation < required:
             return self._wait(context, state, setup, confirmation,

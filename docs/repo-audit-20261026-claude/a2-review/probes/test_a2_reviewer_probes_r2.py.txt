@@ -1,0 +1,154 @@
+"""A2 independent reviewer probes — REVISION r2 (hard-review correction).
+
+The ORIGINAL revision (test_a2_reviewer_probes.py, sha256 pinned in the
+before-evidence) is preserved unmodified; its single harness defect is recorded
+here and in REVIEW.md. Defect: the original test_c3_breakout_gate_failure_beats_
+created_restart delivered a FOURTH continuation bar ("s3") to BREAKOUT, whose
+3-bar setup window covers the creation bar plus only two continuations
+(setup_expiry_nano counts the creation bar as the 1st). The permanent suite's
+own gate-failure test notes this and uses a fresh-creation step as BREAKOUT's
+advancing step. The product correctly canceled the expired setup at s3 and
+waited at 0 (observed [0,0,1,2,0], all WAIT — no credit transfer, no OPEN);
+the original expectation [0,0,1,2,3-OPEN] was a probe construction error, not
+a product failure. This revision replaces that delivery with the legal fresh
+creation "arm" and expects a fresh count of 1 there. No assertion was weakened
+to hide a product failure; every other probe is byte-identical in logic to the
+original revision.
+"""
+from __future__ import annotations
+
+import os
+import sys
+from pathlib import Path
+
+import pytest
+
+
+def _candidate_root() -> Path:
+    """Explicit env pin first, then the pinned candidate tree; never MAIN-by-cwd."""
+    candidates = []
+    env = os.environ.get("A2_CANDIDATE_ROOT")
+    if env:
+        candidates.append(Path(env))
+    candidates.append(Path(r"C:/AKWorktrees/aktr-round2-a2-20261026"))
+    for candidate in candidates:
+        if ((candidate / "tests" / "test_v2_m3b_matrix.py").is_file()
+                and (candidate / "src" / "ak_trading" / "v2" / "strategies"
+                     / "registry.py").is_file()):
+            return candidate.resolve()
+    raise RuntimeError(
+        "A2 reviewer probe: A2 candidate root not found; set A2_CANDIDATE_ROOT "
+        "to the frozen candidate (its tests/ and src/ must exist)")
+
+
+ROOT = _candidate_root()
+if str(ROOT / "tests") not in sys.path:
+    sys.path.insert(0, str(ROOT / "tests"))
+
+import ak_trading.v2.strategies.registry as _registry  # noqa: E402
+from ak_trading.v2.strategies.state import commit_observation  # noqa: E402
+
+_EXPECTED_REGISTRY = (ROOT / "src" / "ak_trading" / "v2" / "strategies" / "registry.py").resolve()
+if Path(_registry.__file__).resolve() != _EXPECTED_REGISTRY:
+    raise RuntimeError(
+        f"A2 reviewer probe imported the wrong registry module "
+        f"({_registry.__file__}); run with PYTHONPATH={ROOT}/src so the "
+        f"candidate source is used, not MAIN's editable install")
+
+# Input builders only, from the file under review (work-order sanctioned reuse).
+from test_v2_m3b_duplicate_bar import build_world  # noqa: E402
+
+ENTRY_FAMILIES = ("TREND", "BREAKOUT", "PULLBACK", "REVERSION", "GRID", "MARTINGALE")
+
+
+def adverse(world, plan):
+    """Deliver ``plan`` entries: {"step", "kw"?, "rebuild"?} against real strategies."""
+    strategy, steps = world
+    state = None
+    rows = []
+    for entry in plan:
+        if entry.get("rebuild"):
+            strategy = type(strategy)(strategy.spec)
+        context = steps[entry["step"]](**(entry.get("kw") or {}))
+        proposal = strategy.evaluate(context, state)
+        state = commit_observation(state, proposal)
+        rows.append({
+            "action": proposal.action,
+            "count": state.confirmation_count,
+            "setup_id": state.setup.setup_id if state.setup is not None else None,
+            "expiry": state.setup.expires_at_nano if state.setup is not None else None,
+        })
+    return rows
+
+
+@pytest.mark.parametrize("mode", ("MINUTE", "DAILY"))
+def test_c1_expired_count2_restart_never_lends_credit_and_rebuild(mode):
+    rows = adverse(build_world("REVERSION", mode), [
+        {"step": "s0"}, {"step": "s1"},
+        {"step": "mid"},
+        {"step": "arm", "rebuild": True},
+        {"step": "arm"},
+        {"step": "ra"},
+        {"step": "ra"},
+        {"step": "rb"},
+    ])
+    assert [row["count"] for row in rows] == [1, 2, 0, 1, 1, 2, 2, 3], rows
+    assert [row["action"] for row in rows] == ["WAIT"] * 7 + ["OPEN"], rows
+    assert rows[1]["setup_id"] != rows[3]["setup_id"]
+
+
+@pytest.mark.parametrize("family", ENTRY_FAMILIES)
+@pytest.mark.parametrize("mode", ("MINUTE",))
+def test_c2_expired_same_bar_redelivery_never_opens_nor_keeps_credit(family, mode):
+    rows = adverse(build_world(family, mode), [{"step": "s0"}, {"step": "s1"}])
+    assert rows[0]["count"] == 1 and rows[1]["count"] == 2, rows
+    expiry = rows[1]["expiry"]
+    assert expiry is not None
+    late = adverse(build_world(family, mode), [
+        {"step": "s0"}, {"step": "s1"},
+        {"step": "s1", "kw": {"now_override": expiry + 1}},
+    ])[2]
+    assert late["action"] != "OPEN", late
+    assert late["count"] <= 1, late
+    if late["count"] == 1:
+        assert late["setup_id"] is not None
+        assert late["setup_id"] != rows[1]["setup_id"], late
+
+
+@pytest.mark.parametrize("mode", ("MINUTE", "DAILY"))
+@pytest.mark.parametrize("family", ("TREND", "REVERSION"))
+def test_c2_expired_same_bar_redelivery_daily_anchor(family, mode):
+    test_c2_expired_same_bar_redelivery_never_opens_nor_keeps_credit(family, mode)
+
+
+@pytest.mark.parametrize("mode", ("MINUTE", "DAILY"))
+@pytest.mark.parametrize("family", ("REVERSION", "TREND"))
+def test_c3_gate_failure_zeroes_first_same_bar_recovery_does_not_recount(family, mode):
+    rows = adverse(build_world(family, mode), [
+        {"step": "s0"},
+        {"step": "s1", "kw": {"gate_ok": False}},
+        {"step": "s1"},
+        {"step": "s2"},
+        {"step": "s3"},
+    ])
+    assert [row["count"] for row in rows] == [1, 0, 0, 1, 2], rows
+    assert all(row["action"] == "WAIT" for row in rows), rows
+
+
+def test_c3_breakout_gate_failure_beats_created_restart():
+    # r2 correction: a genuine BREAKOUT creation on a gate-failed decision
+    # yields 0 (gate-failure priority over created->1); the same bar recovering
+    # holds 0; the two in-window continuations advance to 1, 2; the 3-bar
+    # setup window then ends, and the next legal step is a FRESH creation
+    # ("arm") whose new period starts at 1 — never lending the failed period's
+    # counts and never OPENing.
+    rows = adverse(build_world("BREAKOUT", "MINUTE"), [
+        {"step": "s0", "kw": {"gate_ok": False}},
+        {"step": "s0"},
+        {"step": "s1"},
+        {"step": "s2"},
+        {"step": "arm"},
+    ])
+    assert [row["count"] for row in rows] == [0, 0, 1, 2, 1], rows
+    assert all(row["action"] == "WAIT" for row in rows), rows
+    assert rows[0]["setup_id"] is not None and rows[4]["setup_id"] != rows[0]["setup_id"]

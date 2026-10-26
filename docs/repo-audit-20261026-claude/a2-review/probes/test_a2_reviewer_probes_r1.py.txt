@@ -1,0 +1,182 @@
+"""A2 independent reviewer probes (a2-review-prepare-002, 2026-10-26).
+
+Adversarial counterexamples C1/C2/C3 from PREPARE (a2-review-prepare-001 and
+this dispatch), converted to runnable pytest probes for the FINAL frozen hard
+review. NOT executed during preparation; the final review runs them through
+``scripts/test_offline.py`` from the A2 candidate root with the candidate's
+``src`` on PYTHONPATH (or with ``A2_CANDIDATE_ROOT`` set explicitly).
+
+These probes reuse the permanent regression's SYNTHETIC context builders as
+INPUTS ONLY (``build_world`` from ``tests/test_v2_m3b_duplicate_bar.py``) and
+drive their own adverse orderings, restarts and time jumps. Every expectation
+below is a direct consequence of the effective PHASE0-PLAN/PHASE0-DISPOSITION
+F1 ruling and the shared-counter contract — no new acceptance condition is
+invented, no gate is waived, no OPEN is fabricated: an OPEN assertion can only
+pass when the family's own structure/admission/cost/budget gates accept it.
+
+Covered:
+
+* C1  expired-at-count-2 restart (REVERSION, MINUTE+DAILY): the pre-fix code
+  (``+1`` with no expiry handling) would carry 2 -> 3 at the rebuilt arming and
+  OPEN on the new period's FIRST recross; the fixed counter must restart at 1
+  and OPEN only on the new period's third distinct qualifying bar. A strategy
+  rebuild (saved state + fresh object) is inserted between expiry and re-arming.
+* C2  expired same-bar re-delivery across all six entry families: after counts
+  1,2 the same completed bar is re-delivered at ``saved_expiry + 1ns``. No
+  family may OPEN and the counter must not exceed 1 (pre-fix: every family
+  reached 3 here, which OPENed for several of them); if the count is 1 the
+  committed setup must be a NEW observation period (different setup_id), never
+  stale credit on the expired one.
+* C3  admission-gate failure zeroes FIRST; a same-bar gate recovery must not
+  re-count; only a later distinct qualifying bar advances (REVERSION pre-fix
+  re-counted the same bar and OPENed one bar early; TREND is the in-gate
+  control). BREAKOUT variant pins gate-fail priority over ``created -> 1``.
+"""
+from __future__ import annotations
+
+import os
+import sys
+from pathlib import Path
+
+import pytest
+
+
+def _candidate_root() -> Path:
+    """Explicit env pin first, then the pinned candidate tree; never MAIN-by-cwd."""
+    candidates = []
+    env = os.environ.get("A2_CANDIDATE_ROOT")
+    if env:
+        candidates.append(Path(env))
+    candidates.append(Path(r"C:/AKWorktrees/aktr-round2-a2-20261026"))
+    for candidate in candidates:
+        if ((candidate / "tests" / "test_v2_m3b_matrix.py").is_file()
+                and (candidate / "src" / "ak_trading" / "v2" / "strategies"
+                     / "registry.py").is_file()):
+            return candidate.resolve()
+    raise RuntimeError(
+        "A2 reviewer probe: A2 candidate root not found; set A2_CANDIDATE_ROOT "
+        "to the frozen candidate (its tests/ and src/ must exist)")
+
+
+ROOT = _candidate_root()
+if str(ROOT / "tests") not in sys.path:
+    sys.path.insert(0, str(ROOT / "tests"))
+
+import ak_trading.v2.strategies.registry as _registry  # noqa: E402
+from ak_trading.v2.strategies.state import commit_observation  # noqa: E402
+
+_EXPECTED_REGISTRY = (ROOT / "src" / "ak_trading" / "v2" / "strategies" / "registry.py").resolve()
+if Path(_registry.__file__).resolve() != _EXPECTED_REGISTRY:
+    raise RuntimeError(
+        f"A2 reviewer probe imported the wrong registry module "
+        f"({_registry.__file__}); run with PYTHONPATH={ROOT}/src so the "
+        f"candidate source is used, not MAIN's editable install")
+
+# Input builders only, from the file under review (work-order sanctioned reuse).
+from test_v2_m3b_duplicate_bar import build_world  # noqa: E402
+
+ENTRY_FAMILIES = ("TREND", "BREAKOUT", "PULLBACK", "REVERSION", "GRID", "MARTINGALE")
+
+
+def adverse(world, plan):
+    """Deliver ``plan`` entries: {"step", "kw"?, "rebuild"?} against real strategies.
+
+    Returns one row per delivery with the committed action, confirmation_count
+    and setup identity; ``rebuild`` reconstructs the strategy object first
+    (saved observation state + fresh object), never fabricating an early exit.
+    """
+    strategy, steps = world
+    state = None
+    rows = []
+    for entry in plan:
+        if entry.get("rebuild"):
+            strategy = type(strategy)(strategy.spec)
+        context = steps[entry["step"]](**(entry.get("kw") or {}))
+        proposal = strategy.evaluate(context, state)
+        state = commit_observation(state, proposal)
+        rows.append({
+            "action": proposal.action,
+            "count": state.confirmation_count,
+            "setup_id": state.setup.setup_id if state.setup is not None else None,
+            "expiry": state.setup.expires_at_nano if state.setup is not None else None,
+        })
+    return rows
+
+
+@pytest.mark.parametrize("mode", ("MINUTE", "DAILY"))
+def test_c1_expired_count2_restart_never_lends_credit_and_rebuild(mode):
+    # Pre-fix discriminator: stale 2 -> 3 at the rebuilt arming OPENed on the
+    # new period's first recross ("ra", row index 5). Fixed: WAIT through ra,
+    # OPEN only on the new period's third distinct qualifying bar ("rb").
+    rows = adverse(build_world("REVERSION", mode), [
+        {"step": "s0"}, {"step": "s1"},
+        {"step": "mid"},                      # distinct post-expiry middle bar: 0
+        {"step": "arm", "rebuild": True},     # rebuilt object, fresh arming: 1
+        {"step": "arm"},                      # same-bar redelivery holds 1
+        {"step": "ra"},                       # first recross of NEW period: 2, no OPEN
+        {"step": "ra"},
+        {"step": "rb"},
+    ])
+    assert [row["count"] for row in rows] == [1, 2, 0, 1, 1, 2, 2, 3], rows
+    assert [row["action"] for row in rows] == ["WAIT"] * 7 + ["OPEN"], rows
+    assert rows[1]["setup_id"] != rows[3]["setup_id"]  # genuinely new period
+
+
+@pytest.mark.parametrize("family", ENTRY_FAMILIES)
+@pytest.mark.parametrize("mode", ("MINUTE",))
+def test_c2_expired_same_bar_redelivery_never_opens_nor_keeps_credit(family, mode):
+    rows = adverse(build_world(family, mode), [{"step": "s0"}, {"step": "s1"}])
+    assert rows[0]["count"] == 1 and rows[1]["count"] == 2, rows
+    expiry = rows[1]["expiry"]
+    assert expiry is not None
+    late = adverse(build_world(family, mode), [
+        {"step": "s0"}, {"step": "s1"},
+        {"step": "s1", "kw": {"now_override": expiry + 1}},
+    ])[2]
+    # Pre-fix every family reached 3 here (several OPENed); fixed: never OPEN,
+    # never more than a fresh period's first observation, and a count of 1 must
+    # belong to a NEW observation period, not the expired one.
+    assert late["action"] != "OPEN", late
+    assert late["count"] <= 1, late
+    if late["count"] == 1:
+        assert late["setup_id"] is not None
+        assert late["setup_id"] != rows[1]["setup_id"], late
+
+
+@pytest.mark.parametrize("mode", ("MINUTE", "DAILY"))
+@pytest.mark.parametrize("family", ("TREND", "REVERSION"))
+def test_c2_expired_same_bar_redelivery_daily_anchor(family, mode):
+    # DAILY anchor for the directional/range shapes (same contract as above).
+    test_c2_expired_same_bar_redelivery_never_opens_nor_keeps_credit(family, mode)
+
+
+@pytest.mark.parametrize("mode", ("MINUTE", "DAILY"))
+@pytest.mark.parametrize("family", ("REVERSION", "TREND"))
+def test_c3_gate_failure_zeroes_first_same_bar_recovery_does_not_recount(family, mode):
+    # Admission failure resets to 0; the same bar later qualifying again must
+    # not re-count (REVERSION pre-fix re-counted it and OPENed one bar early:
+    # 1,0,1,2,3-OPEN). Fixed: 1,0,0,1,2 with no OPEN anywhere.
+    rows = adverse(build_world(family, mode), [
+        {"step": "s0"},
+        {"step": "s1", "kw": {"gate_ok": False}},
+        {"step": "s1"},
+        {"step": "s2"},
+        {"step": "s3"},
+    ])
+    assert [row["count"] for row in rows] == [1, 0, 0, 1, 2], rows
+    assert all(row["action"] == "WAIT" for row in rows), rows
+
+
+def test_c3_breakout_gate_failure_beats_created_restart():
+    # A genuine BREAKOUT creation on a gate-failed decision still yields 0
+    # (gate-failure priority over created->1); the same bar recovering holds 0;
+    # the OPEN then needs three further distinct qualifying bars.
+    rows = adverse(build_world("BREAKOUT", "MINUTE"), [
+        {"step": "s0", "kw": {"gate_ok": False}},
+        {"step": "s0"},
+        {"step": "s1"},
+        {"step": "s2"},
+        {"step": "s3"},
+    ])
+    assert [row["count"] for row in rows] == [0, 0, 1, 2, 3], rows
+    assert [row["action"] for row in rows] == ["WAIT"] * 4 + ["OPEN"], rows

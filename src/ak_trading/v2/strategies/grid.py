@@ -22,6 +22,7 @@ from ak_trading.v2.contracts import (
     StrategyState,
 )
 from ak_trading.v2.strategies.registry import (
+    advance_confirmation_count,
     can_open_now,
     cost_coverage_ok,
     episode_id_for,
@@ -83,13 +84,20 @@ class FixedInventoryGrid:
         fractions = tuple(Decimal(str(value)) for value in spec.parameters["layer_fractions"])
         setup, side, wait_reason = range_entry_setup(context, state, fractions[0], 5)
         if setup is None or side == 0:
-            return observation_wait(context, state, None, state.confirmation_count,
+            # §7/phase0-F1: an expired observation period leaves no credit.
+            hold = 0 if (state.setup is not None
+                         and context.now_nano > state.setup.expires_at_nano) \
+                else state.confirmation_count
+            return observation_wait(context, state, None, hold,
                                     (wait_reason or "RANGE_MIDDLE_WAIT",))
         gate = admission_decision(
             context, event="PERSIST:ORDERED_RANGE", side=side, horizon=spec.max_holding,
             required_range=frozen, require_return_before_break=True,
             require_competing_unknown=True)
-        confirmation = state.confirmation_count + 1 if gate.ok else 0
+        created = setup is not None and (
+            state.setup is None or setup.setup_id != state.setup.setup_id)
+        confirmation = advance_confirmation_count(
+            context, state, gate_ok=gate.ok, setup=setup, created=created)
         required = int(spec.parameters["entry_confirmation_bars"])
         if setup.consecutive_confirmations < 1 or confirmation < required:
             return observation_wait(

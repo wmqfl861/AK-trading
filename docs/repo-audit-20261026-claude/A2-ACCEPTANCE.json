@@ -1,0 +1,274 @@
+{
+  "schema": "ak-trading/a2-source-acceptance/v1",
+  "accepted_at_utc": "2026-10-26T11:07:56.027148+00:00",
+  "input_commit": "891e4de",
+  "main_base_before_integration": "144e6ec",
+  "scope": "A2/N1 same-bar confirmation repair and original-author M4 fixture timing ruling",
+  "product_verdict": "PASS",
+  "conditional": false,
+  "independent_reviewer_session": "sess_89678d66-7293-47a4-adc9-bac4d32a684f",
+  "independent_review": {
+    "report": {
+      "path": "docs/repo-audit-20261026-claude/a2-review/REVIEW.md",
+      "sha256": "4a92414f285c7c8222129f26517b9db403f75164f80ef8c13bcad4e134533c50"
+    },
+    "effective_verdict": {
+      "path": "docs/repo-audit-20261026-claude/a2-review/VERDICT.json",
+      "sha256": "02341079a5e3b76850a42296905bc041490c963b2b5d3fa993ba7d8631db0ec9"
+    },
+    "original_verdict_preserved": "docs/repo-audit-20261026-claude/a2-review/VERDICT.original.json",
+    "correction": "docs/repo-audit-20261026-claude/a2-review/CORRECTION.md"
+  },
+  "effective_plans": [
+    {
+      "path": "docs/repo-audit-20261026-claude/PHASE0-PLAN.md",
+      "sha256": "f1855d6bdc55d59a85d30c907f929ed343bf7b8140c7ea670dcd8c9a0058aa61"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/PHASE0-DISPOSITION.md",
+      "sha256": "076dc392c793f2c8a9bb5bd53a5347a4fece6e1a908a4fbb98a7aae4536deb43"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/A2-M4-CONTRACT-RULING.md",
+      "sha256": "f195220c717ed4e574007262f04d80d21b1f85a22d7c44fac296761d40652ec2"
+    }
+  ],
+  "accepted_write_set": [
+    {
+      "path": "src/ak_trading/v2/strategies/registry.py",
+      "bytes": 66630,
+      "sha256": "00b7511c852ff19e519064c5366c4467a095b5a5a1c27c20f0d4a512e9935848",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "00b7511c852ff19e519064c5366c4467a095b5a5a1c27c20f0d4a512e9935848",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/reversion.py",
+      "bytes": 6704,
+      "sha256": "8c108c566020f9fcaf400cb0a7b57aeefaa615a1607facb9e9a44d4f669607db",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "8c108c566020f9fcaf400cb0a7b57aeefaa615a1607facb9e9a44d4f669607db",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/grid.py",
+      "bytes": 10121,
+      "sha256": "32eb1438aeb64b46bac5aff905a568c0c4900ef27ee12042c14933810da24855",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "32eb1438aeb64b46bac5aff905a568c0c4900ef27ee12042c14933810da24855",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/martingale.py",
+      "bytes": 12530,
+      "sha256": "6e78b6dbc53ce6dfdcff26b6f7e26a00fca09acbcb6e2e050716953302dd738a",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "6e78b6dbc53ce6dfdcff26b6f7e26a00fca09acbcb6e2e050716953302dd738a",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/trend.py",
+      "bytes": 10265,
+      "sha256": "45e82a30d2b3d4d8cce00079a2717389e48ed552ab5dab1ca34f94d75314fd7f",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "45e82a30d2b3d4d8cce00079a2717389e48ed552ab5dab1ca34f94d75314fd7f",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/pullback.py",
+      "bytes": 9572,
+      "sha256": "7491e999217551f44320596469a9f2bb957c9583c226b2b895e5be1bb14e96d8",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "7491e999217551f44320596469a9f2bb957c9583c226b2b895e5be1bb14e96d8",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "src/ak_trading/v2/strategies/breakout.py",
+      "bytes": 12465,
+      "sha256": "50dd718094e5bff91b7f449db13fe4428f2f34822d34e7538672c93a0485acb5",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "50dd718094e5bff91b7f449db13fe4428f2f34822d34e7538672c93a0485acb5",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "tests/test_v2_m3b_martingale.py",
+      "bytes": 26754,
+      "sha256": "4955cb62e55f0bd631f4143a3fc49ca74812dc5b7cc16272cf45679c02f7fb32",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "4955cb62e55f0bd631f4143a3fc49ca74812dc5b7cc16272cf45679c02f7fb32",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "tests/test_v2_m3b_duplicate_bar.py",
+      "bytes": 25487,
+      "sha256": "cb4a69f471f8e1f5eb772ef90fc2ad3ad90ecbdde26ad773c94c1c428b7319f2",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "cb4a69f471f8e1f5eb772ef90fc2ad3ad90ecbdde26ad773c94c1c428b7319f2",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "src/ak_trading/v2/artifacts.py",
+      "bytes": 96982,
+      "sha256": "16af6a603004431ea901218d49d409982c66f3c5d5a433a1429c7825cd59298d",
+      "note": "unchanged since repair-003 freeze; re-verified against current bytes",
+      "git_staged_blob_sha256": "16af6a603004431ea901218d49d409982c66f3c5d5a433a1429c7825cd59298d",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    },
+    {
+      "path": "tests/test_v2_m4_payoffs.py",
+      "bytes": 77874,
+      "sha256": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888",
+      "note": "byte-restored in a2-owner-eol-004; was LF-normalized in repair-003",
+      "git_staged_blob_sha256": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888",
+      "tested_sha256_scope": "exact Windows working-tree bytes, independently reviewed and integrated"
+    }
+  ],
+  "main_bytes_equal_independent_review_freeze": true,
+  "all_verdict_file_hashes_match_source_freeze": true,
+  "main_integration": [
+    {
+      "command": [
+        "D:\\Programs\\Python\\Python312\\python.exe",
+        "scripts/test_offline.py",
+        "-q",
+        "tests/test_v2_m3b_causality.py",
+        "tests/test_v2_m3b_directional.py",
+        "tests/test_v2_m3b_duplicate_bar.py",
+        "tests/test_v2_m3b_martingale.py",
+        "tests/test_v2_m3b_matrix.py",
+        "tests/test_v2_m3b_registry.py",
+        "tests/test_v2_m3b_reversion_grid.py",
+        "tests/test_v2_m3b_state.py",
+        "docs/repo-audit-20261026-claude/probes/test_range_duplicate_bar_probe.py"
+      ],
+      "raw_exit_code": 0,
+      "passed": 317,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "command": [
+        "D:\\Programs\\Python\\Python312\\python.exe",
+        "scripts/test_offline.py",
+        "-q",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_p1_natural_trend_open_is_ready",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_p2_regime_fallback_keeps_directional_nulls[absent]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_p2_regime_fallback_keeps_directional_nulls[null-range]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_p3_high_priority_match_ignores_lower_difference[budget]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_p3_high_priority_match_ignores_lower_difference[setup]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n1_lower_match_never_rescues_high_mismatch[budget]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n1_lower_match_never_rescues_high_mismatch[setup]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n2_all_eight_forecast_fields_reject_independently[range_id]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n2_all_eight_forecast_fields_reject_independently[frozen_at_nano]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n2_all_eight_forecast_fields_reject_independently[lower]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n2_all_eight_forecast_fields_reject_independently[center]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n2_all_eight_forecast_fields_reject_independently[upper]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n2_all_eight_forecast_fields_reject_independently[stop_lower]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n2_all_eight_forecast_fields_reject_independently[stop_upper]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n2_all_eight_forecast_fields_reject_independently[source_snapshot_id]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n3_all_null_and_missing_inputs_keep_original_semantics",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_other_forecast_guards_still_reject[quality-EVIDENCE_IDENTITY_MISMATCH]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_other_forecast_guards_still_reject[snapshot_id-EVIDENCE_IDENTITY_MISMATCH]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_other_forecast_guards_still_reject[reference_price-EVIDENCE_IDENTITY_MISMATCH]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_other_forecast_guards_still_reject[barrier_key-BARRIER_MISMATCH]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_other_forecast_guards_still_reject[upper_distance-BARRIER_MISMATCH]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_other_forecast_guards_still_reject[lower_distance-BARRIER_MISMATCH]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_model_guards_still_reject[model_id-EVIDENCE_IDENTITY_MISMATCH]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_model_guards_still_reject[training_end-FUTURE_PAYOFF_MODEL]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n4_model_guards_still_reject[policy-PAYOFF_POLICY_MISMATCH]",
+        "tests/test_v2_m4_payoffs.py::test_nonempty_range_n5_samples_blocks_path_support_ev_and_tail_guards"
+      ],
+      "raw_exit_code": 0,
+      "passed": 26,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "validation": "docs/repo-audit-20261026-claude/a2-review/VALIDATION.json",
+  "new_identity_records": "docs/repo-audit-20261026-claude/a2-review/code-identities.json",
+  "consumer_acceptance": "NOT_GRANTED_BY_THIS_SOURCE_ACCEPTANCE; retain old frozen consumers and use original-owner successor acceptance for new identities",
+  "ordinary_shadow": "NOT_IMPLEMENTED",
+  "trading_boundary": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send": 0,
+    "real_cancel": 0
+  },
+  "full_repository_tests": "NOT_RERUN_THIS_BATCH; C05 historical failure triage remains B1",
+  "publication_artifacts": [
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/REVIEW.md",
+      "sha256": "4a92414f285c7c8222129f26517b9db403f75164f80ef8c13bcad4e134533c50"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/VERDICT.original.json",
+      "sha256": "f37930ee3595387d4c0a3fe5fdd87b60a8274313b67df9b93120bc05a55a39b0"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/VERDICT.json",
+      "sha256": "02341079a5e3b76850a42296905bc041490c963b2b5d3fa993ba7d8631db0ec9"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/CORRECTION.md",
+      "sha256": "767a8105e9a055b7532b6ce0f5655c56fd8145e7dfcdc7e45ae8f172b54895d6"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/SOURCE-HASHES.json",
+      "sha256": "209884322e92b2a4ca2fd8dd8a546b5d839a923dee5eee91d5bb0d560be322b2"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/failure-comparison.json",
+      "sha256": "6c2e19e353b7a38c5f8f9d65a322b53f465c90cbdbeffb00f6cf82629f8245a7"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/code-identities.json",
+      "sha256": "8ab638ff3dd1fa8a6104bcee72ce813a8a281d8ab1cfa8f6cccb601b3c17d942"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/probes/test_a2_reviewer_probes_r1.py.txt",
+      "sha256": "3221405a19813a336d70226da66ebacf125bfdbd792ca346effe0edcbe0d0572",
+      "artifact_role": "archived reviewer probe source; text suffix avoids accidental test discovery"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/probes/test_a2_reviewer_probes_r2.py.txt",
+      "sha256": "f9f756d0e4f06314fd8cbe663eeaf623f7143d4a943bcc9eeafd67d09742676d",
+      "artifact_role": "archived reviewer probe source; text suffix avoids accidental test discovery"
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/evidence/baseline-m1-m4.stdout.txt.gz",
+      "sha256": "45857c392535e63d4f76775bbf3bbbb6995aee162ec187c81e86a88b2b165170",
+      "compression": "gzip",
+      "raw_bytes": 98546,
+      "raw_sha256": "e21fb646cdac64467efc4b4e25806a3d24fb6991def504d5358bd0941dc1c8f6",
+      "byte_roundtrip_verified": true
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/evidence/review-m1-m4.stdout.txt.gz",
+      "sha256": "1e4c1d6f5424b9c56a3686b8df3fcfcf6a0cba96ff8800710df589f290e3ba7e",
+      "compression": "gzip",
+      "raw_bytes": 109503,
+      "raw_sha256": "ca0f64abaf046aea7bed80d914b53fe454a841acaa33c65cc7c91e48603e8797",
+      "byte_roundtrip_verified": true
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/evidence/reviewer-probes-r1.stdout.txt.gz",
+      "sha256": "444130cff364eca6c26936685ba29d5facc85f3c1f43257c04e72b203dd6622e",
+      "compression": "gzip",
+      "raw_bytes": 3896,
+      "raw_sha256": "18bfda67af405d9df3052c9d92c8e0290371126d79ded184bbf4f194b9325b29",
+      "byte_roundtrip_verified": true
+    },
+    {
+      "path": "docs/repo-audit-20261026-claude/a2-review/evidence/reviewer-probes-r2.stdout.txt.gz",
+      "sha256": "51fce288e931329ca6a138c4d06f5908e8d8fdaca0eb48fe5d673feca47f0ef7",
+      "compression": "gzip",
+      "raw_bytes": 2371,
+      "raw_sha256": "56a3063720dbd873024c35f03cd068e83a2fac2ebe6fd899fec9a6dae8ce4a11",
+      "byte_roundtrip_verified": true
+    }
+  ],
+  "published_log_bytes_preserved_by_lossless_gzip": true
+}

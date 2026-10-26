@@ -1,0 +1,253 @@
+{
+ "verdict": "PASS",
+ "conditional": false,
+ "scope": "A2 effective plan only (PHASE0-PLAN.md + PHASE0-DISPOSITION.md + A2-M4-CONTRACT-RULING.md); NOT global-tests-green, NOT shadow availability (P0-2/P1-2 remain open), NOT acceptance of old bindings/locks/consumer manifests for the new code identities",
+ "reviewer": {
+  "session": "sess_89678d66-7293-47a4-adc9-bac4d32a684f",
+  "role": "independent ZCode GLM-5.3/max product hard reviewer; took no part in A2 development or repair",
+  "reviewed_at_utc": "2026-10-26"
+ },
+ "candidate": "C:/AKWorktrees/aktr-round2-a2-20261026",
+ "freeze_pin": "zcode-dispatch/a2-owner-eol-004/evidence/SOURCE-HASHES.json",
+ "effective_plan_pins": [
+  "astra-phase0-plan-001/PHASE0-PLAN.md (sha256 f1855d6bdc55d59a85d30c907f929ed343bf7b8140c7ea670dcd8c9a0058aa61)",
+  "astra-phase0-disposition-002/PHASE0-DISPOSITION.md",
+  "astra-a2-m4-contract-ruling-004/A2-M4-CONTRACT-RULING.md"
+ ],
+ "frozen_write_set": {
+  "files": 11,
+  "m4_final_sha256": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888",
+  "ten_others": "byte-identical to reviewer static-prepare-001/002 snapshots",
+  "pins_before_after_all_match": true
+ },
+ "independent_runs": [
+  {
+   "step": "01-affected-26",
+   "selected": 26,
+   "ran": 26,
+   "passed": 26,
+   "failed": 0,
+   "skipped": 0,
+   "errors": 0,
+   "raw_exit": 0,
+   "budget_s": 600
+  },
+  {
+   "step": "02-probes-15-original",
+   "selected": 17,
+   "ran": 17,
+   "passed": 16,
+   "failed": 1,
+   "raw_exit": 1,
+   "note": "single reviewer-side probe construction defect (C3b fourth-continuation bar past BREAKOUT's 3-bar window); product behavior correct (no credit transfer, no OPEN); original preserved with raw streams"
+  },
+  {
+   "step": "02b-probes-r2",
+   "selected": 17,
+   "ran": 17,
+   "passed": 17,
+   "failed": 0,
+   "skipped": 0,
+   "errors": 0,
+   "raw_exit": 0,
+   "note": "corrected revision; only the defective delivery replaced by the legal fresh-creation step; no assertion weakened"
+  },
+  {
+   "step": "03-focused-110",
+   "selected": 110,
+   "ran": 110,
+   "passed": 110,
+   "failed": 0,
+   "skipped": 0,
+   "errors": 0,
+   "raw_exit": 0,
+   "budget_s": 600
+  },
+  {
+   "step": "04-external-9",
+   "selected": 9,
+   "ran": 9,
+   "passed": 9,
+   "raw_exit": 0,
+   "note": "probe byte-identical to batch baseline pinned input"
+  },
+  {
+   "step": "05-m3b-308",
+   "selected": 308,
+   "ran": 308,
+   "passed": 308,
+   "failed": 0,
+   "skipped": 0,
+   "errors": 0,
+   "raw_exit": 0,
+   "note": "212 original incl. 3 real-input tests executed + 96 new permanent regression"
+  },
+  {
+   "step": "06-full-962",
+   "selected": 962,
+   "ran": 962,
+   "passed": 948,
+   "failed": 14,
+   "skipped": 0,
+   "errors": 0,
+   "collection_errors": 0,
+   "raw_exit": 1,
+   "wall_seconds": 1661.078,
+   "budget_s": 3600,
+   "note": "raw 1 is the preserved expected old-test outcome; not a CLI/task failure"
+  }
+ ],
+ "baseline_failure_comparison": {
+  "baseline": "baseline-m1-m4-001/SUMMARY.json",
+  "node_set_exactly_equal": true,
+  "every_failure_is_frozen_binding_comparison": true,
+  "frozen_constants_refreshed": false,
+  "live_hash_values_changed": true,
+  "live_values_change_allowed_by_ruling": true,
+  "detail": "evidence/failure-comparison.json"
+ },
+ "evidence": {
+  "root": "zcode-dispatch/a2-hard-review-001/",
+  "review": "REVIEW.md",
+  "raw_streams_strict_utf8_all": true,
+  "streams_count": 16,
+  "counterexamples": [
+   "counterexamples/test_a2_reviewer_probes_r2.py (17 nodes, all passed)",
+   "zcode-dispatch/a2-review-prepare-002/probes/test_a2_reviewer_probes.py (original revision, preserved)"
+  ],
+  "identities_recorded": {
+   "family_code_sha256_distinct": 7,
+   "live_legacy_exit_bindings": 14,
+   "manifests_touched": false
+  }
+ },
+ "reviewer_side_disclosures": [
+  "work-order/PREPARE said 15 counterexamples; actual parametrization is 17 (C2 has 10 nodes, not 8)",
+  "step 01 reported unresolved_files=1 for test_v2_m4_payoffs.py: node-ID-selection file-attribution artifact of scripts/test_offline.py; 26/26/0 outcome unambiguous",
+  "compare_failures.py required two parser fixes (short-name matching, multi-line assert detection) before producing the final ok:true comparison; iteration preserved in conversation, final evidence from the fixed script",
+  "record_identities.py first version used code_sha256_for(family, mode); corrected to family-scoped 7 code identities plus 14 live binding hashes"
+ ],
+ "product_findings": [],
+ "safety": "enable_trading=false, observer=hold, broker=NOT_RUN, real send/cancel=0/0; no credentials/.env reads; no network/DB/services/client; no git operations; candidate/main/old-evidence unmodified (pins-after all match)",
+ "correction": {
+  "kind": "single-field-transcription-correction",
+  "supersedes": {
+   "path": "C:\\AKWorktrees\\aktr-round2-20261026\\zcode-dispatch\\a2-hard-review-001\\VERDICT.json",
+   "sha256": "f37930ee3595387d4c0a3fe5fdd87b60a8274313b67df9b93120bc05a55a39b0",
+   "bytes": 4451
+  },
+  "mistaken_field": "frozen_write_set.m4_final_sha256",
+  "mistaken_value": "d62959fbd641593cb4b9c6fe686ba951fcd9e2eed5eb62047823f930c1b8200294",
+  "mistake_confirmed": true,
+  "authoritative_value_source": "C:\\AKWorktrees\\aktr-round2-20261026\\zcode-dispatch\\a2-owner-eol-004\\evidence\\SOURCE-HASHES.json",
+  "authoritative_freeze_sha256": "209884322e92b2a4ca2fd8dd8a546b5d839a923dee5eee91d5bb0d560be322b2",
+  "cause": "manual hash transcription in the original verdict artifact",
+  "avoidance": "programmatic copy from the authoritative freeze plus post-write binding check against freeze, live files and sealed before/after pins",
+  "product_changed": false,
+  "tests_rerun": false,
+  "verdict_unchanged": "PASS (unconditional, scoped to A2 effective plan)",
+  "corrected_utc": "2026-10-26T10:54:14.209661+00:00"
+ },
+ "correction_provenance": {
+  "machine_derived_write_set_hashes": [
+   {
+    "path": "src/ak_trading/v2/strategies/registry.py",
+    "bytes": 66630,
+    "freeze_sha256": "00b7511c852ff19e519064c5366c4467a095b5a5a1c27c20f0d4a512e9935848",
+    "live_sha256": "00b7511c852ff19e519064c5366c4467a095b5a5a1c27c20f0d4a512e9935848",
+    "match": true
+   },
+   {
+    "path": "src/ak_trading/v2/strategies/reversion.py",
+    "bytes": 6704,
+    "freeze_sha256": "8c108c566020f9fcaf400cb0a7b57aeefaa615a1607facb9e9a44d4f669607db",
+    "live_sha256": "8c108c566020f9fcaf400cb0a7b57aeefaa615a1607facb9e9a44d4f669607db",
+    "match": true
+   },
+   {
+    "path": "src/ak_trading/v2/strategies/grid.py",
+    "bytes": 10121,
+    "freeze_sha256": "32eb1438aeb64b46bac5aff905a568c0c4900ef27ee12042c14933810da24855",
+    "live_sha256": "32eb1438aeb64b46bac5aff905a568c0c4900ef27ee12042c14933810da24855",
+    "match": true
+   },
+   {
+    "path": "src/ak_trading/v2/strategies/martingale.py",
+    "bytes": 12530,
+    "freeze_sha256": "6e78b6dbc53ce6dfdcff26b6f7e26a00fca09acbcb6e2e050716953302dd738a",
+    "live_sha256": "6e78b6dbc53ce6dfdcff26b6f7e26a00fca09acbcb6e2e050716953302dd738a",
+    "match": true
+   },
+   {
+    "path": "src/ak_trading/v2/strategies/trend.py",
+    "bytes": 10265,
+    "freeze_sha256": "45e82a30d2b3d4d8cce00079a2717389e48ed552ab5dab1ca34f94d75314fd7f",
+    "live_sha256": "45e82a30d2b3d4d8cce00079a2717389e48ed552ab5dab1ca34f94d75314fd7f",
+    "match": true
+   },
+   {
+    "path": "src/ak_trading/v2/strategies/pullback.py",
+    "bytes": 9572,
+    "freeze_sha256": "7491e999217551f44320596469a9f2bb957c9583c226b2b895e5be1bb14e96d8",
+    "live_sha256": "7491e999217551f44320596469a9f2bb957c9583c226b2b895e5be1bb14e96d8",
+    "match": true
+   },
+   {
+    "path": "src/ak_trading/v2/strategies/breakout.py",
+    "bytes": 12465,
+    "freeze_sha256": "50dd718094e5bff91b7f449db13fe4428f2f34822d34e7538672c93a0485acb5",
+    "live_sha256": "50dd718094e5bff91b7f449db13fe4428f2f34822d34e7538672c93a0485acb5",
+    "match": true
+   },
+   {
+    "path": "tests/test_v2_m3b_martingale.py",
+    "bytes": 26754,
+    "freeze_sha256": "4955cb62e55f0bd631f4143a3fc49ca74812dc5b7cc16272cf45679c02f7fb32",
+    "live_sha256": "4955cb62e55f0bd631f4143a3fc49ca74812dc5b7cc16272cf45679c02f7fb32",
+    "match": true
+   },
+   {
+    "path": "tests/test_v2_m3b_duplicate_bar.py",
+    "bytes": 25487,
+    "freeze_sha256": "cb4a69f471f8e1f5eb772ef90fc2ad3ad90ecbdde26ad773c94c1c428b7319f2",
+    "live_sha256": "cb4a69f471f8e1f5eb772ef90fc2ad3ad90ecbdde26ad773c94c1c428b7319f2",
+    "match": true
+   },
+   {
+    "path": "src/ak_trading/v2/artifacts.py",
+    "bytes": 96982,
+    "freeze_sha256": "16af6a603004431ea901218d49d409982c66f3c5d5a433a1429c7825cd59298d",
+    "live_sha256": "16af6a603004431ea901218d49d409982c66f3c5d5a433a1429c7825cd59298d",
+    "match": true
+   },
+   {
+    "path": "tests/test_v2_m4_payoffs.py",
+    "bytes": 77874,
+    "freeze_sha256": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888",
+    "live_sha256": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888",
+    "match": true
+   }
+  ],
+  "all_live_files_match_freeze": true,
+  "sealed_pins_m4_before": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888",
+  "sealed_pins_m4_after": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888",
+  "effective_plan_pins": [
+   {
+    "relative_path": "astra-phase0-plan-001/PHASE0-PLAN.md",
+    "bytes": 17941,
+    "sha256": "f1855d6bdc55d59a85d30c907f929ed343bf7b8140c7ea670dcd8c9a0058aa61"
+   },
+   {
+    "relative_path": "astra-phase0-disposition-002/PHASE0-DISPOSITION.md",
+    "bytes": 9138,
+    "sha256": "076dc392c793f2c8a9bb5bd53a5347a4fece6e1a908a4fbb98a7aae4536deb43"
+   },
+   {
+    "relative_path": "astra-a2-m4-contract-ruling-004/A2-M4-CONTRACT-RULING.md",
+    "bytes": 5525,
+    "sha256": "f195220c717ed4e574007262f04d80d21b1f85a22d7c44fac296761d40652ec2"
+   }
+  ],
+  "facts_sha256": "1a22e15b58fe0437e2e92ce5eb6efd50193be983672c64fdc5b13923c2f7aac6"
+ }
+}

@@ -1,0 +1,105 @@
+{
+ "candidate": "C:\\AKWorktrees\\aktr-round2-a2-20261026",
+ "identities": [
+  {
+   "family": "BREAKOUT",
+   "mode": "MINUTE",
+   "strategy_id": "breakout_m1_v2",
+   "code_sha256_for_family": "dd35efbfb0f384fb8d72ff8fc971552c345c1cab4cb6476e64746e118f7f3292",
+   "live_legacy_exit_binding_sha256": "0118e630a937045a8558d4074519e64019661568e704bd57985e948c71e9e1aa"
+  },
+  {
+   "family": "BREAKOUT",
+   "mode": "DAILY",
+   "strategy_id": "breakout_d1_v2",
+   "code_sha256_for_family": "dd35efbfb0f384fb8d72ff8fc971552c345c1cab4cb6476e64746e118f7f3292",
+   "live_legacy_exit_binding_sha256": "064b21e01c9b59bb82053a3fcfc8829c8f715cf535f73853a46ce03ee18b74e4"
+  },
+  {
+   "family": "GRID",
+   "mode": "MINUTE",
+   "strategy_id": "grid_m1_v2",
+   "code_sha256_for_family": "e279c3267dccd1ae9ec0ded27229534ffd55b68659831fa8e601f0b5aa372aad",
+   "live_legacy_exit_binding_sha256": "18056604802cd5a3f3883a2301bed3e8fc7ba72e12d8e8749a0d23ee35e8dd53"
+  },
+  {
+   "family": "GRID",
+   "mode": "DAILY",
+   "strategy_id": "grid_d1_v2",
+   "code_sha256_for_family": "e279c3267dccd1ae9ec0ded27229534ffd55b68659831fa8e601f0b5aa372aad",
+   "live_legacy_exit_binding_sha256": "e02ecedae101459e7c8756694889c643a4bb69f7c20c02cf60b06177eadceb2f"
+  },
+  {
+   "family": "MARTINGALE",
+   "mode": "MINUTE",
+   "strategy_id": "martingale_m1_v2",
+   "code_sha256_for_family": "98ecbe4c0cb6aa901c4161201e0e88e37268c256831de3e3f5939e39b5457290",
+   "live_legacy_exit_binding_sha256": "334750c7621139aa56ab616cecb4ef5c2ce86b5a92649cd7511588e48123390f"
+  },
+  {
+   "family": "MARTINGALE",
+   "mode": "DAILY",
+   "strategy_id": "martingale_d1_v2",
+   "code_sha256_for_family": "98ecbe4c0cb6aa901c4161201e0e88e37268c256831de3e3f5939e39b5457290",
+   "live_legacy_exit_binding_sha256": "cb7b8960a6f7d47e3fb1b345946d7ef40531640439022e06fe51321e06f13b45"
+  },
+  {
+   "family": "PULLBACK",
+   "mode": "MINUTE",
+   "strategy_id": "pullback_m1_v2",
+   "code_sha256_for_family": "fa4424a4d8a76142852739da0e73d55cd69ab3653c8e6fd3255bc0d3c876380b",
+   "live_legacy_exit_binding_sha256": "a7e539660dddbb058548e14f879d241b845c7d2a6ff310fe6e0d34bc26b4c679"
+  },
+  {
+   "family": "PULLBACK",
+   "mode": "DAILY",
+   "strategy_id": "pullback_d1_v2",
+   "code_sha256_for_family": "fa4424a4d8a76142852739da0e73d55cd69ab3653c8e6fd3255bc0d3c876380b",
+   "live_legacy_exit_binding_sha256": "27834a7eda5fb159df0e2520b879e1e761ea990da65cf5ca885357fb3538eb29"
+  },
+  {
+   "family": "REVERSION",
+   "mode": "MINUTE",
+   "strategy_id": "reversion_m1_v2",
+   "code_sha256_for_family": "ddf69f5e0cf6f987ee70d201c047e889b3b183500ee4c213e08d08895152ccdd",
+   "live_legacy_exit_binding_sha256": "832806a19bb617d8ac58db5819a04a815a6eb6629c1331375c95a639d87bad04"
+  },
+  {
+   "family": "REVERSION",
+   "mode": "DAILY",
+   "strategy_id": "reversion_d1_v2",
+   "code_sha256_for_family": "ddf69f5e0cf6f987ee70d201c047e889b3b183500ee4c213e08d08895152ccdd",
+   "live_legacy_exit_binding_sha256": "c38a0f2bcee590a02ecd82de68d14b5dada71f261f9966d7b4620e4fa77b2314"
+  },
+  {
+   "family": "TREND",
+   "mode": "MINUTE",
+   "strategy_id": "trend_m1_v2",
+   "code_sha256_for_family": "6c772782e37750fad21aa8c413b8a536fe30a9ed45d05a89f8e4d759af325812",
+   "live_legacy_exit_binding_sha256": "7f2ee3fa4c01d50b9cd1f23db8a9287c06f5c4f354bd821708188b9003bdccfb"
+  },
+  {
+   "family": "TREND",
+   "mode": "DAILY",
+   "strategy_id": "trend_d1_v2",
+   "code_sha256_for_family": "6c772782e37750fad21aa8c413b8a536fe30a9ed45d05a89f8e4d759af325812",
+   "live_legacy_exit_binding_sha256": "279c497d6161388f7828141bc288c8e3430411da336c72598ead9458bf311358"
+  },
+  {
+   "family": "WAIT",
+   "mode": "MINUTE",
+   "strategy_id": "wait_m1_v2",
+   "code_sha256_for_family": "9f7ab48fae4e1b337aa57be36700177dc92f7934413c0511735424c6f669e656",
+   "live_legacy_exit_binding_sha256": "f06b7661fbacaa7c7036f9152c95477dbf578590f4f2370cf60ce8b07f4235f1"
+  },
+  {
+   "family": "WAIT",
+   "mode": "DAILY",
+   "strategy_id": "wait_d1_v2",
+   "code_sha256_for_family": "9f7ab48fae4e1b337aa57be36700177dc92f7934413c0511735424c6f669e656",
+   "live_legacy_exit_binding_sha256": "33397b3a9c195ab899853e51baf0eae7135be6c8399ff7119f70d83897190fec"
+  }
+ ],
+ "distinct_code_sha256": 7,
+ "distinct_live_bindings": 14
+}

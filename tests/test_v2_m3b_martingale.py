@@ -470,21 +470,41 @@ def test_armed_and_recross_must_be_different_bars_no_double_count():
                           fromlist=["LimitedMartingale"]).LimitedMartingale(
         build_strategy_spec("MARTINGALE", "MINUTE"))
     spec = strategy.spec
-    state = None
-    proposal = None
-    for bars_i, snap_i in zip(bars, snaps):
-        proposal = strategy.evaluate(
-            make_context(spec, bars=bars_i, forecasts=range_forecasts(snap_i, martingale=True),
+
+    def deliver(index, state):
+        return strategy.evaluate(
+            make_context(spec, bars=bars[index],
+                         forecasts=range_forecasts(snaps[index], martingale=True),
                          regime_obj=regime("ORDERED_RANGE", (), frozen_range()),
-                         features_snap=snap_i), state)
+                         features_snap=snaps[index]), state)
+
+    # Before the third confirmation bar: duplicate deliveries of the arming
+    # bar and of the recross bar must each hold the real confirmation_count
+    # (04-M3B §10-11) and must not produce an early OPEN candidate.
+    state = None
+    trajectory = []
+    for index in (0, 0, 1, 1):
+        proposal = deliver(index, state)
         state = commit_observation(state, proposal)
-    assert state is not None and state.setup is not None
+        trajectory.append((proposal.action, state.confirmation_count,
+                           state.setup.consecutive_confirmations
+                           if state.setup is not None else None))
+    assert trajectory == [("WAIT", 1, 0), ("WAIT", 1, 0),
+                          ("WAIT", 2, 1), ("WAIT", 2, 1)]
+
+    # The clean third distinct confirmation bar is the only OPEN point, and
+    # the state carries confirmation_count == 3 with the setup assertions.
+    proposal = deliver(2, state)
+    state = commit_observation(state, proposal)
+    assert proposal.action == "OPEN"
+    assert state.confirmation_count == 3
+    assert proposal.next_state.setup is not None
+    assert proposal.next_state.setup.consecutive_confirmations == 2
+
+    # Same bar replayed after the OPEN point: the setup's structural count
+    # must still not be counted twice.
     first_count = state.setup.consecutive_confirmations
-    # Same bar replayed: the confirmation must not be counted twice.
-    proposal = strategy.evaluate(
-        make_context(spec, bars=bars[-1], forecasts=range_forecasts(snaps[-1], martingale=True),
-                     regime_obj=regime("ORDERED_RANGE", (), frozen_range()),
-                     features_snap=snaps[-1]), state)
+    proposal = deliver(2, state)
     assert proposal.next_state.setup is not None
     assert proposal.next_state.setup.consecutive_confirmations == first_count
 

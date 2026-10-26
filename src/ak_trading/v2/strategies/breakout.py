@@ -22,6 +22,7 @@ from ak_trading.v2.contracts import (
 )
 from ak_trading.v2.probability.regimes import freeze_range
 from ak_trading.v2.strategies.registry import (
+    advance_confirmation_count,
     atr_of,
     can_open_now,
     cost_coverage_ok,
@@ -181,14 +182,11 @@ class ConfirmedBreakout:
         gate = admission_decision(
             context, event=event, side=side, horizon=spec.max_holding,
             required_range=setup.frozen_range, checked_at_nano=checked_at_nano)
-        if not gate.ok:
-            confirmation = 0
-        elif created:
-            confirmation = 1
-        elif same_bar:
-            confirmation = state.confirmation_count
-        else:
-            confirmation = state.confirmation_count + 1
+        # §7/§10-11 (shared counter): a freshly created setup starts at 1,
+        # a re-delivered decision context holds the counter, and an expired
+        # observation period never lends credit to a rebuilt one.
+        confirmation = advance_confirmation_count(
+            context, state, gate_ok=gate.ok, setup=setup, created=created)
         required = int(spec.parameters["entry_confirmation_bars"])
         if setup.consecutive_confirmations < required or confirmation < required:
             return observation_wait(

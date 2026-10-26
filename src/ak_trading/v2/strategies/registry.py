@@ -1356,6 +1356,40 @@ def range_entry_setup(context: StrategyContext, state: StrategyState,
     return setup, side, None
 
 
+def advance_confirmation_count(context: StrategyContext, state: StrategyState,
+                               *, gate_ok: bool, setup: StrategySetup | None,
+                               created: bool = False) -> int:
+    """Shared entry-confirmation counter (04-M3B §6.6/§7/§10-11).
+
+    The old observation period is always judged from the setup held by
+    ``state`` BEFORE this call's family advance, never from the freshly
+    returned setup's ``last_bar_id``; the qualifying observation is the
+    current last completed same-frequency bar. Fixed priority: a failed
+    admission gate resets to 0; ``created`` marks a genuinely new
+    observation period established by this call (BREAKOUT's real creation,
+    a fresh range arming) and starts at 1; an expired old period never
+    lends credit — no rebuilt structure leaves 0, a rebuilt valid setup
+    counts its first qualifying observation as 1, and a still-expired old
+    object is never itself a new setup; an unexpired same-bar redelivery
+    holds the counter; any other qualifying new bar advances it by one.
+    """
+    if not gate_ok:
+        return 0
+    if created:
+        return 1
+    bars = observation_bars(context)
+    if not bars:
+        return 0
+    previous = state.setup
+    if previous is not None and context.now_nano > previous.expires_at_nano:
+        if setup is not None and setup.setup_id != previous.setup_id:
+            return 1
+        return 0
+    if previous is not None and previous.last_bar_id == bars[-1].bar_id:
+        return state.confirmation_count
+    return state.confirmation_count + 1
+
+
 def observation_wait(context: StrategyContext, state: StrategyState, setup,
                      confirmation: int, reasons: tuple[str, ...],
                      phase: str = "OBSERVE") -> StrategyProposal:

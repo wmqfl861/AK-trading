@@ -72,6 +72,9 @@ DOWNSTREAM_TEST_FILES: tuple[str, ...] = (
     "tests/test_v2_m3a_forecast.py",
     "tests/test_v2_m3b_state.py",
     "tests/test_v2_m3b_causality.py",
+    # phase0 A2 (2026-10-26): the seven-family duplicate-bar permanent
+    # regression joins every future lock alongside all existing entries.
+    "tests/test_v2_m3b_duplicate_bar.py",
     # 08-M3C §3 / OQ-2: the six P1-stage M3C test files enter the lock at
     # P0 as contract-level assertions (owner M3C; P1 behavior tests are
     # frozen separately and never back-filled as a "correction").

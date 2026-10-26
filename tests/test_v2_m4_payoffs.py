@@ -1020,7 +1020,7 @@ def natural_nonempty_range_case():
     from ak_trading.v2.contracts import DataQuality, FrozenInput, Instrument, MarketBar, SessionWindow
     from ak_trading.v2.decision.pipeline import build_strategy_context, legacy_exit_binding, model_hashes_for
     from ak_trading.v2.probability.forecast import predict_market, publish_market_forecast
-    from ak_trading.v2.strategies.registry import strategy_registry_v2
+    from ak_trading.v2.strategies.registry import observation_bars, strategy_registry_v2
     from ak_trading.v2.strategies.state import commit_observation
     from test_v2_m4_ledger import account, rule, run_policy
 
@@ -1058,8 +1058,17 @@ def natural_nonempty_range_case():
         base - 50 * _RANGE_DAY, seed_context.run_policy.research_policy_version)
     strategy = strategy_registry_v2("MINUTE")["trend_m1_v2"]
     state, trace = None, []
+    last_bar_ids = []
+    saved_setup_expiry = None
+    second_state = None
     for minute_index in (98, 99, 100):
-        now = base + minute_index * _RANGE_MINUTE + _RANGE_NS
+        # A2-M4-CONTRACT-RULING (2026-10-26): decide exactly at each completed
+        # bar's end. The previous "+ _RANGE_NS" offset sat one second past the
+        # boundary and pushed the third confirmation past the setup expiry,
+        # where disposition F1 mandates a restart at 1. At the boundary the
+        # third decision lands exactly ON the first setup's saved expiry:
+        # legal per "<= expiry", counted 1, 2, 3 -> OPEN.
+        now = base + minute_index * _RANGE_MINUTE
         publications = []
 
         def provider(model_set, request, regime):
@@ -1074,14 +1083,60 @@ def natural_nonempty_range_case():
         context = build_strategy_context(bundle, contract, now, account("100000"), state,
             models, initial_payoff, strategy.spec, None, reference, run_policy(), (),
             exit_binding=legacy_exit_binding(strategy.spec), forecast_provider=provider)
+        visible = observation_bars(context)
+        assert visible and visible[-1].complete
+        assert visible[-1].end_nano == now and visible[-1].available_at_nano <= now
+        last_bar_ids.append(visible[-1].bar_id)
         proposal = strategy.evaluate(context, state)
         state = commit_observation(state, proposal)
         trace.append((proposal.action, state.confirmation_count, tuple(publications)))
         assert state.budget is None and not state.pending_intent_ids
+        if minute_index == 98:
+            assert state.setup is not None
+            saved_setup_expiry = state.setup.expires_at_nano
+            assert now < saved_setup_expiry
+        elif minute_index == 99:
+            assert state.setup is not None
+            assert state.setup.expires_at_nano == saved_setup_expiry
+            assert now < saved_setup_expiry
+            second_state = state
+        else:
+            assert now == saved_setup_expiry
+    assert len(set(last_bar_ids)) == 3
+    # The saved expiry is the FIRST setup's real one (the ruling's third-bar
+    # expiry base + 100 * _RANGE_MINUTE), never the third decision's own
+    # rebuilt setup; all three positive decisions stayed within it.
+    assert saved_setup_expiry == base + 100 * _RANGE_MINUTE
     assert [action for action, _, _ in trace] == ["WAIT", "WAIT", "OPEN"], trace
     assert [count for _, count, _ in trace] == [1, 2, 3], trace
     assert all(any(kind == "predict_market" for kind, _, _ in calls) for _, _, calls in trace)
     assert all(sum(kind == "publish_market_forecast" for kind, _, _ in calls) == 3 for _, _, calls in trace)
+    # A2-M4-CONTRACT-RULING negative boundary control: rebuild from the SAME
+    # real second-step state at saved expiry + 1 nanosecond with this branch's
+    # own publication clock; the canceled period must restart at 1 and never
+    # OPEN. Only late_* locals are written — the positive state, trace,
+    # context and proposal above stay untouched.
+    late_now = saved_setup_expiry + 1
+    late_publications = []
+
+    def late_provider(model_set, request, regime):
+        if request.features.duration_seconds == 86400:
+            forecast = predict_market(model_set, request, regime, request.features.decision_nano)
+            late_publications.append(("predict_market", request.request_id, forecast.forecast_id))
+            return forecast
+        forecast = publish_market_forecast(model_set, request, regime, clock_nano=lambda: late_now)
+        late_publications.append(("publish_market_forecast", request.request_id, forecast.forecast_id))
+        return forecast
+
+    late_context = build_strategy_context(bundle, contract, late_now, account("100000"),
+        second_state, models, initial_payoff, strategy.spec, None, reference, run_policy(), (),
+        exit_binding=legacy_exit_binding(strategy.spec), forecast_provider=late_provider)
+    late_proposal = strategy.evaluate(late_context, second_state)
+    late_state = commit_observation(second_state, late_proposal)
+    assert late_proposal.action == "WAIT"
+    assert late_state.confirmation_count == 1
+    assert any(kind == "predict_market" for kind, _, _ in late_publications)
+    assert sum(kind == "publish_market_forecast" for kind, _, _ in late_publications) == 3
     model = _range_synthetic_payoff_model(proposal, context, base - 50 * _RANGE_DAY)
     context = replace(context, model_hashes=model_hashes_for(models, model, reference, None))
     return proposal, context, model, tuple(trace)
