@@ -90,3 +90,11 @@ C05 历史全量结果（供 B1 分诊，不是本轮重新执行）：`python -
 - **`b653f7e`**：A2 十一文件实现、永久回归、M4 时序修正与独立审核接受；`git commit` raw 0，`git push origin main` raw 0，目标 `https://github.com/wmqfl861/AK-trading`。
 - 发布前原始日志文本的暂存字节校验曾 raw 1：Git 现有换行转换导致原始流哈希不一致。已改为四份无损 gzip，逐份验证暂存字节哈希及解压后原始 SHA-256；校验通过。未改 Git 配置或换行规则，原始本地日志保留；具体对应在 `a2-review/VALIDATION.json.published_raw_log_copies`。审核源文件的实际工作区哈希与 Git 现有规范表示的 blob 哈希分别记录于接受清单，避免混淆两种表示。
 - 本批 A2、A3、A4 方案、B1 的授权交付均完成。停止本批执行，等待用户决定 A1/A5/F1–F6 等事项或发出下一批任务。A4 产品、全库红色基线及旧消费者新身份接受仍按各自范围保留未完成状态。
+
+### 后续持续开发 Goal：A4 产品已接受并推送
+
+新 Goal 已授权按有效蓝图持续开发，以上停止条件仅记录前一批终态。2026-10-26，A4 有限 CLI 入口保护已由专用 ZCode 实施，并经另一独立 ZCode **无条件 PASS**；提交 **`c152e33`** 已推送 main，`git push origin main` raw **0**。
+
+独立审核与主仓库集成均执行 `python -B -X utf8 scripts/test_offline.py -q tests/test_v2_m5_shadow_entry_guard.py tests/test_v2_m5_cli.py`：各 **18 passed / 0 failed / 0 errors / 0 skipped，raw 0**；独立 11 个真实 CLI 反例均符合预期。两文件源码 SHA-256 与硬审冻结、暂存 blob 一致。见 [A4 接受记录](../development-goal-20261026/A4-ACCEPTANCE.json)及[独立报告](../development-goal-20261026/a4-review/REVIEW.md)。
+
+此项只关闭未接通入口的提前明确拒绝；完整 ordinary shadow / P0-2 shadow / P1-2 仍未关闭。A2、A3、B1 的既有结论保持原范围，A1/A5/F1–F6 等用户专属决定仍未自动采纳。持续开发状态见 [当前状态](../development-goal-20261026/STATUS.md)。
