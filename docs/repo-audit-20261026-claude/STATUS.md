@@ -6,7 +6,7 @@
 
 | 项目 | 状态 | 说明 |
 | --- | --- | --- |
-| A2 / N1 | **ZCode 正在实施** | 原作者已处置独立意见；十文件写集，独立候选，修复后立即硬审 |
+| A2 / N1 | **开发回归中，独立硬审待最终冻结** | 原作者已补充 M4 时序裁定；十一文件写集；26 个夹具错误已恢复，完整回归运行中 |
 | A3 | **文档同步完成** | README 更新 C05 的真实结果；r3 实施计划六处角色文字同步；CLAUDE 两处按用户确认修改 |
 | A4 | **方案及修复顺序完成；产品 NOT_IMPLEMENTED** | 原作者选择 CLI 提前明确拒绝 shadow-replay；本批不实施完整 shadow、不关闭 P0-2 shadow/P1-2 |
 | B1 | **分诊完成，234/234 校验通过** | [机器清单](TRIAGE.json)及[简报](TRIAGE.md)；原失败保留，未修改产品或测试 |
@@ -55,3 +55,13 @@ C05 历史全量结果（供 B1 分诊，不是本轮重新执行）：`python -
 - 原作者处置调用 native 0、receiver 1：首次只读定位错误 raw 2，随后读取正确固定输入，最终文本明确纠正并确认 EFFECTIVE。原错误保留，不重开计划轮次。owner 首次启动前 watchdog 因混合测试/CLI 目录格式报 raw 1、CLI 0 次；独立 CLI 记录父目录后实际启动，无配置/监督器代码变更。
 
 - 927f97f：A3 的 README/r3 角色同步，以及 A4/阶段 0 有效增补与作者处置；推送原始退出码 0。README 原有混合换行的未改内容随后恢复原字节，避免文案编辑连带产生格式差异。
+
+### A2 实施及必要契约澄清（2026-10-26 UTC）
+
+- 首版开发者实测：专项 `python scripts/test_offline.py -q tests/test_v2_m3b_duplicate_bar.py tests/test_v2_m3b_martingale.py` 为 **110 passed，raw 0**；原样外部探针 **9 passed，raw 0**；完整 M3B **308 passed，raw 0**。新增永久测试 96 项，原 M3B 212 项全部保留并执行。
+- 首版完整 `python scripts/test_offline.py -q tests/test_v2_m[1-4]*.py`：**raw 1，962 ran，922 passed、14 failed、26 errors、0 skipped**，1736.609 秒。十四项为原基线同节点历史绑定比较失败；26 个新错误不能豁免，均来自 `natural_nonempty_range_case`。保留该失败版本。
+- [原 Astra 作者的生效裁定](A2-M4-CONTRACT-RULING.md) 保留到期清零规则，只追加 M4 正例夹具的局部时序与边界控制写权。旧夹具第三次决策晚于期限 **1 秒**（旧诊断把单位写成 1ns，已明确纠正，原件保留）；正例改在完成 bar 的边界，另从第二步真实状态测试期限后 **1 纳秒** 必须 WAIT/1。生产期限、十四个历史哈希常量及原节点不变。作者调用 native 0、receiver 0，无失败工具；本文件不是产品 PASS。
+- 原 ZCode owner 续接修复，先按 `FACTS.json.error_nodes` 的精确 26 节点运行 `python scripts/test_offline.py -q <26 nodeids>`：**26 passed，raw 0，28.515 秒**。
+- 修复后依次重跑：专项 **110 passed，raw 0，10.610 秒**；外部探针 **9 passed，raw 0，4.937 秒**；`python scripts/test_offline.py -q tests/test_v2_m3b_*.py` **308 passed，raw 0，17.406 秒**。以上均无 failed/errors/skipped。
+- 本轮完整 M1–M4 于 09:14 UTC 启动，当前仍运行；此时不预写结果。独立 ZCode 正并行准备新增夹具检查及自己的反例，尚未发出成果硬审核结论。
+- 42b5a58：恢复 README 未改区域的原有混合换行并同步既有提交记录；推送 raw 0。
