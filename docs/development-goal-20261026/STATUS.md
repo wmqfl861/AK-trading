@@ -1,6 +1,6 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-26 21:03 UTC。当前 Goal 按有效 r3-001 蓝图继续开发至项目完成，适时推送；上一批 phase 0 已完成，不能把其停止状态解释为新 Goal 暂停。本文是执行状态，不替代 Astra 有效计划、作者处置或独立产品硬审。
+更新于 2026-10-26 21:33 UTC。当前 Goal 按有效 r3-001 蓝图继续开发至项目完成，适时推送；上一批 phase 0 已完成，不能把其停止状态解释为新 Goal 暂停。本文是执行状态，不替代 Astra 有效计划、作者处置或独立产品硬审。
 
 角色继续使用现行 PROJECT-MODEL-ROLES.md：Astra/max 负责计划与契约；专用 ZCode 会话开发；另一独立 ZCode 硬审；OpenCode 默认配置负责未指定的辅助任务。计划意见不设 PASS 门。
 
@@ -16,13 +16,13 @@
 | 模块 | 已核实际状态 | 正在执行的下一步 |
 | --- | --- | --- |
 | A4 CLI 入口保护 | **独立 ZCode 无条件 PASS，已推送 `c152e33`。** 开发者、独立审核、main 集成各 18 passed / raw 0；独立真实 CLI 反例 11/11 符合预期。 | 有限入口保护已完成；完整 ordinary shadow 接线仍未完成。见 [接受记录](A4-ACCEPTANCE.json)。 |
-| T7 / M4 与 DAILY | M4 PASS 已推送。r6b 六周期/真实配置预检修复已完成；独立 R0 reviewer005 完成，原 M1 新 L0 生成及独立进程验证 raw0。005 交接 JSON 语法错误由原 owner006 追加纠正，锁字节未变。 | 完整 DAILY016 四节点工单已准备，等待 chronological 释放实际重型运行和新容量检查；之后立即运行，不修改冻结 r6b。 |
+| T7 / M4 与 DAILY | M4 PASS 已推送。r6b 六周期/真实配置预检修复已完成；独立 R0 reviewer005 完成，原 M1 新 L0 生成及独立进程验证 raw0。005 交接 JSON 语法错误由原 owner006 追加纠正，锁字节未变。 | 完整 DAILY016 四节点已于21:25 UTC交原 B 会话运行；chronological 进程已受控终止并逐项核实退出，容量重新放行；冻结 r6b 不变。 |
 | T7 分钟线 CPU | **原独立 reviewer004 无条件 PASS**，四文件已按接受字节合入 main。独立 M2 96P、M3A 165P、M5 experiments 33P，均 raw0；main 集成 **60P/raw0/133.765秒**。 | 本项 CPU 优化完成，见 [接受记录](T7-CPU-ACCEPTANCE.json)。MINUTE 内存、接线和完整冷链仍须单独完成。 |
 | T7 分钟线内存 | **独立 reviewer004 无条件 PASS：183P/raw0；main 集成 120P/raw0/276.094秒。** 六文件按审核字节合入。 | 原 CPU owner 已立即开始独立候选中的调用端接线，见 [内存接受记录](T7-MEMORY-ACCEPTANCE.json)。完整 MINUTE 输出/冷链仍受容量及合法后继接受限制。 |
-| DISPATCH | preparation028 child1/wrapper1：发布后命中旧 PREIMAGES 引用；allocation005耗尽，历史33。部分 derivation/controls 保留，owner005仍NOT_RUN。 | 原 Astra005 已把完整元数据构造和真实依赖闭包校验移到正式调用前，并给出有界029–031后继；**原 ZCode owner026 正在实施**。 |
-| N8 F02 | 057 CLI native1/HTTP502，固定输入未变，无最终结论；不得凭输出缺失判定额度未消耗。F02仍FAIL，F01OPEN/INSUFFICIENT。 | 原 Astra007 已完成处置；**原独立 reviewer058 正续接原 attempt057**，先核实际11工具消费，再只执行有证据证明剩余的检查；不重置旧额度、不自动059。 |
-| M5 | affected004 已消耗FAIL，pytest未启动；native receipt 指向旧证据目录。原 reviewer024 控制修复已完成 native0，正式执行数0。 | 核对真实共享引用验证、Root模板与预算后，Root 单次 seal005，再运行正式005；需等待重型时段。原003的11P/1F及004失败保留。 |
-| 已有策略结果与下一交付 | 三个既有 RB 日线 SCENARIO 结果仍有效。**M 春节来源增量获独立限定工程 PASS**，但0新合格来源/0新关系，12缺口仍在，INPUT_NOT_DELIVERED。 | chronological reviewer004 已实际进入独立252子回放及结果检查，尚未收到完整结论。M来源接受见 [记录](BIP1-M-SOURCE-ACCEPTANCE.json)，不计历史输入或 paper 交付。 |
+| DISPATCH | preparation028 child1/wrapper1：发布后命中旧 PREIMAGES 引用；allocation005耗尽，历史33。部分 derivation/controls 保留，owner005仍NOT_RUN。 | 原 Astra005 已把完整元数据构造和真实依赖闭包校验移到正式调用前，并给出有界029–031后继；**原 ZCode owner027 正在续接实施（026上游网关错误/native1保留，不重置额度）**。 |
+| N8 F02 | 057 CLI native1/HTTP502，固定输入未变，无最终结论；不得凭输出缺失判定额度未消耗。F02仍FAIL，F01OPEN/INSUFFICIENT。 | reviewer058 的消费核对不足，Root已受控停止；原 Astra008 正处置原有故障的后续方式，不自动059、不计硬审通过。 |
+| M5 | affected004 已消耗FAIL，pytest未启动；native receipt 指向旧证据目录。原 reviewer024 控制修复已完成 native0，正式执行数0。 | 发布前发现005前置条件分支及预算汇总不一致，原独立 reviewer025 正在其剩余原额度内修正控制工具；seal005及正式005尚未消耗。正式运行等待DAILY重型时段结束。 |
+| 已有策略结果与下一交付 | 三个既有 RB 日线 SCENARIO 结果仍有效。**M 春节来源增量获独立限定工程 PASS**，但0新合格来源/0新关系，12缺口仍在，INPUT_NOT_DELIVERED。 | chronological reviewer004 的完整回放超过600秒上限，Root已停止并保留部分输出；原 Astra002 正处理现实可执行的有界复核，未计PASS。M来源接受见 [记录](BIP1-M-SOURCE-ACCEPTANCE.json)，不计历史输入或 paper 交付。 |
 
 运行请求与原始流位于本机 `C:/AKWorktrees/aktr-goal-20261026/`；外部 CLI 不显示为 Codex 原生子代理。各模块使用独立会话库与不重叠写集；不得凭 CLI 原生 0 认定任务完成。
 
@@ -82,3 +82,14 @@ CPU四文件主分支合入前逐项核对原基线与独立冻结字节，并�
 M来源工程审核独立完成20项语义检查及10项反例；原监督器捕获缺口、冻结文件作者偏离和旧失败保留。2024查询的HTTP502/native22仍记QUERY_FAILED，不能把本项PASS改称数据补齐。
 
 Root 在接线候选准备中错误地假设旧输入清单全部位于main，缺少DAILY清单时停止；又未先检查准备失败便调用watchdog，后者因REQUEST缺失在启动ZCode之前退出。两次raw1与部分候选保留。已按原清单的真实冻结来源补齐，先完整验证全部输入，再序列化发布REQUEST；后续只有准备进程终态raw0且REQUEST真实存在、pins通过才启动依赖调用。原M1的无效交接JSON则由同一owner以新006文件纠正，原文件和错误不覆盖。
+
+
+## 2026-10-26 21:33 UTC 实际运行与执行问题
+
+内存六文件及其独立审核、main集成已推送 `7a19c77`，主分支集成120P/raw0。调用端接线在独立候选持续开发，已实际修改 experiments.py；尚未提交硬审核，不计入接受。DAILY016原开发会话已启动，四个既定节点使用冻结r6b和新L0，仍须完成验证及原后继审核链。
+
+chronological004的独立回放 Python 缺少有效的外部时限监督。Root发现时，实际子进程已运行2232.074秒，超过工单600秒；核对PID、创建身份、父子关系、argv后仅停止该任务的进程，子进程及CLI均实际退出15，watchdog退出1。原输入未变，r1/r2部分输出保留；不能计完整252回放或独立PASS。随后确认12个原任务子进程身份均不再存活，才释放重型槽给DAILY。原作者正修订这一已有复核的执行方式；后继必须从启动前监督真实进程，并在上限到达时终止及捕获结果，不能只给Bash观察窗口或在main返回后补写记录。
+
+N8 reviewer058的核对只列9项摘要，未完成规定的11项实际命令／结果和关闭区间核对，并在closure UNKNOWN时声称120秒上界；这不足以证明剩余额度。Root受控停止该调用，原native15及部分r16/measure-002保留，未新增059。原作者008处理有界恢复；不能从缺少输出推断从未消耗，也不能把估计当测量。
+
+M5发布前发现RESEAL-013的前置检查仅进入旧004分支，005未触发预期前置检查；预算汇总也写成16800+780=17400。已交原审核者在新r2控制修订中修正，保留原冻结版本；正式005没有因此被执行。DISPATCH026的native1属于上游网关错误，027用原会话接续，所有原限额和失败保留。
