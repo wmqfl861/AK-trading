@@ -6,7 +6,7 @@
 
 继承[研究实施计划 R1–R5](../../../strategy-research-blueprint-20261010-r2/IMPLEMENTATION-PLAN.md)、[策略优先 r2 实施计划](../r2-001/IMPLEMENTATION-PLAN.md)的模块边界、必要测试人口、源谱系和预算。新事实以 [VERIFICATION](../../../repo-audit-20261025-claude/VERIFICATION.md)为准。本文不是新的通配 lease，也不是 M4/SH 公共合同或历史 owner 的交接。
 
-职责按[现行模型规则](../../../../PROJECT-MODEL-ROLES.md)和[工作流](../../../../PROJECT-WORKFLOW-RULES.md)：Astra/max 负责计划和本职合同差异；Sol 开发明确 `model=gpt-6.1-sol`、`reasoning_effort=max`、`fork_turns=none`；独立 ZCode GLM-5.3/max 给计划意见及产品硬审。计划作者自主处置意见，不设计划 PASS 门。新产品 owner 独立于计划作者及 reviewer；修复续接同一实际 Sol owner，必要替换先明确记录，不编造会话连续性。
+职责按[现行模型规则](../../../../PROJECT-MODEL-ROLES.md)和[工作流](../../../../PROJECT-WORKFLOW-RULES.md)：Astra/max 负责计划和本职合同差异；实际开发及修复由专用 ZCode CLI 会话使用已有模型与推理配置；另一独立 ZCode GLM-5.3/max 提供计划意见与成果硬审；其他未指定辅助任务使用 OpenCode 默认配置。计划作者自主处置意见，不设计划 PASS 门。新产品 owner 独立于计划作者及 reviewer；修复续接同一实际 ZCode owner，保持精确 SID/cwd/store，必要替换先明确交接，不编造会话连续性。
 
 | 单元 | 负责人绑定 | 受影响文件与边界，非新增写权 |
 | --- | --- | --- |
@@ -15,7 +15,7 @@
 | M5 调用端与研究 | 当前 owner `/root/sol_m5_existing_recovery_20261023`。 | `validation/experiments.py` 与所属 M5 测试；B8 若涉及 `reports.py`、CLI 及测试，仍由该唯一 writer 或显式 filewise transfer 后的 owner 接续。 |
 | SH 公共契约 | 原 M1-PUBLIC/SH-M1 角色，实际 actor 按原权威记录绑定。 | 原公共声明、decoder、fixtures、required_tests、ownership 和候选/发布锁；具体路径由 R20 裁定及 R21 lease 给出，本文不发行新 schema。 |
 | C05 / P1-3 | 原 DP03/DP08 测试引导及原 M5 T7 基线责任方分别绑定。 | 两份 bootstrap、各自原清单和对应测试是不同归属；先确定已接受版本与变更来源，跨节点代码问题退原 owner。 |
-| P2-7 与支撑项 | 原接口/模块 owner；确无当前 actor 时由 Root 显式绑定独立 Sol。 | P2-7 限 `src/ak_trading/futures/data.py` 公开导出与必要消费验证。依赖、SQL、端口、CI 各自列精确文件，避免与冻结集重叠。 |
+| P2-7 与支撑项 | 原接口/模块 owner；确无当前 actor 时由 Root 显式绑定专用 ZCode 开发会话。 | P2-7 限 `src/ak_trading/futures/data.py` 公开导出与必要消费验证。依赖、SQL、端口、CI 各自列精确文件，避免与冻结集重叠。 |
 | forward feed | 沿现任 forward owner 的原记录。 | 只限其 `feed.py/test_feed.py`；核验协助不扩权至 replay、shadow、M5 或公共合同。 |
 
 派发前从权威记录程序化取得具体 source/revision、逐文件 hash、owner、文件释放状态、cwd/argv、原必需人口、资源预算、实际输出路径及 ABSENT/EXISTS 前置。将原失败、已消耗的一次性命令和验证状态一并交接。当前 canonical 377 写冻结有效；隔离候选或审核重切须有合法记录，不能先复制修补再补授权。不同 owner 不重叠写，共享 M5 文件顺序接续。
@@ -38,10 +38,10 @@ B0 在昂贵 fit 前核验并冻结同一 `(registry, exit_specs, exit_bindings)
 
 | 里程碑与具体交付 | 进入条件 | 必要验证 | 完成证据与状态 | 责任角色 |
 | --- | --- | --- | --- | --- |
-| 1. 可解释的离线收集与接受基线：C05、P1-3 分项闭合。 | 核对 DP03/DP08、T7 原接受版本及当前差异，取得各自精确修复写集。 | 隔离历史候选导入域，验证收集顺序不污染业务包；逐条追溯 T7 11 项漂移；重跑原目标命令及修复后完整离线入口，不删测试遮错。 | C05：预期人口可收集、无污染级联；T7：合法基线对应原单项验收；完整运行记录原生退出、执行数及剩余失败。收集恢复不自动等于全套通过或 P1-1 全关闭。 | 原测试引导/基线 Sol owners；独立 ZCode 审核实际改动。 |
-| 2. replay 能消费真正有效的非空资格，P0-2 replay 切片闭合。 | 原 M4 actor、兼容 exit pack、合法候选/释放与有效计划齐备。 | 真实 verifier + 合法非空资格正例；缺证据、错 hash、错/缺 binding、过期等反例；其余门齐备时自然允许预期虚拟入场，原 M4 必需回归。 | 冻结写集、独立重跑与无条件产品判决；只授本切片工程信用，不关闭 shadow 切片或签策略资格。 | M4 Sol；公共差异归原 M1/Astra；独立 ZCode。 |
+| 1. 可解释的离线收集与接受基线：C05、P1-3 分项闭合。 | 核对 DP03/DP08、T7 原接受版本及当前差异，取得各自精确修复写集。 | 隔离历史候选导入域，验证收集顺序不污染业务包；逐条追溯 T7 11 项漂移；重跑原目标命令及修复后完整离线入口，不删测试遮错。 | C05：预期人口可收集、无污染级联；T7：合法基线对应原单项验收；完整运行记录原生退出、执行数及剩余失败。收集恢复不自动等于全套通过或 P1-1 全关闭。 | 原测试引导/基线职责对应的 ZCode owners；独立 ZCode 审核实际改动。 |
+| 2. replay 能消费真正有效的非空资格，P0-2 replay 切片闭合。 | 原 M4 actor、兼容 exit pack、合法候选/释放与有效计划齐备。 | 真实 verifier + 合法非空资格正例；缺证据、错 hash、错/缺 binding、过期等反例；其余门齐备时自然允许预期虚拟入场，原 M4 必需回归。 | 冻结写集、独立重跑与无条件产品判决；只授本切片工程信用，不关闭 shadow 切片或签策略资格。 | M4 专用 ZCode owner；公共差异归原 M1/Astra；独立 ZCode。 |
 | 3. 每频率可消费输入与正确自然链。 | 所选 source/lock、数据与相关代码已接受；仅沿所需 G3→G4→G6、M1/M2/M3/M4 依赖。 | 按事前覆盖/成熟/规则/seen 选择来源；时间/PIT/身份、未来追加因果反例；DAILY 复用 scoped seam 并闭合真实消费所需 relay。 | 各频率输入身份、覆盖/缺口、所消费接受版本及 READY/BLOCKED/INSUFFICIENT；准备包、工具 PASS 不算真实输入交付。 | 原数据/R1、M1/M2/M3A/M3B/M3C/M4 owners，各守写集。 |
-| 4. MINUTE、DAILY 各自的实际历史回测报告。 | 该频率所消费输入/代码和原实际运行 admission 齐备；涉及的 T7/DP03/DP08 接受清单按修复顺序 §3 闭合，或依原规则接受新版本；不消费的清单、另一频率及无关支撑工程不作门。 | 原 A/B 完整人口、真实 fit/校准/训练观察、四政策六场景、输出读回与精确复现；保留统计失败、零组与永久留出。 | 每频率实际报告与 manifest、账户和漏斗；工程 verdict、RESEARCH_PASS/STATISTICAL_FAIL/INSUFFICIENT、运行状态分列。两报告齐备才记双频总批完成。 | 当前 M5 Sol owner；原范围要求的独立 ZCode 成果核验。 |
+| 4. MINUTE、DAILY 各自的实际历史回测报告。 | 该频率所消费输入/代码和原实际运行 admission 齐备；涉及的 T7/DP03/DP08 接受清单按修复顺序 §3 闭合，或依原规则接受新版本；不消费的清单、另一频率及无关支撑工程不作门。 | 原 A/B 完整人口、真实 fit/校准/训练观察、四政策六场景、输出读回与精确复现；保留统计失败、零组与永久留出。 | 每频率实际报告与 manifest、账户和漏斗；工程 verdict、RESEARCH_PASS/STATISTICAL_FAIL/INSUFFICIENT、运行状态分列。两报告齐备才记双频总批完成。 | 现行明确交接绑定的 M5 ZCode owner；原范围要求的独立 ZCode 成果核验。 |
 | 5. ordinary shadow 同 pack 闭包可用。 | R19→R20→R21、真实 source 及文件释放成立，M4/R-SHADOW/M5 actor 已绑定；所消费代码涉及的 T7/DP03/DP08 接受清单按修复顺序 §3 闭合，或依原规则接受新版本；不消费的清单不作门。 | 原 SH-T01–08、真实非空训练/runner/事件/恢复、至少两策略同 pack、合法激活与资格正反例；保留所消费 SHCP 原人口。 | 新冻结版、完整必要验证及独立产品判决；CLI 不抛异常、空资格、局部恢复 PASS 均不算闭合。 | M5 与 R-SHADOW 不重叠实施，M1 依原门发布公共锁；独立 ZCode。 |
 | 6. 本地 paper 开始并交首份可读运行记录。 | 自身代码/输入、feed/clock、实际运行权限和必要 host 接口就绪；若用 ordinary shadow，则里程碑 5 就绪。 | 原 lifecycle、时钟/时效、NO_TRADE、重启/去重及账本核对；区分虚拟成交和真实 send/cancel。 | 真实启动/终态与首份 feed/clock/账户记录；状态为记录中或实际失败，不能提前标 SHADOW_ACCEPTED。 | 原 paper/host/M5 owners 按文件；服务主会话、客户端用户操作各守原权限。 |
 | 7. 完整 SHADOW_ACCEPTED。 | 原正式研究资格与所需产品接受齐备，已累计真实前瞻窗口及全部必要会话。 | 原 20 交易日、完整性、≥99.5% 按时率、P99≤5秒、>120秒禁新仓、UTC≤100ms 等全门及原独立验收。 | 真实前瞻证据、正式工程/研究/模拟各轴和独立判决；回放/SYNTHETIC 不替代，真实 broker 仍 NOT_RUN。 | 原 shadow/研究 owners；独立 ZCode；Root 仅接收既有范围。 |
@@ -57,7 +57,7 @@ C05/清单未闭合只阻依赖该集成基线的候选；另一条已独立接�
 5. 沿用 `experiment.json/metrics.json/readiness.json/report.md/manifest.json`、fold 输出与现有实验注册，不另造管理账本。报告列输入/代码/锁/seed、训练到成交的分母、零组、四政策连续账户及六场景；精确复现为 `new_statistical_evidence=false`，不重置已消费留出。
 6. 原 snapshot P2 的 300s 与 snapshot/HANDOFF-002 谱系 full100 的 3600s、2 GiB 内存、1 GiB 输出是不同命令约束；这些字面值不外推到 SOURCE-025 恢复谱系。各谱系均从所选操作的实际有效工作单、lease/预算及合法后继记录程序化绑定，不互串、不采用未核验的建议数值，不缩人口或擅自提高预算消除历史失败。已接受后继可按原范围沿用，不把 r2 旧失败标签当成今天的新运行结果。
 
-先做有判别力的廉价接线验证，再做原计划必需完整人口；昂贵 fit 只在相应运行授权与资源前置成立后执行。源码先冻结，stdout/stderr 在生产进程结束后封存；成果硬审独立重跑并做反例，PASS/FAIL 不附条件。FAIL 回同一 Sol owner 追加修复、重新冻结、立即独立复审；不重复未变化的计划意见来求 PASS。
+先做有判别力的廉价接线验证，再做原计划必需完整人口；昂贵 fit 只在相应运行授权与资源前置成立后执行。源码先冻结，stdout/stderr 在生产进程结束后封存；成果硬审独立重跑并做反例，PASS/FAIL 不附条件。FAIL 回同一实际 ZCode owner 追加修复、重新冻结、立即独立复审；不重复未变化的计划意见来求 PASS。
 
 ## 5. 支撑修复与停止范围
 

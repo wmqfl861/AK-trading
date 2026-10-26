@@ -90,6 +90,8 @@ python scripts/test_offline.py -q
 
 此入口隔离项目凭据并排除真实数据库/外网测试。
 
-**最新核验（2026-10-25）**：C05 的 `python scripts/test_offline.py -q` 原生退出码为 **2**，出现 **174 个收集错误、0 个测试执行**；DP03/DP08 基线漂移与导入污染存在级联，不能当成 174 个独立缺陷。C07 的 T7 清单单项测试原生退出码为 **1**，1 failed、11 条 code_drift。详见[逐项核实与命令证据](docs/repo-audit-20261025-claude/VERIFICATION.md)；当前没有全套测试通过结论，本次文档发布未重跑产品测试。
+**测试状态更新（2026-10-26，引用已完成的 C05 独立审核）**：C05 两文件导入隔离修复已接受，范围限离线启动器及其测试，不代表全套测试通过。完整入口原生退出码为 **2**：6,015 项进入执行，5,754 passed、171 failed、60 errors、30 skipped，另有 3 个文件收集失败。详见 [C05 独立审核](docs/development-20261025-zcode-r3/C05-REVIEW.md)与[接受记录](docs/development-20261025-zcode-r3/C05-ACCEPTANCE.json)。这些是该次冻结候选的历史实测，不冒称当前 HEAD 已全量复验。
+
+**修复前核验历史（2026-10-25）**：C05 曾为 raw 2、174 个收集错误、0 个测试执行；C07 曾为 raw 1、11 条 T7 code_drift，见[原逐项核实](docs/repo-audit-20261025-claude/VERIFICATION.md)。这些记录保留溯源，已不代表 C05 隔离修复后的执行状态。
 
 **历史记录**：2026-09-08 概率研究第一版曾完成 **1,589 passed，9 deselected，0 failed**，真实研究15文件重放一致，详见[概率研究验收](docs/probability-strategy-results-2026-09-08.md)。该记录不代表当前代码的绿色基线。此前工程修复阶段的1,273项回归、三组审核及六文件回放记录保留在[项目复盘](docs/project-review-2026-09-08.md)。新增策略位于 `src/ak_trading/futures/strategies.py`，数据类型在 `spec.py`，单合约研究回测在 `scenario_backtest.py`；测试放在 `tests/`。数据库查询、策略计算和实验输出分别负责自己的输入输出，详细调用契约见[操作手册](docs/data-and-backtesting.md#7-在哪里写策略)。
