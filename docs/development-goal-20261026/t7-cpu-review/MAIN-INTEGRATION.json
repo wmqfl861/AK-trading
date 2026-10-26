@@ -1,0 +1,30 @@
+{
+  "argv": [
+    "D:\\Programs\\Python\\Python312\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "scripts/test_offline.py",
+    "-q",
+    "tests/test_v2_m2_causality.py",
+    "tests/test_v2_m5_experiments.py",
+    "--basetemp",
+    "C:\\AKWorktrees\\aktr-goal-20261026\\cpu-main-integration-001\\basetemp"
+  ],
+  "native_exit": 0,
+  "seconds": 133.76500000001397,
+  "peak_tree_rss": 181035008,
+  "resource_abort": null,
+  "sampling_errors": [],
+  "stdout": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\cpu-main-integration-001\\stdout.txt",
+    "bytes": 6766,
+    "sha256": "f97fc9b796bb71e734e0c2c1ae19e88faf4a994782a53bb280be5a66efd4b2af"
+  },
+  "stderr": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\cpu-main-integration-001\\stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "product_review": "separate independent004 PASS; this is main integration only"
+}

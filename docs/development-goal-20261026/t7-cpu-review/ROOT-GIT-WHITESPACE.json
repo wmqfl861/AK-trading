@@ -1,0 +1,16 @@
+{
+  "plain_git_diff_check_raw_exit": 1,
+  "reason": "accepted experiments.py uses CRLF for all1558 lines; Git treated CR at EOL as whitespace",
+  "actual_trailing_space_or_tab_lines": [],
+  "cr_aware_check": [
+    "git",
+    "-c",
+    "core.whitespace=cr-at-eol",
+    "diff",
+    "--check"
+  ],
+  "cr_aware_raw_exit": 0,
+  "source_bytes_changed_for_check": false,
+  "whole_repository_renormalization": false,
+  "persistent_git_configuration_changed": false
+}

@@ -1,0 +1,40 @@
+{
+ "schema": "aktr-t7-cpu-hard-review-verdict/v2",
+ "review_id": "t7-cpu-hard-review-004",
+ "reviewer": "independent ZCode GLM-5.3/max session sess_7229454f-0586-4611-a73b-1b9a4ee0ce23 (same reviewer as 001-003; no part in development or repair)",
+ "date": "2026-10-26",
+ "re_review_of": "t7-cpu-hard-review-003 verdict FAIL (blocking finding F01)",
+ "verdict": "PASS",
+ "conditional": false,
+ "verdict_scope": "The T7 CPU four-file frozen write-set only (src/ak_trading/v2/factors.py, src/ak_trading/v2/validation/experiments.py, tests/test_v2_m2_causality.py, tests/test_v2_m5_experiments.py in C:/AKWorktrees/aktr-goal-t7cpu-20261026, owner-002 FREEZE) against astra-t7-performance-disposition-002/PERFORMANCE-DISPOSITION.md sections 1-3 and the CPU part of 5, plus astra-t7-path-001/EXECUTION-CLARIFICATION.md section 3.",
+ "reviewed_revision_sha256": {
+  "src/ak_trading/v2/factors.py": "c1e435c139d30fa554c9ab6a2fdf60ce8f1e107cdb7ae45a69d5919f1046db7b",
+  "src/ak_trading/v2/validation/experiments.py": "2aecad49a872d510cd132883ca93fc93bbfa4e28bc2e53ea9a9c21f1cfa8829a",
+  "tests/test_v2_m2_causality.py": "52f54ad46b699604c936579039e33fb05bd7c28b4b13365a8a8b5a1582e0277e",
+  "tests/test_v2_m5_experiments.py": "147d2efe21584fafba5be8ea11b4677968c5769a559705b735ff338550d93f65"
+ },
+ "pins_verified_at": ["review start", "before publishing reports (work/pins-before-publish.txt)"],
+ "f01_resolution": {
+  "repair": "factors.py _visible extension path: when the merge satisfies exactly _merge_prefixes' own overlap condition (deduped_tail and cached_prefix and deduped_tail[0].start_nano < cached_prefix[-1].start_nano), the new state's index-bound covers map starts empty (next _prepare runs the original full scan); pure appends keep inheritance; order-independent aggregates and chain unchanged",
+  "verified_by": [
+   "rv4 covers recheck, three trees x four cases: case A (F01 input) now warm==cold MISSING/2 with full rescan (state verified=2); pre-repair tree still reproduces F01 (warm READY/12 vs cold MISSING/2, stale verified=121); baseline conservative; controls B/C unchanged; new case D (multi-bar mixed overlap tail) equal across trees",
+   "repaired warm AND cold record hashes byte-identical to the pinned baseline on all four cases",
+   "new regression test test_t7cpu_overlap_merge_resets_index_bound_covers_verification is discriminating: FAILS on the pre-repair shadow tree (exit 1, READY != MISSING) and PASSES on the repaired candidate (exit 0); shadow module origin asserted"
+  ]
+ },
+ "independent_reruns": {
+  "m2_six_file": "96 passed, exit 0, 45.1 s, 59 MiB (prior 95 + 1 F01 regression)",
+  "m3a_six_file": "165 passed, exit 0, 653.4 s, 60 MiB",
+  "m5_experiments": "33 passed, exit 0, 122.6 s, 128 MiB",
+  "notes": "exact owner argv reused; no skips, no removals; all within 3600 s / 2 GiB"
+ },
+ "performance": "003 independent measurements (2.30x/2.35x on frozen P1 inputs) remain valid for unchanged paths; recheck on the repaired tree: 512-prefix chain byte-identical to 003 (69fb1bb1...), wall 13.79 s vs 12.83 s (+0.96 s, run-to-run variance; repair adds one boolean per extension and only affects the overlap branch frozen inputs never take) - no unresolved regression",
+ "preserved_limitations_binding_separate_from_verdict": [
+  "F02: pre-existing overlap-branch warm/cold input_hash (chain-order) asymmetry remains baseline-preserved byte-identically (scoped in 003 as a baseline limitation, not new acceptance)",
+  "F03/F04: historical owner/reviewer evidence limitations (owner-001 869.30 s cProfile overrun stopped by Root exit 15 and omitted from its DELIVERY; owner-001's overwritten first M5 failure logs; reviewer 001 probe corrections) remain recorded; owner-002's own CLI transport end raw1/HTTP 502/empty stdout is a transport fact bound separately from this product verdict",
+  "NOT_RUN and unresolved by this PASS: full MINUTE cold chain and memory/disk bound (static ~2.491 GiB outer lower bound stands), PERFORMANCE-DISPOSITION section 4 memory increment and wiring, M1/M4/M5-full/T7/goal-lock populations, downstream stage profiling, real broker"
+ ],
+ "safety": {"enable_trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_cancel": "0/0",
+            "credentials_env_read": false, "network": "none", "git": "none", "product_edits": 0,
+            "model_or_config_changes": 0}
+}

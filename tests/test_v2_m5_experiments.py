@@ -588,3 +588,163 @@ def replace_plan_window(plan, shift):
     return replace(plan, warmup_start_nano=plan.warmup_start_nano + shift,
                    window_start_nano=plan.window_start_nano + shift,
                    window_end_nano=plan.window_end_nano + shift)
+
+
+# ---------------------------------------------------------------------------
+# T7 CPU equivalence regressions (t7-cpu-owner-001, 2026-10-26): the batch
+# snapshot builder's hoisted per-duration specs, the per-contract daily
+# background reverse index, population/order preservation, and cold/hot
+# byte identity across all six frozen feature durations.
+# ---------------------------------------------------------------------------
+
+def _t7cpu_bundle(days: int, slots: int, late_daily_day: int | None = None):
+    """A small SYNTHETIC minute+daily world; day ``late_daily_day``'s daily
+    bar only becomes available 30 minutes into the next session."""
+    from datetime import datetime, timezone
+    from decimal import Decimal as D
+    from ak_trading.v2.contracts import (DataQuality, FeeLeg, FrozenInput,
+                                         Instrument, MarketBar, TradingRule)
+    ns = 10 ** 9
+    quality = DataQuality("READY", ("SYNTHETIC",), "reconstructed", "a" * 64)
+    sessions = tuple(SessionWindow(
+        f"day-{i}", "SHFE.RB", date(2026, 1, 5) + timedelta(days=i),
+        (i * 1440 + 60) * MINUTE, (i * 1440 + 60 + slots) * MINUTE,
+        "DAY", "SYNTHETIC", "SCENARIO") for i in range(days))
+    contract = "RB2610"
+    leg = FeeLeg(D(1), D(0), False)
+    rule = TradingRule("t7cpu-rule", contract, sessions[0].start_nano,
+                       sessions[-1].end_nano + 1, sessions[0].start_nano,
+                       D(10), D('.1'), 1, 1, leg, leg, leg, D('.1'), D('.1'),
+                       D(1000), D(1), D(0), D(0), D('.1'), "SCENARIO", "1" * 64)
+    bars = []
+    for i, session in enumerate(sessions):
+        for j in range(slots):
+            start = session.start_nano + j * MINUTE
+            close = D(100 + i * 3 + j % 7)
+            bars.append(MarketBar(
+                f"m-{i}-{j}", contract, "rb2610", "SHFE.RB", 60, start, start,
+                start + MINUTE, session.trading_day, session.session_id,
+                start + MINUTE, start + MINUTE, close, close + D(1),
+                close - D(1), close, D(100 + i), D(1000 + i * 10),
+                D(1000 + i * 10), True, 1, 1, "SYNTHETIC", quality))
+        available = session.end_nano
+        if late_daily_day is not None and i == late_daily_day:
+            available = sessions[i + 1].start_nano + 30 * MINUTE
+        closes = [b.close for b in bars if b.trading_day == session.trading_day
+                  and b.duration_seconds == 60]
+        bars.append(MarketBar(
+            f"d-{i}", contract, "rb2610", "SHFE.RB", 86400,
+            session.start_nano, session.start_nano, session.end_nano,
+            session.trading_day, session.session_id, available, available,
+            closes[0], max(closes) + D(1), min(closes) - D(1), closes[-1],
+            D(100 + i), D(1000 * slots), D(1000 * slots), True, slots, slots,
+            "SYNTHETIC", quality))
+    instrument = Instrument(contract, "rb2610", "SHFE.RB", "synthetic",
+                            ("synthetic",), sessions[0].start_nano, None,
+                            None, None, quality)
+    bundle = FrozenInput(Path("SYNTHETIC"), "e" * 64,
+                         (instrument,), sessions, tuple(bars), (), (rule,))
+    return bundle, sessions, contract
+
+
+def _t7cpu_split(sessions):
+    return SplitSpec("t7cpu-fold", sessions[0].start_nano,
+                     sessions[-3].end_nano, sessions[-3].end_nano,
+                     sessions[-2].end_nano, sessions[-2].end_nano,
+                     sessions[-1].end_nano + 1, 60, 1, False)
+
+
+def _t7cpu_clear_caches():
+    import tests.test_v2_m2_causality as m2
+    m2._clear_t7cpu_caches()
+
+
+def test_t7cpu_build_snapshots_background_index_specs_hoist_and_order():
+    """The per-contract daily background reverse index and the hoisted
+    per-duration spec registry produce exactly the original reverse-scan
+    semantics.  Daily durations are processed first per contract, so minute
+    snapshots select the latest strictly-previous trading day whose daily
+    snapshot is already available — including the late-availability
+    fallback to the day before — and day-one minutes have no background."""
+    from ak_trading.v2.schemas import encode_record
+    from ak_trading.v2.validation.experiments import _build_snapshots
+    days, slots = 4, 60
+    bundle, sessions, contract = _t7cpu_bundle(days, slots, late_daily_day=1)
+    split = _t7cpu_split(sessions)
+    config = {"contract_ids": [contract, contract],
+              "feature_durations": [60, 86400],
+              "model_fit_configs": {"t7cpu-fold": {"feature_keys": ["META:price_tick:v2.1.0"]}}}
+    _t7cpu_clear_caches()
+    snapshots, _seasonal, _exclusions = _build_snapshots(bundle, config, split)
+
+    # population: each pass emits one snapshot per minute decision plus one
+    # per daily decision; ordering is (decision, contract, duration).
+    minute_total = days * slots
+    assert len(snapshots) == 2 * (minute_total + days)
+    assert list(snapshots) == sorted(
+        snapshots, key=lambda f: (f.decision_nano, f.contract_id, f.duration_seconds))
+
+    daily_by_day = {f.trading_day: f for f in snapshots
+                    if f.duration_seconds == 86400}
+    assert len(daily_by_day) == days
+    day2_late_available = sessions[2].start_nano + 30 * MINUTE
+
+    none_group = with_group = 0
+    for f in snapshots:
+        if f.duration_seconds != 60:
+            continue
+        if f.daily_background_id is None:
+            none_group += 1
+            assert f.trading_day == sessions[0].trading_day
+            continue
+        with_group += 1
+        day_index = (f.trading_day - date(2026, 1, 5)).days
+        # latest strictly-previous trading day with available_at <= decision
+        expected_day = None
+        for previous in range(day_index):
+            daily = daily_by_day[sessions[previous].trading_day]
+            if daily.available_at_nano <= f.decision_nano:
+                expected_day = daily
+        # day 2's daily is late: early day-3 minutes must fall back to day 1
+        if day_index == 2 and f.decision_nano < day2_late_available:
+            assert expected_day is daily_by_day[sessions[0].trading_day]
+        assert expected_day is not None
+        assert f.daily_background_id == expected_day.snapshot_id
+    assert none_group == 2 * slots and with_group == 2 * minute_total - 2 * slots
+
+    # cold/hot rerun byte identity (specs hoist and caches are pure reuse)
+    encoded = [encode_record(f) for f in snapshots]
+    _t7cpu_clear_caches()
+    again, _, _ = _build_snapshots(bundle, config, split)
+    assert [encode_record(f) for f in again] == encoded
+
+
+def test_t7cpu_six_duration_snapshots_cold_hot_byte_identical():
+    """All six frozen feature durations produce the identical complete
+    FeatureSnapshot file bytes on a cold run and after a full cache clear,
+    with the exact per-duration population and canonical ordering."""
+    from ak_trading.v2.schemas import encode_record_file
+    from ak_trading.v2.validation.experiments import _build_snapshots
+    days, slots = 3, 240
+    bundle, sessions, contract = _t7cpu_bundle(days, slots)
+    split = _t7cpu_split(sessions)
+    config = {"contract_ids": [contract],
+              "feature_durations": [60, 300, 900, 1800, 3600, 86400],
+              "model_fit_configs": {"t7cpu-fold": {"feature_keys": ["META:price_tick:v2.1.0"]}}}
+    _t7cpu_clear_caches()
+    snapshots, _seasonal, _exclusions = _build_snapshots(bundle, config, split)
+    counts = {}
+    for f in snapshots:
+        counts[f.duration_seconds] = counts.get(f.duration_seconds, 0) + 1
+    assert counts == {60: days * slots, 300: days * (slots // 5),
+                      900: days * (slots // 15), 1800: days * (slots // 30),
+                      3600: days * (slots // 60), 86400: days}
+    assert list(snapshots) == sorted(
+        snapshots, key=lambda f: (f.decision_nano, f.contract_id, f.duration_seconds))
+    first = encode_record_file("FeatureSnapshot", "ak_probability_features_v2.1.0",
+                               snapshots)
+    _t7cpu_clear_caches()
+    again, _, _ = _build_snapshots(bundle, config, split)
+    second = encode_record_file("FeatureSnapshot", "ak_probability_features_v2.1.0",
+                                again)
+    assert second == first

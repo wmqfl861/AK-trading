@@ -1,0 +1,68 @@
+{
+  "schema": "aktr-t7-cpu-main-acceptance/v1",
+  "recorded_utc": "2026-10-26T19:27:25.282789+00:00",
+  "scope": "four-file T7 CPU optimization plus F01 repair only",
+  "independent_verdict": "PASS",
+  "conditional": false,
+  "reviewer_session": "sess_7229454f-0586-4611-a73b-1b9a4ee0ce23",
+  "reviewer_native_exit": 0,
+  "review_report": "t7-cpu-review/REVIEW.md",
+  "source_sha256": {
+    "src/ak_trading/v2/factors.py": "c1e435c139d30fa554c9ab6a2fdf60ce8f1e107cdb7ae45a69d5919f1046db7b",
+    "src/ak_trading/v2/validation/experiments.py": "2aecad49a872d510cd132883ca93fc93bbfa4e28bc2e53ea9a9c21f1cfa8829a",
+    "tests/test_v2_m2_causality.py": "52f54ad46b699604c936579039e33fb05bd7c28b4b13365a8a8b5a1582e0277e",
+    "tests/test_v2_m5_experiments.py": "147d2efe21584fafba5be8ea11b4677968c5769a559705b735ff338550d93f65"
+  },
+  "independent_required_suites": {
+    "M2": {
+      "passed": 96,
+      "raw_exit": 0
+    },
+    "M3A": {
+      "passed": 165,
+      "raw_exit": 0
+    },
+    "M5_experiments": {
+      "passed": 33,
+      "raw_exit": 0
+    }
+  },
+  "main_integration": {
+    "passed": 60,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "raw_exit": 0,
+    "seconds": 133.76500000001397,
+    "peak_tree_rss": 181035008,
+    "argv": [
+      "D:\\Programs\\Python\\Python312\\python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "scripts/test_offline.py",
+      "-q",
+      "tests/test_v2_m2_causality.py",
+      "tests/test_v2_m5_experiments.py",
+      "--basetemp",
+      "C:\\AKWorktrees\\aktr-goal-20261026\\cpu-main-integration-001\\basetemp"
+    ],
+    "receipt": "t7-cpu-review/MAIN-INTEGRATION.json"
+  },
+  "historical_failures_retained": [
+    "review003 F01",
+    "developer002 HTTP502/raw1 after completed delivery",
+    "prior overrun/overwritten logs as recorded in independent report"
+  ],
+  "limitations": [
+    "MINUTE memory/output capacity unresolved",
+    "memory interfaces and experiments wiring not accepted",
+    "full MINUTE/DAILY natural-chain and paper acceptance not supplied by this PASS"
+  ],
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_cancel": "0/0"
+  }
+}

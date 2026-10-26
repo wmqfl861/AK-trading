@@ -44,7 +44,7 @@ from __future__ import annotations
 import hashlib
 import math
 import statistics
-from bisect import bisect_right
+from bisect import bisect_left, bisect_right
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
@@ -93,7 +93,25 @@ _BAR_CONTENT_FIELDS = (
 )
 
 
+# ---------------------------------------------------------------------------
+# Bounded content-bound value memos (T7 CPU fix, byte-identical outputs).
+#
+# MarketBar/SessionWindow/FactorSpec are frozen dataclasses, so a held
+# reference's identity implies immutable content: each memo below keys on
+# ``id(record)`` while storing the record itself in the value, so an address
+# can never be reused by a different object while the entry lives.  Every
+# memo is bounded (clear-on-full, like the pre-existing prefix cache) and
+# pure — a miss recomputes exactly what a fresh call would produce.
+# ---------------------------------------------------------------------------
+
+_BAR_CONTENT_CACHE: dict[int, tuple[MarketBar, str]] = {}
+_BAR_CONTENT_CACHE_LIMIT = 16384
+
+
 def _bar_content(bar: MarketBar) -> str:
+    cached = _BAR_CONTENT_CACHE.get(id(bar))
+    if cached is not None and cached[0] is bar:
+        return cached[1]
     parts = []
     for name in _BAR_CONTENT_FIELDS:
         value = getattr(bar, name)
@@ -107,7 +125,69 @@ def _bar_content(bar: MarketBar) -> str:
             parts.append("true" if value else "false")
         else:
             parts.append(str(value))
-    return "|".join(parts)
+    text = "|".join(parts)
+    if len(_BAR_CONTENT_CACHE) >= _BAR_CONTENT_CACHE_LIMIT:
+        _BAR_CONTENT_CACHE.clear()
+    _BAR_CONTENT_CACHE[id(bar)] = (bar, text)
+    return text
+
+
+_SESSION_BINDING_CACHE: dict[int, tuple[SessionWindow, str]] = {}
+_SESSION_BINDING_CACHE_LIMIT = 2048
+
+
+def _session_binding(session: SessionWindow) -> str:
+    cached = _SESSION_BINDING_CACHE.get(id(session))
+    if cached is not None and cached[0] is session:
+        return cached[1]
+    text = "|".join((
+        "session", session.session_id, session.product,
+        session.trading_day.isoformat(), str(session.start_nano),
+        str(session.end_nano), session.kind, session.calendar_version,
+        session.evidence_status))
+    if len(_SESSION_BINDING_CACHE) >= _SESSION_BINDING_CACHE_LIMIT:
+        _SESSION_BINDING_CACHE.clear()
+    _SESSION_BINDING_CACHE[id(session)] = (session, text)
+    return text
+
+
+_SPEC_BINDING_CACHE: dict[int, tuple[FactorSpec, str]] = {}
+_SPEC_BINDING_CACHE_LIMIT = 512
+
+
+def _spec_binding(spec: FactorSpec) -> str:
+    cached = _SPEC_BINDING_CACHE.get(id(spec))
+    if cached is not None and cached[0] is spec:
+        return cached[1]
+    text = "|".join((
+        "spec", spec.factor_key, spec.operator_version, spec.parameter_version,
+        spec.source_sha256, str(spec.duration_seconds), str(spec.lookback),
+        canonical_json_bytes(dict(spec.parameters)).decode("utf-8").rstrip("\n"),
+        ",".join(spec.required_fields),
+    ))
+    if len(_SPEC_BINDING_CACHE) >= _SPEC_BINDING_CACHE_LIMIT:
+        _SPEC_BINDING_CACHE.clear()
+    _SPEC_BINDING_CACHE[id(spec)] = (spec, text)
+    return text
+
+
+# Whole-spec-set binding (T7 CPU fix): the frozen spec tuple object is held
+# by reference, so its identity implies immutable content; a fresh tuple of
+# equal specs re-derives the identical binding on a miss.
+_SPECS_TUPLE_BINDING_CACHE: dict[int, tuple[tuple, str]] = {}
+_SPECS_TUPLE_BINDING_LIMIT = 64
+
+
+def _specs_tuple_binding(specs: tuple[FactorSpec, ...]) -> str:
+    cached = _SPECS_TUPLE_BINDING_CACHE.get(id(specs))
+    if cached is not None and cached[0] is specs:
+        return cached[1]
+    binding = _text_hash("|".join(sorted(_spec_binding(spec) for spec in specs))
+                         or "no-specs")
+    if len(_SPECS_TUPLE_BINDING_CACHE) >= _SPECS_TUPLE_BINDING_LIMIT:
+        _SPECS_TUPLE_BINDING_CACHE.clear()
+    _SPECS_TUPLE_BINDING_CACHE[id(specs)] = (specs, binding)
+    return binding
 
 
 def _text_hash(text: str) -> str:
@@ -176,8 +256,74 @@ def _deduplicate_visible(candidates: list[MarketBar]) -> tuple[MarketBar, ...]:
     return tuple(seen[key] for key in sorted(seen, key=lambda k: (seen[k].start_nano, k)))
 
 
-_PREFIX_CACHE: dict[tuple[str, int], dict[str, tuple]] = {}
+class _PrefixState:
+    """One cached PIT-deduplicated prefix (cross-call, content-validated).
+
+    Reuse is only ever allowed after the *whole* cached head validates
+    against the current candidates by tuple equality — frozen bars make
+    element equality imply identical content — never from endpoint, length
+    or id alone (D2).  ``max_datetime`` bounds the dedup keys consumed so
+    far: a tail carrying an earlier-or-equal ``datetime_nano`` could collide
+    with a head key, so it forces a full recompute.  ``covers`` (per grid
+    object), ``basis`` (temporal-basis counts) and ``max_available``
+    accumulate prefix-level scans for consumers that receive exactly
+    ``prefix``, so those scans shrink to the freshly appended tail.
+    """
+
+    __slots__ = ("prefix", "decision_nano", "chain", "max_datetime",
+                 "covers", "basis", "max_available")
+
+    def __init__(self, prefix, decision_nano, chain, max_datetime,
+                 covers=None, basis=(0, 0, 0), max_available=None) -> None:
+        self.prefix = prefix
+        self.decision_nano = decision_nano
+        self.chain = chain
+        self.max_datetime = max_datetime
+        self.covers = covers if covers is not None else {}
+        self.basis = basis
+        self.max_available = max_available
+
+
+_PREFIX_CACHE: dict[tuple[str, int], dict[str, "_PrefixState"]] = {}
 _PREFIX_CACHE_LIMIT = 8
+_LAST_PREFIX_STATE: "_PrefixState | None" = None
+
+
+def _prefix_state_for(visible: tuple[MarketBar, ...]) -> "_PrefixState | None":
+    """The state producing exactly this visible tuple, or None."""
+    state = _LAST_PREFIX_STATE
+    if state is not None and state.prefix is visible:
+        return state
+    return None
+
+
+def _basis_counts(bars, counts=(0, 0, 0)) -> tuple[int, int, int]:
+    total, observed, reconstructed = counts
+    for bar in bars:
+        basis = bar.quality.temporal_basis
+        if basis == "observed":
+            observed += 1
+        elif basis == "reconstructed":
+            reconstructed += 1
+        total += 1
+    return total, observed, reconstructed
+
+
+def _basis_status(counts: tuple[int, int, int]) -> str:
+    total, observed, reconstructed = counts
+    if observed == total:  # mirrors all(): an empty set counts as observed
+        return "observed"
+    if reconstructed:
+        return "reconstructed"
+    return "unknown"
+
+
+def _max_available(bars, current=None):
+    for bar in bars:
+        value = bar.available_at_nano
+        if value is not None and (current is None or value > current):
+            current = value
+    return current
 
 
 def _rolling_chain(previous_hash: str | None, bar: MarketBar) -> str:
@@ -199,72 +345,104 @@ def _full_chain(bars: tuple[MarketBar, ...]) -> str:
 def _visible(bars: tuple[MarketBar, ...], decision_nano: int) -> tuple[MarketBar, ...]:
     """PIT-deduplicated visible prefix with an append-extension fast path.
 
-    The cache stores, per (contract, duration), up to a few recent
-    (decision -> prefix) states.  A new call whose input contains the
-    cached prefix's bars verbatim and whose decision advanced can reuse
-    the deduplicated prefix and deduplicate only the appended tail;
-    conflicts among newly visible rows are still detected on the tail,
-    and any mismatch falls back to the full computation.  Outputs are
-    byte-identical by construction (same dedup algorithm over the same
-    candidate set).
+    A cached state may only extend the current call when its complete
+    deduplicated head equals the leading candidates (tuple equality over
+    frozen bars) and every appended tail bar carries a strictly later
+    ``datetime_nano`` than any key consumed by the head, so neither revised
+    history nor cross-boundary duplicate keys can ride a stale cache; any
+    mismatch falls back to the full computation.  Outputs are byte-identical
+    by construction (same dedup algorithm over the same candidate set).
     """
+    global _LAST_PREFIX_STATE
     candidates = _visible_candidates(list(bars), decision_nano)
     if not candidates:
+        _LAST_PREFIX_STATE = None
         return ()
     key = (candidates[0].contract_id, candidates[0].duration_seconds)
     bucket = _PREFIX_CACHE.setdefault(key, {})
-    # Try to extend the longest cached prefix that is a subsequence-prefix
-    # of the current candidate list (by object identity, which implies
-    # equal content for frozen dataclasses).
-    best_length = -1
-    best_state = None
-    for state_key, state in list(bucket.items()):
-        cached_prefix = state[0]
-        length = len(cached_prefix)
-        if length == 0 or length > len(candidates):
+    best: _PrefixState | None = None
+    for state in reversed(bucket.values()):
+        prefix = state.prefix
+        length = len(prefix)
+        if length <= 16 or length > len(candidates):
             continue
-        if candidates[length - 1] is not cached_prefix[length - 1]:
-            continue
-        if length > best_length:
-            best_length = length
-            best_state = (state_key, state)
-    if best_state is not None and best_length > 16:
-        _state_key, state = best_state
-        cached_prefix, _cached_decision, cached_chain = state
-        tail = candidates[best_length:]
-        # Identity check at the head boundary is sufficient: frozen bars
-        # from one decoded collection are unique objects per slot.
-        if tail and candidates[best_length - 1] is cached_prefix[best_length - 1]:
-            deduped_tail = _deduplicate_visible(list(tail))
-            merged = _merge_prefixes(cached_prefix, deduped_tail)
-            chain = cached_chain
-            for bar in deduped_tail:
-                chain = _rolling_chain(chain, bar)
-            if len(bucket) >= _PREFIX_CACHE_LIMIT:
-                bucket.clear()
-            bucket[str(decision_nano)] = (merged, decision_nano, chain)
-            return merged
+        if tuple(candidates[:length]) == prefix:
+            best = state
+            break
+    tail: list[MarketBar] = []
+    if best is not None:
+        tail = candidates[len(best.prefix):]
+        if tail:
+            head_max = best.max_datetime
+            if head_max is None:
+                best = None
+            else:
+                for bar in tail:
+                    datetime_nano = bar.datetime_nano
+                    if datetime_nano is None or datetime_nano <= head_max:
+                        best = None
+                        break
+    if best is not None:
+        cached_prefix = best.prefix
+        deduped_tail = _deduplicate_visible(list(tail)) if tail else ()
+        merged = _merge_prefixes(cached_prefix, deduped_tail)
+        # F01 repair (t7-cpu-owner-002): the covers verification is
+        # INDEX-BOUND over the head's tuple layout.  When the merge takes
+        # its overlap-safety branch the merged tuple is re-sorted, so a
+        # mid-inserted bar can land below the inherited verified index and
+        # would never be coverage-checked.  Any overlap merge therefore
+        # discards the inherited per-grid verified counts (the next
+        # ``_prepare`` runs the original full scan); the order-independent
+        # aggregates (basis counts, availability max, max datetime, chain)
+        # stay inherited.  A pure append keeps head indices and may inherit.
+        overlap_reordered = bool(deduped_tail) and bool(cached_prefix) and \
+            deduped_tail[0].start_nano < cached_prefix[-1].start_nano
+        chain = best.chain
+        for bar in deduped_tail:
+            chain = _rolling_chain(chain, bar)
+        state = _PrefixState(
+            merged, decision_nano, chain,
+            _max_datetime(deduped_tail, best.max_datetime),
+            {} if overlap_reordered else dict(best.covers),
+            _basis_counts(deduped_tail, best.basis),
+            _max_available(deduped_tail, best.max_available))
+        if len(bucket) >= _PREFIX_CACHE_LIMIT:
+            bucket.clear()
+        bucket[str(decision_nano)] = state
+        _LAST_PREFIX_STATE = state
+        return merged
     result = _deduplicate_visible(candidates)
-    chain = _full_chain(result)
+    state = _PrefixState(
+        result, decision_nano, _full_chain(result),
+        _max_datetime(result), {}, _basis_counts(result), _max_available(result))
     if len(bucket) >= _PREFIX_CACHE_LIMIT:
         bucket.clear()
-    bucket[str(decision_nano)] = (result, decision_nano, chain)
+    bucket[str(decision_nano)] = state
+    _LAST_PREFIX_STATE = state
     return result
 
 
-def _prefix_chain_hash(bars: tuple[MarketBar, ...]) -> str:
-    """Full-prefix rolling content hash, reusing the prefix cache state.
+def _max_datetime(bars, current=None):
+    for bar in bars:
+        value = bar.datetime_nano
+        if value is not None and (current is None or value > current):
+            current = value
+    return current
 
-    Falls back to the direct chain when no cached state matches (the
-    fallback is byte-identical by construction).
+
+def _prefix_chain_hash(bars: tuple[MarketBar, ...]) -> str:
+    """Full-prefix rolling content hash, reusing validated cache state.
+
+    A state's chain is returned only when its whole prefix equals ``bars``
+    (frozen-bar tuple equality); otherwise the direct chain runs — which is
+    byte-identical by construction.
     """
     if not bars:
         return _text_hash("no-inputs")
     key = (bars[0].contract_id, bars[0].duration_seconds)
-    for state in _PREFIX_CACHE.get(key, {}).values():
-        cached_prefix = state[0]
-        if len(cached_prefix) == len(bars) and cached_prefix[-1] is bars[-1]:
-            return state[2]
+    for state in reversed(_PREFIX_CACHE.get(key, {}).values()):
+        if state.prefix == bars:
+            return state.chain
     return _full_chain(bars)
 
 
@@ -367,6 +545,10 @@ class _FactorGrid:
         self._slot_starts = [slot.start_nano for slot in self.slots]
         self._position_by_start = {start: index
                                    for index, start in enumerate(self._slot_starts)}
+        self._session_starts = [session.start_nano for session in self.sessions]
+        self._max_session_span = max(
+            (session.end_nano - session.start_nano for session in self.sessions),
+            default=0)
 
     def covers(self, bar: MarketBar) -> bool:
         """A visible bar belongs to the plan (its slot must exist)."""
@@ -419,11 +601,19 @@ class _FactorGrid:
 
     def binding(self, window_start: int | None, anchor_end: int) -> str:
         """Calendar fragment covering the consumed window (E07)."""
-        relevant = [
-            session for session in self.sessions
-            if window_start is not None
-            and session.start_nano < anchor_end and session.end_nano > window_start
-        ] if not self.calendar_unknown else []
+        if self.calendar_unknown or window_start is None:
+            relevant: list[SessionWindow] = []
+        else:
+            # Sessions are sorted by start and each ends at most
+            # ``_max_session_span`` after its start, so a session starting
+            # before ``window_start - span`` cannot reach past
+            # ``window_start``: the bisected slice covers exactly the
+            # original full filter, in the same order.
+            lo = bisect_left(self._session_starts,
+                             window_start - self._max_session_span)
+            hi = bisect_right(self._session_starts, anchor_end - 1)
+            relevant = [session for session in self.sessions[lo:hi]
+                        if session.end_nano > window_start]
         return _text_hash("|".join(_session_binding(session)
                                    for session in relevant) or "calendar-unknown")
 
@@ -445,13 +635,6 @@ def _hole_between(previous: MarketBar, current: MarketBar,
     if verdict is not None:
         return verdict
     return False
-
-
-def _cached_product_calendar(sessions: tuple[SessionWindow, ...], product: str,
-                             duration_seconds: int):
-    """Content-cached seasonality calendar (immutable, shareable)."""
-    from ak_trading.v2.seasonality import cached_product_calendar
-    return cached_product_calendar(sessions, product, duration_seconds)
 
 
 def _grid_hole(grid: _FactorGrid):
@@ -483,11 +666,34 @@ class _AnchorContext:
 # ---------------------------------------------------------------------------
 
 _GRID_CACHE: dict[tuple[str, str, int], _FactorGrid] = {}
+_GRID_CACHE_LIMIT = 64
+
+# One bundle per frozen sessions tuple (held by reference): the calendar
+# fingerprint (identity order), the full sorted calendar binding and the
+# session-id map, so per-snapshot binding work stops re-joining hundreds
+# of session strings.  Bounded; a miss rebuilds byte-identical values.
+_SESSIONS_BUNDLE_CACHE: dict[int, tuple] = {}
+_SESSIONS_BUNDLE_LIMIT = 16
+
+
+def _sessions_bundle(sessions: tuple[SessionWindow, ...]) -> tuple:
+    cached = _SESSIONS_BUNDLE_CACHE.get(id(sessions))
+    if cached is not None and cached[0] is sessions:
+        return cached[1], cached[2], cached[3]
+    fingerprint = _text_hash("|".join(_session_binding(session)
+                                      for session in sessions) or "no-sessions")
+    calendar_binding = _text_hash("|".join(
+        sorted(_session_binding(session) for session in sessions)) or "no-sessions")
+    by_id = {session.session_id: session for session in sessions}
+    if len(_SESSIONS_BUNDLE_CACHE) >= _SESSIONS_BUNDLE_LIMIT:
+        _SESSIONS_BUNDLE_CACHE.clear()
+    _SESSIONS_BUNDLE_CACHE[id(sessions)] = (sessions, fingerprint,
+                                            calendar_binding, by_id)
+    return fingerprint, calendar_binding, by_id
 
 
 def _sessions_fingerprint(sessions: tuple[SessionWindow, ...]) -> str:
-    return _text_hash("|".join(_session_binding(session) for session in sessions)
-                      or "no-sessions")
+    return _sessions_bundle(sessions)[0]
 
 
 def _cached_grid(sessions: tuple[SessionWindow, ...], product: str,
@@ -496,8 +702,34 @@ def _cached_grid(sessions: tuple[SessionWindow, ...], product: str,
     grid = _GRID_CACHE.get(key)
     if grid is None:
         grid = _FactorGrid(sessions, product, duration_seconds)
+        if len(_GRID_CACHE) >= _GRID_CACHE_LIMIT:
+            _GRID_CACHE.clear()
         _GRID_CACHE[key] = grid
     return grid
+
+
+# id-memoised wrapper around the seasonality content-keyed calendar cache:
+# the underlying object is exactly what ``cached_product_calendar`` returns;
+# this only avoids re-hashing every session on every call.
+_PRODUCT_CALENDAR_CACHE: dict[int, tuple] = {}
+_PRODUCT_CALENDAR_LIMIT = 32
+
+
+def _cached_product_calendar(sessions: tuple[SessionWindow, ...], product: str,
+                             duration_seconds: int):
+    cached = _PRODUCT_CALENDAR_CACHE.get(id(sessions))
+    if cached is None or cached[0] is not sessions:
+        cached = (sessions, {})
+        if len(_PRODUCT_CALENDAR_CACHE) >= _PRODUCT_CALENDAR_LIMIT:
+            _PRODUCT_CALENDAR_CACHE.clear()
+        _PRODUCT_CALENDAR_CACHE[id(sessions)] = cached
+    per_duration = cached[1]
+    calendar = per_duration.get((product, duration_seconds))
+    if calendar is None:
+        from ak_trading.v2.seasonality import cached_product_calendar
+        calendar = cached_product_calendar(sessions, product, duration_seconds)
+        per_duration[(product, duration_seconds)] = calendar
+    return calendar
 
 
 @dataclass
@@ -505,7 +737,8 @@ class _PreparedContext:
     """One PIT-deduplicated bar prefix plus its planned anchor and per-call
     memoisation (bar content strings, baseline rows, Wilder walks).  Scoped
     to a single public call; the id()-keyed memos are safe because the bar
-    objects stay alive inside ``bars`` for the whole call."""
+    objects stay alive inside ``bars`` for the whole call.  Bar content
+    strings themselves live in the bounded global frozen-record memo."""
 
     bars: tuple[MarketBar, ...]
     status: str
@@ -519,14 +752,7 @@ class _PreparedContext:
     _wilder: dict[int, tuple] | None = None
 
     def content(self, bar: MarketBar) -> str:
-        contents = self._contents
-        if contents is None:
-            contents = self._contents = {}
-        text = contents.get(id(bar))
-        if text is None:
-            text = _bar_content(bar)
-            contents[id(bar)] = text
-        return text
+        return _bar_content(bar)
 
     def _aggregate(self, key: str, bars: tuple[MarketBar, ...], compute):
         cache = getattr(self, "_aggregates", None)
@@ -553,13 +779,15 @@ class _PreparedContext:
             return _text_hash("no-inputs")
         if len(bars) > 256:
             # Large sets are almost always the full consumed prefix; the
-            # cross-call chain cache answers in O(1) and the direct chain
-            # fallback is byte-identical.
+            # cross-call chain cache answers after full validation and the
+            # direct chain fallback is byte-identical.
             return _prefix_chain_hash(bars)
-        rolling = _text_hash(self.content(bars[0]))
-        for bar in bars[1:]:
-            rolling = _text_hash(rolling + "|" + self.content(bar))
-        return rolling
+        def _rolling(bars: tuple[MarketBar, ...]) -> str:
+            rolling = _text_hash(self.content(bars[0]))
+            for bar in bars[1:]:
+                rolling = _text_hash(rolling + "|" + self.content(bar))
+            return rolling
+        return self._aggregate("content", bars, _rolling)
 
     def wilder(self, n: int, hole) -> tuple:
         cache = self._wilder
@@ -585,7 +813,10 @@ def _prepare(bars: tuple[MarketBar, ...], decision_nano: int,
     ``visible`` lets a caller that already ran the PIT deduplication (the
     snapshot entry) hand the prefix straight through, so ``_visible`` runs
     exactly once per public call and the incremental fast path is always
-    taken on the growing per-minute pattern.
+    taken on the growing per-minute pattern.  The planned-coverage scan
+    reuses the prefix state: the head's coverage is remembered per grid,
+    so only the freshly appended tail is re-checked; a state mismatch
+    (different tuple) falls back to the original full scan.
     """
     if visible is None:
         visible = _visible(bars, decision_nano)
@@ -598,7 +829,19 @@ def _prepare(bars: tuple[MarketBar, ...], decision_nano: int,
     if grid is None or grid.calendar_unknown:
         return _PreparedContext(visible, "calendar_unknown", "calendar_unknown",
                                 grid, None, decision_nano, sessions)
-    if any(not grid.covers(bar) for bar in visible):
+    state = _prefix_state_for(visible)
+    if state is not None:
+        verified = state.covers.get(grid, 0)
+        uncovered_at = None
+        for index in range(verified, len(visible)):
+            if not grid.covers(visible[index]):
+                uncovered_at = index
+                break
+        state.covers[grid] = len(visible) if uncovered_at is None else uncovered_at
+        covered = uncovered_at is None
+    else:
+        covered = all(grid.covers(bar) for bar in visible)
+    if not covered:
         return _PreparedContext(visible, "calendar_unknown", "calendar_unknown",
                                 grid, None, decision_nano, sessions)
     anchor = grid.anchor(decision_nano)
@@ -913,10 +1156,13 @@ def _wilder_walk(bars: tuple[MarketBar, ...], n: int, hole):
 # Incremental Wilder state cache (DESIGN-NOTES §1.6).  The recursion is a
 # deterministic left fold over the PIT prefix; a cross-call cache keyed by
 # (contract, duration, n, sessions fingerprint) stores the fold state
-# (consumed count, seeded value, pending TRs, post-reset run start and the
-# rolling content-hash chain) and resumes from the object-identity-verified
-# head, so a per-minute caller pays O(new bars) instead of O(prefix).
-# Byte-identity: resumed folds replay exactly the original operation order.
+# (consumed count, the full consumed head tuple, seeded value, pending TRs,
+# post-reset run start and the rolling content-hash chain).  A resume is
+# only accepted when the *entire* consumed head validates against the
+# current bars by tuple equality (frozen bars: element equality implies
+# identical content) — never from the last bar's identity alone — so
+# revised history forces a full replay.  Byte-identity: resumed folds
+# replay exactly the original operation order.
 # ---------------------------------------------------------------------------
 
 _WILDER_STATE_CACHE: dict[tuple, dict[int, tuple]] = {}
@@ -935,9 +1181,10 @@ def _wilder_walk_incremental(bars: tuple[MarketBar, ...], n: int, hole,
     if bars:
         chain = _text_hash(_bar_content(bars[0]))
     if state is not None:
-        state_consumed, state_last, state_seeded, state_pending,             state_run_start, state_chain = state
+        state_consumed, state_head, state_seeded, state_pending,             state_run_start, state_chain = state
         if (0 < state_consumed < len(bars)
-                and bars[state_consumed - 1] is state_last):
+                and len(state_head) == state_consumed
+                and bars[:state_consumed] == state_head):
             consumed = state_consumed
             seeded = state_seeded
             pending = list(state_pending)
@@ -969,7 +1216,7 @@ def _wilder_walk_incremental(bars: tuple[MarketBar, ...], n: int, hole,
     if len(bucket) >= _WILDER_STATE_LIMIT:
         bucket.clear()
     if bars:
-        bucket[n] = (len(bars), bars[-1], seeded, tuple(pending),
+        bucket[n] = (len(bars), bars, seeded, tuple(pending),
                      run_start, chain)
     prefix_hash = chain if chain is not None else _text_hash("no-inputs")
     if not bars:
@@ -1248,9 +1495,22 @@ def _planned_previous_bar(last_bar: MarketBar, visible: tuple[MarketBar, ...],
     previous_slot = calendar.previous_slot(address)
     if previous_slot is None:
         return None
-    return next((bar for bar in visible
-                 if bar.start_nano == previous_slot.start_nano
-                 and bar.contract_id == last_bar.contract_id), None)
+    target = previous_slot.start_nano
+    # ``visible`` is sorted by (start_nano, dedup key), so bars sharing the
+    # target start form one contiguous run; walking back from the end and
+    # keeping the earliest match reproduces the original forward first-hit
+    # without scanning the whole prefix.
+    found: MarketBar | None = None
+    for bar in reversed(visible):
+        start = bar.start_nano
+        if start > target:
+            continue
+        if start == target:
+            if bar.contract_id == last_bar.contract_id:
+                found = bar
+            continue
+        break
+    return found
 
 
 def build_feature_snapshot(contract_id: str, bars: tuple[MarketBar, ...],
@@ -1312,7 +1572,7 @@ def build_feature_snapshot(contract_id: str, bars: tuple[MarketBar, ...],
 
     grid = _cached_grid(sessions, product, duration)
 
-    session_by_id = {session.session_id: session for session in sessions}
+    session_by_id = _sessions_bundle(sessions)[2]
     identity_reasons: tuple[str, ...] = ()
     if duration == DAILY_DURATION:
         if last_bar.trading_day is None:
@@ -1408,8 +1668,16 @@ def build_feature_snapshot(contract_id: str, bars: tuple[MarketBar, ...],
                            + (["INVALID"] if identity_reasons else []))
     reasons = _merge_reasons(values, (*reference_reasons, *atr_reasons, *identity_reasons))
 
-    availability = [bar.available_at_nano for bar in consumed_bars
-                    if bar.available_at_nano is not None]
+    availability_base: int | None
+    consumed_state = _prefix_state_for(visible) if consumed_bars is visible else None
+    if consumed_state is not None:
+        availability_base = consumed_state.max_available
+        temporal_basis = _basis_status(consumed_state.basis)
+    else:
+        availability_base = max((bar.available_at_nano for bar in consumed_bars
+                                 if bar.available_at_nano is not None), default=None)
+        temporal_basis = _temporal_basis(consumed_bars)
+    availability = [] if availability_base is None else [availability_base]
     if rule is not None:
         availability.append(rule.available_at_nano)
     if daily_background is not None:
@@ -1423,14 +1691,12 @@ def build_feature_snapshot(contract_id: str, bars: tuple[MarketBar, ...],
     consumed_content = (_prefix_chain_hash(consumed_bars)
                         if len(consumed_bars) > 256
                         else _content_hash(consumed_bars))
-    specs_binding = _text_hash("|".join(sorted(_spec_binding(spec) for spec in specs))
-                               or "no-specs")
-    calendar_binding = _text_hash("|".join(
-        sorted(_session_binding(session) for session in sessions)) or "no-sessions")
+    specs_binding = _specs_tuple_binding(specs)
+    calendar_binding = _sessions_bundle(sessions)[1]
     quality = DataQuality(
         status=status,
         reasons=reasons,
-        temporal_basis=_temporal_basis(consumed_bars),
+        temporal_basis=temporal_basis,
         input_hash=_text_hash("|".join((
             "snapshot-inputs", consumed_content, specs_binding, calendar_binding,
             f"rule|{rule.rule_id}|{rule.source_sha256}" if rule is not None else "rule|none",

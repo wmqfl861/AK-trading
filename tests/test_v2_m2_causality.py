@@ -767,3 +767,374 @@ def test_precheck_e01_future_seasonal_model_snapshot_not_ready() -> None:
     assert all("model_fit_after_decision" in value.quality.reasons
                for value in seasonal)
 
+
+# ---------------------------------------------------------------------------
+# T7 CPU equivalence regressions (t7-cpu-owner-001, 2026-10-26).
+# Every case pins the byte-identity contract of the bounded cross-call
+# caches: reuse is only allowed after full-prefix content validation, and
+# any revision, rollback, eviction, re-decode or call-order change must
+# produce exactly what a cold full recomputation produces.
+# ---------------------------------------------------------------------------
+
+from dataclasses import replace as _replace  # noqa: E402
+
+
+def _clear_t7cpu_caches() -> None:
+    from ak_trading.v2 import factors
+    factors._PREFIX_CACHE.clear()
+    factors._GRID_CACHE.clear()
+    factors._WILDER_STATE_CACHE.clear()
+    factors._BAR_CONTENT_CACHE.clear()
+    factors._SESSION_BINDING_CACHE.clear()
+    factors._SESSIONS_BUNDLE_CACHE.clear()
+    factors._SPEC_BINDING_CACHE.clear()
+    factors._SPECS_TUPLE_BINDING_CACHE.clear()
+    factors._PRODUCT_CALENDAR_CACHE.clear()
+
+
+def _t7cpu_world(days: int = 6, slots: int = 60):
+    sessions = tuple(session_for(date(2026, 1, 5) + timedelta(days=index),
+                                 index, slots) for index in range(days))
+    bars = tuple(
+        minute_bar(session.start_nano + slot * MINUTE,
+                   Decimal(100 + index * 7 + slot % 5), session=session)
+        for index, session in enumerate(sessions) for slot in range(slots))
+    return sessions, bars
+
+
+def _t7cpu_snapshots(bars, sessions, specs, rule, up_to: int):
+    return [build_feature_snapshot("RB2610", tuple(bars[:count]),
+                                   bars[count - 1].end_nano, specs,
+                                   None, None, rule, sessions)
+            for count in range(17, up_to + 1)]
+
+
+def test_t7cpu_redecoded_inputs_and_call_order_independence() -> None:
+    """D2/D1: freshly re-decoded (equal-content, new-object) bars, cold and
+    hot caches, and any call order all yield the byte-identical snapshots a
+    first cold computation produces."""
+    from ak_trading.v2.schemas import encode_record
+    sessions, bars = _t7cpu_world()
+    specs = factor_registry_v2(60)
+    rule = trading_rule(sessions[0].start_nano, sessions[-1].end_nano)
+    _clear_t7cpu_caches()
+    reference = _t7cpu_snapshots(bars, sessions, specs, rule, 130)
+    reference_bytes = [encode_record(s) for s in reference]
+
+    # Re-decoded history: new objects with equal content (a fresh decode of
+    # the same frozen bytes), streamed warm after the reference run.
+    redecoded = tuple(_replace(bar) for bar in bars)
+    assert redecoded is not bars and redecoded[0] is not bars[0]
+    warm = _t7cpu_snapshots(redecoded, sessions, specs, rule, 130)
+    assert [encode_record(s) for s in warm] == reference_bytes
+
+    # Cold caches, descending decisions (rollback order), then ascending.
+    _clear_t7cpu_caches()
+    descending = [build_feature_snapshot("RB2610", tuple(bars[:count]),
+                                         bars[count - 1].end_nano, specs,
+                                         None, None, rule, sessions)
+                  for count in range(130, 16, -1)]
+    assert [encode_record(s) for s in reversed(descending)] == reference_bytes
+    ascending_again = _t7cpu_snapshots(bars, sessions, specs, rule, 130)
+    assert [encode_record(s) for s in ascending_again] == reference_bytes
+
+
+def test_t7cpu_same_end_object_earlier_changed_content_rebuilds() -> None:
+    """D2 counterexample: the cached prefix must not be reused when only an
+    EARLIER bar's visible content changed while the last bar object is the
+    very same; the warm result must equal the cold full recomputation."""
+    from ak_trading.v2.schemas import encode_record
+    sessions, bars = _t7cpu_world()
+    specs = factor_registry_v2(60)
+    rule = trading_rule(sessions[0].start_nano, sessions[-1].end_nano)
+    k = 90
+    _clear_t7cpu_caches()
+    _t7cpu_snapshots(bars, sessions, specs, rule, k)  # warm every prefix cache
+    original = build_feature_snapshot("RB2610", tuple(bars[:k]),
+                                      bars[k - 1].end_nano, specs,
+                                      None, None, rule, sessions)
+    revised = bars[:k - 2] + (_replace(bars[k - 2], close=Decimal("4321"),
+                                       open=Decimal("4321"),
+                                       high=Decimal("4322"),
+                                       low=Decimal("4320")), bars[k - 1])
+    assert revised[-1] is bars[k - 1]
+    warm = build_feature_snapshot("RB2610", tuple(revised),
+                                  bars[k - 1].end_nano, specs,
+                                  None, None, rule, sessions)
+    _clear_t7cpu_caches()
+    cold = build_feature_snapshot("RB2610", tuple(revised),
+                                  bars[k - 1].end_nano, specs,
+                                  None, None, rule, sessions)
+    assert encode_record(warm) == encode_record(cold)
+    assert warm.snapshot_id == cold.snapshot_id
+    assert warm.snapshot_id != original.snapshot_id
+    assert warm.quality.input_hash != original.quality.input_hash
+
+
+def test_t7cpu_prefix_255_256_257_cold_hot_and_batch_incremental() -> None:
+    """D1: the 256-bar content-hash path switch — streaming (incremental,
+    warm caches) and one-shot batch (cold caches) produce identical bytes on
+    both sides of the boundary."""
+    from ak_trading.v2.schemas import encode_record
+    sessions, bars = _t7cpu_world(days=5, slots=90)
+    specs = factor_registry_v2(60)
+    rule = trading_rule(sessions[0].start_nano, sessions[-1].end_nano)
+    for size in (255, 256, 257):
+        _clear_t7cpu_caches()
+        streamed = _t7cpu_snapshots(bars, sessions, specs, rule, size)[-1]
+        warm_again = build_feature_snapshot(
+            "RB2610", tuple(bars[:size]), bars[size - 1].end_nano, specs,
+            None, None, rule, sessions)
+        _clear_t7cpu_caches()
+        batch = build_feature_snapshot(
+            "RB2610", tuple(bars[:size]), bars[size - 1].end_nano, specs,
+            None, None, rule, sessions)
+        assert encode_record(streamed) == encode_record(batch)
+        assert encode_record(warm_again) == encode_record(batch)
+
+
+def test_t7cpu_eviction_out_of_order_and_cross_isolation() -> None:
+    """Cache eviction (>limit distinct decisions) and re-entry, out-of-order
+    rollback decisions, and cross-duration / cross-contract isolation all
+    recompute exactly."""
+    from ak_trading.v2.schemas import encode_record
+    from ak_trading.v2.clock import aggregate_bars
+    sessions, bars = _t7cpu_world()
+    specs = factor_registry_v2(60)
+    other = tuple(minute_bar(session.start_nano + slot * MINUTE,
+                             Decimal(300 + slot), session=session,
+                             contract="RB2605")
+                  for session in sessions for slot in range(0, 60, 3))
+    rule = trading_rule(sessions[0].start_nano, sessions[-1].end_nano)
+    rule_other = _replace(rule, contract_id="RB2605")
+
+    def snap(contract, seq, count, spec_set, trading_rule_):
+        return build_feature_snapshot(contract, tuple(seq[:count]),
+                                      seq[count - 1].end_nano, spec_set,
+                                      None, None, trading_rule_, sessions)
+
+    _clear_t7cpu_caches()
+    reference_minute = {count: snap("RB2610", bars, count, specs, rule)
+                        for count in (30, 70, 110, 150, 190, 230, 270, 310, 350)}
+    # > _PREFIX_CACHE_LIMIT distinct decisions force eviction inside one
+    # (contract, duration) bucket; re-entering an evicted prefix recomputes.
+    _clear_t7cpu_caches()
+    for count in range(20, 200):
+        snap("RB2610", bars, count, specs, rule)
+    again = snap("RB2610", bars, 150, specs, rule)
+    assert encode_record(again) == encode_record(reference_minute[150])
+    # out-of-order rollback decision after a longer prefix
+    rolled_back = snap("RB2610", bars, 70, specs, rule)
+    assert encode_record(rolled_back) == encode_record(reference_minute[70])
+    # cross-duration and cross-contract interleaving stays isolated
+    five_minute = aggregate_bars(bars, sessions, 300, bars[-1].end_nano)
+    specs300 = factor_registry_v2(300)
+    minute_after = snap("RB2610", bars, 230, specs, rule)
+    aggregate = snap("RB2610", five_minute, len(five_minute) - 1,
+                     specs300, rule)
+    other_contract = snap("RB2605", other, len(other) - 2, specs, rule_other)
+    assert encode_record(minute_after) == encode_record(reference_minute[230])
+    _clear_t7cpu_caches()
+    cold_aggregate = snap("RB2610", five_minute, len(five_minute) - 1,
+                          specs300, rule)
+    cold_other = snap("RB2605", other, len(other) - 2, specs, rule_other)
+    assert encode_record(aggregate) == encode_record(cold_aggregate)
+    assert encode_record(other_contract) == encode_record(cold_other)
+    assert aggregate.duration_seconds == 300
+
+
+def test_t7cpu_wilder_incremental_matches_batch_resets_rollback_eviction() -> None:
+    """Batch ``_wilder_walk`` versus the cross-call incremental fold across
+    hole resets, None-TR reseeding, clock rollback and state eviction —
+    identical value, reason and post-reset prefix hash at every prefix."""
+    from ak_trading.v2 import factors
+    session = session_for(date(2026, 1, 5), 0, slots=45)
+    made = [minute_bar(session.start_nano + index * MINUTE,
+                       Decimal(100 + index % 9), session=session)
+            for index in range(45)]
+    holed = (tuple(made[:10]) + tuple(made[11:15])
+             + (_replace(made[15], high=None),) + tuple(made[16:25])
+             + tuple(made[26:]))
+    hole = factors._grid_hole(factors._cached_grid((session,), PRODUCT, 60))
+    key = ("RB2610", 60, 14, factors._sessions_fingerprint((session,)))
+    factors._WILDER_STATE_CACHE.clear()
+    for count in range(2, len(holed) + 1):
+        prefix = tuple(holed[:count])
+        incremental = factors._wilder_walk_incremental(prefix, 14, hole, key)
+        batch = factors._wilder_walk(prefix, 14, hole)
+        assert incremental == batch
+    # clock rollback: a strictly shorter prefix must not resume stale state
+    for count in (len(holed) - 3, len(holed) - 9):
+        prefix = tuple(holed[:count])
+        assert factors._wilder_walk_incremental(
+            prefix, 14, hole, key) == factors._wilder_walk(prefix, 14, hole)
+    # revised history with the same tail rejects the resume and replays
+    revised = tuple(holed[:-1]) + (_replace(holed[-1], close=Decimal("777"),
+                                             open=Decimal("777"),
+                                             high=Decimal("778"),
+                                             low=Decimal("776")),)
+    assert factors._wilder_walk_incremental(
+        revised, 14, hole, key) == factors._wilder_walk(revised, 14, hole)
+    # eviction (bucket holds two n values) and re-entry
+    for n in (5, 7, 14, 5):
+        prefix = tuple(holed)
+        assert factors._wilder_walk_incremental(
+            prefix, n, hole, ("RB2610", 60, n, key[3])) == \
+            factors._wilder_walk(prefix, n, hole)
+
+
+def test_t7cpu_visible_duplicate_and_conflict_tail_semantics() -> None:
+    """Exact duplicates are dropped identically hot and cold; conflicting
+    duplicates raise; a late duplicate key straddling the extension boundary
+    forces the safe full path instead of a blind head+tail merge."""
+    from ak_trading.v2 import factors
+    from ak_trading.v2.schemas import encode_record
+    sessions, bars = _t7cpu_world(days=3)
+    specs = factor_registry_v2(60)
+    rule = trading_rule(sessions[0].start_nano, sessions[-1].end_nano)
+
+    def snap(seq, decision):
+        return build_feature_snapshot("RB2610", tuple(seq), decision, specs,
+                                      None, None, rule, sessions)
+
+    _clear_t7cpu_caches()
+    single = snap(bars[:70], bars[69].end_nano)
+    # Same object visible twice in one input: deduplicated in every mode.
+    _clear_t7cpu_caches()
+    assert encode_record(snap(bars[:70] + (bars[69],), bars[69].end_nano)) == \
+        encode_record(single)
+    # Warm extension across the boundary with an equal-content late
+    # duplicate of an already-consumed key.
+    _clear_t7cpu_caches()
+    _t7cpu_snapshots(bars, sessions, specs, rule, 70)
+    late_equal = bars[:70] + (_replace(bars[10]), bars[70])
+    warm = snap(late_equal, bars[70].end_nano)
+    _clear_t7cpu_caches()
+    assert encode_record(warm) == encode_record(snap(late_equal, bars[70].end_nano))
+    # Conflicting duplicate keys must raise in cold and warm modes alike.
+    conflict_cold = bars[:70] + (_replace(bars[10], close=Decimal("999"),
+                                          open=Decimal("999"),
+                                          high=Decimal("1000"),
+                                          low=Decimal("998")),
+                                 bars[70])
+    _clear_t7cpu_caches()
+    with pytest.raises(FactorsError, match="conflicting_duplicate_bar"):
+        snap(conflict_cold, bars[70].end_nano)
+    _clear_t7cpu_caches()
+    _t7cpu_snapshots(bars, sessions, specs, rule, 70)
+    with pytest.raises(FactorsError, match="conflicting_duplicate_bar"):
+        snap(conflict_cold, bars[70].end_nano)
+
+
+def test_t7cpu_grid_binding_bisected_equals_full_scan() -> None:
+    """Counterexample probe for the bisected calendar-fragment lookup: the
+    binding must equal the original full-filter expression over windows
+    that span sessions, days, empty ranges and unknown calendars."""
+    import hashlib
+    from ak_trading.v2 import factors
+    sessions, bars = _t7cpu_world()
+    sessions = sessions + (SessionWindow(
+        session_id="N1", product=PRODUCT, trading_day=date(2026, 1, 20),
+        start_nano=sessions[-1].end_nano + 30 * MINUTE,
+        end_nano=sessions[-1].end_nano + 150 * MINUTE, kind="NIGHT",
+        calendar_version="cal-test-v1", evidence_status="VERIFIED"),)
+    grid = factors._cached_grid(sessions, PRODUCT, 60)
+    assert not grid.calendar_unknown
+    checked = 0
+    for window_start in {bar.start_nano for bar in bars} | {
+            sessions[0].start_nano, sessions[-1].start_nano,
+            sessions[0].start_nano + 3600 * MINUTE}:
+        for anchor_end in {bar.end_nano for bar in bars} | {
+                sessions[0].end_nano, sessions[-1].end_nano + 5 * MINUTE}:
+            if window_start is None or anchor_end <= window_start:
+                continue
+            relevant = [s for s in grid.sessions
+                        if s.start_nano < anchor_end
+                        and s.end_nano > window_start]
+            expected = hashlib.sha256(
+                ("|".join(factors._session_binding(s) for s in relevant)
+                 or "calendar-unknown").encode("utf-8")).hexdigest()
+            assert grid.binding(window_start, anchor_end) == expected
+            checked += 1
+    assert checked > 200
+
+
+def test_t7cpu_planned_previous_bar_first_match_semantics() -> None:
+    """The reverse-run scan must return the FIRST visible bar of the planned
+    previous slot even when several bars share that slot start."""
+    from ak_trading.v2 import factors
+    sessions, bars = _t7cpu_world(days=2)
+    target_bar = bars[40]
+    same_start_later = _replace(target_bar, datetime_nano=target_bar.start_nano + 1,
+                                bar_id=target_bar.bar_id + "-b")
+    visible = tuple(sorted(bars[:40] + (target_bar, same_start_later, bars[41]),
+                           key=lambda b: (b.start_nano, b.datetime_nano, b.bar_id)))
+    last_bar = bars[41]
+    selected = factors._planned_previous_bar(last_bar, visible, sessions)
+    assert selected is target_bar  # first in forward order, not the later twin
+    assert factors._planned_previous_bar(bars[1], visible, sessions) is bars[0]
+
+
+def test_t7cpu_overlap_merge_resets_index_bound_covers_verification() -> None:
+    """F01 regression (t7-cpu-owner-002, hard-review-003): a legal late
+    out-of-order bar that the overlap-branch merge inserts into the middle
+    of the cached prefix must not inherit the head's index-bound
+    grid-coverage verification.  Warm (cached) must equal cold (recomputed)
+    — and the baseline — for an uncovered mid-insert (MISSING/
+    calendar_unknown), a covered mid-insert (READY) and an uncovered tail
+    append (INVALID, no reorder, normal append path)."""
+    from ak_trading.v2.schemas import encode_record
+    sessions, bars = _t7cpu_world(days=6, slots=60)
+    specs = factor_registry_v2(60)
+    rule = trading_rule(sessions[0].start_nano, sessions[-1].end_nano)
+    k = 120
+    head_last = bars[k - 1]
+    decision = head_last.end_nano + 2 * MINUTE
+
+    def warm_and_cold(late):
+        seq = tuple(bars[:k]) + (late,)
+        _clear_t7cpu_caches()
+        for count in range(17, k + 1):
+            build_feature_snapshot("RB2610", tuple(bars[:count]),
+                                   bars[count - 1].end_nano, specs,
+                                   None, None, rule, sessions)
+        warm = build_feature_snapshot("RB2610", seq, decision, specs,
+                                      None, None, rule, sessions)
+        _clear_t7cpu_caches()
+        cold = build_feature_snapshot("RB2610", seq, decision, specs,
+                                      None, None, rule, sessions)
+        return warm, cold
+
+    late_kwargs = dict(datetime_nano=head_last.datetime_nano + MINUTE,
+                       available_at_nano=head_last.end_nano + MINUTE)
+
+    # uncovered mid-slot bar sorting between bars[1] and bars[2]
+    uncovered_mid = _replace(bars[70], start_nano=bars[1].start_nano + MINUTE // 2,
+                             end_nano=bars[1].start_nano + MINUTE // 2 + MINUTE,
+                             bar_id=bars[70].bar_id + "|late-uncovered-mid",
+                             session_id=bars[1].session_id, **late_kwargs)
+    warm, cold = warm_and_cold(uncovered_mid)
+    assert warm.quality.status == cold.quality.status == "MISSING"
+    assert encode_record(warm) == encode_record(cold)
+
+    # covered mid-insert at bars[2]'s planned slot start
+    covered_mid = _replace(bars[70], start_nano=bars[2].start_nano,
+                           end_nano=bars[2].start_nano + MINUTE,
+                           bar_id=bars[70].bar_id + "|late-covered-mid",
+                           session_id=bars[2].session_id, **late_kwargs)
+    warm, cold = warm_and_cold(covered_mid)
+    assert warm.quality.status == cold.quality.status == "READY"
+    assert encode_record(warm) == encode_record(cold)
+
+    # uncovered mid-slot bar appended after the whole head (no reorder)
+    tail_start = head_last.start_nano + MINUTE + MINUTE // 2
+    uncovered_tail = _replace(bars[70], start_nano=tail_start,
+                              end_nano=tail_start + MINUTE,
+                              datetime_nano=head_last.datetime_nano + 2 * MINUTE,
+                              bar_id=bars[70].bar_id + "|late-uncovered-tail",
+                              available_at_nano=head_last.end_nano + MINUTE,
+                              session_id=head_last.session_id)
+    warm, cold = warm_and_cold(uncovered_tail)
+    assert warm.quality.status == cold.quality.status == "INVALID"
+    assert encode_record(warm) == encode_record(cold)
+

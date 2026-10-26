@@ -1,0 +1,54 @@
+{
+ "schema": "aktr-t7-cpu-hard-review-freeze/v2",
+ "pinned_at": "2026-10-26",
+ "purpose": "Bind the t7-cpu-hard-review-004 PASS verdict to the exact repaired bytes, the effective plan, and the evidence inventory",
+ "candidate_root": "C:\\AKWorktrees\\aktr-goal-t7cpu-20261026",
+ "reviewed_source_set": [
+  {"path": "src/ak_trading/v2/factors.py", "bytes": 78467, "sha256": "c1e435c139d30fa554c9ab6a2fdf60ce8f1e107cdb7ae45a69d5919f1046db7b", "prior_fail_revision": "18a36620dd856ce9de1ddf8d720ef36df5eccdaf6f4a91141c4730928b140860", "baseline": "bf20860d247752b428003ec14599ecf22cda6eb21696689e9365d349d7b7912d", "role": "REPAIRED (F01)"},
+  {"path": "src/ak_trading/v2/validation/experiments.py", "bytes": 99009, "sha256": "2aecad49a872d510cd132883ca93fc93bbfa4e28bc2e53ea9a9c21f1cfa8829a", "baseline": "8d21ab2aeae3c97313f867f1d28b2cfeda0f3c18d8d20d34f58562b22de8a8c2", "role": "UNCHANGED since 003"},
+  {"path": "tests/test_v2_m2_causality.py", "bytes": 59877, "sha256": "52f54ad46b699604c936579039e33fb05bd7c28b4b13365a8a8b5a1582e0277e", "prior_fail_revision": "fa63cbcff4c59823899a8c8c31b00403d984103e801928c7a7d5aec16dfe9d62", "baseline": "1e5fdaf5296343250d4b00d0ffb1ac68bc9481d4cf75744021985704e62a50b6", "role": "REPAIRED (+1 F01 regression, append-only)"},
+  {"path": "tests/test_v2_m5_experiments.py", "bytes": 42797, "sha256": "147d2efe21584fafba5be8ea11b4677968c5769a559705b735ff338550d93f65", "baseline": "e461186aaa6e4fe918fb518e20c24755731a1bdf8f9890f3adbdae291dadb943", "role": "UNCHANGED since 003"}
+ ],
+ "pin_checks": {
+  "owner_freeze": "t7-cpu-owner-002/FREEZE.json (actual_write_set = factors.py + test_v2_m2_causality.py; non_owned_drift_vs_baseline_pins = [])",
+  "root_candidate_all_pins": "600 pinned files hashed; exactly the four owned files differ; 0 missing",
+  "pre_repair_copies": "owner-002/pre-repair/* hash-match the 003 FAIL revision",
+  "shadow_origin_assertions": "rv4 prerepair regtest and probes assert ak_trading.v2.factors resolves inside the intended tree",
+  "pins_verified_at": ["review start", "before publishing (work/pins-before-publish.txt)"]
+ },
+ "effective_plan_pins": {
+  "astra-t7-performance-disposition-002/PERFORMANCE-DISPOSITION.md": "11e1eb3a336ad57fd3dd3d12625c7a1fa80487c01266da8eef1ec2072c7ef67e",
+  "astra-t7-path-001/EXECUTION-CLARIFICATION.md": "c28a7c21096b260a50199cd084d3eb988f1b95ddf566a2f0c81995a347e4c050",
+  "governance": {
+   "AGENTS.md": "224d213d60107599a6590b64394215b92a1b9c109072eed8bb13eb79f6327bf2",
+   "PROJECT-MODEL-ROLES.md": "e2766d80af5d4df4add39ab31d94d21dd94cf3721dd079267c6dd3092f4f7b06",
+   "PROJECT-WORKFLOW-RULES.md": "5d9003614c82b29f2d566f32ec5ac0e1b53b1b1ba575f67e072422f6c34a9ca6"
+  }
+ },
+ "evidence_inventory": {
+  "004_suites": [
+   "work/suite-logs/m2-six.json (+streams): 96 passed, exit 0, 45.1 s, 59 MiB",
+   "work/suite-logs/m5-experiments.json: 33 passed, exit 0, 122.6 s, 128 MiB",
+   "work/suite-logs/m3a-six.json: 165 passed, exit 0, 653.4 s, 60 MiB"
+  ],
+  "004_probes": [
+   "work/probes/rv4_covers_recheck.py + rv4-covers-{repaired,prerepair,baseline}.json (+streams): F01 recheck, 4 cases x 3 trees; repaired warm/cold hashes equal baseline on every case",
+   "work/probes/rv4-regtest-prerepair.stdout.txt: new regression test vs pre-repair shadow, raw exit 1 (expected negative, preserved)",
+   "work/probes/rv4-regtest-repaired.stdout.txt: same test on repaired candidate, exit 0",
+   "work/probes/rv4_perf_stream.py + rv4-perf-repaired.json: 512-prefix no-fit recheck, chain 69fb1bb1... identical to 003, wall 13.792 s, RSS 101 MiB"
+  ],
+  "reused_valid_evidence": [
+   "003 FINDINGS/VERDICT/REVIEW-FREEZE: full counterexample battery, real-input equivalence (256/512 chains), daily-background, six-duration, boundary/Wilder/grid/identity/eviction probes, 2.30x/2.35x performance - valid for byte-identical files and untouched paths",
+   "001 suite receipts (95/165/33 on the pre-repair revision) and ROOT-CANDIDATE pin file",
+   "owner-002 work/: suite-logs (96/165/33 raw 0), rv2-f01-prerepair/repaired-new.json, f01_preimage.py, nofit-repaired-r1.json - read-only corroboration"
+  ]
+ },
+ "tooling": {
+  "python": "D:\\Programs\\Python\\Python312\\python.exe (3.12.10), pytest 9.1.1, psutil 7.2.2",
+  "module_binding": "suites via candidate pyproject pythonpath=['src'] with cwd=candidate root; probes via explicit sys.path.insert(0, tree) with origin assertion; shadow pytest via PYTHONPATH + --override-ini pythonpath= (candidate src excluded, origin asserted)",
+  "capture_discipline": "argument-array subprocess, native exit captured immediately, expected negative (prerepair regtest exit 1) preserved as-is; resource sampler NoSuchProcess tolerated; JSON via temp sibling + atomic replace, newline='\n'"
+ },
+ "safety": {"enable_trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_cancel": "0/0",
+            "credentials_env_read": false, "network": "none", "git_operations": "none",
+            "product_source_edits": 0, "nested_agents": 0}
+}

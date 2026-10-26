@@ -1,0 +1,64 @@
+{
+ "review": "t7-cpu-hard-review-004 (re-review of the F01 repair; same independent reviewer session as 001-003)",
+ "reviewed_revision": {
+  "src/ak_trading/v2/factors.py": "c1e435c139d30fa554c9ab6a2fdf60ce8f1e107cdb7ae45a69d5919f1046db7b",
+  "src/ak_trading/v2/validation/experiments.py": "2aecad49a872d510cd132883ca93fc93bbfa4e28bc2e53ea9a9c21f1cfa8829a",
+  "tests/test_v2_m2_causality.py": "52f54ad46b699604c936579039e33fb05bd7c28b4b13365a8a8b5a1582e0277e",
+  "tests/test_v2_m5_experiments.py": "147d2efe21584fafba5be8ea11b4677968c5769a559705b735ff338550d93f65"
+ },
+ "findings": [
+  {
+   "id": "F01-RESOLVED",
+   "class": "PRODUCT_DEFECT_VERIFIED_REPAIRED",
+   "title": "Overlap-merge index-bound covers carry-over (003 F01): repaired, verified byte-identical to baseline",
+   "repair_verified": {
+    "diff_scope": "13 lines in factors.py _visible extension path only; invalidation condition is exactly _merge_prefixes' own overlap test (deduped_tail and cached_prefix and deduped_tail[0].start_nano < cached_prefix[-1].start_nano); covers reset to {} on overlap; pure-append inheritance, order-independent aggregates and chain unchanged",
+    "case_a_f01_input": "repaired warm MISSING/2 == cold MISSING/2 (warm==cold True, record hash equal to baseline warm and cold); state verification full-rescans and records the uncovered index (verified=2, prefix_len=121)",
+    "prerepair_preimage": "the FAIL-revision shadow tree still reproduces F01 under the same probe (warm READY/12 vs cold MISSING/2, stale verified=121) - the probe remains discriminating",
+    "controls": "covered mid-insert READY/12 == cold (full re-verify to 121); uncovered tail append INVALID == cold (append path inherits and checks the appended index) - unchanged across repaired/prerepair/baseline",
+    "additional_case_d": "three-bar mixed overlap tail (uncovered mid + covered mid + tail append, distinct dedup-key datetimes): warm==cold INVALID/2 on all three trees; repaired state hygiene verified=2 vs prerepair stale 122; record hashes equal to baseline on all trees",
+    "baseline_byte_identity": "repaired warm_hash == baseline warm_hash AND repaired cold_hash == baseline cold_hash on every case; the only warm-vs-baseline divergence ever observed was prerepair case A, now eliminated"
+   },
+   "regression_test": {
+    "name": "test_t7cpu_overlap_merge_resets_index_bound_covers_verification",
+    "discriminating": "FAILS against the pre-repair shadow tree (PYTHONPATH-bound pre_repair_impl, origin asserted; raw exit 1, assert READY != MISSING) and PASSES on the repaired candidate (exit 0); appended-only test change, no existing test modified",
+    "evidence": "work/probes/rv4-regtest-prerepair.stdout.txt (exit 1), rv4-regtest-repaired.stdout.txt (exit 0)"
+   }
+  },
+  {
+   "id": "F02-PRESERVED",
+   "class": "BASELINE_LIMITATION_NON_BLOCKING",
+   "title": "Pre-existing overlap-branch warm/cold input_hash (chain-order) asymmetry unchanged, per 003 scoping",
+   "evidence": "The repair deliberately does not touch chain semantics; 003 pr3 evidence showed new warm/cold input_hash on the >256 overlap input equals old baseline exactly (de0606.../12ebcf...). 004 work order confirms F02 remains a baseline limitation, not new acceptance."
+  },
+  {
+   "id": "R01",
+   "class": "TRANSPORT_FACT_NOT_PRODUCT",
+   "title": "Owner-002 CLI transport end raw1/HTTP 502/empty stdout, bound separately from the product verdict",
+   "detail": "Per the 004 work order: the developer's CLI ended raw1/HTTP 502 with empty stdout AFTER its real deliverables (FREEZE, DELIVERY, supervised suites 96/165/33 raw 0) were complete and Root verified the four hashes, terminal/children stopped and test artifacts. The transport failure is recorded and does not convert into any product claim, positive or negative; the product verdict rests on this review's independent verification against the frozen bytes."
+  },
+  {
+   "id": "R02",
+   "class": "OWNER_HISTORICAL_LIMITATIONS_PRESERVED",
+   "title": "F03/F04 from 003 remain recorded limitations of owner-001's record and reviewer-001's early probe handling",
+   "detail": "Owner-001 869.30 s cProfile overrun (Root stop, exit 15, omitted from its DELIVERY), owner-001's overwritten first M5 failure logs, and reviewer-001's overwritten first probe logs / initial pr5 harness error are unchanged historical facts; owner-002's delivery adds no new such events (all children supervised, unique log names)."
+  },
+  {
+   "id": "R03",
+   "class": "SCOPE_NOT_RUN",
+   "title": "NOT_RUN items remain out of scope and are not resolved by this PASS",
+   "items": [
+    "Full MINUTE cold chain and its memory/disk bound (static ~2.491 GiB outer pointer-slot lower bound stands)",
+    "PERFORMANCE-DISPOSITION section 4 memory increment implementation and wiring",
+    "M1/M4/M5-full/T7/goal-lock populations; downstream stage profiling; real broker (broker=NOT_RUN)"
+   ]
+  }
+ ],
+ "verified_clean": [
+  "Freeze integrity: candidate bytes match owner-002 FREEZE.json exactly; experiments.py and test_v2_m5_experiments.py byte-identical to the 003-reviewed FAIL revision as claimed; full 600-file ROOT-CANDIDATE pin sweep shows only the four owned files differ (zero non-owned drift); pre-repair copies hash-match the FAIL revision (18a36620.../fa63cbcf...)",
+  "Independent suite reruns on the repaired bytes: M2 six-file 96 passed exit 0 (45.1 s / 59 MiB), M3A six-file 165 passed exit 0 (653.4 s / 60 MiB), test_v2_m5_experiments 33 passed exit 0 (122.6 s / 128 MiB); exact owner argv; no skips, no removals",
+  "F01 input class now byte-identical to baseline on both warm and cold paths (four probe cases); prerepair still fails the same probe (discriminating preimage preserved)",
+  "Performance: 512-prefix real-input recheck chain byte-identical to 003 (69fb1bb1...), wall 13.79 s vs 12.83 s (within run-to-run variance); 003's independent 2.30x/2.35x measurements and full counterexample battery remain valid for the unchanged paths",
+  "003's previously verified equivalences carry over unchanged for the byte-identical files and untouched code paths: real-input old-vs-new chains (256/512), daily-background reverse index, six-duration file bytes, D2/duplicate-tail fixes, Wilder, 255/256/257, grid binding, calendar/spec identity, eviction"
+ ]
+}

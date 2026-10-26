@@ -696,14 +696,24 @@ def _build_snapshots(bundle, config, split):
     requires_seasonal=any(k.startswith("SEASONAL:") for k in config["model_fit_configs"][split.split_id]["feature_keys"])
     seasonal_prefixes={}
     # Calendar and data are frozen. No database, transport or model configuration loads.
+    # T7 CPU fix, byte-identical outputs: (1) the per-duration frozen spec
+    # registry (a pure function of the duration) is built once instead of
+    # per bar; (2) the daily background is selected from a per-contract list
+    # of that contract's daily snapshots in creation order — exactly the
+    # subsequence the original ``reversed(snapshots)`` scan filtered to —
+    # so the last matching snapshot is the same one the full scan returned.
+    durations=sorted(config["feature_durations"],key=lambda d:(d!=86400,d))
+    specs_by_duration={duration:factor_registry_v2(duration)+baseline_registry_v2(duration) for duration in durations}
     snapshots=[];exclusions=[]
+    daily_by_contract:dict[str,list]={}
     for contract in config["contract_ids"]:
         minutes=tuple(b for b in bundle.bars if b.contract_id==contract and b.duration_seconds==60
                       and b.end_nano<=split.test_end_nano and b.available_at_nano is not None)
         daily=tuple(b for b in bundle.bars if b.contract_id==contract and b.duration_seconds==86400
                     and b.end_nano<=split.test_end_nano and b.available_at_nano is not None)
-        for duration in sorted(config["feature_durations"],key=lambda d:(d!=86400,d)):
+        for duration in durations:
             bars=daily if duration==86400 else minutes if duration==60 else aggregate_bars(minutes,bundle.sessions,duration,split.test_end_nano)
+            specs=specs_by_duration[duration]
             prefix=[]
             for bar in sorted(bars,key=lambda b:(b.available_at_nano or b.end_nano,b.end_nano,b.bar_id)):
                 if not bar.complete or bar.available_at_nano is None:continue
@@ -725,11 +735,14 @@ def _build_snapshots(bundle, config, split):
                             else:
                                 seasonal_prefixes[cache_key]=None
                         seasonal_for_snapshot=seasonal_prefixes[cache_key]
-                background=next((f for f in reversed(snapshots) if f.contract_id==contract and f.duration_seconds==86400
-                                 and f.trading_day<bar.trading_day and f.available_at_nano<=decision),None) if duration!=86400 else None
-                snapshot=build_feature_snapshot(contract,tuple(prefix),decision,factor_registry_v2(duration)+baseline_registry_v2(duration),background,seasonal_for_snapshot,
+                background=None
+                if duration!=86400:
+                    background=next((f for f in reversed(daily_by_contract.get(contract,()))
+                                     if f.trading_day<bar.trading_day and f.available_at_nano<=decision),None)
+                snapshot=build_feature_snapshot(contract,tuple(prefix),decision,specs,background,seasonal_for_snapshot,
                                                  visible_rule(bundle,contract,decision),bundle.sessions)
                 snapshots.append(snapshot)
+                if duration==86400:daily_by_contract.setdefault(contract,[]).append(snapshot)
     return tuple(sorted(snapshots,key=lambda f:(f.decision_nano,f.contract_id,f.duration_seconds))),seasonal,exclusions
 
 
