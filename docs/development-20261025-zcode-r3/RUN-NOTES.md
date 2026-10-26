@@ -97,3 +97,16 @@ Root状态文档提交第一次raw128：仓库没有持久user.name/user.email�
 2026-10-26 01:16 UTC: Root optional discovery tool30ff8f raw1 came from assuming strategy-first README.md existed and using SilentlyContinue. The directory listing succeeded, but the absent optional read remained a command failure; no development/review/publish action ran in that command. This is Root discovery misuse, not ZCode/product failure, and is not reclassified as rg NO_MATCH. Actual entry is CURRENT.md from the returned directory. Future optional paths use Test-Path/Path.is_file before Read; do not suppress stderr or append an unclassified optional Read.
 
 2026-10-26 01:19 UTC：Forward integrated306与T7-M4独立审核均真实native0/同SID/输入不变/无条件PASS；Root重核378源和37审核成员、M4九文件及真实裁决后接收。M4精确一文件已交B，M1五文件此前已交付。原B010、DISPATCH013、N8050、M5012实际并行启动。M5011 sealer发现条件表达式优先级绕过头部验证、将Markdown authority按JSON读取两处确定错误，交原reviewer在正式调用前修复，未消耗affected002。原代码和不准确010时间字段说明保留。
+
+2026-10-26 01:48 UTC：Root先前读取b25c68猜M5 NEXT-ROOT-COMMAND.json，真实为NEXT-ROOT-COMMAND-012.json；首个MissingPath不能被后续目录命令0抹去。b702a2猜history.closed_intervals，实际为closed_process_envelopes，raw1在任何输出/调用前；已在ROOT-HISTORY保留。以后从真实REQUEST/FileRef和字段列表程序化取值，不按其他模块命名推测。
+
+T7-B010终态native0后，Root重核122个唯一源码/输入文件，立即发独立R0；DELIVERY prose误写ep1-t7，机器SOURCE-FREEZE正确为ep1_t7，派工以实际JSON与文件为准。R0只接受冻结输入检查，不替代后续真实冷链及R1/R2。
+
+DISPATCH013的007因完整历史缺一项失败，008/009因全局编号替换破坏固定allowed_operations失败；14次历史失败全部保留。N8050局部检查的缺初始化/父目录/生成源码未注入PY失败保留，1200秒结束后formal未启动；发布时刻晚于deadline不改写为预算内完成。原作者061/074正在把普通代码准备和实际一次性正式验证边界集中澄清，不能由Root私自续跑已消费grant。
+
+M5013 affected002实际11pass/1fail，全部raw1。缺json导入是reviewer源码错误；原件postparse通过不能倒改002为PASS。013同时在Root明确seal失败即停的工单下进行了004/005等修复与续封，事实保留并交原作者036处置，不能事后追认操作已授权。原reviewer014仅在新目录修自身工具并验证，正式runtime max0；作者并行处理后继，产品615不改。避免方法：在最终真实源码上运行入口和报告处理检查，按生产完成边界判缺失；不用全局字符串替换生成后继，不拿工具自测绿代替产品审核。
+
+
+2026-10-26 02:30 UTC：Root6eb244在启动M1前核对R0清单时raw1：182成员中logs/07-freeze-stdout.txt被封存脚本提前记为0字节，闭合实际684字节，其余181及139源输入均匹配。M1当时零启动、L0未创建。保留原清单，由原独立reviewer002追加闭合收据，不倒改原report或重复未变测试。避免办法：源先冻结；产生者真实结束、流关闭后再hash；自身或父CLI的活动stdout绝不能进入本轮清单，由后继接收方封存。该防护失败不改记成功、不归因于产品代码。
+
+作者061/074/036均已结束并发布现有故障处置，原DISPATCH owner014和N8 reviewer051实际续接；另并行启动T7 R0收尾002和M5 reviewer015。M5以真实author036终态和014终态计算183秒保守收尾 debit，剩余普通本地执行417秒，每进程60秒；正式命令未启动、不以模型上下文装载消耗正式时限。N8 author074 native0/receiver1的已恢复SSE单独保留，Root核完整35事件、5命令raw0、原thread及14pins后接收，不重跑作者。
