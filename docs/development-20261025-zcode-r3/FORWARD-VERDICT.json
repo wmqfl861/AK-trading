@@ -1,0 +1,39 @@
+{
+  "schema": "fp-integrated306-formal-hardreview-verdict/v1",
+  "verdict": "PASS",
+  "conditional": false,
+  "product": "integrated306 forward-paper revision on the frozen 378-file closure (INTEGRATED-SOURCE-CLOSURE sha256 f899d30e2a392610cd5497030b789c38f73cb7a9b37681ad656ba350b5877b6e), population 306 ordered nodes (original 298 preserved as ordered subsequence + 8 accepted additions)",
+  "reviewer": {"tool": "ZCode", "model": "GLM-5.3", "reasoning": "max", "session_id": "sess_01d66719-8b1f-4620-b9b2-a130611ff58f", "cwd": "D:\\Projects\\AK-trading", "store": "D:\\Projects\\AK-trading\\docs\\parallel-development-20261004-r1\\dispatch\\aktr-zcode-cu-manual-product-hard-review-20261015T114806Z-e41a9875\\private-store\\review-session.sqlite", "implementation_or_repair_participation": false},
+  "developer": {"session_id": "sess_43fc3d2f-dc0c-4e1b-858d-28ffe727c1e2", "distinct": true},
+  "authorities": ["attached WORKORDER (forward-integrated-hard-review-001)", "AUTHOR-EXECUTION-DISPOSITION-003.json (8bdffe8f…)", "AUTHOR-EXECUTION-DISPOSITION-004.json (9488c92f…)", "effective PLAN.md section9", "DISPATCH-INPUT-FREEZE.json (18 refs)", "FORMAL-EXECUTION-BINDING.json (36e93b91…) D=2100", "ROOT-FRESH-ADMISSION.json (d117e0c4…)", "PARALLEL-CAPACITY-FACTS-20261025-052"],
+  "formal_run": {
+    "attempt": "independent-full13-002",
+    "execution": "EXACTLY ONCE via installed Bash explicit run_in_background lifecycle (no foreground wait); helper verify_forward_acceptance_005.py (45a26636…, sole delta vs 004 = embedded reporter EXPECTED_ORDERED_NODEIDS tuple, verified 2-line diff); observed to real complete terminal: background task exit 0, helper native 0, session_finish pytest_exitstatus 0",
+    "outcome": {"raw_helper_native": 0, "pytest": "306 passed in 1112.18s (0:18:32) [100%], zero failures/skips/deselections", "elapsed_seconds": 1120.375, "deadline_D": 2100, "peak_job_bytes": 2006671360, "memory_limit": 2147483648, "output_peak": 34186584, "output_limit": 1073741824, "budget_violations": [], "budget_conformant": true, "source_pins": 378, "source_mismatches": [], "harness_error": null, "stderr": "1533 reporter events only; the 11 'FAILED' substrings are CALIBRATION_FAILED node-id parameters, not failures"},
+    "reconciliation": {"collection_count": 306, "collection_equals_frozen_order": true, "node_starts": 306, "node_finishes": 306, "started_equals_frozen_order": true, "finished_equals_frozen_order": true, "any_nonpass_phase": 0, "request_argv_equals_binding": true, "job_enrollment": "flags 8704, 2GiB limit, membership proved before resume"}
+  },
+  "verified_clean": [
+    "prereview-integrated-r1.json 16/16: all 18 dispatch refs repinned; integrated closure 378/378 matches live tree; changed set vs retired 377 closure is exactly 1 added (tests/test_mcp_readonly_role.py) + 9 modified computed programmatically and equal to changed_source_mapping; forward feed/test files unchanged from accepted r7 (3d456ec7…/eeef6dd5…); population 306 unique, original 298 ordered subsequence with zero removals, 13-file order equals argv order; coverage mapping = 3 VERIFIED_CHANGED_SCOPE groups exactly partitioning 306; acceptance evidence P27_replay/P16/C05 all nonempty; readiness label exact; helper delta reporter-tuple-only; binding D=2100 argv=21",
+    "validator004-vs-helper005-SYNTHETIC.json: immutable validator004 independently rerun against helper005 — native 0, 4/4 positives, 93/93 negative rejections with exact intended codes",
+    "capacity-floor-check-r2.json: RAM after whole 052 reservations 8.07GB ≥ 6GiB floor; D after whole charges 4.45GB ≥ 4GiB floor; UNKNOWN charges retained (r1 record preserved with its key-typo)",
+    "counterexamples-003: 5/5 reviewer probes passed under the 600s/2GiB/1GiB bounded Job — trend duplicate/restart redelivery holds counters on reviewer-shifted windows, prefix invariance, no premature OPEN on pure redelivery, pullback short-mirror duplicate reclaim holds with OPEN exactly on the third distinct bar, late duplicate never regresses the counter",
+    "drift-recheck-final.json: 378/378 clean after all review activity"
+  ],
+  "findings": {"count": 0, "file": "FINDINGS.json"},
+  "preserved_prior_failures_untouched": [
+    "formal001 (independent-full13-001, 2026-10-24): retired incomplete — CLI raw1/wrong watchdog1/parse ERROR, helper/pytest UNKNOWN_NOT_CAPTURED, RESULT ABSENT, 49 complete passing of 50 started; no verdict issued then or retroactively",
+    "r7 original full13 F raw124 (ordinal13, cause unestablished) and r12 raw124/DEADLINE at 1204.375s (183 complete, ordinal184 incomplete, 114 not-run)",
+    "r7 RED raw1 two expected-negative SDK_SERIAL_TIME_INVALID failures; r12/r13 owner coverage runs kept separate with raw124 preserved",
+    "OLD-SUBMISSION-CLOSEOUT.json immutable (RETIRED_INCOMPLETE_NO_VERDICT / NOT_ACCEPTED)"
+  ],
+  "reviewer_harness_incidents_preserved": [
+    "capacity-floor-check r1: subtraction keys missed the total_ prefix (recorded 0 subtraction); superseded by r2 with both records retained",
+    "counterexamples-001: probe import ModuleNotFoundError (ak_trading.v2.strategies.observation does not exist — real path is .state), pytest raw 2; counterexamples-002: one probe expectation defect (my fourth-stage OPEN vs the frozen three-distinct-bar semantics, raw 1, 4/5); both corrected in counterexamples-003 (5/5). Also the harness copy's first ROOT depth (parents[8]) resolved to D:\\Projects and was fixed to parents[7] before any child launch — the misdepth run never created a child"
+  ],
+  "honesty_limits": [
+    "Owner feed-58 pass and r12/r13 coverage runs remain readiness evidence only; this PASS rests on the single complete independent formal002 run plus the probes above",
+    "The integrated changes' behavioral coverage beyond the 306-node execution is the owner's VERIFIED_CHANGED_SCOPE mapping; this review verified its structural exactness (partition, changed-source diff equality, pin resolution) and the runtime pass, not a line-by-line re-derivation of every candidate acceptance"
+  ],
+  "safety": {"enable_trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_count": 0, "real_cancel_count": 0, "network": "NOT_RUN (offline guard active)", "credentials": "NOT_READ", "model_configuration_changes": 0, "formal_attempts": 1, "retries": 0, "candidate_or_helper_edits": 0, "BIP1_used": false, "writes": "only under review-evidence/formal-full13-20261025-003 (reviewer-checks/ + final outputs) and D:\\Maintenance\\aktr-development-20261025\\forward-integrated-hard-review-001\\DELIVERY.md; 378 closure clean before and after"},
+  "next_action": "PASS recorded for the integrated306 revision. Root proceeds with authorized delivery; runtime/live-SDK gates remain separate and unchanged."
+}

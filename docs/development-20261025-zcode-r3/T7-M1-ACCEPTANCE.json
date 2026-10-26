@@ -1,0 +1,218 @@
+{
+  "schema": "aktr-accepted-review-summary/v1",
+  "recorded_utc": "2026-10-26T00:55:31.947598+00:00",
+  "module": "T7-M1 contract-version realization",
+  "verdict": "PASS",
+  "conditional": false,
+  "product_commit": "f3cc9a9",
+  "branch": "work/zcode-r3-t7-m1-version-20261025",
+  "main_integration": "PENDING_FORWARD_SOURCE_FREEZE_TERMINAL",
+  "reviewer_session": "sess_fa9c43b2-ae5b-447f-ab29-206e84283270",
+  "developer_session": "sess_284b6b72-0754-46f1-a88e-482f01382d0f",
+  "required_test_passes": 57,
+  "independent_counterexamples": 39,
+  "actual_source_freeze": {
+    "freeze_id": "t7-m1-version-owner-002-author003-r1",
+    "date": "2026-10-25",
+    "owner": "M1 lock owner (same SID/store as t7-m1-lock-owner-001; CLI cwd D:/Projects/AK-trading)",
+    "authority": "astra-t7-existing-integration-clarification-003/T7-EXISTING-INTEGRATION-DISPOSITION.md section 2 (EFFECTIVE)",
+    "candidate": {
+      "root": "C:/AKWorktrees/aktr-r3-t7-m1-version-20261025",
+      "baseline_git_head": "908604e (accepted main)",
+      "write_set_exact": [
+        "src/ak_trading/v2/__init__.py",
+        "tests/fixtures/v2/shared.json",
+        "tests/test_v2_m1_exit_contracts.py",
+        "tests/test_v2_m1_artifacts.py",
+        "tests/test_v2_m1_payoff_path_contracts.py"
+      ],
+      "git_status_after": "exactly the five files modified; nothing else touched"
+    },
+    "change_summary": {
+      "src/ak_trading/v2/__init__.py": "CONTRACT_VERSION ak_probability_strategy_contract_v2.1.3 -> v2.1.5; M1_NODE_VERSION M1-v2.1.3 -> M1-v2.1.5. DOCUMENT_VERSION stays devplan-v2.1.7; INPUT_SCHEMA_VERSION, SHARED_FIXTURE_SCHEMA_VERSION and CONTRACT_LOCK_SCHEMA_VERSION unchanged (diffstat 2/2).",
+      "tests/fixtures/v2/shared.json": "root contract_version string only (single occurrence, verified byte-level: same 23304 bytes length, all other sections parse-identical; diffstat 1/1). Economic data unchanged.",
+      "tests/test_v2_m1_exit_contracts.py": "two version assertions synced to v2.1.5 / M1-v2.1.5; CHECKPOINT_SCHEMA_ID v2.1.3, EXIT_STATES/EXIT_BINDINGS v1.0.0, METRICS v2.1.4, DOCUMENT_VERSION devplan-v2.1.7 assertions kept (diffstat 2/2).",
+      "tests/test_v2_m1_artifacts.py": "new test_promoted_contract_version_bindings (exports, allocation-target realization, strict decode_shared_fixture of the real frozen shared.json, old-version re-encode rejected with contract_version_mismatch); roundtrip gains the promoted contract literal and a verify_with tamper case setting contract_version back to v2.1.3 (rejected) (diffstat +25/-1).",
+      "tests/test_v2_m1_payoff_path_contracts.py": "allocation-realization assertions: CONTRACT_VERSION == EP1_CONTRACT_TARGET_ALLOCATION['contract_version_target'] and M1_NODE_VERSION == 'M1-v2.1.5'; all existing allocation/schema assertions unchanged (diffstat +6/-0)."
+    },
+    "frozen_bytes_sha256": {
+      "src/ak_trading/v2/__init__.py": {
+        "sha256": "3731fbc5ce294f8bde2fdb043427c2e5b81f4d01b65f73669b0b60f338b1a2be",
+        "bytes": 667
+      },
+      "tests/fixtures/v2/shared.json": {
+        "sha256": "2d6ad1d48e1984a1e078bb63fc6cbb8876f59251283eadbc7b0b08dd6630e1c5",
+        "bytes": 23304
+      },
+      "tests/test_v2_m1_artifacts.py": {
+        "sha256": "fb66cbfdb4ae59b125b05df3bb2b3bd5b7583cd3b05c66c5075a8a9165747ff9",
+        "bytes": 48267
+      },
+      "tests/test_v2_m1_exit_contracts.py": {
+        "sha256": "a0c8219da12cbdfcd0a30afcb8a6c453a6cafb07610a87cf909a93edd1b11399",
+        "bytes": 27525
+      },
+      "tests/test_v2_m1_payoff_path_contracts.py": {
+        "sha256": "3a83536f4d721d6a55a54886e917b6df21e3dfe4f0b429ce793276f657ecdaa0",
+        "bytes": 54653
+      }
+    },
+    "predecessor_preimages": {
+      "root": "C:/AKWorktrees/aktr-r3-t7-m1-version-owner-002-evidence-20261025/preimages (from git HEAD 908604e)",
+      "src/ak_trading/v2/__init__.py": {
+        "sha256": "7d3dd5c252bac5608f4fa010ad926427f2e2fe9094cc47b53ea876bd967fda31",
+        "bytes": 667
+      },
+      "tests/fixtures/v2/shared.json": {
+        "sha256": "f2d2d21bc990f2463db289c431f3d1c93c08b7c99f2ed3e7666f2d6d79182749",
+        "bytes": 23304
+      },
+      "tests/test_v2_m1_artifacts.py": {
+        "sha256": "ca66659c6929f82b956a26081c4345919c1b8fd4bec3152273cf997949bd67d8",
+        "bytes": 46773
+      },
+      "tests/test_v2_m1_exit_contracts.py": {
+        "sha256": "c3b96ad1e72cd384017e0dc2db18107c3f4efbcd8dadf3b68d9d05725d9f3db2",
+        "bytes": 27031
+      },
+      "tests/test_v2_m1_payoff_path_contracts.py": {
+        "sha256": "1d8f66b2a3672e6132cd589376fdcde0ebc97553353d100f38f0d499f4e45eb0",
+        "bytes": 54290
+      }
+    },
+    "verification": {
+      "identity_precheck": "PYTHONPATH=<candidate>/src, process-only; asserted ak_trading, ak_trading.v2.artifacts and ak_trading.v2.schemas __file__ all under C:\\AKWorktrees\\aktr-r3-t7-m1-version-20261025 before product actions; printed CONTRACT_VERSION=ak_probability_strategy_contract_v2.1.5, M1_NODE_VERSION=M1-v2.1.5, DOCUMENT_VERSION=devplan-v2.1.7; native exit 0.",
+      "run_m1_five_001": {
+        "argv": "python -B -X utf8 scripts/test_offline.py -q tests/test_v2_m1_payoff_path_contracts.py tests/test_v2_m1_contracts.py tests/test_v2_m1_exit_contracts.py tests/test_v2_m1_artifacts.py tests/test_v2_m1_export.py --basetemp <evidence>/run-m1-five-001/basetemp",
+        "cwd": "C:/AKWorktrees/aktr-r3-t7-m1-version-20261025",
+        "source": "exact original M1 five-file group from v2-ep1-training-path-20260917-r1/decision.md RULING 6 command list (line 306)",
+        "native_exit": 0,
+        "outcome": "selected 39, ran 39, passed 39, failed 0, skipped 0, errors 0; includes new test_promoted_contract_version_bindings",
+        "evidence": "C:/AKWorktrees/aktr-r3-t7-m1-version-owner-002-evidence-20261025/run-m1-five-001/{stdout.txt,stderr.txt,EXIT.json,basetemp}"
+      },
+      "run_m1_remaining_002": {
+        "argv": "python -B -X utf8 scripts/test_offline.py -q tests/test_v2_m1_clock.py tests/test_v2_m1_data.py tests/test_v2_m1_macro.py tests/test_v2_m1_policy.py --basetemp <evidence>/run-m1-remaining-002/basetemp",
+        "purpose": "remaining PUBLIC_TEST_FILES (M1) complement to the RULING 6 five-file group: full M1 lock-required test population of this node",
+        "native_exit": 0,
+        "outcome": "selected 18, ran 18, passed 18, failed 0, skipped 0, errors 0",
+        "evidence": "C:/AKWorktrees/aktr-r3-t7-m1-version-owner-002-evidence-20261025/run-m1-remaining-002/{stdout.txt,stderr.txt,EXIT.json,basetemp}"
+      }
+    },
+    "honest_boundaries": [
+      "Formal L0/L1 NOT_RUN: no lock generated or published this stage; the only locks exercised are temporary SYNTHETIC locks inside pytest temp trees (test_build_and_verify_contract_lock_roundtrip).",
+      "No missing historical acceptance fixture was encountered in either run; nothing was patched around.",
+      "Other schemas untouched: experiment/research_config remain v2.1.3 (payoff_training_plan_sha256 declarations untouched), qualification experiment v2.1.1 consumption in artifacts.py untouched, checkpoints v2.1.3, metrics v2.1.4, exit states/bindings v1.0.0, lock schema v2.1.0, input v2.1.0, shared-fixture schema v2.1.0.",
+      "No cold fit, no research run, no deployment, no network/SDK/broker/DB/service/UI/git-write; no credentials/.env access; no model/provider configuration reads or writes.",
+      "Out-of-scope files (B worktree, M4 test owner candidate, main repo) were never written.",
+      "Trading false, observer hold, broker NOT_RUN, real send/cancel 0."
+    ],
+    "next_stage": "Same SID/store generates L0 (candidate-lock.ep1-r1.candidate-r1.json path from interface001 handoff, now under CONTRACT_VERSION v2.1.5) only after B's final F freeze and a real independent R0; this frozen five-file set is ready for separate independent ZCode hard review."
+  },
+  "raw_verdict": {
+    "review_id": "t7-m1-version-hard-review-002-r1",
+    "date": "2026-10-25",
+    "reviewer": "independent ZCode GLM-5.3/max (no part in author003 implementation or owner-002)",
+    "scope": "T7-EXISTING-INTEGRATION-DISPOSITION section 2 (EFFECTIVE) five-file author003 write-set",
+    "candidate": {
+      "root": "C:\\AKWorktrees\\aktr-r3-t7-m1-version-20261025",
+      "baseline_git_head": "908604e",
+      "git_status": "exactly the five write-set files modified; nothing else touched"
+    },
+    "verdict": "PASS",
+    "conditional": false,
+    "authority": [
+      "D:/Maintenance/aktr-development-20261025/astra-t7-existing-integration-clarification-003/T7-EXISTING-INTEGRATION-DISPOSITION.md (section 2, EFFECTIVE)",
+      "D:/Projects/AK-trading/docs/development-20261025-zcode-r3/T7-PLAN.md",
+      "D:/Projects/AK-trading/docs/development-20261025-zcode-r3/T7-PLAN-DISPOSITION.md",
+      "C:/AKWorktrees/aktr-r3-t7-fixtures-20261025/data/maintenance_artifacts/v2-ep1-training-path-20260917-r1/decision.md RULING 6 (original M1 five-file command, line 306)",
+      "D:/Projects/AK-trading/data/maintenance_artifacts/v2-ep1-m1-20260917/implementation.md sections 1.2-1.3 (allocation to be realized on real 2.1.5 publication)"
+    ],
+    "required_checks": {
+      "input_pins_verified": {
+        "checked": 44,
+        "failures": 0,
+        "detail": "5 frozen product files == SOURCE-FREEZE pins; 5 predecessor preimages == pins; 34 REQUEST inputs == pins",
+        "evidence": "evidence/hash-pins-001/RESULT.json"
+      },
+      "write_set_exact": {
+        "result": "PASS",
+        "detail": "git numstat 2/2, 1/1, +25/-1, 2/2, +6/-0 matches SOURCE-FREEZE diffstat; preimage-normalized diffs contain only the claimed changes; post-review drift check 0 failures",
+        "evidence": "evidence/change-scope-001/*.diff"
+      },
+      "identity_precheck": {
+        "native_exit": 0,
+        "detail": "ak_trading, ak_trading.v2, ak_trading.v2.artifacts, ak_trading.v2.schemas __file__ all under C:/AKWorktrees/aktr-r3-t7-m1-version-20261025; CONTRACT_VERSION=ak_probability_strategy_contract_v2.1.5, M1_NODE_VERSION=M1-v2.1.5, DOCUMENT_VERSION=devplan-v2.1.7",
+        "evidence": "evidence/identity-precheck-001/{stdout.txt,stderr.txt}"
+      },
+      "rerun_m1_five_001": {
+        "argv": "python -B -X utf8 scripts/test_offline.py -q tests/test_v2_m1_payoff_path_contracts.py tests/test_v2_m1_contracts.py tests/test_v2_m1_exit_contracts.py tests/test_v2_m1_artifacts.py tests/test_v2_m1_export.py --basetemp <reviewer-evidence>/run-m1-five-001/basetemp",
+        "cwd": "C:/AKWorktrees/aktr-r3-t7-m1-version-20261025",
+        "native_exit": 0,
+        "outcome": "selected 39, ran 39, passed 39, failed 0, skipped 0, errors 0; includes test_promoted_contract_version_bindings",
+        "owner_claim_reproduced": true,
+        "evidence": "evidence/run-m1-five-001/{stdout.txt,stderr.txt,EXIT.txt}"
+      },
+      "rerun_m1_remaining_002": {
+        "argv": "python -B -X utf8 scripts/test_offline.py -q tests/test_v2_m1_clock.py tests/test_v2_m1_data.py tests/test_v2_m1_macro.py tests/test_v2_m1_policy.py --basetemp <reviewer-evidence>/run-m1-remaining-002/basetemp",
+        "cwd": "C:/AKWorktrees/aktr-r3-t7-m1-version-20261025",
+        "native_exit": 0,
+        "outcome": "selected 18, ran 18, passed 18, failed 0, skipped 0, errors 0",
+        "owner_claim_reproduced": true,
+        "evidence": "evidence/run-m1-remaining-002/{stdout.txt,stderr.txt,EXIT.txt}"
+      },
+      "full_population_coverage": {
+        "result": "PASS",
+        "detail": "PUBLIC_TEST_FILES == exactly the 9 M1 test files covered by the two rerun commands (39+18=57); this is the node's full lock-required test population"
+      },
+      "independent_counterexamples": {
+        "probes": 39,
+        "failures": 0,
+        "native_exit": 0,
+        "groups": {
+          "A_legacy_contract_rejection": "real strict decoder rejects legacy v2.1.3 and unknown v2.1.9 fixture roots and record-file envelopes; real build_contract_lock emits v2.1.5 and real verify_contract_lock rejects a lock tampered to v2.1.3 (lock_contract_version_mismatch)",
+          "B_unrelated_schema_preservation": "13 schema IDs unchanged (checkpoints v2.1.3, metrics v2.1.4, exit states/bindings v1.0.0, lock v2.1.0, input v2.1.0, shared-fixture v2.1.0, seasonality v2.1.1, factor registry v2.1.1, input collection v2.1.0, payoff plan/path v1); allocation keeps experiment/research_config targets v2.1.3; real lock schema table == live map; artifacts.py still consumes qualification experiment v2.1.1 and payoff_training_plan_sha256 declarations; ExitPolicyBinding codec roundtrip unchanged",
+          "C_fixture_only_root_version_drift": "23304 bytes both; only root contract_version differs in parsed structure; candidate bytes are byte-exact predecessor-with-version-string-swapped; legacy string once in predecessor / absent in candidate / promoted once in candidate",
+          "D_lock_tamper_detection": "real verifier rejects fixture_files hash tamper, required_tests tamper and document_version tamper"
+        },
+        "evidence": "evidence/counterexamples-001-stdout.txt, counterexamples-001-stderr.txt, counterexamples-001/RESULT.txt"
+      }
+    },
+    "acceptance_mapping": {
+      "CONTRACT_VERSION promoted to ak_probability_strategy_contract_v2.1.5": "PASS (diff 2/2 in src/ak_trading/v2/__init__.py; A5a)",
+      "M1_NODE_VERSION = M1-v2.1.5 as explicitly assigned by the clarification": "PASS (same diff; identity precheck)",
+      "DOCUMENT_VERSION stays devplan-v2.1.7": "PASS (diff shows untouched; A5b; D3)",
+      "experiment/research_config stay v2.1.3 with payoff_training_plan_sha256 declarations": "PASS (B2a, B2b, B4b)",
+      "all other record/lock/input/shared schema versions unchanged": "PASS (B1, B3)",
+      "shared.json root contract_version only, economics unchanged": "PASS (C1-C4)",
+      "exit_contracts assertions synced, other schema/structure assertions kept": "PASS (normalized diff exactly 2 lines)",
+      "artifacts/payoff_path limited to version/allocation/generation-verification regressions": "PASS (+25/-1 and +6/-0; assertions exercise real exports, strict decoder, real generator/verifier)",
+      "no global qualification experiment v2.1.1 -> v2.1.3 replacement": "PASS (B4a)",
+      "original full M1 five-file group + applicable required_tests rerun independently": "PASS (39/39 and 18/18, native exit 0 each)",
+      "no L0/L1 publication; temporary locks SYNTHETIC only": "PASS (reviewer probes wrote SYNTHETIC locks only under reviewer evidence root; owner record concurs)"
+    },
+    "published": "2026-10-26T00:23:18Z"
+  },
+  "raw_verdict_ref": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-m1-version-hard-review-002\\work\\VERDICT.json",
+    "bytes": 6504,
+    "sha256": "feee620fb19864b7f835b6478a6f72ccd587ef200582ada88928ddc97c84ff35"
+  },
+  "review_terminal": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-m1-version-hard-review-002\\TERMINAL.json",
+    "bytes": 336,
+    "sha256": "dee93a98058dfb2dc3010f3c8c39c21de178f065b2dd1cb60dc12cd60e6fa447"
+  },
+  "B_handoff": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-B-m1-accepted-handoff-001\\HANDOFF.json",
+    "bytes": 5349,
+    "sha256": "5c09497a60b5a68d2d5f2cd50738c67f1f4cf6558c05af530db876801b16d775"
+  },
+  "scope": "Exact five-file contract and M1 node v2.1.5 promotion only; no L0/L1 or completeT7 acceptance",
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_sends": 0,
+    "real_cancels": 0
+  }
+}

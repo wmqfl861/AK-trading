@@ -89,3 +89,11 @@ DISPATCH准备004实际raw2/zerochild、第九次失败；author058定位schema�
 Root本轮两项调用错误保留：工具fe61e7假设T7-B007产物在work目录，PowerShell给MissingPath而后续目录枚举0不能证明该读取成功；按实际派工目录读取完成。327885把watchdog/Codex混合JSON流当逐行NDJSON解析而raw1，发生在派工/接收文件发布前。实际流先有合法多行codex bundle JSON，再有typed事件；复用现有receiver的JSONDecoder.raw_decode顺序解析并严格核bundle字段和唯一turn.completed，3efa99成功。以后从真实schema与已验证解析器取得数据，不按文件后缀猜格式；原失败及首次诊断“不含JSON”的不准确表述以追加更正保留。
 
 Root状态文档提交第一次raw128：仓库没有持久user.name/user.email，裸git commit未取得作者身份，没有生成提交或推送。后继核3238ff5实际作者，沿用wmqfl861及其GitHub noreply邮箱，以命令级-c提供身份后提交，不修改全局/仓库配置。后续本仓提交须显式使用已核身份。
+
+2026-10-25 23:41 UTC：Root恢复后新增调用前置错误如实保留。391372误猜M1 DELIVERY在work子目录，实际在派工根；PowerShell后续命令0不代表首个读取成功。fd5958又误猜Forward003 STEP-DELIVERY在派工根，实际路径已在REQUEST.inputs中且位于work；原raw1保留。4bbd49在构造T7作者003请求时假定旧legacy-binding原裁决也已交付候选，实际仅main本地有原件，raw1发生于REQUEST发布/模型启动前；已追加ROOT-PREPARATION-FAILURE-001并改用核实原件。避免方式：优先由权威REQUEST/FileRef程序化取得路径，对未知目录先存在检查和一次有限发现，不再按其他模块的目录习惯拼接。没有把这些Root路径错误算成产品或ZCode失败。N8048和Forward005已按原SID/store/cwd实际启动；T7原作者003集中处理现有14M4断言、版本及L0/L1路径，不改门槛、不新增未来产品。
+
+2026-10-26T00: M1 review transport001 watchdog raw1: Root omitted the required nullable session_id_expected key. CLI launches=0; START/store absent. Preserve001 REQUEST; successor002 adds null and checks every required watchdog schema field before launch. Fresh dispatches must derive the full schema from the real wrapper, not assume optional keys. No product failure or test run occurred.
+
+2026-10-26 01:16 UTC: Root optional discovery tool30ff8f raw1 came from assuming strategy-first README.md existed and using SilentlyContinue. The directory listing succeeded, but the absent optional read remained a command failure; no development/review/publish action ran in that command. This is Root discovery misuse, not ZCode/product failure, and is not reclassified as rg NO_MATCH. Actual entry is CURRENT.md from the returned directory. Future optional paths use Test-Path/Path.is_file before Read; do not suppress stderr or append an unclassified optional Read.
+
+2026-10-26 01:19 UTC：Forward integrated306与T7-M4独立审核均真实native0/同SID/输入不变/无条件PASS；Root重核378源和37审核成员、M4九文件及真实裁决后接收。M4精确一文件已交B，M1五文件此前已交付。原B010、DISPATCH013、N8050、M5012实际并行启动。M5011 sealer发现条件表达式优先级绕过头部验证、将Markdown authority按JSON读取两处确定错误，交原reviewer在正式调用前修复，未消耗affected002。原代码和不准确010时间字段说明保留。

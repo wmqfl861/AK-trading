@@ -1,0 +1,44 @@
+{
+  "schema": "aktr-root-independent-acceptance/v1",
+  "recorded_utc": "2026-10-26T01:15:37.230244+00:00",
+  "task": "t7-m4-baseline-hard-review-001",
+  "verdict": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-m4-baseline-hard-review-001\\work\\VERDICT.json",
+    "bytes": 7386,
+    "sha256": "42168e4b0136f52ad3139da3b2cc4d11e008992eaa1486784575312c3662803b"
+  },
+  "review": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-m4-baseline-hard-review-001\\work\\REVIEW.md",
+    "bytes": 9711,
+    "sha256": "d4ca3a82ad666864ae8f85c0015e0b95b3bbae960c3e5a2e568da86868d4668e"
+  },
+  "hashes": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-m4-baseline-hard-review-001\\work\\HASHES.json",
+    "bytes": 5406,
+    "sha256": "70208e93c70ffea7bff547837fe96642470ec3cde428a4245ccf9077d4fda30b"
+  },
+  "request": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-m4-baseline-hard-review-001\\REQUEST.json",
+    "bytes": 10135,
+    "sha256": "517c9619f733fb354b40bb4af1d7cacda01129353ab478a0b63f43eac14e7b09"
+  },
+  "terminal": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-m4-baseline-hard-review-001\\TERMINAL.json",
+    "bytes": 336,
+    "sha256": "f7b98f7ecc8e8fe0e0340eb072c2933c9994b39b9e0994b29da31b773d1193e7"
+  },
+  "result": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\t7-m4-baseline-hard-review-001\\RESULT.json",
+    "bytes": 849,
+    "sha256": "ae4520b6318d83d29cd75897e6df6680a06f0c188708137414eda646fea42733"
+  },
+  "independent_unconditional_pass": true,
+  "validation": {
+    "focused": 14,
+    "payoffs": 80,
+    "full_m4": 259,
+    "skipped": 0
+  },
+  "main_source_writes": false,
+  "scope_and_limits": "Exact independent VERDICT scope; historical failures preserved. No live SDK/broker/order credit."
+}

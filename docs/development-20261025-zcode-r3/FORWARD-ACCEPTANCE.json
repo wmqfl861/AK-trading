@@ -1,0 +1,44 @@
+{
+  "schema": "aktr-root-independent-acceptance/v1",
+  "recorded_utc": "2026-10-26T01:15:37.238253+00:00",
+  "task": "forward-integrated-hard-review-001",
+  "verdict": {
+    "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261025-003\\VERDICT.json",
+    "bytes": 6791,
+    "sha256": "86ab5adbaf986a9a0ae055a0887023540626dcde50af5f4f75808f1ea2348ed4"
+  },
+  "review": {
+    "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261025-003\\REVIEW.md",
+    "bytes": 5008,
+    "sha256": "a7c9c734e875c7880fc319d102f21c2a0803cf2a26fa3bfc109b8077401ff908"
+  },
+  "hashes": {
+    "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\implementation-clarifications\\forward-paper-start-20261015-r1\\review-evidence\\formal-full13-20261025-003\\HASHES.json",
+    "bytes": 7738,
+    "sha256": "60ed275cc78aef1144efc5d62163a964c78224f2c966dd28327bb34399ff5c7f"
+  },
+  "request": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\forward-integrated-hard-review-001\\REQUEST.json",
+    "bytes": 96963,
+    "sha256": "a4fd306da7823a3f0c05449b29bc2c5331782c938055ce51cd9281571b3eb636"
+  },
+  "terminal": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\forward-integrated-hard-review-001\\TERMINAL.json",
+    "bytes": 341,
+    "sha256": "222323fdb726005291fc6a5b91e37fb9c7f923c2134beac850284201c6f7805d"
+  },
+  "result": {
+    "path": "D:\\Maintenance\\aktr-development-20261025\\forward-integrated-hard-review-001\\RESULT.json",
+    "bytes": 857,
+    "sha256": "e6764bd7b61d4eaa5ad470ff768d1a8d21f8594eb93b89a6707a1f19a395975d"
+  },
+  "independent_unconditional_pass": true,
+  "validation": {
+    "full13": 306,
+    "source_members": 378,
+    "skipped": 0,
+    "runtime_live_sdk": "NOT_RUN"
+  },
+  "main_source_writes": false,
+  "scope_and_limits": "Exact independent VERDICT scope; historical failures preserved. No live SDK/broker/order credit."
+}

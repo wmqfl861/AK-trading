@@ -1,0 +1,50 @@
+{
+ "review": "t7-m4-baseline-hard-review-001",
+ "task_id": "aktr-zcode-t7-m4-baseline-hard-review-20261025-001",
+ "classification": "INDEPENDENT_PRODUCT_HARD_REVIEW",
+ "verdict": "PASS",
+ "conditional": false,
+ "unconditional": true,
+ "scope": {
+  "accepted": "TEST REPAIR: the T7 author003 section-1 two-layer repair of the fourteen parametrized nodes of test_forwarded_binding_keeps_frozen_baseline_value in tests/test_v2_m4_payoffs.py (frozen revision below), together with the real full M4 nine-file result on this candidate",
+  "not_granted": [
+   "no blanket strategy profitability acceptance",
+   "no T7 cold-chain acceptance",
+   "no L0/L1 contract-lock acceptance",
+   "no production-code acceptance beyond the already-frozen src/ bytes consumed read-only",
+   "no acceptance outside tests/test_v2_m4_payoffs.py"
+  ]
+ },
+ "frozen_revision": {
+  "path": "C:/AKWorktrees/aktr-r3-t7-m4-baseline-20261025/tests/test_v2_m4_payoffs.py",
+  "bytes": 88129,
+  "sha256": "651933f48e4beb0d6afa1d50a4e3d857a9ad5f7dce102012a6ed489744c22b53",
+  "git_blob": "bbbac3a5d9eef96df0caee448666ec091880673a",
+  "base_commit": "908604ec77f52e6d429d7439e7cc35d042cd8f42"
+ },
+ "required_checks": [
+  {"id": "C1", "name": "write_set_exactly_one_file", "result": "PASS", "evidence": "git status porcelain shows only ' M tests/test_v2_m4_payoffs.py'; logical diff vs HEAD is 143 insertions / 8 deletions in three hunks (imports, two frozen tables, one test body); work/HASHES.json post-test re-read pin failures = 0"},
+  {"id": "C2", "name": "node_identities_and_baseline_table_preserved", "result": "PASS", "evidence": "_L2_BASELINE_BINDING_SHA256 AST-equal to HEAD copy; parametrize decorator unchanged; rerun selected node ids are the fourteen original strategy_id nodes (post-repair-focused14-stdout.txt)"},
+  {"id": "C3", "name": "other_66_assertions_unchanged", "result": "PASS", "evidence": "diff hunks touch no other test; L-A, L-C, registry-hash and qualification-scope negatives AST-identical to HEAD; full80 rerun passed 80/80 including both isolation tests"},
+  {"id": "C4", "name": "historical_originals_reextracted_from_both_records", "result": "PASS", "evidence": "reviewer-probe.json: inline _L2_HISTORICAL_BINDING_ORIGINALS equals my extraction of spec.exit_bindings (14 complete six-field records) from m5-r3-smoke-chunk01.json; inline _L2_HISTORICAL_DIVERGENCE_WITNESS equals my extraction of combos[].binding_diffs.m3b + spec_code_sha256 + m3c_array_spec_sha256 from l2-baseline-divergence.json; registry_check registered_count=14 with m3b_matches_registered=true and m3b_binding_sha256==registered_binding_sha256 for all 14; baseline table equals registration binding hashes"},
+  {"id": "C5", "name": "m1_formula_recompute_over_historical_six_fields", "result": "PASS", "evidence": "real contracts.exit_binding_content_hash over MY extracted originals reproduces the recorded binding_sha256 for all 14 nodes"},
+  {"id": "C6", "name": "reviewer_tamper_counterexamples", "result": "PASS", "evidence": "reviewer-authored mutation set (6 fields x 14 nodes = 84, distinct from the test's own set: strategy_id suffix, first-char entry flip, exit replaced, sizing non-null, policy swapped, rules bumped) -- every single mutated field breaks the layer-1 hash match"},
+  {"id": "C7", "name": "current_forward_equals_real_producers", "result": "PASS", "evidence": "for all 14 nodes: pipeline.legacy_exit_binding(spec) == select_exit_binding(spec, profile='legacy') full-record; entry == spec.code_sha256; exit == exits_registry.exit_spec_sha256(exits_registry.legacy_exit_spec(mode)) (real M3C byte-exact identity via registry.exit_spec_identity); priority/rules continuity with the historical constants; binding == M1 canonical formula over current six fields"},
+  {"id": "C8", "name": "changed_entry_and_identity_counterexamples", "result": "PASS", "evidence": "replace(spec, code_sha256='0'*64) regenerates the binding identically through both entries (and equals the formula over the synthetic digest) while differing from the original; attaching the HISTORICAL entry digest to a current spec reproduces neither the historical nor the current binding (no fabricated historical complete spec is possible); strategy_id change moves the binding"},
+  {"id": "C9", "name": "nonprojected_changes_isolated", "result": "PASS", "evidence": "version / parameter_version / parameters-only changes keep the binding equal while pipeline.registry_hash_for moves; the untouched qualification-scope negative test passes in the full80 rerun"},
+  {"id": "C10", "name": "identity_regeneration_is_registration_event_not_regression", "result": "PASS", "evidence": "current entry, exit and binding differ from the historical originals on every node, consistent with arbitration 20260917-r1 RULING 1.1/1.2; the old test's mixed comparison provably failed all 14 (owner pre-repair records cross-checked: exit 1, 0/14 and 66/80)"},
+  {"id": "C11", "name": "rerun_focused14", "result": "PASS", "evidence": "native exit 0; selected 14, ran 14, passed 14, failed 0, deselected 66, skipped 0, errors 0; stderr 0 bytes (work/post-repair-focused14-*.txt)"},
+  {"id": "C12", "name": "rerun_full_payoffs_80", "result": "PASS", "evidence": "native exit 0; selected 80, ran 80, passed 80, failed 0, skipped 0, errors 0; stderr 0 bytes (work/post-repair-full-payoffs-*.txt)"},
+  {"id": "C13", "name": "rerun_full_m4_ninefile_259", "result": "PASS", "evidence": "native exit 0 (background lifecycle, streams sealed after termination); selected 259, ran 259, passed 259, failed 0, skipped 0, errors 0, collection_errors 0, all nine files collected; 959.80s within the heavy-lane budget; stderr 0 bytes (work/post-repair-m4-ninefile-*.txt)"},
+  {"id": "C14", "name": "exact_candidate_module_identity", "result": "PASS", "evidence": "launcher child_environment strips inherited PYTHONPATH and pins child PYTHONPATH to <bootstrap>;<candidate>/src; reviewer probe resolved ak_trading and ak_trading.v2 under C:/AKWorktrees/aktr-r3-t7-m4-baseline-20261025/src"},
+  {"id": "C15", "name": "provenance_pins", "result": "PASS", "evidence": "all 29 REQUEST.json inputs re-hashed MATCH (work/pin-check.json); post-test re-read: frozen test file and 8 sibling test files unchanged, both data records unchanged, git HEAD 908604e unchanged (work/HASHES.json)"}
+ ],
+ "findings_blocking": 0,
+ "findings_nonblocking": 1,
+ "nonblocking_observations": [
+  "O1 (metadata, not the repaired artifact): owner work/SOURCE-FREEZE.json 'frozen_at': '2026-10-25T17:30+08:00' (=09:30Z) is inconsistent with the actual write window -- file mtime 2026-10-26T00:27:39Z, owner TERMINAL ended 2026-10-26T00:29:14Z, machine local offset UTC-7 (the value reads like local 17:30 rendered with a wrong +08:00 label). Treated as unverified metadata; no rewrite or backdate performed; exact per-file pins and independent results are decisive and all verified."
+ ],
+ "reviewer": "independent ZCode GLM-5.3/max session (hard-review-001), took no part in the development or repair",
+ "published_at_utc": "2026-10-26T01:10Z",
+ "boundaries": "enable_trading=false, observer=hold, broker=NOT_RUN, real send=0 cancel=0; no .env/credential/config/model reads or writes; no network/SDK/broker/DB/service/UI/git writes; candidate worktree read-only for the reviewer; evidence under C:/AKWorktrees/aktr-r3-t7-m4-baseline-review-001-evidence-20261025 and this work/ directory"
+}
