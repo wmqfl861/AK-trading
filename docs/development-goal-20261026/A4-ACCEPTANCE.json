@@ -1,0 +1,97 @@
+{
+  "schema": "aktr-a4-entry-guard-acceptance/v1",
+  "accepted_at_utc": "2026-10-26T13:15:07.361643+00:00",
+  "scope": "PHASE0-PLAN section6 finite ordinary-shadow CLI entryguard",
+  "verdict": "PASS",
+  "conditional": false,
+  "reviewer_session": "sess_f70472e5-19de-45b1-b66e-8bc2dc3c7fe4",
+  "reviewer_model": "GLM-5.3/max verified task SQLite metadata",
+  "reviewer_write_stop": true,
+  "accepted_write_set": [
+    {
+      "path": "scripts/research_probability_v2.py",
+      "bytes": 6918,
+      "sha256": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba"
+    },
+    {
+      "path": "tests/test_v2_m5_shadow_entry_guard.py",
+      "bytes": 5827,
+      "sha256": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28"
+    }
+  ],
+  "independent_required": {
+    "raw_exit": 0,
+    "selected": 18,
+    "ran": 18,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "errors": 0,
+    "collection_errors": 0,
+    "unresolved_files": 0,
+    "wall_seconds": 89.297,
+    "peak_tree_rss_bytes": 111788032,
+    "totals_line": "Offline totals: selected 18 (+0 deselected), ran 18, passed 18, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0"
+  },
+  "independent_probes": {
+    "count": 11,
+    "all_matched_expected": true
+  },
+  "main_integration": {
+    "argv": [
+      "D:\\Programs\\Python\\Python312\\python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "scripts/test_offline.py",
+      "-q",
+      "tests/test_v2_m5_shadow_entry_guard.py",
+      "tests/test_v2_m5_cli.py"
+    ],
+    "cwd": "D:\\Projects\\AK-trading",
+    "raw_exit": 0,
+    "seconds": 84.46899999992456,
+    "peak_tree_rss_bytes": 121978880,
+    "violation": null,
+    "summary": [
+      "Offline totals: selected 18 (+0 deselected), ran 18, passed 18, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0",
+      "Offline overall exit: 0"
+    ]
+  },
+  "source_files_equal_reviewed_bytes": true,
+  "full_ordinary_shadow_complete": false,
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send": 0,
+    "real_cancel": 0
+  },
+  "review_files": [
+    {
+      "path": "docs/development-goal-20261026/a4-review/REVIEW.md",
+      "bytes": 7142,
+      "sha256": "bf9cd105468cfb585b0de2b8a51d2af7a7c6dbe1266fa5fc6ed7b7a711a716e1"
+    },
+    {
+      "path": "docs/development-goal-20261026/a4-review/VERDICT.json",
+      "bytes": 3355,
+      "sha256": "ca5d05d41ba709bf0f308c069da3c74c3afeb19acb3192bf380d2ae79cac2079"
+    },
+    {
+      "path": "docs/development-goal-20261026/a4-review/FINDINGS.json",
+      "bytes": 12137,
+      "sha256": "7ebb8c5baeb8cc44a7b498cf27b48f0f790d34c8ad2c62853c3a2c6b5ee26f55"
+    },
+    {
+      "path": "docs/development-goal-20261026/a4-review/TERMINAL.json",
+      "bytes": 330,
+      "sha256": "2d379404be4eb1a5f4bfe60a0f203d6daeea2b877772f00e82c07fd7ce02fd65"
+    },
+    {
+      "path": "docs/development-goal-20261026/a4-review/RESULT.json",
+      "bytes": 842,
+      "sha256": "aeb7be06de90b750595fcff5914c824b5c742692a3e6bb0226f0c17b175119e5"
+    }
+  ]
+}

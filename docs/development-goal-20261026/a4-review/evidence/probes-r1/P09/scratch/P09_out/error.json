@@ -1,0 +1,1 @@
+{"engineering":"FAIL","exit_code":2,"m5_complete":false,"mode":"ERROR","reason":"FileNotFoundError:[Errno 2] No such file or directory: 'C:\\\\AKWorktrees\\\\aktr-goal-20261026\\\\zcode-dispatch\\\\a4-hard-review-001\\\\evidence\\\\probes-r1\\\\P09\\\\scratch\\\\missing-config.json'","runtime":"OFFLINE_ONLY","statistics":"INSUFFICIENT"}

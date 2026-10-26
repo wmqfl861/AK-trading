@@ -1,0 +1,62 @@
+{
+  "task_id": "aktr-zcode-goal-a4-hard-review-20261026-001",
+  "review_id": "a4-hard-review-001",
+  "generated_utc": "2026-10-26T13:04:13.080110+00:00",
+  "role": "independent ZCode product hard review; took no part in the reviewed node's development or repair",
+  "verdict": "PASS",
+  "unconditional": true,
+  "conditional_pass": false,
+  "incomplete": false,
+  "scope": {
+    "candidate_root": "C:/AKWorktrees/aktr-goal-a4-20261026",
+    "product_write_set": [
+      {"path": "scripts/research_probability_v2.py", "bytes": 6918, "sha256": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba"},
+      {"path": "tests/test_v2_m5_shadow_entry_guard.py", "bytes": 5827, "sha256": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28"}
+    ],
+    "review_basis": "PHASE0-PLAN.md section 6 + PHASE0-DISPOSITION.md (EFFECTIVE), pinned by this review's REQUEST.json",
+    "closes_only": "A4 finite CLI entry-guard slice; P0-2 shadow, P1-2 and full ordinary shadow remain open; T8 and acceptance artifacts untouched"
+  },
+  "effective_plan_pins": {
+    "PHASE0-PLAN.md": {"sha256": "f1855d6bdc55d59a85d30c907f929ed343bf7b8140c7ea670dcd8c9a0058aa61", "request_pin": "/inputs/273/sha256"},
+    "PHASE0-DISPOSITION.md": {"sha256": "076dc392c793f2c8a9bb5bd53a5347a4fece6e1a908a4fbb98a7aae4536deb43", "request_pin": "/inputs/274/sha256"},
+    "WORKORDER.md": {"sha256": "e752b90705c1de73f904e1574acfdc337e8c8f11ad3b0d69aa1fd2bfd32d6f79", "request_pin": "/inputs/266/sha256"}
+  },
+  "required_command": {
+    "argv_string": "D:\\Programs\\Python\\Python312\\python.exe -B -X utf8 scripts/test_offline.py -q tests/test_v2_m5_shadow_entry_guard.py tests/test_v2_m5_cli.py",
+    "cwd": "C:\\AKWorktrees\\aktr-goal-a4-20261026",
+    "env_pythonpath": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src",
+    "interpreter_sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+  },
+  "required_counts": {
+    "raw_exit": 0,
+    "selected": 18, "ran": 18, "passed": 18, "failed": 0, "skipped": 0,
+    "errors": 0, "collection_errors": 0, "unresolved_files": 0,
+    "wall_seconds": 89.297,
+    "peak_tree_rss_bytes": 111788032,
+    "totals_line": "Offline totals: selected 18 (+0 deselected), ran 18, passed 18, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0"
+  },
+  "reviewer_probes": {"count": 11, "all_matched_expected": true},
+  "frozen_verification": {
+    "before": "266/266 pinned files byte-identical",
+    "after": "266/266 pinned files byte-identical",
+    "tree_walk_files": 266,
+    "tree_walk_extras": 0,
+    "guard_block_removal_reconstructs_prechange_pin": true,
+    "prechange_pin_sha256": "33351e7acd0004701ae07239ba0bd44710288b0f93cb4f28072f8cf6067c2b9f"
+  },
+  "blocking_findings": 0,
+  "evidence": [
+    "REVIEW.md",
+    "FINDINGS.json",
+    "evidence/phase-a-frozen-hashes-before.json",
+    "evidence/phase-a-frozen-hashes-before-attempt1.json",
+    "evidence/module-resolution-r1.txt",
+    "evidence/required-rerun-r1/RESULT.json",
+    "evidence/required-rerun-r1/stdout.txt",
+    "evidence/required-rerun-r1/stderr.txt",
+    "evidence/required-rerun-r1/cmd.txt",
+    "evidence/required-rerun-r1/exit.txt",
+    "evidence/probes-r1/PROBES-SUMMARY.json",
+    "evidence/phase-d-frozen-hashes-after.json (includes REQUEST pin cross-check and owner final-tests-r2 corroboration)"
+  ]
+}

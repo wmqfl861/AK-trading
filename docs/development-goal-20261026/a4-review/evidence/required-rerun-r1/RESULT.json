@@ -1,0 +1,61 @@
+{
+  "task": "required-independent-rerun-all-18",
+  "generated_utc": "2026-10-26T12:51:27.478527+00:00",
+  "argv": [
+    "D:\\Programs\\Python\\Python312\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "scripts/test_offline.py",
+    "-q",
+    "tests/test_v2_m5_shadow_entry_guard.py",
+    "tests/test_v2_m5_cli.py"
+  ],
+  "argv_string": "D:\\Programs\\Python\\Python312\\python.exe -B -X utf8 scripts/test_offline.py -q tests/test_v2_m5_shadow_entry_guard.py tests/test_v2_m5_cli.py",
+  "cwd": "C:\\AKWorktrees\\aktr-goal-a4-20261026",
+  "env_pythonpath": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src",
+  "interpreter": {
+    "executable": "D:\\Programs\\Python\\Python312\\python.exe",
+    "version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "executable_sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+  },
+  "started_utc": "2026-10-26T12:49:58.179698+00:00",
+  "ended_utc": "2026-10-26T12:51:27.478527+00:00",
+  "wall_seconds": 89.297,
+  "returncode": 0,
+  "violation": null,
+  "peak_tree_rss_bytes": 111788032,
+  "peak_tree_rss_mib": 106.6,
+  "rss_samples": 120,
+  "child_pids_seen": [
+    131744,
+    154972,
+    156480
+  ],
+  "leftover_alive_pids_after_wait": [],
+  "stdout_bytes": 2750,
+  "stderr_bytes": 0,
+  "launcher_command_line": [
+    "Offline command: python scripts/test_offline.py (3 pytest arguments forwarded; guard before collection)"
+  ],
+  "launcher_plan_line": [
+    "Offline plan: 1 domain(s): normal"
+  ],
+  "domain_lines": [
+    "Offline domain normal: exit 0, selected 18, deselected 0, ran 18, passed 18, failed 0, skipped 0, errors 0, collection_errors 0"
+  ],
+  "totals_line_last": "Offline totals: selected 18 (+0 deselected), ran 18, passed 18, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0",
+  "overall_exit_line_last": "Offline overall exit: 0",
+  "product_hashes": {
+    "pre": {
+      "research_probability_v2": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba",
+      "test_v2_m5_shadow_entry_guard": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28",
+      "test_v2_m5_cli": "d885da1717e0982b455248275fe670e07c96cdcbac17f1a8093fd7cac072f693"
+    },
+    "post": {
+      "research_probability_v2": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba",
+      "test_v2_m5_shadow_entry_guard": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28",
+      "test_v2_m5_cli": "d885da1717e0982b455248275fe670e07c96cdcbac17f1a8093fd7cac072f693"
+    }
+  }
+}

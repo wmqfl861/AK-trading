@@ -1,0 +1,58 @@
+{
+  "phase": "D-after-probes",
+  "generated_utc": "2026-10-26T12:56:50.583116+00:00",
+  "pinned_files_total": 266,
+  "verified_ok": 266,
+  "mismatch_count": 0,
+  "mismatches": [],
+  "walked_files_total": 266,
+  "extra_files_not_pinned": [],
+  "pinned_but_not_walked": [],
+  "request_hash_pin_count": 295,
+  "computed_vs_request_pins": {
+    "WORKORDER.md": {
+      "computed_sha256": "e752b90705c1de73f904e1574acfdc337e8c8f11ad3b0d69aa1fd2bfd32d6f79",
+      "request_pin_paths": [
+        "/inputs/266/sha256"
+      ]
+    },
+    "PHASE0-PLAN.md": {
+      "computed_sha256": "f1855d6bdc55d59a85d30c907f929ed343bf7b8140c7ea670dcd8c9a0058aa61",
+      "request_pin_paths": [
+        "/inputs/273/sha256"
+      ]
+    },
+    "PHASE0-DISPOSITION.md": {
+      "computed_sha256": "076dc392c793f2c8a9bb5bd53a5347a4fece6e1a908a4fbb98a7aae4536deb43",
+      "request_pin_paths": [
+        "/inputs/274/sha256"
+      ]
+    },
+    "interpreter": {
+      "computed_sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a",
+      "request_pin_paths": [
+        "/python/sha256"
+      ]
+    },
+    "ROOT-FROZEN-INPUTS.json": {
+      "computed_sha256": "a7307863ad2e4472901ad9f643d88d35a4be3adc58177caa5ccf5f7ce4cb3e4d",
+      "request_pin_paths": [
+        "/inputs/267/sha256"
+      ]
+    },
+    "DELIVERY.md": {
+      "computed_sha256": "6b5fedfcfb99a78ea1202c5fb0926d33e86db40287c211a13991bb362193931f",
+      "request_pin_paths": [
+        "/inputs/268/sha256"
+      ]
+    }
+  },
+  "owner_final_tests_r2": {
+    "cmd": "cd C:\\AKWorktrees\\aktr-goal-a4-20261026 && D:\\Programs\\Python\\Python312\\python.exe -B -X utf8 scripts/test_offline.py -q tests/test_v2_m5_shadow_entry_guard.py tests/test_v2_m5_cli.py",
+    "exit": "EXIT=0",
+    "summary_lines": [
+      "Offline totals: selected 18 (+0 deselected), ran 18, passed 18, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0",
+      "Offline overall exit: 0"
+    ]
+  }
+}

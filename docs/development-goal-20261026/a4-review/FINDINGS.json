@@ -1,0 +1,143 @@
+{
+  "task_id": "aktr-zcode-goal-a4-hard-review-20261026-001",
+  "review_id": "a4-hard-review-001",
+  "generated_utc": "2026-10-26T13:04:13.080110+00:00",
+  "reviewer": {
+    "independence": "This session took no part in the A4 node's development or repair. Owner a4-owner-001 reached TERMINAL native 0 / WRITE_STOP before this review started.",
+    "session_identity": "START.json: pid 156676, started_utc 2026-10-26T12:33:24.163118+00:00, storage under zcode-dispatch/a4-hard-review-001/session"
+  },
+  "standard": {
+    "plan": "D:/Projects/AK-trading/docs/repo-audit-20261026-claude/PHASE0-PLAN.md, section 6 (A4: CLI early-rejection limited protection)",
+    "disposition": "D:/Projects/AK-trading/docs/repo-audit-20261026-claude/PHASE0-DISPOSITION.md (status EFFECTIVE)",
+    "sha256": {
+      "PHASE0-PLAN.md": "f1855d6bdc55d59a85d30c907f929ed343bf7b8140c7ea670dcd8c9a0058aa61",
+      "PHASE0-DISPOSITION.md": "076dc392c793f2c8a9bb5bd53a5347a4fece6e1a908a4fbb98a7aae4536deb43",
+      "WORKORDER.md": "e752b90705c1de73f904e1574acfdc337e8c8f11ad3b0d69aa1fd2bfd32d6f79",
+      "ROOT-FROZEN-INPUTS.json": "a7307863ad2e4472901ad9f643d88d35a4be3adc58177caa5ccf5f7ce4cb3e4d",
+      "DELIVERY.md": "6b5fedfcfb99a78ea1202c5fb0926d33e86db40287c211a13991bb362193931f",
+      "interpreter": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+    },
+    "request_pin_paths": {
+      "PHASE0-PLAN.md": "/inputs/273/sha256",
+      "PHASE0-DISPOSITION.md": "/inputs/274/sha256",
+      "WORKORDER.md": "/inputs/266/sha256",
+      "ROOT-FROZEN-INPUTS.json": "/inputs/267/sha256",
+      "DELIVERY.md": "/inputs/268/sha256",
+      "interpreter": "/python/sha256"
+    },
+    "no_invented_or_relaxed_criteria": true
+  },
+  "write_set": {
+    "candidate_root": "C:/AKWorktrees/aktr-goal-a4-20261026",
+    "files": [
+      {"path": "scripts/research_probability_v2.py", "status": "modified", "bytes": 6918, "sha256": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba"},
+      {"path": "tests/test_v2_m5_shadow_entry_guard.py", "status": "NEW", "bytes": 5827, "sha256": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28", "tests": 6}
+    ],
+    "unrelated_unchanged_example": {"path": "tests/test_v2_m5_cli.py", "sha256": "d885da1717e0982b455248275fe670e07c96cdcbac17f1a8093fd7cac072f693", "tests": 12}
+  },
+  "frozen_state": {
+    "phase_a_before": {"pinned_total": 266, "verified_ok": 266, "mismatch": 0, "evidence": "evidence/phase-a-frozen-hashes-before.json"},
+    "phase_d_after": {"pinned_total": 266, "verified_ok": 266, "mismatch": 0, "evidence": "evidence/phase-d-frozen-hashes-after.json"},
+    "tree_walk": {"files": 266, "extra": 0, "missing": 0},
+    "guard_block_delta": {
+      "block_bytes": 724, "block_lines": 10,
+      "first_line": "        if args.mode == \"shadow-replay\":",
+      "last_line": "            raise StageIncompleteError(\"ORDINARY_SHADOW_REPLAY_NOT_AVAILABLE\")",
+      "reconstructed_bytes": 6194,
+      "reconstructed_sha256": "33351e7acd0004701ae07239ba0bd44710288b0f93cb4f28072f8cf6067c2b9f",
+      "reconstruction_matches_prechange_snapshot_pin": true,
+      "script_crlf_bytes": 0
+    }
+  },
+  "required_rerun": {
+    "argv_string": "D:\\Programs\\Python\\Python312\\python.exe -B -X utf8 scripts/test_offline.py -q tests/test_v2_m5_shadow_entry_guard.py tests/test_v2_m5_cli.py",
+    "cwd": "C:\\AKWorktrees\\aktr-goal-a4-20261026",
+    "env_pythonpath": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src",
+    "interpreter_sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a",
+    "raw_exit": 0,
+    "totals_line": "Offline totals: selected 18 (+0 deselected), ran 18, passed 18, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0",
+    "overall_line": "Offline overall exit: 0",
+    "wall_seconds": 89.297,
+    "peak_tree_rss_bytes": 111788032,
+    "peak_tree_rss_mib": 106.6,
+    "rss_samples": 120,
+    "stdout_bytes": 2750,
+    "stderr_bytes": 0,
+    "leftover_alive_pids": [],
+    "violation": null,
+    "module_resolution": "all ak_trading modules resolved under candidate src (evidence/module-resolution-r1.txt)",
+    "product_hashes_stable_across_run": true,
+    "evidence_dir": "evidence/required-rerun-r1/"
+  },
+  "probes": {
+    "count": 11,
+    "all_matched_expected": true,
+    "per_probe": [
+      {"id": "P01", "expected": 2, "observed": 2, "detail": "shadow-replay without --feed: structured JSON exit_code 2 reason ExperimentError:feed_required_only_for_shadow_replay; no files created"},
+      {"id": "P02", "expected": 2, "observed": 2, "detail": "shadow-replay + --feed + --reference-run: exit 2 reason ExperimentError:reference_required_only_for_reproduce; no files created"},
+      {"id": "P03", "expected": 2, "observed": 2, "detail": "--fixture plus --input-bundle: native argparse usage error, sources mutually exclusive; no files created"},
+      {"id": "P04", "expected": 2, "observed": 2, "detail": "--mode live: native argparse invalid-choice exit 2; usage still lists all five modes and original syntax"},
+      {"id": "P05", "expected": 3, "observed": 3, "detail": "all inputs missing, output parent nonexistent: exact guard failure JSON, empty stdout, zero files created"},
+      {"id": "P06", "expected": 3, "observed": 3, "detail": "output parent is an existing file: exit 3, sentinel byte-identical, nothing created"},
+      {"id": "P07", "expected": 3, "observed": 3, "detail": "pre-existing output dir: exit 3 (guard precedes output_directory_exists), dir contents byte-identical, no error.json added"},
+      {"id": "P08", "expected": 3, "observed": 3, "detail": "complete legal request with real fixture/config/feed: exit 3, no output dir created"},
+      {"id": "P09", "expected": 2, "observed": 2, "detail": "smoke + missing config: original pipeline entered, error.json written with FileNotFoundError reason and exit_code 2"},
+      {"id": "P10", "expected": 2, "observed": 2, "detail": "reproduce + reference-run + missing config: pipeline entered, error.json written, exit 2"},
+      {"id": "P11", "expected": 3, "observed": 3, "detail": "--input-bundle source variant: exit 3, zero files created"}
+    ],
+    "evidence_dir": "evidence/probes-r1/"
+  },
+  "findings": [
+    {
+      "id": "HR-F01", "severity": "none", "kind": "plan-conformance", "status": "VERIFIED",
+      "summary": "The guard implements PHASE0-PLAN §6 exactly: after both feed/reference relationship checks, before output path resolution and any config/bundle/feed/lock read, fit, registration or holdout; StageIncompleteError(ORDINARY_SHADOW_REPLAY_NOT_AVAILABLE) reuses the existing handler for native exit 3 with the structured failure JSON on stderr and empty stdout; output is still None at the raise, so no output directory and no error.json are created; mode names and original parameter-syntax checks preserved; the later shadow-replay branch is retained untouched for future wiring.",
+      "evidence": ["scripts/research_probability_v2.py:53-67", "evidence/phase-a-frozen-hashes-before.json (guard_block_delta)", "evidence/probes-r1/"]
+    },
+    {
+      "id": "HR-F02", "severity": "none", "kind": "required-verification", "status": "VERIFIED",
+      "summary": "Independent rerun of the full required population (both M5 test files, 18 tests): raw exit 0, 18 selected / 18 ran / 18 passed / 0 failed / 0 skipped / 0 errors / 0 collection errors / 0 unresolved; wall 89.297 s (bound 3600 s); measured process-tree peak RSS 106.6 MiB over 120 samples (cap 2 GiB); no leftover processes; product hashes unchanged across the run; interpreter and module resolution bound to the candidate.",
+      "evidence": ["evidence/required-rerun-r1/RESULT.json", "evidence/required-rerun-r1/stdout.txt", "evidence/module-resolution-r1.txt"]
+    },
+    {
+      "id": "HR-F03", "severity": "none", "kind": "counterexample-probes", "status": "VERIFIED",
+      "summary": "Process-level precedence chain confirmed: argparse errors (2) precede relationship errors (2), which precede the guard (3, exact structured JSON, zero filesystem effects), which precedes output_directory_exists and all input-read errors; ordinary modes keep their original pipeline including error.json creation with exit 2; both source variants guarded; no bypass found.",
+      "evidence": ["evidence/probes-r1/PROBES-SUMMARY.json", "evidence/probes-r1/P01..P11"]
+    },
+    {
+      "id": "HR-F04", "severity": "none", "kind": "frozen-integrity", "status": "VERIFIED",
+      "summary": "Frozen-state integrity: all 266 ROOT-FROZEN-INPUTS pins byte-identical before and after all review runs; full recursive walk equals exactly the pinned set (no extras, no missing, no stray files); the script delta is exactly the 724-byte/10-line guard block whose removal reconstructs the pre-change snapshot pin byte-exactly; the new test file matches the owner pin; write set is exactly the two assigned files.",
+      "evidence": ["evidence/phase-a-frozen-hashes-before.json", "evidence/phase-d-frozen-hashes-after.json"]
+    },
+    {
+      "id": "HR-F05", "severity": "none", "kind": "historical-context", "status": "NOT_A_PRODUCT_DEFECT",
+      "summary": "The owner's pre-change baseline (11 passed / 1 failed) and first combined run (17 passed / 1 failed) were a Root thin-input delivery failure: the six LOCAL_ONLY m5-r4 chunk configs were absent from the thin snapshot at session start. Root supplied them byte-identical to main (A4-INPUT-HANDOFF-001.json) and the definitive final-tests-r2 passed 18/18 with raw exit 0; this review independently confirms 18/18 with complete inputs. Original failure evidence preserved, not erased; the failing node exercises no changed code path (it only reads config files).",
+      "evidence": ["C:/AKWorktrees/aktr-goal-20261026/A4-INPUT-HANDOFF-001.json", "zcode-dispatch/a4-owner-001/evidence/baseline-test-v2-m5-cli-r1/", "zcode-dispatch/a4-owner-001/evidence/final-tests-r1/", "zcode-dispatch/a4-owner-001/evidence/final-tests-r2/"]
+    },
+    {
+      "id": "HR-F06", "severity": "low", "kind": "evidence-quality-observation", "status": "CLOSED_BY_THIS_REVIEW",
+      "summary": "The owner's memory-budget evidence used free physical memory (wmic) as a proxy, which does not prove the 2 GiB process-tree cap. This review measured the actual process tree with psutil (peak 106.6 MiB, 120 samples, 3 child PIDs, all terminated), closing the gap for this slice. No product repair required.",
+      "evidence": ["evidence/required-rerun-r1/RESULT.json (peak_tree_rss_bytes, rss_samples, child_pids_seen, leftover_alive_pids_after_wait)"]
+    },
+    {
+      "id": "HR-F07", "severity": "none", "kind": "reviewer-process-note", "status": "RESOLVED_BEFORE_CONCLUSIONS",
+      "summary": "The first Phase-A delta extractor anchored the guard block one line late (683 B / 9 lines; reconstructed hash mismatch). Corrected before any conclusion was drawn; attempt1 preserved at evidence/phase-a-frozen-hashes-before-attempt1.json, canonical corrected result in evidence/phase-a-frozen-hashes-before.json. Reviewer-side artifact only; no product impact.",
+      "evidence": ["evidence/phase-a-frozen-hashes-before-attempt1.json", "evidence/phase-a-frozen-hashes-before.json"]
+    }
+  ],
+  "blocking_finding_count": 0,
+  "scope_boundaries": {
+    "closes_only": "A4 entry-guard protection slice (late failure with unclear message)",
+    "still_open": ["P0-2 shadow", "P1-2", "full ordinary shadow wiring"],
+    "untouched": ["T8 originals and fail-closed acceptance", "any acceptance artifact", "all non-write-set files (verified by 266-file walk)"]
+  },
+  "evidence_index": {
+    "phase_a_frozen_before": "evidence/phase-a-frozen-hashes-before.json",
+    "phase_a_attempt1": "evidence/phase-a-frozen-hashes-before-attempt1.json",
+    "module_resolution": "evidence/module-resolution-r1.txt",
+    "required_rerun": "evidence/required-rerun-r1/",
+    "probes": "evidence/probes-r1/",
+    "phase_d_frozen_after": "evidence/phase-d-frozen-hashes-after.json",
+    "request_pin_crosscheck": "evidence/phase-d-frozen-hashes-after.json (computed_vs_request_pins, owner_final_tests_r2)",
+    "work_scripts": "work/"
+  }
+}

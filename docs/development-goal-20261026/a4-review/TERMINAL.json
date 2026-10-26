@@ -1,0 +1,12 @@
+{
+  "task_id": "aktr-zcode-goal-a4-hard-review-20261026-001",
+  "pid": 156676,
+  "creation_filetime": 134374916041555095,
+  "ended_utc": "2026-10-26T13:05:54.664837+00:00",
+  "native_exit_code": 0,
+  "status": "TERMINAL",
+  "frozen_inputs_unchanged": true,
+  "input_changes": [],
+  "stdout_bytes": 4205,
+  "stderr_bytes": 23098
+}

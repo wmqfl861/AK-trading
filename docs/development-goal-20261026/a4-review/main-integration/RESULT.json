@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "D:\\Programs\\Python\\Python312\\python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "scripts/test_offline.py",
+    "-q",
+    "tests/test_v2_m5_shadow_entry_guard.py",
+    "tests/test_v2_m5_cli.py"
+  ],
+  "cwd": "D:\\Projects\\AK-trading",
+  "raw_exit": 0,
+  "seconds": 84.46899999992456,
+  "peak_tree_rss_bytes": 121978880,
+  "violation": null,
+  "summary": [
+    "Offline totals: selected 18 (+0 deselected), ran 18, passed 18, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0",
+    "Offline overall exit: 0"
+  ]
+}

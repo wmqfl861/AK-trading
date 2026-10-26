@@ -54,6 +54,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             raise ExperimentError("feed_required_only_for_shadow_replay")
         if (args.mode == "reproduce") != (args.reference_run is not None):
             raise ExperimentError("reference_required_only_for_reproduce")
+        if args.mode == "shadow-replay":
+            # A4 entry guard (2026-10-26): ordinary shadow replay is still
+            # engineering-incomplete (validation/shadow.py qualification
+            # closure lacks exit_registry_sha256/exit_binding wiring), so a
+            # fully valid request must fail fast here — after the argument
+            # relationship checks, but before any path resolution, config/
+            # bundle/feed/lock read, fit, registration or holdout action, and
+            # before an output directory can be created. The handler below
+            # returns the native stage-incomplete exit 3 with output=None.
+            raise StageIncompleteError("ORDINARY_SHADOW_REPLAY_NOT_AVAILABLE")
         output = _path(args.output)
         if output.exists():
             raise ExperimentError("output_directory_exists")

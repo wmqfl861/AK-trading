@@ -1,0 +1,2169 @@
+{
+  "phase": "A-before-required-rerun",
+  "generated_utc": "2026-10-26T12:45:55.654556+00:00",
+  "pins_file": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\a4-hard-review-001\\ROOT-FROZEN-INPUTS.json",
+  "pins_file_sha256": "a7307863ad2e4472901ad9f643d88d35a4be3adc58177caa5ccf5f7ce4cb3e4d",
+  "candidate_root": "C:\\AKWorktrees\\aktr-goal-a4-20261026",
+  "pinned_files_total": 266,
+  "verified_ok": 266,
+  "mismatch_count": 0,
+  "mismatches": [],
+  "walked_files_total": 266,
+  "extra_files_not_pinned": [],
+  "pinned_but_not_walked": [],
+  "guard_block_delta": {
+    "anchor_occurrences": 1,
+    "block_bytes": 683,
+    "block_lines": 9,
+    "block_starts_with_if_shadow_replay": false,
+    "block_ends_with_guard_raise": true,
+    "guard_raise_occurrences_in_file": 1,
+    "block_sha256": "ec812c8a1240ab75b54e162f7ca648b988bdab63ee326edf1727d86f15045755",
+    "reconstructed_bytes": 6235,
+    "reconstructed_sha256": "f556e3829799c05cc0399ee27c741155deaaab05728c67e9ef46e18aa0fd3a37",
+    "reconstructed_matches_prechange_pin_33351e7a": false,
+    "current_script_sha256": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba",
+    "current_script_matches_owner_pin_db0e61e3": true,
+    "new_test_file": {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\tests\\test_v2_m5_shadow_entry_guard.py",
+      "bytes": 5827,
+      "sha256": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28",
+      "matches_owner_pin_ddae2262": true
+    }
+  },
+  "interpreter": {
+    "python_executable": "D:\\Programs\\Python\\Python312\\python.exe",
+    "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "python_executable_sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+  },
+  "per_file": [
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\AGENTS.md",
+      "pinned_bytes": 21520,
+      "pinned_sha256": "224d213d60107599a6590b64394215b92a1b9c109072eed8bb13eb79f6327bf2",
+      "actual_bytes": 21520,
+      "actual_sha256": "224d213d60107599a6590b64394215b92a1b9c109072eed8bb13eb79f6327bf2",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\CLAUDE.md",
+      "pinned_bytes": 1288,
+      "pinned_sha256": "b72d12fac51908a2e3197c1ab80f190dbe51ed657e798613710617f2c438985c",
+      "actual_bytes": 1288,
+      "actual_sha256": "b72d12fac51908a2e3197c1ab80f190dbe51ed657e798613710617f2c438985c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\PROJECT-MODEL-ROLES.md",
+      "pinned_bytes": 5172,
+      "pinned_sha256": "e2766d80af5d4df4add39ab31d94d21dd94cf3721dd079267c6dd3092f4f7b06",
+      "actual_bytes": 5172,
+      "actual_sha256": "e2766d80af5d4df4add39ab31d94d21dd94cf3721dd079267c6dd3092f4f7b06",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\PROJECT-WORKFLOW-RULES.md",
+      "pinned_bytes": 4999,
+      "pinned_sha256": "5d9003614c82b29f2d566f32ec5ac0e1b53b1b1ba575f67e072422f6c34a9ca6",
+      "actual_bytes": 4999,
+      "actual_sha256": "5d9003614c82b29f2d566f32ec5ac0e1b53b1b1ba575f67e072422f6c34a9ca6",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\pyproject.toml",
+      "pinned_bytes": 661,
+      "pinned_sha256": "9fcbd5865da5b99e645966980f3130dce7d36f8d7d1df341e0264c07cdd1bff4",
+      "actual_bytes": 661,
+      "actual_sha256": "9fcbd5865da5b99e645966980f3130dce7d36f8d7d1df341e0264c07cdd1bff4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\acquire_futures_free.py",
+      "pinned_bytes": 1312,
+      "pinned_sha256": "a3b9b86c4dc62f96e2167cf49b618cb577ef7eaa99cf10014d96c9139f550ecf",
+      "actual_bytes": 1312,
+      "actual_sha256": "a3b9b86c4dc62f96e2167cf49b618cb577ef7eaa99cf10014d96c9139f550ecf",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\audit_data_completeness.py",
+      "pinned_bytes": 10102,
+      "pinned_sha256": "b766bce740a3774f0059173c1bc5ca3834d2037e21778d976adf220a29f2e1ca",
+      "actual_bytes": 10102,
+      "actual_sha256": "b766bce740a3774f0059173c1bc5ca3834d2037e21778d976adf220a29f2e1ca",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\backfill_contract_bars.py",
+      "pinned_bytes": 28039,
+      "pinned_sha256": "c58e56322ed64f1331502b2b88dcf8d1ff68bee0a05fa4986919b73c1d340222",
+      "actual_bytes": 28039,
+      "actual_sha256": "c58e56322ed64f1331502b2b88dcf8d1ff68bee0a05fa4986919b73c1d340222",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\backfill_kqi_index.py",
+      "pinned_bytes": 4416,
+      "pinned_sha256": "a1938eccb70f97feeb8b60756b8d2910f5e9c609aed9c62819dd8d5e0a3a8a5c",
+      "actual_bytes": 4416,
+      "actual_sha256": "a1938eccb70f97feeb8b60756b8d2910f5e9c609aed9c62819dd8d5e0a3a8a5c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\backfill_long_history.py",
+      "pinned_bytes": 19509,
+      "pinned_sha256": "aadd319f625623826551b80294b43fce60f8ea448a1f3ae1a915356f29703bb1",
+      "actual_bytes": 19509,
+      "actual_sha256": "aadd319f625623826551b80294b43fce60f8ea448a1f3ae1a915356f29703bb1",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\backfill_option_bars.py",
+      "pinned_bytes": 8377,
+      "pinned_sha256": "df905e070cb43edbeb46c74cf16f7497a0c7241e0909c1e57a42795fad8c0044",
+      "actual_bytes": 8377,
+      "actual_sha256": "df905e070cb43edbeb46c74cf16f7497a0c7241e0909c1e57a42795fad8c0044",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\backfill_recent_free.py",
+      "pinned_bytes": 20139,
+      "pinned_sha256": "1dd14c0aa7cb5aee52515095cd12b3946308c47fac7bc00f9040a1478c7c3627",
+      "actual_bytes": 20139,
+      "actual_sha256": "1dd14c0aa7cb5aee52515095cd12b3946308c47fac7bc00f9040a1478c7c3627",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\backfill_tq_rankings.py",
+      "pinned_bytes": 45809,
+      "pinned_sha256": "7a4e1798e556994d7c61d1ff0051e3b4d6e0c17906bde7ade7ac12da6bd57f3d",
+      "actual_bytes": 45809,
+      "actual_sha256": "7a4e1798e556994d7c61d1ff0051e3b4d6e0c17906bde7ade7ac12da6bd57f3d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\backtest_history.py",
+      "pinned_bytes": 2580,
+      "pinned_sha256": "e01c314314475535093fa63bf58aeefca6239efa35935768ce2d17a02129466b",
+      "actual_bytes": 2580,
+      "actual_sha256": "e01c314314475535093fa63bf58aeefca6239efa35935768ce2d17a02129466b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\backtest_strategy.py",
+      "pinned_bytes": 7098,
+      "pinned_sha256": "6dfc2f9802629455170aed25875bfdf564ada752428be75822a9ed30dc40816f",
+      "actual_bytes": 7098,
+      "actual_sha256": "6dfc2f9802629455170aed25875bfdf564ada752428be75822a9ed30dc40816f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\check_data_freshness.py",
+      "pinned_bytes": 8509,
+      "pinned_sha256": "9426087a47b0e2fed415e35295e8b997041553143b2a85e91e6d3fb823339277",
+      "actual_bytes": 8509,
+      "actual_sha256": "9426087a47b0e2fed415e35295e8b997041553143b2a85e91e6d3fb823339277",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\collect_datapipeline.py",
+      "pinned_bytes": 10055,
+      "pinned_sha256": "56de7e37063311a1ed70863acf369170080887523bd85f428982590d4ea4730c",
+      "actual_bytes": 10055,
+      "actual_sha256": "56de7e37063311a1ed70863acf369170080887523bd85f428982590d4ea4730c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\collect_exchange_rules.py",
+      "pinned_bytes": 8008,
+      "pinned_sha256": "6985af11eccb5a95a7b7890a25c5f19544bbe22fa3de2479c579225703a6a3f4",
+      "actual_bytes": 8008,
+      "actual_sha256": "6985af11eccb5a95a7b7890a25c5f19544bbe22fa3de2479c579225703a6a3f4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\collect_member_ranks.py",
+      "pinned_bytes": 8079,
+      "pinned_sha256": "94b361719e827d0c413e52705ed493f9089497a552247e30907b637d2af25d56",
+      "actual_bytes": 8079,
+      "actual_sha256": "94b361719e827d0c413e52705ed493f9089497a552247e30907b637d2af25d56",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\collect_settlement_params.py",
+      "pinned_bytes": 7499,
+      "pinned_sha256": "127ff5da0ac776db8b18d0c29663d6f62fc136d32c7011eda007781cd1a674de",
+      "actual_bytes": 7499,
+      "actual_sha256": "127ff5da0ac776db8b18d0c29663d6f62fc136d32c7011eda007781cd1a674de",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\compute_last_session.py",
+      "pinned_bytes": 2200,
+      "pinned_sha256": "1e029841f3fe7b6ca5d4528ebc00c3b1910e05905895529ead66dbc7555803fa",
+      "actual_bytes": 2200,
+      "actual_sha256": "1e029841f3fe7b6ca5d4528ebc00c3b1910e05905895529ead66dbc7555803fa",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\download_market_data.py",
+      "pinned_bytes": 6862,
+      "pinned_sha256": "f4ad9ef5808af8f8d5c48c7f531b69f614fc1edd0d741e625ccd03a7469580e5",
+      "actual_bytes": 6862,
+      "actual_sha256": "f4ad9ef5808af8f8d5c48c7f531b69f614fc1edd0d741e625ccd03a7469580e5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\exchange_rule_workbench.py",
+      "pinned_bytes": 337,
+      "pinned_sha256": "fa1b3c8fb96d6c412015575ee958ba70e964513c79e130f913e569b03c35673b",
+      "actual_bytes": 337,
+      "actual_sha256": "fa1b3c8fb96d6c412015575ee958ba70e964513c79e130f913e569b03c35673b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\explain_v2_risk.py",
+      "pinned_bytes": 2644,
+      "pinned_sha256": "d29873e84df3025fd77a0c6f17761a380faf7917de33c638d70dc2211f6af78c",
+      "actual_bytes": 2644,
+      "actual_sha256": "d29873e84df3025fd77a0c6f17761a380faf7917de33c638d70dc2211f6af78c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\export_futures_input.py",
+      "pinned_bytes": 8305,
+      "pinned_sha256": "7a65c8c09eead87267eb7f5f68074597f0cf5c05dbe4a2d9a51c6b71a84e53b8",
+      "actual_bytes": 8305,
+      "actual_sha256": "7a65c8c09eead87267eb7f5f68074597f0cf5c05dbe4a2d9a51c6b71a84e53b8",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\export_infiny_thread_evidence.py",
+      "pinned_bytes": 23863,
+      "pinned_sha256": "e90aa915002a86446b2620800496b0b3e4ccbc01b5a3a14d689eed65594b64e0",
+      "actual_bytes": 23863,
+      "actual_sha256": "e90aa915002a86446b2620800496b0b3e4ccbc01b5a3a14d689eed65594b64e0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\export_research_input.py",
+      "pinned_bytes": 4162,
+      "pinned_sha256": "ea67dbd19acda39dc60d3586450ff89ea5b4ccd4dda61b2856ae70ecb43defc0",
+      "actual_bytes": 4162,
+      "actual_sha256": "ea67dbd19acda39dc60d3586450ff89ea5b4ccd4dda61b2856ae70ecb43defc0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\fill_recent_main_minute.py",
+      "pinned_bytes": 16198,
+      "pinned_sha256": "5014de39c93d8430b19df7c7ffd4c3e8d11ca771d9654b8cef3e2fdff20ad668",
+      "actual_bytes": 16198,
+      "actual_sha256": "5014de39c93d8430b19df7c7ffd4c3e8d11ca771d9654b8cef3e2fdff20ad668",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\generate_api_reference.py",
+      "pinned_bytes": 68851,
+      "pinned_sha256": "905fc7c246f90145800acbb8fae45e6699906725527692c67982bfb7bd336189",
+      "actual_bytes": 68851,
+      "actual_sha256": "905fc7c246f90145800acbb8fae45e6699906725527692c67982bfb7bd336189",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\install_infiny_execution.py",
+      "pinned_bytes": 52740,
+      "pinned_sha256": "53cd3ad2e804420a577140b049ca5aa6e837920f2b41d5d62ec7b4ee69e441a2",
+      "actual_bytes": 52740,
+      "actual_sha256": "53cd3ad2e804420a577140b049ca5aa6e837920f2b41d5d62ec7b4ee69e441a2",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\install_infiny_observer.py",
+      "pinned_bytes": 8640,
+      "pinned_sha256": "3eed21333c8aa0d8196d7eabc338e85c05160f804be7f8f12ee6e676f8c22683",
+      "actual_bytes": 8640,
+      "actual_sha256": "3eed21333c8aa0d8196d7eabc338e85c05160f804be7f8f12ee6e676f8c22683",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\manage_database.py",
+      "pinned_bytes": 9402,
+      "pinned_sha256": "c077cd407b20a021e25c3cf51fbb3412adc29996c52788cee0e76a237b27da42",
+      "actual_bytes": 9402,
+      "actual_sha256": "c077cd407b20a021e25c3cf51fbb3412adc29996c52788cee0e76a237b27da42",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\migrate_infiny_execution.py",
+      "pinned_bytes": 9050,
+      "pinned_sha256": "6b6f8232f830c8e454345e060c5a303c5943c7a8cd3466e9759aca09e059acc1",
+      "actual_bytes": 9050,
+      "actual_sha256": "6b6f8232f830c8e454345e060c5a303c5943c7a8cd3466e9759aca09e059acc1",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\minimal_quote.py",
+      "pinned_bytes": 2026,
+      "pinned_sha256": "fe51ea8158bb0b74cc20826852cb3def35bdaf431210003d9b5d3811837fff71",
+      "actual_bytes": 2026,
+      "actual_sha256": "fe51ea8158bb0b74cc20826852cb3def35bdaf431210003d9b5d3811837fff71",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\minimal_sim.py",
+      "pinned_bytes": 4508,
+      "pinned_sha256": "812f0dd3b94d68eb57577fe404df575b0fab59ab2f6dd075997c9dc935ab5b5c",
+      "actual_bytes": 4508,
+      "actual_sha256": "812f0dd3b94d68eb57577fe404df575b0fab59ab2f6dd075997c9dc935ab5b5c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\minute_workers_watchdog.py",
+      "pinned_bytes": 4315,
+      "pinned_sha256": "e8c6e6030d6b107b6e08e94b518f1fe2d8c4ca271efd4ca0413100c65a18a913",
+      "actual_bytes": 4315,
+      "actual_sha256": "e8c6e6030d6b107b6e08e94b518f1fe2d8c4ca271efd4ca0413100c65a18a913",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\mopup_rank_symbols.py",
+      "pinned_bytes": 4502,
+      "pinned_sha256": "e91a4e26338c515aeb34d7a91444dad6b9fa9dfe57cca53befc897c64b8c2569",
+      "actual_bytes": 4502,
+      "actual_sha256": "e91a4e26338c515aeb34d7a91444dad6b9fa9dfe57cca53befc897c64b8c2569",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\pair_infiny_execution.py",
+      "pinned_bytes": 128534,
+      "pinned_sha256": "d682e3996a52e961927cc6ffc599003a07d2846402ab1edd1f2b98a50bb78028",
+      "actual_bytes": 128534,
+      "actual_sha256": "d682e3996a52e961927cc6ffc599003a07d2846402ab1edd1f2b98a50bb78028",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\preopen_market_report.py",
+      "pinned_bytes": 6201,
+      "pinned_sha256": "789dbabb1f935f79d69397d947e349a06be1d5cc2045491ab6a7595b9b2b74bf",
+      "actual_bytes": 6201,
+      "actual_sha256": "789dbabb1f935f79d69397d947e349a06be1d5cc2045491ab6a7595b9b2b74bf",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\probe_exchange_rule_sources.py",
+      "pinned_bytes": 11398,
+      "pinned_sha256": "6f1fb194acd8fbfd76cd71d29c5deba15bf0397437669e2ccc8e2d740e1fb063",
+      "actual_bytes": 11398,
+      "actual_sha256": "6f1fb194acd8fbfd76cd71d29c5deba15bf0397437669e2ccc8e2d740e1fb063",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\probe_rank_slider.py",
+      "pinned_bytes": 10088,
+      "pinned_sha256": "569989e82cf5bf8919a7dba12221a1f83f68309b266e603eb0ae66074275277e",
+      "actual_bytes": 10088,
+      "actual_sha256": "569989e82cf5bf8919a7dba12221a1f83f68309b266e603eb0ae66074275277e",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\query_factor_library.py",
+      "pinned_bytes": 2568,
+      "pinned_sha256": "0f408e1fa3f1331355b47a8ea91d8c5b37c221435e23d09a93fe222a20816668",
+      "actual_bytes": 2568,
+      "actual_sha256": "0f408e1fa3f1331355b47a8ea91d8c5b37c221435e23d09a93fe222a20816668",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\query_market_data.py",
+      "pinned_bytes": 5308,
+      "pinned_sha256": "66e844f199e8969f2c4b38ce346bdf6ede163666f18035443f923dd7a92c2ca6",
+      "actual_bytes": 5308,
+      "actual_sha256": "66e844f199e8969f2c4b38ce346bdf6ede163666f18035443f923dd7a92c2ca6",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\query_settlement_reference.py",
+      "pinned_bytes": 2054,
+      "pinned_sha256": "1d582b3d98fc1013f553dd5a9036c7df6b20b1930eb4e959b436af93ae8c50b7",
+      "actual_bytes": 2054,
+      "actual_sha256": "1d582b3d98fc1013f553dd5a9036c7df6b20b1930eb4e959b436af93ae8c50b7",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\refresh_infiny_history.py",
+      "pinned_bytes": 4751,
+      "pinned_sha256": "3b76cee10cddf3a6c3b85dc7358dc69def9ba8a1833333043da9f18e54e0866a",
+      "actual_bytes": 4751,
+      "actual_sha256": "3b76cee10cddf3a6c3b85dc7358dc69def9ba8a1833333043da9f18e54e0866a",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\report_datapipeline.py",
+      "pinned_bytes": 8357,
+      "pinned_sha256": "13981464178e2ed8fec0a7604ce1d548767a4af5b48982032463116329195a21",
+      "actual_bytes": 8357,
+      "actual_sha256": "13981464178e2ed8fec0a7604ce1d548767a4af5b48982032463116329195a21",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\research_futures.py",
+      "pinned_bytes": 80060,
+      "pinned_sha256": "7cbbb030718027b1c04640688c2cec92ad5fba1045f544a7d77614e148803b93",
+      "actual_bytes": 80060,
+      "actual_sha256": "7cbbb030718027b1c04640688c2cec92ad5fba1045f544a7d77614e148803b93",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\research_multistrategy.py",
+      "pinned_bytes": 1997,
+      "pinned_sha256": "db0986fd29e8d6f47b765e77834d58db78bb7b812208a794059569055951df75",
+      "actual_bytes": 1997,
+      "actual_sha256": "db0986fd29e8d6f47b765e77834d58db78bb7b812208a794059569055951df75",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\research_probability_strategies.py",
+      "pinned_bytes": 1170,
+      "pinned_sha256": "a8656e6c50a3cc08ae6c2c3ad7a6ecf90d9829f463fca500f2ac2bfa23c6e022",
+      "actual_bytes": 1170,
+      "actual_sha256": "a8656e6c50a3cc08ae6c2c3ad7a6ecf90d9829f463fca500f2ac2bfa23c6e022",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\research_probability_v2.py",
+      "pinned_bytes": 6918,
+      "pinned_sha256": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba",
+      "actual_bytes": 6918,
+      "actual_sha256": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\review_exchange_rules.py",
+      "pinned_bytes": 10711,
+      "pinned_sha256": "0e2d92adfc9c63f4ab8e31ba359dee9b692d7ec58395dd322a7ca579a8928f24",
+      "actual_bytes": 10711,
+      "actual_sha256": "0e2d92adfc9c63f4ab8e31ba359dee9b692d7ec58395dd322a7ca579a8928f24",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\run_forward_paper.py",
+      "pinned_bytes": 5564,
+      "pinned_sha256": "007813af5081a691d0f656c30f153c46b74d8524976f18307025e87a24927f11",
+      "actual_bytes": 5564,
+      "actual_sha256": "007813af5081a691d0f656c30f153c46b74d8524976f18307025e87a24927f11",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\run_infiny_bridge.py",
+      "pinned_bytes": 8066,
+      "pinned_sha256": "a751185959ee1ad9eee649623259cc23c82377b1ca23042ec9ac25bd0e574d68",
+      "actual_bytes": 8066,
+      "actual_sha256": "a751185959ee1ad9eee649623259cc23c82377b1ca23042ec9ac25bd0e574d68",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\run_infiny_execution.py",
+      "pinned_bytes": 28307,
+      "pinned_sha256": "eb6f58356f71a32815c0ac78fa242f8fd04f0326abd1f3a79402929424eb48b8",
+      "actual_bytes": 28307,
+      "actual_sha256": "eb6f58356f71a32815c0ac78fa242f8fd04f0326abd1f3a79402929424eb48b8",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\run_market_mcp.py",
+      "pinned_bytes": 2497,
+      "pinned_sha256": "30228c4fc8963dd70cce21e170335601eddc3c703424d2326a5d921f961f6ce8",
+      "actual_bytes": 2497,
+      "actual_sha256": "30228c4fc8963dd70cce21e170335601eddc3c703424d2326a5d921f961f6ce8",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\run_sim_strategy.py",
+      "pinned_bytes": 9376,
+      "pinned_sha256": "ebe238ea1248dabf68f0cdebd7cce5d42e9c8007b031a2e12af95526b0ab3c65",
+      "actual_bytes": 9376,
+      "actual_sha256": "ebe238ea1248dabf68f0cdebd7cce5d42e9c8007b031a2e12af95526b0ab3c65",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\setup_mcp_readonly.py",
+      "pinned_bytes": 2820,
+      "pinned_sha256": "512af47fa2554633ced08adbc0fe1bca806a08863aacd3fbb0a6c9c511758209",
+      "actual_bytes": 2820,
+      "actual_sha256": "512af47fa2554633ced08adbc0fe1bca806a08863aacd3fbb0a6c9c511758209",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\snapshot_recent_market_data.py",
+      "pinned_bytes": 8181,
+      "pinned_sha256": "355dbcda97f194068c1a6a866ad2f4b025da12d9c9bfbc366059fdf53999156c",
+      "actual_bytes": 8181,
+      "actual_sha256": "355dbcda97f194068c1a6a866ad2f4b025da12d9c9bfbc366059fdf53999156c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\study_futures_signals.py",
+      "pinned_bytes": 1644,
+      "pinned_sha256": "7543872ae61be78b31df2b582f0dd505c271b2a0b1bfc5976d355941b84e2ca3",
+      "actual_bytes": 1644,
+      "actual_sha256": "7543872ae61be78b31df2b582f0dd505c271b2a0b1bfc5976d355941b84e2ca3",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\sweep_failed_minute.py",
+      "pinned_bytes": 3739,
+      "pinned_sha256": "e992a85218e4c77324b015991b6fa1aaa1e88b45a0be7cbd4e29d78f131122af",
+      "actual_bytes": 3739,
+      "actual_sha256": "e992a85218e4c77324b015991b6fa1aaa1e88b45a0be7cbd4e29d78f131122af",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\sweep_retry2.py",
+      "pinned_bytes": 2456,
+      "pinned_sha256": "aa4e6135c8113acfd88731b1b9c4fd7ba0b7e83f815cd92ecbc0ac5ddfdab784",
+      "actual_bytes": 2456,
+      "actual_sha256": "aa4e6135c8113acfd88731b1b9c4fd7ba0b7e83f815cd92ecbc0ac5ddfdab784",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\test_offline.py",
+      "pinned_bytes": 28967,
+      "pinned_sha256": "5d9f3b0590095d70ad200cccf12165ebd8dcda83bda5cc9863c4378405e75eb4",
+      "actual_bytes": 28967,
+      "actual_sha256": "5d9f3b0590095d70ad200cccf12165ebd8dcda83bda5cc9863c4378405e75eb4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\update_option_bars_daily.py",
+      "pinned_bytes": 25266,
+      "pinned_sha256": "6fb3f6b43d28909c9766ddb45900e947846aabab89eaddcdbe761af5e39858f2",
+      "actual_bytes": 25266,
+      "actual_sha256": "6fb3f6b43d28909c9766ddb45900e947846aabab89eaddcdbe761af5e39858f2",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\update_recent_via_edb.py",
+      "pinned_bytes": 17856,
+      "pinned_sha256": "9683e24dbaf5b402444255f5932718e8e41fa334e7ad5b232d830d0eae623405",
+      "actual_bytes": 17856,
+      "actual_sha256": "9683e24dbaf5b402444255f5932718e8e41fa334e7ad5b232d830d0eae623405",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\verify_backtest_artifacts.py",
+      "pinned_bytes": 358,
+      "pinned_sha256": "10f47479b72cc3ace0497f6be2c03574c58d32b4f124e51cfe571107a10ea724",
+      "actual_bytes": 358,
+      "actual_sha256": "10f47479b72cc3ace0497f6be2c03574c58d32b4f124e51cfe571107a10ea724",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\verify_datapipeline_release.py",
+      "pinned_bytes": 21777,
+      "pinned_sha256": "bb92f74deab9b646221dcbb4225f0bbb92c6b7b5854f78e2dcc18fea04cf36ac",
+      "actual_bytes": 21777,
+      "actual_sha256": "bb92f74deab9b646221dcbb4225f0bbb92c6b7b5854f78e2dcc18fea04cf36ac",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\scripts\\verify_env.py",
+      "pinned_bytes": 1377,
+      "pinned_sha256": "d0c9b9dd073dde265a63d6d717cc4ed579f8cf81578edbcc1b15073248486fe0",
+      "actual_bytes": 1377,
+      "actual_sha256": "d0c9b9dd073dde265a63d6d717cc4ed579f8cf81578edbcc1b15073248486fe0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\__init__.py",
+      "pinned_bytes": 22,
+      "pinned_sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+      "actual_bytes": 22,
+      "actual_sha256": "91447944015cec709e8aa7655f7e9d64e1e4508e7023a57fe3746911c0fc6fed",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\__init__.py",
+      "pinned_bytes": 949,
+      "pinned_sha256": "da8b3930cab922010274787a8b502ddb86f8c0fa9c21f5c75609cd43de444e35",
+      "actual_bytes": 949,
+      "actual_sha256": "da8b3930cab922010274787a8b502ddb86f8c0fa9c21f5c75609cd43de444e35",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\artifacts.py",
+      "pinned_bytes": 13587,
+      "pinned_sha256": "21820ba38e6e8ec1853b30f3aba15928aa145d66e391d0974ec3219ad4cf63ee",
+      "actual_bytes": 13587,
+      "actual_sha256": "21820ba38e6e8ec1853b30f3aba15928aa145d66e391d0974ec3219ad4cf63ee",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\calendar.py",
+      "pinned_bytes": 12280,
+      "pinned_sha256": "f7c832d7bea0d6df24644599a15d2da5fb54782ff5f3837a0f7f8c97fb95f42d",
+      "actual_bytes": 12280,
+      "actual_sha256": "f7c832d7bea0d6df24644599a15d2da5fb54782ff5f3837a0f7f8c97fb95f42d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\capture.py",
+      "pinned_bytes": 19416,
+      "pinned_sha256": "ff9dfb1cff1634abfadfe4bd6de59f076abd967679edd60eafa1baa1c3945281",
+      "actual_bytes": 19416,
+      "actual_sha256": "ff9dfb1cff1634abfadfe4bd6de59f076abd967679edd60eafa1baa1c3945281",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\cli.py",
+      "pinned_bytes": 43914,
+      "pinned_sha256": "a301bd3db200bfcfba1af5c4a7e4b70e2d5e8f1a3622cea9b227bf03420fd1ab",
+      "actual_bytes": 43914,
+      "actual_sha256": "a301bd3db200bfcfba1af5c4a7e4b70e2d5e8f1a3622cea9b227bf03420fd1ab",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\contracts.py",
+      "pinned_bytes": 37590,
+      "pinned_sha256": "cd238955b5df8f10e25ae2ec3aa1ca2f3854b430ebcbc9dc9b063a0a7ab199b5",
+      "actual_bytes": 37590,
+      "actual_sha256": "cd238955b5df8f10e25ae2ec3aa1ca2f3854b430ebcbc9dc9b063a0a7ab199b5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\identity.py",
+      "pinned_bytes": 21993,
+      "pinned_sha256": "f3aaeb0347061f68c70f71ecf20965ccf666c4f117bbecf565a72f1ac1a3b7fd",
+      "actual_bytes": 21993,
+      "actual_sha256": "f3aaeb0347061f68c70f71ecf20965ccf666c4f117bbecf565a72f1ac1a3b7fd",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\scheduler.py",
+      "pinned_bytes": 27298,
+      "pinned_sha256": "c5c211c6575b82e719e97833d1e5e9848ec4d08b313d44082634cffb508d0678",
+      "actual_bytes": 27298,
+      "actual_sha256": "c5c211c6575b82e719e97833d1e5e9848ec4d08b313d44082634cffb508d0678",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\storage.py",
+      "pinned_bytes": 35210,
+      "pinned_sha256": "a29550c59dccd2cd0a5777d4a9fb969598b8f1e58d4cbafa6e910b936477dd2b",
+      "actual_bytes": 35210,
+      "actual_sha256": "a29550c59dccd2cd0a5777d4a9fb969598b8f1e58d4cbafa6e910b936477dd2b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\acquisition\\tq_adapter.py",
+      "pinned_bytes": 19525,
+      "pinned_sha256": "b9b4c64b5008c13e88e441f2d1d7e3f94115d37343a19ad3356f7e9f412c7a82",
+      "actual_bytes": 19525,
+      "actual_sha256": "b9b4c64b5008c13e88e441f2d1d7e3f94115d37343a19ad3356f7e9f412c7a82",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\artifacts.py",
+      "pinned_bytes": 10422,
+      "pinned_sha256": "9d23b0188eed3b3a2ab6ee369a218b24a95d384e17fb952bf3db33bdfd5d4bac",
+      "actual_bytes": 10422,
+      "actual_sha256": "9d23b0188eed3b3a2ab6ee369a218b24a95d384e17fb952bf3db33bdfd5d4bac",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\config.py",
+      "pinned_bytes": 808,
+      "pinned_sha256": "a3bb36031960c608c996e997a6dd2e7da16a6341442da552268abfc0e68ac923",
+      "actual_bytes": 808,
+      "actual_sha256": "a3bb36031960c608c996e997a6dd2e7da16a6341442da552268abfc0e68ac923",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\datapipeline\\calendar.py",
+      "pinned_bytes": 88409,
+      "pinned_sha256": "1c7e5142904c38d60e705b03c03cd97ae881beaea85497e0946b05b27746428e",
+      "actual_bytes": 88409,
+      "actual_sha256": "1c7e5142904c38d60e705b03c03cd97ae881beaea85497e0946b05b27746428e",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\datapipeline\\collector.py",
+      "pinned_bytes": 68962,
+      "pinned_sha256": "64387dda306a2f8a477c91faa24539f4eccb878cd41937a4c4e05b8634ea4e0b",
+      "actual_bytes": 68962,
+      "actual_sha256": "64387dda306a2f8a477c91faa24539f4eccb878cd41937a4c4e05b8634ea4e0b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\datapipeline\\dashboard.py",
+      "pinned_bytes": 11029,
+      "pinned_sha256": "4792ca3e439ec580149185fb1d50380d952682f1d5045898d74e735d45a6848f",
+      "actual_bytes": 11029,
+      "actual_sha256": "4792ca3e439ec580149185fb1d50380d952682f1d5045898d74e735d45a6848f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\datapipeline\\monitoring.py",
+      "pinned_bytes": 56832,
+      "pinned_sha256": "543fdcad9e2c48d367fb9a348631d9165fac434bf8b1b51c7410bfb7fe383393",
+      "actual_bytes": 56832,
+      "actual_sha256": "543fdcad9e2c48d367fb9a348631d9165fac434bf8b1b51c7410bfb7fe383393",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\datapipeline\\reporting.py",
+      "pinned_bytes": 26304,
+      "pinned_sha256": "954f7227a4bc5a1cf0d7c5934e0f60f26d272268ad846393d5fe76cd4e774196",
+      "actual_bytes": 26304,
+      "actual_sha256": "954f7227a4bc5a1cf0d7c5934e0f60f26d272268ad846393d5fe76cd4e774196",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\datapipeline\\scheduler.py",
+      "pinned_bytes": 29046,
+      "pinned_sha256": "db82fb43dbf7c65a3700733b4fdc35898cd76759988721e79f76e5c0a3aae1b1",
+      "actual_bytes": 29046,
+      "actual_sha256": "db82fb43dbf7c65a3700733b4fdc35898cd76759988721e79f76e5c0a3aae1b1",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\datapipeline\\session_factory.py",
+      "pinned_bytes": 30582,
+      "pinned_sha256": "cfa727c275b36959e1bf3f61813a977c01296a0ae0da546e246296ecdf0b69d4",
+      "actual_bytes": 30582,
+      "actual_sha256": "cfa727c275b36959e1bf3f61813a977c01296a0ae0da546e246296ecdf0b69d4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\exchange_rule_artifacts.py",
+      "pinned_bytes": 63786,
+      "pinned_sha256": "0a3516f60ec113b8f3e8a7e598fcad7f815b65eccb0ff1bdf1d1819f0a099cdc",
+      "actual_bytes": 63786,
+      "actual_sha256": "0a3516f60ec113b8f3e8a7e598fcad7f815b65eccb0ff1bdf1d1819f0a099cdc",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\exchange_rule_collection.py",
+      "pinned_bytes": 23621,
+      "pinned_sha256": "d89d89e648cb86b69cf7d5720a4c908a6ae8eac867161079c4e66d4e77eed237",
+      "actual_bytes": 23621,
+      "actual_sha256": "d89d89e648cb86b69cf7d5720a4c908a6ae8eac867161079c4e66d4e77eed237",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\exchange_rule_extraction.py",
+      "pinned_bytes": 55851,
+      "pinned_sha256": "8411b9eee6f49d348d03c0ec7fc25c4f603172225f41a2ab532ed7e7e7143f79",
+      "actual_bytes": 55851,
+      "actual_sha256": "8411b9eee6f49d348d03c0ec7fc25c4f603172225f41a2ab532ed7e7e7143f79",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\exchange_rule_sources.py",
+      "pinned_bytes": 93547,
+      "pinned_sha256": "858baa226f824d1314daf48c1bf5a6c1aca46c5820909eb7ebfb039ad2c71742",
+      "actual_bytes": 93547,
+      "actual_sha256": "858baa226f824d1314daf48c1bf5a6c1aca46c5820909eb7ebfb039ad2c71742",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\exchange_rule_workbench.py",
+      "pinned_bytes": 59341,
+      "pinned_sha256": "2e3c1a5ccd93ad00e8bde21d5568a046bb0720f7577e81755642aa36129e9620",
+      "actual_bytes": 59341,
+      "actual_sha256": "2e3c1a5ccd93ad00e8bde21d5568a046bb0720f7577e81755642aa36129e9620",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\exchange_rules.py",
+      "pinned_bytes": 41485,
+      "pinned_sha256": "4381b4dadc51c6436946ae131bd3f77503ae5b125fad0d9f0e22a7e237376878",
+      "actual_bytes": 41485,
+      "actual_sha256": "4381b4dadc51c6436946ae131bd3f77503ae5b125fad0d9f0e22a7e237376878",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\factor_library.py",
+      "pinned_bytes": 13242,
+      "pinned_sha256": "00bce277553555266fe999538f7ec795c6484f02ac1b4e09bb7c55e9d9609a86",
+      "actual_bytes": 13242,
+      "actual_sha256": "00bce277553555266fe999538f7ec795c6484f02ac1b4e09bb7c55e9d9609a86",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\__init__.py",
+      "pinned_bytes": 1125,
+      "pinned_sha256": "2318f251a62df6ff1e5199fbe4098dd315eb9bd3c53abbf29f573af69087723b",
+      "actual_bytes": 1125,
+      "actual_sha256": "2318f251a62df6ff1e5199fbe4098dd315eb9bd3c53abbf29f573af69087723b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\backtest.py",
+      "pinned_bytes": 57405,
+      "pinned_sha256": "c219677ef1e89bd78eb60e490b83020cdc1b7bf89a29a7731466486a108ac844",
+      "actual_bytes": 57405,
+      "actual_sha256": "c219677ef1e89bd78eb60e490b83020cdc1b7bf89a29a7731466486a108ac844",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\data.py",
+      "pinned_bytes": 37776,
+      "pinned_sha256": "c08e56484a3345eb66a0d6ca1c7dd87c36ee3a8a655c590d03a53d8ffe6e88b1",
+      "actual_bytes": 37776,
+      "actual_sha256": "c08e56484a3345eb66a0d6ca1c7dd87c36ee3a8a655c590d03a53d8ffe6e88b1",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\io.py",
+      "pinned_bytes": 33454,
+      "pinned_sha256": "b4498c0ee5ddb68cf4c744d24decd963a3d238f58eca4e51b3e458c8c023f35b",
+      "actual_bytes": 33454,
+      "actual_sha256": "b4498c0ee5ddb68cf4c744d24decd963a3d238f58eca4e51b3e458c8c023f35b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\portfolio.py",
+      "pinned_bytes": 17491,
+      "pinned_sha256": "01bc3e9300443291447c383120e6b7f0b764db72dde820b65f1a7e2282629759",
+      "actual_bytes": 17491,
+      "actual_sha256": "01bc3e9300443291447c383120e6b7f0b764db72dde820b65f1a7e2282629759",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\price_study.py",
+      "pinned_bytes": 9260,
+      "pinned_sha256": "42d47194888efc42d8df3bcf01c5f90d30f55cc05811055593f03e1af74eeda0",
+      "actual_bytes": 9260,
+      "actual_sha256": "42d47194888efc42d8df3bcf01c5f90d30f55cc05811055593f03e1af74eeda0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\readiness.py",
+      "pinned_bytes": 27117,
+      "pinned_sha256": "8c4693f471409a9f6ba7f994d9f520182361658e52b49e86a46800736f2a5227",
+      "actual_bytes": 27117,
+      "actual_sha256": "8c4693f471409a9f6ba7f994d9f520182361658e52b49e86a46800736f2a5227",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\scenario_backtest.py",
+      "pinned_bytes": 34735,
+      "pinned_sha256": "731628d348f995643a208ce195c31139ef8a8bdf52d7bd0fe2840139d64a3d09",
+      "actual_bytes": 34735,
+      "actual_sha256": "731628d348f995643a208ce195c31139ef8a8bdf52d7bd0fe2840139d64a3d09",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\spec.py",
+      "pinned_bytes": 20333,
+      "pinned_sha256": "81bd129f200a7b8fad9d905e544fb57e69ad0ab5c13dc16dea33854c2e699bfd",
+      "actual_bytes": 20333,
+      "actual_sha256": "81bd129f200a7b8fad9d905e544fb57e69ad0ab5c13dc16dea33854c2e699bfd",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\strategies.py",
+      "pinned_bytes": 34022,
+      "pinned_sha256": "53968f9cdbfe22540b1e8b68010bc538f66adeb543821dece4484fa64228ccfe",
+      "actual_bytes": 34022,
+      "actual_sha256": "53968f9cdbfe22540b1e8b68010bc538f66adeb543821dece4484fa64228ccfe",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\structures.py",
+      "pinned_bytes": 8626,
+      "pinned_sha256": "5738ae5b3c2b8a56871cdb8347fbd9480bb4f122b9a8cca65bb49a48060e8b0a",
+      "actual_bytes": 8626,
+      "actual_sha256": "5738ae5b3c2b8a56871cdb8347fbd9480bb4f122b9a8cca65bb49a48060e8b0a",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\study_labels.py",
+      "pinned_bytes": 18808,
+      "pinned_sha256": "98ea3a35ee772af3aad3962dcf0acd6a090cae5b9f997de44a373e58828bff60",
+      "actual_bytes": 18808,
+      "actual_sha256": "98ea3a35ee772af3aad3962dcf0acd6a090cae5b9f997de44a373e58828bff60",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\study_sample.py",
+      "pinned_bytes": 12246,
+      "pinned_sha256": "54e8af2f7bcc84995b7cc0a262eec06f21ca8ad1f2754e905f61cc5ed3a659f0",
+      "actual_bytes": 12246,
+      "actual_sha256": "54e8af2f7bcc84995b7cc0a262eec06f21ca8ad1f2754e905f61cc5ed3a659f0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\study_signals.py",
+      "pinned_bytes": 13273,
+      "pinned_sha256": "7403f34e1928184fcef408e2a7426d8577fd4c3c7edeaf2b588e263137186fed",
+      "actual_bytes": 13273,
+      "actual_sha256": "7403f34e1928184fcef408e2a7426d8577fd4c3c7edeaf2b588e263137186fed",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\study_spec.py",
+      "pinned_bytes": 953,
+      "pinned_sha256": "78c4d69d98bff6ed133bc7352d80f2815fa5a1d9ced1e7290f48a7b5703426b5",
+      "actual_bytes": 953,
+      "actual_sha256": "78c4d69d98bff6ed133bc7352d80f2815fa5a1d9ced1e7290f48a7b5703426b5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\validation.py",
+      "pinned_bytes": 18720,
+      "pinned_sha256": "d3df97afb0014c2d6dcd14ef0e7207e192c120f35fcbfeab774d72dea66c49bc",
+      "actual_bytes": 18720,
+      "actual_sha256": "d3df97afb0014c2d6dcd14ef0e7207e192c120f35fcbfeab774d72dea66c49bc",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures\\walkforward.py",
+      "pinned_bytes": 8784,
+      "pinned_sha256": "475865cf315e0fe6baeb36df608a2f172aaad304f789d4b6aaeab056a31f23ef",
+      "actual_bytes": 8784,
+      "actual_sha256": "475865cf315e0fe6baeb36df608a2f172aaad304f789d4b6aaeab056a31f23ef",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\futures_catalog.py",
+      "pinned_bytes": 28275,
+      "pinned_sha256": "33899cf5554e7587b1f7b3721b9dfeb7a5939ec6f5b22120e137a1a36857630c",
+      "actual_bytes": 28275,
+      "actual_sha256": "33899cf5554e7587b1f7b3721b9dfeb7a5939ec6f5b22120e137a1a36857630c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_bridge\\__init__.py",
+      "pinned_bytes": 1118,
+      "pinned_sha256": "1230c581f3102e059c3fb169d569927023fa5ec0521ffd34bd0560af9c3a5b4f",
+      "actual_bytes": 1118,
+      "actual_sha256": "1230c581f3102e059c3fb169d569927023fa5ec0521ffd34bd0560af9c3a5b4f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_bridge\\connection.py",
+      "pinned_bytes": 7647,
+      "pinned_sha256": "bd90ba8ceb31972405ad19b277983bb5af77cae081d1359680b3c2cfcdc3f612",
+      "actual_bytes": 7647,
+      "actual_sha256": "bd90ba8ceb31972405ad19b277983bb5af77cae081d1359680b3c2cfcdc3f612",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_bridge\\decision.py",
+      "pinned_bytes": 10512,
+      "pinned_sha256": "be869bb082f5fe45061e68845acec657a888d510d753478cacc05a052d3c2aa8",
+      "actual_bytes": 10512,
+      "actual_sha256": "be869bb082f5fe45061e68845acec657a888d510d753478cacc05a052d3c2aa8",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_bridge\\history.py",
+      "pinned_bytes": 3813,
+      "pinned_sha256": "373e94e2e6f13ebd6faae36cf14fb0b98e3a96a1c8a988b8a46b81d2179b8cb7",
+      "actual_bytes": 3813,
+      "actual_sha256": "373e94e2e6f13ebd6faae36cf14fb0b98e3a96a1c8a988b8a46b81d2179b8cb7",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_bridge\\protocol.py",
+      "pinned_bytes": 31037,
+      "pinned_sha256": "771f3c7c20adec3c5d3d835e3122afd57f683057734b1378983babb9ef438e01",
+      "actual_bytes": 31037,
+      "actual_sha256": "771f3c7c20adec3c5d3d835e3122afd57f683057734b1378983babb9ef438e01",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_bridge\\raw_sink.py",
+      "pinned_bytes": 49485,
+      "pinned_sha256": "f09675587dc783429e8214ba269ef19ce3f4283ca2557b946e540a1f70b3f65f",
+      "actual_bytes": 49485,
+      "actual_sha256": "f09675587dc783429e8214ba269ef19ce3f4283ca2557b946e540a1f70b3f65f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_bridge\\service.py",
+      "pinned_bytes": 44367,
+      "pinned_sha256": "dcbca1fe47b82ef1414a8cf248187c768f7f2cab0fe783eb61cf7119bd90e98e",
+      "actual_bytes": 44367,
+      "actual_sha256": "dcbca1fe47b82ef1414a8cf248187c768f7f2cab0fe783eb61cf7119bd90e98e",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\__init__.py",
+      "pinned_bytes": 91,
+      "pinned_sha256": "4003d6018d011dc4101e630b922d274773192ea8d3fb105c28abbd4ddbcf2571",
+      "actual_bytes": 91,
+      "actual_sha256": "4003d6018d011dc4101e630b922d274773192ea8d3fb105c28abbd4ddbcf2571",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\client_dispatch.py",
+      "pinned_bytes": 7522,
+      "pinned_sha256": "cf6fe2f46712508a5ffdb374ac6ed1e7e6780acf2bd9d6fcb339f9c086177134",
+      "actual_bytes": 7522,
+      "actual_sha256": "cf6fe2f46712508a5ffdb374ac6ed1e7e6780acf2bd9d6fcb339f9c086177134",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\client_service.py",
+      "pinned_bytes": 142295,
+      "pinned_sha256": "1f246175b1d599e038b1b383666105da6cd76bf260b107396a6589cdc417ccd7",
+      "actual_bytes": 142295,
+      "actual_sha256": "1f246175b1d599e038b1b383666105da6cd76bf260b107396a6589cdc417ccd7",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\contracts.py",
+      "pinned_bytes": 55493,
+      "pinned_sha256": "80cfdcda6d3cd82830e3f12f349df292105ca8480ff6010ffe83aec48a23b0cd",
+      "actual_bytes": 55493,
+      "actual_sha256": "80cfdcda6d3cd82830e3f12f349df292105ca8480ff6010ffe83aec48a23b0cd",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\dispatch_journal.py",
+      "pinned_bytes": 2859,
+      "pinned_sha256": "fb32327224bd74efb36af979c136175dc25bded0fcbd836f321dd4f590462062",
+      "actual_bytes": 2859,
+      "actual_sha256": "fb32327224bd74efb36af979c136175dc25bded0fcbd836f321dd4f590462062",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\executor.py",
+      "pinned_bytes": 35080,
+      "pinned_sha256": "c03efc7bc4d980d136c877f0851d3299dfdc2d36b44408723dd02b69247f2397",
+      "actual_bytes": 35080,
+      "actual_sha256": "c03efc7bc4d980d136c877f0851d3299dfdc2d36b44408723dd02b69247f2397",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\ledger.py",
+      "pinned_bytes": 168721,
+      "pinned_sha256": "4e6bbc58de2bbd00f31b6383cb1a22e543b66410a79f66c643bb36e3951d3a1a",
+      "actual_bytes": 168721,
+      "actual_sha256": "4e6bbc58de2bbd00f31b6383cb1a22e543b66410a79f66c643bb36e3951d3a1a",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\native.py",
+      "pinned_bytes": 4715,
+      "pinned_sha256": "39822b53e8c04b8d4bc7ff064a7ab31f55630d087617cad32f98b7d5a214fe46",
+      "actual_bytes": 4715,
+      "actual_sha256": "39822b53e8c04b8d4bc7ff064a7ab31f55630d087617cad32f98b7d5a214fe46",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\native_contracts.py",
+      "pinned_bytes": 52792,
+      "pinned_sha256": "68019597cb8ca8266f4c612e4d182838859d14100c94c679352ff53b4e863f1f",
+      "actual_bytes": 52792,
+      "actual_sha256": "68019597cb8ca8266f4c612e4d182838859d14100c94c679352ff53b4e863f1f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\native_evidence.py",
+      "pinned_bytes": 24060,
+      "pinned_sha256": "24700c045d1192ab7c342f68c2df1f2e75ad0fd29196db26d4e7a6ca57f8e730",
+      "actual_bytes": 24060,
+      "actual_sha256": "24700c045d1192ab7c342f68c2df1f2e75ad0fd29196db26d4e7a6ca57f8e730",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\planning.py",
+      "pinned_bytes": 46845,
+      "pinned_sha256": "619dfef48e809cf29231f2ef7a0067d98b61dab3c3996c29a0f982f631392b56",
+      "actual_bytes": 46845,
+      "actual_sha256": "619dfef48e809cf29231f2ef7a0067d98b61dab3c3996c29a0f982f631392b56",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\reconcile.py",
+      "pinned_bytes": 8996,
+      "pinned_sha256": "e4aec424738dc08d37fa50d908532e6143c64fd9b0403296409e1ce49f3991b5",
+      "actual_bytes": 8996,
+      "actual_sha256": "e4aec424738dc08d37fa50d908532e6143c64fd9b0403296409e1ce49f3991b5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\infiny_execution\\simulation.py",
+      "pinned_bytes": 23664,
+      "pinned_sha256": "03d4cafcc8d960e889ad10bda27221e33ff905b1e26cf25b7b81ae1d49b2a38f",
+      "actual_bytes": 23664,
+      "actual_sha256": "03d4cafcc8d960e889ad10bda27221e33ff905b1e26cf25b7b81ae1d49b2a38f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\journal.py",
+      "pinned_bytes": 2732,
+      "pinned_sha256": "88ed2c4fb075110530b835ee019ceac5fb566a6cdaf8e6982fb6ef2970b03a82",
+      "actual_bytes": 2732,
+      "actual_sha256": "88ed2c4fb075110530b835ee019ceac5fb566a6cdaf8e6982fb6ef2970b03a82",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\market_notices.py",
+      "pinned_bytes": 7939,
+      "pinned_sha256": "dbac0cb0da41edb73973ca16fda193d8c881e1599c7d5f995f3c0f28d1bfb2e3",
+      "actual_bytes": 7939,
+      "actual_sha256": "dbac0cb0da41edb73973ca16fda193d8c881e1599c7d5f995f3c0f28d1bfb2e3",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\market_reference.py",
+      "pinned_bytes": 45302,
+      "pinned_sha256": "9f61dbbae213d45d5db2c042853e5cb73a8c64a85db2c179cddf0f13c42c6405",
+      "actual_bytes": 45302,
+      "actual_sha256": "9f61dbbae213d45d5db2c042853e5cb73a8c64a85db2c179cddf0f13c42c6405",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\mcp_server\\__init__.py",
+      "pinned_bytes": 568,
+      "pinned_sha256": "668fdb0e20fe3e4197c19cb6bcdc811e94a45e006a432bf92215a7223b72d8f0",
+      "actual_bytes": 568,
+      "actual_sha256": "668fdb0e20fe3e4197c19cb6bcdc811e94a45e006a432bf92215a7223b72d8f0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\mcp_server\\audit.py",
+      "pinned_bytes": 7442,
+      "pinned_sha256": "1efa1f785fd8c4347c72fcc47cb694bf23402592df8333a6ba14533ffa476caf",
+      "actual_bytes": 7442,
+      "actual_sha256": "1efa1f785fd8c4347c72fcc47cb694bf23402592df8333a6ba14533ffa476caf",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\mcp_server\\queries.py",
+      "pinned_bytes": 14765,
+      "pinned_sha256": "607c5cc56519341805c07d8245ea7024b983e4b446b9cde30130d10fa34f62bf",
+      "actual_bytes": 14765,
+      "actual_sha256": "607c5cc56519341805c07d8245ea7024b983e4b446b9cde30130d10fa34f62bf",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\mcp_server\\reference.py",
+      "pinned_bytes": 3332,
+      "pinned_sha256": "fed05dc797e7e91d71509bc64579333ed26daa775f2a4bc9b35161acf042d249",
+      "actual_bytes": 3332,
+      "actual_sha256": "fed05dc797e7e91d71509bc64579333ed26daa775f2a4bc9b35161acf042d249",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\mcp_server\\server.py",
+      "pinned_bytes": 9393,
+      "pinned_sha256": "6bbeea75bbf351b03cb9ccb1314f87864806810fd25e269ee7cd4f727f256402",
+      "actual_bytes": 9393,
+      "actual_sha256": "6bbeea75bbf351b03cb9ccb1314f87864806810fd25e269ee7cd4f727f256402",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\member_rank.py",
+      "pinned_bytes": 47148,
+      "pinned_sha256": "5729ce3130f1024a6f160df6ebf92eec1abe7f88d49540e20ae68d77173de276",
+      "actual_bytes": 47148,
+      "actual_sha256": "5729ce3130f1024a6f160df6ebf92eec1abe7f88d49540e20ae68d77173de276",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\orders.py",
+      "pinned_bytes": 1767,
+      "pinned_sha256": "27105642be91441f2b5801fac0dbb789ecba577ecd5a93192f8f18d93e5bc3a6",
+      "actual_bytes": 1767,
+      "actual_sha256": "27105642be91441f2b5801fac0dbb789ecba577ecd5a93192f8f18d93e5bc3a6",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\__init__.py",
+      "pinned_bytes": 429,
+      "pinned_sha256": "0023a7b84995257ce6b192ce3c9e4e8263d0382e1f482f3fb1b88fc6cba0505d",
+      "actual_bytes": 429,
+      "actual_sha256": "0023a7b84995257ce6b192ce3c9e4e8263d0382e1f482f3fb1b88fc6cba0505d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\config.py",
+      "pinned_bytes": 5553,
+      "pinned_sha256": "9406adf3709a4a0847a1922d24e4f1e8cef205793197f03ba44604fab4e916f4",
+      "actual_bytes": 5553,
+      "actual_sha256": "9406adf3709a4a0847a1922d24e4f1e8cef205793197f03ba44604fab4e916f4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\database.py",
+      "pinned_bytes": 2794,
+      "pinned_sha256": "d40a4ba2a02d1be099aa3d7290d4301cf40de0a935811fa02ec5d77627503d97",
+      "actual_bytes": 2794,
+      "actual_sha256": "d40a4ba2a02d1be099aa3d7290d4301cf40de0a935811fa02ec5d77627503d97",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\exchange_rules.py",
+      "pinned_bytes": 20444,
+      "pinned_sha256": "2ee80b9e09e5b92a44967e182dd1297cbd201a16a67bce33f429c5d8c06d702d",
+      "actual_bytes": 20444,
+      "actual_sha256": "2ee80b9e09e5b92a44967e182dd1297cbd201a16a67bce33f429c5d8c06d702d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\freshness.py",
+      "pinned_bytes": 10615,
+      "pinned_sha256": "a5f981de6b5f8d69f0d102de9bb99469cda0430fe325f4da05a29b9885ce5b87",
+      "actual_bytes": 10615,
+      "actual_sha256": "a5f981de6b5f8d69f0d102de9bb99469cda0430fe325f4da05a29b9885ce5b87",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\futures_research.py",
+      "pinned_bytes": 46120,
+      "pinned_sha256": "261bd7e3e3cbc0c781242f07415f718ef285d2153de28ea5c7b873ebd5f51213",
+      "actual_bytes": 46120,
+      "actual_sha256": "261bd7e3e3cbc0c781242f07415f718ef285d2153de28ea5c7b873ebd5f51213",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\inspection.py",
+      "pinned_bytes": 13308,
+      "pinned_sha256": "befa910c4d36a01e442b3ba9489e4d2d145ca9ce4252b281c7f288340f90e1cc",
+      "actual_bytes": 13308,
+      "actual_sha256": "befa910c4d36a01e442b3ba9489e4d2d145ca9ce4252b281c7f288340f90e1cc",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\market_data.py",
+      "pinned_bytes": 18379,
+      "pinned_sha256": "f4c0f7220de00040b27681fb5e653e5350c388a839165e68248fb394a07659ec",
+      "actual_bytes": 18379,
+      "actual_sha256": "f4c0f7220de00040b27681fb5e653e5350c388a839165e68248fb394a07659ec",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\member_rank.py",
+      "pinned_bytes": 6616,
+      "pinned_sha256": "9ca013a61871de60b2140de2bad664c98e0423246d551fbaa839dbcc1b5814a0",
+      "actual_bytes": 6616,
+      "actual_sha256": "9ca013a61871de60b2140de2bad664c98e0423246d551fbaa839dbcc1b5814a0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\query.py",
+      "pinned_bytes": 15664,
+      "pinned_sha256": "d0093a2ef1d9370c0ddb2899ee097f325f2c3f2b5703d3e2c45fd6d4b4ddd269",
+      "actual_bytes": 15664,
+      "actual_sha256": "d0093a2ef1d9370c0ddb2899ee097f325f2c3f2b5703d3e2c45fd6d4b4ddd269",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\schema.py",
+      "pinned_bytes": 14746,
+      "pinned_sha256": "5db71a8ca1e8da2a7781d073161dfb9bab544e4c5712fabc141144654f090c85",
+      "actual_bytes": 14746,
+      "actual_sha256": "5db71a8ca1e8da2a7781d073161dfb9bab544e4c5712fabc141144654f090c85",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\persistence\\storage.py",
+      "pinned_bytes": 29476,
+      "pinned_sha256": "d80bc888a8b10feeb813082f1b1ef3e0b959399e14979399b624a907048f6e1d",
+      "actual_bytes": 29476,
+      "actual_sha256": "d80bc888a8b10feeb813082f1b1ef3e0b959399e14979399b624a907048f6e1d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\__init__.py",
+      "pinned_bytes": 82,
+      "pinned_sha256": "ecd032cc9f9974b67dbd333279f87fa9aff16552dff1290780da88a5e68e6912",
+      "actual_bytes": 82,
+      "actual_sha256": "ecd032cc9f9974b67dbd333279f87fa9aff16552dff1290780da88a5e68e6912",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\artifacts.py",
+      "pinned_bytes": 8984,
+      "pinned_sha256": "bb26602c49389f4f5373508d155b7e6e398cc064f6df483f931523f55d095581",
+      "actual_bytes": 8984,
+      "actual_sha256": "bb26602c49389f4f5373508d155b7e6e398cc064f6df483f931523f55d095581",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\contracts.py",
+      "pinned_bytes": 5644,
+      "pinned_sha256": "0baa04254935aaf552623175ac910274725bed325829ab810294c24855eac48a",
+      "actual_bytes": 5644,
+      "actual_sha256": "0baa04254935aaf552623175ac910274725bed325829ab810294c24855eac48a",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\episodes.py",
+      "pinned_bytes": 19920,
+      "pinned_sha256": "eb3f42e78cd67a23e9803c24f124e3322029bb5d2022b0ffdaced46e070ed051",
+      "actual_bytes": 19920,
+      "actual_sha256": "eb3f42e78cd67a23e9803c24f124e3322029bb5d2022b0ffdaced46e070ed051",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\factors.py",
+      "pinned_bytes": 9730,
+      "pinned_sha256": "cb9da5fb92d484e97b07bc4c625d65ac1538047ef68fca5706d7570f45948a8d",
+      "actual_bytes": 9730,
+      "actual_sha256": "cb9da5fb92d484e97b07bc4c625d65ac1538047ef68fca5706d7570f45948a8d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\labels.py",
+      "pinned_bytes": 5096,
+      "pinned_sha256": "48c76b582c2e37503e5221c35f56c080515d6160ba513a38fc60c6562dbb3419",
+      "actual_bytes": 5096,
+      "actual_sha256": "48c76b582c2e37503e5221c35f56c080515d6160ba513a38fc60c6562dbb3419",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\models.py",
+      "pinned_bytes": 40095,
+      "pinned_sha256": "c34c77c75d8a59238be70af99187f12b392d67758d0f37d2cea584f17497f42b",
+      "actual_bytes": 40095,
+      "actual_sha256": "c34c77c75d8a59238be70af99187f12b392d67758d0f37d2cea584f17497f42b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\partition.py",
+      "pinned_bytes": 2018,
+      "pinned_sha256": "23374ac527d9c9e6b79e550b522cf43fa8a4ffc70717f6cb5b005f93c2090965",
+      "actual_bytes": 2018,
+      "actual_sha256": "23374ac527d9c9e6b79e550b522cf43fa8a4ffc70717f6cb5b005f93c2090965",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\pipeline.py",
+      "pinned_bytes": 18757,
+      "pinned_sha256": "8b6b3b65efa8d1f3e40b040912d3569342bdb8a3bcff3a658bc87b2dc47e36d6",
+      "actual_bytes": 18757,
+      "actual_sha256": "8b6b3b65efa8d1f3e40b040912d3569342bdb8a3bcff3a658bc87b2dc47e36d6",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\probability\\routing.py",
+      "pinned_bytes": 24615,
+      "pinned_sha256": "4ad293cf9460742a5109839b4b7b6e64ae92e20c454f3591cf28e8be716377d5",
+      "actual_bytes": 24615,
+      "actual_sha256": "4ad293cf9460742a5109839b4b7b6e64ae92e20c454f3591cf28e8be716377d5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\README.md",
+      "pinned_bytes": 11202,
+      "pinned_sha256": "aa091f805227da692adcb6f64a4ac742a80a7faa90c23247eda0b9072cd6fd59",
+      "actual_bytes": 11202,
+      "actual_sha256": "aa091f805227da692adcb6f64a4ac742a80a7faa90c23247eda0b9072cd6fd59",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\__init__.py",
+      "pinned_bytes": 1464,
+      "pinned_sha256": "aee8914320fc2b0834bff984b2d61a26ba984bbd69d380d58321dff2d33ccb57",
+      "actual_bytes": 1464,
+      "actual_sha256": "aee8914320fc2b0834bff984b2d61a26ba984bbd69d380d58321dff2d33ccb57",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\__main__.py",
+      "pinned_bytes": 349,
+      "pinned_sha256": "eaf3c475a54d3478e917a43b24d621283810299283bdeb576a00d6ac7969ce66",
+      "actual_bytes": 349,
+      "actual_sha256": "eaf3c475a54d3478e917a43b24d621283810299283bdeb576a00d6ac7969ce66",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\checker.py",
+      "pinned_bytes": 46031,
+      "pinned_sha256": "2e48cc85a594d79ae098d8cb2cb45b54c33bd6b0d4cee5021cef8515fb885fc3",
+      "actual_bytes": 46031,
+      "actual_sha256": "2e48cc85a594d79ae098d8cb2cb45b54c33bd6b0d4cee5021cef8515fb885fc3",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\fixtures\\synthetic\\file-table.json",
+      "pinned_bytes": 1151,
+      "pinned_sha256": "d84c79927f2f04d8dc5e7229d0bd6f4e7f6f74eedbea0d91f9c4dcebffdf74a4",
+      "actual_bytes": 1151,
+      "actual_sha256": "d84c79927f2f04d8dc5e7229d0bd6f4e7f6f74eedbea0d91f9c4dcebffdf74a4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\fixtures\\synthetic\\gate-table.json",
+      "pinned_bytes": 987,
+      "pinned_sha256": "fae848716ddef16201582bb0ec7b0a5e1c2cb9e7e3f0e876e2ddfa333be1d870",
+      "actual_bytes": 987,
+      "actual_sha256": "fae848716ddef16201582bb0ec7b0a5e1c2cb9e7e3f0e876e2ddfa333be1d870",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\fixtures\\synthetic\\identity-table.json",
+      "pinned_bytes": 864,
+      "pinned_sha256": "c1ddf1ae25c78c2179f2e54a67c4fffb38065be216e5894da4cce287e2b44fa5",
+      "actual_bytes": 864,
+      "actual_sha256": "c1ddf1ae25c78c2179f2e54a67c4fffb38065be216e5894da4cce287e2b44fa5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\fixtures\\synthetic\\register-snapshot-broken.json",
+      "pinned_bytes": 2388,
+      "pinned_sha256": "08253beb9a139ce1332e79ad202cc2a3c6fc88f8bacb1a37b382c2d90e9c91a0",
+      "actual_bytes": 2388,
+      "actual_sha256": "08253beb9a139ce1332e79ad202cc2a3c6fc88f8bacb1a37b382c2d90e9c91a0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\fixtures\\synthetic\\register-snapshot-clean.json",
+      "pinned_bytes": 2332,
+      "pinned_sha256": "8e0623b2a8a3ffde76c43239af13aa489aa8c8c6f170298ebc7a77933d4fff6a",
+      "actual_bytes": 2332,
+      "actual_sha256": "8e0623b2a8a3ffde76c43239af13aa489aa8c8c6f170298ebc7a77933d4fff6a",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\models.py",
+      "pinned_bytes": 24557,
+      "pinned_sha256": "c11e4cefb43e21f58868359aaf5a4f941e9e09d73618bac3bb49d8f6f3513dad",
+      "actual_bytes": 24557,
+      "actual_sha256": "c11e4cefb43e21f58868359aaf5a4f941e9e09d73618bac3bb49d8f6f3513dad",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\tests\\__init__.py",
+      "pinned_bytes": 309,
+      "pinned_sha256": "69369c773664dc288acff0bbef650769f737e7dd0ebe39e5beb8fb47d4d80f8c",
+      "actual_bytes": 309,
+      "actual_sha256": "69369c773664dc288acff0bbef650769f737e7dd0ebe39e5beb8fb47d4d80f8c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\readiness\\tests\\test_checker.py",
+      "pinned_bytes": 39459,
+      "pinned_sha256": "59e126039e8c1ce0bdadab1a44be369d9688d11fbb8a4ca5609cc66d1696b15f",
+      "actual_bytes": 39459,
+      "actual_sha256": "59e126039e8c1ce0bdadab1a44be369d9688d11fbb8a4ca5609cc66d1696b15f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\research.py",
+      "pinned_bytes": 23839,
+      "pinned_sha256": "3725dd317d256144d507b0a486db1bec56e2589b8fcd258d70529d7f18895f9e",
+      "actual_bytes": 23839,
+      "actual_sha256": "3725dd317d256144d507b0a486db1bec56e2589b8fcd258d70529d7f18895f9e",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\research_export.py",
+      "pinned_bytes": 21840,
+      "pinned_sha256": "3ed40ad9f991674bc0ff0fb667c257d3a7bebd1eeb2adb8e1ad1f352002f30f3",
+      "actual_bytes": 21840,
+      "actual_sha256": "3ed40ad9f991674bc0ff0fb667c257d3a7bebd1eeb2adb8e1ad1f352002f30f3",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\research_io.py",
+      "pinned_bytes": 4713,
+      "pinned_sha256": "8172621f7d0b9473ef0843effe477c7530dea36909a1baf771a0f85406c2c0ff",
+      "actual_bytes": 4713,
+      "actual_sha256": "8172621f7d0b9473ef0843effe477c7530dea36909a1baf771a0f85406c2c0ff",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\risk.py",
+      "pinned_bytes": 1628,
+      "pinned_sha256": "c293f299bee44ff39fe2e1f03d669eb4ee1d7b936c636357b57793102a0d00e0",
+      "actual_bytes": 1628,
+      "actual_sha256": "c293f299bee44ff39fe2e1f03d669eb4ee1d7b936c636357b57793102a0d00e0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\runner.py",
+      "pinned_bytes": 11434,
+      "pinned_sha256": "f5c6c72e1796dae688784c8ee02ce4ef2a02c88add0de23f51eba9d113576cc7",
+      "actual_bytes": 11434,
+      "actual_sha256": "f5c6c72e1796dae688784c8ee02ce4ef2a02c88add0de23f51eba9d113576cc7",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\runtime.py",
+      "pinned_bytes": 1525,
+      "pinned_sha256": "34fa9d4262aaf1d9929d55edb7d607357e3e8834eeb1d5d0da1f952843a10239",
+      "actual_bytes": 1525,
+      "actual_sha256": "34fa9d4262aaf1d9929d55edb7d607357e3e8834eeb1d5d0da1f952843a10239",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\session.py",
+      "pinned_bytes": 1558,
+      "pinned_sha256": "f36547abb9e884a01d791f6de338a9f32060b21ed295bb90aea80e7885b02823",
+      "actual_bytes": 1558,
+      "actual_sha256": "f36547abb9e884a01d791f6de338a9f32060b21ed295bb90aea80e7885b02823",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\settlement_reference.py",
+      "pinned_bytes": 16962,
+      "pinned_sha256": "0a91745f6c0b21a7d504b9238b85277c3783af08340a797cffdb9696096ddf84",
+      "actual_bytes": 16962,
+      "actual_sha256": "0a91745f6c0b21a7d504b9238b85277c3783af08340a797cffdb9696096ddf84",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\strategy.py",
+      "pinned_bytes": 2490,
+      "pinned_sha256": "ce1f219bec7e8ff2cda62dc1d93272f25bd52bccf4e7558aba4127152cf1f24a",
+      "actual_bytes": 2490,
+      "actual_sha256": "ce1f219bec7e8ff2cda62dc1d93272f25bd52bccf4e7558aba4127152cf1f24a",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\symbols.py",
+      "pinned_bytes": 2364,
+      "pinned_sha256": "2ded8a0f778650f73ea79c1eba05368f6f68dede492eb68af48cca2b71879d26",
+      "actual_bytes": 2364,
+      "actual_sha256": "2ded8a0f778650f73ea79c1eba05368f6f68dede492eb68af48cca2b71879d26",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\testing\\__init__.py",
+      "pinned_bytes": 77,
+      "pinned_sha256": "5392ad5771a3841992c5c51ffa1f36df57895fa7ed635d8d7f0446a9f8c6dc42",
+      "actual_bytes": 77,
+      "actual_sha256": "5392ad5771a3841992c5c51ffa1f36df57895fa7ed635d8d7f0446a9f8c6dc42",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\testing\\offline_guard.py",
+      "pinned_bytes": 15397,
+      "pinned_sha256": "e0a667d551f3f8cb68e67b336caee759935c7d6debe84df55b2f5e97cc2d8623",
+      "actual_bytes": 15397,
+      "actual_sha256": "e0a667d551f3f8cb68e67b336caee759935c7d6debe84df55b2f5e97cc2d8623",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\tqsdk_errors.py",
+      "pinned_bytes": 1065,
+      "pinned_sha256": "61b1e0b714e0ef01bdca03fd045f01aeac291b5803086f44e22d81f8ef84aa37",
+      "actual_bytes": 1065,
+      "actual_sha256": "61b1e0b714e0ef01bdca03fd045f01aeac291b5803086f44e22d81f8ef84aa37",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\__init__.py",
+      "pinned_bytes": 667,
+      "pinned_sha256": "7d3dd5c252bac5608f4fa010ad926427f2e2fe9094cc47b53ea876bd967fda31",
+      "actual_bytes": 667,
+      "actual_sha256": "7d3dd5c252bac5608f4fa010ad926427f2e2fe9094cc47b53ea876bd967fda31",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\artifacts.py",
+      "pinned_bytes": 96982,
+      "pinned_sha256": "16af6a603004431ea901218d49d409982c66f3c5d5a433a1429c7825cd59298d",
+      "actual_bytes": 96982,
+      "actual_sha256": "16af6a603004431ea901218d49d409982c66f3c5d5a433a1429c7825cd59298d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\baseline.py",
+      "pinned_bytes": 36713,
+      "pinned_sha256": "aa79f1c3e4acec91033ce8bb701683428073565ef268a9e18f2165c8117bd5e4",
+      "actual_bytes": 36713,
+      "actual_sha256": "aa79f1c3e4acec91033ce8bb701683428073565ef268a9e18f2165c8117bd5e4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\clock.py",
+      "pinned_bytes": 22427,
+      "pinned_sha256": "793771e4633a92398a513983ea3f62713ce6c9f2ab10a4e49df4000eda77660b",
+      "actual_bytes": 22427,
+      "actual_sha256": "793771e4633a92398a513983ea3f62713ce6c9f2ab10a4e49df4000eda77660b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\contracts.py",
+      "pinned_bytes": 178477,
+      "pinned_sha256": "bcd290615ea837dd086c4bb4166ed6bd2dc474a410da8501c7040474b1860f15",
+      "actual_bytes": 178477,
+      "actual_sha256": "bcd290615ea837dd086c4bb4166ed6bd2dc474a410da8501c7040474b1860f15",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\data.py",
+      "pinned_bytes": 25102,
+      "pinned_sha256": "16bb89c5a78cbb35a084ee2ef122838b91cf18c33597430db910583fce402e3d",
+      "actual_bytes": 25102,
+      "actual_sha256": "16bb89c5a78cbb35a084ee2ef122838b91cf18c33597430db910583fce402e3d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\__init__.py",
+      "pinned_bytes": 139,
+      "pinned_sha256": "44d324035a75bf02d7d2c8a959b0e8dc084c579ac762f5a7371852c540c5ec93",
+      "actual_bytes": 139,
+      "actual_sha256": "44d324035a75bf02d7d2c8a959b0e8dc084c579ac762f5a7371852c540c5ec93",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\execution.py",
+      "pinned_bytes": 14120,
+      "pinned_sha256": "f06be6642c07e8698d41ebf02c30acb39a3976faf9571c9ad7bf408e559772aa",
+      "actual_bytes": 14120,
+      "actual_sha256": "f06be6642c07e8698d41ebf02c30acb39a3976faf9571c9ad7bf408e559772aa",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\gates.py",
+      "pinned_bytes": 19352,
+      "pinned_sha256": "490e1c970d909f4058942d8d427a18da9b676bffb29f38cce4934c54a30fd28d",
+      "actual_bytes": 19352,
+      "actual_sha256": "490e1c970d909f4058942d8d427a18da9b676bffb29f38cce4934c54a30fd28d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\ledger.py",
+      "pinned_bytes": 29164,
+      "pinned_sha256": "27e57becb79f21343ca45bd1f27816b1a023636f15490f03d4176d5af2c4bef8",
+      "actual_bytes": 29164,
+      "actual_sha256": "27e57becb79f21343ca45bd1f27816b1a023636f15490f03d4176d5af2c4bef8",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\payoff_paths.py",
+      "pinned_bytes": 38542,
+      "pinned_sha256": "c5993cccea6bc0effa8f352abf5f71e518034038c81069d7e0abc9a68462725b",
+      "actual_bytes": 38542,
+      "actual_sha256": "c5993cccea6bc0effa8f352abf5f71e518034038c81069d7e0abc9a68462725b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\payoffs.py",
+      "pinned_bytes": 72757,
+      "pinned_sha256": "7d6d3b96e7e3d464269a9e36c4d6d58baa0123615e9ed12ae4da71f351bc99ff",
+      "actual_bytes": 72757,
+      "actual_sha256": "7d6d3b96e7e3d464269a9e36c4d6d58baa0123615e9ed12ae4da71f351bc99ff",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\pipeline.py",
+      "pinned_bytes": 28701,
+      "pinned_sha256": "33d37167e82693223baf89ce4c898db4192abe4f229c1f94b36b49075c6e31eb",
+      "actual_bytes": 28701,
+      "actual_sha256": "33d37167e82693223baf89ce4c898db4192abe4f229c1f94b36b49075c6e31eb",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\replay.py",
+      "pinned_bytes": 40650,
+      "pinned_sha256": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+      "actual_bytes": 40650,
+      "actual_sha256": "0226b0f2ff5524f81f8327611260d6c7b4e87d46b593b4a514ea772b6735af64",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\risk.py",
+      "pinned_bytes": 9955,
+      "pinned_sha256": "bc776e037290773fb7534702c2cb84138cadf56cadab88ca2db28388b2ea9294",
+      "actual_bytes": 9955,
+      "actual_sha256": "bc776e037290773fb7534702c2cb84138cadf56cadab88ca2db28388b2ea9294",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\decision\\routing.py",
+      "pinned_bytes": 5475,
+      "pinned_sha256": "8341998461a982f7821527f22e721edf960122f6bb45b085ad537d7d0b333a4c",
+      "actual_bytes": 5475,
+      "actual_sha256": "8341998461a982f7821527f22e721edf960122f6bb45b085ad537d7d0b333a4c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\__init__.py",
+      "pinned_bytes": 386,
+      "pinned_sha256": "61014a4df936ccc421e159f2de9cf08628a49ab0d5710b26ecbb98f2f017e182",
+      "actual_bytes": 386,
+      "actual_sha256": "61014a4df936ccc421e159f2de9cf08628a49ab0d5710b26ecbb98f2f017e182",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\arbitration.py",
+      "pinned_bytes": 8340,
+      "pinned_sha256": "7c3c7303563f2089c69dabe34cc8a985b031f8670143a4c5e27056bf8aed402f",
+      "actual_bytes": 8340,
+      "actual_sha256": "7c3c7303563f2089c69dabe34cc8a985b031f8670143a4c5e27056bf8aed402f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\drawdown.py",
+      "pinned_bytes": 7354,
+      "pinned_sha256": "edbb695b0a07fb0a602723551f59498132a6ab1823e1f8b3bd72010ed4c6eea4",
+      "actual_bytes": 7354,
+      "actual_sha256": "edbb695b0a07fb0a602723551f59498132a6ab1823e1f8b3bd72010ed4c6eea4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\features.py",
+      "pinned_bytes": 43807,
+      "pinned_sha256": "4691f38e8ad93a1be2a809b0c0c7029c0195ed0343402c85ee2de76120709a43",
+      "actual_bytes": 43807,
+      "actual_sha256": "4691f38e8ad93a1be2a809b0c0c7029c0195ed0343402c85ee2de76120709a43",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\legacy.py",
+      "pinned_bytes": 3534,
+      "pinned_sha256": "e92b1c2278b9280f7c64d2f77862e558bfd493e1f13edd50b2f027d51f8db933",
+      "actual_bytes": 3534,
+      "actual_sha256": "e92b1c2278b9280f7c64d2f77862e558bfd493e1f13edd50b2f027d51f8db933",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\profit_ladder.py",
+      "pinned_bytes": 12764,
+      "pinned_sha256": "3d1a92b57094be9defd39aa8bc50bdffe288837fb0811972fdd793017007d300",
+      "actual_bytes": 12764,
+      "actual_sha256": "3d1a92b57094be9defd39aa8bc50bdffe288837fb0811972fdd793017007d300",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\registry.py",
+      "pinned_bytes": 17449,
+      "pinned_sha256": "488b95d6c1a9154cf39156e906fc222d2cae0c4778990e04b4a3b4a5323ba367",
+      "actual_bytes": 17449,
+      "actual_sha256": "488b95d6c1a9154cf39156e906fc222d2cae0c4778990e04b4a3b4a5323ba367",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\replay.py",
+      "pinned_bytes": 6235,
+      "pinned_sha256": "88104cb7c964103a25f1287713b0f2d788af759bd601566b7630b35bca4fccde",
+      "actual_bytes": 6235,
+      "actual_sha256": "88104cb7c964103a25f1287713b0f2d788af759bd601566b7630b35bca4fccde",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\signal_reversal.py",
+      "pinned_bytes": 19982,
+      "pinned_sha256": "feeab32d49dddab34cf478917095009323032180d0ae75dae194e3c620a5c3a6",
+      "actual_bytes": 19982,
+      "actual_sha256": "feeab32d49dddab34cf478917095009323032180d0ae75dae194e3c620a5c3a6",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\sizing.py",
+      "pinned_bytes": 6192,
+      "pinned_sha256": "1e011574728a2505f88a1b84b3af6e48173ddcd2dc443b2e45bdd86f1fe6bf40",
+      "actual_bytes": 6192,
+      "actual_sha256": "1e011574728a2505f88a1b84b3af6e48173ddcd2dc443b2e45bdd86f1fe6bf40",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\state.py",
+      "pinned_bytes": 24550,
+      "pinned_sha256": "037a2ff9283c470073053fce69bcb9a52987eb576750a7b2aa9631e4fa3ec663",
+      "actual_bytes": 24550,
+      "actual_sha256": "037a2ff9283c470073053fce69bcb9a52987eb576750a7b2aa9631e4fa3ec663",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\time_decay.py",
+      "pinned_bytes": 8631,
+      "pinned_sha256": "c764e1c22ad1b85c66d28eee490c909a21e19b1148ff69dd93c24896264a01ef",
+      "actual_bytes": 8631,
+      "actual_sha256": "c764e1c22ad1b85c66d28eee490c909a21e19b1148ff69dd93c24896264a01ef",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\trailing.py",
+      "pinned_bytes": 14036,
+      "pinned_sha256": "17879aef29c3d5f0960c50237b4d09f3867823cafca4ab7bbadd02678e1f258e",
+      "actual_bytes": 14036,
+      "actual_sha256": "17879aef29c3d5f0960c50237b4d09f3867823cafca4ab7bbadd02678e1f258e",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\exits\\volatility_stop.py",
+      "pinned_bytes": 14897,
+      "pinned_sha256": "f725d5dcbb99fee95292f0d17d3c6e79c7b1d99ccd905d83112fed0cf3f9d9f7",
+      "actual_bytes": 14897,
+      "actual_sha256": "f725d5dcbb99fee95292f0d17d3c6e79c7b1d99ccd905d83112fed0cf3f9d9f7",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\export.py",
+      "pinned_bytes": 17565,
+      "pinned_sha256": "7d9cb0919de2b70ba7492d63f5836ab8c1a0d86194c4a43700f7cd6e254ab57e",
+      "actual_bytes": 17565,
+      "actual_sha256": "7d9cb0919de2b70ba7492d63f5836ab8c1a0d86194c4a43700f7cd6e254ab57e",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\factor_specs.py",
+      "pinned_bytes": 35826,
+      "pinned_sha256": "deed3712ea8e22b58f8cfcde38bf9bf2946b422b61167badccf36356ee241d6f",
+      "actual_bytes": 35826,
+      "actual_sha256": "deed3712ea8e22b58f8cfcde38bf9bf2946b422b61167badccf36356ee241d6f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\factors.py",
+      "pinned_bytes": 67018,
+      "pinned_sha256": "bf20860d247752b428003ec14599ecf22cda6eb21696689e9365d349d7b7912d",
+      "actual_bytes": 67018,
+      "actual_sha256": "bf20860d247752b428003ec14599ecf22cda6eb21696689e9365d349d7b7912d",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\macro.py",
+      "pinned_bytes": 32255,
+      "pinned_sha256": "ca6e51c725047e92602434fb1dc8075fb4eb7671d601ff0e7296306935a7bfe1",
+      "actual_bytes": 32255,
+      "actual_sha256": "ca6e51c725047e92602434fb1dc8075fb4eb7671d601ff0e7296306935a7bfe1",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\policy.py",
+      "pinned_bytes": 9240,
+      "pinned_sha256": "9e9c560bbf1d757ce5c0644bb2907ac2fddcd566ae587628b3a8cb589f55e32c",
+      "actual_bytes": 9240,
+      "actual_sha256": "9e9c560bbf1d757ce5c0644bb2907ac2fddcd566ae587628b3a8cb589f55e32c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\probability\\__init__.py",
+      "pinned_bytes": 1056,
+      "pinned_sha256": "dbc3879fd440cce2fe9b64a9551a192e955e78529be246334f6aaaf34dac85f3",
+      "actual_bytes": 1056,
+      "actual_sha256": "dbc3879fd440cce2fe9b64a9551a192e955e78529be246334f6aaaf34dac85f3",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\probability\\calibration.py",
+      "pinned_bytes": 24140,
+      "pinned_sha256": "49757c0993bedce1006f29ae597928dd8516497111ccb3303ed95bf3602d87ab",
+      "actual_bytes": 24140,
+      "actual_sha256": "49757c0993bedce1006f29ae597928dd8516497111ccb3303ed95bf3602d87ab",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\probability\\forecast.py",
+      "pinned_bytes": 19759,
+      "pinned_sha256": "f70826449f64a271285387edbfb00e9da0a6c0d43fdc1cd72b6e1810b0f5822c",
+      "actual_bytes": 19759,
+      "actual_sha256": "f70826449f64a271285387edbfb00e9da0a6c0d43fdc1cd72b6e1810b0f5822c",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\probability\\labels.py",
+      "pinned_bytes": 23442,
+      "pinned_sha256": "d0ff9c6ee1038bce1246cae4cfd97811f78c3ea20899050693dbd69440d1faa5",
+      "actual_bytes": 23442,
+      "actual_sha256": "d0ff9c6ee1038bce1246cae4cfd97811f78c3ea20899050693dbd69440d1faa5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\probability\\models.py",
+      "pinned_bytes": 105155,
+      "pinned_sha256": "1e9197ddd678bd50959de998ef82bf11c4e872137ba43e05405c167ab469df42",
+      "actual_bytes": 105155,
+      "actual_sha256": "1e9197ddd678bd50959de998ef82bf11c4e872137ba43e05405c167ab469df42",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\probability\\regimes.py",
+      "pinned_bytes": 21218,
+      "pinned_sha256": "d646588f6efc9812f2b921618b07eae299ac83d94b21b3bddb041587a3c1ba23",
+      "actual_bytes": 21218,
+      "actual_sha256": "d646588f6efc9812f2b921618b07eae299ac83d94b21b3bddb041587a3c1ba23",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\schemas.py",
+      "pinned_bytes": 47784,
+      "pinned_sha256": "25a41de562a09dc49c33de553842713da721cf842ef0caabd3d8b78fd35d7b36",
+      "actual_bytes": 47784,
+      "actual_sha256": "25a41de562a09dc49c33de553842713da721cf842ef0caabd3d8b78fd35d7b36",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\seasonality.py",
+      "pinned_bytes": 36039,
+      "pinned_sha256": "950630b072d95e2f5705e94c2d544de9ae55b14eeab96cc22f6cb46d7d2c9ea4",
+      "actual_bytes": 36039,
+      "actual_sha256": "950630b072d95e2f5705e94c2d544de9ae55b14eeab96cc22f6cb46d7d2c9ea4",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\__init__.py",
+      "pinned_bytes": 462,
+      "pinned_sha256": "b18466079a9a6f80a1cb905fb5d9cedfc0696ac93e84f0e91577548786dc1b62",
+      "actual_bytes": 462,
+      "actual_sha256": "b18466079a9a6f80a1cb905fb5d9cedfc0696ac93e84f0e91577548786dc1b62",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\breakout.py",
+      "pinned_bytes": 12465,
+      "pinned_sha256": "50dd718094e5bff91b7f449db13fe4428f2f34822d34e7538672c93a0485acb5",
+      "actual_bytes": 12465,
+      "actual_sha256": "50dd718094e5bff91b7f449db13fe4428f2f34822d34e7538672c93a0485acb5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\grid.py",
+      "pinned_bytes": 10121,
+      "pinned_sha256": "32eb1438aeb64b46bac5aff905a568c0c4900ef27ee12042c14933810da24855",
+      "actual_bytes": 10121,
+      "actual_sha256": "32eb1438aeb64b46bac5aff905a568c0c4900ef27ee12042c14933810da24855",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\martingale.py",
+      "pinned_bytes": 12530,
+      "pinned_sha256": "6e78b6dbc53ce6dfdcff26b6f7e26a00fca09acbcb6e2e050716953302dd738a",
+      "actual_bytes": 12530,
+      "actual_sha256": "6e78b6dbc53ce6dfdcff26b6f7e26a00fca09acbcb6e2e050716953302dd738a",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\pullback.py",
+      "pinned_bytes": 9572,
+      "pinned_sha256": "7491e999217551f44320596469a9f2bb957c9583c226b2b895e5be1bb14e96d8",
+      "actual_bytes": 9572,
+      "actual_sha256": "7491e999217551f44320596469a9f2bb957c9583c226b2b895e5be1bb14e96d8",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\registry.py",
+      "pinned_bytes": 66630,
+      "pinned_sha256": "00b7511c852ff19e519064c5366c4467a095b5a5a1c27c20f0d4a512e9935848",
+      "actual_bytes": 66630,
+      "actual_sha256": "00b7511c852ff19e519064c5366c4467a095b5a5a1c27c20f0d4a512e9935848",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\replay.py",
+      "pinned_bytes": 4794,
+      "pinned_sha256": "b119d40198dff834a8db6146bfca5d6e1bd0e63882afcc6ca4b38bcd4973827b",
+      "actual_bytes": 4794,
+      "actual_sha256": "b119d40198dff834a8db6146bfca5d6e1bd0e63882afcc6ca4b38bcd4973827b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\reversion.py",
+      "pinned_bytes": 6704,
+      "pinned_sha256": "8c108c566020f9fcaf400cb0a7b57aeefaa615a1607facb9e9a44d4f669607db",
+      "actual_bytes": 6704,
+      "actual_sha256": "8c108c566020f9fcaf400cb0a7b57aeefaa615a1607facb9e9a44d4f669607db",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\state.py",
+      "pinned_bytes": 29513,
+      "pinned_sha256": "c5e8ba4ce58ad0291fe5f3f5cca38f7cd040c43089e747f7c5f3fa8411aae2f3",
+      "actual_bytes": 29513,
+      "actual_sha256": "c5e8ba4ce58ad0291fe5f3f5cca38f7cd040c43089e747f7c5f3fa8411aae2f3",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\trend.py",
+      "pinned_bytes": 10265,
+      "pinned_sha256": "45e82a30d2b3d4d8cce00079a2717389e48ed552ab5dab1ca34f94d75314fd7f",
+      "actual_bytes": 10265,
+      "actual_sha256": "45e82a30d2b3d4d8cce00079a2717389e48ed552ab5dab1ca34f94d75314fd7f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\strategies\\wait.py",
+      "pinned_bytes": 3295,
+      "pinned_sha256": "666de8542f201324fa601e84a7c72200aa778c09a672f3483a4fdb202c7f2eb7",
+      "actual_bytes": 3295,
+      "actual_sha256": "666de8542f201324fa601e84a7c72200aa778c09a672f3483a4fdb202c7f2eb7",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\__init__.py",
+      "pinned_bytes": 115,
+      "pinned_sha256": "fc5411eb2a6e7d5689031c06e71fc9d3e9c4d8d13686c9e4a384de10cd099bc8",
+      "actual_bytes": 115,
+      "actual_sha256": "fc5411eb2a6e7d5689031c06e71fc9d3e9c4d8d13686c9e4a384de10cd099bc8",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\acquisition_feed.py",
+      "pinned_bytes": 6114,
+      "pinned_sha256": "f295408cb87c22c100410df58dafeaf322fc0bf6bfc86860f1d1d38620f95fbc",
+      "actual_bytes": 6114,
+      "actual_sha256": "f295408cb87c22c100410df58dafeaf322fc0bf6bfc86860f1d1d38620f95fbc",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\experiments.py",
+      "pinned_bytes": 98260,
+      "pinned_sha256": "8d21ab2aeae3c97313f867f1d28b2cfeda0f3c18d8d20d34f58562b22de8a8c2",
+      "actual_bytes": 98260,
+      "actual_sha256": "8d21ab2aeae3c97313f867f1d28b2cfeda0f3c18d8d20d34f58562b22de8a8c2",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\forward_paper.py",
+      "pinned_bytes": 125260,
+      "pinned_sha256": "32655ef7808ca9cf981a13b974bb24b6c303d77972ab5ab2b8a1b75b3aedacf9",
+      "actual_bytes": 125260,
+      "actual_sha256": "32655ef7808ca9cf981a13b974bb24b6c303d77972ab5ab2b8a1b75b3aedacf9",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\forward_paper_feed.py",
+      "pinned_bytes": 19854,
+      "pinned_sha256": "3d456ec7e0ed71db56eb196cd24b297d30f5338a224460c354fa3977dc757a15",
+      "actual_bytes": 19854,
+      "actual_sha256": "3d456ec7e0ed71db56eb196cd24b297d30f5338a224460c354fa3977dc757a15",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\metrics.py",
+      "pinned_bytes": 30630,
+      "pinned_sha256": "36b7b84610b23175dbb75bf3c869d068b6f1e576cef05ebac8253e09acbad7f6",
+      "actual_bytes": 30630,
+      "actual_sha256": "36b7b84610b23175dbb75bf3c869d068b6f1e576cef05ebac8253e09acbad7f6",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\reports.py",
+      "pinned_bytes": 21274,
+      "pinned_sha256": "0d28dbeb67baf91e3d128b53b22fe462f40258cbb3f58b3e20074112af573fa5",
+      "actual_bytes": 21274,
+      "actual_sha256": "0d28dbeb67baf91e3d128b53b22fe462f40258cbb3f58b3e20074112af573fa5",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\risk_semantics.py",
+      "pinned_bytes": 89694,
+      "pinned_sha256": "7b1c409462feed74add5fb5c3f370677143aeaf09e688f59455cec26bb17dd05",
+      "actual_bytes": 89694,
+      "actual_sha256": "7b1c409462feed74add5fb5c3f370677143aeaf09e688f59455cec26bb17dd05",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\shadow.py",
+      "pinned_bytes": 74500,
+      "pinned_sha256": "ae5600428faa5a0ac37e00cc100ac97240d06ca099c7dc573f372c18bbf36320",
+      "actual_bytes": 74500,
+      "actual_sha256": "ae5600428faa5a0ac37e00cc100ac97240d06ca099c7dc573f372c18bbf36320",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\v2\\validation\\splits.py",
+      "pinned_bytes": 9619,
+      "pinned_sha256": "b8b238e5e91f2928ba0affc535fae9ac7e0eab9a079d6022f1c62bf28ff25c18",
+      "actual_bytes": 9619,
+      "actual_sha256": "b8b238e5e91f2928ba0affc535fae9ac7e0eab9a079d6022f1c62bf28ff25c18",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\src\\ak_trading\\verification.py",
+      "pinned_bytes": 121751,
+      "pinned_sha256": "c92991199a6bf44ef3408a3f7acb17b623b3fcd033f8fb4c388dfdd90c05224b",
+      "actual_bytes": 121751,
+      "actual_sha256": "c92991199a6bf44ef3408a3f7acb17b623b3fcd033f8fb4c388dfdd90c05224b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\tests\\conftest.py",
+      "pinned_bytes": 1761,
+      "pinned_sha256": "eb8fc6f9a9404d3e30101c2b0535750e03f9b060a905b16512767abf9cefbb6f",
+      "actual_bytes": 1761,
+      "actual_sha256": "eb8fc6f9a9404d3e30101c2b0535750e03f9b060a905b16512767abf9cefbb6f",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\tests\\fixtures\\v2\\m5_research.json",
+      "pinned_bytes": 73536,
+      "pinned_sha256": "18be290be95b52723400d19e19a122a9e4ff7022b9f4b2c9344e922a576ccce6",
+      "actual_bytes": 73536,
+      "actual_sha256": "18be290be95b52723400d19e19a122a9e4ff7022b9f4b2c9344e922a576ccce6",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\tests\\fixtures\\v2\\m5_stream.jsonl",
+      "pinned_bytes": 5066,
+      "pinned_sha256": "fbed4af78392117af32b10156ccd4c7f817b8f8caa2bd61278c4d25cc7573b30",
+      "actual_bytes": 5066,
+      "actual_sha256": "fbed4af78392117af32b10156ccd4c7f817b8f8caa2bd61278c4d25cc7573b30",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\tests\\fixtures\\v2\\shared.json",
+      "pinned_bytes": 23304,
+      "pinned_sha256": "f2d2d21bc990f2463db289c431f3d1c93c08b7c99f2ed3e7666f2d6d79182749",
+      "actual_bytes": 23304,
+      "actual_sha256": "f2d2d21bc990f2463db289c431f3d1c93c08b7c99f2ed3e7666f2d6d79182749",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\tests\\test_v2_m5_cli.py",
+      "pinned_bytes": 25519,
+      "pinned_sha256": "d885da1717e0982b455248275fe670e07c96cdcbac17f1a8093fd7cac072f693",
+      "actual_bytes": 25519,
+      "actual_sha256": "d885da1717e0982b455248275fe670e07c96cdcbac17f1a8093fd7cac072f693",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\tests\\test_v2_m5_shadow_entry_guard.py",
+      "pinned_bytes": 5827,
+      "pinned_sha256": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28",
+      "actual_bytes": 5827,
+      "actual_sha256": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk01.json",
+      "pinned_bytes": 80062,
+      "pinned_sha256": "a46bb558fc0d28c472769f87462040f9024069813e191f2cd6cc4e9d55337ff0",
+      "actual_bytes": 80062,
+      "actual_sha256": "a46bb558fc0d28c472769f87462040f9024069813e191f2cd6cc4e9d55337ff0",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk02.json",
+      "pinned_bytes": 80062,
+      "pinned_sha256": "fd5d73522a1c5793b46395849bc89ec6c69fb5078c162709eddcb72040a42c3b",
+      "actual_bytes": 80062,
+      "actual_sha256": "fd5d73522a1c5793b46395849bc89ec6c69fb5078c162709eddcb72040a42c3b",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk03.json",
+      "pinned_bytes": 80062,
+      "pinned_sha256": "e3fc0091b7dfba09011181a2a2f43651dc28a89888e461e53b6e51f7b87ed995",
+      "actual_bytes": 80062,
+      "actual_sha256": "e3fc0091b7dfba09011181a2a2f43651dc28a89888e461e53b6e51f7b87ed995",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk04.json",
+      "pinned_bytes": 80062,
+      "pinned_sha256": "97f496b970f6fa31eda7c205f951a01013f33724ef7a6e9c626e3334053326e9",
+      "actual_bytes": 80062,
+      "actual_sha256": "97f496b970f6fa31eda7c205f951a01013f33724ef7a6e9c626e3334053326e9",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk05.json",
+      "pinned_bytes": 80062,
+      "pinned_sha256": "d12f297719c74d6c4bcd64c856c33387bd74f6f0908f1d8b2794764276e59e64",
+      "actual_bytes": 80062,
+      "actual_sha256": "d12f297719c74d6c4bcd64c856c33387bd74f6f0908f1d8b2794764276e59e64",
+      "status": "OK"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-a4-20261026\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk06.json",
+      "pinned_bytes": 80062,
+      "pinned_sha256": "811dbfa4b786d0475547cdeb7dd2e3bef5046c8748652973e37f5667922a4b27",
+      "actual_bytes": 80062,
+      "actual_sha256": "811dbfa4b786d0475547cdeb7dd2e3bef5046c8748652973e37f5667922a4b27",
+      "status": "OK"
+    }
+  ]
+}

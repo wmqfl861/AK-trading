@@ -1,0 +1,31 @@
+{
+  "task_id": "aktr-zcode-goal-a4-hard-review-20261026-001",
+  "native_exit_code": 0,
+  "frozen_inputs_unchanged": true,
+  "product_review_credit": false,
+  "parse_status": "JSON_OBJECT",
+  "session_id": "sess_f70472e5-19de-45b1-b66e-8bc2dc3c7fe4",
+  "session_identity_match": true,
+  "usage": {
+    "source": "provider",
+    "modelRequestCount": 28,
+    "inputTokens": 3606617,
+    "outputTokens": 82577,
+    "totalTokens": 3689194,
+    "cacheReadTokens": 3445184,
+    "cacheWriteTokens": 0,
+    "reasoningTokens": 0,
+    "webFetchRequests": 0,
+    "webSearchRequests": 0
+  },
+  "projection": {
+    "status": "idle",
+    "turnCount": 1,
+    "totalTokenCount": 3689194,
+    "contextUsed": 173927,
+    "contextWindow": 200000
+  },
+  "trace_id": "8ebd2bae-1f0c-436b-841b-2d581b264c23",
+  "response_type": "str",
+  "stderr_decode": "UTF8_OK"
+}
