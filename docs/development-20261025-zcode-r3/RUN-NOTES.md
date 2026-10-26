@@ -110,3 +110,12 @@ M5013 affected002实际11pass/1fail，全部raw1。缺json导入是reviewer源�
 2026-10-26 02:30 UTC：Root6eb244在启动M1前核对R0清单时raw1：182成员中logs/07-freeze-stdout.txt被封存脚本提前记为0字节，闭合实际684字节，其余181及139源输入均匹配。M1当时零启动、L0未创建。保留原清单，由原独立reviewer002追加闭合收据，不倒改原report或重复未变测试。避免办法：源先冻结；产生者真实结束、流关闭后再hash；自身或父CLI的活动stdout绝不能进入本轮清单，由后继接收方封存。该防护失败不改记成功、不归因于产品代码。
 
 作者061/074/036均已结束并发布现有故障处置，原DISPATCH owner014和N8 reviewer051实际续接；另并行启动T7 R0收尾002和M5 reviewer015。M5以真实author036终态和014终态计算183秒保守收尾 debit，剩余普通本地执行417秒，每进程60秒；正式命令未启动、不以模型上下文装载消耗正式时限。N8 author074 native0/receiver1的已恢复SSE单独保留，Root核完整35事件、5命令raw0、原thread及14pins后接收，不重跑作者。
+
+
+2026-10-26 03:01 UTC：T7 R0修正由原reviewer独立闭合，原M1 L0生成及真实新进程verify通过；M1第一额外断言误把hash当ownership路径，raw1保留、修正后raw0。Root811ccb又误判exit记录为裸0，实际为native-exit=0，验证在任何新输出/CLI前停止raw1；随后读取真实格式并用锚定解析，无产品命令重跑。后续应先读生产者记录schema，断言带实际诊断，不猜字段或格式。原B011已启动完整冷链。
+
+M5015虽20localchecks通过，Root核实际写入分支发现check-only在154–176提前返回，未覆盖生成native_receipt的SEQ/旧002与最终freeze文件名/pin集合。原reviewer016续修这些确定问题，正式003未消耗。为避免模型等待时间误占预算，Root只读原session的tool_usage白名单元数据按实际trace提取28条已闭合调用，外层时间并集78秒，含Write/Edit，重叠只计一次；不读配置、凭据或消息内容，原返回exit与内部反例FAIL分列。
+
+N8051本地反例调用实际formalprecheck005，capture正确拒绝SYNTHETIC_OVERRIDE_AT_FORMAL_PATH却在正式目录留下FLOW-CAPTURE失败文件，publisher本地检查也占用了A51三份最终输出。Root保留观察原件，核PID9380创建FILETIME134374543720394575，仅停止其14个绑定所属进程，零无关进程；真实native15、空stdout、未获接受如实记录。下一步由原作者075处置占用身份和完整局部命名空间隔离；不能复用该正式位置或把拒绝记录当无副作用。
+
+DISPATCH014三次正式准备均失败，虽然最后只缺历史capacity字段，配额仍已耗尽，不能Root直跑绕过；原作者062处理同一故障的后继和真实完整消费者预检。旧17失败不擦除。所有待修分支保持产品/审核独立，未把CLI0当产品PASS。
