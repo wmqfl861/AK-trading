@@ -1,0 +1,54 @@
+{
+ "review": "m4-hard-review-002",
+ "task_id": "aktr-zcode-goal-m4-hard-review-20261026-002",
+ "classification": "INDEPENDENT_PRODUCT_HARD_REVIEW",
+ "verdict": "PASS",
+ "conditional": false,
+ "unconditional": true,
+ "scope": {
+  "accepted": "The final M4 one-file repair in C:/AKWorktrees/aktr-goal-m4-final-20261026 -- the EOL publication-scope repair (owner003) on top of the m4-owner-002 logical merge of the T7 author003 section-1 two-layer historical-binding test repair with main's accepted A2 natural-expiry fixture -- at frozen bytes tests/test_v2_m4_payoffs.py sha256 2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677 (92,591 bytes), together with the independently rerun full M4 nine-file result (259/259, native exit 0) on this exact candidate",
+  "not_granted": [
+   "no acceptance beyond tests/test_v2_m4_payoffs.py on this candidate",
+   "no blanket T7 acceptance, cold-chain acceptance, L0/L1 acceptance or MINUTE capacity clearance",
+   "no acceptance of any other worktree or of main's other in-flight changes",
+   "no production-code acceptance beyond the frozen candidate src consumed read-only"
+  ]
+ },
+ "frozen_revision": {
+  "path": "C:/AKWorktrees/aktr-goal-m4-final-20261026/tests/test_v2_m4_payoffs.py",
+  "bytes": 92591,
+  "sha256": "2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677",
+  "lineage": {
+   "main_baseline": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888 (77,874 B, A2-accepted)",
+   "predecessor_m4_owner_002": "6912dff1e100ce112ab410ebe9fb00b2d4fc78f3b1911755ea8d245a68e8471c (92,262 B, ran 14P/80P/259P raw0)",
+   "final_m4_owner_003": "2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677 (92,591 B)"
+  }
+ },
+ "required_checks": [
+  {"id": "C1", "name": "request_pins", "result": "PASS", "evidence": "all 46 REQUEST.json inputs re-hashed MATCH (work/pin-check.json)"},
+  {"id": "C2", "name": "eol_restoration_proofs_reproduced", "result": "PASS", "evidence": "reviewer's own binary alignment (work/eol-ast-verification.json, 14 checks/0 fail): AST and LF-normalized text identical final<->predecessor; exactly 329 lines changed vs predecessor, each CRLF-in-final/LF-in-predecessor; every logically-equal line byte-identical to main; all 329 CRLF lines are main-equal lines; A2 region (final lines 1215-1292) byte-identical to main"},
+  {"id": "C3", "name": "logical_delta_confined_to_section1_repair", "result": "PASS", "evidence": "non-equal opcodes vs main confined to the import block, the two frozen-table inserts and the rewritten fourteen-node test; isolation tests, parametrize decorator and _L2_BASELINE_BINDING_SHA256 sit in equal (byte-identical) segments; A2 natural-expiry positive and expiry+1ns control preserved"},
+  {"id": "C4", "name": "historical_originals_and_witness_unchanged", "result": "PASS", "evidence": "AST-extracted tables from the FINAL bytes equal my fresh extraction of spec.exit_bindings (14 complete six-field records) from m5-r3-smoke-chunk01.json and the m3b witness side of l2-baseline-divergence.json (registry_check m3b_matches_registered=true, 14/14); baseline table equals registration binding hashes"},
+  {"id": "C5", "name": "m1_recompute", "result": "PASS", "evidence": "real contracts.exit_binding_content_hash over my extracted originals reproduces every recorded binding_sha256 (14/14)"},
+  {"id": "C6", "name": "reviewer_tamper_counterexamples", "result": "PASS", "evidence": "reviewer-authored 6-field x 14 = 84 mutations (distinct from the test's set) all break the layer-1 hash match"},
+  {"id": "C7", "name": "current_forward_equals_real_producer", "result": "PASS", "evidence": "all 14 nodes: pipeline.legacy_exit_binding == select_exit_binding (full record); entry == spec.code_sha256; exit == real M3C exits_registry.exit_spec_sha256(legacy_exit_spec(mode)); priority/rules continuous; binding == M1 formula over current projection; module identity asserted under the exact candidate src (work/reviewer-probe.json, 17 checks/0 fail)"},
+  {"id": "C8", "name": "biconditional_no_unconditional_inequality", "result": "PASS", "evidence": "test line 387-388 asserts (forwarded.binding == historical binding) iff (current six-field projection == historical projection); reviewer verified the biconditional as a fact on all 14 nodes; measured facts on this candidate: exit identity EQUALS historical 14/14, entry differs 14/14, hence projection and binding differ 14/14 -- derived, not hardcoded"},
+  {"id": "C9", "name": "current_equals_historical_projection_case", "result": "PASS", "evidence": "through the REAL producer on all 14 nodes: select_exit_binding(replace(spec, code_sha256=historical_entry)) reproduces the COMPLETE historical six-field projection and the historical baseline binding (equal projection => equal binding demonstrated on real code)"},
+  {"id": "C10", "name": "changed_entry_counterexample", "result": "PASS", "evidence": "replace(spec, code_sha256='0'*64) regenerates the binding identically through both entries and differs from the original"},
+  {"id": "C11", "name": "nonprojected_isolation", "result": "PASS", "evidence": "version / parameter_version / parameters-only changes keep the binding equal while pipeline.registry_hash_for moves; the unchanged qualification-scope negative passed in the full-80 rerun"},
+  {"id": "C12", "name": "rerun_focused14", "result": "PASS", "evidence": "native exit 0; selected 14, ran 14, passed 14, failed 0, deselected 66, skipped 0, errors 0; stderr 0 bytes; within 300s budget (work/post-focused14-*.txt)"},
+  {"id": "C13", "name": "rerun_full_payoffs_80", "result": "PASS", "evidence": "native exit 0; selected 80, ran 80, passed 80, failed 0, skipped 0, errors 0; both isolation tests in the selected population; stderr 0 bytes; within 600s budget (work/post-full-payoffs-*.txt)"},
+  {"id": "C14", "name": "rerun_full_m4_ninefile_259", "result": "PASS", "evidence": "native exit 0 (background lifecycle, streams sealed after termination); selected 259, ran 259, passed 259, failed 0, skipped 0, errors 0, collection_errors 0; all nine files collected; 1108.70s within the 2400s budget; stderr 0 bytes; process-tree peak 539.2 MiB within the 2 GiB lane (work/post-m4-ninefile-*.txt, work/post-m4-ninefile-tree-peak.json)"},
+  {"id": "C15", "name": "predecessor_evidence_crosschecked", "result": "PASS", "evidence": "m4-owner-002 raw streams show pre-repair 14F/exit1 and post-repair 14P/80P/259P all exit 0 with empty stderr; final bytes are AST/LF-normalized identical to that predecessor, and all three populations were rerun by this reviewer on the final bytes regardless"},
+  {"id": "C16", "name": "post_test_immutability", "result": "PASS", "evidence": "post-test full-tree verification: 584/584 non-write-set files byte-identical to owner003's ROOT-CANDIDATE.json staging manifest; the write-set file matches its frozen REQUEST pin; lineage files and both data records unchanged (work/HASHES.json)"}
+ ],
+ "findings_blocking": 0,
+ "nonblocking_observations": [
+  "O1 (metadata): owner003 SOURCE-FREEZE.json 'frozen_at' '2026-10-26T07:05+08:00' (= 2026-10-25T23:05Z) is inconsistent with the actual chronology (final file mtime 2026-10-26T13:50:02Z; owner focused14 stdout 13:51:03Z; SOURCE-FREEZE mtime 13:51:33Z; TERMINAL ended 13:52:59.683608Z; machine offset UTC-7). Per the work order, actual terminal chronology was used; the string is treated as owner-authored unverified metadata. No rewrite, no backdate.",
+  "O2 (informational): owner003's ROOT-CANDIDATE.json is the STAGING preimage manifest (585 files copied from the m4-owner-002 tree BEFORE the EOL repair); its tests/test_v2_m4_payoffs.py entry therefore still shows predecessor bytes by design. Consumers must take the final file pin from SOURCE-FREEZE/REQUEST (2dbd9d62...), not from the staging manifest.",
+  "O3 (factual context, no action): on this candidate the real M3C exit identity has converged back to the historical chunk01 exit hashes (14/14 nodes) while entry code digests still differ (14/14) -- this is precisely why the prior unconditional '!= historical exit' assertion failed 14 nodes, and the repaired biconditional derives the relationship instead of hardcoding it."
+ ],
+ "reviewer": "independent ZCode GLM-5.3/max session sess_6b517153-9beb-4f7c-8775-c46c7275e15e (same reviewer as the prior M4 baseline hard review; took no part in any M4 development)",
+ "published_at_utc": "2026-10-26T14:55Z",
+ "boundaries": "enable_trading=false, observer=hold, broker=NOT_RUN, real send=0 cancel=0; no .env/credential/config/model reads or writes; no network/SDK/broker/DB/service/UI/git writes; candidate tree read-only for the reviewer; all writes confined to C:/AKWorktrees/aktr-goal-20261026/zcode-dispatch/m4-hard-review-002; streams sealed only after producer termination; no open parent stdout/stderr included in any seal; no optional rg condition used"
+}

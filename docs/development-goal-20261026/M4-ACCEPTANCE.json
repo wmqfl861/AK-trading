@@ -1,0 +1,131 @@
+{
+  "schema": "aktr-accepted-m4-historical-current-binding-repair/v1",
+  "at": "2026-10-26T15:14:07.564164+00:00",
+  "verdict": "PASS",
+  "scope": "tests/test_v2_m4_payoffs.py current/historical six-field comparison and accepted A2 expiry fixture, no production change or whole-T7 acceptance",
+  "source_worktree": {
+    "path": "D:\\Projects\\AK-trading\\tests\\test_v2_m4_payoffs.py",
+    "bytes": 92591,
+    "sha256": "2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677"
+  },
+  "git_normalized_blob_sha1": "0008460a44237d7bd5bfe63291fe7ff0810f45c7",
+  "reviewer_session": "sess_6b517153-9beb-4f7c-8775-c46c7275e15e",
+  "verdict_original": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-hard-review-002\\VERDICT.json",
+    "bytes": 8866,
+    "sha256": "a9c38eaf6981bfa5b4891a865c57e008d3f111559fdd2c0ff6d458a4468ff32c"
+  },
+  "reviewer_terminal": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-hard-review-002\\TERMINAL.json",
+    "bytes": 330,
+    "sha256": "4aee4f1de3e7bf1355528ed896f91754fde07dc38f46c501ae01a0858859f6dc"
+  },
+  "independent_counts": {
+    "focused": 14,
+    "payoffs": 80,
+    "full_m4_nine_file": 259,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "native_exit": 0
+  },
+  "main_focused_integration": {
+    "argv": [
+      "D:/Programs/Python/Python312/python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "scripts/test_offline.py",
+      "-q",
+      "tests/test_v2_m4_payoffs.py",
+      "-k",
+      "test_forwarded_binding_keeps_frozen_baseline_value",
+      "--basetemp",
+      "C:\\AKWorktrees\\aktr-goal-20261026\\integration-m4-002\\pytest-temp"
+    ],
+    "cwd": "D:\\Projects\\AK-trading",
+    "raw_exit_code": 0,
+    "elapsed_seconds": 6.405999999959022,
+    "stats": {
+      "selected": 14,
+      "deselected": 66,
+      "collected": 80,
+      "ran": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "errors": 0,
+      "failed_nodeids": [],
+      "error_nodeids": [],
+      "collection_errors": [],
+      "collected_files": [
+        "tests/test_v2_m4_payoffs.py"
+      ]
+    },
+    "source_sha256_after": "2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677",
+    "incident": "C:\\AKWorktrees\\aktr-goal-20261026\\integration-m4-001\\ROOT-SUPERVISOR-INCIDENT.json"
+  },
+  "prior_main_full80_supervisor": "raw1; native child unknown; reported80P not assigned raw0; see ROOT-SUPERVISOR-INCIDENT.json",
+  "raw_log_copies": [
+    {
+      "file": "independent-focused14.stdout.gz",
+      "gzip_sha256": "13b8d64314c651b5bdff57b8f077a487910b30c65395c4b550597c0a617e6d66",
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-hard-review-002\\work\\post-focused14-stdout.txt",
+        "bytes": 2429,
+        "sha256": "da1cb888d3a964ba22b0c19c7aa89cfa29954f17bca4c27fc31aff061dc829d9"
+      }
+    },
+    {
+      "file": "independent-payoffs80.stdout.gz",
+      "gzip_sha256": "1d3dd4cedda5c90dc0cf361754e41f66ba4cca938d6fb6ff82fde7c41c7f2089",
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-hard-review-002\\work\\post-full-payoffs-stdout.txt",
+        "bytes": 8988,
+        "sha256": "e90e36b92601c325855f55aa0b5328952c7f7a7b7025561e6aa947803d74580d"
+      }
+    },
+    {
+      "file": "independent-m4-259.stdout.gz",
+      "gzip_sha256": "883efb47e389b013626ec5d762a68e3b73baa3823b6c71623e759774046dbfec",
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-hard-review-002\\work\\post-m4-ninefile-stdout.txt",
+        "bytes": 27163,
+        "sha256": "9628455cc87b114295b9a1aaf9fa54dde666a606bd716f98c8130e1dafed9f90"
+      }
+    },
+    {
+      "file": "main-focused14.stdout.gz",
+      "gzip_sha256": "79ff1daa46d49fbb660952239ba35c385ae4e4da4616abb5571fc9a3754bdb09",
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\integration-m4-002\\stdout.bin",
+        "bytes": 2429,
+        "sha256": "00a543e56cc1250636f8f014cc7e5372b488f64488d39c7d37667ce009c05e31"
+      }
+    }
+  ],
+  "unchanged_history": "fourteen historical hashes and old failures retained",
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_count": 0,
+    "real_cancel_count": 0
+  },
+  "git_staged_sha256": "2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677",
+  "git_representation_check": {
+    "source_unchanged": true,
+    "normalized_bytes_equal": true,
+    "ast_equal": true,
+    "native_git_add": 0,
+    "initial_root_comparison_raw_exit": 1,
+    "initial_hash_object_prediction": "562695be9893c5fa5d7c68e85c3c72d8bfbb141f",
+    "actual_index_blob": "0008460a44237d7bd5bfe63291fe7ff0810f45c7",
+    "cause": "hash-object --path prediction used the LF-normalized representation; actual git index preserved the reviewed mixed-EOL bytes exactly. The predicted object ID was the wrong oracle.",
+    "prevention": "After git add read actual git show :path bytes and verify SHA-256 against reviewed bytes. Record actual index object ID, never infer it from a filtered hash-object prediction. Preserve current Git settings.",
+    "actual_index_byte_equal_to_review": true,
+    "index_crlf_count": 329,
+    "raw_blob": "0008460a44237d7bd5bfe63291fe7ff0810f45c7",
+    "lf_normalized_blob": "562695be9893c5fa5d7c68e85c3c72d8bfbb141f"
+  }
+}

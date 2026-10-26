@@ -1,0 +1,106 @@
+{
+ "checks": [
+  {
+   "name": "ak_trading_from_exact_candidate",
+   "ok": true,
+   "detail": "c:\\akworktrees\\aktr-goal-m4-final-20261026\\src\\ak_trading\\__init__.py"
+  },
+  {
+   "name": "ak_trading_v2_from_exact_candidate",
+   "ok": true,
+   "detail": "c:\\akworktrees\\aktr-goal-m4-final-20261026\\src\\ak_trading\\v2\\__init__.py"
+  },
+  {
+   "name": "final_has_all_three_tables",
+   "ok": true,
+   "detail": "got=['_L2_BASELINE_BINDING_SHA256', '_L2_HISTORICAL_BINDING_ORIGINALS', '_L2_HISTORICAL_DIVERGENCE_WITNESS']"
+  },
+  {
+   "name": "fourteen_nodes_each_table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "node_identities_consistent",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "registration_records_14",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "witness_registry_check_all_m3b_matches_registered",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "inline_originals_equal_my_registration_extraction",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "inline_witness_equal_my_divergence_extraction",
+   "ok": true,
+   "detail": "bad=[]"
+  },
+  {
+   "name": "baseline_table_equal_registration_hashes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "m1_recompute_reproduces_recorded_binding_all14",
+   "ok": true,
+   "detail": "bad=[]"
+  },
+  {
+   "name": "reviewer_tamper_6fields_x14_all_break_hash",
+   "ok": true,
+   "detail": "bad=[]"
+  },
+  {
+   "name": "current_forward_equals_real_producer_all14",
+   "ok": true,
+   "detail": "bad=[]"
+  },
+  {
+   "name": "biconditional_binding_eq_hist_iff_projection_eq_hist_all14",
+   "ok": true,
+   "detail": "bad=[]"
+  },
+  {
+   "name": "equal_projection_case_real_producer_reproduces_historical_binding_all14",
+   "ok": true,
+   "detail": "bad=[]"
+  },
+  {
+   "name": "changed_entry_regenerates_identically_through_both_entries",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "nonprojected_changes_binding_equal_registry_moves",
+   "ok": true,
+   "detail": "bad=[]"
+  }
+ ],
+ "failures": [],
+ "module_identity": {
+  "ak_trading": "c:\\akworktrees\\aktr-goal-m4-final-20261026\\src\\ak_trading\\__init__.py",
+  "ak_trading.v2": "c:\\akworktrees\\aktr-goal-m4-final-20261026\\src\\ak_trading\\v2\\__init__.py"
+ },
+ "identity_facts_summary": {
+  "nodes": 14,
+  "exit_equal": 14,
+  "entry_equal": 0,
+  "projection_equal": 0,
+  "binding_equal": 0,
+  "note": "actual facts on this candidate; not hardcoded by the test"
+ },
+ "summary": {
+  "checks_total": 17,
+  "checks_failed": 0
+ }
+}

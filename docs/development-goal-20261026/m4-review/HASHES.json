@@ -1,0 +1,116 @@
+{
+ "sealed_at_utc": "2026-10-26T14:50:05Z",
+ "candidate_tree_verification": {
+  "files_in_manifest": 585,
+  "non_write_set_files_checked": 584,
+  "mismatches": [],
+  "missing": [],
+  "write_set_file": "test_v2_m4_payoffs.py",
+  "write_set_matches_frozen_request_pin": true,
+  "manifest_role": "staging preimage from m4-owner-002 tree; write-set file intentionally changed afterwards by the declared EOL-only repair",
+  "all_match": true
+ },
+ "lineage_and_records_post_test": {
+  "final_test_file": {
+   "bytes": 92591,
+   "sha256": "2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677"
+  },
+  "predecessor_test_file": {
+   "bytes": 92262,
+   "sha256": "6912dff1e100ce112ab410ebe9fb00b2d4fc78f3b1911755ea8d245a68e8471c"
+  },
+  "main_test_file": {
+   "bytes": 77874,
+   "sha256": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888"
+  },
+  "m5-r3-smoke-chunk01.json": {
+   "bytes": 79465,
+   "sha256": "bcbd1a9b9c1dd9885c9a277647ef9dc3e9b66b4c74623c4561a62251ebd155e0"
+  },
+  "l2-baseline-divergence.json": {
+   "bytes": 39417,
+   "sha256": "ddf6dc69080209db66bc2e4f6e7eb210a090410459ce85031d365ba8cc3823f9"
+  }
+ },
+ "reviewer_artifacts": {
+  "pin-check.json": {
+   "bytes": 17346,
+   "sha256": "159de168b26610ec58e50bb74ae2f2bc7debaee73d1a9448e774e89ad6676d32"
+  },
+  "eol-ast-verification.json": {
+   "bytes": 4178,
+   "sha256": "33ee42f0c0ed32c3b0fb73e5b4bbeed9fa2219aa12dc5b168bc69a0f4bfbd85d"
+  },
+  "reviewer-probe.json": {
+   "bytes": 2472,
+   "sha256": "7d992349f8fddb4a595cbae9c57743ba777e51fb974debfcb5ec13a67bbf64b2"
+  },
+  "probe-eol-stdout.txt": {
+   "bytes": 969,
+   "sha256": "b323912303c7be68463c55af167b91c0edcf26491e75effc49457594f22ba2b1"
+  },
+  "probe-eol-stderr.txt": {
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "probe-reviewer-stdout.txt": {
+   "bytes": 328,
+   "sha256": "d2b47f8f85cfe08200b1df66efeaae53cefdeaac81f8767c2015e8d20cc4362a"
+  },
+  "probe-reviewer-stderr.txt": {
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "post-focused14-stdout.txt": {
+   "bytes": 2429,
+   "sha256": "da1cb888d3a964ba22b0c19c7aa89cfa29954f17bca4c27fc31aff061dc829d9"
+  },
+  "post-focused14-stderr.txt": {
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "post-full-payoffs-stdout.txt": {
+   "bytes": 8988,
+   "sha256": "e90e36b92601c325855f55aa0b5328952c7f7a7b7025561e6aa947803d74580d"
+  },
+  "post-full-payoffs-stderr.txt": {
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "post-m4-ninefile-stdout.txt": {
+   "bytes": 27163,
+   "sha256": "9628455cc87b114295b9a1aaf9fa54dde666a606bd716f98c8130e1dafed9f90"
+  },
+  "post-m4-ninefile-stderr.txt": {
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "post-m4-ninefile-exit.txt": {
+   "bytes": 23,
+   "sha256": "a7de706f1c5705b46b00f05be1609dd69382af54a65dcbd60eef97b69189b4e9"
+  },
+  "post-m4-ninefile-tree-peak.json": {
+   "bytes": 433,
+   "sha256": "d52b178bfc915d4beef16edeec05179a46ae267bf8a9068f6bf03793a47853f7"
+  },
+  "tree_peak_smoke.json": {
+   "state": "ABSENT"
+  },
+  "probes/pin_check.py": {
+   "bytes": 2919,
+   "sha256": "2eae84747c8082b110193ef8819cf234f2eb6f0b88012fb05c9a94a46b8a9041"
+  },
+  "probes/verify_eol_ast.py": {
+   "bytes": 7503,
+   "sha256": "ac6d24f3cc3c1d50421157512d8d601e2972467b16a802b7d62bdfa18b65b2bc"
+  },
+  "probes/probe_reviewer.py": {
+   "bytes": 12198,
+   "sha256": "9cfc044a4f90ec4c864e3273028d32dc5e0e47b41b858e9e7bf4fc46fd4e05e2"
+  },
+  "probes/tree_peak.ps1": {
+   "bytes": 3195,
+   "sha256": "3da132503d8c51c2d3276ee3598ed8fe31d16c0f6abf031ce8bd815317b9ca2a"
+  }
+ }
+}

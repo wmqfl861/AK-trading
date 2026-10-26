@@ -150,7 +150,9 @@ def test_identical_terminal_prices_have_different_full_martingale_cashflows():
 # trick no longer changes the forwarded binding).
 
 from ak_trading.v2.artifacts import canonical_json_bytes, sha256_hex
-from ak_trading.v2.contracts import ExitSpec, StrategyQualification
+from ak_trading.v2.contracts import (
+    ExitSpec, StrategyQualification, exit_binding_content_hash,
+)
 from ak_trading.v2.decision import pipeline
 from ak_trading.v2.exits import registry as exits_registry
 from ak_trading.v2.schemas import encode_record
@@ -182,6 +184,74 @@ _L2_BASELINE_BINDING_SHA256 = {
 }
 
 L2_PLACEHOLDER = "f" * 64
+
+
+# --- T7 author003 §1 + EXECUTION-CLARIFICATION §1 (2026-10-26): frozen ------
+# historical originals behind the baseline table.
+#
+# The frozen baseline above is the identity of the 2026-09-14 chunk01
+# REGISTRATION, bound to that build's entry-code digests and exit-registry
+# bytes -- not a value any later candidate must unconditionally reproduce or
+# unconditionally differ from. Historical constancy and current forwarding
+# equivalence are TWO checks: the binding regenerates exactly when a projected
+# field actually changes (arbitration 20260917-r1 RULING 1.1: "keeping the
+# original value" applies to the same original identity and its dependencies;
+# "the code has evolved" is never a substitute for an actual field
+# difference). The fourteen complete binding originals were extracted
+# verbatim on 2026-10-25 (re-verified unchanged 2026-10-26 for this
+# successor) from two repository originals:
+#
+#   * data/research_runs/v2/registered-experiments/m5-r3-smoke-chunk01.json
+#     -- spec.exit_bindings, fourteen complete six-field records;
+#   * data/maintenance_artifacts/v2-legacy-convergence-l2-prep/
+#     l2-baseline-divergence.json (probe 2026-09-14) -- combos[].binding_diffs
+#     .m3b plus spec_code_sha256 / m3c_array_spec_sha256, with its
+#     registry_check confirming m3b_matches_registered for all fourteen.
+#
+# The two originals agree field-for-field; both are frozen below so the
+# agreement is re-verified at run time without reading repository data. The
+# original registration holds no complete historical StrategySpec, so these
+# six fields are consumed as raw M1 hash material only -- never attached to a
+# current spec to fabricate a "historical" complete spec.
+
+# strategy_id -> registration original: (entry_spec_sha256, exit_spec_sha256s,
+#               sizing_spec_sha256, priority, legacy_rules_version,
+#               binding_sha256)
+_L2_HISTORICAL_BINDING_ORIGINALS = {
+    "breakout_d1_v2": ("3e91c09d94ac427de1d71542e2262cf4c29f3ecd2ff0e2498513d67d330b9ddd", ("0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7",), None, ("exit_legacy_d1_v1",), "legacy-rules-v2.1.0", "a4bc54aee3a8ebd5381b4f1b41fc25ad775e7bd531fa896e295f640a314b2d33"),
+    "breakout_m1_v2": ("3e91c09d94ac427de1d71542e2262cf4c29f3ecd2ff0e2498513d67d330b9ddd", ("7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818",), None, ("exit_legacy_m1_v1",), "legacy-rules-v2.1.0", "081f58e3c681cba86f08968c5b505fb2c7a56ed1dd05ebad1889e55a2e28363d"),
+    "grid_d1_v2": ("0eb3feb8fc24cba983908147802a1e7da2afab7f9d7c63c5a90b62997562645e", ("0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7",), None, ("exit_legacy_d1_v1",), "legacy-rules-v2.1.0", "490e49342ae669dc5e8da44d25d95c431c9cf81398016e475556672df3999fdc"),
+    "grid_m1_v2": ("0eb3feb8fc24cba983908147802a1e7da2afab7f9d7c63c5a90b62997562645e", ("7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818",), None, ("exit_legacy_m1_v1",), "legacy-rules-v2.1.0", "d5008bd8119aec8b7a9e33bc7ddd05bf71d11197e0a8ff7c09086e24544571f4"),
+    "martingale_d1_v2": ("a4c1c66601b479ac3f655a11cddce89f1de24119a5339d2bd105e1c1558a0026", ("0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7",), None, ("exit_legacy_d1_v1",), "legacy-rules-v2.1.0", "d8e85b9a864b15749b23a0d6920e5da66266edf7f84aa0404a945f37b090ee90"),
+    "martingale_m1_v2": ("a4c1c66601b479ac3f655a11cddce89f1de24119a5339d2bd105e1c1558a0026", ("7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818",), None, ("exit_legacy_m1_v1",), "legacy-rules-v2.1.0", "a1274732cc5a757705cd3931baf3def09b7c961f51bc3b8e39003f0692794a98"),
+    "pullback_d1_v2": ("0b1f1aea16191cfaf1bfb6546c6f0170aef2c15cfcfae93ff869c7ead56072b0", ("0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7",), None, ("exit_legacy_d1_v1",), "legacy-rules-v2.1.0", "b313182b6fbc82ec300c5a33b7c9398faba140ccb942e575e28d97ed6a27c7ba"),
+    "pullback_m1_v2": ("0b1f1aea16191cfaf1bfb6546c6f0170aef2c15cfcfae93ff869c7ead56072b0", ("7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818",), None, ("exit_legacy_m1_v1",), "legacy-rules-v2.1.0", "13cab9f394108326e2dd6606bc59fac7e84e02423885d1763e25f48217288bf0"),
+    "reversion_d1_v2": ("7aa8b4f87a5647c9af48f6fdbdd05037193257c6918d56b160165f5c8387c631", ("0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7",), None, ("exit_legacy_d1_v1",), "legacy-rules-v2.1.0", "8924cede5f54e9afab66ff7e9843e052e8e8ff8773881bbd998c1cf129911782"),
+    "reversion_m1_v2": ("7aa8b4f87a5647c9af48f6fdbdd05037193257c6918d56b160165f5c8387c631", ("7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818",), None, ("exit_legacy_m1_v1",), "legacy-rules-v2.1.0", "eb8a9fb55752ceb03310445e1bb1ffd13934e6cf0ac44984dcbb354ce09678d6"),
+    "trend_d1_v2": ("0a6bc57a460a12ee040f50191a2a659ae26e0f1eaa81e5587192942982f8b95e", ("0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7",), None, ("exit_legacy_d1_v1",), "legacy-rules-v2.1.0", "d9809e272fbf3384e5d0aaf090be5a69e909fabe4b54beca86ff35e60f796eb5"),
+    "trend_m1_v2": ("0a6bc57a460a12ee040f50191a2a659ae26e0f1eaa81e5587192942982f8b95e", ("7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818",), None, ("exit_legacy_m1_v1",), "legacy-rules-v2.1.0", "fcca840cdd0b8e8e11852d785c783ea140bf1e3653c5ff95b5c20ffcf699564e"),
+    "wait_d1_v2": ("690c1a5f571ea8e9a682ef41be29a2a8629da672a1bdaa4401db7716f267b624", ("0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7",), None, ("exit_legacy_d1_v1",), "legacy-rules-v2.1.0", "ebf4ce49080a31afe69074e1180540d87654ffe26e8dfc23cddc6a794f242847"),
+    "wait_m1_v2": ("690c1a5f571ea8e9a682ef41be29a2a8629da672a1bdaa4401db7716f267b624", ("7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818",), None, ("exit_legacy_m1_v1",), "legacy-rules-v2.1.0", "c89f32ee6bb3987ea967fe2d72846deca2b7dfd90ed8f49cd4caaca286aea463"),
+}
+
+# strategy_id -> independent divergence-probe witness (m3b side):
+# (spec_code_sha256, m3c_array_spec_sha256, binding_sha256, priority)
+_L2_HISTORICAL_DIVERGENCE_WITNESS = {
+    "breakout_d1_v2": ("3e91c09d94ac427de1d71542e2262cf4c29f3ecd2ff0e2498513d67d330b9ddd", "0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7", "a4bc54aee3a8ebd5381b4f1b41fc25ad775e7bd531fa896e295f640a314b2d33", ("exit_legacy_d1_v1",)),
+    "breakout_m1_v2": ("3e91c09d94ac427de1d71542e2262cf4c29f3ecd2ff0e2498513d67d330b9ddd", "7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818", "081f58e3c681cba86f08968c5b505fb2c7a56ed1dd05ebad1889e55a2e28363d", ("exit_legacy_m1_v1",)),
+    "grid_d1_v2": ("0eb3feb8fc24cba983908147802a1e7da2afab7f9d7c63c5a90b62997562645e", "0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7", "490e49342ae669dc5e8da44d25d95c431c9cf81398016e475556672df3999fdc", ("exit_legacy_d1_v1",)),
+    "grid_m1_v2": ("0eb3feb8fc24cba983908147802a1e7da2afab7f9d7c63c5a90b62997562645e", "7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818", "d5008bd8119aec8b7a9e33bc7ddd05bf71d11197e0a8ff7c09086e24544571f4", ("exit_legacy_m1_v1",)),
+    "martingale_d1_v2": ("a4c1c66601b479ac3f655a11cddce89f1de24119a5339d2bd105e1c1558a0026", "0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7", "d8e85b9a864b15749b23a0d6920e5da66266edf7f84aa0404a945f37b090ee90", ("exit_legacy_d1_v1",)),
+    "martingale_m1_v2": ("a4c1c66601b479ac3f655a11cddce89f1de24119a5339d2bd105e1c1558a0026", "7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818", "a1274732cc5a757705cd3931baf3def09b7c961f51bc3b8e39003f0692794a98", ("exit_legacy_m1_v1",)),
+    "pullback_d1_v2": ("0b1f1aea16191cfaf1bfb6546c6f0170aef2c15cfcfae93ff869c7ead56072b0", "0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7", "b313182b6fbc82ec300c5a33b7c9398faba140ccb942e575e28d97ed6a27c7ba", ("exit_legacy_d1_v1",)),
+    "pullback_m1_v2": ("0b1f1aea16191cfaf1bfb6546c6f0170aef2c15cfcfae93ff869c7ead56072b0", "7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818", "13cab9f394108326e2dd6606bc59fac7e84e02423885d1763e25f48217288bf0", ("exit_legacy_m1_v1",)),
+    "reversion_d1_v2": ("7aa8b4f87a5647c9af48f6fdbdd05037193257c6918d56b160165f5c8387c631", "0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7", "8924cede5f54e9afab66ff7e9843e052e8e8ff8773881bbd998c1cf129911782", ("exit_legacy_d1_v1",)),
+    "reversion_m1_v2": ("7aa8b4f87a5647c9af48f6fdbdd05037193257c6918d56b160165f5c8387c631", "7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818", "eb8a9fb55752ceb03310445e1bb1ffd13934e6cf0ac44984dcbb354ce09678d6", ("exit_legacy_m1_v1",)),
+    "trend_d1_v2": ("0a6bc57a460a12ee040f50191a2a659ae26e0f1eaa81e5587192942982f8b95e", "0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7", "d9809e272fbf3384e5d0aaf090be5a69e909fabe4b54beca86ff35e60f796eb5", ("exit_legacy_d1_v1",)),
+    "trend_m1_v2": ("0a6bc57a460a12ee040f50191a2a659ae26e0f1eaa81e5587192942982f8b95e", "7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818", "fcca840cdd0b8e8e11852d785c783ea140bf1e3653c5ff95b5c20ffcf699564e", ("exit_legacy_m1_v1",)),
+    "wait_d1_v2": ("690c1a5f571ea8e9a682ef41be29a2a8629da672a1bdaa4401db7716f267b624", "0f9758142f6212186f03ceafbd6ca95b879555696fe30fa406658090f64034b7", "ebf4ce49080a31afe69074e1180540d87654ffe26e8dfc23cddc6a794f242847", ("exit_legacy_d1_v1",)),
+    "wait_m1_v2": ("690c1a5f571ea8e9a682ef41be29a2a8629da672a1bdaa4401db7716f267b624", "7052ea615e689f384af5e7e0ce52452093455c058b94c7cfbfeded42a3edd818", "c89f32ee6bb3987ea967fe2d72846deca2b7dfd90ed8f49cd4caaca286aea463", ("exit_legacy_m1_v1",)),
+}
 
 
 # --- L-A: field-by-field equality through both entries, both modes ---------
@@ -230,19 +300,99 @@ def test_both_spec_entries_agree_and_no_placeholder(mode):
         canonical_json_bytes([encode_record(forwarded)]))  # array material
 
 
-# --- Thin-forwarding invariance: orthodox binding value unchanged ----------
+# --- Thin-forwarding invariance, two-layer per author003 §1 and -------------
+# EXECUTION-CLARIFICATION §1 (2026-10-26). Historical constancy and current
+# forwarding equivalence are separate checks, and the current identity is
+# never required to differ from (nor equal) the historical one wholesale:
+# equal projection <=> equal binding, field difference <=> different binding.
 
 @pytest.mark.parametrize("strategy_id", sorted(_L2_BASELINE_BINDING_SHA256))
 def test_forwarded_binding_keeps_frozen_baseline_value(strategy_id):
-    """The pure forwarding must not change the orthodox binding values
-    (arbitration IMPLEMENTATION ORDERS closing note): same StrategySpec ->
-    same binding as the running chunk01 registration."""
+    """Layer 1 (historical fixed values): the frozen six-field original of the
+    chunk01 registration -- witnessed field-for-field by the independent
+    2026-09-14 divergence probe -- keeps its historical fields and values and
+    re-hashes through the real M1 binding formula to the frozen baseline
+    entry. The original registration holds no complete StrategySpec; none is
+    reconstructed here from current code.
+
+    Layer 2 (current forwarding): for the current legal spec the real M4
+    forward and the real M3B producer agree exactly -- entry is the current
+    code digest, the exit hash comes from the real M3C producer, priority and
+    rules version follow the registered protocol constants, and the binding
+    equals the same M1 canonical formula over the current six fields. The
+    relationship to the historical binding is decided by the COMPLETE
+    six-field projection actually in play: equal projection must give the
+    equal (historical) binding, and only a real projection difference may
+    move it -- no unconditional current!=historical demand in either
+    direction. Changed-entry counterexample below; non-projected
+    version/parameter changes stay isolated by the registry hash and
+    qualification scope in the tests below."""
     family = strategy_id.rsplit("_", 2)[0].upper()
     mode = "MINUTE" if strategy_id.endswith("_m1_v2") else "DAILY"
+    # Layer 1: registration original == divergence witness on every shared
+    # field, historical shapes kept, M1 recompute == recorded == baseline.
+    entry, exits, sizing, priority, rules_version, binding \
+        = _L2_HISTORICAL_BINDING_ORIGINALS[strategy_id]
+    witness_entry, witness_exit, witness_binding, witness_priority \
+        = _L2_HISTORICAL_DIVERGENCE_WITNESS[strategy_id]
+    assert entry == witness_entry
+    assert list(exits) == [witness_exit] and len(exits) == 1
+    assert list(priority) == list(witness_priority)
+    assert binding == witness_binding == _L2_BASELINE_BINDING_SHA256[strategy_id]
+    assert sizing is None
+    assert priority == (f"exit_legacy_{'m1' if mode == 'MINUTE' else 'd1'}_v1",)
+    assert rules_version == "legacy-rules-v2.1.0"
+    assert exit_binding_content_hash(strategy_id, entry, exits, sizing,
+                                     priority, rules_version) == binding
+    # Tamper counterexamples: each single projected field is hash-binding.
+    other_policy = ("exit_legacy_d1_v1",) if mode == "MINUTE" else ("exit_legacy_m1_v1",)
+    for field, mutated in (("strategy_id", "other_m1_v2"),
+                           ("entry_spec_sha256", "0" * 64),
+                           ("exit_spec_sha256s", ("0" * 64,)),
+                           ("sizing_spec_sha256", "0" * 64),
+                           ("priority", other_policy),
+                           ("legacy_rules_version", rules_version + ":x")):
+        material = {"strategy_id": strategy_id, "entry_spec_sha256": entry,
+                    "exit_spec_sha256s": exits, "sizing_spec_sha256": sizing,
+                    "priority": priority, "legacy_rules_version": rules_version}
+        material[field] = mutated
+        assert exit_binding_content_hash(**material) != binding, field
+    # Layer 2: the current legal spec forwards to exactly the real M3B
+    # producer's binding over the CURRENT identities.
     spec = build_strategy_spec(family, mode)
-    assert pipeline.legacy_exit_binding(spec).binding_sha256 \
-        == _L2_BASELINE_BINDING_SHA256[strategy_id] \
-        == select_exit_binding(spec, profile="legacy").binding_sha256
+    forwarded = pipeline.legacy_exit_binding(spec)
+    orthodox = select_exit_binding(spec, profile="legacy")
+    current_exit = exits_registry.exit_spec_sha256(
+        exits_registry.legacy_exit_spec(mode))
+    policy_id = strategies_registry.EXIT_PROFILE_IDS[mode]["legacy"]
+    current_projection = (strategy_id, spec.code_sha256, (current_exit,), None,
+                          (policy_id,), strategies_registry.EXIT_LEGACY_RULES_VERSION)
+    historical_projection = (strategy_id, entry, exits, sizing,
+                             priority, rules_version)
+    assert forwarded == orthodox
+    assert forwarded.strategy_id == spec.strategy_id == strategy_id
+    assert forwarded.entry_spec_sha256 == spec.code_sha256
+    assert list(forwarded.exit_spec_sha256s) == [current_exit]
+    assert forwarded.priority == (policy_id,) == priority
+    assert forwarded.sizing_spec_sha256 is None and sizing is None
+    assert forwarded.legacy_rules_version \
+        == strategies_registry.EXIT_LEGACY_RULES_VERSION == rules_version
+    assert forwarded.binding_sha256 == exit_binding_content_hash(
+        *current_projection)
+    # Equal projection <=> equal binding: the complete six-field projection
+    # actually decides, never an assumed evolution story. (Today the exit
+    # hashes match the historical ones again while the entry code digest
+    # differs, so the current binding legitimately differs from the frozen
+    # baseline -- derived here, not hardcoded.)
+    assert (forwarded.binding_sha256 == binding) \
+        == (current_projection == historical_projection)
+    # Changed entry-code identity regenerates the binding identically in both
+    # entries ("0"*64 is a synthetic counterexample digest: neither a
+    # historical nor a current code identity).
+    changed = replace(spec, code_sha256="0" * 64)
+    assert pipeline.legacy_exit_binding(changed).binding_sha256 \
+        == select_exit_binding(changed, profile="legacy").binding_sha256 \
+        != forwarded.binding_sha256
 
 
 def test_identity_neutral_entry_changes_keep_binding_but_registry_hash_moves():

@@ -1,0 +1,36 @@
+{
+  "argv": [
+    "D:/Programs/Python/Python312/python.exe",
+    "-B",
+    "-X",
+    "utf8",
+    "scripts/test_offline.py",
+    "-q",
+    "tests/test_v2_m4_payoffs.py",
+    "-k",
+    "test_forwarded_binding_keeps_frozen_baseline_value",
+    "--basetemp",
+    "C:\\AKWorktrees\\aktr-goal-20261026\\integration-m4-002\\pytest-temp"
+  ],
+  "cwd": "D:\\Projects\\AK-trading",
+  "raw_exit_code": 0,
+  "elapsed_seconds": 6.405999999959022,
+  "stats": {
+    "selected": 14,
+    "deselected": 66,
+    "collected": 80,
+    "ran": 14,
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "errors": 0,
+    "failed_nodeids": [],
+    "error_nodeids": [],
+    "collection_errors": [],
+    "collected_files": [
+      "tests/test_v2_m4_payoffs.py"
+    ]
+  },
+  "source_sha256_after": "2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677",
+  "incident": "C:\\AKWorktrees\\aktr-goal-20261026\\integration-m4-001\\ROOT-SUPERVISOR-INCIDENT.json"
+}

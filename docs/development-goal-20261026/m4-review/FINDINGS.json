@@ -1,0 +1,54 @@
+{
+ "review": "m4-hard-review-002",
+ "task_id": "aktr-zcode-goal-m4-hard-review-20261026-002",
+ "subject": "Independent hard review of the final M4 one-file repair: tests/test_v2_m4_payoffs.py in C:/AKWorktrees/aktr-goal-m4-final-20261026, frozen sha256 2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677 (92,591 bytes)",
+ "verdict": "PASS (unconditional; see VERDICT.json)",
+ "fail_findings": [],
+ "advisory_observations": [
+  {
+   "id": "O1",
+   "severity": "metadata-only (non-blocking)",
+   "summary": "Owner freeze timestamp label inconsistent with actual chronology.",
+   "facts": {
+    "source_freeze_frozen_at": "2026-10-26T07:05+08:00 (= 2026-10-25T23:05Z)",
+    "actual_final_file_mtime_utc": "2026-10-26T13:50:02Z",
+    "actual_owner_focused14_stdout_mtime_utc": "2026-10-26T13:51:03Z",
+    "actual_source_freeze_mtime_utc": "2026-10-26T13:51:33Z",
+    "actual_owner_delivery_mtime_utc": "2026-10-26T13:52:02Z",
+    "owner_terminal_ended_utc": "2026-10-26T13:52:59.683608Z (native exit 0, frozen_inputs_unchanged true)",
+    "machine_local_utc_offset_seconds": -25200
+   },
+   "disposition": "Work order anticipated this: actual terminal chronology used for the launch-sequence reading; the string remains owner-authored unverified metadata. Not rewritten, not backdated; all decisive facts independently verified byte-level."
+  },
+  {
+   "id": "O2",
+   "severity": "informational",
+   "summary": "ROOT-CANDIDATE.json is a staging preimage manifest, not a final-state manifest.",
+   "facts": "Its 585 files document the candidate tree as copied from the m4-owner-002 predecessor BEFORE owner003's EOL-only repair; its tests/test_v2_m4_payoffs.py entry therefore still carries predecessor bytes 6912dff1... The final file pin lives in owner003 SOURCE-FREEZE.json and this review's REQUEST (2dbd9d62...).",
+   "disposition": "No integrity issue: post-test full-tree verification shows 584/584 non-write-set files byte-identical to the staging manifest and the write-set file matching its frozen final pin. Consumers should read final pins from the freeze/REQUEST, never from the staging manifest."
+  },
+  {
+   "id": "O3",
+   "severity": "informational (factual context)",
+   "summary": "Exit identity convergence is the real cause of the prior fourteen failures.",
+   "facts": "Measured on this candidate with the real producers: current M3C exit hashes EQUAL the historical chunk01 exit hashes on 14/14 nodes; entry code digests DIFFER on 14/14; therefore complete projections and bindings differ on 14/14. The prior revision's unconditional 'current exit != historical exit' assertion failed exactly on this fact; the repaired test derives the relationship via the biconditional (equal projection iff equal binding) instead of hardcoding either direction.",
+   "disposition": "Consistent with EXECUTION-CLARIFICATION section 1. Reviewer additionally proved the equal-projection direction on real code: select_exit_binding(replace(spec, code_sha256=historical_entry)) reproduces the complete historical projection and the historical baseline binding on all 14 nodes."
+  }
+ ],
+ "reviewer_harness_notes": [
+  "The process-tree peak poller needed two reviewer-side fixes before use: (1) MSYS-vs-Windows PID translation abandoned for command-line anchoring; (2) the ancestor-chain exclusion initially used per-level CIM queries that delayed the first sample past short-lived smoke targets -- replaced by a single-snapshot walk; (3) a first draft self-matched its own command line and deadlocked a smoke task, which was stopped and never involved any product process. Final methodology: recursive child-tree WorkingSetSize sum over processes whose command line contains the run-unique basetemp marker 'post-m4-ninefile', poller and its bash ancestors excluded as roots; validated by marker smoke test (peak 26.8 MiB for a sleep process).",
+  "One reviewer diagnostic PowerShell invocation (orphan-poller check) mangled $_ through bash double quotes and produced a raw-1-style error flood; it was read-only, affected no product state, and is preserved here as a harness failure, not reclassified.",
+  "No optional rg condition was used; every verification step ran as a required command with native exits recorded. All three pytest reruns and both probes have empty stderr; streams sealed only after producer termination; the heavy run used the background lifecycle with poll-based completion."
+ ],
+ "evidence_index": {
+  "pin_verification": "work/pin-check.json (46/46 MATCH; timestamp facts included)",
+  "eol_ast_verification": "work/eol-ast-verification.json (14 checks/0 fail); work/probe-eol-*.txt",
+  "independent_probe": "work/reviewer-probe.json (17 checks/0 fail; identity facts summary); work/probe-reviewer-*.txt",
+  "rerun_focused14": "work/post-focused14-stdout.txt (-stderr.txt, 0 bytes): exit 0, 14/14, 66 deselected",
+  "rerun_full80": "work/post-full-payoffs-stdout.txt (-stderr.txt, 0 bytes): exit 0, 80/80",
+  "rerun_ninefile": "work/post-m4-ninefile-stdout.txt (-stderr.txt 0 bytes; -exit.txt): exit 0, 259/259, 1108.70s",
+  "process_tree_peak": "work/post-m4-ninefile-tree-peak.json (539.2 MiB peak, 82 samples); smoke: work/tree_peak_smoke.json",
+  "post_test_seal": "work/HASHES.json (584/584 staging-manifest match + write-set frozen-pin match + lineage/record hashes + evidence hashes)",
+  "probe_scripts": "work/probes/{pin_check.py, verify_eol_ast.py, probe_reviewer.py, tree_peak.ps1, seal_hashes.py}"
+ }
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "aktr-root-command-supervision-incident/v1",
+  "original_tool": "3e35e5",
+  "supervisor_raw_exit": 1,
+  "child_native_exit": "UNKNOWN_NOT_CAPTURED",
+  "reported_test_counts": {
+    "selected": 80,
+    "ran": 80,
+    "passed": 80,
+    "failed": 0,
+    "skipped": 0,
+    "errors": 0
+  },
+  "cause": "Race: child exited between Popen.poll and psutil.Process.children; unhandled psutil.NoSuchProcess terminated supervisor before child.wait/result capture.",
+  "prevention": "Child return-code collection must be in a guaranteed finally path. Treat NoSuchProcess during optional resource sampling as completed-sample unavailability; still call child.wait. Resource telemetry must never own execution outcome. Short integration checks use subprocess.run(timeout=...) with complete return capture.",
+  "disposition": "Preserve original stdout/stderr and supervisor1; no reconstructed native0. Independently accepted source remains unchanged. Run focused14 integration in new directory; do not rerun whole M4 suite.",
+  "at": "2026-10-26T15:10:32.662625+00:00"
+}

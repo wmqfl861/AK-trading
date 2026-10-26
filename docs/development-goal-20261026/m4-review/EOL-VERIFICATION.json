@@ -1,0 +1,314 @@
+{
+ "hashes": {
+  "main": "d62959fbd641593c00e68e4cfb433dd7de26e70d6e99fe8f259d1c3648cbc888",
+  "main_bytes": 77874,
+  "predecessor": "6912dff1e100ce112ab410ebe9fb00b2d4fc78f3b1911755ea8d245a68e8471c",
+  "predecessor_bytes": 92262,
+  "final": "2dbd9d62103148e4cc3d0da00fe95484ea7d584887c560c2d3390e3a15885677",
+  "final_bytes": 92591
+ },
+ "line_counts": {
+  "main": 1348,
+  "predecessor": 1498,
+  "final": 1498
+ },
+ "lines_changed_vs_predecessor": 329,
+ "crlf_lines_in_final": 329,
+ "opcode_summary": [
+  {
+   "tag": "equal",
+   "main": [
+    0,
+    152
+   ],
+   "merged": [
+    0,
+    152
+   ]
+  },
+  {
+   "tag": "replace",
+   "main": [
+    152,
+    153
+   ],
+   "merged": [
+    152,
+    155
+   ]
+  },
+  {
+   "tag": "equal",
+   "main": [
+    153,
+    184
+   ],
+   "merged": [
+    155,
+    186
+   ]
+  },
+  {
+   "tag": "insert",
+   "main": [
+    184,
+    184
+   ],
+   "merged": [
+    186,
+    254
+   ]
+  },
+  {
+   "tag": "equal",
+   "main": [
+    184,
+    232
+   ],
+   "merged": [
+    254,
+    302
+   ]
+  },
+  {
+   "tag": "replace",
+   "main": [
+    232,
+    233
+   ],
+   "merged": [
+    302,
+    307
+   ]
+  },
+  {
+   "tag": "equal",
+   "main": [
+    233,
+    236
+   ],
+   "merged": [
+    307,
+    310
+   ]
+  },
+  {
+   "tag": "replace",
+   "main": [
+    236,
+    239
+   ],
+   "merged": [
+    310,
+    329
+   ]
+  },
+  {
+   "tag": "equal",
+   "main": [
+    239,
+    241
+   ],
+   "merged": [
+    329,
+    331
+   ]
+  },
+  {
+   "tag": "insert",
+   "main": [
+    241,
+    241
+   ],
+   "merged": [
+    331,
+    361
+   ]
+  },
+  {
+   "tag": "equal",
+   "main": [
+    241,
+    242
+   ],
+   "merged": [
+    361,
+    362
+   ]
+  },
+  {
+   "tag": "replace",
+   "main": [
+    242,
+    245
+   ],
+   "merged": [
+    362,
+    395
+   ]
+  },
+  {
+   "tag": "equal",
+   "main": [
+    245,
+    1348
+   ],
+   "merged": [
+    395,
+    1498
+   ]
+  }
+ ],
+ "a2_region_all_mapped_equal": true,
+ "non_equal_opcodes": [
+  {
+   "tag": "replace",
+   "main_lines": [
+    153,
+    153
+   ],
+   "final_lines": [
+    153,
+    155
+   ]
+  },
+  {
+   "tag": "insert",
+   "main_lines": [
+    185,
+    184
+   ],
+   "final_lines": [
+    187,
+    254
+   ]
+  },
+  {
+   "tag": "replace",
+   "main_lines": [
+    233,
+    233
+   ],
+   "final_lines": [
+    303,
+    307
+   ]
+  },
+  {
+   "tag": "replace",
+   "main_lines": [
+    237,
+    239
+   ],
+   "final_lines": [
+    311,
+    329
+   ]
+  },
+  {
+   "tag": "insert",
+   "main_lines": [
+    242,
+    241
+   ],
+   "final_lines": [
+    332,
+    361
+   ]
+  },
+  {
+   "tag": "replace",
+   "main_lines": [
+    243,
+    245
+   ],
+   "final_lines": [
+    363,
+    395
+   ]
+  }
+ ],
+ "inserted_merged_ranges": [
+  [
+   187,
+   254
+  ],
+  [
+   332,
+   361
+  ]
+ ],
+ "checks": [
+  {
+   "name": "ast_identical_final_vs_predecessor",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "lf_normalized_text_identical_final_vs_predecessor",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "changed_lines_vs_predecessor_exactly_329",
+   "ok": true,
+   "detail": "n=329"
+  },
+  {
+   "name": "each_changed_line_is_CRLF_in_final_and_was_LF_in_predecessor",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "crlf_lines_in_final_exactly_329",
+   "ok": true,
+   "detail": "n=329"
+  },
+  {
+   "name": "no_logical_text_change_vs_predecessor",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "every_equal_line_byte_identical_to_main",
+   "ok": true,
+   "detail": "bad=[]"
+  },
+  {
+   "name": "a2_region_final_1215_1292_byte_identical_to_main",
+   "ok": true,
+   "detail": "unmapped=[]"
+  },
+  {
+   "name": "all_329_crlf_lines_are_main_equal_lines",
+   "ok": true,
+   "detail": "outside=[] count=329"
+  },
+  {
+   "name": "logical_delta_confined_to_section1_repair_regions",
+   "ok": true,
+   "detail": "stray_main_lines=[]"
+  },
+  {
+   "name": "isolation_registry_hash_test_aligned_equal_to_main",
+   "ok": true,
+   "detail": "final_line=398"
+  },
+  {
+   "name": "qualification_scope_test_aligned_equal_to_main",
+   "ok": true,
+   "detail": "final_line=458"
+  },
+  {
+   "name": "parametrize_decorator_aligned_equal_to_main",
+   "ok": true,
+   "detail": "final_line=309"
+  },
+  {
+   "name": "baseline_table_aligned_equal_to_main",
+   "ok": true,
+   "detail": "final_line=169"
+  }
+ ],
+ "failures": []
+}

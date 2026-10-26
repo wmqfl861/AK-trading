@@ -1,0 +1,75 @@
+{
+  "schema": "aktr-existing-strategy-results-reproduction/v1",
+  "at": "2026-10-26T15:00:12.475654+00:00",
+  "source_pins": [
+    {
+      "path": "data/research_runs/rb-daily-scenario-compare-20261014-review-r1/comparison.csv",
+      "bytes": 91964,
+      "sha256": "8913ed07020cd68b0e018133dbe5bb020f167378779932ee3793c54253b96909"
+    },
+    {
+      "path": "data/research_runs/rb-daily-capital-stress-20261014-review-r1/comparison.csv",
+      "bytes": 211332,
+      "sha256": "641af8c9982e8afec8851c564bf16b54ce38a72b896171d3e23aae0ac9f70ac8"
+    }
+  ],
+  "filter": {
+    "scenario_compare": {
+      "scenario": "BASE",
+      "coverage_status": "MEETS_60_OBSERVATIONS"
+    },
+    "capital_stress": {
+      "strategy": "donchian_trend",
+      "initial_cash": "15000",
+      "margin_rate": "0.18",
+      "coverage_status": "MEETS_60_OBSERVATIONS"
+    }
+  },
+  "arithmetic": "Decimal; net_pnl sum and median across contract cells; integer closed_trades and opening_blocks sums",
+  "groups": [
+    {
+      "strategy": "donchian_trend",
+      "cells": 14,
+      "net_sum": "42305.049",
+      "net_median": "4072.020",
+      "closed_trades": 19,
+      "positive": 10,
+      "zero": 1,
+      "negative": 3
+    },
+    {
+      "strategy": "ma_trend",
+      "cells": 14,
+      "net_sum": "5523.779",
+      "net_median": "126.271",
+      "closed_trades": 59,
+      "positive": 7,
+      "zero": 1,
+      "negative": 6
+    },
+    {
+      "strategy": "zscore_reversion",
+      "cells": 14,
+      "net_sum": "-45372.477",
+      "net_median": "-1999.2945",
+      "closed_trades": 53,
+      "positive": 2,
+      "zero": 1,
+      "negative": 11
+    }
+  ],
+  "capital_stress": {
+    "cells": 14,
+    "initial_cash": "15000",
+    "margin_rate": "0.18",
+    "net_sum": "-9349.611",
+    "opening_blocks": 804
+  },
+  "C5000_opening_fills": 0,
+  "raw_exit_code": 0,
+  "new_simulation": false,
+  "new_acceptance": false,
+  "evidence_level": "SCENARIO",
+  "statistical_qualification": "NOT_ASSESSED",
+  "portfolio_return": false
+}
