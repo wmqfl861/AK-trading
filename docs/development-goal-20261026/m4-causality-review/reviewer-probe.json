@@ -1,0 +1,90 @@
+{
+ "checks": [
+  {
+   "name": "module_identity_candidate_src",
+   "ok": true,
+   "detail": "C:\\AKWorktrees\\aktr-goal-m4-causality-20261027\\src\\ak_trading\\__init__.py"
+  },
+  {
+   "name": "P1_cold_first_bar_conflict_rejects_before_provider_calls",
+   "ok": true,
+   "detail": "pubs=0"
+  },
+  {
+   "name": "P2_warm_build_ready",
+   "ok": true,
+   "detail": "READY"
+  },
+  {
+   "name": "P2_warm_publications_nonempty",
+   "ok": true,
+   "detail": "n=4"
+  },
+  {
+   "name": "P2_cached_states_are_prefixstate_with_long_prefix",
+   "ok": true,
+   "detail": "states=2"
+  },
+  {
+   "name": "P2_prefixstate_not_subscriptable_old_assertion_typeerror_real",
+   "ok": true,
+   "detail": "the pre-repair state[0] assertions necessarily raised TypeError"
+  },
+  {
+   "name": "P2_warm_conflict_rejects_before_new_provider_calls",
+   "ok": true,
+   "detail": "pubs_before=4 pubs_after=4"
+  },
+  {
+   "name": "P2_cache_unpoisoned_clean_rebuild_reproduces_baseline_bytes",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "P3_equal_anchor_consumed_once_592_bars",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "P3_equal_anchor_canonical_context_bytes_equal",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "P3_equal_anchor_canonical_request_bytes_equal",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "P3_mutated_anchor_duplicate_rejected_not_last_wins",
+   "ok": true,
+   "detail": "pubs=0"
+  },
+  {
+   "name": "P4_three_calls_at_own_boundaries_canonical_daily",
+   "ok": true,
+   "detail": "calls=[(1712710860000000000, 86400, True), (1712624460000000000, 86400, True), (1712710860000000000, 86400, True)]"
+  },
+  {
+   "name": "P4_candidates_visibility_and_object_ownership",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "P4_context_bars_is_last_canonical",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "P4_boundaries_genuinely_distinct_candidate_sets",
+   "ok": true,
+   "detail": "len590=591 len591=592"
+  }
+ ],
+ "failures": [],
+ "summary": {
+  "checks_total": 16,
+  "checks_failed": 0,
+  "probe_wall_seconds": 328.41
+ }
+}

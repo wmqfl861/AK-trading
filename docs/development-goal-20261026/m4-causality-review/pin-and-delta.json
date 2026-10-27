@@ -1,0 +1,55 @@
+{
+ "request_pins": {
+  "checked": 623,
+  "match": 623,
+  "failures": 0,
+  "bad": []
+ },
+ "timestamp_facts": {
+  "final_file": {
+   "mtime_utc": "2026-10-27T04:29:35Z"
+  },
+  "owner004 FREEZE.json": {
+   "mtime_utc": "2026-10-27T04:50:44Z"
+  },
+  "owner004 DELIVERY.md": {
+   "mtime_utc": "2026-10-27T04:51:03Z"
+  },
+  "owner004 TERMINAL.json": {
+   "mtime_utc": "2026-10-27T04:51:37Z"
+  },
+  "owner004 post-ninefile stdout": {
+   "mtime_utc": "2026-10-27T04:50:17Z"
+  },
+  "machine_utc_offset_seconds": -25200
+ },
+ "binary_delta": {
+  "preimage": {
+   "bytes": 40941,
+   "sha256": "5ea805c1fdfeac20220d043166653ed73fd24dc158886f57f3beb8f6e3672cdd"
+  },
+  "final": {
+   "bytes": 40949,
+   "sha256": "b9b43fa235b0b6ec84812e49af349288ffb3438fccefa7fd081e7267547f5576"
+  },
+  "preimage_is_expected_5ea805c1": true,
+  "final_is_expected_b9b43fa2": true,
+  "line_counts": {
+   "pre": 673,
+   "final": 673
+  },
+  "changed_lines_1based": [
+   598,
+   615
+  ],
+  "exactly_lines_598_615": true,
+  "line598_pre": "        assert any(len(state[0])>16 for state in factors._PREFIX_CACHE[(\"rb\",86400)].values())",
+  "line598_post": "        assert any(len(state.prefix)>16 for state in factors._PREFIX_CACHE[(\"rb\",86400)].values())",
+  "line615_pre": "    assert any(len(state[0])>16 for state in factors._PREFIX_CACHE[(\"rb\",86400)].values())",
+  "line615_post": "    assert any(len(state.prefix)>16 for state in factors._PREFIX_CACHE[(\"rb\",86400)].values())",
+  "all_crlf_final": true,
+  "all_crlf_pre": true,
+  "change_shape_state0_to_prefix_len16": true
+ },
+ "failures_total": 0
+}

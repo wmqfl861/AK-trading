@@ -1,0 +1,11 @@
+﻿{
+    "match":  "post-focused4",
+    "samples":  28,
+    "first_seen":  true,
+    "last_root_count":  0,
+    "interval_sec":  10,
+    "peak_working_set_bytes":  409518080,
+    "peak_working_set_mib":  390.5,
+    "ended_utc":  "2026-10-27T05:21:51.3535612Z",
+    "methodology":  "recursive child-tree sum of WorkingSetSize over all processes whose CommandLine contains the match string; sampled every interval_sec"
+}

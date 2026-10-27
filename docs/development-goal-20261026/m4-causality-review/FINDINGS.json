@@ -1,0 +1,51 @@
+{
+ "review": "m4-causality-hard-review-003",
+ "task_id": "aktr-zcode-goal-m4-causality-hard-review-20261027-003",
+ "subject": "Independent hard review of author007 section 4 as implemented by m4-causality-owner-004: two-line warmth-assertion adaptation in tests/test_v2_m4_causality.py (frozen sha256 b9b43fa235b0b6ec84812e49af349288ffb3438fccefa7fd081e7267547f5576, 40,949 bytes)",
+ "verdict": "PASS (unconditional; see VERDICT.json)",
+ "fail_findings": [],
+ "advisory_observations": [
+  {
+   "id": "O1",
+   "severity": "metadata transcription error, non-blocking, already recorded by ROOT-RECEPTION-001.json",
+   "summary": "DELIVERY.md byte count 41,045 vs actual 40,949.",
+   "facts": "The DELIVERY write-set table transcribes the final size as 41,045 bytes; every authoritative record (actual file, FREEZE.json, FIX-PROOFS.json, REQUEST.json, ROOT-RECEPTION-001.json) says 40,949 with the same sha256 b9b43fa2...",
+   "disposition": "Actual file pin used and independently verified pre- and post-test (623/623 REQUEST pins MATCH both times). Original artifacts preserved unmodified; per the work order no unrelated suites were rerun for a transcription error."
+  },
+  {
+   "id": "O2",
+   "severity": "metadata timestamp, non-blocking, already recorded by ROOT-RECEPTION-001.json",
+   "summary": "FREEZE.json frozen_at is an unverified owner-authored string inconsistent with actual chronology.",
+   "facts": {
+    "frozen_at_claimed": "2026-10-27T00:00+08:00 (= 2026-10-26T16:00Z)",
+    "actual_final_file_mtime_utc": "2026-10-27T04:29:35Z",
+    "actual_owner_post_ninefile_stdout_utc": "2026-10-27T04:50:17Z",
+    "actual_freeze_json_mtime_utc": "2026-10-27T04:50:44Z",
+    "actual_delivery_mtime_utc": "2026-10-27T04:51:03Z",
+    "owner_terminal_ended_utc": "2026-10-27T04:51:36.444423Z (native exit 0, frozen_inputs_unchanged true)",
+    "machine_local_utc_offset_seconds": -25200
+   },
+   "disposition": "Genuine process terminal timestamps used for chronology per the work order; the string retained as unverified metadata; no rewrite or backdate."
+  }
+ ],
+ "semantics_evidence": {
+  "cold_warm_conflict_ordering": "Probe P1/P2: a cold conflict on the FIRST bar and a warm conflict on bar 585 both raise conflicting_duplicate_bar with ZERO new provider calls; the four warm publications from the successful warm-up build are preserved exactly; a clean rebuild after the failed conflict reproduces the baseline canonical context bytes (cache un-poisoned).",
+  "representation": "Probe P2: cached objects really are the slotted _PrefixState (factors.py:259); state[0] raises TypeError (proving the pre-repair failures were exactly the removed tuple dependency); len(state.prefix)>16 holds for the cached states.",
+  "equal_anchor_once": "Probe P3: an identical duplicated anchor bar is consumed once (592 visible bars, count 1) with canonical context and request bytes equal to baseline; a MUTATED duplicate of the same anchor is rejected -- dedup is equality-keyed, not last-wins.",
+  "three_boundary_control": "The test function is byte-identical to the preimage (outside the two-line delta). Probe P4 independently re-derives: three _features calls at bars[591]/bars[590]/bars[591] available_at boundaries, all canonical_daily=True, candidates == visible_bars(at, False), bars IS canonical, all end_nano/available_at_nano <= at, context.bars IS the last canonical set, and the two distinct boundaries carry genuinely different candidate sets (591 vs 592 bars)."
+ },
+ "reviewer_harness_notes": [
+  "Probe fixture cost was bounded by building synthetic_daily_world() once and reusing it across all scenarios (probe wall time 328.41s).",
+  "The focused4 stdout contains no pytest 'passed in Xs' line under -q; completion evidence is the sealed exit file (2026-10-27T05:21:51Z) plus 28 tree-peak poller samples at 10s. The nine-file run shows 'passed in 950.42s'.",
+  "Tree-peak methodology as in the prior review: recursive child-tree WorkingSetSize sum over processes whose command line contains the run-unique basetemp marker; poller and its bash ancestors excluded; peaks 390.5 MiB (focused4) and 572.3 MiB (nine-file), both within the 2 GiB lane.",
+  "No optional rg condition was used; all native exits preserved (reviewer's own pre-repair-style evidence was not needed: the owner's pre-repair exit-1 record was cross-checked read-only instead of rerun, per the work order's no-redundant-run instruction)."
+ ],
+ "evidence_index": {
+  "pin_and_delta": "work/pin-and-delta.json (623/623 pre-run pins; binary two-line delta with before/after line text); work/probe-pin-delta-*.txt",
+  "counterexamples": "work/reviewer-probe.json (16 checks/0 fail); work/probe-reviewer-*.txt",
+  "focused4": "work/post-focused4-stdout.txt (-stderr.txt 0 bytes, -exit.txt, -tree-peak.json): exit 0, 4/4, 39 deselected, four nodes exactly the author-corrected set",
+  "ninefile": "work/post-m4-ninefile-stdout.txt (-stderr.txt 0 bytes, -exit.txt, -tree-peak.json): exit 0, 259/259, 950.42s, exact work-order file order",
+  "post_test_seal": "work/post-test-seal.json (623/623 post-run pins MATCH; evidence hashes)",
+  "probe_scripts": "work/probes/{pin_and_delta.py, probe_reviewer.py, post_test_seal.py, tree_peak.ps1}"
+ }
+}

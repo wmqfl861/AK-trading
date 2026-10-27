@@ -1,0 +1,31 @@
+{
+  "task_id": "aktr-zcode-goal-m4-causality-hard-review-20261027-003",
+  "native_exit_code": 0,
+  "frozen_inputs_unchanged": true,
+  "product_review_credit": false,
+  "parse_status": "JSON_OBJECT",
+  "session_id": "sess_6b517153-9beb-4f7c-8775-c46c7275e15e",
+  "session_identity_match": true,
+  "usage": {
+    "source": "provider",
+    "modelRequestCount": 24,
+    "inputTokens": 6548427,
+    "outputTokens": 24495,
+    "totalTokens": 6572922,
+    "cacheReadTokens": 6286336,
+    "cacheWriteTokens": 0,
+    "reasoningTokens": 0,
+    "webFetchRequests": 0,
+    "webSearchRequests": 0
+  },
+  "projection": {
+    "status": "idle",
+    "turnCount": 1,
+    "totalTokenCount": 6572922,
+    "contextUsed": 291242,
+    "contextWindow": 200000
+  },
+  "trace_id": "84046a7c-4a84-4c6c-a76a-9395636de97c",
+  "response_type": "str",
+  "stderr_decode": "UTF8_OK"
+}

@@ -1,0 +1,43 @@
+{
+ "review": "m4-causality-hard-review-003",
+ "task_id": "aktr-zcode-goal-m4-causality-hard-review-20261027-003",
+ "classification": "INDEPENDENT_PRODUCT_HARD_REVIEW",
+ "verdict": "PASS",
+ "conditional": false,
+ "unconditional": true,
+ "scope": {
+  "accepted": "The author007 section-4 one-file M4 test adaptation in C:/AKWorktrees/aktr-goal-m4-causality-20261027 -- exactly two warmth-existence assertions in tests/test_v2_m4_causality.py adapted from the removed tuple form state[0] to the accepted _PrefixState representation state.prefix (len>16 retained) -- at frozen bytes sha256 b9b43fa235b0b6ec84812e49af349288ffb3438fccefa7fd081e7267547f5576 (40,949 bytes), together with the independently rerun guarded results: focused four preflight nodes 4/4 and the complete original M4 nine-file population 259/259, native exit 0",
+  "not_granted": [
+   "no acceptance beyond this one test adaptation on this candidate",
+   "no whole-T7, locking, cold-chain, wiring or MINUTE-capacity acceptance",
+   "no production-code acceptance beyond the 602 frozen candidate inputs consumed read-only",
+   "no upgrade of owner self-tests or prior-review history into current-run credit"
+  ]
+ },
+ "frozen_revision": {
+  "path": "C:/AKWorktrees/aktr-goal-m4-causality-20261027/tests/test_v2_m4_causality.py",
+  "bytes": 40949,
+  "sha256": "b9b43fa235b0b6ec84812e49af349288ffb3438fccefa7fd081e7267547f5576",
+  "preimage_sha256": "5ea805c1fdfeac20220d043166653ed73fd24dc158886f57f3beb8f6e3672cdd (40,941 bytes; the causality file of the goal-m4-final lineage verified in the prior review)",
+  "changed_lines_1based": [598, 615]
+ },
+ "required_checks": [
+  {"id": "C1", "name": "request_pins", "result": "PASS", "evidence": "all 623 REQUEST.json inputs re-hashed MATCH before the runs, and all 623 MATCH again after the runs (work/pin-and-delta.json, work/post-test-seal.json)"},
+  {"id": "C2", "name": "binary_two_line_delta", "result": "PASS", "evidence": "reviewer byte-level comparison vs the preserved preimage: exactly lines 598 and 615 changed, both 'len(state[0])>16' -> 'len(state.prefix)>16' inside factors._PREFIX_CACHE[('rb',86400)] warmth assertions; >16 condition and any(...) shape preserved; all 673 lines CRLF before and after; every other line byte-identical"},
+  {"id": "C3", "name": "no_other_change_no_production_write", "result": "PASS", "evidence": "the 602-file candidate population is pinned in REQUEST and unchanged post-test; tests/test_v2_m4_payoffs.py (accepted, not owned), factors.py and all production files read-only (POST pins all MATCH)"},
+  {"id": "C4", "name": "reviewer_counterexamples", "result": "PASS", "evidence": "work/reviewer-probe.json: 16 checks / 0 failures in 328.41s -- P1 cold conflict on the FIRST bar rejects conflicting_duplicate_bar with zero provider calls; P2 warm conflict on a different bar rejects with zero new provider calls, preserves the 4 warm publications, the cache is un-poisoned (clean rebuild reproduces baseline canonical bytes), and the cached object really is the non-subscriptable _PrefixState with len(prefix)>16 (the pre-repair state[0] TypeError was genuine); P3 an EQUAL anchor duplicate is consumed once (592 visible bars, canonical context and request bytes equal to baseline) while a MUTATED duplicate of the same anchor is rejected -- equality-keyed dedup, not last-wins; P4 three _features calls at their own boundaries with canonical_daily=True, candidates equal visible_bars(at,False), bars IS canonical, visibility invariants hold, context.bars is the last canonical set, and the 590/591 boundaries carry genuinely distinct candidate sets (591 vs 592 bars)"},
+  {"id": "C5", "name": "boundary_control_byte_identical", "result": "PASS", "evidence": "test_daily_source_preflight_covers_three_snapshots_at_their_own_boundaries lies entirely outside the two-line delta (byte-identical to the preimage); its semantics independently re-verified by probe P4"},
+  {"id": "C6", "name": "guarded_focused4_rerun", "result": "PASS", "evidence": "python -B -X utf8 scripts/test_offline.py -q tests/test_v2_m4_causality.py -k test_daily_source_preflight --basetemp work/temp/post-focused4: native exit 0; selected 4, ran 4, passed 4, failed 0, deselected 39, skipped 0, errors 0; selected nodes are exactly the author-corrected four (conflict[True], conflict[False], equal-anchor, three-boundary); stderr 0 bytes; tree peak 390.5 MiB; completed 2026-10-27T05:21:51Z (28 poller samples at 10s; within the 3600s budget)"},
+  {"id": "C7", "name": "guarded_ninefile_259_rerun", "result": "PASS", "evidence": "python -B -X utf8 scripts/test_offline.py -q with the exact nine-file list in the work-order order (causality, execution, gates, ledger, payoff_paths, payoffs, replay, risk, routing) --basetemp work/temp/post-m4-ninefile: native exit 0 (background lifecycle, streams sealed after termination); selected 259, ran 259, passed 259, failed 0, skipped 0, errors 0, collection_errors 0; all nine files collected; 950.42s within the 3600s cap; stderr 0 bytes; process-tree peak 572.3 MiB within the 2 GiB lane; no redundant separate full-causality run (subsumed)"},
+  {"id": "C8", "name": "population_and_criteria_preserved", "result": "PASS", "evidence": "original 259-node population intact (same nine files, 0 skipped/deselected beyond the focused -k); no chronology change, no historical binding-hash update, no node deletion, no relaxed threshold, no old-tuple compatibility branch added; warmth assertions kept"},
+  {"id": "C9", "name": "preimage_failure_record_consistency", "result": "PASS", "evidence": "owner004 pre-repair focused4 raw record (read-only cross-check): exit 1 with exactly test_daily_source_preflight_rejects_first_conflict_before_any_provider[True] and ...consumes_equal_anchor_once... failing on TypeError '_PrefixState' object is not subscriptable at lines 598/615; [False] and the boundary control passed -- matching the author-corrected list; my probe independently proves the non-subscriptability"}
+ ],
+ "findings_blocking": 0,
+ "nonblocking_observations": [
+  "O1 (metadata transcription): owner004 DELIVERY.md table states 41,045 bytes for the final file; the actual file, FREEZE.json, FIX-PROOFS.json, REQUEST.json and ROOT-RECEPTION-001.json all record 40,949 bytes. Already flagged by ROOT-RECEPTION-001.json; originals preserved unmodified; the actual pin was used and verified everywhere. Per the work order, no unrelated suites were rerun for a transcription error.",
+  "O2 (metadata timestamp): owner004 FREEZE.json 'frozen_at' '2026-10-27T00:00+08:00' (= 2026-10-26T16:00Z) is inconsistent with the actual chronology (final file mtime 2026-10-27T04:29:35Z; owner post-ninefile stdout 04:50:17Z; FREEZE mtime 04:50:44Z; DELIVERY 04:51:03Z; TERMINAL ended 2026-10-27T04:51:36.444423Z, native exit 0, frozen_inputs_unchanged true; machine offset UTC-7). Treated as an owner-authored unverified string; actual terminal/observed chronology used; no rewrite or backdate."
+ ],
+ "reviewer": "independent ZCode GLM-5.3/max session sess_6b517153-9beb-4f7c-8775-c46c7275e15e (same reviewer across the M4 lineage; took no part in development)",
+ "published_at_utc": "2026-10-27T05:45Z",
+ "boundaries": "enable_trading=false, observer=hold, broker=NOT_RUN, real send=0 cancel=0; no .env/credential/config/rules/model reads or writes; no git/SDK/network/broker/service/UI writes; no nested agents; candidate read-only (writes only under this review's work/); OWNER-REPORT.md untouched (root watchdog owned); guarded launcher entry only (no direct pytest substitution); PYTHONDONTWRITEBYTECODE=1; module identity resolved from candidate/src; streams sealed after producer termination; no optional rg condition used; raw native exits preserved (all zero here; owner's pre-repair exit-1 record preserved read-only)"
+}

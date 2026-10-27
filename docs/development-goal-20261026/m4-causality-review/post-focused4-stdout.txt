@@ -1,0 +1,11 @@
+Offline command: python scripts/test_offline.py (4 pytest arguments forwarded; guard before collection)
+Offline plan: 1 domain(s): normal
+=== offline domain normal: exit 0 ===
+....                                                                     [100%]
+Offline selection: 4 selected, 39 deselected (mandatory exclusions cannot be overridden)
+4 passed, 39 deselected in 337.27s (0:05:37)
+OFFLINE-DOMAIN-STATS {"selected": 4, "deselected": 39, "collected": 43, "ran": 4, "passed": 4, "failed": 0, "skipped": 0, "errors": 0, "selected_nodeids": ["tests/test_v2_m4_causality.py::test_daily_source_preflight_rejects_first_conflict_before_any_provider[False]", "tests/test_v2_m4_causality.py::test_daily_source_preflight_rejects_first_conflict_before_any_provider[True]", "tests/test_v2_m4_causality.py::test_daily_source_preflight_consumes_equal_anchor_once_in_snapshot_and_context", "tests/test_v2_m4_causality.py::test_daily_source_preflight_covers_three_snapshots_at_their_own_boundaries"], "failed_nodeids": [], "error_nodeids": [], "collection_errors": [], "collected_files": ["tests/test_v2_m4_causality.py"]}
+Offline summary: 1 domain(s) planned, 1 launched, 0 skipped-empty, 0 unrun, 0 launcher-failed
+Offline domain normal: exit 0, selected 4, deselected 39, ran 4, passed 4, failed 0, skipped 0, errors 0, collection_errors 0
+Offline totals: selected 4 (+39 deselected), ran 4, passed 4, failed 0, skipped 0, errors 0, collection_error_files 0, unresolved_files 0
+Offline overall exit: 0

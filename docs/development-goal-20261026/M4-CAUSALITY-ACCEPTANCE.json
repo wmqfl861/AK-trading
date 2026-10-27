@@ -1,0 +1,286 @@
+{
+  "schema": "aktr-reviewed-one-file-acceptance/v1",
+  "accepted_at_utc": "2026-10-27T05:44:25.379285+00:00",
+  "author_plan": "T7-WIRING-M4-REPAIR-007.md section4",
+  "classification": "INDEPENDENT_PRODUCT_HARD_REVIEW",
+  "verdict": "PASS",
+  "unconditional": true,
+  "write_set": [
+    {
+      "path": "tests/test_v2_m4_causality.py",
+      "sha256": "b9b43fa235b0b6ec84812e49af349288ffb3438fccefa7fd081e7267547f5576",
+      "bytes": 40949,
+      "preimage_sha256": "5ea805c1fdfeac20220d043166653ed73fd24dc158886f57f3beb8f6e3672cdd",
+      "changed_lines": [
+        598,
+        615
+      ]
+    }
+  ],
+  "independent_reviewer_session": "sess_6b517153-9beb-4f7c-8775-c46c7275e15e",
+  "review_terminal": {
+    "task_id": "aktr-zcode-goal-m4-causality-hard-review-20261027-003",
+    "pid": 159048,
+    "creation_filetime": 134375510546791545,
+    "ended_utc": "2026-10-27T05:42:01.468445+00:00",
+    "native_exit_code": 0,
+    "status": "TERMINAL",
+    "frozen_inputs_unchanged": true,
+    "input_changes": [],
+    "stdout_bytes": 3773,
+    "stderr_bytes": 1254
+  },
+  "required_results": {
+    "focused_four": {
+      "raw_exit": 0,
+      "selected": 4,
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "deselected": 39,
+      "pytest_seconds": 337.27
+    },
+    "m4_nine_files": {
+      "raw_exit": 0,
+      "selected": 259,
+      "passed": 259,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_seconds": 950.42
+    },
+    "reviewer_counterexamples": {
+      "checks": 16,
+      "failed": 0,
+      "seconds": 328.41
+    }
+  },
+  "main_integration": {
+    "method": "Exact accepted-byte application after preimage verification;590main source/test/script/data dependencies identical to reviewed candidate; no active-input intersection. No duplicate execution claimed.",
+    "known_candidate_only_inputs": "Seven T7 DAILY preparation fixture files absent onmain; unchanged, outside this M4nine-file repair and no direct references in nine M4files; not copied as an unreviewed T7delivery.",
+    "git_diff_check": {
+      "original_raw_exit": 2,
+      "wrapper_raw_exit": 1,
+      "cause": "Git default whitespace treats preserved CR in two accepted CRLF lines as trailing whitespace. Bytes independently match accepted source; no spaces/tabs before CRLF.",
+      "resolution": "Invocation-scoped core.whitespace includes cr-at-eol, preserving ordinary blank-at-eol/blank-at-eof/space-before-tab checks. No config file or source/EOL normalization.",
+      "effective_command": [
+        "git",
+        "-c",
+        "core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol",
+        "diff",
+        "--check",
+        "--",
+        "tests/test_v2_m4_causality.py",
+        "docs/development-goal-20261026/STATUS.md",
+        "docs/development-goal-20261026/M4-CAUSALITY-ACCEPTANCE.json",
+        "docs/development-goal-20261026/N8-READINESS-REPAIR-012.md",
+        "docs/development-goal-20261026/m4-causality-review/FINDINGS.json",
+        "docs/development-goal-20261026/m4-causality-review/pin-and-delta.json",
+        "docs/development-goal-20261026/m4-causality-review/post-focused4-exit.txt",
+        "docs/development-goal-20261026/m4-causality-review/post-focused4-stdout.txt",
+        "docs/development-goal-20261026/m4-causality-review/post-focused4-tree-peak.json",
+        "docs/development-goal-20261026/m4-causality-review/post-m4-ninefile-exit.txt",
+        "docs/development-goal-20261026/m4-causality-review/post-m4-ninefile-stdout.txt",
+        "docs/development-goal-20261026/m4-causality-review/post-m4-ninefile-tree-peak.json",
+        "docs/development-goal-20261026/m4-causality-review/RESULT.json",
+        "docs/development-goal-20261026/m4-causality-review/REVIEW.md",
+        "docs/development-goal-20261026/m4-causality-review/reviewer-probe.json",
+        "docs/development-goal-20261026/m4-causality-review/TERMINAL.json",
+        "docs/development-goal-20261026/m4-causality-review/VERDICT.json"
+      ],
+      "raw_exit": 0,
+      "staged_raw_exit": 0
+    },
+    "staged_source_sha256": "b9b43fa235b0b6ec84812e49af349288ffb3438fccefa7fd081e7267547f5576"
+  },
+  "metadata_corrections": {
+    "owner_size": "Actual40949; DELIVERY41045 is retained typo.",
+    "owner_frozen_at": "Unverified authored string; actual terminal chronology controls.",
+    "review_published_at": "VERDICTclaims05:45Z but genuine terminal05:42:01.468445Z; treat authored timestamp as unverified, not authority.",
+    "review_focused_stdout_note": "FINDINGS incorrectly says no passed-in line. Real rawstdout includes4passed in337.27s; preserved above."
+  },
+  "scope_limits": [
+    "No wholeT7/wiring/lock/coldchain acceptance",
+    "No actualhistorical/paperqualification",
+    "No productioncode change"
+  ],
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send": 0,
+    "real_cancel": 0
+  },
+  "evidence": [
+    {
+      "path": "m4-causality-review/FINDINGS.json",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\FINDINGS.json",
+        "bytes": 5218,
+        "sha256": "32b6c1e971eb49f5a34e276716f3c87cce8cc65245e93a893128f75b18e6f6f3"
+      },
+      "repository_blob": {
+        "bytes": 5218,
+        "sha256": "32b6c1e971eb49f5a34e276716f3c87cce8cc65245e93a893128f75b18e6f6f3"
+      },
+      "publication_transform": "IDENTICAL"
+    },
+    {
+      "path": "m4-causality-review/pin-and-delta.json",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\pin-and-delta.json",
+        "bytes": 1577,
+        "sha256": "4ecc00a8bda9697d901f1362d7fabba0aec78de4c8a726d9f6761cd008549148"
+      },
+      "repository_blob": {
+        "bytes": 1577,
+        "sha256": "4ecc00a8bda9697d901f1362d7fabba0aec78de4c8a726d9f6761cd008549148"
+      },
+      "publication_transform": "IDENTICAL"
+    },
+    {
+      "path": "m4-causality-review/post-focused4-exit.txt",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\post-focused4-exit.txt",
+        "bytes": 23,
+        "sha256": "ef840204d582154eb4b482de8fdb724f8165941e7877c9bf2c4cefdf839444fe"
+      },
+      "repository_blob": {
+        "bytes": 23,
+        "sha256": "ef840204d582154eb4b482de8fdb724f8165941e7877c9bf2c4cefdf839444fe"
+      },
+      "publication_transform": "IDENTICAL"
+    },
+    {
+      "path": "m4-causality-review/post-focused4-stdout.txt",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\post-focused4-stdout.txt",
+        "bytes": 1507,
+        "sha256": "8d9d0ffd3bcc85e4a93e20665fce110892c7fa059af58495e8a55c3fd2b4dd74"
+      },
+      "repository_blob": {
+        "bytes": 1496,
+        "sha256": "ffdc8480431e7081c1f28268e39f40cce70640b9da814567b247208f9387c86c"
+      },
+      "publication_transform": "EXISTING_GIT_TEXT_FILTER_CRLF_TO_LF"
+    },
+    {
+      "path": "m4-causality-review/post-focused4-tree-peak.json",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\post-focused4-tree-peak.json",
+        "bytes": 430,
+        "sha256": "ec70b8e3455bb343b7c0d749eee16ea6fdea63699913d8ef62b48199e3319303"
+      },
+      "repository_blob": {
+        "bytes": 419,
+        "sha256": "829b6b7eaa5fe5bc014bd027bf0cfb729c07df47fbe08dec8d8d60901660078b"
+      },
+      "publication_transform": "EXISTING_GIT_TEXT_FILTER_CRLF_TO_LF"
+    },
+    {
+      "path": "m4-causality-review/post-m4-ninefile-exit.txt",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\post-m4-ninefile-exit.txt",
+        "bytes": 23,
+        "sha256": "5642d2e0790b1ae84fe0ba421c24ae289125e6a21fc922bedaf8b7a3925c5a70"
+      },
+      "repository_blob": {
+        "bytes": 23,
+        "sha256": "5642d2e0790b1ae84fe0ba421c24ae289125e6a21fc922bedaf8b7a3925c5a70"
+      },
+      "publication_transform": "IDENTICAL"
+    },
+    {
+      "path": "m4-causality-review/post-m4-ninefile-stdout.txt",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\post-m4-ninefile-stdout.txt",
+        "bytes": 27162,
+        "sha256": "692b0a06b41173c4d38c5e3f602b6a0392aef790be98cf079d4326e9930ce926"
+      },
+      "repository_blob": {
+        "bytes": 27148,
+        "sha256": "b75db95fc9f0ed0c64a8284e1648dd431244b6a497f3b3675db8c2dde4206ca9"
+      },
+      "publication_transform": "EXISTING_GIT_TEXT_FILTER_CRLF_TO_LF"
+    },
+    {
+      "path": "m4-causality-review/post-m4-ninefile-tree-peak.json",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\post-m4-ninefile-tree-peak.json",
+        "bytes": 433,
+        "sha256": "09bdae81123b828e442ce830872a689ee73ee565878b110fd2a4d3f5e1dbde5a"
+      },
+      "repository_blob": {
+        "bytes": 422,
+        "sha256": "f60980e3646783c0637d489bf0be112ceaaf87723b42bc768f2fc341da1cafbb"
+      },
+      "publication_transform": "EXISTING_GIT_TEXT_FILTER_CRLF_TO_LF"
+    },
+    {
+      "path": "m4-causality-review/RESULT.json",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\RESULT.json",
+        "bytes": 852,
+        "sha256": "7a29d7409a6f2a37bc08b4c0661138ed8d36944b5dfd16b3ab3395538d2917cc"
+      },
+      "repository_blob": {
+        "bytes": 852,
+        "sha256": "7a29d7409a6f2a37bc08b4c0661138ed8d36944b5dfd16b3ab3395538d2917cc"
+      },
+      "publication_transform": "IDENTICAL"
+    },
+    {
+      "path": "m4-causality-review/REVIEW.md",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\REVIEW.md",
+        "bytes": 6404,
+        "sha256": "bce376561707af7bdddf8516fe12b9cb2fbb3706eb6cba4b498d1c63d58b635d"
+      },
+      "repository_blob": {
+        "bytes": 6404,
+        "sha256": "bce376561707af7bdddf8516fe12b9cb2fbb3706eb6cba4b498d1c63d58b635d"
+      },
+      "publication_transform": "IDENTICAL"
+    },
+    {
+      "path": "m4-causality-review/reviewer-probe.json",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\reviewer-probe.json",
+        "bytes": 2041,
+        "sha256": "c15bb96d3fdd27d0af28f892455bd9666f351373583943990a939ffc80bbb15c"
+      },
+      "repository_blob": {
+        "bytes": 2041,
+        "sha256": "c15bb96d3fdd27d0af28f892455bd9666f351373583943990a939ffc80bbb15c"
+      },
+      "publication_transform": "IDENTICAL"
+    },
+    {
+      "path": "m4-causality-review/TERMINAL.json",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\TERMINAL.json",
+        "bytes": 339,
+        "sha256": "63550eebaef56702aeee7bb4f5f4590b63adce2434f7323ca6bd260d8f9a8835"
+      },
+      "repository_blob": {
+        "bytes": 339,
+        "sha256": "63550eebaef56702aeee7bb4f5f4590b63adce2434f7323ca6bd260d8f9a8835"
+      },
+      "publication_transform": "IDENTICAL"
+    },
+    {
+      "path": "m4-causality-review/VERDICT.json",
+      "original_frozen_artifact": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m4-causality-hard-review-003\\work\\VERDICT.json",
+        "bytes": 7794,
+        "sha256": "a93bb10145ead3653b56f1cb44d8a7deae3d9e2d1abcdb7b050eadca76bf107d"
+      },
+      "repository_blob": {
+        "bytes": 7794,
+        "sha256": "a93bb10145ead3653b56f1cb44d8a7deae3d9e2d1abcdb7b050eadca76bf107d"
+      },
+      "publication_transform": "IDENTICAL"
+    }
+  ]
+}

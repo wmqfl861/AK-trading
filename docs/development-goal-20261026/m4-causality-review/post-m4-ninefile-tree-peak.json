@@ -1,0 +1,11 @@
+﻿{
+    "match":  "post-m4-ninefile",
+    "samples":  75,
+    "first_seen":  true,
+    "last_root_count":  0,
+    "interval_sec":  10,
+    "peak_working_set_bytes":  600109056,
+    "peak_working_set_mib":  572.3,
+    "ended_utc":  "2026-10-27T05:39:00.1576208Z",
+    "methodology":  "recursive child-tree sum of WorkingSetSize over all processes whose CommandLine contains the match string; sampled every interval_sec"
+}

@@ -595,7 +595,7 @@ def test_daily_source_preflight_rejects_first_conflict_before_any_provider(monke
         assert build(bundle).features.quality.status=="READY"
         warm_publications=tuple(publications)
         assert warm_publications
-        assert any(len(state[0])>16 for state in factors._PREFIX_CACHE[("rb",86400)].values())
+        assert any(len(state.prefix)>16 for state in factors._PREFIX_CACHE[("rb",86400)].values())
     count_before=len(publications)
     conflict=replace(bundle.bars[591],close=bundle.bars[591].close+D(".1"))
     with pytest.raises(factors.FactorsError) as error:
@@ -612,7 +612,7 @@ def test_daily_source_preflight_consumes_equal_anchor_once_in_snapshot_and_conte
     bundle,_,_,_=synthetic_daily_world()
     monkeypatch.setattr(factors,"_PREFIX_CACHE",{})
     baseline,baseline_calls=daily_context(bundle=bundle)
-    assert any(len(state[0])>16 for state in factors._PREFIX_CACHE[("rb",86400)].values())
+    assert any(len(state.prefix)>16 for state in factors._PREFIX_CACHE[("rb",86400)].values())
     duplicated=replace(bundle,bars=bundle.bars+(bundle.bars[591],))
     actual,actual_calls=daily_context(bundle=duplicated)
     assert len(actual.bars)==len(baseline.bars)==592
