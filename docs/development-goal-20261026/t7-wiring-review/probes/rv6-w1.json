@@ -1,0 +1,36 @@
+{
+ "module": "C:\\AKWorktrees\\aktr-goal-t7-wiring-20261027-r2\\src\\ak_trading\\v2\\validation\\experiments.py",
+ "part1_real_partition": {
+  "CALIBRATION": {
+   "key_order_matches": true,
+   "requests": 168,
+   "unique_ids": 28,
+   "values_match_by_bytes": true,
+   "values_match_by_dataclass": true,
+   "view_len_matches": true
+  },
+  "TRAIN": {
+   "key_order_matches": true,
+   "requests": 708,
+   "unique_ids": 118,
+   "values_match_by_bytes": true,
+   "values_match_by_dataclass": true,
+   "view_len_matches": true
+  },
+  "fold_has_real_models": true
+ },
+ "part2_synthetic": {
+  "a_value_dataclass_equal_a1_a2": false,
+  "a_value_is_a2_bytes": true,
+  "a_value_is_not_a1_bytes": true,
+  "a_value_is_not_outside_bytes": true,
+  "b_value_bytes": true,
+  "key_order_AB": true,
+  "len_two": true,
+  "missing_id_raises": true,
+  "same_id_different_value_last_wins": true,
+  "store_population_unchanged": true,
+  "unrepresentable_raises": true
+ },
+ "real_fold_wall_s": 48.126
+}

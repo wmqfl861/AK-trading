@@ -585,24 +585,30 @@ def run_shadow_replay_experiment(bundle: FrozenInput, config: Mapping[str, JsonV
     plan_sets,_actual,_declared=_frozen_payoff_training_plans(bundle,config,splits,specs)
     fold=_fit_fold(bundle,config,splits[0],specs)
     if fold["models"] is None:raise StageIncompleteError("SHADOW_MODEL_TRAINING_INSUFFICIENT")
-    payoff,training_payloads,training_exclusions=_fit_training_payoffs(bundle,config,splits[0],specs,hashlib.sha256(lock.read_bytes()).hexdigest(),plans=plan_sets.get(splits[0].split_id))
-    # One policy is explicit in each account; additional branches never share cash.
-    selected=tuple(p for p in policies if p.cost_scenario=="BASE" and p.routing_mode=="BEST_EV")
-    if len(selected)!=1:raise ExperimentError("shadow_replay_base_policy_ambiguous")
-    run_policy=selected[0]
-    initial_cash=Decimal(config["initial_cash_cny"])
-    start=splits[0].test_start_nano
-    day=next((s.trading_day for s in bundle.sessions if s.start_nano<=start<s.end_nano),None)
-    if day is None:raise ExperimentError("shadow_start_calendar_missing")
-    zero=Decimal(0)
-    account=AccountSnapshot("account:"+digest(run_policy),start,day,initial_cash,initial_cash,zero,zero,zero,zero,initial_cash,
-                            zero,zero,initial_cash,zero,initial_cash,(),False,
-                            DataQuality("READY",("SYNTHETIC",),"reconstructed",digest([content(run_policy),start])))
-    lock_hash=hashlib.sha256(lock.read_bytes()).hexdigest()
-    dependencies=model_hashes_for(fold["models"],payoff,fold["reference"],_seasonal_handle(fold))
+    try:
+        payoff,training_payloads,training_exclusions=_fit_training_payoffs(bundle,config,splits[0],specs,hashlib.sha256(lock.read_bytes()).hexdigest(),plans=plan_sets.get(splits[0].split_id))
+        # One policy is explicit in each account; additional branches never share cash.
+        selected=tuple(p for p in policies if p.cost_scenario=="BASE" and p.routing_mode=="BEST_EV")
+        if len(selected)!=1:raise ExperimentError("shadow_replay_base_policy_ambiguous")
+        run_policy=selected[0]
+        initial_cash=Decimal(config["initial_cash_cny"])
+        start=splits[0].test_start_nano
+        day=next((s.trading_day for s in bundle.sessions if s.start_nano<=start<s.end_nano),None)
+        if day is None:raise ExperimentError("shadow_start_calendar_missing")
+        zero=Decimal(0)
+        account=AccountSnapshot("account:"+digest(run_policy),start,day,initial_cash,initial_cash,zero,zero,zero,zero,initial_cash,
+                                zero,zero,initial_cash,zero,initial_cash,(),False,
+                                DataQuality("READY",("SYNTHETIC",),"reconstructed",digest([content(run_policy),start])))
+        lock_hash=hashlib.sha256(lock.read_bytes()).hexdigest()
+        dependencies=model_hashes_for(fold["models"],payoff,fold["reference"],_seasonal_handle(fold))
+        models=fold["models"];reference=fold["reference"];seasonal=_seasonal_handle(fold)
+    finally:
+        fold_store=fold.get("record_store")
+        if fold_store is not None and not fold_store.closed:
+            fold_store.seal();fold_store.close()
     ledger=ContinuousLedger(account,bundle.instruments,run_policy,lock_hash,registry_hash_for(specs),exit_registry_sha256=_reg)
     checkpoint=ledger.checkpoint((),(),dependencies,{},pending_remaining_lots={})
-    coroutine=run_shadow(feed,bundle,fold["models"],payoff,_seasonal_handle(fold),fold["reference"],specs,checkpoint,run_policy,
+    coroutine=run_shadow(feed,bundle,models,payoff,seasonal,reference,specs,checkpoint,run_policy,
                           research_policy(),(),{},feed.clock,lock,None,None,output,config["evaluation_as_of_nano"],activation_request=None)
     # Frozen replay has no I/O waits; drive cooperative yields without opening
     # Windows asyncio's socketpair, which the offline guard intentionally denies.
@@ -684,6 +690,20 @@ def code_hashes() -> dict[str,str]:
     return {p.relative_to(PROJECT_ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in files if p.is_file()}
 
 
+# T7 memory wiring (MEMORY-DISPOSITION §3): one compact FoldRecords store per
+# fold holds the real logical snapshot/request populations; consumers use
+# stable views and bounded materialization instead of resident full tuples.
+# The dual cap bounds only the materialization cache (MEMORY-DISPOSITION §2).
+_FOLD_CACHE_MAX_RECORDS = 64
+_FOLD_CACHE_MAX_BYTES = 64 * 1024 * 1024
+
+
+def _new_record_store():
+    from ak_trading.v2._fold_records import FoldRecords
+    return FoldRecords(cache_max_records=_FOLD_CACHE_MAX_RECORDS,
+                       cache_max_bytes=_FOLD_CACHE_MAX_BYTES)
+
+
 def _build_snapshots(bundle, config, split):
     from dataclasses import replace
     from ak_trading.v2.clock import aggregate_bars
@@ -702,9 +722,13 @@ def _build_snapshots(bundle, config, split):
     # of that contract's daily snapshots in creation order — exactly the
     # subsequence the original ``reversed(snapshots)`` scan filtered to —
     # so the last matching snapshot is the same one the full scan returned.
+    # T7 memory wiring: every constructed snapshot is appended to this fold's
+    # exclusive compact store; the returned sorted view is the real logical
+    # collection (same stable key and order as the previous sorted tuple).
+    store=_new_record_store()
     durations=sorted(config["feature_durations"],key=lambda d:(d!=86400,d))
     specs_by_duration={duration:factor_registry_v2(duration)+baseline_registry_v2(duration) for duration in durations}
-    snapshots=[];exclusions=[]
+    exclusions=[]
     daily_by_contract:dict[str,list]={}
     for contract in config["contract_ids"]:
         minutes=tuple(b for b in bundle.bars if b.contract_id==contract and b.duration_seconds==60
@@ -741,9 +765,9 @@ def _build_snapshots(bundle, config, split):
                                      if f.trading_day<bar.trading_day and f.available_at_nano<=decision),None)
                 snapshot=build_feature_snapshot(contract,tuple(prefix),decision,specs,background,seasonal_for_snapshot,
                                                  visible_rule(bundle,contract,decision),bundle.sessions)
-                snapshots.append(snapshot)
+                store.append_snapshot(snapshot)
                 if duration==86400:daily_by_contract.setdefault(contract,[]).append(snapshot)
-    return tuple(sorted(snapshots,key=lambda f:(f.decision_nano,f.contract_id,f.duration_seconds))),seasonal,exclusions
+    return store.snapshot_view(),seasonal,exclusions
 
 
 class _WindowIndex:
@@ -792,136 +816,210 @@ def _safe_forecast(model,request,regime,published,exclusions):
         return None
 
 
+def _partition_feature_view(store, requests_view):
+    """Original ``fs`` dict semantics as a store view (MEMORY-DISPOSITION §3,
+    author007 W1): iterating the partition's requests in their actual order,
+    each snapshot id maps to that request's real ``features_ref`` — repeated
+    ids keep their first key position and take the LAST referencing request's
+    accurate representation, never the store's first or last slot per se and
+    never a record outside this partition.  The view member is the store
+    snapshot slot whose canonical bytes equal the last referencing request's
+    nested features, so equal-value/different-encoding duplicates keep the
+    original last representation; byte comparison is exact record identity,
+    not id/hash equality.  No full snapshot dict and no materialized source
+    tuples are built (materialization goes through the bounded store cache)."""
+    from ak_trading.v2._fold_records import RecordView
+    from ak_trading.v2.schemas import canonical_json_bytes, encode_record
+    order: dict[str, object] = {}
+    for index in range(len(requests_view)):
+        meta = requests_view.meta(index)
+        order[meta.features_snapshot_id] = meta.features_ref
+    slots = []
+    for snapshot_id, ref in order.items():
+        candidates = store._snapshot_slots_by_id.get(snapshot_id)
+        if not candidates:
+            raise ExperimentError(f"request_features_snapshot_missing_from_store:{snapshot_id}")
+        target = canonical_json_bytes(encode_record(
+            store._resolve_snapshot_ref(ref).materialize()))
+        chosen = None
+        for slot in candidates:  # a later byte-identical slot replaces an earlier one
+            record = store._materialize("FeatureSnapshot", slot)
+            if canonical_json_bytes(encode_record(record)) == target:
+                chosen = slot
+        if chosen is None:
+            raise ExperimentError(
+                f"request_features_representation_missing_from_store:{snapshot_id}")
+        slots.append(chosen)
+    return RecordView(store, "FeatureSnapshot", tuple(slots)), list(order)
+
+
 def _fit_fold(bundle,config,split,specs):
     from dataclasses import replace
+    from ak_trading.v2._fold_records import RecordView
     from ak_trading.v2.contracts import Horizon
     from ak_trading.v2.clock import ClockError,horizon_window
     from ak_trading.v2.macro import MacroCache
-    from ak_trading.v2.probability.regimes import fit_regime_reference,assess_regime,freeze_range
+    from ak_trading.v2.probability.regimes import assess_regime,freeze_range,_fit_regime_reference_from_view
     from ak_trading.v2.probability.forecast import build_forecast_requests,predict_market
     from ak_trading.v2.probability.labels import label_forecast
-    from ak_trading.v2.probability.models import fit_forecast_models
+    from ak_trading.v2.probability.models import fit_forecast_models,_fit_forecast_models_from_views
     from .splits import SampleInterval,assign_splits
+    # T7 memory wiring (MEMORY-DISPOSITION §3): snapshots/requests live in
+    # the fold's compact store; selections below are stable views with
+    # bounded materialization.  Logical populations, construction order,
+    # sample/label/split semantics and error priority are unchanged.
     snapshots,seasonal,exclusions=_build_snapshots(bundle,config,split)
-    features=tuple(f for f in snapshots if f.duration_seconds in (60,86400) and f.reference_price is not None and f.atr_points is not None and f.atr_points>0)
-    training=tuple(f for f in features if f.decision_nano<split.train_end_nano)
-    reference=fit_regime_reference(training,split.train_end_nano,split.train_end_nano)
-    cache=MacroCache(bundle.macro_items if config["macro_mode"]=="HISTORICAL_PIT" else ())
-    requests=[];regimes={};sample_intervals=[];previous={};prefix=[]
-    reference_by_day={}
-    window_index=_WindowIndex(bundle)
-    for f in features:
-        if f.decision_nano>=split.calibration_end_nano:continue
-        # An inner reference is fitted once from the completed previous-day
-        # prefix, then frozen throughout this day's original minute grid.
-        if f.decision_nano<split.train_end_nano:
-            if f.trading_day not in reference_by_day:
-                past=tuple(x for x in prefix if x.trading_day<f.trading_day)
-                cutoff=max((x.decision_nano for x in past),default=f.decision_nano-1)
-                reference_by_day[f.trading_day]=fit_regime_reference(past,cutoff,cutoff)
-            ref=reference_by_day[f.trading_day]
-        else:
-            ref=reference
-        key=f.contract_id,f.duration_seconds
-        with_macro=config["macro_mode"]=="HISTORICAL_PIT" and all(p["macro_mode"]=="WITH_MACRO" for p in config["run_policies"])
-        macro=cache.snapshot(f.decision_nano,f.product,with_macro,not with_macro)
+    store=snapshots.store
+    try:
+        feature_metas=[snapshots.meta(i) for i in range(len(snapshots))]
+        features=snapshots.select([
+            i for i,meta in enumerate(feature_metas)
+            if meta.duration_seconds in (60,86400) and meta.reference_price is not None
+            and meta.atr_points is not None and meta.atr_points>0])
+        feature_metas=[features.meta(i) for i in range(len(features))]
+        training=features.select([i for i,meta in enumerate(feature_metas)
+                                  if meta.decision_nano<split.train_end_nano])
+        reference=_fit_regime_reference_from_view(training,split.train_end_nano,split.train_end_nano)
+        cache=MacroCache(bundle.macro_items if config["macro_mode"]=="HISTORICAL_PIT" else ())
+        regimes={};sample_intervals=[];previous={};prefix=[]
+        reference_by_day={}
+        window_index=_WindowIndex(bundle)
+        for position,meta in enumerate(feature_metas):
+            if meta.decision_nano>=split.calibration_end_nano:continue
+            # An inner reference is fitted once from the completed previous-day
+            # prefix, then frozen throughout this day's original minute grid.
+            if meta.decision_nano<split.train_end_nano:
+                if meta.trading_day not in reference_by_day:
+                    past_slots=tuple(slot for slot,day,_ in prefix if day<meta.trading_day)
+                    cutoff=max((decision for _,day,decision in prefix
+                                if day<meta.trading_day),default=meta.decision_nano-1)
+                    reference_by_day[meta.trading_day]=_fit_regime_reference_from_view(
+                        RecordView(store,"FeatureSnapshot",past_slots),cutoff,cutoff)
+                ref=reference_by_day[meta.trading_day]
+            else:
+                ref=reference
+            f=features[position]
+            key=f.contract_id,f.duration_seconds
+            with_macro=config["macro_mode"]=="HISTORICAL_PIT" and all(p["macro_mode"]=="WITH_MACRO" for p in config["run_policies"])
+            macro=cache.snapshot(f.decision_nano,f.product,with_macro,not with_macro)
+            from ak_trading.v2.data import visible_rule
+            from ak_trading.v2.decision.execution import fee_amount
+            rule=visible_rule(bundle,f.contract_id,f.decision_nano)
+            costs_known=rule is not None and all(leg is not None for leg in (rule.open_fee,rule.close_fee,rule.close_today_fee))
+            if costs_known:
+                cost=(fee_amount(rule.open_fee,f.reference_price,1,rule.multiplier)
+                      +max(fee_amount(leg,f.reference_price,1,rule.multiplier) for leg in (rule.close_fee,rule.close_today_fee)))/rule.multiplier
+                cost+=2*rule.price_tick*(rule.slippage_ticks+rule.impact_ticks)
+            else:
+                cost=Decimal(0)  # pure classifier placeholder, invalidated immediately below
+            if costs_known:
+                regime=assess_regime(f,macro,None,freeze_range(f),cost,ref,previous.get(key))
+            else:
+                missing_feature=replace(f,quality=replace(f.quality,status="MISSING",reasons=tuple(sorted(set((*f.quality.reasons,"COST_UNKNOWN"))))))
+                regime=assess_regime(missing_feature,macro,None,freeze_range(f),Decimal(0),ref,previous.get(key))
+            previous[key]=regime;regimes[f.snapshot_id]=regime
+            prefix.append((meta.handle.slot,meta.trading_day,meta.decision_nano))
+            horizons=tuple(Horizon("TRADING_DAY" if f.duration_seconds==86400 else "TRADING_MINUTE",v)
+                           for v in config["daily_horizons" if f.duration_seconds==86400 else "minute_horizons"])
+            for h in horizons:
+                try:
+                    batch=build_forecast_requests(f,(h,),regime.frozen_range,bundle.sessions)
+                except ClockError:
+                    exclusions.append(f"HORIZON_CALENDAR_INSUFFICIENT:{h.unit}:{h.value}");continue
+                for request in batch:
+                    store.append_request(request)
+                    holding_end=request.window_end_nano
+                    for spec in specs:
+                        if spec.mode==("DAILY" if f.duration_seconds==86400 else "MINUTE"):
+                            try:holding_end=max(holding_end,horizon_window(f.decision_nano,f.product,spec.max_holding,bundle.sessions)[1])
+                            except ClockError:pass
+                    sample_intervals.append(window_index.interval(request,holding_end))
+        assignments=assign_splits(tuple(sample_intervals),split,bundle.sessions)
+        by_id={a.sample_id:a for a in assignments}
+        all_requests=store.request_view()
+        partitions={name:all_requests.select([
+            i for i in range(len(all_requests))
+            if by_id[all_requests.meta(i).request_id].partition==name])
+            for name in ("TRAIN","CALIBRATION","TEST")}
+        labels={}
+        for name,reqs in partitions.items():
+            cutoff={"TRAIN":split.train_end_nano,"CALIBRATION":split.calibration_end_nano,"TEST":config["evaluation_as_of_nano"]}[name]
+            all_labels=tuple(label_forecast(reqs[i],window_index.window(reqs[i]),bundle.sessions,(),cutoff)
+                             for i in range(len(reqs)))
+            labels[name]=all_labels
+            if name!="TEST":
+                mature=[i for i,label in enumerate(all_labels) if label.status=="MATURE"]
+                partitions[name]=reqs.select(mature)
+                labels[name]=tuple(all_labels[i] for i in mature)
+            for label in all_labels:
+                if label.status!="MATURE":exclusions.append(name+":"+label.status)
+        if not partitions["TRAIN"] or not partitions["CALIBRATION"]:
+            return {"snapshots":snapshots,"seasonal":seasonal,"reference":reference,"requests":store.request_view(),
+                    "labels":tuple(l for ls in labels.values() for l in ls),"assignments":assignments,
+                    "models":None,"forecasts":(),"exclusions":[*exclusions,"TRAIN_OR_CALIBRATION_INSUFFICIENT"],
+                    "regimes":regimes,"record_store":store}
+        def fs(name):
+            """First key order, last referencing request's representation
+            (author007 W1) — see ``_partition_feature_view``."""
+            return _partition_feature_view(store, partitions[name])
+        def rs(order):return tuple(regimes[sid] for sid in order)
+        train_fs,train_order=fs("TRAIN")
+        cal_fs,cal_order=fs("CALIBRATION")
+        model=_fit_forecast_models_from_views(
+            train_fs,rs(train_order),partitions["TRAIN"],labels["TRAIN"],
+            cal_fs,rs(cal_order),partitions["CALIBRATION"],labels["CALIBRATION"],
+            config["model_fit_configs"][split.split_id],reference,
+            seasonality=seasonal if any(k.startswith("SEASONAL:") for k in config["model_fit_configs"][split.split_id]["feature_keys"]) else None)
+        if any(k.startswith("SEASONAL:") for k in config["model_fit_configs"][split.split_id]["feature_keys"]):
+            if model.source_hashes.get("seasonality")!=seasonal.content_hash():
+                raise StageIncompleteError("FORECAST_PRODUCER_SEASONALITY_BINDING_MISSING")
+        # Build test contexts only after the final model exists, so daily background
+        # is a real already-published forecast rather than a synthetic trend label.
+        test_forecasts=[];test_labels=[];test_intervals=[]
+        published_daily={}
         from ak_trading.v2.data import visible_rule
         from ak_trading.v2.decision.execution import fee_amount
-        rule=visible_rule(bundle,f.contract_id,f.decision_nano)
-        costs_known=rule is not None and all(leg is not None for leg in (rule.open_fee,rule.close_fee,rule.close_today_fee))
-        if costs_known:
-            cost=(fee_amount(rule.open_fee,f.reference_price,1,rule.multiplier)
-                  +max(fee_amount(leg,f.reference_price,1,rule.multiplier) for leg in (rule.close_fee,rule.close_today_fee)))/rule.multiplier
-            cost+=2*rule.price_tick*(rule.slippage_ticks+rule.impact_ticks)
-        else:
-            cost=Decimal(0)  # pure classifier placeholder, invalidated immediately below
-        if costs_known:
-            regime=assess_regime(f,macro,None,freeze_range(f),cost,ref,previous.get(key))
-        else:
-            missing_feature=replace(f,quality=replace(f.quality,status="MISSING",reasons=tuple(sorted(set((*f.quality.reasons,"COST_UNKNOWN"))))))
-            regime=assess_regime(missing_feature,macro,None,freeze_range(f),Decimal(0),ref,previous.get(key))
-        previous[key]=regime;regimes[f.snapshot_id]=regime;prefix.append(f)
-        horizons=tuple(Horizon("TRADING_DAY" if f.duration_seconds==86400 else "TRADING_MINUTE",v)
-                       for v in config["daily_horizons" if f.duration_seconds==86400 else "minute_horizons"])
-        for h in horizons:
-            try:
-                batch=build_forecast_requests(f,(h,),regime.frozen_range,bundle.sessions)
-            except ClockError:
-                exclusions.append(f"HORIZON_CALENDAR_INSUFFICIENT:{h.unit}:{h.value}");continue
-            for request in batch:
-                requests.append(request)
-                holding_end=request.window_end_nano
-                for spec in specs:
-                    if spec.mode==("DAILY" if f.duration_seconds==86400 else "MINUTE"):
-                        try:holding_end=max(holding_end,horizon_window(f.decision_nano,f.product,spec.max_holding,bundle.sessions)[1])
-                        except ClockError:pass
-                sample_intervals.append(window_index.interval(request,holding_end))
-    assignments=assign_splits(tuple(sample_intervals),split,bundle.sessions)
-    by_id={a.sample_id:a for a in assignments}
-    partitions={name:tuple(r for r in requests if by_id[r.request_id].partition==name) for name in ("TRAIN","CALIBRATION","TEST")}
-    labels={}
-    for name,reqs in partitions.items():
-        cutoff={"TRAIN":split.train_end_nano,"CALIBRATION":split.calibration_end_nano,"TEST":config["evaluation_as_of_nano"]}[name]
-        all_labels=tuple(label_forecast(r,window_index.window(r),bundle.sessions,(),cutoff) for r in reqs)
-        labels[name]=all_labels
-        if name!="TEST":
-            partitions[name]=tuple(r for r,l in zip(reqs,all_labels) if l.status=="MATURE")
-            labels[name]=tuple(l for l in all_labels if l.status=="MATURE")
-        for l in all_labels:
-            if l.status!="MATURE":exclusions.append(name+":"+l.status)
-    if not partitions["TRAIN"] or not partitions["CALIBRATION"]:
-        return {"snapshots":snapshots,"seasonal":seasonal,"reference":reference,"requests":tuple(requests),
-                "labels":tuple(l for ls in labels.values() for l in ls),"assignments":assignments,
-                "models":None,"forecasts":(),"exclusions":[*exclusions,"TRAIN_OR_CALIBRATION_INSUFFICIENT"]}
-    def fs(name):return tuple({r.features.snapshot_id:r.features for r in partitions[name]}.values())
-    def rs(name):return tuple(regimes[f.snapshot_id] for f in fs(name))
-    model=fit_forecast_models(fs("TRAIN"),rs("TRAIN"),partitions["TRAIN"],labels["TRAIN"],
-                              fs("CALIBRATION"),rs("CALIBRATION"),partitions["CALIBRATION"],labels["CALIBRATION"],
-                              config["model_fit_configs"][split.split_id],reference,
-                              seasonality=seasonal if any(k.startswith("SEASONAL:") for k in config["model_fit_configs"][split.split_id]["feature_keys"]) else None)
-    if any(k.startswith("SEASONAL:") for k in config["model_fit_configs"][split.split_id]["feature_keys"]):
-        if model.source_hashes.get("seasonality")!=seasonal.content_hash():
-            raise StageIncompleteError("FORECAST_PRODUCER_SEASONALITY_BINDING_MISSING")
-    # Build test contexts only after the final model exists, so daily background
-    # is a real already-published forecast rather than a synthetic trend label.
-    test_forecasts=[];test_labels=[];test_requests=[];test_intervals=[]
-    published_daily={}
-    from ak_trading.v2.data import visible_rule
-    from ak_trading.v2.decision.execution import fee_amount
-    for f in features:
-        if not split.test_start_nano<=f.decision_nano<split.test_end_nano:continue
-        prior=previous.get((f.contract_id,f.duration_seconds))
-        background=published_daily.get(f.contract_id) if f.duration_seconds!=86400 else None
-        if background is not None and not background.published_at_nano<=f.decision_nano<background.expires_at_nano:background=None
-        rule=visible_rule(bundle,f.contract_id,f.decision_nano)
-        valid=rule is not None and all(leg is not None for leg in (rule.open_fee,rule.close_fee,rule.close_today_fee))
-        if not valid:
-            exclusions.append("TEST:COST_UNKNOWN")
-            continue
-        cost=(fee_amount(rule.open_fee,f.reference_price,1,rule.multiplier)+max(fee_amount(leg,f.reference_price,1,rule.multiplier) for leg in (rule.close_fee,rule.close_today_fee)))/rule.multiplier+2*rule.price_tick*(rule.slippage_ticks+rule.impact_ticks)
-        macro=cache.snapshot(f.decision_nano,f.product,False,True)
-        regime=assess_regime(f,macro,background,freeze_range(f),cost,reference,prior)
-        previous[(f.contract_id,f.duration_seconds)]=regime
-        horizons=tuple(Horizon("TRADING_DAY" if f.duration_seconds==86400 else "TRADING_MINUTE",v)
-                       for v in config["daily_horizons" if f.duration_seconds==86400 else "minute_horizons"])
-        for h in horizons:
-            try:batch=build_forecast_requests(f,(h,),regime.frozen_range,bundle.sessions)
-            except ClockError:
-                exclusions.append(f"TEST:HORIZON_CALENDAR_INSUFFICIENT:{h.unit}:{h.value}");continue
-            for request in batch:
-                test_requests.append(request)
-                test_intervals.append(window_index.interval(request,request.window_end_nano))
-                prediction=_safe_forecast(model,request,regime,f.decision_nano,exclusions)
-                if prediction is not None:test_forecasts.append(prediction)
-                test_labels.append(label_forecast(request,window_index.window(request),bundle.sessions,(),config["evaluation_as_of_nano"]))
-                if prediction is not None and f.duration_seconds==86400 and h.value==1 and request.barrier_key=="ATR_1" and prediction.quality.status=="READY":
-                    published_daily[f.contract_id]=prediction
-    all_assignments=assign_splits(tuple((*sample_intervals,*test_intervals)),split,bundle.sessions)
-    accepted={a.sample_id for a in all_assignments if a.partition=="TEST"}
-    forecasts=tuple(f for f in test_forecasts if f.request_id in accepted)
-    return {"snapshots":snapshots,"seasonal":seasonal,"reference":reference,"requests":tuple((*requests,*test_requests)),
-            "labels":tuple([l for ls in labels.values() for l in ls]+test_labels),"assignments":all_assignments,"models":model,
-            "forecasts":forecasts,"exclusions":exclusions}
+        for position,meta in enumerate(feature_metas):
+            if not split.test_start_nano<=meta.decision_nano<split.test_end_nano:continue
+            f=features[position]
+            prior=previous.get((f.contract_id,f.duration_seconds))
+            background=published_daily.get(f.contract_id) if f.duration_seconds!=86400 else None
+            if background is not None and not background.published_at_nano<=f.decision_nano<background.expires_at_nano:background=None
+            rule=visible_rule(bundle,f.contract_id,f.decision_nano)
+            valid=rule is not None and all(leg is not None for leg in (rule.open_fee,rule.close_fee,rule.close_today_fee))
+            if not valid:
+                exclusions.append("TEST:COST_UNKNOWN")
+                continue
+            cost=(fee_amount(rule.open_fee,f.reference_price,1,rule.multiplier)+max(fee_amount(leg,f.reference_price,1,rule.multiplier) for leg in (rule.close_fee,rule.close_today_fee)))/rule.multiplier+2*rule.price_tick*(rule.slippage_ticks+rule.impact_ticks)
+            macro=cache.snapshot(f.decision_nano,f.product,False,True)
+            regime=assess_regime(f,macro,background,freeze_range(f),cost,reference,prior)
+            previous[(f.contract_id,f.duration_seconds)]=regime
+            horizons=tuple(Horizon("TRADING_DAY" if f.duration_seconds==86400 else "TRADING_MINUTE",v)
+                           for v in config["daily_horizons" if f.duration_seconds==86400 else "minute_horizons"])
+            for h in horizons:
+                try:batch=build_forecast_requests(f,(h,),regime.frozen_range,bundle.sessions)
+                except ClockError:
+                    exclusions.append(f"TEST:HORIZON_CALENDAR_INSUFFICIENT:{h.unit}:{h.value}");continue
+                for request in batch:
+                    store.append_request(request)
+                    test_intervals.append(window_index.interval(request,request.window_end_nano))
+                    prediction=_safe_forecast(model,request,regime,f.decision_nano,exclusions)
+                    if prediction is not None:test_forecasts.append(prediction)
+                    test_labels.append(label_forecast(request,window_index.window(request),bundle.sessions,(),config["evaluation_as_of_nano"]))
+                    if prediction is not None and f.duration_seconds==86400 and h.value==1 and request.barrier_key=="ATR_1" and prediction.quality.status=="READY":
+                        published_daily[f.contract_id]=prediction
+        all_assignments=assign_splits(tuple((*sample_intervals,*test_intervals)),split,bundle.sessions)
+        accepted={a.sample_id for a in all_assignments if a.partition=="TEST"}
+        forecasts=tuple(f for f in test_forecasts if f.request_id in accepted)
+        return {"snapshots":snapshots,"seasonal":seasonal,"reference":reference,"requests":store.request_view(),
+                "labels":tuple([l for ls in labels.values() for l in ls]+test_labels),"assignments":all_assignments,"models":model,
+                "forecasts":forecasts,"exclusions":exclusions,"regimes":regimes,"record_store":store}
+    except BaseException:
+        # author007 §3: release the fold store on any in-fold failure;
+        # the exception itself propagates unchanged (evidence kept).
+        if not store.closed:
+            store.seal();store.close()
+        raise
 
 
 def _training_windows(bundle:FrozenInput,start:int,end:int,spec) -> tuple[tuple[int,int],...]:
@@ -1068,19 +1166,29 @@ def _fit_training_payoffs(bundle,config,split,specs,lock_hash,plans=None):
                                                       "model_valid_until_nano":split.train_end_nano+1}}
     inner_config["evaluation_as_of_nano"]=split.train_end_nano
     prefix_bundle=replace(bundle,bars=tuple(b for b in bundle.bars if b.available_at_nano is not None and b.available_at_nano<=split.train_end_nano))
-    fold=_fit_fold(prefix_bundle,inner_config,inner,specs)
-    if fold["models"] is None:
-        return fit_path_payoff_model((),split.train_end_nano,config["research_policy_version"]),{},["INNER_OOS_MODEL_INSUFFICIENT"]
-    observations=[];payloads={};exclusions=[]
-    planned,skipped=plans if plans is not None else _payoff_training_plans(bundle,config,split,specs)
-    for strategy_id,window_start,reason in skipped:
-        exclusions.append(strategy_id+":"+str(window_start)+":"+reason)
-    for spec,window_start,window_end,plan in planned:
-        outcome,pieces,reason=_training_opportunity(prefix_bundle,config,split,spec,fold,lock_hash,window_start,window_end,plan)
-        for name,raw in pieces.items():payloads[name]=raw
-        if outcome is not None:observations.append(outcome)
-        if reason:exclusions.append(spec.strategy_id+":"+str(window_start)+":"+reason)
-    return fit_path_payoff_model(tuple(observations),split.train_end_nano,config["research_policy_version"]),payloads,exclusions
+    # author007 §3 lifecycle: the fold call itself sits inside the guard, so a
+    # failure in (or observed around) the real inner ``_fit_fold`` after the
+    # store exists still releases it; the closed-guard keeps cached real
+    # folds reusable across windows.
+    inner_store=None
+    try:
+        fold=_fit_fold(prefix_bundle,inner_config,inner,specs)
+        inner_store=fold.get("record_store")
+        if fold["models"] is None:
+            return fit_path_payoff_model((),split.train_end_nano,config["research_policy_version"]),{},["INNER_OOS_MODEL_INSUFFICIENT"]
+        observations=[];payloads={};exclusions=[]
+        planned,skipped=plans if plans is not None else _payoff_training_plans(bundle,config,split,specs)
+        for strategy_id,window_start,reason in skipped:
+            exclusions.append(strategy_id+":"+str(window_start)+":"+reason)
+        for spec,window_start,window_end,plan in planned:
+            outcome,pieces,reason=_training_opportunity(prefix_bundle,config,split,spec,fold,lock_hash,window_start,window_end,plan)
+            for name,raw in pieces.items():payloads[name]=raw
+            if outcome is not None:observations.append(outcome)
+            if reason:exclusions.append(spec.strategy_id+":"+str(window_start)+":"+reason)
+        return fit_path_payoff_model(tuple(observations),split.train_end_nano,config["research_policy_version"]),payloads,exclusions
+    finally:
+        if inner_store is not None and not inner_store.closed:
+            inner_store.seal();inner_store.close()
 
 
 def _training_fixed_policy(config,spec,binding_origin):
@@ -1422,6 +1530,7 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
                 (s.train_start_nano,s.train_end_nano,252),(s.calibration_start_nano,s.calibration_end_nano,60),(s.test_start_nano,s.test_end_nano,60))):
                 raise StageIncompleteError("REGISTERED_WINDOW_COVERAGE_INSUFFICIENT")
     token=None
+    fold_stores=[]
     if mode=="final-holdout":
         if config["synthetic"]:raise ExperimentError("synthetic_cannot_be_real_final_holdout")
         validate_holdout_calendar(scope,bundle.sessions,config["evaluation_as_of_nano"])
@@ -1433,6 +1542,8 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
         for s in splits:
             if s.final_holdout != (mode=="final-holdout") and mode!="reproduce":continue
             folds.append((s,_fit_fold(bundle,config,s,specs)))
+        fold_stores=[f.get("record_store") for _,f in folds
+                     if f.get("record_store") is not None]
         from ak_trading.v2.decision.payoffs import fit_path_payoff_model
         from ak_trading.v2.decision.pipeline import model_hashes_for
         fitted=[(s,f) for s,f in folds if f["models"] is not None]
@@ -1443,7 +1554,29 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
         payoffs_by_split={first_split.split_id:(first_payoff,first_training_payloads,first_training_exclusions)}
         dependencies=model_hashes_for(first_fold["models"],first_payoff,first_fold["reference"],_seasonal_handle(first_fold))
         metrics=empty_registered_metrics(experiment,dependencies)
-        assignments=[];artifacts={};blockers=["REAL_FEED_NOT_ACCEPTED","SHADOW_COHORT_NOT_STARTED"]
+        assignments=[];blockers=["REAL_FEED_NOT_ACCEPTED","SHADOW_COHORT_NOT_STARTED"]
+        # T7 memory wiring (MEMORY-DISPOSITION §3): record-file artifacts
+        # stream their canonical bytes into exclusive temp files while the
+        # fold stores are still readable; the publish phase below seals them
+        # into the output in the original artifact order with incremental
+        # hashes — no full-file bytes are ever resident, and the envelope,
+        # order, UTF-8/LF/NaN and registration boundaries are unchanged.
+        artifact_tasks:dict[str,tuple]={}
+        stream_dir:Path|None=None
+        def add_bytes(name:str,payload:bytes)->None:artifact_tasks[name]=("bytes",payload)
+        def add_streamed(name:str,kind:str,schema:str,records)->None:
+            nonlocal stream_dir
+            from ak_trading.v2._fold_records import stream_record_file
+            if stream_dir is None:
+                stream_dir=output.parent/f"{output.name}.streaming.{os.getpid()}.{secrets.token_hex(6)}"
+                stream_dir.mkdir(parents=True)
+            # Short sequential temp name: the real artifact name (which can
+            # carry 64-hex digests) would exceed Windows MAX_PATH on deep
+            # output bases; the publish phase supplies the final path.
+            temporary=stream_dir/f"task-{len(artifact_tasks):06d}.{secrets.token_hex(8)}.tmp"
+            with temporary.open("xb") as handle:
+                byte_count,digest_hex=stream_record_file(kind,schema,records,handle)
+            artifact_tasks[name]=("streamed",temporary,byte_count,digest_hex)
         for s,fold in folds:
             assignments.extend(fold["assignments"])
             blockers.extend(fold["exclusions"])
@@ -1455,23 +1588,23 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
                                            ("requests","ForecastRequest","ak_probability_requests_v2.1.0",fold["requests"]),
                                            ("labels","PathLabel","ak_probability_labels_v2.1.0",fold["labels"]),
                                            ("forecasts","MarketForecast","ak_probability_forecasts_v2.1.0",fold["forecasts"])):
-                artifacts[prefix+name+".json"]=encode_record_file(kind,schema,records)
-            artifacts[prefix+"feature_availability.json"]=canonical_json_bytes({"scope":"REGISTERED_FULL_GRID",
+                add_streamed(prefix+name+".json",kind,schema,records)
+            add_bytes(prefix+"feature_availability.json",canonical_json_bytes({"scope":"REGISTERED_FULL_GRID",
                 "counts":dict(Counter(f"d{f.duration_seconds}:{reason}" for f in fold["snapshots"] for value in f.values
-                    if value.factor_key.startswith("BASE:opening_gap_points:") and value.quality.status!="READY" for reason in value.quality.reasons))})
-            artifacts[prefix+"regime_reference.json"]=canonical_json_bytes({"schema_version":"ak_probability_regime_reference_v2.1.0","reference":content(fold["reference"])})
-            artifacts[prefix+"seasonality.json"]=canonical_json_bytes({"schema_version":"ak_probability_seasonality_v2.1.1","model":content(fold["seasonal"])})
+                    if value.factor_key.startswith("BASE:opening_gap_points:") and value.quality.status!="READY" for reason in value.quality.reasons))}))
+            add_bytes(prefix+"regime_reference.json",canonical_json_bytes({"schema_version":"ak_probability_regime_reference_v2.1.0","reference":content(fold["reference"])}))
+            add_bytes(prefix+"seasonality.json",canonical_json_bytes({"schema_version":"ak_probability_seasonality_v2.1.1","model":content(fold["seasonal"])}))
             if fold["models"] is None:continue
-            artifacts[prefix+"models.json"]=canonical_json_bytes({"schema_version":"ak_probability_models_v2.1.0","model_set":content(fold["models"])})
+            add_bytes(prefix+"models.json",canonical_json_bytes({"schema_version":"ak_probability_models_v2.1.0","model_set":content(fold["models"])}))
             labels={l.request_id:l for l in fold["labels"]}
             scoring=evaluate_forecasts(fold["forecasts"],tuple(labels[f.request_id] for f in fold["forecasts"]),
                                        {f.request_id:str(f.trading_day) for f in fold["forecasts"]},experiment.seed)
-            artifacts[prefix+"forecast_diagnostics.json"]=canonical_json_bytes(scoring)
+            add_bytes(prefix+"forecast_diagnostics.json",canonical_json_bytes(scoring))
             for code,count in scoring["exclusions"].items():metrics["exclusions"][code]=metrics["exclusions"].get(code,0)+count
             if s.split_id not in payoffs_by_split:
                 payoffs_by_split[s.split_id]=_fit_training_payoffs(bundle,config,s,specs,experiment.contract_lock_sha256,plans=plan_sets.get(s.split_id))
             payoff,training_payloads,training_exclusions=payoffs_by_split[s.split_id]
-            for name,raw in training_payloads.items():artifacts[prefix+"training_paths/"+name]=raw
+            for name,raw in training_payloads.items():add_bytes(prefix+"training_paths/"+name,raw)
             blockers.extend(training_exclusions)
             hashes_for_fold=model_hashes_for(fold["models"],payoff,fold["reference"],_seasonal_handle(fold))
             bundle_hash=digest(hashes_for_fold);metrics["model_bundles"][bundle_hash]=dict(hashes_for_fold)
@@ -1490,7 +1623,7 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
                     base_result=base_results.get(digest(base_policy))
                     if base_result is None:raise ExperimentError("stress_requires_registered_BASE_policy")
                     stress,paths=evaluate_stress_cohort(base_result,bundle,run_policy.cost_scenario)
-                    artifacts[prefix+"stress/"+ph+".json"]=canonical_json_bytes({"scenario":run_policy.cost_scenario,"records":content(paths),"summary":stress})
+                    add_bytes(prefix+"stress/"+ph+".json",canonical_json_bytes({"scenario":run_policy.cost_scenario,"records":content(paths),"summary":stress}))
                     base_groups=[g for g in metrics["strategy_groups"] if g["split_id"]==s.split_id and g["run_policy_sha256"]==digest(base_policy)]
                     for g in metrics["strategy_groups"]:
                         if g["split_id"]!=s.split_id or g["run_policy_sha256"]!=ph:continue
@@ -1504,13 +1637,13 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
                     continue
                 result,scenario_rules_=_replay_fold(bundle,s,fold,payoff,specs,run_policy,experiment.contract_lock_sha256,Decimal(config["initial_cash_cny"]))
                 if run_policy.cost_scenario=="BASE":base_results[ph]=result
-                artifacts[prefix+"accounts/"+ph+"/rules.json"]=encode_record_file("TradingRule","ak_probability_rules_v2.1.0",scenario_rules_)
+                add_streamed(prefix+"accounts/"+ph+"/rules.json","TradingRule","ak_probability_rules_v2.1.0",scenario_rules_)
                 from ak_trading.v2.decision.replay import replay_payloads
                 from .metrics import evaluate_replay
                 episode_days={fill.episode_id:str(fill.trading_day) for fill in reversed(result.fills) if fill.offset=="OPEN"}
                 economic=evaluate_replay(result,Decimal(config["initial_cash_cny"]),episode_days,experiment.seed,rules=scenario_rules_)
                 ph=digest(run_policy)
-                for name,raw in replay_payloads(result,payoff).items():artifacts[prefix+"accounts/"+ph+"/"+name]=raw
+                for name,raw in replay_payloads(result,payoff).items():add_bytes(prefix+"accounts/"+ph+"/"+name,raw)
                 metrics["replay_summaries"].append({**economic["replay_summary"],"split_id":s.split_id,
                                                     "run_policy_sha256":ph,"model_bundle_sha256":bundle_hash})
                 for index,g in enumerate(metrics["strategy_groups"]):
@@ -1519,6 +1652,11 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
                     spec=next(x for x in specs if x.strategy_id==g["strategy_id"])
                     metrics["strategy_groups"][index]=score_strategy_group(g,economic,result,spec)
                 if result.status!="COMPLETE":blockers.append("REPLAY_INCOMPLETE:"+ph)
+        # Every fold's consumers (models, capture, payoffs, provenance and the
+        # streamed artifacts above) are complete: release the fold stores.
+        for fold_store in fold_stores:
+            if not fold_store.closed:
+                fold_store.seal();fold_store.close()
         if any(not model.observations for model,_,_ in payoffs_by_split.values()):
             blockers.append("PAYOFF_TRAINING_EPISODES_NOT_AVAILABLE")
         products=[{"product":i.product,"contract_ids":[i.contract_id],"minute_history":"SYNTHETIC" if config["synthetic"] else "FROZEN",
@@ -1534,12 +1672,28 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
         stream=io.StringIO(newline="");writer=csv.writer(stream,lineterminator="\n")
         writer.writerow(["sample_id","split_id","partition","reasons"])
         for a in assignments:writer.writerow([a.sample_id,a.split_id,a.partition,canonical_json_bytes(list(a.reasons)).decode().strip()])
-        artifacts["splits.csv"]=stream.getvalue().encode()
-        artifacts["model_activations.json"]=canonical_json_bytes({"schema_version":"ak_probability_model_activations_v2.1.3","records":[]})
-        artifacts["macro_comparison.json"]=canonical_json_bytes({"schema_version":"ak_probability_macro_comparison_v2.1.0","mode":experiment.macro_mode,
-            "paired_opportunities":0,"paired_blocks":0,"price_only":{},"with_macro":{},"delta":{},"unmatured":0,"reasons":["PAIRED_ECONOMIC_COHORT_NOT_AVAILABLE"]})
-        for name,payload in artifacts.items():atomic_write(output/name,payload)
-        files={p.relative_to(output).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in output.rglob("*") if p.is_file()}
+        add_bytes("splits.csv",stream.getvalue().encode())
+        add_bytes("model_activations.json",canonical_json_bytes({"schema_version":"ak_probability_model_activations_v2.1.3","records":[]}))
+        add_bytes("macro_comparison.json",canonical_json_bytes({"schema_version":"ak_probability_macro_comparison_v2.1.0","mode":experiment.macro_mode,
+            "paired_opportunities":0,"paired_blocks":0,"price_only":{},"with_macro":{},"delta":{},"unmatured":0,"reasons":["PAIRED_ECONOMIC_COHORT_NOT_AVAILABLE"]}))
+        # Publish in the original artifact order; streamed files were sealed
+        # incrementally and only move into place here, so a mid-run failure
+        # never creates the output directory (original boundary).
+        for name,entry in artifact_tasks.items():
+            target=output/name
+            if entry[0]=="bytes":
+                atomic_write(target,entry[1])
+            else:
+                target.parent.mkdir(parents=True,exist_ok=True)
+                os.replace(entry[1],target)
+        streamed_hashes={(output/name).resolve():entry[3]
+                         for name,entry in artifact_tasks.items() if entry[0]=="streamed"}
+        files={}
+        for p in output.rglob("*"):
+            if not p.is_file():continue
+            recorded=streamed_hashes.get(p.resolve())
+            files[p.relative_to(output).as_posix()]=(recorded if recorded is not None
+                                                     else hashlib.sha256(p.read_bytes()).hexdigest())
         manifest={"schema_version":"ak_probability_validation_run_v2.1.0","contract_version":CONTRACT_VERSION,"created_at_nano":experiment.evaluation_as_of_nano,
                   "files":files,"provenance":{"node":"M5","dataset_kind":"SYNTHETIC" if config["synthetic"] else "HISTORICAL_RECONSTRUCTED",
                    "input_hashes":[bundle.manifest_sha256,experiment.contract_lock_sha256],"code_hashes":hashes,"parameter_hashes":{"config":digest(config)},
@@ -1552,7 +1706,15 @@ def _execute_validation(bundle: FrozenInput, config: Mapping[str, JsonValue], ou
         # boundary and commit registration only after the run artifacts seal.
         if mode!="reproduce" and engineering=="PASS":
             register_experiment(experiment,RUN_ROOT/"experiment-registry.jsonl")
+        if stream_dir is not None:
+            try:stream_dir.rmdir()
+            except OSError:pass
         return readiness
     except BaseException as error:
+        # Release any still-open fold stores; evidence, streamed temp files and
+        # the failure itself are preserved untouched (MEMORY-DISPOSITION §3).
+        for fold_store in fold_stores:
+            if not fold_store.closed:
+                fold_store.seal();fold_store.close()
         if token:fail_final_holdout(experiment,token,RUN_ROOT/"holdouts",type(error).__name__)
         raise

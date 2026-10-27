@@ -1,0 +1,78 @@
+{
+ "review": "t7-wiring-hard-review-006 (author007 repair re-review; same independent reviewer session as 001-005)",
+ "reviewed_revision": {
+  "src/ak_trading/v2/validation/experiments.py": "e5c4f3159a9f3ecee4f359419fdfc6523971b3daaa14e062e48a6aaab7c91b65",
+  "tests/test_v2_m5_experiments.py": "ff770777d2e00b126538daddfdd25fca544f4dfaa0536ed7a830b8e98c78d5b4"
+ },
+ "prior_revision_for_comparison": "review005-accepted bytes b7ed1e4e.../1bf7134f... (sealed, loaded read-only for the equivalence probe)",
+ "candidate": "C:/AKWorktrees/aktr-goal-t7-wiring-20261027-r2",
+ "integrity": {
+  "freeze_match": "both owned files match owner-004 FREEZE.json exactly",
+  "staging_sweep": "602 pins re-hashed; exactly the two owned files differ; 0 missing",
+  "dependencies": "CPU review-004 (factors.py c1e435c1..., m2 test 52f54ad4...) and memory review-004 six-file (52d6c739.../3dc31eed.../b085797c.../962eb84c.../4ac45866.../41a11ec4...) byte-identical to accepted revisions",
+  "inputs": "contract-lock.p3-r1.json baa35aed..., run-chunks inert 5f1af358..., P02 feed-input-contract 70e14dff... all byte-verified",
+  "functional_diff_scope": "whitespace-normalized diff between prior and repaired experiments.py is confined to the new _partition_feature_view, the fs() call-site, the _fit_training_payoffs fold-inside-guard and comment changes; the artifact streaming region is untouched (W5 reuse condition)"
+ },
+ "findings": [
+  {
+   "id": "A007-1-GUARDED-VERIFIED",
+   "class": "REQUIRED_CHECK_VERIFIED",
+   "title": "Guarded launcher execution contract fulfilled at full populations",
+   "evidence": "Independent reruns via python -B -X utf8 scripts/test_offline.py -q --basetemp C:/AKWorktrees/btwr006-<label> <exact original file sets from owner-004 suite-logs argv>, cwd = r2 candidate: M2 six-file selected 96 / ran 96 / 96 passed / exit 0; M3A six-file 183/183/183/exit 0; test_v2_m5_experiments.py 37/37/37/exit 0. No -k, no filters, no skips, empty stderr, no collection errors. Reviewer's first attempt exited 4 ('--basetemp must not already exist' - reviewer had pre-created the dir); preserved in suite-logs, corrected with fresh non-existent basetemps."
+  },
+  {
+   "id": "A007-2-W1-VERIFIED",
+   "class": "REQUIRED_CHECK_VERIFIED",
+   "title": "W1: fs(name)/_partition_feature_view exact original dict semantics - first key position, LAST referencing request's real representation",
+   "evidence": {
+    "real_partitions": "Real _fit_fold on the 14d/30s world: TRAIN 708 requests / 118 unique ids and CALIBRATION 168/28 - view key order AND member values equal the original dict comprehension {r.features.snapshot_id: r.features for r in requests} by canonical bytes and dataclass equality",
+    "synthetic_A1_B_A2": "keys [A, B]; A's member bytes == A2's nested features (never A1's, never the outside-partition record's); B member == B's bytes; store population unchanged (4)",
+    "same_id_different_value": "last referencing request's representation wins (bytes == v2, not v1)",
+    "error_paths": "absent id raises request_features_snapshot_missing_from_store; id present but nested representation not byte-present raises request_features_representation_missing_from_store",
+    "implementation": "per-request features_ref resolution with exact canonical-byte slot match; no full snapshot dict, no materialized source tuples; owner regression test_t7w_partition_feature_view_first_key_last_real_representation green in the guarded M5 run"
+   },
+   "note": "One reviewer-probe assertion (dataclass equality of the A1/A2 pair) was initially mis-designed (the synthetic pair also differs in source_bar_ids); the byte-level selection checks are the load-bearing assertions and all pass. The equal-value/different-encoding store-level semantics were verified in review005 W6 on the unchanged _fold_records.py."
+  },
+  {
+   "id": "A007-3-LIFECYCLE-VERIFIED",
+   "class": "REQUIRED_CHECK_VERIFIED",
+   "title": "Real inner consumer lifecycle: real models/records/consumers, store alive during consumers, correct release on all three exit paths",
+   "evidence": {
+    "success": "Normal _fit_training_payoffs call (169.3 s): actual inner split derived (t7w-payoff-payoff-inner, 41 train days), REAL _fit_fold observed record-only (real models, 1269 snapshots / 17664 requests - matching the owner's frozen probe numbers), THREE real payoff windows consumed via the real _training_opportunity with the store ALIVE at every consumer entry, per-window plan/path/opportunity/manifest payloads produced, honest exclusions (NO_TRIGGERED_BUDGETED_PATH recorded as-is - no natural OPEN fabricated)",
+    "release_success": "store sealed+closed after return; closed views keep real len (1269); materialization raises StoreClosedError; extracted models/reference valid after close (content_hash/model_set_id accessible)",
+    "consumer_error_exit": "a consumer-position raise propagates and the delivered store is released (closed)",
+    "infold_error_exit": "an exception inside the REAL _fit_fold after store creation (models-view fit raise) is released by the fold's own guard; store captured via record-only _new_record_store wrapper: 1 created, closed",
+    "no_surrogates": "success path never replaced a consumer (record-only wrappers); no empty early-return path taken (inner split exists, models real)"
+   }
+  },
+  {
+   "id": "A007-4-EQUIVALENCE-REAFFIRMED",
+   "class": "EQUIVALENCE_EVIDENCE",
+   "title": "Repaired _fit_fold byte-equivalent to the sealed review005-accepted revision",
+   "evidence": "Both sides executed on the identical 14d/30s world (old side = sealed b7ed1e4e bytes loaded read-only, per author007's reuse boundary): 434 snapshots / 2136 requests equal records AND canonical file bytes; labels, assignments, exclusions, reference, seasonal, forecasts equal; models real on both sides with equal model_set_id, content_hash, evidence, models, source_hashes; post-close surface intact. W5 (non-empty 42-file streaming output) and W6 (store encoding semantics) reuse conditions confirmed: the streaming region is untouched by the repair diff and _fold_records.py is byte-identical; both behaviors are additionally exercised green inside the guarded M5 run."
+  },
+  {
+   "id": "R1",
+   "class": "OWNER_RECORD_CORRECTIONS_BOUND",
+   "title": "Owner-004 record corrections bound separately from the product verdict",
+   "items": [
+    "Authoritative raw suite JSON: M2 wall 46.67 s / peak 90427392 B / 96P; M3A 570.90 s / 89366528 B / 183P; M5 1075.71 s / 270958592 B / 37P; all native exit 0. The DELIVERY table's wall/RSS figures are inaccurate; the freeze timestamp is date-only. Preserved as corrections.",
+    "Historical failures preserved: the first guarded M5 run's 10 missing-input failures (inputs absent from staging at that time) and the MAX_PATH basetemp failure (deep replay payload paths; short-root basetemp is a real environment limit).",
+    "Owner CLI ended 2026-10-27T06:18:42.283035Z native 0 after writes stopped; prior 005 PASS was not accepted for the gaps this review closed."
+   ]
+  },
+  {
+   "id": "R2",
+   "class": "SCOPE_NOT_RUN",
+   "title": "NOT_RUN and not resolved by this verdict",
+   "items": [
+    "No natural OPEN observed (NO_TRIGGERED paths honest); positive OPEN/Fill/maturity evidence, the full 121-node T7 population, target locks and the F->R0->M1 L0->R1->L1->R2 chain remain downstream T7 obligations",
+    "No full DAILY/MINUTE cold chain, no M5 formal/heavy run, no M4 work (separate owner; accepted main ad7c3d6 259P not re-run)",
+    "MINUTE capacity decision unaffected; real broker NOT_RUN"
+   ]
+  }
+ ],
+ "safety": {"enable_trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_cancel": "0/0",
+            "credentials_env_read": false, "network": "none", "git": "none", "product_edits": 0,
+            "model_or_config_changes": 0, "nested_agents": 0}
+}

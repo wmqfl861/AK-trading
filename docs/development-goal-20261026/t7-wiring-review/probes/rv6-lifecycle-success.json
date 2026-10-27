@@ -1,0 +1,88 @@
+{
+ "consumer_error_exit": {
+  "raised": "RV6_CONSUMER_ERROR",
+  "store_closed_after": true
+ },
+ "fit_events": [
+  {
+   "inner": true,
+   "models": true,
+   "requests": 17664,
+   "snapshots": 1269,
+   "split": "t7w-payoff-payoff-inner",
+   "store_open_after_fit": true
+  },
+  {
+   "inner": true,
+   "models": true,
+   "requests": 17664,
+   "snapshots": 1269,
+   "split": "t7w-payoff-payoff-inner",
+   "store_open_after_fit": true
+  }
+ ],
+ "inner_split": {
+  "days": 41,
+  "exists": true,
+  "split_id": "t7w-payoff-payoff-inner"
+ },
+ "mode": "success",
+ "module": "C:\\AKWorktrees\\aktr-goal-t7-wiring-20261027-r2\\src\\ak_trading\\v2\\validation\\experiments.py",
+ "opp_events_sample": [
+  {
+   "models_real": true,
+   "store_alive_during_consumer": true,
+   "strategy": "trend_m1_v2",
+   "window_start": 3286800000000000
+  },
+  {
+   "models_real": true,
+   "store_alive_during_consumer": true,
+   "strategy": "trend_m1_v2",
+   "window_start": 3373200000000000
+  },
+  {
+   "models_real": true,
+   "store_alive_during_consumer": true,
+   "strategy": "trend_m1_v2",
+   "window_start": 3459600000000000
+  }
+ ],
+ "planned_windows": 3,
+ "post_close": {
+  "len_real_after_close": true,
+  "materialize_raises": true,
+  "models_content_hash_ok": true,
+  "models_set_id": "forecast_model_set:a",
+  "reference_valid": true
+ },
+ "result": {
+  "consumer_count": 3,
+  "exclusions_sample": [
+   "trend_m1_v2:3200400000000000:PAYOFF_PLAN_WINDOW_UNPLANNED:NO_LEGAL_WARMUP",
+   "trend_m1_v2:3286800000000000:NO_TRIGGERED_BUDGETED_PATH",
+   "trend_m1_v2:3373200000000000:NO_TRIGGERED_BUDGETED_PATH",
+   "trend_m1_v2:3459600000000000:NO_TRIGGERED_BUDGETED_PATH"
+  ],
+  "inner_fit_count": 1,
+  "inner_models_real": true,
+  "inner_requests": 17664,
+  "inner_snapshots": 1269,
+  "models_real_at_every_consumer": true,
+  "payload_names_sample": [
+   "trend_m1_v2/3286800000000000/manifest.json",
+   "trend_m1_v2/3286800000000000/opportunity.json",
+   "trend_m1_v2/3286800000000000/path.json",
+   "trend_m1_v2/3286800000000000/plan.json",
+   "trend_m1_v2/3373200000000000/manifest.json",
+   "trend_m1_v2/3373200000000000/opportunity.json"
+  ],
+  "payloads": 12,
+  "payoff_is_real": true,
+  "payoff_type": "PathPayoffModel",
+  "store_alive_at_every_consumer": true,
+  "store_closed_after_success": true,
+  "store_open_during_fit": true
+ },
+ "success_wall_s": 169.307
+}

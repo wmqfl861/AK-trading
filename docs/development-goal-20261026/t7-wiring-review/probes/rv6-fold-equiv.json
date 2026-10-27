@@ -1,0 +1,40 @@
+{
+ "comparison": {
+  "assignments_equal": true,
+  "content_hash_equal": true,
+  "evidence_equal": true,
+  "exclusions_equal": true,
+  "forecasts_equal": true,
+  "labels_equal": true,
+  "model_set_id_equal": true,
+  "models_both_real": true,
+  "models_equal": true,
+  "post_close": {
+   "close_idempotent": true,
+   "len_real": true,
+   "materialize_raises_StoreClosedError": true,
+   "models_valid_after_close": true,
+   "reference_valid_after_close": true,
+   "seasonal_handle_after_close": true
+  },
+  "reference_equal": true,
+  "requests_equal": true,
+  "requests_file_bytes_equal": true,
+  "requests_len": [
+   2136,
+   2136
+  ],
+  "seasonal_equal": true,
+  "snapshots_equal": true,
+  "snapshots_file_bytes_equal": true,
+  "snapshots_len": [
+   434,
+   434
+  ],
+  "source_hashes_equal": true
+ },
+ "new_fit_wall_s": 39.514,
+ "new_module": "C:\\AKWorktrees\\aktr-goal-t7-wiring-20261027-r2\\src\\ak_trading\\v2\\validation\\experiments.py",
+ "old_fit_wall_s": 40.806,
+ "old_module_sha256": "b7ed1e4e6d9d364c1e47abecaed43aa4bb9110d8cbc068a1dec4a573fd926b8d"
+}

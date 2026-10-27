@@ -1,0 +1,63 @@
+{
+  "schema": "aktr-scoped-product-acceptance/v1",
+  "recorded_utc": "2026-10-27T07:56:04.174251+00:00",
+  "scope": "T7 memory consumer wiring, two files only",
+  "independent_verdict": "PASS",
+  "conditional": false,
+  "reviewer_session": "sess_7229454f-0586-4611-a73b-1b9a4ee0ce23",
+  "reviewer_native_exit": 0,
+  "review_report": "t7-wiring-review/REVIEW.md",
+  "effective_plan": "T7-WIRING-M4-REPAIR-007.md",
+  "effective_plan_sha256": "3d53b8fdd1f2e70418863b98075e603560800508707aa07a2e86738fef793d2e",
+  "source_sha256": {
+    "src/ak_trading/v2/validation/experiments.py": "e5c4f3159a9f3ecee4f359419fdfc6523971b3daaa14e062e48a6aaab7c91b65",
+    "tests/test_v2_m5_experiments.py": "ff770777d2e00b126538daddfdd25fca544f4dfaa0536ed7a830b8e98c78d5b4"
+  },
+  "independent_required_suites": {
+    "M2": {
+      "passed": 96,
+      "raw_exit": 0
+    },
+    "M3A": {
+      "passed": 183,
+      "raw_exit": 0
+    },
+    "M5_experiments": {
+      "passed": 37,
+      "raw_exit": 0
+    }
+  },
+  "main_integration": {
+    "method": "exact accepted bytes; compare frozen inputs with main; no new whole-suite execution claimed",
+    "compared_existing_paths": 592,
+    "differences_before_integration": [
+      "src/ak_trading/v2/validation/experiments.py",
+      "tests/test_v2_m4_causality.py",
+      "tests/test_v2_m5_experiments.py"
+    ],
+    "separately_accepted_M4_preserved": true,
+    "unmerged_T7_daily_fixture_paths": [
+      "tests/fixtures/v2/ep1_t7_daily_r3_001/acceptance-input-manifest.json",
+      "tests/fixtures/v2/ep1_t7_daily_r3_001/inputs/bars-daily.json",
+      "tests/fixtures/v2/ep1_t7_daily_r3_001/inputs/bars-minute.json",
+      "tests/fixtures/v2/ep1_t7_daily_r3_001/inputs/rule.json",
+      "tests/fixtures/v2/ep1_t7_daily_r3_001/inputs/sessions.json",
+      "tests/fixtures/v2/ep1_t7_daily_r3_001/partition-params.json",
+      "tests/fixtures/v2/ep1_t7_daily_r3_001/recipe.json"
+    ]
+  },
+  "evidence_corrections": [
+    "Review005 PASS was not accepted by Root; its retained bytes are a comparison baseline, not accepted product.",
+    "Review006 actually refitted the old side for equivalence (40.806s), despite author007 allowing reuse. This deviation is retained; the statement that only new-side behavior was rerun is inaccurate. No further duplicate fit is scheduled.",
+    "Initial reviewer basetemp exit4 and mistaken probe assertion are retained in original review evidence. Owner DELIVERY wall/RSS corrections use original closed logs."
+  ],
+  "limitations": [
+    "No natural OPEN/Fill/maturity acceptance",
+    "Full 121-node T7, F/R0/L0/R1/L1/R2, full DAILY/MINUTE cold chains and capacity remain pending"
+  ],
+  "safety": "enable_trading=False; observer=hold; broker=NOT_RUN; real send/cancel=0/0",
+  "git_index_blob_sha256": {
+    "src/ak_trading/v2/validation/experiments.py": "e5c4f3159a9f3ecee4f359419fdfc6523971b3daaa14e062e48a6aaab7c91b65",
+    "tests/test_v2_m5_experiments.py": "733151808e2fff8ae58020ca20f92e46ffbc2b6351a9e1f694f07aa98367a24e"
+  }
+}

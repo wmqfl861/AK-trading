@@ -1,0 +1,24 @@
+{
+ "schema": "aktr-t7-wiring-hard-review-verdict/v2",
+ "review_id": "t7-wiring-hard-review-006",
+ "reviewer": "independent ZCode GLM-5.3/max session sess_7229454f-0586-4611-a73b-1b9a4ee0ce23 (reviews 001-005; no part in development or repair)",
+ "date": "2026-10-27",
+ "re_review_of": "owner-004 frozen repair against astra-t7-wiring-scope-007/AUTHOR-DISPOSITION.md (prior review005 PASS was not accepted for W1/lifecycle/guarded-launcher gaps)",
+ "verdict": "PASS",
+ "conditional": false,
+ "verdict_scope": "The wiring two-file unit only: src/ak_trading/v2/validation/experiments.py (e5c4f3159a9f3ecee4f359419fdfc6523971b3daaa14e062e48a6aaab7c91b65) and tests/test_v2_m5_experiments.py (ff770777d2e00b126538daddfdd25fca544f4dfaa0536ed7a830b8e98c78d5b4) in C:/AKWorktrees/aktr-goal-t7-wiring-20261027-r2, dependencies byte-verified at their accepted revisions, against AUTHOR-DISPOSITION-007 on the retained MEMORY003/PERFORMANCE002/EXECUTION001 basis.",
+ "author007_gaps_closed": {
+  "section1_guarded_launcher": "Independently executed scripts/test_offline.py at exact original file sets and full populations: M2 96/96 passed exit 0, M3A 183/183 passed exit 0, M5 experiments 37/37 passed exit 0 (fresh short basetemps; no -k/filters/skips)",
+  "section2_W1": "_partition_feature_view verified against the ORIGINAL dict semantics on real partitions (byte+dataclass equality, first-key order, last referencing request's representation) and on crafted A1/B/A2 / outside-partition / same-id-different-value / both error paths",
+  "section3_lifecycle": "Real inner chain verified end-to-end with record-only observers: real inner split/config -> real _fit_fold (real models, 1269 snapshots / 17664 requests) -> three real payoff consumers with the store alive at every consumer entry; correct release on success, consumer-error and in-fold-error exits; extracted objects valid after close; closed views never fake empty"
+ },
+ "author007_reuse_honored": "Sealed review005 old-side bytes (b7ed1e4e) reused read-only for the equivalence probe; W5/W6 evidence reused after confirming the streaming region and _fold_records.py unchanged; only affected new-side behavior re-verified",
+ "explicitly_not_resolved": [
+  "Natural OPEN/Fill/maturity positive evidence and the full 121-node T7 population, target locks, F->R0->M1 L0->R1->L1->R2 chain",
+  "Full DAILY/MINUTE cold chains and the MINUTE capacity decision",
+  "M4 test adaptation (separate owner; unrelated to this unit)"
+ ],
+ "pins_verified_at": ["review start", "before publishing (work/pins-before-publish.txt)"],
+ "safety": {"enable_trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_cancel": "0/0",
+            "credentials_env_read": false, "network": "none", "git": "none", "product_edits": 0}
+}

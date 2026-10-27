@@ -748,3 +748,514 @@ def test_t7cpu_six_duration_snapshots_cold_hot_byte_identical():
     second = encode_record_file("FeatureSnapshot", "ak_probability_features_v2.1.0",
                                 again)
     assert second == first
+
+
+# ---------------------------------------------------------------------------
+# T7 memory consumer wiring regressions (t7-wiring-owner-001/002, 2026-10-26,
+# MEMORY-DISPOSITION §3/§6): the fold's real logical collections live in the
+# compact FoldRecords store; these tests pin baseline-vs-view equivalence in
+# complete canonical bytes/SHA and model identity, and the store lifecycle.
+# ---------------------------------------------------------------------------
+
+def _t7w_world(days: int = 14, slots: int = 30):
+    """Small real SYNTHETIC minute+daily world that drives ``_fit_fold`` to a
+    real model set (tuned in t7-wiring-owner-002/work/probe_world.py)."""
+    from decimal import Decimal as D
+    from ak_trading.v2.contracts import (DataQuality, FeeLeg, FrozenInput,
+                                         Instrument, MarketBar, TradingRule)
+    quality = DataQuality("READY", ("SYNTHETIC",), "reconstructed", "a" * 64)
+    sessions = tuple(SessionWindow(
+        f"day-{i}", "SHFE.RB", date(2026, 1, 5) + timedelta(days=i),
+        (i * 1440 + 60) * MINUTE, (i * 1440 + 60 + slots) * MINUTE,
+        "DAY", "SYNTHETIC", "SCENARIO") for i in range(days))
+    contract = "RB2610"
+    leg = FeeLeg(D(1), D(0), False)
+    rule = TradingRule("t7w-rule", contract, sessions[0].start_nano,
+                       sessions[-1].end_nano + 1, sessions[0].start_nano,
+                       D(10), D('.1'), 1, 1, leg, leg, leg, D('.1'), D('.1'),
+                       D(1000), D(1), D(0), D(0), D('.1'), "SCENARIO", "1" * 64)
+    bars = []
+    for i, session in enumerate(sessions):
+        for j in range(slots):
+            start = session.start_nano + j * MINUTE
+            close = D(100 + i) + D(j) / D(4) + (D("0.05") if j % 2 else D(0))
+            bars.append(MarketBar(
+                f"m-{i}-{j}", contract, "rb2610", "SHFE.RB", 60, start, start,
+                start + MINUTE, session.trading_day, session.session_id,
+                start + MINUTE, start + MINUTE, close, close + D(1),
+                close - D(1), close, D(100 + i), D(1000 + i), D(1000 + i),
+                True, 1, 1, "SYNTHETIC", quality))
+        minute_closes = [b.close for b in bars if b.duration_seconds == 60
+                         and b.trading_day == session.trading_day]
+        bars.append(MarketBar(
+            f"d-{i}", contract, "rb2610", "SHFE.RB", 86400,
+            session.start_nano, session.start_nano, session.end_nano,
+            session.trading_day, session.session_id, session.end_nano,
+            session.end_nano, minute_closes[0], max(minute_closes) + D(1),
+            min(minute_closes) - D(1), minute_closes[-1], D(100 + i),
+            D(1000 * slots), D(1000 * slots), True, slots, slots,
+            "SYNTHETIC", quality))
+    instrument = Instrument(contract, "rb2610", "SHFE.RB", "synthetic",
+                            ("synthetic",), sessions[0].start_nano, None,
+                            None, None, quality)
+    return FrozenInput(Path("SYNTHETIC"), "f" * 64, (instrument,), sessions,
+                       tuple(bars), (), (rule,)), sessions, contract
+
+
+def test_t7w_fit_fold_view_wiring_baseline_equivalence():
+    """Real fold through the wired views versus the original tuple path:
+    identical model set, content hash, evidence, fitted models and source
+    hashes (public tuple entry over the fold's own materialized segments),
+    complete canonical file bytes/SHA equality between ``encode_record_file``
+    and the streaming writer over the views, real populations and order, and
+    the store lifecycle (close never fakes an empty collection)."""
+    import hashlib
+    import io as _io
+    from ak_trading.v2._fold_records import RecordView, StoreClosedError, stream_record_file
+    from ak_trading.v2.contracts import FeatureSnapshot, ForecastRequest
+    from ak_trading.v2.probability.models import default_fit_config, fit_forecast_models
+    from ak_trading.v2.schemas import decode_record_file, encode_record_file
+    from ak_trading.v2.strategies.registry import build_strategy_spec
+    from ak_trading.v2.validation.experiments import _fit_fold
+    from ak_trading.v2.validation.splits import SplitSpec
+
+    bundle, sessions, contract = _t7w_world(14, 30)
+    train_end = sessions[6].end_nano
+    cal_end = sessions[10].end_nano
+    test_end = sessions[-1].end_nano + 1
+    split = SplitSpec("t7w-fold", sessions[0].start_nano, train_end,
+                      train_end, cal_end, cal_end, test_end, 60, 1, False)
+    fit = dict(default_fit_config(("META:price_tick:v2.1.0",), train_end,
+                                  cal_end, test_end))
+    fit.update({"inner_split_fraction": 0.6, "inner_minimum_train_days": 2,
+                "inner_minimum_validation_days": 1, "inner_embargo_days": 1})
+    config = {"contract_ids": [contract], "feature_durations": [60, 86400],
+              "macro_mode": "PRICE_ONLY", "synthetic": True,
+              "minute_horizons": [1, 5], "daily_horizons": [1],
+              "evaluation_as_of_nano": test_end,
+              "model_fit_configs": {"t7w-fold": fit}}
+    specs = (build_strategy_spec("TREND", "MINUTE"),)
+    fold = _fit_fold(bundle, config, split, specs)
+
+    snapshots_view = fold["snapshots"]
+    requests_view = fold["requests"]
+    assert isinstance(snapshots_view, RecordView) and snapshots_view.record_kind == "FeatureSnapshot"
+    assert isinstance(requests_view, RecordView) and requests_view.record_kind == "ForecastRequest"
+    store = fold["record_store"]
+    assert store is snapshots_view.store is requests_view.store
+    assert fold["models"] is not None, "probe world must fit a real model set"
+    expected_snapshots = 14 * 30 + 14
+    assert len(snapshots_view) == expected_snapshots and len(requests_view) > 0
+    order = [snapshots_view.meta(i) for i in range(len(snapshots_view))]
+    keys = [(m.decision_nano, m.contract_id, m.duration_seconds) for m in order]
+    assert keys == sorted(keys)
+
+    snapshots_tuple = tuple(snapshots_view)
+    requests_tuple = tuple(requests_view)
+    features_bytes = encode_record_file(
+        "FeatureSnapshot", "ak_probability_features_v2.1.0", snapshots_tuple)
+    buffer = _io.BytesIO()
+    count, sha = stream_record_file(
+        "FeatureSnapshot", "ak_probability_features_v2.1.0", snapshots_view, buffer)
+    assert buffer.getvalue() == features_bytes
+    assert count == len(features_bytes)
+    assert sha == hashlib.sha256(features_bytes).hexdigest()
+    requests_bytes = encode_record_file(
+        "ForecastRequest", "ak_probability_requests_v2.1.0", requests_tuple)
+    buffer = _io.BytesIO()
+    count, sha = stream_record_file(
+        "ForecastRequest", "ak_probability_requests_v2.1.0", requests_view, buffer)
+    assert buffer.getvalue() == requests_bytes and count == len(requests_bytes)
+    assert sha == hashlib.sha256(requests_bytes).hexdigest()
+    assert decode_record_file(features_bytes, FeatureSnapshot,
+                              "ak_probability_features_v2.1.0") == snapshots_tuple
+    assert decode_record_file(requests_bytes, ForecastRequest,
+                              "ak_probability_requests_v2.1.0") == requests_tuple
+
+    # baseline: the original tuple orchestration over the fold's own outputs
+    by_partition = {a.sample_id: a.partition for a in fold["assignments"]}
+    labels_map = {l.request_id: l for l in fold["labels"]}
+
+    def segment(name):
+        chosen = [r for r in requests_tuple
+                  if by_partition[r.request_id] == name
+                  and labels_map.get(r.request_id) is not None
+                  and labels_map[r.request_id].status == "MATURE"]
+        return (tuple(chosen), tuple(labels_map[r.request_id] for r in chosen))
+
+    train_requests, train_labels = segment("TRAIN")
+    calibration_requests, calibration_labels = segment("CALIBRATION")
+    assert train_requests and calibration_requests
+
+    def fs(requests):
+        return tuple({r.features.snapshot_id: r.features for r in requests}.values())
+
+    def rs(requests):
+        return tuple(fold["regimes"][f.snapshot_id] for f in fs(requests))
+
+    baseline = fit_forecast_models(
+        fs(train_requests), rs(train_requests), train_requests, train_labels,
+        fs(calibration_requests), rs(calibration_requests),
+        calibration_requests, calibration_labels, fit, fold["reference"],
+        seasonality=None)
+    wired = fold["models"]
+    assert baseline.model_set_id == wired.model_set_id
+    assert baseline.content_hash() == wired.content_hash()
+    assert baseline.evidence == wired.evidence
+    assert dict(baseline.models) == dict(wired.models)
+    assert dict(baseline.source_hashes) == dict(wired.source_hashes)
+
+    # lifecycle: close releases handles, never fakes the collections
+    store.seal()
+    store.close()
+    with pytest.raises(StoreClosedError):
+        snapshots_view[0]
+    assert len(snapshots_view) == expected_snapshots
+    assert len(requests_view) == len(requests_tuple)
+    store.close()  # idempotent
+
+
+def test_t7w_execute_validation_streams_canonical_bytes(tmp_path, monkeypatch):
+    """Real smoke through the streaming artifact pipeline: every manifest
+    entry matches the re-hashed bytes on disk, published record files carry
+    exactly the canonical envelope bytes (``encode_record_file`` equality,
+    including the non-empty streamed TradingRule file), shared artifacts are
+    byte-identical across two runs on the same frozen inputs, and no
+    streaming temp file or directory is left behind.  The expensive real
+    inner fold is replaced by its own documented insufficient return shape
+    (the accepted ``_empty_fold`` pattern): with the config-frozen daily
+    horizons the embargo rule needs a >20-trading-day calibration segment,
+    so any small real outer fit is the miniworld-scale cold chain that is
+    capacity-blocked here — the real inner path stays covered by the T7
+    cold-chain obligations, not by this unit."""
+    import hashlib
+    from ak_trading.v2.schemas import encode_record_file, parse_json_bytes
+    from ak_trading.v2.validation import experiments as ex
+    from test_v2_m5_payoff_integration import _bypass_lock, _cached_world, _config
+    bundle, sessions, models, reference = _cached_world()
+    _bypass_lock(monkeypatch)
+
+    empty_inner = {"snapshots": (), "seasonal": None, "reference": reference,
+                   "requests": (), "labels": (), "assignments": (), "models": None,
+                   "forecasts": (), "exclusions": []}
+    frozen_outer = {"snapshots": (), "seasonal": None, "reference": reference,
+                    "requests": (), "labels": (), "assignments": (), "models": models,
+                    "forecasts": (), "exclusions": []}
+
+    def dispatcher(bundle_, config_, split_, specs_):
+        return frozen_outer if not split_.split_id.endswith("-payoff-inner") \
+            else empty_inner
+
+    monkeypatch.setattr(ex, "_fit_fold", dispatcher)
+    outputs = []
+    # Short one-level output names: pytest's temp base is deep, and the
+    # published accounts/<64-hex>/... artifact paths must stay under the
+    # Windows MAX_PATH limit (the pre-existing atomic_write boundary).
+    for tag in ("a", "b"):
+        config = _config(bundle, sessions, models, run_id="t7w-stream-" + tag)
+        monkeypatch.setattr(ex, "RUN_ROOT", tmp_path / ("r" + tag))
+        output = tmp_path / tag
+        ex._execute_validation(bundle, config, output, "smoke")
+        outputs.append(output)
+    for output in outputs:
+        manifest = parse_json_bytes((output / "manifest.json").read_bytes())
+        actual = {p.relative_to(output).as_posix()
+                  for p in output.rglob("*")
+                  if p.is_file() and p != output / "manifest.json"}
+        assert set(manifest["files"]) == actual
+        for rel, sha in manifest["files"].items():
+            assert hashlib.sha256((output / rel).read_bytes()).hexdigest() == sha, rel
+        assert not [p for p in output.rglob("*") if p.suffix == ".tmp"]
+        assert not [p for p in output.parent.iterdir() if "streaming" in p.name]
+    left, right = outputs
+    # experiment.json/readiness-adjacent files embed the differing run_id
+    # identity; every other artifact must be byte-identical across runs.
+    identity = {"manifest.json", "experiment.json", "report.md"}
+    shared = sorted(p.relative_to(left).as_posix() for p in left.rglob("*")
+                    if p.is_file() and p.name not in identity)
+    assert shared
+    for rel in shared:
+        assert (left / rel).read_bytes() == (right / rel).read_bytes(), rel
+    for rel in ("folds/r4-unit-fold/features.json", "folds/r4-unit-fold/requests.json",
+                "splits.csv", "model_activations.json", "macro_comparison.json"):
+        assert (left / rel).is_file() and (left / rel).read_bytes() == (right / rel).read_bytes()
+    # published record files are exactly the canonical encoder's bytes
+    assert (left / "folds/r4-unit-fold/features.json").read_bytes() == encode_record_file(
+        "FeatureSnapshot", "ak_probability_features_v2.1.0", ())
+    assert (left / "folds/r4-unit-fold/requests.json").read_bytes() == encode_record_file(
+        "ForecastRequest", "ak_probability_requests_v2.1.0", ())
+    streamed_rules = sorted((left).rglob("accounts/*/rules.json"))
+    assert streamed_rules, "replay accounts must publish streamed rule files"
+    for rules_path in streamed_rules:
+        from ak_trading.v2.schemas import decode_record_file
+        from ak_trading.v2.contracts import TradingRule
+        decoded = decode_record_file(rules_path.read_bytes(), TradingRule,
+                                     "ak_probability_rules_v2.1.0")
+        assert decoded and rules_path.read_bytes() == encode_record_file(
+            "TradingRule", "ak_probability_rules_v2.1.0", decoded)
+
+
+# ---------------------------------------------------------------------------
+# author007 regressions (t7-wiring-owner-004): W1 fs(name) exact dict
+# semantics, and the real inner consumer lifecycle through
+# ``_fit_training_payoffs`` → actual inner split/config → real ``_fit_fold``.
+# ---------------------------------------------------------------------------
+
+def _t7w_fs_snapshot(snapshot_id: str, price: str, decision: int):
+    """Hand-built FeatureSnapshot with a free-text id and exact Decimal
+    representation (equal-value/different-encoding duplicates by design)."""
+    from decimal import Decimal as D
+    from ak_trading.v2.contracts import DataQuality, FactorValue, FeatureSnapshot
+    quality = DataQuality("READY", (), "observed", "0" * 64)
+    values = (FactorValue("META:price_tick:v2.1.0", D("1"), 1, quality),)
+    return FeatureSnapshot(
+        snapshot_id=snapshot_id, contract_id="RB2610", raw_symbol="rb2610",
+        product="SHFE.RB", trading_day=date(2026, 1, 5), session_id="s0",
+        session_kind="DAY", decision_nano=decision, available_at_nano=decision,
+        duration_seconds=60, source_bar_ids=("b0", "b1"),
+        reference_price=D(price), atr_points=D("2"), values=values,
+        daily_background_id=None, quality=quality)
+
+
+def _t7w_fs_request(request_id: str, features, decision: int):
+    from decimal import Decimal as D
+    from ak_trading.v2.contracts import ForecastRequest, Horizon
+    return ForecastRequest(
+        request_id=request_id, features=features,
+        horizon=Horizon("TRADING_MINUTE", 1), window_start_nano=decision,
+        window_end_nano=decision + MINUTE, barrier_key="ATR_1",
+        upper_distance=D("2"), lower_distance=D("2"), frozen_range=None)
+
+
+def test_t7w_partition_feature_view_first_key_last_real_representation():
+    """W1: order A1, B, A2 yields key order A, B with values A2, B; a same-id
+    record outside the partition never influences the selection; equal-value
+    different-encoding duplicates keep the ORIGINAL LAST representation
+    (exact canonical bytes, not id/hash equality); same-id different-value
+    also takes the last request's value; missing ids and unrepresentable
+    encodings fail loudly.  The store populations never change."""
+    from ak_trading.v2._fold_records import FoldRecords
+    from ak_trading.v2.schemas import canonical_json_bytes, encode_record
+    from ak_trading.v2.validation.experiments import _partition_feature_view
+
+    def record_bytes(record):
+        return canonical_json_bytes(encode_record(record))
+
+    a1 = _t7w_fs_snapshot("A", "100.0", 10)
+    b = _t7w_fs_snapshot("B", "50.0", 20)
+    a2 = _t7w_fs_snapshot("A", "100.00", 30)
+    a_outside = _t7w_fs_snapshot("A", "100.000", 40)
+    assert a1.reference_price == a2.reference_price == a_outside.reference_price
+    assert record_bytes(a1) != record_bytes(a2) != record_bytes(a_outside)
+
+    store = FoldRecords(cache_max_records=2, cache_max_bytes=100_000)
+    for snapshot in (a1, b, a2, a_outside):
+        store.append_snapshot(snapshot)
+    for request in (_t7w_fs_request("r1", a1, 11), _t7w_fs_request("r2", b, 21),
+                    _t7w_fs_request("r3", a2, 31),
+                    _t7w_fs_request("r-out", a_outside, 41)):
+        store.append_request(request)
+    partition = store.request_view().select([0, 1, 2])  # excludes r-out
+
+    view, order = _partition_feature_view(store, partition)
+    assert order == ["A", "B"]
+    assert len(view) == 2
+    assert [view.meta(i).snapshot_id for i in range(len(view))] == ["A", "B"]
+    assert record_bytes(view[0]) == record_bytes(a2)          # last in-partition value
+    assert record_bytes(view[0]) != record_bytes(a1)          # not the first store slot
+    assert record_bytes(view[0]) != record_bytes(a_outside)   # outside records never win
+    assert record_bytes(view[1]) == record_bytes(b)
+    assert store.logical_snapshot_count == 4 and store.logical_request_count == 4
+
+    # same id, DIFFERENT value: the last request's value wins (dict semantics)
+    other = FoldRecords(cache_max_records=2, cache_max_bytes=100_000)
+    v1 = _t7w_fs_snapshot("A", "100.0", 10)
+    v2 = _t7w_fs_snapshot("A", "200.00", 30)
+    other.append_snapshot(v1); other.append_snapshot(v2)
+    other.append_request(_t7w_fs_request("r1", v1, 11))
+    other.append_request(_t7w_fs_request("r2", v2, 31))
+    view, order = _partition_feature_view(other, other.request_view())
+    assert order == ["A"] and record_bytes(view[0]) == record_bytes(v2)
+
+    # an id never appended as a snapshot fails loudly
+    ghost_store = FoldRecords(cache_max_records=2, cache_max_bytes=100_000)
+    ghost = _t7w_fs_snapshot("Z", "1.0", 10)
+    ghost_store.append_snapshot(_t7w_fs_snapshot("A", "1.0", 10))
+    ghost_store.append_request(_t7w_fs_request("rz", ghost, 11))
+    with pytest.raises(Exception, match="request_features_snapshot_missing_from_store"):
+        _partition_feature_view(ghost_store, ghost_store.request_view())
+
+    # a nested representation that no appended snapshot carries fails loudly
+    unrep = FoldRecords(cache_max_records=2, cache_max_bytes=100_000)
+    unrep.append_snapshot(_t7w_fs_snapshot("A", "100.0", 10))
+    unrep.append_request(_t7w_fs_request("r1", _t7w_fs_snapshot("A", "77.7", 30), 31))
+    with pytest.raises(Exception, match="request_features_representation_missing_from_store"):
+        _partition_feature_view(unrep, unrep.request_view())
+
+
+def _t7w_payoff_world(days: int = 44, slots: int = 30):
+    """Small ramp world whose REAL inner payoff chain fits the budget: the
+    actual inner split exists (V=24/E=1 over the 41-day outer train window),
+    the real inner ``_fit_fold`` produces a model set (1269 snapshots /
+    17664 requests at the frozen probe), and the payoff windows really
+    replay (bounded probe: t7-wiring-owner-004/work/probe-44d*)."""
+    from decimal import Decimal as D
+    from ak_trading.v2.contracts import (DataQuality, FeeLeg, FrozenInput,
+                                         Instrument, MarketBar, TradingRule)
+    quality = DataQuality("READY", ("SYNTHETIC",), "reconstructed", "a" * 64)
+    sessions = tuple(SessionWindow(
+        f"day-{i}", "SHFE.RB", date(2026, 1, 5) + timedelta(days=i),
+        (i * 1440 + 60) * MINUTE, (i * 1440 + 60 + slots) * MINUTE,
+        "DAY", "SYNTHETIC", "SCENARIO") for i in range(days))
+    contract = "RB2610"
+    leg = FeeLeg(D(1), D(0), False)
+    rule = TradingRule("t7w-payoff-rule", contract, sessions[0].start_nano,
+                       sessions[-1].end_nano + 1, sessions[0].start_nano,
+                       D(10), D('.1'), 1, 1, leg, leg, leg, D('.1'), D('.1'),
+                       D(1000), D(1), D(0), D(0), D('.1'), "SCENARIO", "1" * 64)
+    bars = []
+    for i, session in enumerate(sessions):
+        for j in range(slots):
+            start = session.start_nano + j * MINUTE
+            close = D(100) + D("0.5") * D(i * slots + j)
+            bars.append(MarketBar(
+                f"m-{i}-{j}", contract, "rb2610", "SHFE.RB", 60, start, start,
+                start + MINUTE, session.trading_day, session.session_id,
+                start + MINUTE, start + MINUTE, close, close + D(1),
+                close - D(1), close, D(100), D(1000), D(1000),
+                True, 1, 1, "SYNTHETIC", quality))
+        closes = [b.close for b in bars if b.duration_seconds == 60
+                  and b.trading_day == session.trading_day]
+        bars.append(MarketBar(
+            f"d-{i}", contract, "rb2610", "SHFE.RB", 86400,
+            session.start_nano, session.start_nano, session.end_nano,
+            session.trading_day, session.session_id, session.end_nano,
+            session.end_nano, closes[0], max(closes) + D(1),
+            min(closes) - D(1), closes[-1], D(100),
+            D(1000 * slots), D(1000 * slots), True, slots, slots,
+            "SYNTHETIC", quality))
+    instrument = Instrument(contract, "rb2610", "SHFE.RB", "synthetic",
+                            ("synthetic",), sessions[0].start_nano, None,
+                            None, None, quality)
+    return FrozenInput(Path("SYNTHETIC"), "d" * 64, (instrument,), sessions,
+                       tuple(bars), (), (rule,)), sessions, contract
+
+
+def test_t7w_fit_training_payoffs_real_inner_consumer_lifecycle(monkeypatch):
+    """The real inner chain (author007 §3): ``_fit_training_payoffs`` derives
+    its actual inner split/config and calls the REAL ``_fit_fold`` (observed
+    by a record-only wrapper) reaching a real model with non-empty records;
+    the store is readable while real consumers run, released after success
+    AND after an in-chain error, closed views keep their real population,
+    and the extracted payoff/payload consumers stay valid after close.
+    Natural OPENs are NOT fabricated here — honest NO_CANDIDATE windows are
+    reported as-is (positive T7 evidence remains a later obligation)."""
+    from ak_trading.v2._fold_records import StoreClosedError
+    from ak_trading.v2.probability.models import default_fit_config
+    from ak_trading.v2.strategies.registry import build_strategy_spec
+    from ak_trading.v2.validation import experiments as ex
+    from ak_trading.v2.validation.splits import SplitSpec
+
+    bundle, sessions, contract = _t7w_payoff_world(44, 30)
+    train_end = sessions[40].end_nano
+    cal_end = sessions[42].end_nano
+    test_end = sessions[-1].end_nano + 1
+    split = SplitSpec("t7w-payoff", sessions[0].start_nano, train_end,
+                      train_end, cal_end, cal_end, test_end, 60, 1, False)
+    fit = dict(default_fit_config(("META:price_tick:v2.1.0",), train_end,
+                                  cal_end, test_end))
+    fit.update({"seed": 7, "inner_split_fraction": 0.3,
+                "inner_minimum_train_days": 2, "inner_minimum_validation_days": 24,
+                "inner_embargo_days": 1})
+    config = {"contract_ids": [contract], "feature_durations": [60, 86400],
+              "macro_mode": "PRICE_ONLY", "synthetic": True,
+              "minute_horizons": [1, 5, 15, 30, 60], "daily_horizons": [1, 5, 20],
+              "evaluation_as_of_nano": test_end,
+              "model_fit_configs": {"t7w-payoff": fit},
+              "initial_cash_cny": "1000000", "run_policies": [], "seed": 7,
+              "research_policy_version": "research-policy-v2.1.0",
+              "macro_policy_version": "macro-risk-v2.1.0"}
+    specs = (build_strategy_spec("TREND", "MINUTE"),)
+    inner, days = ex._payoff_inner_split(bundle, config, split)
+    assert inner is not None and days and len(days) == 41
+    planned, skipped = ex._payoff_training_plans(bundle, config, split, specs)
+    assert planned, "the real inner-OOS windows must exist"
+
+    captured = {}
+    real_fit = ex._fit_fold
+
+    def observer(bundle_, config_, split_, specs_):
+        fold = real_fit(bundle_, config_, split_, specs_)
+        if split_.split_id.endswith("-payoff-inner"):
+            store = fold["record_store"]
+            snapshots_view = fold["snapshots"]
+            captured.update({
+                "snapshots": len(snapshots_view),
+                "requests": len(fold["requests"]),
+                "models_none": fold["models"] is None,
+                "store_open_during": not store.closed,
+                "meta_readable_during":
+                    [snapshots_view.meta(i).snapshot_id for i in range(3)],
+                "store": store, "snapshots_view": snapshots_view,
+                "models": fold["models"], "reference": fold["reference"]})
+        return fold
+
+    monkeypatch.setattr(ex, "_fit_fold", observer)
+    payoff, payloads, exclusions = ex._fit_training_payoffs(
+        bundle, config, split, specs, "1" * 64, plans=(planned, skipped))
+
+    # real inner fold, real models, real populations (frozen probe numbers)
+    assert captured["models_none"] is False
+    assert captured["snapshots"] == 1269 and captured["requests"] == 17664
+    assert captured["store_open_during"] and len(captured["meta_readable_during"]) == 3
+    # released after success; closed views keep the real population
+    store = captured["store"]
+    assert store.closed
+    assert len(captured["snapshots_view"]) == captured["snapshots"]
+    with pytest.raises(StoreClosedError):
+        captured["snapshots_view"][0]
+    # extracted consumers remain valid after close
+    assert payoff is not None
+    assert captured["models"] is not None and captured["reference"] is not None
+    window_files = {name.rsplit("/", 1)[-1] for name in payloads}
+    assert {"plan.json", "path.json", "opportunity.json", "manifest.json"} <= window_files
+    assert [name for name in payloads if name.endswith("opportunity.json")], \
+        "every planned window records its opportunity"
+
+    # error exit: a failure in a real post-fold consumer (payoff window)
+    # still releases the delivered store and propagates (no silent
+    # completion); an in-fold failure is released by _fit_fold's own guard.
+    captured.clear()
+
+    def failing_opportunity(*args, **kwargs):
+        raise RuntimeError("T7W_LIFECYCLE_ERROR_PROBE")
+
+    monkeypatch.setattr(ex, "_training_opportunity", failing_opportunity)
+    with pytest.raises(RuntimeError, match="T7W_LIFECYCLE_ERROR_PROBE"):
+        ex._fit_training_payoffs(bundle, config, split, specs, "1" * 64,
+                                 plans=(planned, skipped))
+    assert store.closed
+
+    # in-fold failure: an exception raised inside the real ``_fit_fold``
+    # (after the store exists) is released by the fold's own guard; the
+    # store is captured at creation through a record-only factory wrapper.
+    created = []
+    real_store_factory = ex._new_record_store
+
+    def recording_store():
+        created_store = real_store_factory()
+        created.append(created_store)
+        return created_store
+
+    from ak_trading.v2.probability import models as models_module
+
+    def failing_from_views(*args, **kwargs):
+        raise RuntimeError("T7W_INFOLD_ERROR_PROBE")
+
+    monkeypatch.setattr(ex, "_new_record_store", recording_store)
+    monkeypatch.setattr(models_module, "_fit_forecast_models_from_views",
+                        failing_from_views)
+    with pytest.raises(RuntimeError, match="T7W_INFOLD_ERROR_PROBE"):
+        ex._fit_training_payoffs(bundle, config, split, specs, "1" * 64,
+                                 plans=(planned, skipped))
+    assert created and created[-1].closed

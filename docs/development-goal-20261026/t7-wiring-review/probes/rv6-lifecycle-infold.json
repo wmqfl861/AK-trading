@@ -1,0 +1,16 @@
+{
+ "infold_error_exit": {
+  "all_created_closed": true,
+  "last_store_closed": true,
+  "raised": "RV6_INFOLD_ERROR",
+  "stores_created": 1
+ },
+ "inner_split": {
+  "days": 41,
+  "exists": true,
+  "split_id": "t7w-payoff-payoff-inner"
+ },
+ "mode": "infold",
+ "module": "C:\\AKWorktrees\\aktr-goal-t7-wiring-20261027-r2\\src\\ak_trading\\v2\\validation\\experiments.py",
+ "planned_windows": 3
+}
