@@ -1,0 +1,105 @@
+{
+ "schema": "aktr-t7-R0-frozen-input-scope-review-result/v1",
+ "task_id": "aktr-zcode-goal-t7-R0-review-20261027-006",
+ "sealed_utc": "2026-10-27T10:41:43+00:00",
+ "candidate": {
+  "root": "C:\\AKWorktrees\\aktr-goal-t7b-20261027-r7",
+  "kind": "plain successor worktree",
+  "freeze_revision": "r8 (F.json)",
+  "writeset_record": "zcode-dispatch/t7-b-successor-owner-022/work/F.json"
+ },
+ "verdict": "R0_FROZEN_INPUT_SCOPE_CHECK_OK",
+ "verdict_scope": "T7 form 5.4(2) input R0 only on F(r8) at the r7 candidate; NOT plan review, NOT R1, NOT full-T7 PASS; no fit/cold chain/lock authoring",
+ "commands": [
+  {
+   "id": "C1",
+   "raw_exit": "0",
+   "summary": "151/151 REQUEST pins verified pre and post; interpreter pinned"
+  },
+  {
+   "id": "C2",
+   "raw_exit": "0",
+   "summary": "F 129 attachments/floor 104 (incl _fold_records.py); DAILY manifest 111; sorted/safe/no-circular; per-file hashes exact; F pins DAILY manifest; accepted 32 records = 28 MATCH + 4 SUPERSEDED_BY_A2; m4_causality SUPERSEDED_BY_STAGING (tree==F==staging); expiry+reconciliation markers; timing marks side-log-only",
+   "attempts": [
+    {
+     "raw_exit": "2",
+     "cause": "audit-script supersession-classification bug (reviewer-side)"
+    },
+    {
+     "raw_exit": "2",
+     "cause": "audit-script guard inversion (reviewer-side)"
+    }
+   ]
+  },
+  {
+   "id": "C3",
+   "raw_exit": "0",
+   "summary": "frozen verifiers [] both; 14/14 byte-identical; plan-set hashes equal r6b (d6a64545.../2b2f49f6...) proving semantic neutrality of the merge and timing marks",
+   "note": "an earlier attempt exited 2 on a reviewer-side hash typo (fabricated tail from a 20-char prefix), corrected from the real pin"
+  },
+  {
+   "id": "C4",
+   "raw_exit": "0",
+   "summary": "floors/chronology unchanged; six durations; exact fast-fail frozen_config_values_changed:feature_durations; parse_config precedes outer_stand_in_daily"
+  },
+  {
+   "id": "C5a",
+   "raw_exit": "0",
+   "summary": "official verifier returned pinned H_F df7bc0ee...f1065"
+  },
+  {
+   "id": "C5b",
+   "raw_exit": "0",
+   "summary": "14/14 producer bindings agree; manifest bindings match"
+  },
+  {
+   "id": "C5c",
+   "raw_exit": "0",
+   "summary": "2 manifest nodes 2/2 passed via offline runner, fresh basetemp"
+  },
+  {
+   "id": "C5d",
+   "raw_exit": "0",
+   "summary": "2 config fast-fail regression nodes 2/2 passed"
+  },
+  {
+   "id": "C6",
+   "raw_exit": "0",
+   "summary": "13/13 probes matched exact expected rejections"
+  },
+  {
+   "id": "C7",
+   "raw_exit": "0",
+   "summary": "post-review immutability: 151/151 pins; L0/L1 ABSENT; no new bytecode; 12 unchanged inputs byte-identical to r6b"
+  }
+ ],
+ "key_identities": {
+  "H_F_lf_normalized": "df7bc0ee6598707625ca3ca794e9d8bcf1a70a70bfc06296573fbc194a6f1065",
+  "F_bytes": 21778,
+  "F_attachments": 129,
+  "daily_manifest_H_lf_normalized": "04ac309e442f2005ca54937b2134ae153f1bab1b79c82683fb6992c91c038c61",
+  "daily_manifest_attachments": 111,
+  "behavioral_source_floor": 104,
+  "staging_accepted_files": 11,
+  "accepted_record_files": 32,
+  "producer_bindings_rows": 14,
+  "frozen_support_sha256": "62a0977ce436b4ab2caa8419f20bc6b747039e6fd1eb83f4af4e1ff10fc2bbf6",
+  "minute_plan_set_sha256": "d6a645450b8ed8b000725751d58fdf1e877f8ad287dbc2d2a9b2bd901fef8472",
+  "daily_plan_set_sha256": "2b2f49f6b92733031a71c16c175174e636a385ca2791b9813331566a6f012fe1",
+  "world_unchanged": "3182 days / N3150 / 19 windows / floors 200/30 / six durations"
+ },
+ "findings": {
+  "blocking": [],
+  "non_blocking_observations": [
+   "OBS-1 (carried): recipe.json raw newlines in shape string; hash-bound, never strict-parsed",
+   "OBS-2: phase-timing marks verified diagnostics-only (side log, no canonical writes, unchanged regeneration)"
+  ]
+ },
+ "boundary": {
+  "enable_trading": false,
+  "observer": "hold",
+  "broker": "NOT_RUN",
+  "real_send": 0,
+  "real_cancel": 0
+ }
+}

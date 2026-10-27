@@ -186,3 +186,20 @@ T7 接线独立006无条件PASS：M2六文件96P、M3A六文件183P、M5 experim
 另两个实际ZCode调用为DISPATCH原开发003（author010，修共享生产判定、真实截止和after-use）与N8原reviewer065（author013，逐步修审核工具、最终完整人口核对）；独立会话库，其他冻结成果只读。M5控制033在独立监督870.203秒处关闭，父watchdog raw130、Job active0，符合900秒外限；独立CLI终态未单独捕获。控制检查10通过／1失败，剩余occupied-output拒绝，报告／冻结尚未交付，正式006未运行。原作者011仅处理此既有缺口。
 
 M5期间出现服务方429／1302限流，保留原错误而不改称产品失败；观察后恢复本轮最多3个独立CLI，正式M5重型准入仍按自身限制。未新增产品功能，未改模型配置，交易保持false/hold/NOT_RUN/0/0。完整T7、N8、M5和DISPATCH仍未全部硬审闭合，不宣称项目完成。
+
+
+## 2026-10-27 10:57 UTC 新输入 R0 已完成，继续既有四项
+
+T7 原 B 开发者022完成新候选 r7／冻结 r8：仅更新 support 和两份输入清单，12份数据／recipe／partition 原字节保留。17文件冻结的新 F 为 `df7bc0ee6598707625ca3ca794e9d8bcf1a70a70bfc06296573fbc194a6f1065`。独立 R0-006 已结束，CLI raw0、原会话身份一致、请求输入未变，结论为 `R0_FROZEN_INPUT_SCOPE_CHECK_OK`。原报告和结果见 [R0-REPORT.md](t7-input-r8-review/R0-REPORT.md) 与 [R0-RESULT.json](t7-input-r8-review/R0-RESULT.json)。
+
+独立检查包括两份 manifest 节点2 passed/raw0、两个配置快速拒绝节点2 passed/raw0、14项producer绑定及13项反例。完整命令、退出码、范围和报告自身失败记录见上述报告。R0仅确认输入范围，不是R1或完整T7的PASS。Root接收时对实际REQUEST-002的154个输入逐项验证；报告内部151项检查口径保留，不混称同一计数。原M1会话007已于10:51 UTC启动，为该F和实际R0报告生成、独立进程验证新L0；旧锁不覆盖。候选17文件尚未按完整T7接受合入main。
+
+B监督器009的FAIL指出：已有非JSON RUN-FACTS时worker拒绝为2，外层错误改为3。原owner023已修复该分支，自测1 passed/raw0；独立复审010已准备，等待当前三个CLI之一结束。原owner工具区间24.934秒超过剩余额度19.992秒，超出4.942秒，不能采信其“额度内”表述。输入准备022的count-check raw0但195秒超过60秒，同样保留，不据此声称资源合规。
+
+N8原reviewer066与DISPATCH原owner004正在各自既有修复范围内执行。N8采用原作者014的三个有限检查点，066只处理精确guarded谓词和实际人口目录前置，不启动正式T63。DISPATCH沿author011修实际manifest解析缓存与使用后的重新核对；正式032仍等待旧003真实命令消费核对，不能因输出缺失推断尚未消耗。CLI结束、局部检查和原作者裁定均不替代产品硬审核。
+
+M5原作者013已完成，raw0/receiver0、输入未变。它授权原审核者按035单缺陷检查点、条件036集成继续；每次整个CLI限480秒，450秒开始关闭，内部命令帽合计180秒。实际034的外层570.094秒停止、watchdog130、Job active0保留；Root已根据013核对原CLI和watchdog身份均不在运行，补写仅证明关闭的外部终态，CLI原生退出仍UNKNOWN。035工单已准备，须恢复其2GiB预留、通过实时容量准入并获得CLI空槽后启动。正式006／条件generation和full100的原限制不变。
+
+本次Root曾直接读取不存在的可选USAGE.md，命令raw1，未启动任何CLI或修改产品。已通过目录文件清单找到实际watchdog源码；后续可选文档先检查存在，不凭惯例猜文件名。索引中docs目录被排除、外部候选不在图内，相关判断采用实际文件核对，不宣称图完整覆盖。
+
+用户批准的CLAUDE.md两处规则同步已在c151d5c提交；该提交同时更新RULE-CONFLICTS与对应STATUS，当前main已包含它。当前职责仍为Astra计划、ZCode开发、另一独立ZCode硬审；没有新增产品功能或模型配置变更。完整T7、M5、N8、DISPATCH仍未全部通过。交易保持enable_trading=False、observer=hold、broker=NOT_RUN，真实send/cancel为0/0。
