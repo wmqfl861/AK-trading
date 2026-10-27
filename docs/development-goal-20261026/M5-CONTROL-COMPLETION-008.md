@@ -37,7 +37,7 @@
    - Deadline enforcement during bootstrap/preflight and after child completion.
    - A tiny child/grandchild timeout, bounded tree cleanup and closed-stream handling.
    - Nonzero propagation for child failure, malformed authority, receipt/publication failure and occupied output.
-   
+
    Static string assertions cannot substitute for these executions. Retain unaffected031 evidence; rerun only checks affected by r4 changes. Ordinary corrections within this180-second window require no further author round. Local probes do not consume formal006.
 
 5. **Apply this accounting amendment without rewriting the old ledger.**
