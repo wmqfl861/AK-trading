@@ -1,0 +1,60 @@
+{
+  "schema": "aktr-chronological-hard-review-findings/v1",
+  "dispatch": "chronological-full-review-007",
+  "reviewer_session": "sess_03bbb184-c36a-4c58-8644-97b79104b79e",
+  "verdict_reference": "VERDICT.json in this directory",
+  "findings": [
+    {
+      "id": "F-001",
+      "severity": "resolved_obstacle",
+      "title": "Relocated-namespace inventory lookup gate (StopIteration)",
+      "facts": "Unadapted wrapper _source_pins (lines 247-248, 255-256) compares physical candidate path strings against original absolute D:/Projects/AK-trading inventory keys; reproduced read-only in 001 (direct call StopIteration; production CLI native 2 status=rejected, no output root created). All staged bytes matched the inventory pins, so this was keying, not content.",
+      "classification": "Packaging/environment, not a product-mathematics defect; author disposition namespace-001 N01-N05 (NON_SUBSTANTIVE_EXISTING_BOUNDARY) authorized exactly two logical lookup aliases with physical reads/hashes unchanged.",
+      "verification": "Adapter self-test: 18 physical-behavior checks pass; corrupted bytes behind a correct logical name still fail with the product's own 'legacy source manifest hash mismatch'; unrelated paths never aliased; the single authorized replay ran the unchanged main(argv) under this mapping.",
+      "status": "closed by disposition + successful adapted execution"
+    },
+    {
+      "id": "F-002",
+      "severity": "none",
+      "title": "All original acceptance counts and closed-content predicates reproduced from a fresh independent replay",
+      "facts": "One authorized supervised run (ROOT-COMMAND.json pinned 01105d77088c70d382fb59575e33c385177dfd97fcd1c3b5b8918566e6f52ef6): worker exit 0, main_return 0, 3622.8 s < 5400 s, peak job memory 888279040 < 1073741824, output 60692844 B < quota 196112437 B, 0 descendants alive after termination, post-pins OK. Fresh tree: 1523 files / 60682453 B, manifest complete a1879111dd2d15560983fee16eead53947b521c136d61f4ee0cd7c8184431c3b, and byte-identical file-for-file to the closed owner-r1 tree (which itself matches owner-replay-r1). Counts: 84 RB / 252 children / 53541 ALL / 38694 PRIMARY / 3528 contract-year / 42 year / 42 pair-summary / 92235 paired (all MATCHED).",
+      "verification": "check8_fresh_structure.py (007 corrected copy ec51af291159e13bb14d2526ab99f2437e6eababa7fbabd8b3f42af130c8cfe6) verdict OK; check9_accounting.py (004 bytes, 4734-byte oracle lineage) verdict OK 0 problems; 3303-entry transitive inventory verified before AND after the run (0 absent / 0 mismatch).",
+      "status": "verified"
+    },
+    {
+      "id": "F-003",
+      "severity": "none",
+      "title": "H01-H11/C01C02 behavioral conformance",
+      "facts": "Namespace-adapted H10 execution of all four pinned test files: 272 passed / 0 failed, engine origins bound to the frozen candidate (002, disclosed as namespace-adapted; launcher argument validation, sanitized environment, offline guard, OfflinePlugin and cache/temp controls preserved); 106-pass smoke run. C01 provenance closure (252 x 20 exact typed fields, child artifact hashes re-verified, wrapper pin, int 0/0) verified on owner trees (001), and re-verified on the fresh tree (check8). Exact-Fraction accounting verified on the closed owner tree (004) and on the fresh tree (007): daily conservation, fill-derived deltas, cross-year carry without reset, seven-year conservation, j>=60 mask, pair arithmetic/view membership, denominators and exact medians.",
+      "status": "verified"
+    },
+    {
+      "id": "F-004",
+      "severity": "historical_process_record",
+      "title": "Preserved failures of the review process (not product defects)",
+      "facts": "003: pure transport failure (native 1 / HTTP 502, 0-byte stdout, inputs unchanged). 004: first replay killed at the 600 s bound (exit 124; 42 children); second attempt breached that bound (2232.07 s, terminated by Root, Python exit 15, outer wrapper exit 1) with 159 children; partial trees replay-r1/replay-r2 preserved and never stitched. 005 freeze pinned its own still-open stdout log as 0 B; the 006 ROOT-CLOSED-CONTROLS.json disposition binds the actual closed 287 B log for that exact producer only.",
+      "status": "preserved per R01; no retrospective reinterpretation"
+    },
+    {
+      "id": "F-005",
+      "severity": "disclosed_reviewer_tool_defects",
+      "title": "Reviewer-owned script defects found by validation and fixed (never product defects, never hidden)",
+      "facts": "001 check3: report.md needle constructed incorrectly (two false 'missing' problems); owner report.md contains the exact C01 strings. 004 check9 oracle: (a) nonsense constant-cumulative assertion (11,893 false problems on owner-r1), (b) string/int j (TypeError), (c) pair-count formula double-multiplied by 3; all three fixed and disclosed, then OK on owner-r1. 004/005 check8: latent dict|set TypeError (that script had never run to that point); fixed in the 007 corrected copy. 005 supervision attempt 1: missing --output forwarding to the worker and a bad t1 setup; preserved with raw exits; attempt 2 all 7/7. 005 launcher/plugin first run: plugin-instance registration did not register module fixtures (272-failure run preserved in 002 logs); fixed to module plugin.",
+      "status": "all disclosed; final tools validated before reliance"
+    },
+    {
+      "id": "F-006",
+      "severity": "informational_limit",
+      "title": "Performance overlap and research limits",
+      "facts": "The replay overlapped DAILY016 (PIDs 135780/138276/158012 alive at both ends, ~60.6 min); observed 13.9 s/child under overlap vs 13.2-14.0 s uncontended. No deadline, memory, quota or result was affected.",
+      "status": "recorded; explicitly not a performance-qualification claim; statistical_qualification=NOT_ASSESSED; new_statistical_evidence=false"
+    },
+    {
+      "id": "F-007",
+      "severity": "none",
+      "title": "Safety boundary intact throughout",
+      "facts": "All levels carry evidence_level=SCENARIO, assumptions_verification=not_historical_verified, historical_strict_execution=false, broker=NOT_RUN, enable_trading=false, real send/cancel 0/0, calendar UNAVAILABLE_VERIFIED_TRADING_CALENDAR; no credentials/.env access, no network/DB/SDK/services/UI/Git/broker/nested agents in any reviewer dispatch.",
+      "status": "verified"
+    }
+  ]
+}

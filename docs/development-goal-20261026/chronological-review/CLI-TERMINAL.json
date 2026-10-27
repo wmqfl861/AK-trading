@@ -1,0 +1,12 @@
+{
+  "task_id": "aktr-zcode-goal-chronological-full-review-20261027-007",
+  "pid": 131008,
+  "creation_filetime": 134375346999580481,
+  "ended_utc": "2026-10-27T01:44:16.683829+00:00",
+  "native_exit_code": 0,
+  "status": "TERMINAL",
+  "frozen_inputs_unchanged": true,
+  "input_changes": [],
+  "stdout_bytes": 3034,
+  "stderr_bytes": 2399
+}

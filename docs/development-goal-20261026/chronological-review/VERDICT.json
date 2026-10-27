@@ -1,0 +1,90 @@
+{
+  "schema": "aktr-chronological-hard-review-verdict/v1",
+  "dispatch": "chronological-full-review-007",
+  "task_id": "aktr-zcode-goal-chronological-full-review-20261027-007",
+  "reviewer_session": "sess_03bbb184-c36a-4c58-8644-97b79104b79e",
+  "independence": "no role in the reviewed product's planning, development or repair; fresh independent sessions per dispatch under the current project roles",
+  "verdict": "PASS",
+  "conditional": false,
+  "scope": {
+    "product": "frozen three-file historical RB chronological-transfer candidate",
+    "pins": {
+      "tools/experiments/historical_daily_chronological_transfer.py": "f1c0a416383fa07313d03d01abd6a608c6d52fadd3e289700265ed7cc8d2e950",
+      "tests/experiments/test_historical_daily_chronological_transfer.py": "8270cd94809b04556380c249def68a5499eb8a519dba3723f51de3b7eb1608b9",
+      "tests/fixtures/experiments/rb_daily_chronological_transfer/base.json": "3a958393bebd7da253c13d32ea996653a213405536e20e278083398e30a9b996"
+    },
+    "standard": "PLAN-F01-20261015-r2 H01-H11 + C01/C02 (r3 clarification and disposition), amended by namespace-001 N01-N05, runtime-002 R01-R06, concurrency-004 scheduling",
+    "execution_mapping_disclosure": "verified under the authorized N01-N05 two-alias logical-namespace mapping with physical candidate reads/hashes; the unadapted relocated CLI still fails closed (StopIteration) and that is classified as packaging, not product mathematics",
+    "not_a_claim_about": [
+      "MAIN's accepted P2-7 successor",
+      "general arbitrary-location CLI compatibility without the disclosed mapping",
+      "historical PIT/OOS validity, trading-calendar validity, continuous-roll validity",
+      "M5 A/B mandatory-gate acceptance",
+      "formal historical qualification or paper acceptance"
+    ]
+  },
+  "basis": {
+    "independent_fresh_replay": {
+      "command": "ROOT-COMMAND.json sha256 01105d77088c70d382fb59575e33c385177dfd97fcd1c3b5b8918566e6f52ef6",
+      "output_root": "work/replay-r3",
+      "worker_exit": 0,
+      "main_return": 0,
+      "supervisor_stop_reason": null,
+      "elapsed_seconds": 3622.8,
+      "deadline_seconds": 5400,
+      "peak_job_memory_bytes": 888279040,
+      "memory_cap_bytes": 1073741824,
+      "output_bytes_written": 60692844,
+      "quota_bytes": 196112437,
+      "descendants_alive_after_termination": 0,
+      "post_pins_ok": true,
+      "overlap_with_daily016": "PIDs 135780/138276/158012 alive at start and end; ~60.6 minutes; no performance claim"
+    },
+    "reproduction": "1523/1523 files byte-identical to closed owner-r1 (manifest a1879111dd2d15560983fee16eead53947b521c136d61f4ee0cd7c8184431c3b, which equals owner-replay-r1)",
+    "counts": {
+      "rb_declarations": 84,
+      "rb_bars": 17847,
+      "rb_distinct_raw_dates": 1489,
+      "short_contracts": {"SHFE.rb2009": 42, "SHFE.rb2010": 58, "SHFE.rb2706": 58, "SHFE.rb2707": 37, "SHFE.rb2708": 14},
+      "child_calls": 252,
+      "daily_rows_ALL": 53541,
+      "primary_rows_j_ge_60": 38694,
+      "contract_year_cells": 3528,
+      "year_summary_rows": 42,
+      "paired_summary_rows": 42,
+      "paired_observation_rows": 92235,
+      "pair_classifications": {"MATCHED": 92235, "MISSING_A": 0, "MISSING_B": 0, "IDENTITY_MISMATCH": 0, "NONFINITE_OR_INVALID_AMOUNT": 0, "SUPPORT_MISMATCH": 0}
+    },
+    "checks_reused_at_frozen_pins": [
+      "213-file staging closure + all inventory pins (001 check1)",
+      "read-only relocation-gate reproduction (001 check2)",
+      "closed owner-run structural/C01 closure (001 check3; needle false-alarm corrected)",
+      "namespace adapter fail-closed self-verification (002 check5)",
+      "namespace-adapted H10 four-file suite 272P + 106P smoke (002 check6)",
+      "exact-Fraction accounting oracle OK on owner-r1 and on fresh replay-r3 (004 check9 / 007)",
+      "supervision 7/7 negative-and-positive validation (005)",
+      "3303-entry transitive inventory verified before and after the replay (007)"
+    ],
+    "evidence_locations": [
+      "work/logs/root-command-launch.json",
+      "work/replay-r3.supervisor/{preflight,startup,worker-pre,worker-post,terminal,seal}.json",
+      "work/logs/inventory-before.json",
+      "work/logs/inventory-after.json",
+      "work/logs/check8.stdout",
+      "work/logs/check9.stdout",
+      "001-006 dispatch work trees (read-only, preserved)"
+    ]
+  },
+  "limits": {
+    "evidence_level": "SCENARIO",
+    "calendar": "CALENDAR_UNVERIFIED (UNAVAILABLE_VERIFIED_TRADING_CALENDAR)",
+    "assumptions_verification": "not_historical_verified",
+    "historical_strict_execution": false,
+    "statistical_qualification": "NOT_ASSESSED",
+    "new_statistical_evidence": false,
+    "m5_ab_mandatory_gate": false,
+    "trading": {"enable_trading": false, "observer_position": "hold", "broker": "NOT_RUN",
+                "real_order_send_calls": 0, "real_order_cancel_calls": 0}
+  },
+  "notes": "production_acceptance=true inside run outputs is the wrapper's structural self-description; this file is the only independent product verdict. Reviewer tool defects found and fixed during the process are disclosed in FINDINGS.json F-005; preserved failures in F-004. One authorized attempt was used; no retries, restarts, extensions, stitching, population reduction or private-publisher substitution occurred."
+}

@@ -1,0 +1,155 @@
+{
+ "supervisor_pid": 153132,
+ "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+ "runner": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\chronological-review-supervision-005\\work\\harness\\replay_worker.py",
+ "runner_sha256": "991d472cba5353e092ddfa702671f9c9fbf01db8ff88d6c3ccbf49659ef50fe8",
+ "output": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\chronological-full-review-007\\work\\replay-r3",
+ "records_dir": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\chronological-full-review-007\\work\\replay-r3.supervisor",
+ "cwd": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2",
+ "deadline_seconds": 5400,
+ "memory_cap_bytes": 1073741824,
+ "prerecord_grace_seconds": 300,
+ "phase": "terminal",
+ "worker_exit": 0,
+ "stop_reason": null,
+ "elapsed_seconds": 3622.8,
+ "main_return": 0,
+ "peak_job_memory_used": 888279040,
+ "memory_kill_threshold": 1020054732,
+ "peak_samples": 1608,
+ "output_bytes_written": 60692844,
+ "quota_bytes": 196112437,
+ "bytes_samples": 691,
+ "descendants_alive_after_termination": 0,
+ "worker_pre_record": {
+  "pid": 162488,
+  "cwd": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "wrapper": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\tools\\experiments\\historical_daily_chronological_transfer.py",
+  "wrapper_sha256": "f1c0a416383fa07313d03d01abd6a608c6d52fadd3e289700265ed7cc8d2e950",
+  "adapter": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\chronological-hard-review-002\\work\\harness\\namespace_adapter.py",
+  "adapter_sha256": "69c6b501639db9001ac6a0224c2670e2d3880f04841d5fe6f234452ee4efcb23",
+  "argv": [
+   "--input-bundle",
+   "D:\\Projects\\AK-trading\\data\\strategy_artifacts\\futures-lib-20260907-codex-01\\real-input-02",
+   "--base-config",
+   "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\tests\\fixtures\\experiments\\rb_daily_chronological_transfer\\base.json",
+   "--output",
+   "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\chronological-full-review-007\\work\\replay-r3"
+  ],
+  "module_name": "rb_chronology_fresh_replay_005",
+  "phase": "pre-main",
+  "adapter_applied": {
+   "physical_root": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2",
+   "logical_root": "D:/Projects/AK-trading",
+   "aliases": [
+    "D:/Projects/AK-trading/data/research_runs/project-review-20260908-rb2101-ma-final/manifest.json",
+    "D:/Projects/AK-trading/tools/experiments/historical_daily_scenario_compare.py"
+   ],
+   "rebound": [
+    "ROOT",
+    "LEGACY_MANIFEST"
+   ]
+  },
+  "adapter_state": {
+   "legacy_logical": "D:/Projects/AK-trading/data/research_runs/project-review-20260908-rb2101-ma-final/manifest.json",
+   "legacy_physical_str": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\data\\research_runs\\project-review-20260908-rb2101-ma-final\\manifest.json",
+   "sibling_logical": "D:/Projects/AK-trading/tools/experiments/historical_daily_scenario_compare.py",
+   "sibling_physical_str": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\tools\\experiments\\historical_daily_scenario_compare.py",
+   "root_str": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2"
+  },
+  "engine_module_origins": {
+   "ak_trading.futures.io": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\io.py"
+   },
+   "ak_trading.futures.scenario_backtest": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\scenario_backtest.py"
+   },
+   "ak_trading.futures.spec": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\spec.py"
+   },
+   "ak_trading.futures.strategies": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\strategies.py"
+   },
+   "ak_trading.futures.data": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\data.py"
+   },
+   "ak_trading.futures.structures": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\structures.py"
+   }
+  }
+ },
+ "worker_post_record": {
+  "pid": 162488,
+  "cwd": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2",
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "wrapper": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\tools\\experiments\\historical_daily_chronological_transfer.py",
+  "wrapper_sha256": "f1c0a416383fa07313d03d01abd6a608c6d52fadd3e289700265ed7cc8d2e950",
+  "adapter": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\chronological-hard-review-002\\work\\harness\\namespace_adapter.py",
+  "adapter_sha256": "69c6b501639db9001ac6a0224c2670e2d3880f04841d5fe6f234452ee4efcb23",
+  "argv": [
+   "--input-bundle",
+   "D:\\Projects\\AK-trading\\data\\strategy_artifacts\\futures-lib-20260907-codex-01\\real-input-02",
+   "--base-config",
+   "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\tests\\fixtures\\experiments\\rb_daily_chronological_transfer\\base.json",
+   "--output",
+   "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\chronological-full-review-007\\work\\replay-r3"
+  ],
+  "module_name": "rb_chronology_fresh_replay_005",
+  "phase": "post-main",
+  "adapter_applied": {
+   "physical_root": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2",
+   "logical_root": "D:/Projects/AK-trading",
+   "aliases": [
+    "D:/Projects/AK-trading/data/research_runs/project-review-20260908-rb2101-ma-final/manifest.json",
+    "D:/Projects/AK-trading/tools/experiments/historical_daily_scenario_compare.py"
+   ],
+   "rebound": [
+    "ROOT",
+    "LEGACY_MANIFEST"
+   ]
+  },
+  "adapter_state": {
+   "legacy_logical": "D:/Projects/AK-trading/data/research_runs/project-review-20260908-rb2101-ma-final/manifest.json",
+   "legacy_physical_str": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\data\\research_runs\\project-review-20260908-rb2101-ma-final\\manifest.json",
+   "sibling_logical": "D:/Projects/AK-trading/tools/experiments/historical_daily_scenario_compare.py",
+   "sibling_physical_str": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\tools\\experiments\\historical_daily_scenario_compare.py",
+   "root_str": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2"
+  },
+  "engine_module_origins": {
+   "ak_trading.futures.io": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\io.py"
+   },
+   "ak_trading.futures.scenario_backtest": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\scenario_backtest.py"
+   },
+   "ak_trading.futures.spec": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\spec.py"
+   },
+   "ak_trading.futures.strategies": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\strategies.py"
+   },
+   "ak_trading.futures.data": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\data.py"
+   },
+   "ak_trading.futures.structures": {
+    "file": "C:\\AKWorktrees\\aktr-goal-chronological-20261026-r2\\src\\ak_trading\\futures\\structures.py"
+   }
+  },
+  "main_return": 0,
+  "elapsed_seconds": 3621.4
+ },
+ "post_pins": {
+  "C:/AKWorktrees/aktr-goal-chronological-20261026-r2/tools/experiments/historical_daily_chronological_transfer.py": "f1c0a416383fa07313d03d01abd6a608c6d52fadd3e289700265ed7cc8d2e950",
+  "C:/AKWorktrees/aktr-goal-20261026/zcode-dispatch/chronological-hard-review-002/work/harness/namespace_adapter.py": "69c6b501639db9001ac6a0224c2670e2d3880f04841d5fe6f234452ee4efcb23",
+  "C:/AKWorktrees/aktr-goal-20261026/chronological-staging-002/STAGING.json": "8be18885d211d732b8a5df9f1376c61d2566b1bc8f9a9db6b3f5855553280b05",
+  "C:/AKWorktrees/aktr-goal-chronological-20261026-r2/tests/fixtures/experiments/rb_daily_chronological_transfer/base.json": "3a958393bebd7da253c13d32ea996653a213405536e20e278083398e30a9b996",
+  "D:/Projects/AK-trading/data/strategy_artifacts/futures-lib-20260907-codex-01/real-input-02/manifest.json": "99366eb8310222957d2dc896df1e6781982b9995a91c352f106bfbbfd77493a3",
+  "C:/AKWorktrees/aktr-goal-20261026/astra-chronological-namespace-001/AUTHOR-DISPOSITION.md": "069f0ea2669c87a945310567dd170be43cc02c4130051270ab1823b9f035d09c",
+  "C:/AKWorktrees/aktr-goal-20261026/astra-chronological-runtime-002/AUTHOR-DISPOSITION.md": "db5f552c6c48bda1befa7475208bf5ad1e92059105f5964f653133ddd3d65018",
+  "C:\\AKWorktrees\\aktr-goal-20261026\\astra-chronological-concurrency-004\\AUTHOR-DISPOSITION.md": "ee43d525080a009a081ebeda79cdc573ce6aa67705ebfc8d0bcf8f6765bac079"
+ },
+ "post_pins_ok": true,
+ "worker_stdout_log_sha256": "a035dc94bb19c5aa987b34e3602b56d7a6e493c42a17a2ea81f0ae31dc738e4a",
+ "worker_stderr_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,82 @@
+{
+ "pid": 159044,
+ "cwd": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\chronological-full-review-007\\work",
+ "check": "fresh_replay_structure",
+ "facts": {
+  "status": "complete",
+  "actual_counts": {
+   "child_calls": 252,
+   "contract_year_cells": 3528,
+   "daily_rows": 53541,
+   "paired_observation_rows": 92235,
+   "paired_summary_rows": 42,
+   "primary_rows": 38694,
+   "year_summary_rows": 42
+  },
+  "evaluation_scope": "FROZEN_REAL_INPUT_SCENARIO",
+  "production_acceptance": true,
+  "wrapper_sha256": "f1c0a416383fa07313d03d01abd6a608c6d52fadd3e289700265ed7cc8d2e950",
+  "safety": {
+   "evidence_level": "SCENARIO",
+   "historical_strict_execution": false,
+   "assumptions_verification": "not_historical_verified",
+   "broker": "NOT_RUN",
+   "enable_trading": false,
+   "real_order_send_calls": 0,
+   "real_order_cancel_calls": 0
+  },
+  "calendar_status": "UNAVAILABLE_VERIFIED_TRADING_CALENDAR",
+  "file_count": 1523,
+  "total_bytes": 60682453,
+  "content_hash_mismatches": 0,
+  "byte_identical_to_owner_r1": {
+   "files_compared": 1523,
+   "identical": 1523,
+   "differing": [],
+   "only_in_fresh": [],
+   "only_in_owner": []
+  },
+  "summary_product_hard_review": "NOT_RUN",
+  "summary_pair_classifications": {
+   "IDENTITY_MISMATCH": 0,
+   "MATCHED": 92235,
+   "MISSING_A": 0,
+   "MISSING_B": 0,
+   "NONFINITE_OR_INVALID_AMOUNT": 0,
+   "SUPPORT_MISMATCH": 0
+  },
+  "short_contracts": [
+   [
+    "SHFE.rb2009",
+    42
+   ],
+   [
+    "SHFE.rb2010",
+    58
+   ],
+   [
+    "SHFE.rb2706",
+    58
+   ],
+   [
+    "SHFE.rb2707",
+    37
+   ],
+   [
+    "SHFE.rb2708",
+    14
+   ]
+  ],
+  "child_provenance_entries": 252,
+  "child_provenance_problems": 0,
+  "csv_row_counts": {
+   "daily_attribution.csv": 53541,
+   "contract_year.csv": 3528,
+   "year_summary.csv": 42,
+   "paired_summary.csv": 42,
+   "paired_observations.csv": 92235
+  }
+ },
+ "problems": [],
+ "verdict": "OK"
+}
