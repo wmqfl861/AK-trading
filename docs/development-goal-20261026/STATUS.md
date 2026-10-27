@@ -16,7 +16,7 @@
 | 模块 | 已核实际状态 | 正在执行的下一步 |
 | --- | --- | --- |
 | A4 CLI 入口保护 | **独立 ZCode 无条件 PASS，已推送 `c152e33`。** 开发者、独立审核、main 集成各 18 passed / raw 0；独立真实 CLI 反例 11/11 符合预期。 | 有限入口保护已完成；完整 ordinary shadow 接线仍未完成。见 [接受记录](A4-ACCEPTANCE.json)。 |
-| T7 / M4 与 DAILY | **M4 causality 两行修复已获独立 ZCode 无条件 PASS**：重点4P、完整九文件259P、16项反例检查，原始退出均0；623输入前后未变。原 M4 payoffs 接受继续有效。 | 已按接受字节合入main，见[M4 causality接受记录](M4-CAUSALITY-ACCEPTANCE.json)。B原owner019已于05:36 UTC修复监督器独立006的FAIL；DAILY仍等待接线、监督器、新F/R0/L0和真实验证。 |
+| T7 / M4 与 DAILY | **M4 causality 两行修复已获独立 ZCode 无条件 PASS**：重点4P、完整九文件259P、16项反例检查，原始退出均0；623输入前后未变。原 M4 payoffs 接受继续有效。 | 已按接受字节推送main `ad7c3d6`，见[M4 causality接受记录](M4-CAUSALITY-ACCEPTANCE.json)。B原owner019交付16P自测后，独立复审007于05:58 UTC启动；DAILY仍等待接线、监督器、新F/R0/L0和真实验证。 |
 | T7 分钟线 CPU | **原独立 reviewer004 无条件 PASS**，四文件已按接受字节合入 main。独立 M2 96P、M3A 165P、M5 experiments 33P，均 raw0；main 集成 **60P/raw0/133.765秒**。 | 本项 CPU 优化完成，见 [接受记录](T7-CPU-ACCEPTANCE.json)。MINUTE 内存、接线和完整冷链仍须单独完成。 |
 | T7 分钟线内存及接线 | 内存单元独立PASS及main120P仍有效。接线005未接受；原作者[007裁定](T7-WIRING-M4-REPAIR-007.md)继续约束修复。004受控M2六文件96P/raw0，M3A六文件183P/raw0；M5 experiments37项中27P/10F/raw1。 | 原ZCode开发会话继续修复M5组失败；未冻结交审，不计接线完成。旧失败保留，修复及必要验证完成后立即独立硬审。 |
 | DISPATCH | 正式029–031均为已消耗失败；032尚未消耗，owner005仍NOT_RUN。最新局部完整验证到474.6秒的深层校验后raw1；原作者009确认缩进、布尔参数遮蔽、缺上下文及重复加载模块四处问题。 | [009限定修复](DISPATCH-FINAL-PATH-REPAIR-009.md)已生效并形成原owner续接工单：先廉价真实双分支测试，再完整验证。局部累计5755.482/6600秒，余额844.518秒；正式032仍仅一次600秒。 |
@@ -27,6 +27,8 @@
 运行请求与原始流位于本机 `C:/AKWorktrees/aktr-goal-20261026/`；外部 CLI 不显示为 Codex 原生子代理。各模块使用独立会话库与不重叠写集；不得凭 CLI 原生 0 认定任务完成。
 
 ## 本次已推送与实际命令
+
+- `ad7c3d6`：M4 causality两行修复、独立无条件PASS及N8原作者012裁定已推送；`git push origin main` raw0，本地main与origin/main一致。受控重点4P和完整九文件259P均raw0，独立反例16/16。提交代码的Git blob SHA-256与审核冻结一致；既有Git文本过滤对四份公开证据副本的CRLF转换已分别记录原件与Git blob哈希，不改冻结原件或全库换行规则。
 
 - `ce6ce36`：完整chronological独立审核接受及精简证据已推送；`git push origin main` raw0，三个产品源码文件与main相同。详见下文完整回放结果。
 - `c152e33`：A4 两文件产品及独立接受；`git push origin main` 原始退出码 **0**，目标 `https://github.com/wmqfl861/AK-trading`。
