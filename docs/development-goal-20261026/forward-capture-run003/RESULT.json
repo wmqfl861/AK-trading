@@ -1,0 +1,90 @@
+{
+  "schema": "aktr-forward-capture-public-summary/v1",
+  "run_id": "rb-minute-capture-20261028-003",
+  "engineering_run": "COMPLETED_AND_CLOSED",
+  "capture_started": false,
+  "capture_status": "NOT_STARTED",
+  "report_reason": "NO_FORWARD_BAR",
+  "raw_exits": {
+    "capture_child": 0,
+    "bounded_supervisor": 0,
+    "root_supervisor": 0
+  },
+  "elapsed_seconds": 568.469000000041,
+  "budget": {
+    "child_work_seconds": 540,
+    "closure_allowance_seconds": 60,
+    "deadline_seconds": 600,
+    "memory_limit_bytes": 2147483648,
+    "output_limit_bytes": 1073741824,
+    "sdk_order_calls_max": 0,
+    "subscriptions_max": 4,
+    "tqapi_connections_max": 1
+  },
+  "budget_conformant": true,
+  "peak_aggregate_job_commit_bytes": 1783820288,
+  "events": {
+    "receive_batches": 77,
+    "BOOTSTRAP": 1,
+    "CLOCK": 76,
+    "OPEN": 0,
+    "CLOSED": 0
+  },
+  "bootstrap": {
+    "symbol": "SHFE.rb2701",
+    "minute_rows": 8192,
+    "daily_rows": 188,
+    "not_forward": true
+  },
+  "strategy_batches": 0,
+  "strategy_evaluation": "NOT_RUN",
+  "paper_account": "NOT_ACTIVATED",
+  "clock": "UNKNOWN_UNVERIFIED",
+  "api_close_status": "CLOSED",
+  "verified_output_chain": {
+    "segments": 156,
+    "members": 624,
+    "head_sha256": "f052203207dda6f12ab1b5aa61be211025d04056d7a93de01ac546311b6f95cc"
+  },
+  "source_pin_count": 378,
+  "source_changes": 0,
+  "report_refs": [
+    {
+      "bytes": 2500,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-forward-runtime-repair-20261028-003\\source\\data\\research_runs\\v2\\forward-paper\\rb-minute-capture-20261028-003\\reports\\r000001\\REPORT.json",
+      "sha256": "b22e43b78007bfe69aa321b13555046ce766f390e92fa7606ad1276290c629db"
+    },
+    {
+      "bytes": 3203,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-forward-runtime-repair-20261028-003\\source\\data\\research_runs\\v2\\forward-paper\\rb-minute-capture-20261028-003\\reports\\r000001\\REPORT.md",
+      "sha256": "36918a1edbb7df0f580b843bd98529de6b1aeb3a368bb3792640eed5b414d42a"
+    },
+    {
+      "bytes": 378,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-forward-runtime-repair-20261028-003\\source\\data\\research_runs\\v2\\forward-paper\\rb-minute-capture-20261028-003\\reports\\r000001\\manifest.json",
+      "sha256": "61aaa42041c457dc33af6273fb6e72b20a571a52488b6dbee8dee165ed1134e1"
+    }
+  ],
+  "owner_result_ref": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-forward-runtime-20261028-003\\evidence\\OWNER-RUN003-RESULT.json",
+    "bytes": 7797,
+    "sha256": "10a1e06ae4a85ee670ec7d410e3f29a1e002759e813cf3374b65430c19a95151"
+  },
+  "supervisor_result_ref": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-forward-runtime-20261028-003\\evidence\\LIVE-RESULT.json",
+    "bytes": 3193,
+    "sha256": "2a6056c2c66d8dfb393c895d5dacc98adb4b46512ffd9056422ba2c9e6bc0664"
+  },
+  "command": "python -I -B -X utf8 scripts/run_forward_paper.py capture --config config/research-v2-forward-paper-rb-minute.json --binding <exact local RUN-BINDING.json> --wall-seconds 540",
+  "tests_passed_failed": "NOT_APPLICABLE_RUNTIME_CAPTURE",
+  "product_review": "Existing supervisor repair PASS unchanged; this run and owner readback issue no new product PASS, strategy qualification or20-day paper acceptance.",
+  "grant": "run003 consumed; no automatic retry",
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_count": 0,
+    "real_cancel_count": 0
+  },
+  "publication": "No credentials, environment values or raw SDK logs included."
+}

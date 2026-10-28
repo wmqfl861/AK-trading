@@ -1,0 +1,155 @@
+{
+  "schema": "aktr-forward-capture-run003-budget-disposition/v1",
+  "issued_utc": "2026-10-28T19:20:32.132211+00:00",
+  "author": "/root/astra_forward_paper_start_plan_20261015",
+  "status": "EFFECTIVE_EXISTING_PLAN_ONE_RUN_BUDGET_RULING_NOT_A_LIVE_GRANT",
+  "decision": "The next fault-follow-up capture run003 uses the accepted exact 600-second total partition: 540 seconds work plus 60 seconds closure. No 3600-second execution is released by this disposition.",
+  "classification": {
+    "chronology": "run003 is a subsequent new attempt after a real SDK run, not a replay or reset of run002. Failed completion and zero new CLOSED events do not erase the consumed attempt.",
+    "general_plan_later_run_cap_seconds": 3600,
+    "exact_this_attempt_total_cap_seconds": 600,
+    "reason": "PLAN section8 and r3 CONTINUATION section2 retain a maximum of 3600 seconds for later runs; they do not mandate that duration or replace an exact accepted run binding. The independently accepted repair003 validates outer<=600 and pins production (600,540,60); over-600 is an explicit tested rejection. Use that accepted path for this one follow-up without new helper changes.",
+    "no_new_success_gate": "This is not a ruling that a first run must succeed before it can count as a prior real run. The choice of 600 is the exact accepted repair scope for this attempt.",
+    "ordinal": "The consumed run002 binding records run_ordinal=1. Root should record the successor as run_ordinal=2 in a newly issued real binding; run-id suffix003 is not itself the ordinal. Preserve the synthetic prospective template and prior ordinal unchanged.",
+    "outside_scope": "No additional run, enlarged helper budget, product-code change, strategy activation, new host plan or repeat unchanged plan-review gate is authorized here."
+  },
+  "limits": {
+    "deadline_seconds": 600,
+    "child_work_seconds": 540,
+    "closure_allowance_seconds": 60,
+    "memory_limit_bytes": 2147483648,
+    "output_limit_bytes": 1073741824,
+    "tqapi_connections_max": 1,
+    "subscriptions_max": 4,
+    "sdk_order_calls_max": 0
+  },
+  "hard_boundary": "The external monotonic 600-second deadline covers controlled child launch/startup, SDK work, final sealing and close. Closure is inside the total, not an appended grace period. Child work540 is not a measured promise of timely closure. Keep actual elapsed, termination, native/resource/output facts separate; never clamp overrun or convert budget failure to PASS.",
+  "preserved_run002": {
+    "run_id": "rb-minute-capture-20261028-002",
+    "one_use_command": "CONSUMED_DO_NOT_REPLAY",
+    "raw_child_native_exit": 124,
+    "raw_supervisor_native_exit": 124,
+    "elapsed_seconds": 601.469000000041,
+    "resource_abort": "DEADLINE",
+    "budget_conformant": false,
+    "authentication_input_gate": "PASSED_BY_REAL_DATA_PATH_EVIDENCE",
+    "forward_bar_count": 0,
+    "sealed_terminal_segments": 0,
+    "final_report_state": "NOT_CREATED",
+    "sdk_close": "NOT_OBSERVED_NO_SEALED_RUNTIME_RESULT",
+    "preservation": "Do not replay the old launch, rewrite raw124/DEADLINE, promote its orphan, retrospectively publish a successful terminal report, or count bootstrap as forward capture."
+  },
+  "root_binding_next_step": {
+    "live_launch_granted_by_this_file": false,
+    "max_new_launches_in_scope_after_exact_root_binding": 1,
+    "automatic_retries": 0,
+    "existing_sdk_authorization": "Root reuses the already established user SDK authorization and binds one fresh exact command; do not ask the user for the same permission again. Neither this author ruling nor offline PASS consumes or issues the launch grant.",
+    "required_binding": "Root binds a fresh real run_id, run_ordinal2, exact cwd/argv/interpreter/source/accepted supervisor pins, the above limits, actual resource capacity/admission and absent output paths. Get these from the pinned prospective spec and accepted records programmatically; the old SYNTHETIC run_id, NOT_A_GRANT files and empty generated_output_preconditions are not a launch request.",
+    "argv_wall_seconds": 540,
+    "frozen_template_rule": "Append new real binding/authorization/launch artifacts; do not edit the accepted prospective spec or other frozen packages. Maximum_launches1 and automatic_retries0 apply only once Root has made that fresh exact binding effective.",
+    "runtime_scope": "Read-only capture only, activation=null. Preserve the exact accepted product closure and runtime control; no source implementation or ownership change is granted.",
+    "recorded_runtime_repair_owner": "/root/sol_forward_runtime_20261028",
+    "owner_field_meaning": "Identity from the accepted repair record, not a new model/configuration or product-development routing authorization."
+  },
+  "closure_and_credit": {
+    "independent_acceptance": "The cited PASS covers the frozen offline repair003 and its 58 feed tests plus 13 reviewer probes; it grants no new online event, authentication, REPORT or launch credit.",
+    "successful_runtime_close": "Require actual child and supervisor terminal results, no unresolved budget/harness/custody failure, actual API-close disposition and sealed final TERMINAL/REPORT artifacts. If shutdown is forced or final sealing fails, preserve the last sealed prefix and detached terminal failure; do not invent a completed close or report.",
+    "capture_started": "At least one real newly observed valid CLOSED event is necessary for REAL_FEED_CAPTURE_STARTED; zero-bar clean termination may prove closure but cannot prove capture started. Do not infer an active session from local date or old quote time.",
+    "missing_inputs": "Without accepted model/calendar/rule/warmup/clock activation inputs preserve WAITING_INPUT/NO_TRADE, strategy_evaluation=NOT_RUN, paper_account=NOT_ACTIVATED and actual clock uncertainty.",
+    "safety": {
+      "enable_trading": false,
+      "observer": "hold",
+      "broker": "NOT_RUN",
+      "real_send_count": 0,
+      "real_cancel_count": 0
+    },
+    "next_failure": "Record any actual timeout, zero bar or missing REPORT and return that precise evidence to Root; no automatic repeat, longer retry, activation or success claim."
+  },
+  "authorities_and_evidence": [
+    {
+      "role": "original plan section8",
+      "path": "D:/Projects/AK-trading/docs/strategy-first-blueprint-20261015-r1/implementation-clarifications/forward-paper-start-20261015-r1/PLAN.md",
+      "bytes": 24646,
+      "sha256": "71d7502bd21bda1f24008c355212e84d2a7ee255e0a191071eeda8a67e0307bc"
+    },
+    {
+      "role": "r3 CONTINUATION section2 lines35-45",
+      "path": "D:/Projects/AK-trading/docs/strategy-first-blueprint-20261015-r1/revisions/r3-001/CONTINUATION-20261028.md",
+      "bytes": 15671,
+      "sha256": "6a3a1ef43250a924385edc72505345d96533d510be3668e66aa6aca478dcc3fa"
+    },
+    {
+      "role": "closed consumed run002 launch",
+      "path": "C:/AKWorktrees/aktr-goal-20261026/sol-forward-runtime-20261028-002/evidence/LIVE-LAUNCH-REQUEST.json",
+      "bytes": 1610,
+      "sha256": "c68016199e51178a9c90343b05686ca8a7c1a60b09f616952dab170b030a30a9"
+    },
+    {
+      "role": "run002 actual ordinal",
+      "path": "C:/AKWorktrees/aktr-goal-20261026/sol-forward-runtime-20261028-002/evidence/RUN-BINDING.json",
+      "bytes": 671,
+      "sha256": "22a2e28db0d369521e1082c5261b2fecae4debece2a067c37d0ad28fff6e2be0"
+    },
+    {
+      "role": "closed run002 readback; no raw SDK log access",
+      "path": "C:/AKWorktrees/aktr-goal-20261026/sol-forward-runtime-20261028-002/evidence/CAPTURE-TERMINAL-READBACK.json",
+      "bytes": 8444,
+      "sha256": "aae27946c61862b894f45d1dcd25ab3698daed2f43dad1bbdc192e81a1a88c46"
+    },
+    {
+      "role": "accepted prospective 600/540/60 parameters; NOT_A_GRANT",
+      "path": "C:/AKWorktrees/aktr-goal-20261026/sol-forward-runtime-repair-20261028-003/evidence/PROSPECTIVE-LAUNCH-SPEC-NOT-A-GRANT.json",
+      "bytes": 5639,
+      "sha256": "d80bbbca83367048f301e42bab8e301957f584ad7252e5829ec55f9493f9e846"
+    },
+    {
+      "role": "compact independent product acceptance",
+      "path": "D:/Projects/AK-trading/docs/development-goal-20261026/forward-runtime-hard-review-002/ACCEPTANCE.json",
+      "bytes": 3350,
+      "sha256": "9399bd718367a76b3f11a6929ec12b286d381e8f42f457c73c44a3394f0b53c5"
+    },
+    {
+      "role": "independent exact scope and over600 rejection",
+      "path": "C:/AKWorktrees/aktr-goal-20261026/zcode-dispatch/forward-runtime-offline-hard-review-002/work/VERDICT.json",
+      "bytes": 7811,
+      "sha256": "b0cfa29e2c9b7778157355f497d12c82482a01efa420da5098a795fd1fca3d27"
+    },
+    {
+      "role": "authoritative continuation pointer",
+      "path": "C:/AKWorktrees/aktr-goal-20261026/sol-forward-runtime-repair-20261028-003/evidence/INDEPENDENT-REVIEW-HANDOFF.json",
+      "bytes": 15849,
+      "sha256": "aa134c233412debea9423717ee12cede32a0fda05d3297a4421a0b70e784ad6f"
+    }
+  ],
+  "discovery_failure_preserved": {
+    "tool_chunk": "fc61c8",
+    "raw_wrapper_native_exit": 1,
+    "argv": [
+      "rg",
+      "--files",
+      "D:\\Projects\\AK-trading\\docs",
+      "-g",
+      "*CONTINUATION*",
+      "-g",
+      "*continuation*"
+    ],
+    "outcome": "DISCOVERY_TIMEOUT: subprocess.TimeoutExpired at30s; rg natural terminal exit not captured. This is a real diagnostic failure, not NO_MATCH.",
+    "disposition": "No product/SDK launch occurred. Required continuation was subsequently obtained from the pinned INDEPENDENT-REVIEW-HANDOFF /plan_refs entry and its bytes/hash matched. No required input remains missing; preserve the failed discovery without making it an additional execution gate."
+  },
+  "author_actions": {
+    "only_write": "D:/Projects/AK-trading/docs/strategy-first-blueprint-20261015-r1/implementation-clarifications/forward-paper-start-20261015-r1/CAPTURE-RUN003-BUDGET-DISPOSITION-20261028-001.json",
+    "output_precondition": {
+      "path": "D:/Projects/AK-trading/docs/strategy-first-blueprint-20261015-r1/implementation-clarifications/forward-paper-start-20261015-r1/CAPTURE-RUN003-BUDGET-DISPOSITION-20261028-001.json",
+      "classification": "NOT_YET_CREATED_OUTPUT",
+      "observed_utc": "2026-10-28T19:20:32.132211+00:00",
+      "exists": false,
+      "parent_exists": true,
+      "exclusive_create_required": true
+    },
+    "products_tests_imports_sdk_network_db_broker_or_agent_launches": false,
+    "credentials_or_raw_sdk_streams_read": false,
+    "old_frozen_files_modified": false,
+    "new_planning_or_review_round_required": false,
+    "discipline": "Both 20261004 incidents remain binding: optional rg raw1+empty stderr alone is NO_MATCH; native tests/CLI/custody failures remain failures. Use Path(value), serialize/validate before exclusive create, generated outputs are not existing inputs, and pin producer streams only after terminal closure."
+  }
+}
