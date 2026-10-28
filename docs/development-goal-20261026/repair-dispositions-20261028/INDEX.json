@@ -1,0 +1,42 @@
+{
+  "schema": "aktr-existing-repair-author-dispositions/v1",
+  "recorded_utc": "2026-10-28T10:33:53.287266+00:00",
+  "effective_plan": "r3-001 plus existing author dispositions",
+  "new_product_scope": false,
+  "files": [
+    {
+      "file": "M5-023.md",
+      "author_thread": [
+        "01a14c30-6dd9-74d3-9676-cad23c47060f"
+      ],
+      "sha256": "2a4a025c11b2eaa5ac8da3aa02446c56b3f7af21506f678ec9be0f155ed23b96",
+      "bytes": 8336,
+      "raw_native_exit": 0,
+      "receiver_exit": 0,
+      "product_pass": false
+    },
+    {
+      "file": "N8-025.md",
+      "author_thread": [
+        "01a14ba8-ae7e-7053-84e9-f892d7d3a1d6"
+      ],
+      "sha256": "90041b921b15a709de6a59f754d01a820e520f3de1075e5e974fdeed4a302811",
+      "bytes": 7705,
+      "raw_native_exit": 0,
+      "receiver_exit": 1,
+      "product_pass": false
+    },
+    {
+      "file": "DISPATCH-020.md",
+      "author_thread": [
+        "01a14e31-3369-7392-9902-831f15ba0787"
+      ],
+      "sha256": "8a5478325fc1260fc20bbd420bc184563279bc9193b54f21e562c6d7df56962f",
+      "bytes": 12076,
+      "raw_native_exit": 0,
+      "receiver_exit": 1,
+      "product_pass": false
+    }
+  ],
+  "native_receiver_distinction": "N8 and DISPATCH receiver1 retain diagnosed read/coverage errors; effective author decisions are not product review PASS."
+}
