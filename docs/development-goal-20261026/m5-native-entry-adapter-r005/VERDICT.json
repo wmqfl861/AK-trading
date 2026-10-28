@@ -1,0 +1,86 @@
+{
+ "schema": "zro117-review-verdict/r005-review-003",
+ "task": "m5-native-entry-adapter-review-020-001",
+ "relationship": "publication successor to r005-review-002 (m5-native-entry-adapter-review-018-002); same independent reviewer; substantive verification not repeated",
+ "reviewer": "independent ZCode GLM-5.3/max (no part in development)",
+ "effective_authority": [
+  "author020",
+  "retained author018/019 obligations"
+ ],
+ "publication_repair": {
+  "defect": "r005-review-002/VERDICT.json line46 closed the not_run object with ] instead of }",
+  "root_finding": "dispatch/review-020-001/ROOT-FINDING.json (raw_exit 1, JSONDecodeError line46 column2 char2692, chunk 823ce5)",
+  "reviewer_reproduction": "json.JSONDecodeError: Expecting ',' delimiter: line 46 column 2 (char 2692)",
+  "original_preserved": {
+   "path": "reviews/r005-review-002/VERDICT.json",
+   "bytes": 2840,
+   "sha256": "4a71a10c985d345a0af9b7def57c80207616b60a524cdd2c79eeafeab39b5bbb",
+   "status": "preserved invalid, immutable"
+  },
+  "no_verification_repeated": true,
+  "frozen_inputs_rehashed_this_call_all_match": true
+ },
+ "subject": {
+  "revision": "r005",
+  "freeze": "SOURCE-FREEZE-005-R5.json",
+  "frozen_files_verified": {
+   "revisions/r005/adapter-pin.json": "7ced1d7381fbafcd6113e3ac81aedb40aae6e54a17f7858543da5c3d57ec2d01",
+   "revisions/r005/apply-transforms.cjs": "bad8a3a098d8c7e8e7d81348fbfd88ed2664632f3f86c9ddc47561b4312685dd",
+   "revisions/r005/guard-core.cjs": "1e2ee4bb4fadda6257d2b642760775e16207423f0bd213c24470bbd1d56c20cd",
+   "revisions/r005/response-only-entry.cjs": "1983b4156fcc5868c99513333305612155395875ebf590cf83ef8f69d2ac25fd",
+   "revisions/r005/response-only-zcode.cmd": "27f0f58cbd01cfcef94d820e24af2fc8c3627e321f0ac2f9bffb9af295694646",
+   "revisions/r005/test-actual-source.cjs": "5f2d43e9355ee826222fcae4fc4b2f3b8f1b86194195a50ff2a91de555c7f1f2"
+  },
+  "declared_post_freeze_readme_sha256": "2a21aca384e3b30077f42a18d48a5fdbecff2884fbedb0b9a55d0f97a6fcb506",
+  "installed_bundle_pinned_sha256_prefix": "38c9dfe1a2a88465"
+ },
+ "verdict": "PASS",
+ "unconditional": true,
+ "scope_note": "Adapter tooling scope only. NOT candidate615, NOT M5 product PASS, NOT original037/formal006/full100.",
+ "independent_rerun_retained_from_review_002": {
+  "command": "ZRO117_RUNID=RVR1 node reviews/r005-review-002/scratch/test-actual-source.cjs",
+  "raw_exit": 0,
+  "result_rows": "21/21 PASS",
+  "distinct_checks": "16/16 PASS (P1-P8, N1-N3, K22/K19/K20/K18/K18b; 21 rows include the 5 K-capture rows twice)",
+  "scratch_deviation": "single line 24 EVID output-root constant; frozen sha 5f2d43e9... -> scratch sha 846be2a7...",
+  "extraction_byte_equal_to_owner_run_005": true
+ },
+ "counterexamples": [
+  {
+   "id": "CE1-registry-driven-dispatch",
+   "exit": 0,
+   "contrast_holds": true,
+   "detail": "registered name -> ToolNotFound rejection NOT replayed; executor path entered"
+  },
+  {
+   "id": "CE2-pin-drift-fail-closed",
+   "exit": 0,
+   "detail": "real preload, pin bytes+1 -> native exit 3 INSTALLED_INPUT_DRIFT, entry not executed, exclusive capture claimed"
+  }
+ ],
+ "reviewer_probe_harness_first_failures_retained": [
+  "CE1 attempt1: top-level await in .cjs (ESM warning + SyntaxError); preserved in r005-review-002/scratch/ce1.stdout.txt",
+  "CE2 attempt1: builder one-liner shell escaping SyntaxError; preserved; repaired as probe-ce2-pin-drift.py"
+ ],
+ "findings_blocking": [],
+ "observations_nonblocking": [
+  "O1: five K-check rows counted twice in the 21-row summary (16 distinct checks); both instances PASS; cosmetic",
+  "O2: seam capture claimed before extraction; failed runs leave fresh exclusive captures (append-only)",
+  "O3: N3 embeddedSearchEnabled:false is the corrected R5 control; 004 real behavior preserved"
+ ],
+ "not_run": {
+  "original037": "NOT_RUN (not authorized here)",
+  "formal006": "NOT_GRANTED/unconsumed",
+  "generation001": "conditional, not run",
+  "full100": "NOT_GRANTED",
+  "whole_cli_bootstrap_old_C14_C21": "not executed (retired per author020)"
+ },
+ "trading": {
+  "enable_trading": false,
+  "observer": "hold",
+  "broker": "NOT_RUN",
+  "sends": 0,
+  "cancels": 0
+ },
+ "generated": "2026-10-28T03:20:00Z"
+}

@@ -1,0 +1,56 @@
+{
+ "schema": "zro117-adapter-pin/v2",
+ "revision": "r005",
+ "task": "m5-native-entry-adapter-dev-020-001",
+ "identification": "TASK-LOCAL MODIFIED INVOCATION CODE per author017/018/019. NOT stock CLI functionality. No installed byte is modified; the pinned installed input is only read and verified. Supported invocation is the native headless prompt entry reached through the installed launcher (bin/zcode.mjs) or the pinned agent entry directly. The workspace/protocol createRecord construction route (minified jkt/createWorkspaceZCodeApp, request-client VWo header fallback) is EXCLUDED from the supported invocation; it is not patched, and the T2 guard fails closed (ALLOWLIST_NOT_BOUND) if an app constructed through it ever reaches a turn in this process.",
+ "installed_entry": {
+  "path": "C:\\Users\\Administrator\\.zcode\\runtime\\current\\agent\\zcode.cjs",
+  "realpath_note": "runtime\\current is a junction to releases\\<version>; both spellings are admitted as the same pinned file (bytes+sha256 verified through the junction path).",
+  "bytes": 16752599,
+  "sha256": "38c9dfe1a2a884658b7530954bea6c573adcc1f3ae7e9eeda89d58f433e54eb2"
+ },
+ "installed_wrapper": {
+  "path": "C:\\Users\\Administrator\\.zcode\\runtime\\current\\bin\\zcode.mjs",
+  "admitted_as_entry_identity": true,
+  "role": "installed launcher; for non-web argv it rewrites process.argv[1] to the pinned agent entry and imports it in-process. The exact launch recipe response-only-zcode.cmd invokes this wrapper with the single added --require preload, mirroring the installed zcode.cmd byte-for-byte otherwise."
+ },
+ "transforms": [
+  {
+   "id": "T1b-headless-construction-allowlist-A",
+   "find": "resume:Be!==void 0,runtimeConfig:{...l?{mode:l}:{},",
+   "replace": "resume:Be!==void 0,runtimeConfig:{toolAllowlist:[],...l?{mode:l}:{},",
+   "expected_occurrences": 1,
+   "purpose": "Native headless app construction site A. Binds invocation-local runtimeConfig.toolAllowlist=[] ahead of the mode/disallowlist spreads (the site has no toolAllowlist source of its own). The site receives its standalone providerRuntimeHeadersPort from the pre-built installed runtime (z.providerRuntimeHeadersPort), which is preserved unchanged; authentication port, model selection and session identity are not touched."
+  },
+  {
+   "id": "T1c-headless-construction-allowlist-B",
+   "find": "resume:xt!==void 0,runtimeConfig:{...t.override?{mode:t.override}:{},",
+   "replace": "resume:xt!==void 0,runtimeConfig:{toolAllowlist:[],...t.override?{mode:t.override}:{},",
+   "expected_occurrences": 1,
+   "purpose": "Native headless app construction site B (projectConfigPath variant; standalone providerRuntimeHeadersPort from pre-built runtime It). Same insertion rule as T1b."
+  },
+  {
+   "id": "T2-pre-model-empty-registry-guard",
+   "find": "let u=t3(e.turnTraceContext,\"tools\"),f=lva(e),g=e.automationCreateLimitReached?[]:f?this.getTools(e.model).filter(j=>!f.has(j.name)):this.getTools(e.model);u(),",
+   "replace": "let u=t3(e.turnTraceContext,\"tools\"),f=lva(e),g=e.automationCreateLimitReached?[]:f?this.getTools(e.model).filter(j=>!f.has(j.name)):this.getTools(e.model);u(),(globalThis.__ZRO117__.assert(this,g,this.registry),0),",
+   "expected_occurrences": 1,
+   "purpose": "Inside the turn executor, AFTER 'await this.initializeMcp(...)' (deferred MCP registration completes first) and BEFORE the model request: assert session config binds toolAllowlist===[], the model-callable list g is empty, AND the registered registry itself is empty (counted via toContracts/list, fail-closed on an unrecognized registry API). Missing shim => TypeError => turn aborts. Violation => thrown ZRO117 error => prompt prevented, attempt closes honestly. Stock unavailable-tool dispatch already fails closed (ToolNotFound, recoverable:false) for any name absent from this registry."
+  }
+ ],
+ "exit_codes": {
+  "3": "INSTALLED_INPUT_DRIFT",
+  "4": "TRANSFORM_COUNT_UNEXPECTED",
+  "5": "TRANSFORM_NOT_APPLIED",
+  "6": "UNSUPPORTED_INVOCATION",
+  "7": "CAPTURE_NOT_CONFIGURED | CAPTURE_CLAIM_FAILED (occupied/ENOENT/EISDIR/EACCES) | CAPTURE_WRITE_FAILED"
+ },
+ "capture_contract": "MANDATORY exclusive capture: ZRO117_CAPTURE_FILE must be an absolute path; the file is claimed with O_WRONLY|O_CREAT|O_EXCL at startup (occupied/wrong-target claim failures are fatal exit 7); every event line is written through the held descriptor and any write failure is fatal exit 7. There is no stderr-only fallback for required capture (stderr remains a mirror only). Absent ZRO117_CAPTURE_FILE is itself fatal (CAPTURE_NOT_CONFIGURED).",
+ "test_sentinel": "ZRO117_ASSERT_MODE=verify-once-then-exit (test-only, never set by the launch recipe): after the first verified-OK guard call the process records a dispatch probe against the real registry and exits 0 BEFORE any provider request. Violations still throw; the sentinel never bypasses a failed check.",
+ "notes": [
+  "Invocation-local only: transforms mutate the in-memory source string passed to Module.prototype._compile for the pinned entry exactly once per process; no file is written; the restriction lives solely in the in-memory runtimeConfig object and is never persisted.",
+  "Both admitted entry spellings (junction and realpath) plus a basename+realpath fallback are matched; the r002 draft's basename prefilter regressed fixture pins and is corrected here (direct comparisons first).",
+  "Corrected r002 sidecar conflation: VWo is the workspace/protocol route's request-client provider-header fallback, not 'the standalone authentication'. The supported headless sites' standalone authentication port is the providerRuntimeHeadersPort built by the installed runtime and passed at both sites; it is preserved byte-identically.",
+  "r004 (dev-019-002 Root reception findings): (1) capture made mandatory/exclusive/fail-closed per 019 §4 — no best-effort append, no silent stderr fallback; (2) the r003 C14 real-bundle check ran the stock entry with inherited environment BEFORE any dependency seam, so its no-config-read claim was unverified isolation; r004 replaces it with a test-only fs-level synthetic-dependency seam (see README test boundary) that intercepts real config-root reads before the stock CLI can read them. Transforms T1b/T1c/T2 are unchanged from r003.",
+  "r005 (author020): the deterministic pin-verify/transform operation is factored into apply-transforms.cjs, imported by BOTH the production preload and the actual-source test seam (same implementation, no second copy). Transforms T1b/T1c/T2 and all admission/capture semantics unchanged from r004. The r004 whole-CLI test route is retired; controlled-dependency verification now uses checked extraction of actual source units with inert dependencies (see README and EXTRACTION provenance)."
+ ]
+}

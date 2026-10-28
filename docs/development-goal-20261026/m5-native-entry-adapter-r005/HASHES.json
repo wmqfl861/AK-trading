@@ -1,0 +1,79 @@
+{
+ "schema": "zro117-review-hashes/r005-review-003",
+ "generated": "2026-10-28T03:20:30Z",
+ "note": "Successor publication. Frozen inputs re-hashed this call. 002 originals preserved immutable. Final closed outputs pinned after write; HASHES.json contains no hash of itself.",
+ "files": [
+  {
+   "path": "revisions/r005/adapter-pin.json",
+   "bytes": 6781,
+   "sha256": "7ced1d7381fbafcd6113e3ac81aedb40aae6e54a17f7858543da5c3d57ec2d01",
+   "role": "frozen input, rehashed this call"
+  },
+  {
+   "path": "revisions/r005/apply-transforms.cjs",
+   "bytes": 2135,
+   "sha256": "bad8a3a098d8c7e8e7d81348fbfd88ed2664632f3f86c9ddc47561b4312685dd",
+   "role": "frozen input, rehashed this call"
+  },
+  {
+   "path": "revisions/r005/guard-core.cjs",
+   "bytes": 4418,
+   "sha256": "1e2ee4bb4fadda6257d2b642760775e16207423f0bd213c24470bbd1d56c20cd",
+   "role": "frozen input, rehashed this call"
+  },
+  {
+   "path": "revisions/r005/response-only-entry.cjs",
+   "bytes": 5693,
+   "sha256": "1983b4156fcc5868c99513333305612155395875ebf590cf83ef8f69d2ac25fd",
+   "role": "frozen input, rehashed this call"
+  },
+  {
+   "path": "revisions/r005/response-only-zcode.cmd",
+   "bytes": 1067,
+   "sha256": "27f0f58cbd01cfcef94d820e24af2fc8c3627e321f0ac2f9bffb9af295694646",
+   "role": "frozen input, rehashed this call"
+  },
+  {
+   "path": "revisions/r005/test-actual-source.cjs",
+   "bytes": 30281,
+   "sha256": "5f2d43e9355ee826222fcae4fc4b2f3b8f1b86194195a50ff2a91de555c7f1f2",
+   "role": "frozen input, rehashed this call"
+  },
+  {
+   "path": "dispatch/review-020-001/ROOT-FINDING.json",
+   "bytes": 567,
+   "sha256": "3425282d8b6c8ed41c75761423b7451e38764b4bb1824a83173b2b9bbec83917",
+   "role": "root finding input"
+  },
+  {
+   "path": "reviews/r005-review-002/REVIEW.md",
+   "bytes": 7017,
+   "sha256": "cd807e6e397285b87af39fe516ff12ff513e6dba4ce7ce910ffc16e644a6bf7f",
+   "role": "preserved original, immutable"
+  },
+  {
+   "path": "reviews/r005-review-002/VERDICT.json",
+   "bytes": 2840,
+   "sha256": "4a71a10c985d345a0af9b7def57c80207616b60a524cdd2c79eeafeab39b5bbb",
+   "role": "preserved original INVALID JSON, immutable, matches ROOT-FINDING pin"
+  },
+  {
+   "path": "reviews/r005-review-002/HASHES.json",
+   "bytes": 2773,
+   "sha256": "0a2d31d09e0761edd6f56bd40b3766c428e2df4680206890098dd80785463d4f",
+   "role": "preserved original, immutable"
+  },
+  {
+   "path": "reviews/r005-review-003/REVIEW.md",
+   "bytes": 4881,
+   "sha256": "aa4cdfc9fb9ab2593fa313d40c2dab3e8f2f085f831adb4acb652fc1173177f5",
+   "role": "successor final closed output"
+  },
+  {
+   "path": "reviews/r005-review-003/VERDICT.json",
+   "bytes": 4169,
+   "sha256": "0c0debd5fd305a512551ffa6f350600bdcb52c56b70b3888e7c21aedafa0342e",
+   "role": "successor final closed output, parse-validated"
+  }
+ ]
+}

@@ -1,0 +1,112 @@
+{
+  "schema": "aktr-root-exact-independent-acceptance/v1",
+  "accepted_utc": "2026-10-28T03:34:23.621138+00:00",
+  "scope": "M5 native-entry adapter r005 tooling only",
+  "independent_verdict": {
+    "path": "C:\\AKM5C019\\native-entry-adapter-018\\reviews\\r005-review-003\\VERDICT.json",
+    "bytes": 4169,
+    "sha256": "0c0debd5fd305a512551ffa6f350600bdcb52c56b70b3888e7c21aedafa0342e"
+  },
+  "reviewer_session": "sess_9c8c8df5-4819-4c93-be44-08bc0adac64c",
+  "same_original_reviewer": true,
+  "original_independent_rerun": "16 distinct checks PASS; raw0;21 rows include5 duplicates",
+  "independent_counterexamples": "CE1 registry-dependent rejection; CE2 pinned-input drift raw3 as expected",
+  "publication_successor": "r005-review-002 invalid JSON preserved; r005-review-003 parse-validated; unchanged source, no unnecessary suite replay",
+  "copied_exactly": [
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\revisions\\r005\\adapter-pin.json",
+        "bytes": 6781,
+        "sha256": "7ced1d7381fbafcd6113e3ac81aedb40aae6e54a17f7858543da5c3d57ec2d01"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/source/adapter-pin.json"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\revisions\\r005\\apply-transforms.cjs",
+        "bytes": 2135,
+        "sha256": "bad8a3a098d8c7e8e7d81348fbfd88ed2664632f3f86c9ddc47561b4312685dd"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/source/apply-transforms.cjs"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\revisions\\r005\\guard-core.cjs",
+        "bytes": 4418,
+        "sha256": "1e2ee4bb4fadda6257d2b642760775e16207423f0bd213c24470bbd1d56c20cd"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/source/guard-core.cjs"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\revisions\\r005\\README.md",
+        "bytes": 5005,
+        "sha256": "2a21aca384e3b30077f42a18d48a5fdbecff2884fbedb0b9a55d0f97a6fcb506"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/source/README.md"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\revisions\\r005\\response-only-entry.cjs",
+        "bytes": 5693,
+        "sha256": "1983b4156fcc5868c99513333305612155395875ebf590cf83ef8f69d2ac25fd"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/source/response-only-entry.cjs"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\revisions\\r005\\response-only-zcode.cmd",
+        "bytes": 1067,
+        "sha256": "27f0f58cbd01cfcef94d820e24af2fc8c3627e321f0ac2f9bffb9af295694646"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/source/response-only-zcode.cmd"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\revisions\\r005\\test-actual-source.cjs",
+        "bytes": 30281,
+        "sha256": "5f2d43e9355ee826222fcae4fc4b2f3b8f1b86194195a50ff2a91de555c7f1f2"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/source/test-actual-source.cjs"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\reviews\\r005-review-003\\REVIEW.md",
+        "bytes": 4881,
+        "sha256": "aa4cdfc9fb9ab2593fa313d40c2dab3e8f2f085f831adb4acb652fc1173177f5"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/REVIEW.md"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\reviews\\r005-review-003\\VERDICT.json",
+        "bytes": 4169,
+        "sha256": "0c0debd5fd305a512551ffa6f350600bdcb52c56b70b3888e7c21aedafa0342e"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/VERDICT.json"
+    },
+    {
+      "original": {
+        "path": "C:\\AKM5C019\\native-entry-adapter-018\\reviews\\r005-review-003\\HASHES.json",
+        "bytes": 2770,
+        "sha256": "356ea3e47badacef0c7469813a767de05914b3401df48291068387eb74686902"
+      },
+      "repository_path": "docs/development-goal-20261026/m5-native-entry-adapter-r005/HASHES.json"
+    }
+  ],
+  "original_frozen_source": {
+    "path": "C:\\AKM5C019\\native-entry-adapter-018\\evidence\\owner\\SOURCE-FREEZE-005-R5.json",
+    "bytes": 1820,
+    "sha256": "c06f0ecd73825554145dea9231b0cae27587b6b4ba23099a4d1b1785397f42dd"
+  },
+  "product_M5_PASS": false,
+  "downstream": "original037 and formal006 remain NOT_RUN; restore prospective D1GiB and fresh admission required first",
+  "trading": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "sends": 0,
+    "cancels": 0
+  },
+  "review_scope_not_extended": true
+}

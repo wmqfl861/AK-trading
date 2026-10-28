@@ -321,3 +321,14 @@ M5适配器020开发实际CLI0/outer0、1308.640秒完成，最终冻结R5自测
 T7、M5、N8、DISPATCH仍未整体通过，本批继续。
 
 集成检查保留 `git diff --check` 的原始退出2：新增测试行的 CRLF 被该检查视为行尾空白。源文件真实 CRLF 保持独立审核的冻结字节；没有执行全库或单文件换行规范化。临时以 `core.whitespace=cr-at-eol` 正确识别该行尾再检查，结果另据实际命令记录，不覆盖原始失败。
+
+
+## 2026-10-28 — M5 adapter r005 independent acceptance; current closeout continues
+
+- C05 streaming launcher was accepted and pushed in `c054bd3`; its scope is the launcher only.
+- M5 adapter r005: independent ZCode original reviewer produced unconditional tooling PASS. Independent rerun raw 0, 16 distinct checks passed (21 rows include five duplicated capture summaries), two counterexample probes passed for their stated expected results. Exact accepted source and successor verdict are in `m5-native-entry-adapter-r005/`.
+- Review 002 initially delivered invalid `VERDICT.json` (object closed by array bracket, line 46). Root reception raw exit 1 is retained. Original reviewer completed conditional review020001, CLI/outer 0, Job active 0, 304.906s within 600s; review003 JSON parses and all original frozen inputs still match. No repeated suite or source modification was needed.
+- Root later encountered a separate raw exit 1 while reading UTF-8 Markdown with the Windows GBK default (`f8d436`). This was read-only. Subsequent reads explicitly use UTF-8 and inline Python uses `-X utf8`; do not conflate this capture error with a product failure or replay successful operations.
+- M5 product remains open: restore its prospective D 1GiB reservation and fresh runtime admission before original037/formal006. Adapter PASS is not M5 PASS.
+- T7 CPU006: complete 3182-day compositional plan comparison equal (19 windows, one skipped, original N3150). Guarded clock 10 passed/raw0 and splits 11 passed/raw0. Experiments timed out at 400.20s/raw15 and payoff integration at 160.42s/raw15; these are incomplete. Root rejected delegating missing developer verification to reviewer; original author013 is resolving the existing verification gap.
+- T7 B028 development delivered 14+2 passing local tests and real 92-active-root comparison. Original independent reviewer011 is running. DISPATCH009 and N8074 continue their existing work; no new product scope was added. Current batch still requires all four product closures.
