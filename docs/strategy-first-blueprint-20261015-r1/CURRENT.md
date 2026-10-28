@@ -29,3 +29,6 @@ canonical 377 及活动审核写冻结、单一 writer、R19→R20→R21 等实�
 
 
 Forward003 采集监督/收尾修复已获独立无条件 PASS：58项完整测试、13项独立验证通过，CLI/outer均0且冻结输入未变。详见[接受记录](../development-goal-20261026/forward-runtime-hard-review-002/ACCEPTANCE.json)。该结论不代表在线采集或模拟交易验收完成；其他既有修复继续。
+
+
+SC 日期标签与研究可用时点政策已由原 Astra 作者处置独立建议并正式生效，见[最终政策](implementation-clarifications/backtest-input-delivery-20261015-r1/SC-POLICY-FINAL-DISPOSITION-20261028-001.md)。这不补齐实际输入：A仍为0、INPUT_NOT_DELIVERED，缺少的合法合约及历史会话等证据仍须实际取得。T7新F已进入原独立R0；其余既有修复按当前Goal状态并行推进。
