@@ -1,0 +1,37 @@
+{
+ "schema": "aktr-t7-B-streaming-hard-review-hashes/v1",
+ "recorded_utc": "2026-10-28T03:30:10+00:00",
+ "reviewed_sources": {
+  "run_daily_bounded.py": {
+   "bytes": 46959,
+   "sha256": "eb9aaa797b0d1278499cce125dd3bdce1021e1d61c46e102c2bcea49f25fa50d"
+  },
+  "new_semantics_tests.py": {
+   "bytes": 16619,
+   "sha256": "2717312cce92c3e8d8826124bbd1fd1f54d9a2a4887657b3857b00458727be7a"
+  },
+  "test_run_daily_bounded.py": {
+   "bytes": 20153,
+   "sha256": "1fad2b9f83eedf1a9e152be8b47fd68360f3fe8a76d4df2c9d113e5a2a52ab68"
+  },
+  "freeze_verified_pre_and_post": true,
+  "classification_consumed": {
+   "ro": 0,
+   "active": 92,
+   "base_preserved": 83
+  }
+ },
+ "documents": {
+  "REVIEW.md": {
+   "bytes": 7045,
+   "sha256": "5d3a182806f1fe92013e03ff7b19136b9f50f511e6f0795db7959a0d366341cd"
+  },
+  "VERDICT.json": {
+   "bytes": 4230,
+   "sha256": "2fb861631e0c25d611970e5b52fd410c8c29a9519965be40805ef2fb4a48f573"
+  }
+ },
+ "closed_streams": {
+  "count": 12
+ }
+}

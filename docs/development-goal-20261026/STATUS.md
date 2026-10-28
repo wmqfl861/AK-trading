@@ -332,3 +332,12 @@ T7、M5、N8、DISPATCH仍未整体通过，本批继续。
 - M5 product remains open: restore its prospective D 1GiB reservation and fresh runtime admission before original037/formal006. Adapter PASS is not M5 PASS.
 - T7 CPU006: complete 3182-day compositional plan comparison equal (19 windows, one skipped, original N3150). Guarded clock 10 passed/raw0 and splits 11 passed/raw0. Experiments timed out at 400.20s/raw15 and payoff integration at 160.42s/raw15; these are incomplete. Root rejected delegating missing developer verification to reviewer; original author013 is resolving the existing verification gap.
 - T7 B028 development delivered 14+2 passing local tests and real 92-active-root comparison. Original independent reviewer011 is running. DISPATCH009 and N8074 continue their existing work; no new product scope was added. Current batch still requires all four product closures.
+
+
+## 2026-10-28 — T7 B028 repair accepted; remaining product gates
+
+- M5 adapter r005 tooling acceptance was pushed in `cc447b5`; M5 product remains open.
+- T7 B028 supervisor: independent reviewer011 unconditional PASS; independent semantics 14 passed/raw0, prior quota nodes 2 passed/raw0, seven expected-result counterexamples; CLI/outer0, Job0, closed tools92.325s. Exact source/report accepted under `t7-b-streaming-repair-028/`. Real comparison record is authoritative (3.2s), not the differing owner prose. No full T7/DAILY/F/L0/R1 credit.
+- T7 CPU: original author013 issued a finite existing-scope correction after missing regressions. Original owner007 now has a successor candidate with the accepted streaming launcher and required config dependencies, separate bounded complete experiments and MINUTE payoff validation, hard2GiB tree requirement and C10GiB cumulative limit. Prior complete comparison/clock/splits evidence is reused; no heavy timeout is relabeled PASS.
+- DISPATCH034 preparation returned wrapper0/child0 and terminal RESULT, but Root found author016 requirements still missing in actual code: pre-use expectations are learned from fresh pins, identity reuse remains path-keyed, the rehearsal still uses publish_outputs=False, affected negative-case evidence is absent, and per-read completion deadlines are incomplete. Therefore Root context/actual command/seal and owner005 remain NOT_RUN. Original author017 is resolving the existing omission; no035 or replay was launched.
+- N8074 is running under original reviewer identity and author019. Current planned scope still comprises T7, M5, N8 and DISPATCH through independent product hard-review closure, then stop.

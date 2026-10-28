@@ -1,0 +1,135 @@
+{
+ "schema": "aktr-t7-B-streaming-hard-review-verdict/v1",
+ "task_id": "t7-b-streaming-hard-review-011",
+ "recorded_utc": "2026-10-28T03:30:10+00:00",
+ "reviewer": {
+  "session_id": "sess_6c24d61a-5ae5-40d3-938b-d722f8cfa468",
+  "model": "GLM-5.3",
+  "reasoning_effort": "max",
+  "participated_in_development": false
+ },
+ "reviewed": {
+  "run_daily_bounded.py": {
+   "bytes": 46959,
+   "sha256": "eb9aaa797b0d1278499cce125dd3bdce1021e1d61c46e102c2bcea49f25fa50d"
+  },
+  "new_semantics_tests.py": {
+   "bytes": 16619,
+   "sha256": "2717312cce92c3e8d8826124bbd1fd1f54d9a2a4887657b3857b00458727be7a"
+  },
+  "test_run_daily_bounded.py": {
+   "bytes": 20153,
+   "sha256": "1fad2b9f83eedf1a9e152be8b47fd68360f3fe8a76d4df2c9d113e5a2a52ab68"
+  },
+  "freeze_verified_pre_and_post": true,
+  "classification_consumed": {
+   "ro": 0,
+   "active": 92,
+   "base_preserved": 83
+  }
+ },
+ "verdict": "PASS",
+ "conditional": false,
+ "scope": "B028 supervisor streaming+classification repair only; no DAILY/fit; no F/L0/R1 credit",
+ "summary": "streaming scandir one-stat traversal fail-closed with alias correctness; classification authority only from Root table (forged/unlisted/mismatched refused, missing table-ro refused, unknowns active, zero-ro valid actual fallback); chunked-hash ro verification with integrity failures never masked; real comparison full==classified 1101780574B coverage-equal plus complete-success short-child run; 14/14 + 2/2 tests and all seven reviewer counterexamples exact",
+ "evidence": {
+  "tests": {
+   "new_semantics": {
+    "raw_exit": 0,
+    "passed": 14,
+    "seconds": 25.2
+   },
+   "prior_quota_nodes": {
+    "raw_exit": 0,
+    "passed": 2,
+    "seconds": 4.09
+   }
+  },
+  "counterexamples": [
+   "C1_forged_ro_on_active",
+   "C2_ro_claim_unlisted",
+   "C3_table_ro_missing",
+   "C4_pins_content_mismatch",
+   "C4b_pins_unreadable",
+   "C5_zero_ro_success_growth",
+   "C6_streaming_parity_alias"
+  ],
+  "probes_raw_exit": 0,
+  "c4_rerun_raw_exit": 0,
+  "observations": [
+   "OBS-1: DELIVERY prose 10.7s vs record one_scan_seconds 3.2 (record authoritative)",
+   "OBS-2: 027 fabricated-ro, 028 forwarding bug, both comparison attempts preserved"
+  ]
+ },
+ "documents": {
+  "REVIEW.md": {
+   "bytes": 7045,
+   "sha256": "5d3a182806f1fe92013e03ff7b19136b9f50f511e6f0795db7959a0d366341cd"
+  }
+ },
+ "closed_streams": {
+  "inventory": [
+   {
+    "path": "logs/probes-exit.txt",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+   },
+   {
+    "path": "logs/probes-stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "path": "logs/probes-stdout.txt",
+    "bytes": 995,
+    "sha256": "6c461c0ee506963d431e5faf9373c15ac7669c0885cb6d7e5699bdeb052b9748"
+   },
+   {
+    "path": "logs/quota-nodes-exit.txt",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+   },
+   {
+    "path": "logs/quota-nodes-stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "path": "logs/quota-nodes-stdout.txt",
+    "bytes": 100,
+    "sha256": "20b9a02ccfa79c51077eb3700cd182f7c9e925268916f6fe5f685c7e0559e3d0"
+   },
+   {
+    "path": "logs/semantics-exit.txt",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+   },
+   {
+    "path": "logs/semantics-stderr.txt",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   },
+   {
+    "path": "logs/semantics-stdout.txt",
+    "bytes": 102,
+    "sha256": "35e1e375c89aaa8b6771ab05f151d295796b9ef019dbaded5b531e1106acd55e"
+   },
+   {
+    "path": "probes-results.json",
+    "bytes": 995,
+    "sha256": "6c461c0ee506963d431e5faf9373c15ac7669c0885cb6d7e5699bdeb052b9748"
+   },
+   {
+    "path": "c4-results.json",
+    "bytes": 238,
+    "sha256": "75d01e13812debd7ec5621f08961fbe2d14fa527ae36fbab669048726ded54ea"
+   },
+   {
+    "path": "probes/review-probes.py",
+    "bytes": 7045,
+    "sha256": "3f5788562b70b309f19fcd2a5129bf201120242f4577083c8e3d36c31bbe971f"
+   }
+  ],
+  "note": "all producing processes terminated before hashing; verdict-writer streams excluded"
+ }
+}

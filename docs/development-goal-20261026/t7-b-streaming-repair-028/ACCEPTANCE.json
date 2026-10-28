@@ -1,0 +1,99 @@
+{
+  "schema": "aktr-root-exact-independent-acceptance/v1",
+  "scope": "T7 B028 streaming retained scan and classification supervisor only",
+  "accepted_utc": "2026-10-28T03:54:19.004921+00:00",
+  "verdict": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-b-streaming-hard-review-011\\work\\VERDICT.json",
+    "bytes": 4230,
+    "sha256": "2fb861631e0c25d611970e5b52fd410c8c29a9519965be40805ef2fb4a48f573"
+  },
+  "reviewer": {
+    "session_id": "sess_6c24d61a-5ae5-40d3-938b-d722f8cfa468",
+    "model": "GLM-5.3",
+    "reasoning_effort": "max",
+    "participated_in_development": false
+  },
+  "tests": "14+2 independently passed, raw0",
+  "counterexamples": [
+    "C1_forged_ro_on_active",
+    "C2_ro_claim_unlisted",
+    "C3_table_ro_missing",
+    "C4_pins_content_mismatch",
+    "C4b_pins_unreadable",
+    "C5_zero_ro_success_growth",
+    "C6_streaming_parity_alias"
+  ],
+  "closed_tool_seconds": 92.325,
+  "exact_copies": [
+    {
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-b-streaming-owner-028\\work\\run_daily_bounded.py",
+        "bytes": 46959,
+        "sha256": "eb9aaa797b0d1278499cce125dd3bdce1021e1d61c46e102c2bcea49f25fa50d"
+      },
+      "repository_path": "docs/development-goal-20261026/t7-b-streaming-repair-028/source/run_daily_bounded.py"
+    },
+    {
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-b-streaming-owner-028\\work\\test_run_daily_bounded.py",
+        "bytes": 20153,
+        "sha256": "1fad2b9f83eedf1a9e152be8b47fd68360f3fe8a76d4df2c9d113e5a2a52ab68"
+      },
+      "repository_path": "docs/development-goal-20261026/t7-b-streaming-repair-028/source/test_run_daily_bounded.py"
+    },
+    {
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-b-streaming-owner-028\\work\\new_semantics_tests.py",
+        "bytes": 16619,
+        "sha256": "2717312cce92c3e8d8826124bbd1fd1f54d9a2a4887657b3857b00458727be7a"
+      },
+      "repository_path": "docs/development-goal-20261026/t7-b-streaming-repair-028/source/new_semantics_tests.py"
+    },
+    {
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-b-streaming-hard-review-011\\work\\REVIEW.md",
+        "bytes": 7045,
+        "sha256": "5d3a182806f1fe92013e03ff7b19136b9f50f511e6f0795db7959a0d366341cd"
+      },
+      "repository_path": "docs/development-goal-20261026/t7-b-streaming-repair-028/REVIEW.md"
+    },
+    {
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-b-streaming-hard-review-011\\work\\VERDICT.json",
+        "bytes": 4230,
+        "sha256": "2fb861631e0c25d611970e5b52fd410c8c29a9519965be40805ef2fb4a48f573"
+      },
+      "repository_path": "docs/development-goal-20261026/t7-b-streaming-repair-028/VERDICT.json"
+    },
+    {
+      "original": {
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-b-streaming-hard-review-011\\work\\HASHES.json",
+        "bytes": 964,
+        "sha256": "12379dbdcec613901f5f2fc3e6a8be9878d54ef2225fcdc5eea890ce86a8ee55"
+      },
+      "repository_path": "docs/development-goal-20261026/t7-b-streaming-repair-028/HASHES.json"
+    }
+  ],
+  "authorities": [
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-t7-hotspot-completion-011\\AUTHOR-DISPOSITION.md",
+      "bytes": 12036,
+      "sha256": "82066a12bb21dcc501fefcafb81d67fddc97168f98340632ef8af0ddf0f93f6c"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-t7-validation-completion-012\\AUTHOR-DISPOSITION.md",
+      "bytes": 10885,
+      "sha256": "ba581a0b7fdd39ab86efa0644b8bf58e83a2c4eccde3689a94dba26a98b614a3"
+    }
+  ],
+  "note": "Measurement record authoritative: scan3.2s. Owner prose10.7s and comparison7.4x are not adopted as accepted measurements. All original failure evidence preserved.",
+  "whole_T7_PASS": false,
+  "no_DAILY_fit_F_L0_R1_credit": true,
+  "trading": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "send": 0,
+    "cancel": 0
+  }
+}
