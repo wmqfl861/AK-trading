@@ -1,0 +1,84 @@
+{
+  "schema": "aktr-c05-streaming-independent-acceptance/v1",
+  "accepted_utc": "2026-10-28T02:48:08.110898+00:00",
+  "scope": [
+    "scripts/test_offline.py",
+    "tests/test_offline_launcher.py"
+  ],
+  "verdict": "PASS",
+  "unconditional": true,
+  "actual_reviewer_session": "sess_26c4a825-059a-4bba-b54d-b371986ef225",
+  "cli_native_exit": 0,
+  "identity_match": true,
+  "frozen_inputs_unchanged": true,
+  "authority": {
+    "effective_plan_sha256": "73b8e13e90614dbd091cafd635d17cfacd091ddf309d1ff27d24d26284b979ae",
+    "disposition_sha256": "3c5310a6236504faffe3950ae4616061918517ca89ba9c8ecebde51e7664c220"
+  },
+  "files": [
+    {
+      "sha256": "3cbcbe5f97d9c32e01bf6e8b25486f42211e307d064252e57912cb9a225db48d",
+      "bytes": 31098,
+      "preimage_source006": "5d9f3b0590095d70ad200cccf12165ebd8dcda83bda5cc9863c4378405e75eb4",
+      "path": "scripts/test_offline.py"
+    },
+    {
+      "sha256": "716d044647d2b27e98437552cbd6fa702853ace759d642d19a616a6761f4a341",
+      "bytes": 66687,
+      "preimage_source006": "300ef264e90fd24448f65942bfbee57f4d06c50ea07ec2869dbdd1e554e0860a",
+      "path": "tests/test_offline_launcher.py"
+    }
+  ],
+  "verification": {
+    "focused_bare_candidate": {
+      "native_exit": 1,
+      "counts": "48 ran, 47 passed, 1 failed",
+      "failure": "calendar regression (SR1 environment gap)"
+    },
+    "parity_counterfactual": {
+      "added_inputs": [
+        "config/china_futures_catalog.json",
+        "config/datapipeline/calendar-evidence.schema.json"
+      ],
+      "calendar_domain": "90 passed, 9 failed, 0 skipped (D-identical)",
+      "focused": "48 ran, 48 passed, exit 0"
+    },
+    "independent_probes": {
+      "P1_live_before_exit": "pass",
+      "P2_forced_kill_evidence": "pass",
+      "P3_dual_stream_volume_and_exit3": "pass",
+      "P4_real_sigint_130": "pass"
+    }
+  },
+  "review_artifacts": [
+    {
+      "file": "REVIEW.md",
+      "bytes": 9615,
+      "sha256": "00b543023560eed9f741babb5e60cbe28b1ce4f6c001a5f620919aaa8132f7ef"
+    },
+    {
+      "file": "VERDICT.json",
+      "bytes": 2540,
+      "sha256": "f6325bf63e0caa2068eebf826353d01dc9ad44871e0336c85ff5bd96eb6dca19"
+    },
+    {
+      "file": "HASHES.json",
+      "bytes": 2774,
+      "sha256": "d751ed924b1db15c835de77e6fea74bbad13453bb62cd8164393299d03d6c961"
+    }
+  ],
+  "review_terminal_reference": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\c05-streaming-review-007\\TERMINAL.json",
+    "bytes": 348,
+    "sha256": "7ec206747289d7a31088b2858b73b6168599717fdd7ec766522001904e8bbf12"
+  },
+  "review_result_reference": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\c05-streaming-review-007\\RESULT.json",
+    "bytes": 864,
+    "sha256": "91a8b6a22d551ec1009b281097ec61dc1e2a73fd4b3bca12fdff240c7495645b"
+  },
+  "SR1_disposition": "Canonical main already has both exact reviewed config files. Candidate staging deficiency does not exist in target; futureT7 candidate must include these declared runtime dependencies without changing expected pins.",
+  "SR2_SR3_disposition": "Preserve independent nonblocking advisory findings; no additional development scope opened by acceptance.",
+  "full_suite_and_T7_product_PASS_claimed": false,
+  "safety": "false/hold/NOT_RUN/0/0"
+}

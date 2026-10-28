@@ -24,6 +24,7 @@ from pathlib import Path
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
+import threading
 
 ROOT = Path(__file__).resolve().parents[1]
 DATAPIPELINE_TESTS = ROOT / "tests" / "datapipeline"
@@ -398,7 +399,18 @@ def _parse_statistics(stdout: str) -> dict | None:
 
 
 def _launch_domain(domain: DomainPlan, workspace: Path, empty_root: Path, basetemp_root: Path):
-    """Run one guarded pytest child; returns (state, stdout, stderr, interrupted)."""
+    """Run one guarded pytest child with live, durable output forwarding.
+
+    Both child streams are drained concurrently by reader threads (no PIPE
+    deadlock), forwarded line-by-line with an immediate flush so output is
+    visible before the child exits, and appended to per-domain evidence files
+    under workspace/evidence that are flushed per line: already-written phase
+    evidence therefore survives a forced launcher kill (the workspace is only
+    cleaned on a normal launcher exit). Each domain prints a starting line
+    before the stream and its native exit code afterwards; there is no
+    duplicate final dump. Returns (state, stdout, stderr, interrupted) with
+    the accumulated stream text used for statistics parsing.
+    """
     domain_basetemp = basetemp_root / domain.name
     if domain_basetemp.exists() or domain_basetemp.is_symlink():
         print(
@@ -448,23 +460,74 @@ def _launch_domain(domain: DomainPlan, workspace: Path, empty_root: Path, basete
             file=sys.stderr,
         )
         return "spawn_error", "", "", False
+    print(f"--- offline domain {domain.name}: running ---", flush=True)
+    evidence_dir = workspace / "evidence"
+    stdout_sink: list[str] = []
+    stderr_sink: list[str] = []
+    stderr_header = [False]
+    stream_lock = threading.Lock()
+
+    def forward(line: str) -> None:
+        with stream_lock:
+            sys.stdout.write(line)
+            sys.stdout.flush()
+
+    def forward_stderr(line: str) -> None:
+        with stream_lock:
+            if not stderr_header[0]:
+                stderr_header[0] = True
+                sys.stdout.write("--- domain stderr ---\n")
+            sys.stdout.write(line)
+            sys.stdout.flush()
+
+    def pump(stream, sink: list[str], forwarder, evidence_file) -> None:
+        for line in iter(stream.readline, ""):
+            sink.append(line)
+            if evidence_file is not None:
+                evidence_file.write(line)
+                evidence_file.flush()
+            forwarder(line)
+        if evidence_file is not None:
+            evidence_file.close()
+
+    readers = []
+    for stream, sink, forwarder, suffix in (
+        (process.stdout, stdout_sink, forward, ".stdout.txt"),
+        (process.stderr, stderr_sink, forward_stderr, ".stderr.txt"),
+    ):
+        if stream is None:
+            continue
+        evidence_file = open(
+            evidence_dir / (domain.name + suffix), "w",
+            encoding="utf-8", errors="replace",
+        )
+        reader = threading.Thread(
+            target=pump, args=(stream, sink, forwarder, evidence_file), daemon=True
+        )
+        reader.start()
+        readers.append(reader)
+    interrupted = False
     try:
-        stdout, stderr = process.communicate()
+        process.wait()
     except KeyboardInterrupt:
+        interrupted = True
         try:
             process.kill()
         except OSError:
             pass
         try:
-            stdout, stderr = process.communicate()
-        except BaseException:
-            stdout, stderr = "", ""
-        domain.exit_code = process.returncode
-        domain.stats = _parse_statistics(stdout)
-        return "interrupted", stdout, stderr, True
+            process.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            pass
+    for reader in readers:
+        reader.join(timeout=10)
+    stdout = "".join(stdout_sink)
+    stderr = "".join(stderr_sink)
     domain.exit_code = process.returncode
     domain.stats = _parse_statistics(stdout)
-    return "launched", stdout, stderr, False
+    exit_note = f"exit {domain.exit_code}" if domain.exit_code is not None else "no child exit"
+    print(f"=== offline domain {domain.name}: {exit_note} ===", flush=True)
+    return ("interrupted" if interrupted else "launched"), stdout, stderr, interrupted
 
 
 def _domain_counts(domain: DomainPlan) -> str:
@@ -652,6 +715,9 @@ def _run_isolated(arguments: list[str], requested_temp: Path | None) -> int:
                 file=sys.stderr,
             )
             return 4
+        evidence_dir = workspace / "evidence"
+        evidence_dir.mkdir()
+        print(f"Offline evidence: {evidence_dir}", flush=True)
         try:
             for index, domain in enumerate(domains):
                 if not domain.arguments and not domain.launch_anyway:
@@ -670,15 +736,6 @@ def _run_isolated(arguments: list[str], requested_temp: Path | None) -> int:
                     domain.state = "spawn_error"
                     continue
                 domain.state = state
-                exit_note = (
-                    f"exit {domain.exit_code}" if domain.exit_code is not None else "no child exit"
-                )
-                print(f"=== offline domain {domain.name}: {exit_note} ===")
-                if stdout:
-                    print(stdout, end="" if stdout.endswith("\n") else "\n")
-                if stderr:
-                    print("--- domain stderr ---")
-                    print(stderr, end="" if stderr.endswith("\n") else "\n")
                 stats = domain.stats or {}
                 failures_so_far += stats.get("failed", 0) + stats.get("errors", 0)
                 if domain.exit_code == 1 and not domain.stats:

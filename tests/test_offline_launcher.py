@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -10,6 +11,7 @@ import shutil
 import subprocess
 import sys
 import textwrap
+import time
 
 import pytest
 
@@ -862,11 +864,10 @@ def test_isolated_domains_survive_contamination_collection_error_and_pin_failure
     assert "OFFLINE-DOMAIN-STATS" in result.stdout
     assert "unresolved_files 0" in result.stdout
     assert "Offline overall exit: 2" in result.stdout
-    # The deliberately wrong pin keeps failing; its failure text stays visible.
-    pin_section = result.stdout.split(
-        "=== offline domain datapipeline-test_synthetic_pin.py: exit 1 ===", 1
-    )[1]
-    assert "AssertionError" in pin_section
+    # The deliberately wrong pin keeps failing; its streamed failure text
+    # stays visible (the exit line now follows the live stream, so the whole
+    # stdout is the failure section).
+    assert "AssertionError" in result.stdout
 
 
 def test_shared_process_run_proves_the_contamination_probe_has_teeth(tmp_path):
@@ -1039,23 +1040,34 @@ def test_real_datapipeline_calendar_failures_are_preserved_through_isolation():
 
 
 class _InterruptingPopen:
-    """Fake child that raises KeyboardInterrupt in the parent on communicate()."""
+    """Fake child whose wait() raises KeyboardInterrupt in the parent.
+
+    Emulates the real streaming path: the parent blocks in process.wait()
+    while daemon readers drain (here already-EOF) stream objects.
+    """
 
     def __init__(self, *arguments, **keywords):
         self.returncode = None
+        self.stdout = io.StringIO("")
+        self.stderr = io.StringIO("")
+        self._waited = False
 
-    def communicate(self):
-        raise KeyboardInterrupt
+    def wait(self, timeout=None):
+        if not self._waited:
+            self._waited = True
+            raise KeyboardInterrupt
+        return self.returncode
 
     def kill(self):
         return None
 
 
 class _OneGoodThenInterruptPopen:
-    """First child completes with a real stats line; later ones interrupt.
+    """First child completes with a real stats stream; later ones interrupt.
 
     A completed fake child must set returncode like a real exited process,
-    otherwise the launcher honestly reports "no child exit" for it.
+    otherwise the launcher honestly reports "no child exit" for it. The
+    streamed stdout carries the statistics line the launcher parses.
     """
 
     popens = 0
@@ -1069,12 +1081,19 @@ class _OneGoodThenInterruptPopen:
     def __init__(self, *arguments, **keywords):
         self.returncode = None
         type(self).popens += 1
+        self._first = type(self).popens == 1
+        self.stdout = io.StringIO(self.STATS if self._first else "")
+        self.stderr = io.StringIO("")
+        self._waited = False
 
-    def communicate(self):
-        if type(self).popens == 1:
+    def wait(self, timeout=None):
+        if self._first:
             self.returncode = 0
-            return self.STATS, ""
-        raise KeyboardInterrupt
+            return 0
+        if not self._waited:
+            self._waited = True
+            raise KeyboardInterrupt
+        return self.returncode
 
     def kill(self):
         return None
@@ -1283,3 +1302,115 @@ def test_domain_name_encoding_is_prefix_free_roundtrip_and_unique():
     assert launcher._datapipeline_domain_name("a/-b/test_x.py") == (
         "datapipeline-a%s%db%stest_x.py"
     )
+
+
+# --- live-output streaming / durable-evidence regressions (T7 author 010) ---
+
+def _streaming_probe(tmp_path: Path, body: str) -> Path:
+    probe = tmp_path / "test_stream_probe.py"
+    probe.write_text(textwrap.dedent(body), encoding="utf-8")
+    return probe
+
+
+def test_child_output_is_visible_live_before_child_exit(tmp_path):
+    """PHASE-A must arrive while the domain child is still sleeping. Under the
+    old PIPE-plus-communicate forwarding nothing reached the launcher's stdout
+    before the child exited (~4s here), so an early bounded arrival proves
+    real live streaming through the launcher."""
+    probe = _streaming_probe(tmp_path, '''
+        import time
+        print("PHASE-A-MARKER", flush=True)
+        time.sleep(4)
+        print("PHASE-B-MARKER", flush=True)
+        def test_probe():
+            pass
+    ''')
+    start = time.monotonic()
+    process = subprocess.Popen(
+        [sys.executable, "-B", str(SCRIPT), "-q", "-s", str(probe)],
+        cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        text=True, encoding="utf-8", errors="replace",
+    )
+    first = None
+    second = None
+    for line in process.stdout:
+        if "PHASE-A-MARKER" in line and first is None:
+            first = time.monotonic() - start
+        if "PHASE-B-MARKER" in line:
+            second = time.monotonic() - start
+    process.wait(timeout=60)
+    total = time.monotonic() - start
+    assert process.returncode == 0
+    assert first is not None and second is not None, (first, second)
+    # Live-streaming proof: PHASE-A arrives at its emission time, one full
+    # child sleep (~4s) before PHASE-B. The old communicate()-then-forward
+    # behavior delivered both markers together at child exit (gap ~0).
+    assert 3.0 <= second - first <= 5.5, (first, second)
+    assert total >= 3.5
+
+
+def test_written_phase_evidence_survives_forced_launcher_kill(tmp_path):
+    """Force-terminate the launcher while its domain child sleeps: the
+    per-domain evidence file must still hold the already-flushed phase
+    marker (the launcher's temp workspace is only cleaned on normal exit)."""
+    probe = _streaming_probe(tmp_path, '''
+        import time
+        print("DURABLE-PHASE-MARKER", flush=True)
+        time.sleep(8)
+        print("NEVER-MARKER", flush=True)
+        def test_probe():
+            pass
+    ''')
+    process = subprocess.Popen(
+        [sys.executable, "-B", str(SCRIPT), "-q", "-s", str(probe)],
+        cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        text=True, encoding="utf-8", errors="replace",
+    )
+    evidence = None
+    saw_marker = False
+    for line in process.stdout:
+        if line.startswith("Offline evidence: "):
+            evidence = line.split(": ", 1)[1].strip()
+        if "DURABLE-PHASE-MARKER" in line:
+            saw_marker = True
+            break
+    assert saw_marker and evidence, (evidence, saw_marker)
+    process.kill()  # hard termination of the launcher itself
+    process.wait(timeout=30)
+    evidence_file = Path(evidence) / "normal.stdout.txt"
+    assert evidence_file.is_file(), evidence
+    retained = evidence_file.read_text(encoding="utf-8", errors="replace")
+    assert "DURABLE-PHASE-MARKER" in retained
+    assert "NEVER-MARKER" not in retained
+
+
+def test_dual_streams_drain_large_volumes_without_deadlock_or_duplication(tmp_path):
+    """Both child streams exceed the OS pipe buffer; the concurrent reader
+    threads must drain them without deadlock, forward every line exactly
+    once (single stderr header), and the abnormal native exit 3 stays 3."""
+    probe = _streaming_probe(tmp_path, '''
+        import os
+        import sys
+        for index in range(400):
+            print(f"OUTLINE-{index:03d}-" + "x" * 480, flush=True)
+        for index in range(200):
+            print(f"ERRLINE-{index:03d}-" + "y" * 480, file=sys.stderr, flush=True)
+        def test_probe():
+            os._exit(3)
+    ''')
+    result = subprocess.run(
+        [sys.executable, "-B", str(SCRIPT), "-q", "-s", str(probe)],
+        cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+        errors="replace", timeout=90, check=False,
+    )
+    combined = result.stdout + result.stderr
+    assert result.returncode == 3, (result.returncode, combined[-3000:])
+    assert result.stdout.count("OUTLINE-000-") == 1
+    assert result.stdout.count("OUTLINE-399-") == 1
+    assert result.stdout.count("--- domain stderr ---") == 1
+    assert result.stdout.count("ERRLINE-000-") == 1
+    assert result.stdout.count("ERRLINE-199-") == 1
+    assert result.stdout.count("PHASE-A-MARKER") == 0  # no cross-test leakage
+    assert "=== offline domain normal: exit 3 ===" in result.stdout
+    assert "statistics unavailable" in result.stdout
+    assert "Offline overall exit: 3" in result.stdout

@@ -1,0 +1,50 @@
+{
+  "phase": "c05-streaming-review-007",
+  "date": "2026-10-28",
+  "reviewer": "independent C05 ZCode product reviewer (original SID/store/cwd restored anchor; candidate work on C)",
+  "verdict": "PASS",
+  "scope": "bounded two-file live-output streaming repair, frozen SOURCE-FREEZE of c05-streaming-owner-010, under effective C05 plan 73b8e13e.../disposition 3c5310a6... and T7 author010 launcher row",
+  "unconditional": true,
+  "write_set": {
+    "scripts/test_offline.py": {
+      "sha256": "3cbcbe5f97d9c32e01bf6e8b25486f42211e307d064252e57912cb9a225db48d",
+      "bytes": 31098
+    },
+    "tests/test_offline_launcher.py": {
+      "sha256": "716d044647d2b27e98437552cbd6fa702853ace759d642d19a616a6761f4a341",
+      "bytes": 66687
+    }
+  },
+  "required_verification": {
+    "focused_bare_candidate": {
+      "native_exit": 1,
+      "counts": "48 ran, 47 passed, 1 failed",
+      "failure": "calendar regression (SR1 environment gap)"
+    },
+    "parity_counterfactual": {
+      "added_inputs": [
+        "config/china_futures_catalog.json",
+        "config/datapipeline/calendar-evidence.schema.json"
+      ],
+      "calendar_domain": "90 passed, 9 failed, 0 skipped (D-identical)",
+      "focused": "48 ran, 48 passed, exit 0"
+    },
+    "independent_probes": {
+      "P1_live_before_exit": "pass",
+      "P2_forced_kill_evidence": "pass",
+      "P3_dual_stream_volume_and_exit3": "pass",
+      "P4_real_sigint_130": "pass"
+    }
+  },
+  "findings": {
+    "SR1": "environment staging gap: candidate lacks config/ inputs outside the 87-file allowlist; proven by exact-input counterfactual; Root disposition; not a write-set defect",
+    "SR2": "low non-blocking code observation: reader-thread death (disk-full/broken-pipe class) stops draining -> child pipe-block -> unbounded wait() hang; advisory hardening for owner",
+    "SR3": "pre-existing edge (code-identical in accepted FREEZE006): KeyboardInterrupt during planning is swallowed into the planning-failure fallback instead of returning 130; unchanged by this repair"
+  },
+  "non_claims": [
+    "historical full-suite results (6015/5754/171/60/30/3) remain historical; no full suite, collection-full or permutation rerun in this phase",
+    "no T7 fit, no research/run qualification, no green-baseline claim",
+    "SR1 config staging decision belongs to Root; SR2/SR3 advisory to owner"
+  ],
+  "safety": "enable_trading=false, observer=hold, broker=NOT_RUN, real send/cancel 0/0; no candidate writes; frozen before and after"
+}

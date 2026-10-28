@@ -1,0 +1,58 @@
+{
+  "phase": "c05-streaming-review-007",
+  "product_pins": {
+    "scripts/test_offline.py": {
+      "sha256": "3cbcbe5f97d9c32e01bf6e8b25486f42211e307d064252e57912cb9a225db48d",
+      "bytes": 31098,
+      "preimage_source006": "5d9f3b0590095d70ad200cccf12165ebd8dcda83bda5cc9863c4378405e75eb4"
+    },
+    "tests/test_offline_launcher.py": {
+      "sha256": "716d044647d2b27e98437552cbd6fa702853ace759d642d19a616a6761f4a341",
+      "bytes": 66687,
+      "preimage_source006": "300ef264e90fd24448f65942bfbee57f4d06c50ea07ec2869dbdd1e554e0860a"
+    },
+    "src/ak_trading/testing/offline_guard.py": {
+      "sha256": "e0a667d551f3f8cb68e67b336caee759935c7d6debe84df55b2f5e97cc2d8623",
+      "bytes": 15397,
+      "role": "read-only input, unchanged"
+    },
+    "effective_plan": "73b8e13e90614dbd091cafd635d17cfacd091ddf309d1ff27d24d26284b979ae",
+    "disposition": "3c5310a6236504faffe3950ae4616061918517ca89ba9c8ecebde51e7664c220"
+  },
+  "staged_inputs": {
+    "count": 87,
+    "missing": 0,
+    "mismatch": 0,
+    "total_bytes": 1236547,
+    "authority": "C05-LOCAL-INPUTS.json sha256 a37f0282d38aeeac05e60ce64857bd885bd55b3535c458841289642bb3563257"
+  },
+  "sr1_config_inputs_original_repo": {
+    "config/china_futures_catalog.json": {
+      "sha256": "411b72283260d0131d7c474a98a456287b5028c66d12dd818185314eb79057af",
+      "bytes": 43785
+    },
+    "config/datapipeline/calendar-evidence.schema.json": {
+      "sha256": "80d72a31d49d33412c09772d1f55f3d92db7a98358e371d2a9f7da81b3c95fb6",
+      "bytes": 6561
+    }
+  },
+  "parity_sandbox": {
+    "launcher_tests_byte_identical_to_frozen": true,
+    "excluded": [
+      ".git",
+      ".work",
+      ".tmp"
+    ]
+  },
+  "key_evidence_sha256": {
+    "evidence/focused-r1-stdout.txt": "e1afa12c8da90081738fde059de6b8298c3a8cc68edf9797403c759edd7a32f3",
+    "evidence/calendar-diag-stdout.txt": "e42bb8ca8ab1d19f35c2408e23f60419767a4359ff92fa3896c7d09641517098",
+    "evidence/parity-calendar-stdout.txt": "96d3e8bb6b09bbfc5e639ef2b8fb3b2d66ede0d7e4c740c6bb9373b53984f31d",
+    "evidence/parity-focused-stdout.txt": "6b523eb826a64e5ac9a2eed11104b511f92885fa6bde9bcc041f03ff725b2d1d",
+    "probe-runs/P1-live-before-exit.json": "a09a2ce5cdf6428fd855815b5b8c7ec27bf73edf8eb4c3a01d6e1cf2a10aa1c4",
+    "probe-runs/P2-forced-kill-evidence.json": "97fe6ffc554ce168f16cb69a4d67b2082dd1f9ac28b548954bd9aed54dcd14ae",
+    "probe-runs/P3-dual-stream-volume.json": "5cb5339a7bc77086afee04b5afeaeccda4033ebf562513b603f2220bc635ceb1",
+    "probe-runs/P4-real-sigint-130.json": "a3e45684ae6a4b18673ae001e82df7d70cd1532399f94b9cdcefcc1ac6c6ba8b",
+    "probe-runs/P4-attempt1-planning-ki-fallback-output.txt": "b71596153ebacd5103cd870cd98869b0b87fac9c444c6128cd1a2f4d5361ee70"
+  }
+}
