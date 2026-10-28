@@ -11,7 +11,7 @@
 
 本版经作者处置确认有效，无需二次整轮计划审。蓝图已经提交推送（`a91a637`）；随后用户明确要求继续开发，并将开发者改为 ZCode。现在按 r3 优先范围并行推进已有计划的实际缺陷修复，逐模块确认真实前置条件和文件归属后立即实施、验证及独立硬审核。仓库可见性、许可证、G 治理及大规模架构变更仍为待决提案，不因恢复开发而自动采纳。
 
-当前职责以[项目模型与职责规则](../../PROJECT-MODEL-ROLES.md)和[工作流](../../PROJECT-WORKFLOW-RULES.md)为准：Astra/max 负责计划及意见处置；ZCode CLI 专用开发会话负责开发和修复，使用其已有配置；独立 ZCode `GLM-5.3/max` 提供计划意见并对实际冻结成果硬审核。计划不要求 PASS，产品接受仍须独立硬审。开发路由按用户直接指令同步根规则；模块 owner 通过显式工单交接，计划合同与旧证据不回溯改写。
+当前会话职责按用户最新直接提供的 AGENTS 指令执行：Astra/max 计划与契约，原生 gpt-6.1-sol/max 子代理开发和修复，独立 ZCode GLM-5.3/max 硬审核。磁盘[项目模型与职责规则](../../PROJECT-MODEL-ROLES.md)和[工作流](../../PROJECT-WORKFLOW-RULES.md)中的旧开发路由尚未同步；本页仅报告当前派工，不修改规则或历史作者记录。计划意见不设 PASS 门，产品接受仍须独立硬审。
 
 [历史 r2 蓝图](revisions/r2-001/BLUEPRINT.md)及其[作者处置](revisions/r2-001/DISPOSITION.md)、r1 原件和既有审核记录均不改写。历史计划 PASS 只保留其咨询性计划结论，不能充当产品信用或今日启动门。策略、数据、风险及验收硬合同继续继承[20261010-r2 研究蓝图](../strategy-research-blueprint-20261010-r2/BLUEPRINT.md)；缺失的本地模块原件按 r3 的 LOCAL_ONLY 清单在实际派发时提供，不能声称新克隆具备全部运行条件。
 
@@ -35,3 +35,5 @@ SC 日期标签与研究可用时点政策已由原 Astra 作者处置独立建�
 
 
 2026-10-28 20:00 UTC：Forward run003现已正常收尾（child/supervisor/Root原生0，568.469秒，API已关闭），但窗口内只有bootstrap与CLOCK，真实新OPEN/CLOSED均0，因此尚未开始forward capture或模拟账户。T7新F/R0/L0齐备，5项affected最新覆盖全部通过（含一次Windows短路径单项重跑）；24项完整payoff验证正在实际运行。M5、N8、DISPATCH保留真实失败并继续原模块修复，尚未取得完整产品PASS。详见[当前Goal状态](../development-goal-20261026/STATUS.md)及[真实采集结果](../development-goal-20261026/forward-capture-run003/RESULT.json)。
+
+2026-10-28 21:13 UTC 最新状态：M5审核工具r18已33/33通过并获原独立ZCode的无条件限定PASS，正式007尚待重任务时段及资源准入；T7完整payoff仍实际计算。N8保留085准备中断并由原作者处理，DISPATCH由原Sol继续有界性能测量与修复。上述工具PASS不构成完整策略、正式历史报告或paper验收。详见[当前状态表](../development-goal-20261026/STATUS.md)。

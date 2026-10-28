@@ -1,8 +1,8 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-27 23:40 UTC。用户最新指令：当前已经开始计划或已有计划的任务继续执行，直至独立成果硬审核通过；完成这些任务后停止，不扩展新计划范围。原暂停指令已被本次继续指令取代。本页区分实际开发、局部验证、独立硬审和未完成义务。
+更新于 2026-10-28 21:13 UTC。当前按原 r3 作者的 CONTINUATION-20261028.md 继续有效蓝图与既有修复。下表是最新状态；后文带日期的记录保留当时事实，不覆盖最新状态。
 
-角色继续使用现行 PROJECT-MODEL-ROLES.md：Astra/max 负责计划与契约；专用 ZCode 会话开发；另一独立 ZCode 硬审；OpenCode 默认配置负责未指定的辅助任务。计划意见不设 PASS 门。
+当前会话用户直接指定：Astra/max 负责计划和契约；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；原独立 ZCode GLM-5.3/max 负责成果硬审核。磁盘旧规则的开发路由尚未同步，本页不修改规则文件。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
@@ -15,10 +15,12 @@
 
 | 模块 | 当前已核结果 | 正在推进 |
 | --- | --- | --- |
-| T7 DAILY／完整冷链 | 原025已结束：CLI0，但产品130、监督器3；在原绝对截止停止，四节点未完成，无passed/failed统计。旧F/L0未变。 | 原Astra作者010处理既有超时：先定位实际瓶颈，不把采样间隔当成已证实的psutil耗时，也不自动重跑同一长任务。之后原ZCode owner实施，按原R0/L0/R1/L1/R2链完成。 |
-| M5 | adapter dev002在570.109秒受控结束；外层/watchdog130、Job0，独立CLI退出UNKNOWN。r002局部检查9通过/4失败，源码后续有改动，未冻结交付；原formal006未运行。 | 原Astra作者019处理实际入口空allowlist未生效和有限完成额度。原开发者修复后须独立硬审adapter，再继续原037/038/039及formal006；adapter通过不等于M5通过。 |
-| N8 F02 | 原069于14:40:27 UTC结束；135条记录不能证明真实正式接线。原063/precheck014/final005均未执行；F02仍FAIL，F01仍OPEN/INSUFFICIENT。 | 原独立reviewer070已实际续接author016，只修审核工具的真实入口、完整人口门槛、资源边界和发布闭合。328.471秒工具执行余额，200秒保护；就绪后直接正式硬审。 |
-| DISPATCH | 正式032已消耗并失败：wrapper1/child1，缺pre_expectations；007本地471.8秒成功不替代实际入口/完整性证明。owner005仍NOT_RUN。 | 原开发008已实际续接author015：共用前置上下文、逐输入完整性及真实反例修复。新033一次600秒仅在验证就绪后执行；局部余额1208.296787秒含600+60保护，之后独立硬审。 |
+| T7 | r10 的 F、独立 R0、新 L0 已完成；5 个 affected 节点最新组合覆盖通过。一次完整 24 项 payoff 调用仍在运行，已有 16 项早期断言通过，无最终统计。 | 原 Sol owner 等待当前唯一调用终态；完整交付冻结后立即交原独立 reviewer，继续既有 R1/L1/R2。 |
+| M5 | CLI 修复此前已独立接受。r18 审核工具 33/33 验证通过，原独立 ZCode 的055给出无条件 CONTROLS_ONLY PASS；不等于正式 M5 产品 PASS。 | 正式007仍未执行，等待 T7 释放重任务时段，并恢复 D1GiB 预留、通过即时资源检查；之后才可生成正式结果。 |
+| N8 F02 | 085准备被监督器按上限停止：130/Job0，观察工具时间96.07秒，1个未闭合区间；CLI/receiver UNKNOWN，没有完整 targeted 结果或就绪交接。所有冻结输入未变。 | 原作者033处理既有准备失败及剩余范围；086条件不满足，未擅自续跑。107×2、正式063和runtime002均NOT_RUN，F02仍FAIL。 |
+| DISPATCH | 首次性能采集raw1，82.625秒后收尾异常导致profile未保存；原Sol已修捕获。原作者027已允许一次有界恢复。 | 同一Sol owner立即执行小型捕获检查和一次90秒baseline002；有实际测量后继续原优化与完整预检，006仍NOT_RUN。 |
+| Forward paper | 监督修复已独立PASS。run003正常关闭，三层原始退出0，568.469秒；但0新OPEN/0新CLOSED，只有bootstrap和CLOCK。 | 尚未开始真实forward bar采集，strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重复已消费的采集。 |
+| SC研究输入 | 日期标签与研究可用时点政策有效，独立建议已由原Astra处置；实际A行数仍0、INPUT_NOT_DELIVERED。 | 需要具名合法合约、历史会话和完整prefix/tail等输入证据；没有空consumer或fit可计为交付。 |
 
 此前A4、A2、M4 causality、T7 CPU/内存/接线单元和chronological冻结研究实现的已接受成果继续有效；这些局部PASS不代表完整冷链、正式历史报告或paper验收完成。
 运行请求与原始流位于本机 `C:/AKWorktrees/aktr-goal-20261026/`；外部 CLI 不显示为 Codex 原生子代理。各模块使用独立会话库与不重叠写集；不得凭 CLI 原生 0 认定任务完成。
@@ -483,3 +485,5 @@ Forward run003 completed the accepted 540-second work plus60-second closure path
 |DISPATCH|Actual membership correction passed25 cheap negatives and the405-member production phase. The unique full-preflight successor then returned raw1 in491.797seconds at the common deadline during historical-role resolution. Complete receipt validation already has a cache; repeated identity/path work is observed, but no bottleneck dominance is claimed. Original author is defining the minimal diagnostic/repair continuation. Context/actual/seal006 remain NOT_RUN.|
 
 Independent product hard review remains required for unfinished T7/M5/N8/DISPATCH. Developer verification, control-tool correction and plan decisions do not replace it. Existing failures, consumed calls and unknown accounting remain. User's direct current routing stays Astra/max planning, original native Sol/max product development and independent ZCode hard review; no persistent model/rule configuration is changed. Trading=false, observer=hold, broker=NOT_RUN, real send/cancel0/0.
+
+2026-10-28 21:13 UTC：M5 审核工具最终33/33通过和原独立055的无条件限定PASS见 [接受记录](m5-control-review-055/ACCEPTANCE.json)。本次推进没有增加完整历史报告或paper接受；T7/M5/N8/DISPATCH的完整产品硬审核仍未完成。

@@ -1,0 +1,95 @@
+{
+  "schema": "aktr-m5-control-review-055-acceptance/v1",
+  "recorded_utc": "2026-10-28T21:13:48.706288+00:00",
+  "scope": "r18 reviewer controls only; not candidate615 product acceptance",
+  "independent_reviewer_session": "sess_06ac9667-3716-4c10-a5fd-dbd3310ef72d",
+  "independent_verdict": "PASS",
+  "conditional": false,
+  "product_pass": false,
+  "freeze": {
+    "path": "C:\\AKM5C019\\capacity005\\r5-r18\\SOURCE-FREEZE.json",
+    "bytes": 8964,
+    "sha256": "e86fb05b13c908053d8f30533fa788c906d857f9f6d2f0a9e6705f72e7f2299b"
+  },
+  "source_sha256": {
+    "r5r1_launcher.py": "861dc453db21f48eaac430799479595f69d398eaa9f9ad158501071bf7219653",
+    "capacity_resolver_007.py": "bf991b7bec4dfd75f0f2847716b99aa9345b63b2800fa3688094b0200c2abec1",
+    "r5r1_shared.py": "1aca1cecda781519ee43c33d9c8b99af38f480fadacca1afbcb6dfc66c5fcbe7",
+    "r5r1_bootstrap.py": "9a7dc08766dced9ef0985b52d69a07595bdd87480faf0fe067fca83a859c03e8",
+    "native_receipt_007.py": "4ea1da5188278b1982b701d82625bd93bce210de1a36a57216787dad939e789e",
+    "DERIVED-COMMANDS-007.json": "05e5a373d22628a9016053b5bb56bf6f0054dc90c318cdf7db897763eb25985a",
+    "checks_r5r7.py": "268efafefe0f841901dfc2d014a8999e066f6828bad3b3ce736550c62c5646a9"
+  },
+  "verification": {
+    "cases": 33,
+    "passed": 33,
+    "failed": 0,
+    "native_child_exit": 0,
+    "supervisor_exit": 0,
+    "job_active_after": 0,
+    "whole_seconds": 30.578,
+    "argv": [
+      "D:/Programs/Python/Python312/python.exe",
+      "-B",
+      "-X",
+      "utf8",
+      "C:\\AKM5C019\\capacity005\\r5-r18\\checks_r5r7.py",
+      "D:/AKF261018/M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001/ROOT-EXACT-RUNTIME-ADMISSION-005.json",
+      "5a5a567b54037bed19cd60f79a3fe76684d82ad8f10e63478d091b4fe161d1f0",
+      "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-verify-061-001\\CAPACITY-COMPANION-R3-COLD-007.json",
+      "efdb8259437e6e0fd1cece3d30d75a83b7e246be47f21eb2ee8ea2303dc69eb3",
+      "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\control-verify-047-001\\CAPACITY-COMPANION-GENERATION-COLD.json",
+      "11aec40e200ccb25523be288adff2fd5f532413180dc9f846a45eb3647fd7ec1"
+    ]
+  },
+  "assessment": {
+    "cli_native_exit": 0,
+    "supervisor_exit": 0,
+    "job_active_after": 0,
+    "whole_seconds": 105.79700000002049,
+    "inputs_unchanged": true
+  },
+  "local_evidence": {
+    "verdict": {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-055\\OWNER-REPORT.md",
+      "bytes": 9611,
+      "sha256": "a11f02754bdb2954f915737456cd69fb074ae2f47ed8358768eb674295de4418"
+    },
+    "terminal": {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-055\\TERMINAL.json",
+      "bytes": 337,
+      "sha256": "2cd617bea195d598b5c500282f6da3bc165b3919530c66f7966b5ec7940d743e"
+    },
+    "outer": {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-055\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+      "bytes": 1264,
+      "sha256": "fbee24782db765055d9cf6e71497a3e02a976f9cbdb83953206f3635ca5f39bc"
+    },
+    "verification": {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-verify-061-001\\RUN\\RESULT.json",
+      "bytes": 1206,
+      "sha256": "f01c3680a2489425aa4093510c472bc3fee5b82494ed056d0f568b3d321bcc85"
+    },
+    "cases": {
+      "path": "C:\\AKM5C019\\capacity005\\r5-r18\\local-fixture\\RESULTS.json",
+      "bytes": 5790,
+      "sha256": "54c4f28f139065f03d880a4753f67b1f83f1d7f89ef479a813c9a3a4664303c8"
+    }
+  },
+  "remaining": {
+    "formal007": "NOT_RUN; once1768s; needs T7 exclusive-heavy release, fresh floors and restored D1GiB reservation",
+    "generation001": "NOT_RUN; once300s only after genuine complete007PASS",
+    "full100": "NOT_GRANTED"
+  },
+  "historical_failures_retained": [
+    "r16 17PASS/1FAIL, fake module inserted under wrong cache key",
+    "r17 25PASS/1FAIL, argparse intercepted the intended exact-argv rejection",
+    "058 aggregate-pin transcription defect and author028 disposition"
+  ],
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_cancel": "0/0"
+  }
+}
