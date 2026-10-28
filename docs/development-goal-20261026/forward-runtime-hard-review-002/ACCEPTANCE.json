@@ -1,0 +1,83 @@
+{
+  "schema": "aktr-forward-runtime-repair-acceptance/v1",
+  "accepted_utc": "2026-10-28T18:05:55.398082+00:00",
+  "verdict": "PASS",
+  "conditional": false,
+  "scope": "Forward003 offline runtime helper:540seconds work+60seconds closure inside600; missing copied test dependency supplied separately;378 accepted productsource bytes unchanged",
+  "independent_reviewer": {
+    "agent": "ZCode",
+    "model": "GLM-5.3",
+    "effort": "max",
+    "session_id": "sess_01d66719-8b1f-4620-b9b2-a130611ff58f"
+  },
+  "owner": "/root/sol_forward_runtime_20261028",
+  "evidence": [
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-forward-runtime-repair-20261028-003\\evidence\\FINAL-FREEZE.json",
+      "bytes": 377603,
+      "sha256": "767631e1bbc9f7459b981aa1b050c5896ee4c65828f672f95809074e0835a168"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-forward-runtime-repair-20261028-003\\evidence\\INDEPENDENT-REVIEW-HANDOFF.json",
+      "bytes": 15849,
+      "sha256": "aa134c233412debea9423717ee12cede32a0fda05d3297a4421a0b70e784ad6f"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\forward-runtime-offline-hard-review-002\\work\\VERDICT.json",
+      "bytes": 7811,
+      "sha256": "b0cfa29e2c9b7778157355f497d12c82482a01efa420da5098a795fd1fca3d27"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\forward-runtime-offline-hard-review-002\\work\\FINDINGS.json",
+      "bytes": 2822,
+      "sha256": "17884423f4bf8ccf4b3c5e2e672e78beb46d99d986d5ce22bfe268c0f140e227"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\forward-runtime-offline-hard-review-002\\TERMINAL.json",
+      "bytes": 345,
+      "sha256": "a7bd5eb8ad2c6690fb4295e5a7a6759ba0716957e7ef9a5625b7851a7e14ba8a"
+    },
+    {
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\forward-runtime-offline-hard-review-002\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+      "bytes": 1251,
+      "sha256": "e252d86b537b022966d8f4c2cb7af18ab5b1ec1327e40855823c5ca39ad97c64"
+    }
+  ],
+  "results": {
+    "feed": {
+      "passed": 58,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "native": 0
+    },
+    "safe_preflight": {
+      "native": 0,
+      "sdk_constructed": 0
+    },
+    "independent_probes": {
+      "passed": 13,
+      "failed": 0,
+      "native": 0
+    },
+    "cli_native": 0,
+    "outer_native": 0,
+    "job_active_after": 0,
+    "frozen_input_changes": []
+  },
+  "limits": [
+    "Live run002 remains incomplete, raw124, no terminal REPORT; no new SDK capture was run.",
+    "Synthetic sealing proves repaired behavior in its tested scenario;60seconds is not a measured liveclosure SLA.",
+    "No activation,20day paper acceptance,complete historical research input or strategy qualification.",
+    "Owner overalltool aggregate remains NOT_CAPTURED;130.359seconds measured required children and1328.503 overallwall are distinct.",
+    "Reviewer harness iteration incidents remain in the original verdict/findings; no productinput changed."
+  ],
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send": 0,
+    "real_cancel": 0
+  },
+  "publication": "Compact acceptance reference only; local evidence remains at pinned original paths; no credentials or rawSDK logs published."
+}
