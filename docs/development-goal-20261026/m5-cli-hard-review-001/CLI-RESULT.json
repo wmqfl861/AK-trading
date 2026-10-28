@@ -1,0 +1,31 @@
+{
+  "task_id": "aktr-zcode-m5-cli-independent-hard-review-20261028-001",
+  "native_exit_code": 0,
+  "frozen_inputs_unchanged": true,
+  "product_review_credit": false,
+  "parse_status": "JSON_OBJECT",
+  "session_id": "sess_16cc034d-c23f-49b9-8115-cbaaab06633d",
+  "session_identity_match": true,
+  "usage": {
+    "source": "provider",
+    "modelRequestCount": 27,
+    "inputTokens": 2075714,
+    "outputTokens": 24497,
+    "totalTokens": 2100211,
+    "cacheReadTokens": 1984256,
+    "cacheWriteTokens": 0,
+    "reasoningTokens": 0,
+    "webFetchRequests": 0,
+    "webSearchRequests": 0
+  },
+  "projection": {
+    "status": "idle",
+    "turnCount": 1,
+    "totalTokenCount": 2100211,
+    "contextUsed": 97089,
+    "contextWindow": 200000
+  },
+  "trace_id": "11745483-7061-4e08-bf63-b1de0d67d181",
+  "response_type": "str",
+  "stderr_decode": "UTF8_OK"
+}

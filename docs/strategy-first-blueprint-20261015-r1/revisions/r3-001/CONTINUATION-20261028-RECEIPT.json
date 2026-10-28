@@ -1,0 +1,25 @@
+{
+  "schema": "aktr-original-author-continuation-reception/v1",
+  "recorded_utc": "2026-10-28T13:17:49.319515+00:00",
+  "source": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-blueprint-continuation-20261028-001\\CONTINUATION.md",
+    "bytes": 15671,
+    "sha256": "6a3a1ef43250a924385edc72505345d96533d510be3668e66aa6aca478dcc3fa"
+  },
+  "published": {
+    "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\revisions\\r3-001\\CONTINUATION-20261028.md",
+    "bytes": 15671,
+    "sha256": "6a3a1ef43250a924385edc72505345d96533d510be3668e66aa6aca478dcc3fa"
+  },
+  "original_terminal": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-blueprint-continuation-20261028-001\\TERMINAL.json",
+    "bytes": 1285,
+    "sha256": "9d0e0c65e2f1925587e6f16e0eaa688e6f8c1c9666796c986df12b7634deef99"
+  },
+  "native_exit": 0,
+  "receiver_exit": 1,
+  "disposition": "Recovered SSE disconnect; original stream ends in one turn.completed and exact final author output; original receiver1 retained. No repeat model call.",
+  "input_changes": [],
+  "product_pass": false,
+  "new_goal": "Whole effective blueprint through actual required acceptance; reserved user decisions unchanged."
+}

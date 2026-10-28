@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 import importlib.util
+import json
 import pytest
 
 from ak_trading.v2.schemas import parse_json_bytes,canonical_json_bytes
-from ak_trading.v2.validation.experiments import parse_config,ExperimentError
+from ak_trading.v2.validation.experiments import parse_config,ExperimentError,HoldoutConsumedError,StageIncompleteError
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -300,6 +301,95 @@ def test_shadow_requires_feed_and_reproduce_requires_reference(tmp_path):
     common=["--fixture",str(ROOT/"tests/fixtures/v2/shared.json"),"--config",str(ROOT/"tests/fixtures/v2/m5_research.json")]
     assert module.main(["--mode","shadow-replay",*common,"--output",str(tmp_path/"s")])==2
     assert module.main(["--mode","reproduce",*common,"--output",str(tmp_path/"r")])==2
+
+
+def stage_conf(tmp_path):
+    """Real fixture config plus a genuinely existing lock file: the CLI's real
+    existence gate and dependency probe stay live; only the stage executor is
+    a labeled unit substitute proving exit mapping (06-M5 §8), which provides
+    no real-fit or lock-content credit."""
+    c=config()
+    lock=tmp_path/"contract-lock.json";lock.write_bytes(b"unit-substitute-lock")
+    c["contract_lock_path"]=str(lock)
+    conf=tmp_path/"config.json";conf.write_bytes(canonical_json_bytes(c))
+    return conf
+
+
+def stage_readiness(engineering,statistics):
+    return {"schema_version":"ak_probability_readiness_v2.1.0","engineering":engineering,
+            "statistics":statistics,"runtime":"OFFLINE_ONLY","m5_complete":False,
+            "products":[],"strategies":[],"blockers":[] if engineering=="PASS" else ["REPLAY_INCOMPLETE:unit"]}
+
+
+def _stage_argv(mode,conf,out):
+    return ["--mode",mode,"--fixture",str(ROOT/"tests/fixtures/v2/shared.json"),
+            "--config",str(conf),"--output",str(out)]
+
+
+def test_walk_forward_completed_stage_returns_zero_despite_statistical_fail(tmp_path,monkeypatch,capsys):
+    """06-M5 §8: a fully executed walk-forward stage with its report published
+    exits 0 even when statistics fail — and even though the dual-frequency
+    m5_complete batch flag is False (the pre-fix CLI returned 3 here)."""
+    module=cli();conf=stage_conf(tmp_path);modes=[]
+    def substitute(bundle,cfg,out,mode):
+        modes.append(mode)
+        return stage_readiness("PASS","FAIL")
+    monkeypatch.setattr(module,"run_validation_experiment",substitute)
+    out=tmp_path/"run-wf"
+    assert module.main(_stage_argv("walk-forward",conf,out))==0
+    assert modes==["walk-forward"]
+    printed=json.loads(capsys.readouterr().out)
+    assert printed["engineering"]=="PASS" and printed["statistics"]=="FAIL"
+    assert printed["m5_complete"] is False
+    # normal completion path: no fabricated error.json beside the published stage
+    assert not (out/"error.json").exists()
+
+
+def test_walk_forward_completed_stage_exit_zero_across_statistical_outcomes(tmp_path,monkeypatch):
+    module=cli();conf=stage_conf(tmp_path)
+    for statistics in ("FAIL","INSUFFICIENT","PASS"):
+        monkeypatch.setattr(module,"run_validation_experiment",
+                            lambda *args,statistics=statistics: stage_readiness("PASS",statistics))
+        assert module.main(_stage_argv("walk-forward",conf,tmp_path/("run-"+statistics)))==0
+
+
+def test_walk_forward_engineering_failure_readiness_keeps_exit_three(tmp_path,monkeypatch,capsys):
+    """Engineering-FAIL readiness (ledger INCOMPLETE / insufficient train or
+    calibration / missing payoff episodes) is the contract's stage-incomplete
+    class and keeps the native exit 3 with the readiness payload unmasksed."""
+    module=cli();conf=stage_conf(tmp_path)
+    monkeypatch.setattr(module,"run_validation_experiment",lambda *args: stage_readiness("FAIL","INSUFFICIENT"))
+    out=tmp_path/"run-wf-fail"
+    assert module.main(_stage_argv("walk-forward",conf,out))==3
+    printed=json.loads(capsys.readouterr().out)
+    assert printed["engineering"]=="FAIL" and printed["blockers"]==["REPLAY_INCOMPLETE:unit"]
+    assert not (out/"error.json").exists() and not out.exists()
+
+
+def test_smoke_zero_preserved_and_final_holdout_not_opened(tmp_path,monkeypatch):
+    module=cli();conf=stage_conf(tmp_path)
+    monkeypatch.setattr(module,"run_validation_experiment",lambda *args: stage_readiness("PASS","INSUFFICIENT"))
+    assert module.main(_stage_argv("smoke",conf,tmp_path/"run-smoke"))==0
+    # the walk-forward completion fix does not open final-holdout (stays 3)
+    assert module.main(_stage_argv("final-holdout",conf,tmp_path/"run-holdout"))==3
+
+
+def test_walk_forward_exception_classes_keep_native_exit_codes(tmp_path,monkeypatch):
+    module=cli();conf=stage_conf(tmp_path)
+    cases=((StageIncompleteError("TRAIN_OR_CALIBRATION_INSUFFICIENT:unit"),3,"TRAIN_OR_CALIBRATION_INSUFFICIENT:unit"),
+           (HoldoutConsumedError("unit-holdout"),4,"unit-holdout"),
+           (ValueError("unit-input"),2,"ValueError:unit-input"),
+           (RuntimeError("unit-internal"),1,"RuntimeError:unit-internal"))
+    for index,(raised,expected,reason) in enumerate(cases):
+        def substitute(*args,raised=raised):
+            raise raised
+        monkeypatch.setattr(module,"run_validation_experiment",substitute)
+        out=tmp_path/f"run-exc{index}"
+        assert module.main(_stage_argv("walk-forward",conf,out))==expected
+        error=parse_json_bytes((out/"error.json").read_bytes())
+        assert error["exit_code"]==expected and error["reason"]==reason
+        assert error["engineering"]=="FAIL" and error["statistics"]=="INSUFFICIENT"
+        assert error["m5_complete"] is False
 
 
 def test_short_fixture_feed_is_replay_only_and_preserves_raw_clock():

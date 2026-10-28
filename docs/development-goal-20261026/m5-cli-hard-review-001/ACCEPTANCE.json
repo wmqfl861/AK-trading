@@ -1,0 +1,99 @@
+{
+  "schema": "aktr-root-m5-cli-acceptance/v1",
+  "accepted_utc": "2026-10-28T14:43:34.323677+00:00",
+  "verdict": "PASS",
+  "scope": "M5 CLI stage completion exit semantics; engineering/SYNTHETIC unit credit only",
+  "plan": {
+    "path": "D:/Projects/AK-trading/docs/strategy-first-blueprint-20261015-r1/revisions/r3-001/CONTINUATION-20261028.md",
+    "bytes": 15671,
+    "sha256": "6a3a1ef43250a924385edc72505345d96533d510be3668e66aa6aca478dcc3fa"
+  },
+  "reviewer_session": "sess_16cc034d-c23f-49b9-8115-cbaaab06633d",
+  "independent_reviewer": true,
+  "implementation_session": "sess_06788991-47cd-4777-8481-3e6a661ea1ba",
+  "input_completion_owner": "/root/sol_m5_cli_completion_20261028",
+  "terminal_native_exit": 0,
+  "source_inputs_unchanged": true,
+  "required_counts": {
+    "selected": 23,
+    "passed": 23,
+    "failed": 0,
+    "errors": 0,
+    "raw_exit": 0
+  },
+  "independent_counterexamples": {
+    "expected_outcomes": 15,
+    "passed": 15
+  },
+  "reviewed_write_set": {
+    "scripts/research_probability_v2.py": {
+      "bytes": 7458,
+      "sha256": "580c2f32d2f6430e628729e2fae5b365323d2805aeeda7413df8e71c3c9d344c"
+    },
+    "tests/test_v2_m5_cli.py": {
+      "bytes": 30451,
+      "sha256": "e4fe98a11902a14dc042c149c70b49ae84a2424efe7848ac339705e8ddbc2edc"
+    }
+  },
+  "integrated_exact_bytes": true,
+  "preimages": {
+    "scripts/research_probability_v2.py": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba",
+    "tests/test_v2_m5_cli.py": "d885da1717e0982b455248275fe670e07c96cdcbac17f1a8093fd7cac072f693"
+  },
+  "published_evidence": [
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\VERDICT.md",
+      "bytes": 2917,
+      "sha256": "4d50e9797f87cd7b495ddbe8b578580550103e2973a8d5883c5056262bcde6ee"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\FINDINGS.json",
+      "bytes": 6769,
+      "sha256": "3eaf29eaac44944884286f1d13a71615d009c17d67a523fc9a0f54d892190fe6"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\required-rerun.json",
+      "bytes": 880,
+      "sha256": "06aa0b30e084a62c20aee671af5c62e6702fa3d8acdcec26d5d3d74d3b8ac517"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\required-rerun.stdout.txt",
+      "bytes": 3352,
+      "sha256": "1c9015e5a17d1ce4dc255c8c5995a3dffc9b4cf9180f7f14e2039e73417ab62d"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\required-rerun.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\probes-result.json",
+      "bytes": 15789,
+      "sha256": "1ff52d19234c82b7b828cd484065cc38878a1d10b5ab3a24912b1a6c866eb2b5"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\pin-verification.json",
+      "bytes": 12100,
+      "sha256": "2721b203e1aeef98badd9dc42485ec8cb9acc6769910e3d09619a4ad1ab66cd6"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\CLI-TERMINAL.json",
+      "bytes": 339,
+      "sha256": "0e0a1be36f32a0524120e9bed1c0658ef1aa05a48f43874a110530afa851c1d4"
+    },
+    {
+      "path": "D:\\Projects\\AK-trading\\docs\\development-goal-20261026\\m5-cli-hard-review-001\\CLI-RESULT.json",
+      "bytes": 852,
+      "sha256": "59ad31ab1ae8f73c842c317ff4512853af30ea2b9e4ec22ac4679198a15fd4b5"
+    }
+  ],
+  "original_local_review_root": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001",
+  "no_formal_fit_or_full100_or_shadow_or_holdout_credit": true,
+  "safety": {
+    "enable_trading": false,
+    "observer": "hold",
+    "broker": "NOT_RUN",
+    "real_send_count": 0,
+    "real_cancel_count": 0
+  }
+}

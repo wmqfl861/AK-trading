@@ -1,0 +1,75 @@
+{
+  "schema": "aktr-m5-cli-hard-review-findings/v1",
+  "review": "m5-cli-hard-review-001 independent product hard review",
+  "reviewer_session": "fresh independent ZCode GLM-5.3/max session/store per REQUEST.json (no participation in implementation or input completion)",
+  "candidate": "C:/AKWorktrees/aktr-goal-m5cli-20261028",
+  "effective_plan": {
+    "path": "D:/Projects/AK-trading/docs/strategy-first-blueprint-20261015-r1/revisions/r3-001/CONTINUATION-20261028.md",
+    "bytes": 15671,
+    "sha256": "6a3a1ef43250a924385edc72505345d96533d510be3668e66aa6aca478dcc3fa"
+  },
+  "reviewed_write_set": {
+    "scripts/research_probability_v2.py": {"bytes": 7458, "sha256": "580c2f32d2f6430e628729e2fae5b365323d2805aeeda7413df8e71c3c9d344c"},
+    "tests/test_v2_m5_cli.py": {"bytes": 30451, "sha256": "e4fe98a11902a14dc042c149c70b49ae84a2424efe7848ac339705e8ddbc2edc"}
+  },
+  "checks": [
+    {
+      "id": "C1",
+      "title": "Freeze pin verification (pre-run and post-run)",
+      "method": "work/verify_pins.py re-hashed all 20 pins from the Sol FREEZE: 2 product files, 9 required read-only inputs, 6 copied chunk configs, effective plan. Re-run after all probes: identical result.",
+      "result": "PASS",
+      "evidence": "work/pin-verification.json"
+    },
+    {
+      "id": "C2",
+      "title": "Actual diff is exactly the planned one-line mapping repair",
+      "method": "diff canonical preimage scripts/research_probability_v2.py (D:/Projects/AK-trading, sha256 db0e61e3...685ba, matching owner DELIVERY pin) vs candidate: only the final return tuple gains 'walk-forward' plus a rationale comment. Tests diff vs preimage (d885da17...2f693): +5 test functions, +3 helpers, one import line extended; zero pre-existing tests removed or weakened.",
+      "result": "PASS",
+      "evidence": "diff outputs in this finding; preimage hashes verified in-session"
+    },
+    {
+      "id": "C3",
+      "title": "Independent rerun of the complete required command",
+      "method": "Bounded supervisor (argument-array subprocess, 0.5s tree-RSS sampling, wall<=900s, mem<=2GiB), cwd candidate, exact argv: python scripts/test_offline.py -q tests/test_v2_m5_cli.py tests/test_v2_m5_shadow_entry_guard.py",
+      "raw_counts": {"native_exit": 0, "selected": 23, "ran": 23, "passed": 23, "failed": 0, "skipped": 0, "errors": 0, "collection_errors": 0, "unresolved_files": 0, "deselected": 0, "stderr_bytes": 0, "wall_seconds": 113.797, "peak_rss_bytes": 142356480, "bound_termination": null},
+      "result": "PASS",
+      "evidence": "work/required-rerun.json, work/required-rerun.stdout.txt, work/required-rerun.stderr.txt"
+    },
+    {
+      "id": "C4",
+      "title": "Historical failure disposition and input completeness",
+      "method": "Prior owner fulltest 22P/1F raw exit 1 was the t9 chunk-skeleton test failing on six absent data inputs in the isolated candidate; preserved untouched at C:/AKWorktrees/aktr-goal-20261026/zcode-dispatch/m5-cli-owner-001. Sol copied exactly those six create-only; I independently hashed both the candidate copies (match FREEZE targets) and the canonical D: sources (match FREEZE source pins). The t9 test now passes inside the 23/23 rerun.",
+      "result": "PASS",
+      "evidence": "work/pin-verification.json; canonical-source check in-session output; required-rerun.stdout.txt selected_nodeids"
+    },
+    {
+      "id": "C5",
+      "title": "Counterexample / opposite-result probes (15/15 expected exits)",
+      "method": "work/run_probes.py. Group A (SYNTHETIC executor substitute, native exit through sys.exit(main())): preimage copy (canonical bytes db0e61e3) returns 3 on walk-forward engineering=PASS statistics=FAIL m5_complete=false while the frozen candidate returns 0 — the exact repaired regression; m5_complete=true still 0 (flag not consulted, no double-frequency conflation); final-holdout with engineering/statistics PASS and m5_complete=true stays 3 (not opened); reproduce membership unchanged (0); engineering-FAIL readiness keeps 3 with no output dir and no error.json; exception classes keep 3/4/2/1 with per-class error.json reasons (TRAIN_OR_CALIBRATION_INSUFFICIENT:probe / probe-holdout / ValueError:probe-input / RuntimeError:probe-internal). Group B (real CLI file, true __main__ path, no substitutes): real missing-lock walk-forward exits 3 with error.json M1_CONTRACT_LOCK_NOT_PUBLISHED and m5_complete false; real A4 shadow-replay request exits 3, stdout empty, structured stderr reason ORDINARY_SHADOW_REPLAY_NOT_AVAILABLE, nothing created; existing-output 2; unknown mode 2; missing config 2 with FileNotFoundError reason.",
+      "result": "PASS",
+      "evidence": "work/probes-result.json, work/probe-*.stdout.txt, work/probe-*.stderr.txt, work/cli_exit_probe.py"
+    },
+    {
+      "id": "C6",
+      "title": "No undeclared side effects; candidate byte-stable",
+      "method": "Normal-completion probes create no error.json; pins re-verified after all runs (C1 re-run); no __pycache__ newer than pyproject.toml anywhere in the candidate; probes ran with cwd in the review work dir only.",
+      "result": "PASS",
+      "evidence": "work/pin-verification.json (post-run), probes-result.json"
+    },
+    {
+      "id": "C7",
+      "title": "Safety and boundary",
+      "method": "No SDK/network/DB/order-API access; no .env/credential read or existence probe; all probe outputs under review work dir (888KiB total, <=256MiB bound); resource bounds respected (113.8s wall, 142MiB RSS peak vs 900s/2GiB); tooling well under 1200s/1170s.",
+      "result": "PASS",
+      "evidence": "work/required-rerun.json; work/probes-result.json"
+    }
+  ],
+  "non_blocking_observations": [
+    "O1: owner DELIVERY says '+2 helpers'; the test diff actually adds three helper defs (stage_conf, stage_readiness, _stage_argv). Documentation imprecision only; no product effect.",
+    "O2: 'reproduce' exit-0 membership is unchanged by the diff and only SYNTHETIC-probed here; a real reference-run reproduction remains untested and was not authorized — matches owner disclosure.",
+    "O3: a hypothetically complete final-holdout stage still exits 3; the effective continuation explicitly keeps final-holdout closed ('不开放 shadow 或 holdout'), so this is conformant, not a defect.",
+    "O4: credit scope is SYNTHETIC unit/engineering regression credit only. No real M5 fit, lock-content, historical PIT/full100, ordinary-shadow or final-holdout credit is issued by this review."
+  ],
+  "verdict": "PASS",
+  "verdict_scope": "Unconditional product hard-review PASS for the two-file write-set at the frozen hashes above, against CONTINUATION-20261028 §1 and 06-M5 §8 exit-code semantics, within the SYNTHETIC credit scope stated above. No conditional pass; no source edits made by the reviewer."
+}

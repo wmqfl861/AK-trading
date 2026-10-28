@@ -1,0 +1,298 @@
+{
+  "schema": "aktr-m5-cli-hard-review-pin-verification/v1",
+  "checks": 20,
+  "mismatched": [],
+  "missing": [],
+  "results": [
+    {
+      "label": "product:scripts/research_probability_v2.py",
+      "pinned": {
+        "bytes": 7458,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\scripts\\research_probability_v2.py",
+        "sha256": "580c2f32d2f6430e628729e2fae5b365323d2805aeeda7413df8e71c3c9d344c"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\scripts\\research_probability_v2.py",
+        "bytes": 7458,
+        "sha256": "580c2f32d2f6430e628729e2fae5b365323d2805aeeda7413df8e71c3c9d344c"
+      },
+      "match": true
+    },
+    {
+      "label": "product:tests/test_v2_m5_cli.py",
+      "pinned": {
+        "bytes": 30451,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\test_v2_m5_cli.py",
+        "sha256": "e4fe98a11902a14dc042c149c70b49ae84a2424efe7848ac339705e8ddbc2edc"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\test_v2_m5_cli.py",
+        "bytes": 30451,
+        "sha256": "e4fe98a11902a14dc042c149c70b49ae84a2424efe7848ac339705e8ddbc2edc"
+      },
+      "match": true
+    },
+    {
+      "label": "input:pyproject.toml",
+      "pinned": {
+        "bytes": 661,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\pyproject.toml",
+        "sha256": "9fcbd5865da5b99e645966980f3130dce7d36f8d7d1df341e0264c07cdd1bff4"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\pyproject.toml",
+        "bytes": 661,
+        "sha256": "9fcbd5865da5b99e645966980f3130dce7d36f8d7d1df341e0264c07cdd1bff4"
+      },
+      "match": true
+    },
+    {
+      "label": "input:scripts/test_offline.py",
+      "pinned": {
+        "bytes": 31098,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\scripts\\test_offline.py",
+        "sha256": "3cbcbe5f97d9c32e01bf6e8b25486f42211e307d064252e57912cb9a225db48d"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\scripts\\test_offline.py",
+        "bytes": 31098,
+        "sha256": "3cbcbe5f97d9c32e01bf6e8b25486f42211e307d064252e57912cb9a225db48d"
+      },
+      "match": true
+    },
+    {
+      "label": "input:src/ak_trading/v2/validation/experiments.py",
+      "pinned": {
+        "bytes": 108160,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\src\\ak_trading\\v2\\validation\\experiments.py",
+        "sha256": "e5c4f3159a9f3ecee4f359419fdfc6523971b3daaa14e062e48a6aaab7c91b65"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\src\\ak_trading\\v2\\validation\\experiments.py",
+        "bytes": 108160,
+        "sha256": "e5c4f3159a9f3ecee4f359419fdfc6523971b3daaa14e062e48a6aaab7c91b65"
+      },
+      "match": true
+    },
+    {
+      "label": "input:src/ak_trading/v2/validation/reports.py",
+      "pinned": {
+        "bytes": 21274,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\src\\ak_trading\\v2\\validation\\reports.py",
+        "sha256": "0d28dbeb67baf91e3d128b53b22fe462f40258cbb3f58b3e20074112af573fa5"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\src\\ak_trading\\v2\\validation\\reports.py",
+        "bytes": 21274,
+        "sha256": "0d28dbeb67baf91e3d128b53b22fe462f40258cbb3f58b3e20074112af573fa5"
+      },
+      "match": true
+    },
+    {
+      "label": "input:tests/conftest.py",
+      "pinned": {
+        "bytes": 1761,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\conftest.py",
+        "sha256": "eb8fc6f9a9404d3e30101c2b0535750e03f9b060a905b16512767abf9cefbb6f"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\conftest.py",
+        "bytes": 1761,
+        "sha256": "eb8fc6f9a9404d3e30101c2b0535750e03f9b060a905b16512767abf9cefbb6f"
+      },
+      "match": true
+    },
+    {
+      "label": "input:tests/fixtures/v2/m5_research.json",
+      "pinned": {
+        "bytes": 73536,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_research.json",
+        "sha256": "18be290be95b52723400d19e19a122a9e4ff7022b9f4b2c9344e922a576ccce6"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_research.json",
+        "bytes": 73536,
+        "sha256": "18be290be95b52723400d19e19a122a9e4ff7022b9f4b2c9344e922a576ccce6"
+      },
+      "match": true
+    },
+    {
+      "label": "input:tests/fixtures/v2/m5_stream.jsonl",
+      "pinned": {
+        "bytes": 5066,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_stream.jsonl",
+        "sha256": "fbed4af78392117af32b10156ccd4c7f817b8f8caa2bd61278c4d25cc7573b30"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_stream.jsonl",
+        "bytes": 5066,
+        "sha256": "fbed4af78392117af32b10156ccd4c7f817b8f8caa2bd61278c4d25cc7573b30"
+      },
+      "match": true
+    },
+    {
+      "label": "input:tests/fixtures/v2/shared.json",
+      "pinned": {
+        "bytes": 23304,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\shared.json",
+        "sha256": "f2d2d21bc990f2463db289c431f3d1c93c08b7c99f2ed3e7666f2d6d79182749"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\shared.json",
+        "bytes": 23304,
+        "sha256": "f2d2d21bc990f2463db289c431f3d1c93c08b7c99f2ed3e7666f2d6d79182749"
+      },
+      "match": true
+    },
+    {
+      "label": "input:tests/test_v2_m5_shadow_entry_guard.py",
+      "pinned": {
+        "bytes": 5827,
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\test_v2_m5_shadow_entry_guard.py",
+        "sha256": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\test_v2_m5_shadow_entry_guard.py",
+        "bytes": 5827,
+        "sha256": "ddae2262b68756662cbdc90d37d5500bc63c9e9e2ea0b8a87cf58356b5e9ac28"
+      },
+      "match": true
+    },
+    {
+      "label": "chunk:data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk01.json",
+      "pinned": {
+        "bytes": 80062,
+        "path": "C:/AKWorktrees/aktr-goal-m5cli-20261028/data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk01.json",
+        "sha256": "a46bb558fc0d28c472769f87462040f9024069813e191f2cd6cc4e9d55337ff0"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk01.json",
+        "bytes": 80062,
+        "sha256": "a46bb558fc0d28c472769f87462040f9024069813e191f2cd6cc4e9d55337ff0"
+      },
+      "match": true
+    },
+    {
+      "label": "chunk:data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk02.json",
+      "pinned": {
+        "bytes": 80062,
+        "path": "C:/AKWorktrees/aktr-goal-m5cli-20261028/data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk02.json",
+        "sha256": "fd5d73522a1c5793b46395849bc89ec6c69fb5078c162709eddcb72040a42c3b"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk02.json",
+        "bytes": 80062,
+        "sha256": "fd5d73522a1c5793b46395849bc89ec6c69fb5078c162709eddcb72040a42c3b"
+      },
+      "match": true
+    },
+    {
+      "label": "chunk:data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk03.json",
+      "pinned": {
+        "bytes": 80062,
+        "path": "C:/AKWorktrees/aktr-goal-m5cli-20261028/data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk03.json",
+        "sha256": "e3fc0091b7dfba09011181a2a2f43651dc28a89888e461e53b6e51f7b87ed995"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk03.json",
+        "bytes": 80062,
+        "sha256": "e3fc0091b7dfba09011181a2a2f43651dc28a89888e461e53b6e51f7b87ed995"
+      },
+      "match": true
+    },
+    {
+      "label": "chunk:data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk04.json",
+      "pinned": {
+        "bytes": 80062,
+        "path": "C:/AKWorktrees/aktr-goal-m5cli-20261028/data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk04.json",
+        "sha256": "97f496b970f6fa31eda7c205f951a01013f33724ef7a6e9c626e3334053326e9"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk04.json",
+        "bytes": 80062,
+        "sha256": "97f496b970f6fa31eda7c205f951a01013f33724ef7a6e9c626e3334053326e9"
+      },
+      "match": true
+    },
+    {
+      "label": "chunk:data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk05.json",
+      "pinned": {
+        "bytes": 80062,
+        "path": "C:/AKWorktrees/aktr-goal-m5cli-20261028/data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk05.json",
+        "sha256": "d12f297719c74d6c4bcd64c856c33387bd74f6f0908f1d8b2794764276e59e64"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk05.json",
+        "bytes": 80062,
+        "sha256": "d12f297719c74d6c4bcd64c856c33387bd74f6f0908f1d8b2794764276e59e64"
+      },
+      "match": true
+    },
+    {
+      "label": "chunk:data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk06.json",
+      "pinned": {
+        "bytes": 80062,
+        "path": "C:/AKWorktrees/aktr-goal-m5cli-20261028/data/research_runs/v2/m5-development-20260914T041258Z/chunk-configs/m5-r4/chunk06.json",
+        "sha256": "811dbfa4b786d0475547cdeb7dd2e3bef5046c8748652973e37f5667922a4b27"
+      },
+      "present": true,
+      "actual": {
+        "path": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\data\\research_runs\\v2\\m5-development-20260914T041258Z\\chunk-configs\\m5-r4\\chunk06.json",
+        "bytes": 80062,
+        "sha256": "811dbfa4b786d0475547cdeb7dd2e3bef5046c8748652973e37f5667922a4b27"
+      },
+      "match": true
+    },
+    {
+      "label": "effective_plan",
+      "pinned": {
+        "bytes": 15671,
+        "path": "D:/Projects/AK-trading/docs/strategy-first-blueprint-20261015-r1/revisions/r3-001/CONTINUATION-20261028.md",
+        "sha256": "6a3a1ef43250a924385edc72505345d96533d510be3668e66aa6aca478dcc3fa"
+      },
+      "present": true,
+      "actual": {
+        "path": "D:\\Projects\\AK-trading\\docs\\strategy-first-blueprint-20261015-r1\\revisions\\r3-001\\CONTINUATION-20261028.md",
+        "bytes": 15671,
+        "sha256": "6a3a1ef43250a924385edc72505345d96533d510be3668e66aa6aca478dcc3fa"
+      },
+      "match": true
+    },
+    {
+      "label": "canonical_cli_preimage",
+      "actual": {
+        "path": "D:\\Projects\\AK-trading\\scripts\\research_probability_v2.py",
+        "bytes": 6918,
+        "sha256": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba"
+      },
+      "pinned": null,
+      "match": null
+    },
+    {
+      "label": "canonical_cli_test_preimage",
+      "actual": {
+        "path": "D:\\Projects\\AK-trading\\tests\\test_v2_m5_cli.py",
+        "bytes": 25519,
+        "sha256": "d885da1717e0982b455248275fe670e07c96cdcbac17f1a8093fd7cac072f693"
+      },
+      "pinned": null,
+      "match": null
+    }
+  ]
+}

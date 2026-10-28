@@ -113,7 +113,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                     raise ExperimentError("reproduction_core_bytes_differ:" + name)
             atomic_write(output / "reproduction.json", canonical_json_bytes(reproduction))
         print(canonical_json_bytes(result).decode(), end="")
-        return 0 if result["engineering"] == "PASS" and args.mode in ("smoke", "reproduce") else 3
+        # 06-M5 §8: exit 0 means the requested stage fully executed and its
+        # report was published; statistical FAIL/INSUFFICIENT does not
+        # downgrade it, and readiness["m5_complete"] (the dual-frequency
+        # SHADOW_ACCEPTED batch flag) is not the single-stage completion
+        # test. An engineering-FAIL readiness (replay incomplete, train or
+        # calibration insufficient, payoff episodes missing) keeps the native
+        # stage-incomplete exit 3; final-holdout stays closed here (exit 3).
+        return 0 if result["engineering"] == "PASS" and args.mode in ("smoke", "walk-forward", "reproduce") else 3
     except SystemExit as error:
         return int(error.code)
     except HoldoutConsumedError as error:

@@ -1,0 +1,28 @@
+{
+  "schema": "aktr-m5-cli-hard-review-rerun/v1",
+  "argv": [
+    "python",
+    "scripts/test_offline.py",
+    "-q",
+    "tests/test_v2_m5_cli.py",
+    "tests/test_v2_m5_shadow_entry_guard.py"
+  ],
+  "cwd": "C:\\AKWorktrees\\aktr-goal-m5cli-20261028",
+  "child_pid": 152724,
+  "started_utc": "2026-10-28T14:29:44Z",
+  "finished_utc": "2026-10-28T14:31:38Z",
+  "wall_seconds": 113.797,
+  "native_exit": 0,
+  "bound_termination": null,
+  "peak_aggregate_rss_bytes_sampled": 142356480,
+  "rss_sample_interval_seconds": 0.5,
+  "stdout": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\required-rerun.stdout.txt",
+    "bytes": 3352
+  },
+  "stderr": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\required-rerun.stderr.txt",
+    "bytes": 0
+  },
+  "review_evidence_bytes_after": 23485
+}

@@ -1,0 +1,329 @@
+{
+  "schema": "aktr-m5-cli-hard-review-probes/v1",
+  "preimage_copy": {
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\preimage\\research_probability_v2.py",
+    "sha256": "db0e61e37b6213c776a36625769e7391439628f0c0c451415471a68b0bc685ba",
+    "source": "D:\\Projects\\AK-trading\\scripts\\research_probability_v2.py"
+  },
+  "probes": [
+    {
+      "name": "A1_preimage_wf_pass_statsfail",
+      "argv_tail": [
+        "walk-forward",
+        "PASS",
+        "FAIL",
+        "false",
+        "-",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A1_preimage_wf_pass_statsfail"
+      ],
+      "native_exit": 3,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A1_preimage_wf_pass_statsfail.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A1_preimage_wf_pass_statsfail.stderr.txt",
+      "expected_exit": 3,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A1_preimage_wf_pass_statsfail",
+      "error_json_absent": true,
+      "pass": true
+    },
+    {
+      "name": "A2_candidate_wf_pass_statsfail",
+      "argv_tail": [
+        "walk-forward",
+        "PASS",
+        "FAIL",
+        "false",
+        "-",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A2_candidate_wf_pass_statsfail"
+      ],
+      "native_exit": 0,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A2_candidate_wf_pass_statsfail.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A2_candidate_wf_pass_statsfail.stderr.txt",
+      "expected_exit": 0,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A2_candidate_wf_pass_statsfail",
+      "error_json_absent": true,
+      "pass": true
+    },
+    {
+      "name": "A3_candidate_wf_pass_statsfail_m5complete_true",
+      "argv_tail": [
+        "walk-forward",
+        "PASS",
+        "FAIL",
+        "true",
+        "-",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A3_candidate_wf_pass_statsfail_m5complete_true"
+      ],
+      "native_exit": 0,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A3_candidate_wf_pass_statsfail_m5complete_true.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A3_candidate_wf_pass_statsfail_m5complete_true.stderr.txt",
+      "expected_exit": 0,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A3_candidate_wf_pass_statsfail_m5complete_true",
+      "error_json_absent": true,
+      "pass": true
+    },
+    {
+      "name": "A4_candidate_finalholdout_all_complete",
+      "argv_tail": [
+        "final-holdout",
+        "PASS",
+        "PASS",
+        "true",
+        "-",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A4_candidate_finalholdout_all_complete"
+      ],
+      "native_exit": 3,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A4_candidate_finalholdout_all_complete.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A4_candidate_finalholdout_all_complete.stderr.txt",
+      "expected_exit": 3,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A4_candidate_finalholdout_all_complete",
+      "output_dir_absent": true,
+      "pass": true
+    },
+    {
+      "name": "A5_candidate_reproduce_pass",
+      "argv_tail": [
+        "reproduce",
+        "PASS",
+        "INSUFFICIENT",
+        "false",
+        "-",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A5_candidate_reproduce_pass"
+      ],
+      "native_exit": 0,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A5_candidate_reproduce_pass.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A5_candidate_reproduce_pass.stderr.txt",
+      "expected_exit": 0,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A5_candidate_reproduce_pass",
+      "error_json_absent": true,
+      "pass": true
+    },
+    {
+      "name": "A6_candidate_wf_engineeringfail",
+      "argv_tail": [
+        "walk-forward",
+        "FAIL",
+        "INSUFFICIENT",
+        "false",
+        "-",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A6_candidate_wf_engineeringfail"
+      ],
+      "native_exit": 3,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A6_candidate_wf_engineeringfail.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A6_candidate_wf_engineeringfail.stderr.txt",
+      "expected_exit": 3,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A6_candidate_wf_engineeringfail",
+      "output_dir_absent": true,
+      "error_json_absent": true,
+      "pass": true
+    },
+    {
+      "name": "A7_candidate_exc_stageincomplete",
+      "argv_tail": [
+        "walk-forward",
+        "PASS",
+        "FAIL",
+        "false",
+        "StageIncompleteError",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A7_candidate_exc_stageincomplete"
+      ],
+      "native_exit": 3,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A7_candidate_exc_stageincomplete.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A7_candidate_exc_stageincomplete.stderr.txt",
+      "expected_exit": 3,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A7_candidate_exc_stageincomplete",
+      "error_json_reason": "TRAIN_OR_CALIBRATION_INSUFFICIENT:probe",
+      "pass": true
+    },
+    {
+      "name": "A8_candidate_exc_holdout",
+      "argv_tail": [
+        "walk-forward",
+        "PASS",
+        "FAIL",
+        "false",
+        "HoldoutConsumedError",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A8_candidate_exc_holdout"
+      ],
+      "native_exit": 4,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A8_candidate_exc_holdout.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A8_candidate_exc_holdout.stderr.txt",
+      "expected_exit": 4,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A8_candidate_exc_holdout",
+      "error_json_reason": "probe-holdout",
+      "pass": true
+    },
+    {
+      "name": "A9_candidate_exc_valueerror",
+      "argv_tail": [
+        "walk-forward",
+        "PASS",
+        "FAIL",
+        "false",
+        "ValueError",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A9_candidate_exc_valueerror"
+      ],
+      "native_exit": 2,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A9_candidate_exc_valueerror.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A9_candidate_exc_valueerror.stderr.txt",
+      "expected_exit": 2,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A9_candidate_exc_valueerror",
+      "error_json_reason": "ValueError:probe-input",
+      "pass": true
+    },
+    {
+      "name": "A10_candidate_exc_runtimeerror",
+      "argv_tail": [
+        "walk-forward",
+        "PASS",
+        "FAIL",
+        "false",
+        "RuntimeError",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A10_candidate_exc_runtimeerror"
+      ],
+      "native_exit": 1,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A10_candidate_exc_runtimeerror.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-A10_candidate_exc_runtimeerror.stderr.txt",
+      "expected_exit": 1,
+      "group": "A_mapping_synthetic_substitute",
+      "scratch": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\A10_candidate_exc_runtimeerror",
+      "error_json_reason": "RuntimeError:probe-internal",
+      "pass": true
+    },
+    {
+      "name": "B1_real_missing_lock_walkforward",
+      "argv_tail": [
+        "--mode",
+        "walk-forward",
+        "--fixture",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\shared.json",
+        "--config",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_research.json",
+        "--output",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\B1_real_missing_lock_walkforward\\run"
+      ],
+      "native_exit": 3,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B1_real_missing_lock_walkforward.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B1_real_missing_lock_walkforward.stderr.txt",
+      "expected_exit": 3,
+      "group": "B_real_path_no_substitute",
+      "error_json": {
+        "engineering": "FAIL",
+        "exit_code": 3,
+        "m5_complete": false,
+        "mode": "ERROR",
+        "reason": "M1_CONTRACT_LOCK_NOT_PUBLISHED",
+        "runtime": "OFFLINE_ONLY",
+        "statistics": "INSUFFICIENT"
+      },
+      "pass": true
+    },
+    {
+      "name": "B2_real_shadow_replay_refusal",
+      "argv_tail": [
+        "--mode",
+        "shadow-replay",
+        "--fixture",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\shared.json",
+        "--config",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_research.json",
+        "--feed",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_stream.jsonl",
+        "--output",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\B2_real_shadow_replay_refusal\\run"
+      ],
+      "native_exit": 3,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B2_real_shadow_replay_refusal.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B2_real_shadow_replay_refusal.stderr.txt",
+      "expected_exit": 3,
+      "group": "B_real_path_no_substitute",
+      "stderr_json": {
+        "engineering": "FAIL",
+        "exit_code": 3,
+        "m5_complete": false,
+        "mode": "ERROR",
+        "reason": "ORDINARY_SHADOW_REPLAY_NOT_AVAILABLE",
+        "runtime": "OFFLINE_ONLY",
+        "statistics": "INSUFFICIENT"
+      },
+      "nothing_created": true,
+      "pass": true
+    },
+    {
+      "name": "B3_real_existing_output",
+      "argv_tail": [
+        "--mode",
+        "walk-forward",
+        "--fixture",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\shared.json",
+        "--config",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_research.json",
+        "--output",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\B3_real_existing_output\\run"
+      ],
+      "native_exit": 2,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B3_real_existing_output.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B3_real_existing_output.stderr.txt",
+      "expected_exit": 2,
+      "group": "B_real_path_no_substitute",
+      "pass": true
+    },
+    {
+      "name": "B4_real_unknown_mode",
+      "argv_tail": [
+        "--mode",
+        "live",
+        "--fixture",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\shared.json",
+        "--config",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\m5_research.json",
+        "--output",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\B4_real_unknown_mode\\run"
+      ],
+      "native_exit": 2,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B4_real_unknown_mode.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B4_real_unknown_mode.stderr.txt",
+      "expected_exit": 2,
+      "group": "B_real_path_no_substitute",
+      "pass": true
+    },
+    {
+      "name": "B5_real_missing_config",
+      "argv_tail": [
+        "--mode",
+        "walk-forward",
+        "--fixture",
+        "C:\\AKWorktrees\\aktr-goal-m5cli-20261028\\tests\\fixtures\\v2\\shared.json",
+        "--config",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\B5_real_missing_config\\no-such-config.json",
+        "--output",
+        "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-scratch\\B5_real_missing_config\\run"
+      ],
+      "native_exit": 2,
+      "stdout_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B5_real_missing_config.stdout.txt",
+      "stderr_path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-cli-hard-review-001\\work\\probe-B5_real_missing_config.stderr.txt",
+      "expected_exit": 2,
+      "group": "B_real_path_no_substitute",
+      "error_json": {
+        "engineering": "FAIL",
+        "exit_code": 2,
+        "m5_complete": false,
+        "mode": "ERROR",
+        "reason": "FileNotFoundError:[Errno 2] No such file or directory: 'C:\\\\AKWorktrees\\\\aktr-goal-20261026\\\\zcode-dispatch\\\\m5-cli-hard-review-001\\\\work\\\\probe-scratch\\\\B5_real_missing_config\\\\no-such-config.json'",
+        "runtime": "OFFLINE_ONLY",
+        "statistics": "INSUFFICIENT"
+      },
+      "pass": true
+    }
+  ],
+  "timeout_seconds": 180,
+  "all_pass": true,
+  "failed_probe_names": []
+}

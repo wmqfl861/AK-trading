@@ -1,0 +1,12 @@
+{
+  "task_id": "aktr-zcode-m5-cli-independent-hard-review-20261028-001",
+  "pid": 187712,
+  "creation_filetime": 134376709093987148,
+  "ended_utc": "2026-10-28T14:37:41.597728+00:00",
+  "native_exit_code": 0,
+  "status": "TERMINAL",
+  "frozen_inputs_unchanged": true,
+  "input_changes": [],
+  "stdout_bytes": 3569,
+  "stderr_bytes": 528
+}

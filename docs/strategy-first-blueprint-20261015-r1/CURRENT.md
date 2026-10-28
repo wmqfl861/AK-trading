@@ -18,3 +18,8 @@
 canonical 377 及活动审核写冻结、单一 writer、R19→R20→R21 等实际消费门不变；`enable_trading=False`、observer=`hold`、broker=`NOT_RUN`、真实 send/cancel=`0/0`。恢复开发和更新路由本身不增加产品硬审、研究、模拟或策略资格信用。
 
 本次恢复开发的具体模块、已完成硬审和剩余问题见[2026-10-25 开发批次状态](../development-20261025-zcode-r3/STATUS.md)；P0-2 replay 与 C05 的窄执行计划及原作者处置位于同目录。
+
+
+2026-10-28 续接：用户已启用覆盖完整有效蓝图的新 Goal，旧“本批四项完成后停止”不再限制本 Goal。原 r3 作者已发布[可直接执行的续接裁定](revisions/r3-001/CONTINUATION-20261028.md)，[接收记录](revisions/r3-001/CONTINUATION-20261028-RECEIPT.json)保留 native0/receiver1 及已恢复的 SSE 事件。按裁定并行推进 M5 CLI、forward 实际 capture、SC 现存输入和普通 shadow 的真实前驱；既有四项修复继续原工单，不重做已接受工作。377 为历史冻结说明，forward 当前采用已接受 integrated306 的精确378文件闭包，不能把历史 PASS 借给变化后的 main。各项用户专属决定和交易边界保持。
+
+2026-10-28 会话派工补充：本次用户提供的开发角色为原生 `gpt-6.1-sol/max` 子代理；后续派工按该明确指令和显式移交执行。磁盘旧路由正文尚未同步，历史作者文件及审核事实保留；独立 ZCode 硬审核不变。M5 CLI 两文件已接受并集成，详见当前 Goal 的 STATUS 与 ACCEPTANCE。
