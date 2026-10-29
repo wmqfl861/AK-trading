@@ -1,0 +1,83 @@
+{
+ "schema": "aktr-review050-transport002-failure-disposition/v1",
+ "logical_task": "aktr-zcode-n8-hardlink-fixture-review-20261029-001",
+ "transport_task": "aktr-zcode-n8-hardlink-fixture-review-20261029-002",
+ "failure_facts_source": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-001\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+  "bytes": 7695,
+  "sha256": "fe2835cb0bbe13cda50d57f02aae286511e206e9eaa87cf435d77060deccec9f"
+ },
+ "dispositions": [
+  {
+   "tool_call_id": "call_6a1d0a4fa37143dfb245b014",
+   "command": "python -B \"C:/AKN8C071/q063/checks050/review-001/COUNTEREXAMPLES-050.py\" > \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stdout.txt\" 2> \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stderr.txt\"; echo \"EXIT:$?\"; cat \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stdout.txt\"; echo; tail -c 400 \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stderr.txt\"",
+   "description": "Run reviewer counterexamples once",
+   "captured_child_raw_exit": 1,
+   "outer_trace_exit": 0,
+   "time": {
+    "start": 1793308600017,
+    "end": 1793308602178
+   },
+   "cause": "reviewer harness r1: probes partition budget miscount - hooks charge directory entries and every write; own QUOTA_BYTE_LIMIT at ce2 raced write; no product defect",
+   "product_defect": false,
+   "affected_artifacts": "r1: review-001/probes-001.attempt1-failed tree (preserved); r2/r4: focused-001/review-probes-001 partial trees, fingerprinted in review-001/probes-attempt2-pins.json and probes-attempt4-pins.json before removal; raw child stderr tracebacks preserved in review-001/counterexamples-stderr.txt history",
+   "retained_validity": "the successful required050_r3 run (native0, 9.016s) executed in its own process before any failed attempt and is untouched; the final five counterexamples executed in a fresh process (r5) against a clean tree with all exact assertions passed; the four failures never mutated frozen sources or required evidence and no one-use check was rerun"
+  },
+  {
+   "tool_call_id": "call_5c70a6c0bf884f3699043261",
+   "command": "python -B \"C:/AKN8C071/q063/checks050/review-001/COUNTEREXAMPLES-050.py\" > \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stdout.txt\" 2> \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stderr.txt\"; echo \"EXIT:$?\"; cat \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stdout.txt\"; echo; tail -c 300 \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stderr.txt\"",
+   "description": "Run reviewer counterexamples r2 once",
+   "captured_child_raw_exit": 1,
+   "outer_trace_exit": 0,
+   "time": {
+    "start": 1793308707584,
+    "end": 1793308709612
+   },
+   "cause": "reviewer harness r2: each gate payload embedded the 65-ref checked_sources (~12KB each), exhausting the 65536/16 slice; own QUOTA_BYTE_LIMIT at the 4th gate file; no product defect",
+   "product_defect": false,
+   "affected_artifacts": "r1: review-001/probes-001.attempt1-failed tree (preserved); r2/r4: focused-001/review-probes-001 partial trees, fingerprinted in review-001/probes-attempt2-pins.json and probes-attempt4-pins.json before removal; raw child stderr tracebacks preserved in review-001/counterexamples-stderr.txt history",
+   "retained_validity": "the successful required050_r3 run (native0, 9.016s) executed in its own process before any failed attempt and is untouched; the final five counterexamples executed in a fresh process (r5) against a clean tree with all exact assertions passed; the four failures never mutated frozen sources or required evidence and no one-use check was rerun"
+  },
+  {
+   "tool_call_id": "call_7e13821e73cb47d0904f9eda",
+   "command": "python -B \"C:/AKN8C071/q063/checks050/review-001/COUNTEREXAMPLES-050.py\" > \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stdout.txt\" 2> \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stderr.txt\"; echo \"EXIT:$?\"; cat \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stdout.txt\"; echo; tail -c 300 \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stderr.txt\"",
+   "description": "Run reviewer counterexamples r3 once",
+   "captured_child_raw_exit": 1,
+   "outer_trace_exit": 0,
+   "time": {
+    "start": 1793308769833,
+    "end": 1793308771710
+   },
+   "cause": "reviewer harness r3: r2 leftover hardlink member (stderr nlink=2) correctly refused in-place rewrite with QUOTA_HARDLINK_PATH; the guard behaved correctly; the flaw was harness re-entry",
+   "product_defect": false,
+   "affected_artifacts": "r1: review-001/probes-001.attempt1-failed tree (preserved); r2/r4: focused-001/review-probes-001 partial trees, fingerprinted in review-001/probes-attempt2-pins.json and probes-attempt4-pins.json before removal; raw child stderr tracebacks preserved in review-001/counterexamples-stderr.txt history",
+   "retained_validity": "the successful required050_r3 run (native0, 9.016s) executed in its own process before any failed attempt and is untouched; the final five counterexamples executed in a fresh process (r5) against a clean tree with all exact assertions passed; the four failures never mutated frozen sources or required evidence and no one-use check was rerun"
+  },
+  {
+   "tool_call_id": "call_6586681560dc422db543928e",
+   "command": "python -B \"C:/AKN8C071/q063/checks050/review-001/COUNTEREXAMPLES-050.py\" > \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stdout.txt\" 2> \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stderr.txt\"; echo \"EXIT:$?\"; cat \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stdout.txt\"; echo; tail -c 300 \"C:/AKN8C071/q063/checks050/review-001/counterexamples-stderr.txt\"",
+   "description": "Run reviewer counterexamples r4 once",
+   "captured_child_raw_exit": 1,
+   "outer_trace_exit": 0,
+   "time": {
+    "start": 1793308809702,
+    "end": 1793308812610
+   },
+   "cause": "reviewer harness r4: final output write under active hooks outside the probes root correctly refused with QUOTA_CANONICAL_ESCAPE; all five counterexamples had already executed and passed; flaw was the output path",
+   "product_defect": false,
+   "affected_artifacts": "r1: review-001/probes-001.attempt1-failed tree (preserved); r2/r4: focused-001/review-probes-001 partial trees, fingerprinted in review-001/probes-attempt2-pins.json and probes-attempt4-pins.json before removal; raw child stderr tracebacks preserved in review-001/counterexamples-stderr.txt history",
+   "retained_validity": "the successful required050_r3 run (native0, 9.016s) executed in its own process before any failed attempt and is untouched; the final five counterexamples executed in a fresh process (r5) against a clean tree with all exact assertions passed; the four failures never mutated frozen sources or required evidence and no one-use check was rerun"
+  }
+ ],
+ "semantic_note": "Outer Bash returned0 from capture tail; each actual probe child1 remains failed. Reviewer owns dispositions; no rerun.",
+ "historical_accounting": {
+  "controls_charged_bytes": 281344,
+  "controls_planned_bytes": 246272,
+  "excess_already_charged": 35072,
+  "retroactive_compliance": "NONE",
+  "cumulative_failed_attempt_fixture_gross": "UNKNOWN",
+  "final_snapshot_43520B_10e_is_not_history_gross": true,
+  "fixture_reservation": "encumbered",
+  "refunds": 0
+ }
+}

@@ -1,0 +1,39 @@
+{
+ "state": "INDEPENDENT_FAIL_REQUIRED_PROOF_INCOMPLETE",
+ "verdict": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\work\\VERDICT.json",
+  "bytes": 2895,
+  "sha256": "f9087df933a99f05016f9b804083cab03d66effcd8cd0ce9950bf80a43851e85"
+ },
+ "checks": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\work\\CHECKS.json",
+  "bytes": 5350,
+  "sha256": "21c21331734fdda10be430954c6babbc16dca9b8c2ce0a4aac72c5a676c9eaaa"
+ },
+ "terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\TERMINAL.json",
+  "bytes": 346,
+  "sha256": "05a6d0b83ee3d12f0472b970ebd61aa095de927db1ed1ed8bc27476fd32da638"
+ },
+ "outer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+  "bytes": 5116,
+  "sha256": "0c7d564159cf399ad60c2399ca4539eae5e879ad885c4306473afdbd84afd638"
+ },
+ "report": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\OWNER-REPORT.md",
+  "bytes": 3332,
+  "sha256": "1e15257fda0a2c02bebbd6a5648dcddab56d572769996f1129c798cf3c0960f2"
+ },
+ "CLI0": true,
+ "supervisor0": true,
+ "Job0": true,
+ "all_request_pins_unchanged": true,
+ "tool_seconds": 47.724,
+ "independent_synthetic_cases": 27,
+ "passed": 27,
+ "failed_proof": "PRIVATE_CONTEXT_PROOF_AUTHOR042 consumed124, finalization returned; freeze/publication/uncached completion unfinished",
+ "product_PASS": false,
+ "runtime_unconsumed": true,
+ "no_replay": true
+}

@@ -1,0 +1,43 @@
+{
+ "schema": "aktr-t7-reference023-review-findings/v1",
+ "review": "t7-reference023-hard-review-003 (completion transport; same original reviewer session; author024)",
+ "scope": "Author023 executable reference-verification method and composite 368-query evidence only; no fit/payoff/T7 acceptance",
+ "reused_comparison_evidence": {
+  "executing_transport": "transport002 (review-002 REQUEST bc59bc29...); artifacts live under transport001 paths, verified in place:",
+  "capture_result": "t7-reference023-hard-review-001/capture-001/RESULT.json f0b5d58f... child0/wrapper0/170.039266s",
+  "work_result": "t7-reference023-hard-review-001/work-001/RESULT.json 2d0f2b57... 368 unique queries / 120 continuation / 248 reconciled descriptors / 2 transition duplicates; 22368 seed extractions, max 1/slot, 0 additional; actual preparation cleanup; QUOTA 150200b2... code 0",
+  "deterministic_agreement": "reviewer rerun equaled the owner's frozen work-001 on every substantive field; only timing keys differed (seed_s/decode_s/candidate_s/oracle_s/elapsed_s); RECONCILED.jsonl and CLEANUP.json byte-identical",
+  "no_replay": "comparison/population/fit/world/launch/full14400 not rerun by this completion"
+ },
+ "probe_revision": {
+  "old": "review-002/probes-001.py preserved with its 15true/4false and final Bash raw1",
+  "new": "review-003/probes-002.py: fixed wire field positions ([3]=product, [4]=session_kind, [6]=contract_id; asserted fixture_fields_intended), noncontiguous gap 0,2, genuinely different membership tuples, strict decision<550 (600 excluded), and int/float/-0.0/Decimal transport verified as preserved (no invented rejection)",
+  "guarded_run": "guard_run.py --tag probe-capture-001 --limit 536870912 --deadline 200 --cwd t7cpu; wrapper0/child0, wall 1.27s, job_readback 536870912, final Job pids 0, evidence COMPLETE, no changed inputs"
+ },
+ "probe_results": {
+  "checks": 20,
+  "passed": 19,
+  "failed": [
+   {
+    "check": "truncated_gzip_rejected",
+    "actual": "ValueError:capture_slots_not_contiguous",
+    "classification": "REVIEWER FIXTURE ARTIFACT, not a helper defect: the truncated stream reused the 0,2-gap lines, so the correct contiguity check fires before the EOF/CRC stage. The input WAS invalid and WAS rejected with a precise error. The truncated-gzip EOF/CRC rejection itself is independently evidenced as PASS in the preserved probes-001 run (contiguous slots). No forced rerun; no expected rejection invented."
+   }
+  ],
+  "notable_passes": ["fixture_fields_intended (SHFE.RB/DAY/RB at 3/4/6)", "transport_preserves_int_float_signedzero_decimal {int,float,negzero,decimal all true}", "noncontiguous_slot_rejected (real 0,2 gap)", "initial_training_strict_lt550 members=(0,4)", "membership_hash_sensitive (different tuples)", "all decoder shape/type/key/decimal rejections", "eligibility/descriptor/cutoff/default/calibration-exclusion semantics", "descriptor_mismatch_raises"]
+ },
+ "helper_defects_found": 0,
+ "old_failure_disposition": {
+  "transport001": "memory failure native1, zero current-prompt tools, no verdict - preserved",
+  "transport002_outer": "outer deadline native1, CLI exit UNKNOWN, finalJob0 - preserved; its successful child comparison retained as scoped evidence under 001 paths",
+  "population022": "NONPASS/native1/deadline preserved; no charge refund; terminal counters remain UNKNOWN",
+  "probes-001": "preserved with 15true/4false/raw1; the four false checks were reviewer fixture bugs, corrected in probes-002 per author024 s2"
+ },
+ "limitations": [
+  "Scalar transport boundary: no snapshot/store serialization claimed; store-entry and lifetime evidence is the unchanged component evidence, not rerun",
+  "Old 248 outputs not recomputed except transition duplicates 0/247 (matched sealed hashes/IDs)",
+  "No numerical fit, payoff, full-run credit; full14400 once-only grant unconsumed",
+  "Input label SYNTHETIC_UNIT/SCENARIO captured actual population; not historical PIT"
+ ],
+ "safety": "enable_trading=false/observer=hold/broker=NOT_RUN/send-cancel=0/0; no credentials/.env/network/SDK/DB/config; no reviewed-source modification"
+}

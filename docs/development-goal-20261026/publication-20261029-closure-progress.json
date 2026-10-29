@@ -1,0 +1,146 @@
+{
+ "recorded_utc": "2026-10-29 22:03 UTC",
+ "base_commit": "b6e6e38ec0a1041a9870dbde46acaa4ed9e1212d",
+ "files": [
+  {
+   "published": "t7-reference023024-review/VERDICT.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\VERDICT.json",
+   "bytes": 3081,
+   "sha256": "7a5dfa5f80275585b6f0898c699a64c5a2f71c8dd757d8d5d5ae0bccc1aa1d55"
+  },
+  {
+   "published": "t7-reference023024-review/FINDINGS.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\FINDINGS.json",
+   "bytes": 4102,
+   "sha256": "059cc674e0b9e68d9b08fa5d4b518b1ab57025dab60ad23f941e77d1b5e794f5"
+  },
+  {
+   "published": "t7-reference023024-review/REVIEW.md",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\OWNER-REPORT.md",
+   "bytes": 2234,
+   "sha256": "42f12703b507079c2b953233ebee5b7467a3b7d72bd9bce2e1d1d3fd4974d559"
+  },
+  {
+   "published": "t7-reference023024-review/ROOT-RECEPTION.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\T7-REFERENCE023024-ROOT-RECEPTION-001.json",
+   "bytes": 2050,
+   "sha256": "e217145b53166658b42ea781be824aee2502ccde70b02f1a2a02b2d52a663b2c"
+  },
+  {
+   "published": "m5-r18-review/VERDICT.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-078\\VERDICT.json",
+   "bytes": 9180,
+   "sha256": "03fd1e61b0376583286377d9de0614a7f4825712e0c7370d34a9520824528d72"
+  },
+  {
+   "published": "m5-r18-review/REVIEW.md",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-078\\OWNER-REPORT.md",
+   "bytes": 9192,
+   "sha256": "96f031cb3ea101b5e25d3520d9c535af8f5dfe1ca5b76ea918e894b0a90c894d"
+  },
+  {
+   "published": "m5-r18-review/ROOT-RECEPTION.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\M5-REVIEW078-ROOT-RECEPTION-001.json",
+   "bytes": 1704,
+   "sha256": "ca39039534501ad6c361e7c8f3474de1178a55c38405ac2a3517780f4cdb49d2"
+  },
+  {
+   "published": "m5-r18-review/AUTHOR043-DISPOSITION.md",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-m5-sizing-basis-043\\AUTHOR-DISPOSITION.md",
+   "bytes": 9122,
+   "sha256": "58587903391a5fec73f74cef86fc72d65d58a1ed01b11a64eed070c200ae2d6b"
+  },
+  {
+   "published": "n8-quota050-review/VERDICT.json",
+   "original": "C:\\AKN8C071\\q063\\checks050\\review-001\\VERDICT.json",
+   "bytes": 13864,
+   "sha256": "f220932fe1794b5a322b5f45ad1c1a9be09a6522c9a21cbf71bbf82b22b985bb"
+  },
+  {
+   "published": "n8-quota050-review/CHECKS.json",
+   "original": "C:\\AKN8C071\\q063\\checks050\\review-001\\CHECKS.json",
+   "bytes": 5179,
+   "sha256": "55e89fbbb547ed115c12563328f530acd6ad70b6bcd00a0f6ae7fbc06d08a2ee"
+  },
+  {
+   "published": "n8-quota050-review/ROOT-RECEPTION.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\N8-REVIEW050-ROOT-RECEPTION-001.json",
+   "bytes": 1612,
+   "sha256": "c979d73cfd71d585456a32ceee04fb8657553f515c5500983ddad32bb19456d0"
+  },
+  {
+   "published": "n8-quota050-review/AUTHOR052-DISPOSITION.md",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-n8-review-closure-052\\AUTHOR-DISPOSITION.md",
+   "bytes": 7785,
+   "sha256": "296ffd150dd7c972901189519a55414e9e417f5d79d61d1c2cb1db8b3f361be1"
+  },
+  {
+   "published": "dispatch-r8-review/VERDICT.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\work\\VERDICT.json",
+   "bytes": 2895,
+   "sha256": "f9087df933a99f05016f9b804083cab03d66effcd8cd0ce9950bf80a43851e85"
+  },
+  {
+   "published": "dispatch-r8-review/CHECKS.raw.json.txt",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\work\\CHECKS.json",
+   "bytes": 5350,
+   "sha256": "21c21331734fdda10be430954c6babbc16dca9b8c2ce0a4aac72c5a676c9eaaa"
+  },
+  {
+   "published": "dispatch-r8-review/REVIEW.md",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\OWNER-REPORT.md",
+   "bytes": 3332,
+   "sha256": "1e15257fda0a2c02bebbd6a5648dcddab56d572769996f1129c798cf3c0960f2"
+  },
+  {
+   "published": "dispatch-r8-review/ROOT-RECEPTION.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\DISPATCH-REVIEW043-ROOT-RECEPTION-001.json",
+   "bytes": 1806,
+   "sha256": "190a4a576a810c80d8a265f8f219bceef1e7f66eef7084207a2556199d850a5e"
+  },
+  {
+   "published": "disk-space-20261029/RESULT.md",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\root-disk-space-20261029-001\\RESULT.md",
+   "bytes": 2762,
+   "sha256": "cc4e659a63f804e6ed698db400ceb83a990eebecb60ee66fa8c4e60f62a81ba0"
+  },
+  {
+   "published": "n8-quota050-review/completion052/VERDICT.json",
+   "original": "C:\\AKN8C071\\q063\\checks050\\review-002\\VERDICT.json",
+   "bytes": 14949,
+   "sha256": "585d0cdd898a120808956d94c199bee7b14116d66d6738eb2d32ad69b0fb7f81"
+  },
+  {
+   "published": "n8-quota050-review/completion052/CHECKS.json",
+   "original": "C:\\AKN8C071\\q063\\checks050\\review-002\\CHECKS.json",
+   "bytes": 5807,
+   "sha256": "260e28e58c1c219f57ac00d5b5468ab0ac6a3b1c3d289ca3f12d438ffb9f705b"
+  },
+  {
+   "published": "n8-quota050-review/completion052/FAILURE-DISPOSITION.json",
+   "original": "C:\\AKN8C071\\q063\\checks050\\review-002\\FAILURE-DISPOSITION.json",
+   "bytes": 7335,
+   "sha256": "e41b687646feb178555275e91a3e958ca38e5cc11868c199df4fd144c3bb2ba0"
+  },
+  {
+   "published": "n8-quota050-review/completion052/ROOT-CLOSED-CUSTODY-002.json",
+   "original": "C:\\AKN8C071\\q063\\checks050\\review-002\\ROOT-CLOSED-CUSTODY-002.json",
+   "bytes": 3126,
+   "sha256": "82e8bd1244e03dfd5e8acc284a1e985f4a68441d8280d270ae639a9c98a4b288"
+  },
+  {
+   "published": "n8-quota050-review/completion052/ROOT-RECEPTION.json",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\N8-REVIEW052-ROOT-RECEPTION-001.json",
+   "bytes": 1247,
+   "sha256": "1554a6c2f6907b35f1a070c7ffabd61844e28507170b1fb21b3a63954edc6563"
+  },
+  {
+   "published": "dispatch-r8-review/AUTHOR044-DISPOSITION.md",
+   "original": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-dispatch-complete-proof-044\\AUTHOR-DISPOSITION.md",
+   "bytes": 7680,
+   "sha256": "7a3b4c27b52ce6325f93f79fe70d1eb59495d78cb2eebee69416a1a46d2d51cb"
+  }
+ ],
+ "scope": "closed reports only; no productPASS inferred",
+ "future_run_evidence_not_sealed": true
+}

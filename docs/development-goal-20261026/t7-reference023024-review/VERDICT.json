@@ -1,0 +1,25 @@
+{
+ "schema": "aktr-t7-reference023-review-verdict/v1",
+ "review_id": "t7-reference023-hard-review-003",
+ "reviewer": "independent ZCode GLM-5.3/max session sess_7229454f-0586-4611-a73b-1b9a4ee0ce23 (original cwd C:/AKWorktrees/aktr-goal-t7cpu-20261026, fixed store)",
+ "date": "2026-10-29",
+ "verdict": "PASS",
+ "conditional": false,
+ "verdict_class": "SCOPED TOOLING/EVIDENCE PASS - Author023 changed reference-verification method and composite 368-query evidence only",
+ "explicitly_not_covered": ["numerical fit acceptance", "payoff acceptance", "full 14400s invocation (once-only grant unconsumed)", "full T7/F-R0-L0-R1-L1-R2 chain", "store-entry/lifetime beyond reused component evidence"],
+ "basis": {
+  "author023": "astra-t7-reference-completion-023/AUTHOR-DISPOSITION.md 5b05c01d...",
+  "author024": "astra-t7-reference-review-completion-024/AUTHOR-DISPOSITION.md 1591fe4a...",
+  "freeze": "population-continuation-001/FREEZE-001.json 4ba256bb... (unchanged)",
+  "continuation_helper": "continuation.py 0ceb1b01..."
+ },
+ "required_evidence": {
+  "independent_comparison_rerun": "exact frozen argv under the accepted guard (512MiB, 890s deadline): wrapper0/child0, 170.04s wall, final Job pids 0, inputs unchanged; 368 unique queries = 248 observed reconciled + 120 source-derived continuation + 2 transition duplicates (0/247 matched sealed canonical_sha256/reference_id/content_hash); 22368 actual seed extractions, max 1/slot, 0 additional; peak cache 22368 rows; actual new preparation cleanup (close called, cache cleared, owner released); dual lossless decode 2x34234 rows, gzip CRC/EOF validated, construction reconciled 1030+34234=35264, eligible 26026, training 22368; QUOTA code 0 within caps",
+  "deterministic_owner_agreement": "every substantive field/hash/flag equal to the owner's frozen work-001; timing-only differences; RECONCILED/CLEANUP byte-identical",
+  "corrected_probes": "probes-002 under guard: 19/20 pass, wrapper0/child0, job 512MiB readback, wall 1.27s; the single false is a documented reviewer fixture artifact (contiguity fires before EOF on a gapped truncated stream) with the truncated-gzip rejection independently PASS in preserved probes-001; zero helper defects",
+  "pins": "COMPARISON-BINDING entries verified byte-exact in place (capture f0b5d58f, work RESULT 2d0f2b57, QUOTA 150200b2, probes-001 trio, ALLOWANCE c2694dc3, authority 1591fe4a)"
+ },
+ "findings_summary": "No helper or method defect found. All reviewer-side false results across both probe generations were fixture bugs, corrected per author024 with the prescribed fixes; no rejection requirement was invented and no reviewed code was modified.",
+ "budget": "completion envelope 420s (<=240 working + 180 protected); corrected probe guard run 1.27s child / ~2s enclosing; publication within closure; new-directory gross < 131072B target (verified at publication)",
+ "safety": {"enable_trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_cancel": "0/0", "credentials_env": "not read", "network": "none", "config_changes": 0, "product_source_edits": 0}
+}

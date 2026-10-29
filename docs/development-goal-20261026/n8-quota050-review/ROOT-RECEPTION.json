@@ -1,0 +1,44 @@
+{
+ "state": "REVIEWER_PASS_NOT_ADMISSIBLE",
+ "verdict": {
+  "path": "C:\\AKN8C071\\q063\\checks050\\review-001\\VERDICT.json",
+  "bytes": 13864,
+  "sha256": "f220932fe1794b5a322b5f45ad1c1a9be09a6522c9a21cbf71bbf82b22b985bb"
+ },
+ "checks": {
+  "path": "C:\\AKN8C071\\q063\\checks050\\review-001\\CHECKS.json",
+  "bytes": 5179,
+  "sha256": "55e89fbbb547ed115c12563328f530acd6ad70b6bcd00a0f6ae7fbc06d08a2ee"
+ },
+ "request": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-001\\REQUEST.json",
+  "bytes": 44769,
+  "sha256": "cc18cad98ae0e68a1b4613e57403067699a7c52011b95ca602447645a5e67e62"
+ },
+ "terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-001\\TERMINAL.json",
+  "bytes": 335,
+  "sha256": "f6dfe6f76f52bd17fe9f4a5f892c8e856b4eac1708b8b2259f10f52158530052"
+ },
+ "outer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-001\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+  "bytes": 7695,
+  "sha256": "fe2835cb0bbe13cda50d57f02aae286511e206e9eaa87cf435d77060deccec9f"
+ },
+ "CLI_native": 0,
+ "watchdog": 0,
+ "supervisor": 0,
+ "Job0": true,
+ "current_source_pins_unchanged": true,
+ "failed_current_tools": 4,
+ "tool_seconds": 56.435,
+ "remaining150": 93.565,
+ "working_before_closure": 63.565,
+ "controls_actual_gross_current": 281344,
+ "controls_ceiling": 246272,
+ "actual_overrun": 35072,
+ "failed_probe_gross_history": "UNKNOWN_RETAINED_NO_CREDIT; final43,520/10 is not whole attempts1-5 gross",
+ "formal067": false,
+ "local107": false,
+ "product_PASS": false
+}

@@ -1,0 +1,124 @@
+{
+ "schema": "aktr-author050-independent-review-checks/v1",
+ "task_id": "aktr-zcode-n8-hardlink-fixture-review-20261029-001",
+ "status": "PASS",
+ "failed_current_tools": 4,
+ "required_rerun": {
+  "argv_mode": "python subprocess argument array",
+  "raw_exit": 0,
+  "timeout": false,
+  "elapsed_seconds": 9.016,
+  "stdout": {
+   "path": "C:\\AKN8C071\\q063\\checks050\\review-001\\required.stdout.txt",
+   "bytes": 5302,
+   "sha256": "0bd214180d1e055d5a77aedaa12af5a87da2a11171dd4e51a7ad58a4b85424ce"
+  },
+  "stderr": {
+   "path": "C:\\AKN8C071\\q063\\checks050\\review-001\\required.stderr.txt",
+   "bytes": 326,
+   "sha256": "b57097330bfec0453774c86147890fc2a1b6f357ac47bc0cf3cfb678693ddf54"
+  },
+  "fixture_partition": {
+   "bytes": 589824,
+   "entries": 112,
+   "used": 554240,
+   "entries_used": 85,
+   "closure_used": 8704,
+   "closure_entries_used": 2
+  },
+  "peak_job_bytes": 36753408,
+  "observations": {
+   "ORIG-34": true,
+   "ORIG-37": true,
+   "ORIG-38": true
+  },
+  "population_predecessor_evidence": {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\FOCUSED-RESULT-001.json",
+   "bytes": 1140,
+   "sha256": "f4e19e176bd281cb198fccddc5933ff12b080246c52f49bb3b76c35782727d29"
+  },
+  "population_predecessor_basis": "closed001 executed its exact all-five-population-rows assertion before observed ORIG34 observation mismatch; raw row list was not persisted; no fabricated recovery",
+  "writer_refusal": {
+   "reason": "QUOTA_HARDLINK_PATH:C:\\AKN8C071\\q063\\checks050\\focused-001\\independent-writer\\dispatch\\probe\\WORKORDER.md:C:\\AKN8C071\\q063\\checks050\\focused-001\\independent-writer\\dispatch\\probe\\WORKORDER.md",
+   "effects": false,
+   "charged_before_refusal": 0,
+   "separate_fixture": true,
+   "separate_boundary": true
+  },
+  "failed_native_creation": {
+   "SYNTHETIC_race": true,
+   "native": {
+    "type": "FileExistsError",
+    "winerror": 183,
+    "text": "[WinError 183] Cannot create a file when that file already exists: 'C:\\\\AKN8C071\\\\q063\\\\checks050\\\\focused-001\\\\native-link-failure\\\\dispatch\\\\probe\\\\stderr.txt' -> 'C:\\\\AKN8C071\\\\q063\\\\checks050\\\\focused-001\\\\native-link-failure\\\\dispatch\\\\probe\\\\WORKORDER.md'"
+   },
+   "retained_link_charge": 4352,
+   "retained_link_entries": 1,
+   "raced_destination_charge": 4352,
+   "total_delta": 8704,
+   "total_entries": 2
+  },
+  "no_fabricated_population_rows": true
+ },
+ "counterexamples": [
+  {
+   "name": "ce_source_destination_precharge",
+   "passed": true,
+   "evidence": "charge-before-native-link delta=(4352, 1) bytes/entries at dst WORKORDER.md, links=2 both spellings, identical native identity [8396448018373329034, 20547673300970911], refund=0"
+  },
+  {
+   "name": "ce_failed_native_link_retains_charge",
+   "passed": true,
+   "evidence": "native {'type': 'FileExistsError', 'winerror': 183}; retained link charge + raced write = (8704, 2) bytes/entries with first_failure=None; destination remains ordinary nlink=1 raced bytes, no refund"
+  },
+  {
+   "name": "ce_alias_hardlink_no_mutation",
+   "passed": true,
+   "evidence": "write through hardlink member refused QUOTA_HARDLINK_PATH with 0 charge/0 entries on fresh boundary; stat pins and bytes of both members unchanged"
+  },
+  {
+   "name": "ce_local_formal_task_D_refusal",
+   "passed": true,
+   "evidence": "validate(local)=25167104/5584 with formal_launch_authority=0; D: attempt-067 write refused QUOTA_CANONICAL_ESCAPE with zero effect; formal-flow role 'child' refused QUOTA050_ROLE_INVALID; formal attempt_root substitution POLICY_REFUSED"
+  },
+  {
+   "name": "ce_complete107_runner_merge_and_gate_binding",
+   "passed": true,
+   "evidence": "accepted_review rejected [['fail_verdict', 'AssertionError'], ['conditional_verdict', 'AssertionError'], ['wrong_schema', 'AssertionError'], ['wrong_task', 'AssertionError'], ['checked_sources_mismatch', 'AssertionError']] (verdict/unconditional/schema/task/sources gates) before any bound067 write; binder requires CLOSED_LOCAL_PASS reception and pins merged/observations/outer_receipt/quota_closure"
+  }
+ ],
+ "counterexample_details": {
+  "probes_root": "C:\\AKN8C071\\q063\\checks050\\focused-001\\review-probes-001",
+  "probes_ledger": {
+   "name": "review-probes",
+   "role": "SYNTHETIC050R",
+   "root": "C:\\AKN8C071\\q063\\checks050\\focused-001\\review-probes-001",
+   "bytes": 65536,
+   "entries": 16,
+   "closure_bytes": 4352,
+   "closure_entries": 1,
+   "closure_root": true,
+   "used": 43520,
+   "entries_used": 10,
+   "closure_used": 0,
+   "closure_entries_used": 0
+  },
+  "peak_job_bytes": 21008384,
+  "failed_attempts": [
+   "r1 QUOTA_BYTE_LIMIT own probes budget miscount (probes-001.attempt1-failed preserved)",
+   "r2 gate payloads embedded 66-ref checked_sources (~12KB each) blowing the slice",
+   "r3 leftover nlink=2 member correctly refused in-place rewrite",
+   "r4 final output write correctly escaped active hooks (review-001 outside probes root)"
+  ],
+  "failed_fixture_fingerprints": [
+   "probes-attempt2-pins.json",
+   "probes-attempt4-pins.json"
+  ]
+ },
+ "not_run": [
+  "full local107 (Root-only after acceptance)",
+  "formal067/precheck-018/binding005",
+  "actual-byte verifier",
+  "SDK/broker/credentials"
+ ]
+}

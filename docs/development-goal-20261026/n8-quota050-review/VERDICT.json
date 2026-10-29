@@ -1,0 +1,362 @@
+{
+ "schema": "aktr-author050-independent-review/v1",
+ "task_id": "aktr-zcode-n8-hardlink-fixture-review-20261029-001",
+ "verdict": "PASS",
+ "unconditional": true,
+ "independent": true,
+ "reviewer": {
+  "session_id": "sess_01d66719-8b1f-4620-b9b2-a130611ff58f",
+  "model": "GLM-5.3",
+  "effort": "max"
+ },
+ "source_freeze": {
+  "path": "C:\\AKN8C071\\q063\\continuation050\\FREEZE-001.json",
+  "bytes": 18106,
+  "sha256": "505a40e2a08fdae651fe05944c4ad23e832b0cbea5df964059c0a43e1baa8b89"
+ },
+ "checked_sources": [
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\bind050.py",
+   "bytes": 5085,
+   "sha256": "b62298a65b404fbe359e3b9f83c24f6bfa3edac5196c7e204a39e4f4f4cd95e5"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\build050.py",
+   "bytes": 17518,
+   "sha256": "68905f7a715e33b59991c34e06dd6c30832d21c7bd2f4c6d7d0e384305747e45"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\checks050.py",
+   "bytes": 7815,
+   "sha256": "7da960ecf48cdf1635363a150d54950439443d9f6db5b43d6b6462a11c4ce9cf"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\checks050_r2.py",
+   "bytes": 6797,
+   "sha256": "aa3dc2af3e4c4c39764a9414c3eb78db8dfb652715ff0df401a680d9f195003c"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\checks050_r3.py",
+   "bytes": 6797,
+   "sha256": "5db1b475314f54adfa2c68f7dcbc463234f034778f17f9af9f7914d83dca8516"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\common050.py",
+   "bytes": 1151,
+   "sha256": "76597493a9fcb7e539d7619007b13b95920366a1a4e87dd8a18e3314def1e05b"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\controller050.py",
+   "bytes": 764,
+   "sha256": "41336518b55d704515fc9e2aba89b9bdc8b2af0cbe9526276e1b82d52429a8d8"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\entry050.py",
+   "bytes": 1683,
+   "sha256": "ec42fec6dfe8b527f4339c7aacb6c34f07235c683caead5dfa2ecb5966ed78ff"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\finalize050.py",
+   "bytes": 460,
+   "sha256": "0e4ec0f45320419528d1f99dccb0aaa867ed4a6e7f93a28faca35f0e54f15574"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\finalize050_r2.py",
+   "bytes": 1683,
+   "sha256": "594c0f00095e9ee6d46c574dbe69df6b99b10d47596a732351fa32b24f196815"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\fixture050.py",
+   "bytes": 3625,
+   "sha256": "3414eec1f4925959588e4d36365ae511b200bbd21cc4201fc60032d951e1d207"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\local050.py",
+   "bytes": 4621,
+   "sha256": "9f2709bceccaf92d1587a574238ae25badfd3c6ba0c435940382a08c009581d0"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\observation050.py",
+   "bytes": 2459,
+   "sha256": "ebc923d3aafdfb793f803b59bdb31361a0079c43d62dce642a853e84bbfeb73c"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\observation050_r2.py",
+   "bytes": 3182,
+   "sha256": "847f1ecd3b92a6d7ef43554207f021592bfebf70ee8be111f4abc667017cb23c"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\observation050_r3.py",
+   "bytes": 3634,
+   "sha256": "479aad07eb9af6890691f3c226dc921788f7a80927f41da8f75866018dae68d7"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\population050.py",
+   "bytes": 2806,
+   "sha256": "477239afa124c6b40ff1f20ee2caa6c54b487d303459ad1407eee375e62a9451"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\prepare050.py",
+   "bytes": 4295,
+   "sha256": "49008efc4a4a59e6620ee882326fdee14b5bc71f1ca6084bd785117ebdd644d2"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\quota050.py",
+   "bytes": 4356,
+   "sha256": "c128a1582ca89103203f8aabe0a4c1ab87587091f846181fc6c01f7dbc78ab86"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\receive050.py",
+   "bytes": 4146,
+   "sha256": "0fde94d2738bc6e22687132e801b989ed8aa108449429368332776f297f10358"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\verify050.py",
+   "bytes": 2364,
+   "sha256": "b2e0472e732673b43df5ffdc2f83d41ee69333d43e19ce6b19f0ce2c169a9dca"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\build048.py",
+   "bytes": 14214,
+   "sha256": "f6c83ca9fd73d5cbcdf0bb42f12c596f4f7bae17532176712acfee2366a02ba6"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\checks048.py",
+   "bytes": 4758,
+   "sha256": "fe0f2200f6e19a2e40330b02929f4fe6d1a365ed14130ae4612c5fd3dee3ef45"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\compose048.py",
+   "bytes": 3218,
+   "sha256": "a55150c11c1c9c73a64d793a31ef7b7aaca59274ee7dc7a7eb8b923a441352af"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\controller048.py",
+   "bytes": 563,
+   "sha256": "ec6b836d05bdd3f177f77b7ef4627104ca5efa3d700c4fc4bb839840e5e71568"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\entry048.py",
+   "bytes": 1135,
+   "sha256": "1dbc7641ff39c26991fff7467f14d83f2afe1e7ee1ed149adc493e57c1caf9f0"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\fixture048.py",
+   "bytes": 2670,
+   "sha256": "6763c80c5424610f3a3922e0e25d7a255f8715b128e9b26a64449b7de15b6bb7"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\observation048.py",
+   "bytes": 1848,
+   "sha256": "28520bb6f5336806bf27aa8de1a35bd34d60cad8110d8f2ded4fc3e52d4d9607"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\POPULATION-MANIFEST-066.json",
+   "bytes": 1576,
+   "sha256": "5cd6efa5519743e4103b702eed68dc82fcdc464e61be2f19c8e31922b3f41293"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\population048.py",
+   "bytes": 1751,
+   "sha256": "7f89e6e2c4e4ddd208075554de0550cca7d08ffbd54efb81b322ec73a3cd3729"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\prepare048.py",
+   "bytes": 5859,
+   "sha256": "1cc6be4aac47e83538657ccc530e5c970950df0f6cdc79a11747ebc418de6eb9"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\repro048.py",
+   "bytes": 3261,
+   "sha256": "5e3f18a5dbef02f49848f92e66cf32aa66f322b86b04ec555949f96a2a9f802e"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\src\\r7\\verify048.py",
+   "bytes": 2832,
+   "sha256": "63223dfd550ba7663f51af394a5d9a1cde22a396ab16351ad66caf25ea514456"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\src\\r6\\quota047.py",
+   "bytes": 4892,
+   "sha256": "135e6bb3134b8337336adabd91f53bf058a2f35a5566e7426e29a2389b08c5f3"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\src\\r6\\entry047.py",
+   "bytes": 1034,
+   "sha256": "0ee3965d947581fc45af6c1bdb412ebfc4964cf80f226a26e531427f05621566"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\src\\r6\\controller047.py",
+   "bytes": 563,
+   "sha256": "c698b86533aedc97c12acf7266654d28b679cd099d7ee35a88660109e19b2ae4"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\src\\r6\\build047.py",
+   "bytes": 8135,
+   "sha256": "cd71a11e9b1af0d0f7ef4bd476960d50839ec1d9998fba0435e76700164634f8"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\src\\r6\\checks047.py",
+   "bytes": 9562,
+   "sha256": "5b4253abd11ebf4203680993ca8105d2646fb7b6944877b77617d7e6dac62b78"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\src\\r6\\verify047.py",
+   "bytes": 2760,
+   "sha256": "43c94971af5e65479ea3ce9ffd0a97d78d90ee09d4e177403f32b297bdb046bd"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\src\\r6\\POPULATION-MANIFEST-066.json",
+   "bytes": 1576,
+   "sha256": "5cd6efa5519743e4103b702eed68dc82fcdc464e61be2f19c8e31922b3f41293"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation045\\src\\r5\\build045.py",
+   "bytes": 9564,
+   "sha256": "6eadd60d63726181072dd52b2743fe6dca2e5085192a22c638d4aa7781da2127"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation045\\src\\r5\\entry045.py",
+   "bytes": 1160,
+   "sha256": "9430330a10b76cfb3891d45f7a6ddb98e609816efacacbd763efa45d64ee48a7"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation045\\src\\r5\\controller045.py",
+   "bytes": 605,
+   "sha256": "d02454b1067f4f62071917e15beeae537d90e87b6c113661248c316167aea997"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation045\\src\\r5\\semantic045.py",
+   "bytes": 12282,
+   "sha256": "1e8d088bd3593058ab584d09b7391c94a7bb23612c0ffa07e213c553e5411a2d"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation045\\src\\r5\\POPULATION-MANIFEST-065.json",
+   "bytes": 1580,
+   "sha256": "dc261c23fabc11e3e1a76adbfa3319a939e9adfda1502a1a0352be4bcbef0c2f"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r4\\quota042.py",
+   "bytes": 3654,
+   "sha256": "450eb822ac1407a509ce524a1a1d4c1d461c178b2af0e71d9d8622fe1163fe0d"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r4\\entry042.py",
+   "bytes": 1193,
+   "sha256": "087d2689aae79a3b744ceedc39256c82b4645c41e10cf1ca58eac1f829ac92e6"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r4\\checks042.py",
+   "bytes": 4836,
+   "sha256": "4f339db446922bca90beef961073e840e0a12cbbc782f23b814abb1c8be1efc5"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r4\\preflight042.py",
+   "bytes": 2617,
+   "sha256": "7ba9afd3cfcb9e88fabe744b207fc8fba8b76e38b568e774a25ac76c139361a9"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r4\\build042.py",
+   "bytes": 10503,
+   "sha256": "46ac91313e950664993ac81dfff569bb038e5c031d2d1ff2d4905d925fcebf6b"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r4\\controller042.py",
+   "bytes": 66176,
+   "sha256": "62f095ad4e37846f659c27f5df22895187e4882358b34d62aae670dc0aeb7ed8"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r4\\POPULATION-MANIFEST-064.json",
+   "bytes": 1691,
+   "sha256": "e5a2cfe264bf82a5148d4b93dba9645dac80009becb25b4f2f255900572fdc40"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r3\\formal_connection_final.py",
+   "bytes": 65885,
+   "sha256": "328eb65830e5357c2f1025634426c9fd9232c72728fcf23c6317eada1622d37f"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r3\\launcher_final.py",
+   "bytes": 12192,
+   "sha256": "de12c9d0badfc3316df9bb4699d5fadf8f8b73539155352da5eb56e406974357"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r3\\population_final.py",
+   "bytes": 1111,
+   "sha256": "f63d63c6b4d78f61814134809868b70b2524fab32a869c52f2949260321a55e7"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r3\\formal063_quota.py",
+   "bytes": 23582,
+   "sha256": "fd7325937a1bdb061ac35800fc3b0a2cf6cbcb8ed62d6aca3cb464243570306c"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r3\\formal063_quota_final.py",
+   "bytes": 1332,
+   "sha256": "777fe6f83583ee68c3cac6d36006c04eac7cdb36f4d9a9960dfe554b89b5e8cb"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r3\\probe_final.py",
+   "bytes": 2468,
+   "sha256": "c90e3085efcd330783dbda3505652ec39c1174e3ca68b91c94a9536620f9ab79"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\src\\r3\\formal063_entry.py",
+   "bytes": 3678,
+   "sha256": "af3132129aa44da27e2e61b3381135ab72666f54013d934dba42e19d5a01bf0f"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\FORMAL063-QUOTA-001.json",
+   "bytes": 18702,
+   "sha256": "949913e957aa1514391c00bbcc9d983146dbd1624451e2ef71750e54bd0f5fad"
+  },
+  {
+   "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\aktr-zcode-n8-existing-f02-r20-review065-checkpoint-repair-20261027-066\\harness-066\\r36\\population-r36.py",
+   "bytes": 80899,
+   "sha256": "067f9d20c49f676bef99b7fd443076cf8cbffd93925b58a90f7e8092e4012c0d"
+  },
+  {
+   "path": "C:\\AKN8C071\\h\\r73\\observation_battery-r73.py",
+   "bytes": 30980,
+   "sha256": "64e7e0b393b828e840692ac97714700e3ca602c6f8f2777b21ba5cd61021248a"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\FREEZE-001.json",
+   "bytes": 12074,
+   "sha256": "50e6032f17e565ff0b168cbcf8338a7ea6d18c399e98e6c0a9157be1bc2da486"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\POPULATION-MANIFEST-067.json",
+   "bytes": 1581,
+   "sha256": "1cbfc8c1dddae4d3d82cc2de606b36b7a27c1f5290a68e2b6ae970aa74c57ba5"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\POPULATION-MANIFEST-LOCAL.json",
+   "bytes": 1477,
+   "sha256": "f232fcfc452729f4dd35490e37c4381ba2c6f7540209111920eb182a9f458314"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\PUBLICATION-CONTRACT-067.json",
+   "bytes": 694,
+   "sha256": "0ab2b9dd81922f58c249870f49d610a6ec810c3f134ceaa4909641c6b475b24b"
+  }
+ ],
+ "checks": {
+  "path": "C:\\AKN8C071\\q063\\checks050\\review-001\\CHECKS.json",
+  "bytes": 5179,
+  "sha256": "55e89fbbb547ed115c12563328f530acd6ad70b6bcd00a0f6ae7fbc06d08a2ee"
+ },
+ "failed_current_tools": 4,
+ "scope": "frozen Author050 helper changes and complete107/formal067 binding review; not final N8 product success",
+ "basis": "required050 rerun once native0 (9.016s, 512MiB lane, fixture 554240/85 within 589824/112) with ORIG-34/37/38 exact, separate-writer QUOTA_HARDLINK_PATH refusal at zero effects, failed-native-link race retaining 8704/2 charges, honest closed001 population predecessor basis (no fabricated rows); five reviewer counterexamples all passed: source/destination precharge through the real create_link guard, failed native link retains charge with no refund, alias/hardlink write refused with unchanged stat pins, local policy refuses formal launch/D-role/formal-attempt-root, and bind050.accepted_review rejected all five fabricated verdict variants before any bound067 write with CLOSED_LOCAL_PASS reception merge required; all 66 freeze sources rehashed in order",
+ "honesty": "failed_current_tools=4 are the reviewer's own counterexample harness attempts r1-r4 (raw tracebacks and fingerprinted failed fixtures preserved); the binder gate requiring failed_current_tools==0 will therefore reject this verdict for formal067 binding; no fabrication, no one-use rerun, no product defect found",
+ "constraints": {
+  "trading": false,
+  "observer": "hold",
+  "broker": "NOT_RUN",
+  "send": 0,
+  "cancel": 0,
+  "formal_producers_started": 0,
+  "full_local107_started": false
+ }
+}

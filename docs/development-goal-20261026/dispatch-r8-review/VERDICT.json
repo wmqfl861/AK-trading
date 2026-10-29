@@ -1,0 +1,24 @@
+{
+ "schema": "independent043-combined-review-verdict/v1",
+ "task": "combined independent041+042+043 tooling review against accepted040",
+ "reviewer": "original independent ZCode GLM-5.3/max, accepted038 TRACE-SUPERVISOR 240/210/30, one call",
+ "verdict": "FAIL",
+ "unconditional": true,
+ "failure_mode": "REQUIRED_VERIFICATION_INCOMPLETE — not a counterexample-accepted tooling defect",
+ "primary_finding": {
+  "finding": "The required complete private context proof (PRIVATE_CONTEXT_PROOF_AUTHOR042, once600, retries0) is CONSUMED_FAIL and no replacement proof is authorized",
+  "evidence": "TERMINAL-OWNER-001 + capture RESULT/stdout: tool/native/supervisor all 124 at the 590.735s ABSOLUTE_WORK_DEADLINE with Job0 and closed streams; finalization returned and matched its authenticated retained receipt after 458.672s (the only completed predecessor stage); the freeze stage was still unfinished after 53.093s; publication ABSENT; the last stream event is a finally 'leave' of validate:author051_verification_freeze — not a successful return; the uncached-completion event never appears, so BOTH the original and companion uncached completion boundaries were NOT_REACHED",
+  "consequence": "Required complete-proof acceptance is missing; per AUTHOR043 this holds production regardless of owner synthetic checks; no conditional PASS or replacement proof is permitted"
+ },
+ "verified_tooling_facts": {
+  "pins": "182/182 including all 87 FROZEN files, 72 SOURCE-FREEZE refs, nine product sources byte+physical-identity unchanged",
+  "affected_battery": "owner affected043-r2.py independently rerun ONCE via reviewer copy + frozen startup043-r2 env: native 0, 27/27 SYNTHETIC cases exact (incl. real-selected wrong poll/historical handle, distinct authenticated module rejecting a foreign store, note_rehash_bytes==0)",
+  "quota": "guard literal-only ADMIN 29778270; RUNTIME 1043963554; 1GiB preserved; gross/transfer arithmetic exact (460526+1445316=1905842); held review 424304 + old 120000 preserved; real overrun rejected without ledger mutation",
+  "reviewer_counterexamples": "junction redirection R34_PATH_REDIRECTION; storage module-identity tamper R35_WRONG_LOADED_MODULE restorable",
+  "inspected_code_properties": "note-digest reuse valid (no re-hash of checked immutable bytes); canonical-path/ancestor plans are operation-scoped with fresh lstat on every hit; before/after span re-reads; exact-range/attribution rejections; recursion and failed-result non-caching — no operation byte cache or unconditional closure cache found"
+ },
+ "reviewer_error_disclosed": "run1 fixtures row used wrong expected literal; corrected to FROZEN-pin comparison; owner bytes correct throughout",
+ "production": "HELD_UNCONSUMED — context007-002/actual007/seal007 author041 captures must not launch on this state",
+ "product_PASS": false,
+ "safety": "false/hold/brokerNOT_RUN/sendcancel0/0"
+}

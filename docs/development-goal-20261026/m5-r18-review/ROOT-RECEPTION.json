@@ -1,0 +1,40 @@
+{
+ "scope": "F1 repair and sizing instrument TOOLING ONLY",
+ "verdict": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-078\\VERDICT.json",
+  "bytes": 9180,
+  "sha256": "03fd1e61b0376583286377d9de0614a7f4825712e0c7370d34a9520824528d72"
+ },
+ "response": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-078\\stdout.json",
+  "bytes": 10017,
+  "sha256": "6d55b7e57deed61a54aba733750fa49758326ee734f44388f424c8fa7eb10e63"
+ },
+ "terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-078\\TERMINAL.json",
+  "bytes": 330,
+  "sha256": "802bf14792b3d028771a96a303149a58e3d9615e550cd831c22127cdb4740ffb"
+ },
+ "outer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-078\\outer-001\\RESULT.json",
+  "bytes": 1102,
+  "sha256": "56a8c4eb61a1f102d5c4e429f19639627aeb91058ff78e6343233acdce062310"
+ },
+ "adapter": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-078\\ADAPTER-CAPTURE.jsonl",
+  "bytes": 1059,
+  "sha256": "253822cff872174c27c1af4d21cc65f9dc2c06d8ef8f8ad969c78cff62da9ec9"
+ },
+ "CLI_native": 0,
+ "watchdog": 0,
+ "Job0": true,
+ "zero_tool_registry": true,
+ "actual_inline_attachment_delivery": "reviewer describes exact supplied changed functions and actual30-case/sizing evidence",
+ "source_pins_unchanged": true,
+ "F1": "CLOSED_REPAIRED",
+ "F2": "UNSUPPORTED_RUNTIME_SIZING",
+ "runtime_READY": false,
+ "original_full100": "NOT_EXECUTED",
+ "product_PASS": false,
+ "root_reporter_raw1_retained": true
+}

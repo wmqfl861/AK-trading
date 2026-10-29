@@ -725,3 +725,28 @@ T7 已完成唯一900秒观察：预设deadline触发raw1，pytest未完成；Jo
 执行经验继续如实保留：Root一次提前读取尚未生成的TERMINAL产生raw1，随后检查存在性再读；一次把freeze的files列表误作字典，产生启动前raw1且没有子进程，新捕获尝试已通过。DISPATCH作者043的过宽可选发现出现access错误，native0/receiver1；后续精确读取支持完整作者处置，原错误不抹除。N8最终发布前静态预算检查阻止约21KiB超额，未写出不完整交付；只重分配已经核实未用的既有额度，不增加总池，不回收失败历史。
 
 继续遵守用户最新Sol/max实施、原Astra现有计划澄清、独立ZCode审核的分工。未修改规则或持久模型配置，未读取凭据/.env，未连接真实broker。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。四个产品尚未全部硬审通过，完成当前批后再停止。
+
+
+## 2026-10-29 22:03 UTC — 磁盘整理完成，T7完整运行启动，现有三项修复继续
+
+D盘整理净增加空闲空间约1.083GiB。对pnpm缓存做可逆NTFS压缩，60,119文件的路径/大小/修改时间集合签名不变，逻辑大小2,664,649,439B不变；prune原生0、删除0文件。首次compact在600秒截止为raw1，续做剩余77目录均raw0，原失败保留。详见[磁盘整理原记录](disk-space-20261029/RESULT.md)。本次未删除产品源码、行情或审核资料；该记录结尾为当时状态，以下为当前更新。
+
+| 模块 | 已完成且有证据的结果 | 当前执行与剩余验收 |
+| --- | --- | --- |
+| T7 | 原独立ZCode完成reference023/024无条件范围PASS，CLI0/wrapper0/Job0，414.171s。复用真实248+120=368唯一查询的等价比较；22,368次波动种子提取、每slot最多1次、无新增。当前19/20反例及保留的有效截断gzip拒绝共同覆盖原要求，差异有审核者处置。 | 原full022已实际启动，收集24节点，已观察到外层fit完成和内层样本构造，仍RUNNING。完整统计、payoff以及后续独立产品硬审未完成；不重启一次性运行。 |
+| M5 | 原独立078给r18的F1修复与诚实sizing工具无条件TOOLING_ONLY PASS，CLI0/wrapper0/Job0，142.534s。30项实际断言通过；Root末尾reporter的NameError/raw1单独保留，独立analyze为raw0/3.859s。 | 原作者043允许以既有1GiB累计额度和原保护执行原Full100的有界实际测量，明确保持supported=false及七项未知需求。原Sol正在做r19入口与定向验证，随后原081审核。正式100实例仍未启动，等待入口READY及T7重运行槽释放。 |
+| N8 | 050必需独立检查raw0/9.016s，五项最终反例通过；原调用CLI0/监督0/Job0、56.435工具秒。原VERDICT虽写PASS，却如实含4个此前失败探针，冻结binder要求当前失败数0，Root未接收为可用通过结论。 | 原作者052允许原独立会话完成transport002：保留四次失败、复用成功验证，只对本次完成prompt计数。真实续接已启动，使用原监督器60/40工具秒并受600/570墙钟约束。local107、formal067、precheck018及binding005仍未消费；没有最终产品PASS。 |
+| DISPATCH | 原独立043真实复跑27/27 SYNTHETIC检查并做反例，CLI0/监督0/Job0，47.724工具秒，182pins不变。结论为无条件FAIL：完整private proof只完成finalization，后续freeze/publication及两处uncached completion未完成。 | proof原生124、约590.735s，授权已消费；不重跑。原作者044正在处理同一失败的完整执行安排，原context002/actual007/seal007尚未运行。 |
+
+原始结论：[T7 reference](t7-reference023024-review/REVIEW.md)、[M5 r18](m5-r18-review/REVIEW.md)、[N8原050](n8-quota050-review/VERDICT.json)、[DISPATCH r8](dispatch-r8-review/REVIEW.md)。这些文件逐字复制，不改写历史标签。后续依据为[M5原作者043](m5-r18-review/AUTHOR043-DISPOSITION.md)和[N8原作者052](n8-quota050-review/AUTHOR052-DISPOSITION.md)。原始文件与发布副本SHA-256见[发布来源](publication-20261029-closure-progress.json)。
+
+命令与原始退出：T7通过冻结FULL-REQUEST-r15-022-001.json调用既有supervise.py执行原tests/test_v2_m5_payoff_integration.py的24节点，仍运行；M5受保护的30项机械检查child1（末尾reporter）、analyze child0，独立078原CLI0；N8 required050_r3.py捕获child0，早期四个probe child1由Bash后续capture掩成outer0，仍按真实失败保存；DISPATCH独立27项child0，完整proof child124/supervisor124。没有把模型调用0或前缀通过当作产品完成。
+
+两项历史controls超额保留：T7闭合实际166,912B超131,072B达35,840B；N8实际281,344B超246,272B达35,072B，均已实额入账，不回溯声称合规。N8失败探针总gross仍UNKNOWN，最后一次snapshot不替代历史累计。发布检查还发现DISPATCH原CHECKS含未加引号的说明文字、JSON语法无效；Root发布首次raw1保留，原字节以[原始文本](dispatch-r8-review/CHECKS.raw.json.txt)发布，独立VERDICT的FAIL不变，[结构说明](dispatch-r8-review/ROOT-STRUCTURE-NOTE.json)明确限制。后继发布先全部验证再写入，未改原报告。
+
+当前只做必要收尾、实现和审核，不新增产品计划。按用户最新直接AGENTS，由原Sol/max实施、原Astra澄清既有计划、独立ZCode审核；磁盘旧开发路由未被用来替换当前负责人。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。
+
+
+本条后续更新（2026-10-29 22:07 UTC）：N8原reviewer transport002已正常结束，CLI0、两层监督0、Job0、8.024工具秒、156.204墙钟秒；205个输入pins不变。原审核者逐项处置四个历史失败并给出无条件范围PASS，本次failed_current_tools=0、historical_failed_tools=4。Root完成真实闭合后，冻结bind050.accepted_review对新VERDICT/CHECKS及custody实际接受；未修改validator或删除失败。见[新结论](n8-quota050-review/completion052/VERDICT.json)与[真实接收](n8-quota050-review/completion052/ROOT-RECEPTION.json)。完整local107已立即按原冻结argv启动，PID137792绑定创建时间，330秒/512MiB，尚待终态；formal067仍未启动。
+
+DISPATCH原作者044已native0/receiver0发布[有效补充](dispatch-r8-review/AUTHOR044-DISPOSITION.md)，原Sol立即实施r9：仅将新的完整proof及尚未消费的context002设置为1500秒，actual007900/seal007600不变；不再做语义优化或重复长诊断。完整proof要验证所有未完成步骤，等待T7独占重运行槽释放。两项均是已有失败的接续，不新增产品计划。

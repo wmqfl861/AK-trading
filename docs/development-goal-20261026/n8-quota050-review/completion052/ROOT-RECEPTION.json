@@ -1,0 +1,41 @@
+{
+ "state": "INDEPENDENT_SCOPE_PASS_ACCEPTED_BY_FROZEN_BINDER",
+ "review": {
+  "verdict": {
+   "path": "C:\\AKN8C071\\q063\\checks050\\review-002\\VERDICT.json",
+   "bytes": 14949,
+   "sha256": "585d0cdd898a120808956d94c199bee7b14116d66d6738eb2d32ad69b0fb7f81"
+  },
+  "checks": {
+   "path": "C:\\AKN8C071\\q063\\checks050\\review-002\\CHECKS.json",
+   "bytes": 5807,
+   "sha256": "260e28e58c1c219f57ac00d5b5468ab0ac6a3b1c3d289ca3f12d438ffb9f705b"
+  },
+  "custody": {
+   "path": "C:\\AKN8C071\\q063\\checks050\\review-002\\ROOT-CLOSED-CUSTODY-002.json",
+   "bytes": 3126,
+   "sha256": "82e8bd1244e03dfd5e8acc284a1e985f4a68441d8280d270ae639a9c98a4b288"
+  },
+  "source_freeze": {
+   "path": "C:\\AKN8C071\\q063\\continuation050\\FREEZE-001.json",
+   "bytes": 18106,
+   "sha256": "505a40e2a08fdae651fe05944c4ad23e832b0cbea5df964059c0a43e1baa8b89"
+  }
+ },
+ "CLI": 0,
+ "supervisors": [
+  0,
+  0
+ ],
+ "job0": true,
+ "tool_seconds": 8.024,
+ "wall_seconds": 156.204000000027,
+ "cumulative_pool_used": 64.459,
+ "raw_history4_preserved": true,
+ "controls052_reservation_retained": 5781504,
+ "current_all_inputs_unchanged": true,
+ "product_PASS": false,
+ "local107": "READY_UNCONSUMED",
+ "formal067": "UNCONSUMED",
+ "root052_support_debit_conservative": 40
+}

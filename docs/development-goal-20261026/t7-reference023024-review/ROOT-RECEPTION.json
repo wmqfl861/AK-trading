@@ -1,0 +1,44 @@
+{
+ "state": "SCOPED_METHOD_EVIDENCE_PASS",
+ "verdict": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\VERDICT.json",
+  "bytes": 3081,
+  "sha256": "7a5dfa5f80275585b6f0898c699a64c5a2f71c8dd757d8d5d5ae0bccc1aa1d55"
+ },
+ "findings": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\FINDINGS.json",
+  "bytes": 4102,
+  "sha256": "059cc674e0b9e68d9b08fa5d4b518b1ab57025dab60ad23f941e77d1b5e794f5"
+ },
+ "terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\TERMINAL.json",
+  "bytes": 336,
+  "sha256": "e3b6604ec60cd8018a0922ec19a7b3e7eff6c07d78b631d0f84845f18c931aba"
+ },
+ "outer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\outer-001\\RESULT.json",
+  "bytes": 1074,
+  "sha256": "3371ee3a298bd9dd2318a9107dce724fa280215eb59616edd10db1f869967a67"
+ },
+ "request": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\REQUEST.json",
+  "bytes": 23822,
+  "sha256": "398c0bf6cf42e6cf016e1d1131bdeeac772aaa635a881cfb07880aec6062975d"
+ },
+ "CLI_native": 0,
+ "wrapper": 0,
+ "Job0": true,
+ "frozen_inputs_unchanged": true,
+ "required_comparison_reused": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-reference023-hard-review-003\\COMPARISON-BINDING.json",
+  "bytes": 5420,
+  "sha256": "3f0e8f0edd10dab743e060c1b001bc201ba1fe686b3389818a7424e4d5403742"
+ },
+ "probe_results": "19/20 current plus unaffected preserved truncated-gzip rejection; reviewer disposition in findings, no helper defect",
+ "controls_declared_gross": 131072,
+ "controls_actual_current_gross": 166912,
+ "controls_excess": 35840,
+ "budget_statement_correction": "Reviewer66213 is raw-like snapshot, not closed charged gross; keep procedural overrun, no retroactive permission",
+ "product_PASS": false,
+ "full14400": "original022 once remains unconsumed; separate fresh resource/run preconditions still required"
+}

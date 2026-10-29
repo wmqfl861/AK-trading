@@ -1,0 +1,17 @@
+{
+ "scope": "original DISPATCH043 CHECKS syntax defect, immutable FAIL retained",
+ "raw_source": {
+  "published": "dispatch-r8-review/CHECKS.raw.json.txt",
+  "original": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-dispatch-scope-20261028-001\\owner007-runtime-c001\\admission\\focused-review043-001\\work\\CHECKS.json",
+  "bytes": 5350,
+  "sha256": "21c21331734fdda10be430954c6babbc16dca9b8c2ce0a4aac72c5a676c9eaaa"
+ },
+ "parse_error": "Expecting comma delimiter: line10 column1122 char3585; note_rehash_bytes has unquoted prose after numeric0",
+ "publication_attempt": {
+  "tool": "b7ae81",
+  "raw_exit": 1,
+  "cause": "required JSON parse rejected malformed original before remaining copies/status publication"
+ },
+ "disposition": "preserve exact bytes as CHECKS.raw.json.txt; valid original VERDICT remainsFAIL; claims from original reviewer report and actual raw captures, not parsedCHECKS",
+ "avoidance": "validate all selected JSON before writing publication; malformed original remains explicit, never silently repair reviewer evidence"
+}

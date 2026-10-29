@@ -1,0 +1,96 @@
+{
+ "schema": "aktr-logical050-closed-review052/v1",
+ "task_id": "aktr-zcode-n8-hardlink-fixture-review-20261029-001",
+ "transport_task_id": "aktr-zcode-n8-hardlink-fixture-review-20261029-002",
+ "session_id": "sess_01d66719-8b1f-4620-b9b2-a130611ff58f",
+ "raw_exit": 0,
+ "streams_closed": true,
+ "source_freeze": {
+  "path": "C:\\AKN8C071\\q063\\continuation050\\FREEZE-001.json",
+  "bytes": 18106,
+  "sha256": "505a40e2a08fdae651fe05944c4ad23e832b0cbea5df964059c0a43e1baa8b89"
+ },
+ "verdict": {
+  "path": "C:\\AKN8C071\\q063\\checks050\\review-002\\VERDICT.json",
+  "bytes": 14949,
+  "sha256": "585d0cdd898a120808956d94c199bee7b14116d66d6738eb2d32ad69b0fb7f81"
+ },
+ "checks": {
+  "path": "C:\\AKN8C071\\q063\\checks050\\review-002\\CHECKS.json",
+  "bytes": 5807,
+  "sha256": "260e28e58c1c219f57ac00d5b5468ab0ac6a3b1c3d289ca3f12d438ffb9f705b"
+ },
+ "stdout": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-002\\stdout.json",
+  "bytes": 2805,
+  "sha256": "536648ced53f08fbaee3ecc2204f65b2da2b011c0b634631b1958cb7021af034"
+ },
+ "stderr": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-002\\stderr.txt",
+  "bytes": 99,
+  "sha256": "b8efdb60d73583a4623c125d0253cfa5078ab9443de136e5cf080693e46e233a"
+ },
+ "request": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-002\\REQUEST.json",
+  "bytes": 49223,
+  "sha256": "41bdc11d609aa1e5444f8a875c94bb3fa3f05175e24f14de8d96b214dad99fca"
+ },
+ "native_terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-002\\TERMINAL.json",
+  "bytes": 334,
+  "sha256": "a1780a129177d3d94f2ca39170d5d5aad5f553ccf041df79b03617ca41487703"
+ },
+ "inner": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-002\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+  "bytes": 1850,
+  "sha256": "edb6948bffbe6d739228f477174cc26f28fa4df4726d3909e32421fba897d74f"
+ },
+ "outer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-hardlink-fixture-review-050-002\\ENTIRE-CALL-001\\RESULT.json",
+  "bytes": 1197,
+  "sha256": "06fcbced05963ce0603b0930e69c4b13055255a9098a45740baf8117c6b4ff7e"
+ },
+ "failure_disposition": {
+  "path": "C:\\AKN8C071\\q063\\checks050\\review-002\\FAILURE-DISPOSITION.json",
+  "bytes": 7335,
+  "sha256": "e41b687646feb178555275e91a3e958ca38e5cc11868c199df4fd144c3bb2ba0"
+ },
+ "producer_probes": [
+  {
+   "expected": {
+    "pid": 206460,
+    "creation_filetime": 134377848009129063
+   },
+   "observed": {
+    "pid": 206460,
+    "state": "ABSENT",
+    "win32_error": 87
+   }
+  },
+  {
+   "expected": {
+    "pid": 131316,
+    "creation_filetime": 134377847940930806
+   },
+   "observed": {
+    "pid": 131316,
+    "state": "ABSENT",
+    "win32_error": 87
+   }
+  },
+  {
+   "expected": {
+    "pid": 196368,
+    "creation_filetime": 134377847935972425
+   },
+   "observed": {
+    "pid": 196368,
+    "state": "ABSENT",
+    "win32_error": 87
+   }
+  }
+ ],
+ "current_failed_tools": 0,
+ "historical_failed_tools": 4,
+ "all_inputs_unchanged": true
+}
