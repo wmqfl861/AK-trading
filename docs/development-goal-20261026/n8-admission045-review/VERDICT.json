@@ -1,0 +1,26 @@
+{
+ "schema": "independent045-tooling-review-verdict/v1",
+ "task": "aktr-zcode-n8-admission045-validation-20261029-001",
+ "reviewer": "auxiliary ZCode GLM-5.3/max, SID sess_565fc2bd-fc8e-4063-b071-5927e4b93a91, controls n8-admission045-validation-001",
+ "scope": "TOOLING_ONLY: frozen r1 closed_reservation_045.py + zcode_watchdog_045.py + checks, per AUTHOR045 §4 conditional companion",
+ "verdict": "PASS",
+ "unconditional": true,
+ "basis": {
+  "authority": "C:/AKWorktrees/aktr-goal-20261026/astra-n8-reference-authority-045/AUTHOR-DISPOSITION.md 11066B 49142166...",
+  "freeze": "C:/AKN8C071/a045/checks/FREEZE-001.json",
+  "required_suite": "reviewer-owned bounded harness (512MiB before child, 20s cap), launched ONCE: native 0, 6 tests / 11 negative rows / 0 fail-error-skip; result work/SUITE-045-REVIEW-001.json",
+  "gap_probes": "12/12 (001 baseline both kinds; genuine 30s 002 deduction (90,60,30); five previous045 chain gates + reset rejected; marker/argv/model-selector/input-binding exact rejections)",
+  "watchdog_diff": "5 changed lines, all 045-confined; AST Popen/wait/update equal; scan/launch tail unchanged"
+ },
+ "requirements_verified": {
+  "narrow_delta": "companion only selects current045 task/request/grant (two exact transports 001/002); pinned 044 machinery supplies historical admission with the sealed044 REQUEST as context and its unchanged allowances; current tuple distinct from sealed044 historical context",
+  "completed044_chain": "true CLI0/outer0/TERMINAL/RESULT/verdict-PASS bindings with 60.125s consumed, 0 credit, four closed streams bound, both 044 producers freshly queried; no fabricated historical TERMINAL (pinned immutability)",
+  "conditional002": "requires genuine closed 001 chain (request/start/terminal/outer path-bound, TERMINAL, Job0, unresolved0, spent within 0..90, producers fresh); deducts actual tool seconds from the same cumulative 120 pool with no reset (whole=120-spent, working=90-spent, closure 30 fixed)",
+  "final_refresh": "exactly two stale reservations (HISTORICAL038 + INTERRUPTED043) once, current request reread, all eight historical producer identities re-queried, fresh native store identity/ancestors; third unresolved same-store writer blocks the full scan",
+  "frozen_reuse": "040/043/044 validators untouched (pins verified); no broad battery rerun"
+ },
+ "not_established": ["actual Root 045 records/admission FUTURE_NOT_RUN (not-yet-created request/grant are templates, not missing inputs)", "unobserved external writers UNKNOWN_OUTSIDE_ROOT_CONTROL"],
+ "product_PASS": false,
+ "DISPATCH040": "NOT_STARTED", "formal065": "NOT_RUN",
+ "safety": "false/hold/brokerNOT_RUN/sendcancel0/0"
+}

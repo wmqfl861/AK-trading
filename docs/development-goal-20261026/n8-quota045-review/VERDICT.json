@@ -1,0 +1,50 @@
+{
+ "schema": "aktr-n8-045-authority-binding-review-verdict/r2",
+ "task": "aktr-zcode-n8-quota065-authority-review-20261029-001",
+ "reviewer": "original independent quota reviewer sess_01d66719-8b1f-4620-b9b2-a130611ff58f (GLM-5.3/max)",
+ "date": "2026-10-29",
+ "verdict": "PASS",
+ "verdict_class": "unconditional; TOOLING_ONLY, changed-only authority/prospective065 binding scope; product PASS NOT issued",
+ "scope": "Author045 authority-binding repair and prospective formal065 handoff: final freeze/handoff pin integrity, template->REQUEST byte reconstruction, manifest/policy/argv binding, real ReferenceStage->candidate011 resolver boundary, NEST31/observation input handling; sealed owner C fixture used read-only; no actual semantic preflight, no formal producer, no runtime002",
+ "basis": {
+  "static": {
+   "pins_verified": "35 refs rehashed across FREEZE-001 selected_sources/singles/prior_context/closed_owner_runs plus handoff self-pin and equality with freeze (authority, effective_authority, manifest, policy, request_template, owner_result, request_expected)",
+   "generated_outputs_absent": ["D065 REQUEST.json", "D065 WORKORDER.md", "f065 root", "f065/ACTUAL-SEMANTIC-PREFLIGHT-001.json", "attempt-065"],
+   "flags": "write_freeze true; formal065_launched false; actual_semantic_preflight_run false; semantic preflight once=true",
+   "quota_math": "C: 60928+26112+175104=262144, 8192+162304<=175104, no_reset; D: 3x49419520<=536870912, no_reset; entry split 384+382+2=768",
+   "transformations": "controller045 = pinned controller042 with exactly the three disclosed substitutions (no residual precheck-015/precheck_015/entry042.py tokens; count-consistent); entry045 sets quota042.CONT to continuation045 (parents[2]) before production bind"
+  },
+  "template_and_binding": {
+   "request_bytes": "15581 / sha256 74335e29e08f7d5ccf1a373e066d345cb72cf5f92787f682a8cb8a306f030d53 decoded from REQUEST-TEMPLATE-065.json base64",
+   "workorder_bytes": "validated from template against handoff pins (499 / d91c2f8a...)",
+   "chain": "policy.request == template.request_pin == freeze.request == handoff.request_expected; manifest zcode_argv == request.argv; launcher --argv-json literal == controller_argv == freeze.controller_argv == freeze.launcher_argv; controller selects 065 manifest/request/task/attempt-root",
+   "authority": "request.effective_authority == exact original060 (12650 B, 398872b7...) obtained programmatically from the candidate011 sealed binding (materialize_binding roundtrip)",
+   "f11_freeze": "request.source_freeze == manifest f11_freeze == freeze.candidate_freeze (22220 B, 562102ed...); ordered_actual_write_set length 11, every member pin rehashed"
+  },
+  "real_boundary": {
+   "positive": "genuine060_freeze ACCEPTED through the real candidate011 binding -> ReferenceStage -> isolated resolver against the sealed owner C chain; effects zero; 13 reconstruction writes byte-identical read-only (no writes performed); NEST-31 actual_ok via executed population AST nodes; observation battery constructors yielded authority/freeze == 060/candidate freeze; my 9 recomputed source-node AST hashes byte-equal to the owner RESULT records",
+   "negatives_reviewer_authored": {
+    "N_a_faithful042_effective": "REJECTED REFERENCE_AUTHORITY_OR_FREEZE via historical064 chain reference read-only (oldref effective_authority == 042 handoff authority proven), effects zero",
+    "N_b_wrong_freeze": "REJECTED REFERENCE_RAW_BYTES_MISMATCH with candidate_freeze sha zeroed, namespace rooted at the sealed chain, effects zero",
+    "N_c_exact_authority_path": "REJECTED REFERENCE_AUTHORITY_OR_FREEZE with D:->d: authority path mutation, effects zero"
+   },
+   "fixture_integrity": "all 13 sealed chain files re-pinned unchanged after every stage; OWNER dir, historical064 chain and all frozen inputs never written"
+  },
+  "reviewer_side_failures_preserved": {
+   "attempt1": "CHECKS.attempt1.json + probe-stdout/stderr.attempt1.txt: three harness defects (nested-list flatten; source_freeze mislabeling; negative namespaces rooted in empty scratch failing the transport-output map before the boundary) - none a product defect",
+   "attempt2": "native exit 0, all_ok true, elapsed 10.359s, peak job bytes 42237952 <= 536870912"
+  }
+ },
+ "evidence": {
+  "root": "C:/AKN8C071/q063/checks045/review-001",
+  "files": {
+   "REVIEW-PROBES.py": "27e6d10bd3d56327f49cb8c400da10e61711ad8f5426bd32ef48836b92b34537",
+   "CHECKS.json": "016389e241eed145a5f3077c9b570a99142da41b86e8100970b5fa970c83f2f3",
+   "probe-stdout.json": "660cfc84568ff4ee3655ed40a646df01560e4a357b4ad1b52b77b2c5ad6b7bac",
+   "owner_RESULT_input_not_pass": "fdf9a7670aba6b5696fc81e06a881e8f03d55160027c0307b273c0d091960d85"
+  }
+ },
+ "not_run_disclosed": ["actual semantic preflight 065 (prohibited in reviewer call; Root-only, once)", "formal065/precheck-016/binding-final-005 (grants untouched)", "107x2 integration/readiness012/completion/r86 batteries (out of changed-only scope)", "runtime002"],
+ "constraints_honored": {"formal_producers_started": 0, "grants_consumed": 0, "no_env_credentials_config_or_model_change": true, "trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_cancel": "0/0", "F02": "FAIL retained", "F01": "OPEN-INSUFFICIENT retained", "P": "ABSENT retained"},
+ "report": "Owner RESULT/RUN/READONLY records were treated as inputs, not as a PASS. The changed authority restoration (exact060 12650/398872b7 via the sealed candidate011 binding), the candidate freeze pin, the complete prospective invocation/manifest/policy/argv binding, the read-only 13-file sealed-chain reconstruction, NEST31 and observation constructor input handling, and three reviewer-authored exact negatives all verify. Reviewer attempt-1 harness defects are preserved with their raw outputs; attempt-2 is native 0. Unconditional TOOLING PASS for the changed-only 045/065 binding scope; Root may proceed with mechanical publication, the single actual semantic preflight and the one-use formal065 grants per the Author045 sequence."
+}

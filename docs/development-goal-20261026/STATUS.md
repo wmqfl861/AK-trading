@@ -663,3 +663,23 @@ Trading stays `enable_trading=False`, observer=`hold`, broker=`NOT_RUN`, real se
 发布与续接（2026-10-29T12:57:42.277615+00:00）：磁盘记录及四份独立工具审核报告已提交 `7de5c52`，`git push origin main` raw0，目标为 `wmqfl861/AK-trading`。首次 commit 因缺少本机 Git author identity 返回 raw128；后续从本项目既有提交 ed2913b 的公开作者信息派生单命令 `git -c user.name=... -c user.email=... commit`，raw0，未修改全局配置。原失败保留。
 
 T7 已完成唯一900秒观察：预设deadline触发raw1，pytest未完成；Job已闭合、259输入不变。相同outer1030段duration扫描26780→2060（13倍去重），28任务/106候选fit群体相同；这不是全程耗时推算。观察说明收尾的35.888秒超额已保留。依原条件启动唯一完整24项验证，真实START 2026-10-29T12:48:53.991618Z，运行中，尚无产品PASS。M5原owner正在037允许的r10追加修复，r9检查器trace逐行Path.resolve导致20秒timeout及证据捕获缺口保留，generation002未运行。N8原045补充已生效，原Sol修复authority及条件准入companion；064失败不重试。DISPATCH原040补充已生效，按真实父/子入口统一guard，物化最小后继并做受影响独立复审后继续原007。均为现有故障修复，无新产品批次。
+
+
+## 2026-10-29 16:00 UTC — 工具审核已接收，四项实际运行仍未全部通过
+
+磁盘整理已完成，未删除源码、行情或审核原件。CAP234 实测扣除完整已承诺预留及底线后，D 余量345,235,456字节，C 余量36,960,532,273字节，RAM余量3,607,982,080字节；这是当次观测，不能代替下一次启动检查。原压缩记录、缓存整理及历史费用继续保留。
+
+| 模块 | 已接收的独立审核 | 最新实际结果及后续 |
+| --- | --- | --- |
+| M5 | r12 原独立 ZCode074无条件 TOOLING_ONLY PASS，CLI0/监督0/Job0，151.188秒；Root真实6/6入口检查及deadline反例已闭合。073仅过程回复、无判定，保留INCOMPLETE。 | 真实generation002执行64.594秒后native1/COMPLETE_FAIL，最终Job0，未触及资源或输出配额。失败为旧失败文件的目录成员检查、验证器引用缺失PRODUCTION_DELTAS属性、运行证据成员检查。原作者040处理现有验证器修复；002已消费，Full100仍NOT_GRANTED。 |
+| N8 | admission045与quota045均无条件工具PASS；前者CLI0/监督0/Job0、344.985秒，后者CLI0/监督0/Job0、70.938工具秒；对应原报告已按字节发布。 | 唯一formal065返回Root1/child73、35.704秒、Job0；普通entry配额382已耗尽，下一次写入被拒，普通bytes仍余10,260,992。原Sol按047修正分配，真实1024次覆盖写native0/13.875秒，gross4,456,448字节/1024entries，等待独立专项审核。066未运行；已提前披露reparse反例构造与canonical guard的静态冲突，原作者048先处置。 |
+| DISPATCH | 父子入口选择修复040无条件 TOOLING_ONLY PASS，21/21检查、96/96pins，CLI0/监督0/Job0，89.148工具秒、652.078秒wall。 | context007声明600秒但没有实际外层强制截止，Root在1646.010秒核对PID/创建时间后才受控停止，真实native15、无子进程；保留1046.010秒晚停，不能称正常关闭或超时内完成。原作者041安排执行路径和自动截止修复；actual007/seal007未启动。 |
+| T7 | r13 F/R0/L0及021日志工具原PASS继续有效；所改duration工作26780→2060、13倍去重的证据保留。 | 唯一完整payoff运行触发自动no_work_progress_stop，9661.906秒，pytest域native98、离线聚合/guard/helper/outer3，最终Job0。24收集、16通过call记录，没有最终完整统计。观测停留在按交易日前缀反复计算regime reference与RecordView物化；尚无inner fit_core。原作者022处理这一已观测的性能路径；旧full不得重启。 |
+
+独立原报告：[M5 r12](m5-r12-review/REVIEW.md)、[N8 admission045](n8-admission045-review/REVIEW.md)、[N8 quota045](n8-quota045-review/REVIEW.md)、[DISPATCH040](dispatch-selector040-review/REVIEW.md)。这些结论各有明确工具范围，均不是整个模块的产品PASS。所有原始FAIL、一次性运行消费及未完成状态保留。
+
+本轮实际命令来自冻结NEXT/REQUEST：M5使用r12的publish_companions_032.py（raw0）和r5r1_launcher.py m5-generation002-runtime-001（raw1）；N8使用冻结entry045的formal065 argv（raw1/child73），047 checks047.py一次（raw0）；T7使用原scripts/test_offline.py -vv --basetemp <冻结独立目录> tests/test_v2_m5_payoff_integration.py（aggregate3）。完整argv与关闭结果留在本地原记录，未把未执行步骤记为成功。
+
+执行经验：tool的yield时间不是运行deadline，所有后续长任务须先有真实外层自动截止、进程身份绑定和关闭捕获。读取文件路径须来自清单或实际目录，不能猜测后缀；本轮Root两次路径猜测造成准备raw1，均发生于相应作者启动前，成功的其他发布保留。读取非UTF8诊断须保留原bytes并转义展示，不能忽略解码失败。审核提示必须实际包含待审内容；M5073缺判定保留，074通过完整内联内容完成。新admission047测试首轮夹具字段漏改raw1，r2限时4.5秒超时且部分输出未捕获，当前owner验证INCOMPLETE，必须独立真实验证，不借quota专项PASS冒充。
+
+仍按当前用户直接规则：原Astra只澄清已有计划，原生Sol/max实施，独立ZCode审核。没有新增产品批次。Forward003保持NO_FORWARD_BAR、strategy NOT_RUN、paper NOT_ACTIVATED；本轮未重连SDK或处理凭据。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。当前四项产品尚未全部硬审通过，继续已有修复后再结束。

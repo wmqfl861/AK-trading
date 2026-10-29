@@ -1,0 +1,31 @@
+{
+ "schema": "independent040-integration-verdict/v1",
+ "task": "DISPATCH Author040 focused integration hard review (changed runtime selector/storage integration)",
+ "reviewer": "original independent DISPATCH reviewer, SID sess_565fc2bd-fc8e-4063-b071-5927e4b93a91, C store, cwd D:/Projects/AK-trading, GLM-5.3/max",
+ "verdict": "PASS",
+ "unconditional": true,
+ "scope": "TOOLING_ONLY focused integration acceptance of frozen r5-author040 (runtime selector + storage guard integration), per AUTHOR040",
+ "basis": {
+  "authority": "astra-dispatch-runtime-selector-040/AUTHOR-DISPOSITION.md 8684B 6f7332b3...",
+  "freeze": "admission/r5-author040/FROZEN.json + NEXT.json",
+  "required_21": "independently rerun ONCE in reviewer scratch (single DR-anchor literal adaptation): raw exit 0, 21/21 PASS in 40.1s",
+  "counterexamples": "guard-redirection invariant under tampered expectations (guard+partition still pinned), function-tamper rejection, partition arithmetic, TRACE 5-token derivation",
+  "reused": "035 preparation and 038 19+7/quota verdicts by reference only"
+ },
+ "requirements_verified": {
+  "single_authenticated_guard": "parent entries (context/seal/SUPERVISOR), effective route authentication and storage(), child startup via sitecustomize, and publication/capture functions all select the one r5 guard (ADMIN 22195528 successor; quota-literal-only diff from 20118530); parent/child mixed and stale r4 selections rejected incl. at child import",
+  "bootstrap": "all three entries' actual _bootstrap040 selects expected route+guard with genuine module origin/reference/function identity; factory/entry/control consumers agree on new bindings; runner/contract module selection identical",
+  "products": "nine product sources byte- and physical-identity unchanged",
+  "quota": "declared ADMIN 22195528 / RUNTIME 1051546296 / TOTAL 1GiB exact; real-ledger admin and runtime overruns rejected without mutation; old r4 guard's genuine ledger overflow reproduced (its rejection is real)",
+  "children": "fresh child via the actual sitecustomize mechanism performs bounded publication; stale-route child rejected at import (R40_STALE_CHILD_ROUTE); mixed installed guard rejected (R40_MIXED_INSTALLED_GUARD); inner producer --help argv-binding through real launch seam with sealed closed streams, operation tail not consumed"
+ },
+ "disclosed_limitations": [
+  "owner extra 90s operation-contract probe remains INSUFFICIENT (R51_COMMON_ABSOLUTE_DEADLINE_EXHAUSTED, native1); not an acceptance threshold; full operation-contract check not completed and not claimed; retained old-hook cache-chain cause remains unverified",
+  "reviewer probe correction: first tampered-expectations child probe assumed import-time expectations hash enforcement; corrected invariant (guard cannot be redirected/bypassed) verified; both outcomes preserved",
+  "unobserved external writers UNKNOWN_OUTSIDE_ROOT_CONTROL"
+ ],
+ "product_PASS": false,
+ "next_gates": "Root frozen-pin validation + fresh capacity floors, then existing context007 once600 -> actual007 once900 -> success-only seal007 once600, retries0; later full independent product hard review",
+ "runtime007": "NOT_RUN",
+ "safety": "false/hold/brokerNOT_RUN/sendcancel0/0"
+}
