@@ -1,0 +1,12 @@
+{
+  "task_id": "aktr-zcode-m5-ready-citation-review-083",
+  "pid": 144652,
+  "creation_filetime": 134377874566171351,
+  "ended_utc": "2026-10-29T22:45:19.936308+00:00",
+  "native_exit_code": 0,
+  "status": "TERMINAL",
+  "frozen_inputs_unchanged": true,
+  "input_changes": [],
+  "stdout_bytes": 4198,
+  "stderr_bytes": 1213
+}

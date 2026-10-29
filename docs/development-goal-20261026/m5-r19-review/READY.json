@@ -1,0 +1,88 @@
+{
+ "admission_basis": "BOUNDED_ACTUAL_MEASUREMENT",
+ "admission_path": "C:/AKWorktrees/aktr-goal-20261026/M5-FULL100-ADMISSION043-001.json",
+ "admission_schema": "aktr-m5-full100-admission043/v1",
+ "charged_runtime_cap_bytes": 1073741824,
+ "contract": {
+  "bytes": 17342,
+  "path": "C:/AKM5C019/capacity005/runtime-route-031/r19/CONTROL-CONTRACT.json",
+  "sha256": "c73c311f67669e37a615542cd3ae6972f8c71c57508e9a68df0c0da675930cfe"
+ },
+ "freeze": {
+  "bytes": 4544,
+  "path": "C:/AKM5C019/capacity005/runtime-route-031/r19/SOURCE-FREEZE.json",
+  "sha256": "82ddb07e34d276b595a3465e929015f0ef74493bbb5ea82b4669c9959ed36e62"
+ },
+ "guaranteed_to_fit": false,
+ "guaranteed_to_pass": false,
+ "id": "full100-softmax-review-r16-r4-c1-001",
+ "measurement_authority": {
+  "bytes": 9122,
+  "path": "C:/AKWorktrees/aktr-goal-20261026/astra-m5-sizing-basis-043/AUTHOR-DISPOSITION.md",
+  "sha256": "58587903391a5fec73f74cef86fc72d65d58a1ed01b11a64eed070c200ae2d6b"
+ },
+ "outer_argv_without_admission_sha": [
+  "D:/Programs/Python/Python312/python.exe",
+  "-B",
+  "-X",
+  "utf8",
+  "C:/AKM5C019/capacity005/runtime-route-031/r19/full100_outer.py",
+  "--formal",
+  "C:/AKWorktrees/aktr-goal-20261026/M5-FULL100-ADMISSION043-001.json"
+ ],
+ "outputs": {
+  "basetemp": "C:/AKM5C019/capacity005/runtime-route-031/runtime/evidence-full100-001/runs/full100-softmax-review-r16-r4-c1-001/temp",
+  "evidence": "C:/AKM5C019/capacity005/runtime-route-031/runtime/evidence-full100-001",
+  "outer": "C:/AKM5C019/capacity005/runtime-route-031/runtime/outer-full100-001",
+  "run": "C:/AKM5C019/capacity005/runtime-route-031/runtime/evidence-full100-001/runs/full100-softmax-review-r16-r4-c1-001"
+ },
+ "prerequisites": {
+  "generation003_binding": {
+   "bytes": 20190,
+   "path": "C:/AKM5C019/capacity005/runtime-route-031/runtime/evidence-generation003/CURRENT-BINDING.json",
+   "sha256": "f480d50b78605bb151a68094fbee842ced848d6f3a823926a2b78d00c297746e"
+  },
+  "generation003_outer": {
+   "bytes": 4555,
+   "path": "C:/AKM5C019/capacity005/runtime-route-031/runtime/outer-generation003/OUTER-RECEIPT.json",
+   "sha256": "9ca4ecd9fd2920bcedeec84b58ee4bb524204d058ed8d64a9e3dcb0cb9b40672"
+  },
+  "generation003_validation": {
+   "bytes": 27649,
+   "path": "C:/AKM5C019/capacity005/runtime-route-031/runtime/evidence-generation003/GENERATION-VALIDATION.json",
+   "sha256": "5a06403ac00f4c76576cf781cd37f802f954e7eb593b5b621ec4a12d80ad4614"
+  },
+  "original007_producer": {
+   "bytes": 3338,
+   "path": "C:/AKM5C019/capacity005/runtime-route-031/r14/COMPLETED007-PRODUCER.json",
+   "sha256": "0c734c311b85e5daa17fe8b2230ec6d62345ef157da308ab80a02f53bf7efc97"
+  }
+ },
+ "ready": "READY-FOR-FULL100",
+ "sizing": {
+  "bytes": 27016,
+  "path": "C:/AKM5C019/capacity005/runtime-route-031/r18/SIZING-042.json",
+  "sha256": "156483ff487bb789dcffce09b50344907d62b6feba0e85ede90150f0e5398f00"
+ },
+ "source_manifest": {
+  "bytes": 3572564,
+  "path": "D:/AKF261018/M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001/evidence-005/SOURCE-MANIFEST.json",
+  "sha256": "162f421539e2085f0aac42c3ba88da8e26bfe3855bfb67f4be68907905ddd36e"
+ },
+ "source_root": "D:/AKF261018/M5-CDF-BATCH-SOURCE-025-R16-R4/source",
+ "stage_seconds": 14400,
+ "terminal_reserve_bytes": 1048576,
+ "test_arguments": [
+  "-q",
+  "-rA",
+  "tests/test_v2_m5_splits.py",
+  "tests/test_v2_m5_experiments.py",
+  "tests/test_v2_m5_reports.py",
+  "tests/test_v2_m5_cli.py",
+  "tests/test_v2_m5_payoff_integration.py",
+  "tests/test_v2_m5_metrics.py",
+  "tests/test_v2_m5_t7_evidence.py"
+ ],
+ "tooling": "PASS",
+ "unproven_demand_acknowledged": true
+}

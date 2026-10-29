@@ -1,0 +1,50 @@
+{
+ "schema": "aktr-author053-closed-root-reception/v1",
+ "raw_exit": 0,
+ "streams_closed": true,
+ "argv": [
+  "D:\\Programs\\Python\\Python312\\python.exe",
+  "-B",
+  "-X",
+  "utf8",
+  "C:\\AKN8C071\\q063\\continuation053\\src\\r1\\receive053.py",
+  "--root",
+  "C:\\AKN8C071\\l\\s050\\local107-001",
+  "--custody",
+  "C:\\AKWorktrees\\aktr-goal-20261026\\n8-local107-050-001\\CUSTODY.json",
+  "--out",
+  "C:\\AKN8C071\\q063\\continuation053\\LOCAL107-RECEPTION-001.json"
+ ],
+ "source_freeze": {
+  "path": "C:\\AKN8C071\\q063\\continuation053\\FREEZE-001.json",
+  "bytes": 7601,
+  "sha256": "6dd10850a14d3b0333411e8bba67b3ae8a1ccb2d6aa3f9dbefb30f2f9403b493"
+ },
+ "receipt": {
+  "path": "C:\\AKN8C071\\q063\\continuation053\\LOCAL107-RECEPTION-001.json",
+  "bytes": 2531,
+  "sha256": "7b60634e4c17750e1a7ff63d85b868deda8d2015acdc5b9ac47d075338eecae2"
+ },
+ "stdout": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\n8-local107-reception-053-001\\stdout.bin",
+  "bytes": 171,
+  "sha256": "eaf1208b2ef4b470b3a3644593516fbcebd79d9e73ebc7a8e78e2101ac9241a9"
+ },
+ "stderr": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\n8-local107-reception-053-001\\stderr.bin",
+  "bytes": 116,
+  "sha256": "840a352d78091663873bfd0cd994459682125cc9e0a31e0806e35fc863b5e86c"
+ },
+ "elapsed": 1.047000000020489,
+ "timeout": false,
+ "identity": {
+  "pid": 207368,
+  "create_time": 1793313624.295473
+ },
+ "source_changes": [],
+ "capacity": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\CAPACITY-267.json",
+  "bytes": 44304,
+  "sha256": "0802153267fa5b5e6e26f0d6abbb6a2ef54c387beea7c6b76a585698f61b62d3"
+ }
+}

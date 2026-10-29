@@ -750,3 +750,25 @@ D盘整理净增加空闲空间约1.083GiB。对pnpm缓存做可逆NTFS压缩，
 本条后续更新（2026-10-29 22:07 UTC）：N8原reviewer transport002已正常结束，CLI0、两层监督0、Job0、8.024工具秒、156.204墙钟秒；205个输入pins不变。原审核者逐项处置四个历史失败并给出无条件范围PASS，本次failed_current_tools=0、historical_failed_tools=4。Root完成真实闭合后，冻结bind050.accepted_review对新VERDICT/CHECKS及custody实际接受；未修改validator或删除失败。见[新结论](n8-quota050-review/completion052/VERDICT.json)与[真实接收](n8-quota050-review/completion052/ROOT-RECEPTION.json)。完整local107已立即按原冻结argv启动，PID137792绑定创建时间，330秒/512MiB，尚待终态；formal067仍未启动。
 
 DISPATCH原作者044已native0/receiver0发布[有效补充](dispatch-r8-review/AUTHOR044-DISPOSITION.md)，原Sol立即实施r9：仅将新的完整proof及尚未消费的context002设置为1500秒，actual007900/seal007600不变；不再做语义优化或重复长诊断。完整proof要验证所有未完成步骤，等待T7独占重运行槽释放。两项均是已有失败的接续，不新增产品计划。
+
+
+## 2026-10-29 22:48 UTC — M5入口READY已接收，N8完整107检查及正式接收成功
+
+前一批已推送提交为 `7310c6a977c65eb8a26404b288bd8b31644b1ce2`。本次只继续已有四模块，磁盘整理不重复执行。
+
+| 模块 | 实际进展 | 剩余工作 |
+| --- | --- | --- |
+| M5 | r19原开发者54/54检查通过；Root独立机械复跑54/54，native0、15.703秒、Job0。原ZCode082无条件TOOLING_ONLY PASS，CLI0/guard0/Job0、145.108秒。082的READY误写一处63位SHA，原件保留；原作者044明确授权后，原审核083逐字段无修改采纳冻结模板，原生0/guard0/Job0、64.211秒。Root按明确采纳确定性生成真实READY，核对28份原元数据、12处声明运行目录及审核者NOT_EXECUTED声明。 | 原Full100仍未启动、未消费；等待T7实际释放独占重计算槽，再做即时资源及保留量检查并运行。最终079/080产品硬审尚未完成。 |
+| N8 | 原local001真实107/107通过，native0、179.125秒、512MiB Job0。旧接收脚本误把成功状态写成PASS，实际为COMPLETE_PASS，接收raw1完整保留。原Sol053修复仅接受正确字面值及原件固定pin，开发者真实正例与7个捕获native1拒绝反例符合预期。Root按冻结official_reception_argv执行一次，native0、1.047秒、源码不变，正式接收完整。 | 原准入owner053正在完成独立审核所需伴随工具；接收修复本身尚待原独立reviewer硬审。formal067/precheck018/binding005仍未消费；F02 FAIL、F01 OPEN-INSUFFICIENT、P ABSENT不变。 |
+| T7 | 原full022保持运行，由原负责人监控；Root未另行轮询其会话、未重启。 | 完整24节点结果与后续独立产品硬审待终态。 |
+| DISPATCH | r9-author044冻结完成，26项定向检查通过，native/监督0/0，12.703秒，Job0。真实短终止反例按预期124/124并关闭Job。 | 新完整proof尚未启动，等待T7释放重计算槽；随后原独立044审查、context002/actual007/seal007与最终产品硬审。 |
+
+原始证据：[M5 r19审核082](m5-r19-review/VERDICT082.json)、[原审核者083采纳](m5-r19-review/VERDICT083.json)、[真实READY](m5-r19-review/READY.json)、[明确采纳来源](m5-r19-review/ADOPTION-PROVENANCE.json)、[N8正式接收](n8-local107/RECEPTION053.json)、[N8原始接收失败](n8-local107/ORIGINAL-RECEPTION-FAILURE.json)。副本与原件字节一致，见 `publication-20261029-ready-progress.json`。
+
+本轮命令记录：M5 `run_admission043.py --scratch root043r19_once001` 已有真实native0/54passed，未重跑；ZCode原083经原r005零工具adapter/watchdog/2GiBguard，CLI0；N8冻结 `receive053.py --root <原local107-001> --custody <原CUSTODY> --out <新053receipt>` 为native0，完整argv在关闭custody中。没有执行新的正式100实例或N8formal命令。
+
+经验修正：接受状态应与实际生产者契约一致并覆盖错误字面值反例；长哈希由固定FileRef和程序读取传递，审核者明确采纳后确定性序列化，不能让Root静默修正审核结论。M5旧Root接收的Job0=null来自错误字段查找，实际guard始终为0；以追加更正保留旧记录。上述工具范围PASS及接收成功均不是四个产品的最终PASS。
+
+按用户最新直接AGENTS继续原Sol/max开发、原Astra现有缺口澄清、独立ZCode审核，未改规则文件或模型配置。交易关闭、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。当前批全部硬审完成后推送并停止，不新增产品计划。
+
+发布前索引核对捕获一次真实raw1：Git自动将082原报告的CRLF转为LF，尚未提交或推送。已仅将该文件的原字节写入Git blob并绑定索引，随后重新逐文件校验；未改原报告、Git持久配置、规则或全库换行。

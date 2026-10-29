@@ -1,0 +1,98 @@
+{
+ "schema": "aktr-exact-publication/v1",
+ "at": "2026-10-29 22:48 UTC",
+ "previous_pushed_commit": "7310c6a977c65eb8a26404b288bd8b31644b1ce2",
+ "files": [
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-082\\VERDICT.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/VERDICT082.json",
+   "bytes": 14484,
+   "sha256": "bf617e76e6d8c3a242a08b109c17ac17688daef57d0880a97c388e6f90074bcd"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\M5-REVIEW082-ROOT-RECEPTION-001.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/ROOT-RECEPTION082.json",
+   "bytes": 1671,
+   "sha256": "4cad550411ebf3868c68deb1b2a220236f1017414b51eeee654fb865bd1d49fc"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\M5-REVIEW082-JOB-RECEPTION-CORRECTION-001.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/ROOT-JOB-CORRECTION082.json",
+   "bytes": 762,
+   "sha256": "a5cf9ba01dd00b1e088bd71138c999a1cb9dbcf544157c13f9dbe14fb5c29c7c"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\VERDICT.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/VERDICT083.json",
+   "bytes": 3445,
+   "sha256": "dbd3f34d69c8c5bb80c1e067f77d61a882b1d54aad551b03d7ddb8d68c1fa362"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\READY-MATERIALIZED.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/READY.json",
+   "bytes": 3555,
+   "sha256": "b89afce26be048f7b4acbe3c00670fd97a26e73c05928c7db6ae64fe75f1eb76"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\ADOPTION-PROVENANCE.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/ADOPTION-PROVENANCE.json",
+   "bytes": 2333,
+   "sha256": "6b7d6665ee1198cefeeb72cd16542ac62f385611704a3ecd50b19ae033865e80"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\TERMINAL.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/TERMINAL083.json",
+   "bytes": 325,
+   "sha256": "004e43d1a20df41fb12ad38f6fa86563d58c730b197a2a1be3c528f5d0c1d300"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\outer-001\\RESULT.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/CLOSED083.json",
+   "bytes": 1099,
+   "sha256": "2e4628cc8b222c584d5b3598531379efca0b48d9ee072a3b6ccfc785dfcde1b8"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-m5-ready-citation-044\\AUTHOR-DISPOSITION.md",
+   "published": "docs/development-goal-20261026/m5-r19-review/AUTHOR044-DISPOSITION.md",
+   "bytes": 4384,
+   "sha256": "23510cd32a38ea484c4f8e8fa61de4f96fcb56c058b82f6dd83a63306e3418d2"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\M5-FULL100-CONSUMPTION-RECONCILIATION-002.json",
+   "published": "docs/development-goal-20261026/m5-r19-review/CONSUMPTION-RECONCILIATION.json",
+   "bytes": 12669,
+   "sha256": "d34efb5590c1cff03261170a2c4107117adb709ced242985316c8c43134468fd"
+  },
+  {
+   "source": "C:\\AKN8C071\\q063\\continuation053\\LOCAL107-RECEPTION-001.json",
+   "published": "docs/development-goal-20261026/n8-local107/RECEPTION053.json",
+   "bytes": 2531,
+   "sha256": "7b60634e4c17750e1a7ff63d85b868deda8d2015acdc5b9ac47d075338eecae2"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\n8-local107-reception-053-001\\CUSTODY.json",
+   "published": "docs/development-goal-20261026/n8-local107/CUSTODY053.json",
+   "bytes": 1591,
+   "sha256": "890fd1c8fbf9e381d16e03c5009ff63b7216072361aadfeca9d7053391152351"
+  },
+  {
+   "source": "C:\\AKWorktrees\\aktr-goal-20261026\\N8-LOCAL107-RECEPTION-FAILURE-001.json",
+   "published": "docs/development-goal-20261026/n8-local107/ORIGINAL-RECEPTION-FAILURE.json",
+   "bytes": 1171,
+   "sha256": "e8d70d1f5859821c2a77009185540f7119eac3b310ceba98c75006568c886e5f"
+  }
+ ],
+ "product_all_pass": false,
+ "publication_precheck": {
+  "raw_exit": 1,
+  "tool": "8330a3",
+  "phase": "publication_precommit_index_byte_check",
+  "file": "docs/development-goal-20261026/m5-r19-review/VERDICT082.json",
+  "cause": "git add normalized original review CRLF to LF in index",
+  "source_changed": false,
+  "commit_or_push_before_rejection": false,
+  "fix": "store exact frozen bytes as Git blob and update only this index entry; no config/rule/full-repo normalization",
+  "before_index_sha256": "51f9191f5fec064e5c7360bbd2d851f2d0ba8074fc80a27be23bb949cb76ced6",
+  "expected_sha256": "bf617e76e6d8c3a242a08b109c17ac17688daef57d0880a97c388e6f90074bcd"
+ }
+}

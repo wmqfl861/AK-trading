@@ -1,0 +1,370 @@
+{
+ "schema": "aktr-root-originalFull100-consumption-reconciliation/v1",
+ "at": "2026-10-29T22:46:20.204264+00:00",
+ "id": "full100-softmax-review-r16-r4-c1-001",
+ "status": "UNCONSUMED",
+ "reviewer_execution_declaration": "NOT_EXECUTED",
+ "original_grant_checked": true,
+ "authoritative_launch_records_checked": true,
+ "all_declared_roots_checked": true,
+ "scope": "Only the original frozen REVIEW-ENTRY/workorder, listed28metadata FileRefs,12declared run roots and original reviewer explicit083 NOT_EXECUTED declaration; no machine-wide absence claim. Current original Full100 outputs/admission absent.",
+ "original_entry": {
+  "path": "D:\\AKF261018\\M5-CDF-BATCH-SOURCE-025-R16-R4-C1\\REVIEW-ENTRY.json",
+  "bytes": 50153,
+  "sha256": "c05bef218cc87f589804e9ea7bc70caed98b7360b8615fd981f4b2dfece648e7"
+ },
+ "original_stage": {
+  "id": "full100-softmax-review-r16-r4-c1-001",
+  "requires_successful_complete": [
+   "softmax-review-r16-r4-c1-001",
+   "generation-softmax-review-r16-r4-c1-001"
+  ],
+  "timeout_seconds": 14400
+ },
+ "original_workorder": {
+  "path": "D:\\Maintenance\\aktr-development-20261025\\m5-c1-hard-review-002\\WORKORDER.md",
+  "bytes": 3249,
+  "sha256": "ab14ecd4899fed3da9972b710e320247ed799e71779f03dfe94963644d34b2d7"
+ },
+ "metadata_scope": [
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\REVIEWER-PREPARATION-FREEZE-002.json",
+    "bytes": 4669,
+    "sha256": "0d8a0703868001373472db7da0b392462bdf5f6dc3179ffa4d2c002a39de038b"
+   },
+   "full100": "NOT_YET_GRANTED_MAX_LAUNCHES_0"
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\REVIEWER-PREPARATION-FREEZE-003-R1.json",
+    "bytes": 4774,
+    "sha256": "8e3159a99606a6d17bf87ec308460a4f4e49b4ef2dd4ca551500c37af28e10e1"
+   },
+   "full100": "NOT_YET_GRANTED_MAX_LAUNCHES_0"
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\REVIEWER-PREPARATION-FREEZE-004-R2.json",
+    "bytes": 4845,
+    "sha256": "346f81566bc33f077c1248524622e8567348a658f3d4884e5a24d2bd5bccdb6e"
+   },
+   "full100": "NOT_YET_GRANTED_MAX_LAUNCHES_0"
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\REVIEWER-PREPARATION-FREEZE-005.json",
+    "bytes": 4800,
+    "sha256": "c7003d81e3ddefecb5cd68564e79ddd339c4b3b2bd64c94252267ef3b81f4b8e"
+   },
+   "full100": "NOT_YET_GRANTED_MAX_LAUNCHES_0"
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\REVIEWER-PREPARATION-FREEZE.json",
+    "bytes": 6104,
+    "sha256": "ac0537bbafed385baa363434d584a25279b9d7e28d551d613a3e2ab44e3c8bd8"
+   },
+   "full100": "NOT_YET_GRANTED_MAX_LAUNCHES_0"
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\ROOT-EXACT-RUNTIME-ADMISSION-002.json",
+    "bytes": 17523,
+    "sha256": "612efb12c560d6d43adf1bb9a42f00d71a22f0d7e803b083dd58fb3df788d523"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false,
+   "one_use_command_grants_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\ROOT-EXACT-RUNTIME-ADMISSION-003-R1.json",
+    "bytes": 18886,
+    "sha256": "59739d5986b82923ccea96e939021e2451ff25aaa11fe9a81b05f25cb816071e"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false,
+   "one_use_command_grants_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\ROOT-EXACT-RUNTIME-ADMISSION-004-R2.json",
+    "bytes": 19829,
+    "sha256": "36f9c2a05c8ceda5df4a6e36356de48ca130e6a0f0a22bdb03610f5ed6c2e28c"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false,
+   "one_use_command_grants_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\ROOT-EXACT-RUNTIME-ADMISSION-005.json",
+    "bytes": 19993,
+    "sha256": "5a5a567b54037bed19cd60f79a3fe76684d82ad8f10e63478d091b4fe161d1f0"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false,
+   "one_use_command_grants_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\ROOT-EXACT-RUNTIME-ADMISSION.json",
+    "bytes": 17011,
+    "sha256": "5cc18ca80022fe5dbc80c785c153c9c1610eceb89ff087dd4640d7460efba392"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false,
+   "one_use_command_grants_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence\\COMMANDS.json",
+    "bytes": 9318,
+    "sha256": "61f60b9260aa082b5da40d906620e4617e033fff322d3216983f43597d28d402"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence\\EXECUTION-BINDING.json",
+    "bytes": 2978,
+    "sha256": "129185f0467f49634e15221842b39d1242805c9230da03c71557e2d5d16382a0"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence\\OUTPUT-PRECONDITIONS.json",
+    "bytes": 5597,
+    "sha256": "d6c50e13b0b4815ac678da27c1de0d77f2e5da7cefc992e62e895d26070c0d59"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-002\\COMMANDS.json",
+    "bytes": 11057,
+    "sha256": "3b201ef6ce6ef7f41acf1623aa69e27a2d977f5fca434cc9ac260441a921039a"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-002\\EXECUTION-BINDING.json",
+    "bytes": 3076,
+    "sha256": "140eb98bd1f932dfb2e17f485b7e6ba6ecdb6220854f00fe0d25ddc0c7aa7e35"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-002\\OUTPUT-PRECONDITIONS.json",
+    "bytes": 7146,
+    "sha256": "e29602407b89a8d2e1d37a9afb9e6dbf49b6e132d993ea2aa44d7a6772525d85"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-003\\COMMANDS.json",
+    "bytes": 11057,
+    "sha256": "cd025000e6e7be51e0167202ff77ba1abdd59116aea55515bf27d1da725c0a9d"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-003\\EXECUTION-BINDING.json",
+    "bytes": 3076,
+    "sha256": "0ddb1af47d185824e49de5e66ec6aba9eac98c942a328833d2177a636d2d7a4d"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-003\\OUTPUT-PRECONDITIONS.json",
+    "bytes": 7146,
+    "sha256": "9c3400fbc0b2021ba13a8cd9c4fca4bc8f47de7d84d92cdc169c0bf06a85fcc1"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-004\\COMMANDS.json",
+    "bytes": 11057,
+    "sha256": "06630f1a74e493c3a4a7d113dd10f15831d1801f1e37c69cbf04a8b1d7296eca"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-004\\EXECUTION-BINDING.json",
+    "bytes": 3076,
+    "sha256": "48b5193f1021aa2d778d61dde1b22e939ee5e0fe962fa472e38b252f60f85e68"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-004\\OUTPUT-PRECONDITIONS.json",
+    "bytes": 7146,
+    "sha256": "e2e97d5a4c1eb24a7d366e631357d0e241875edd72c362beb7f171287d5a169f"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-004-r2\\COMMANDS.json",
+    "bytes": 11236,
+    "sha256": "49f0ab28e528a1b4f7091d572e07a3487b79ddc4a91990189039ab4de4776279"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-004-r2\\EXECUTION-BINDING.json",
+    "bytes": 3079,
+    "sha256": "9d46d1f56758c95075cfabd5328e51f4d6fdee34db4ff46b6d91430c007e7118"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-004-r2\\OUTPUT-PRECONDITIONS.json",
+    "bytes": 7287,
+    "sha256": "9921bacb7c3e2ebdc3a0647e4585b789748272da1dce2a1d508e62123063f832"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-005\\COMMANDS.json",
+    "bytes": 11071,
+    "sha256": "f3eee70d72de3111b71ff251cd6e14c330c406d336fa82baffac9fecd872bab2"
+   },
+   "maximum_full100_launches": 0,
+   "commands_contains_original_identity": false
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-005\\EXECUTION-BINDING.json",
+    "bytes": 3076,
+    "sha256": "91ff9af2dd4b6ef732f85c540edc104c76720ffea9f640da1656f3eca295dda8"
+   }
+  },
+  {
+   "pin": {
+    "path": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-005\\OUTPUT-PRECONDITIONS.json",
+    "bytes": 7146,
+    "sha256": "40694cbf242aae8d5f82729140dadedb2b7d0fbab401aec0a0d279efe1577838"
+   }
+  }
+ ],
+ "run_root_observations": [
+  {
+   "root": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\runs",
+   "root_exists": false,
+   "direct_children": [],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "softmax-review-r16-r4-c1-001"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-002\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "softmax-review-r16-r4-c1-002"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-003\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "softmax-review-r16-r4-c1-003"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-004\\runs",
+   "root_exists": false,
+   "direct_children": [],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-004-r2\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "softmax-review-r16-r4-c1-004"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "D:\\AKF261018\\M5-CDF-BATCH-REVIEW-025-R16-R4-C1-001\\evidence-005\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "softmax-review-r16-r4-c1-005"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "C:\\AKM5C019\\capacity005\\runtime-route-031\\runtime\\evidence-007\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "softmax-review-r16-r4-c1-007"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "C:\\AKM5C019\\capacity005\\runtime-route-031\\runtime\\evidence-generation\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "generation-softmax-review-r16-r4-c1-001"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "C:\\AKM5C019\\capacity005\\runtime-route-031\\runtime\\evidence-generation002\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "m5-generation002-runtime-001"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "C:\\AKM5C019\\capacity005\\runtime-route-031\\runtime\\evidence-generation003\\runs",
+   "root_exists": true,
+   "direct_children": [
+    "m5-generation003-runtime-001"
+   ],
+   "exact_identity_exists": false
+  },
+  {
+   "root": "C:\\AKM5C019\\capacity005\\runtime-route-031\\runtime\\evidence-full100-001\\runs",
+   "root_exists": false,
+   "direct_children": [],
+   "exact_identity_exists": false
+  }
+ ],
+ "reviewer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\VERDICT.json",
+  "bytes": 3445,
+  "sha256": "dbd3f34d69c8c5bb80c1e067f77d61a882b1d54aad551b03d7ddb8d68c1fa362"
+ },
+ "adoption": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\ADOPTION-PROVENANCE.json",
+  "bytes": 2333,
+  "sha256": "6b7d6665ee1198cefeeb72cd16542ac62f385611704a3ecd50b19ae033865e80"
+ },
+ "previous_draft": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\M5-FULL100-CONSUMPTION-RECONCILIATION-001.json",
+  "bytes": 12239,
+  "sha256": "d0e29ca6e9a2e8a390dadbfb308bb01e89300f8f934e0fecbcf9cb43b0ee68b9"
+ },
+ "conflicts": [],
+ "old_R12_distinct_failure_preserved": "CONSUMED_DEADLINE_FAIL_NO_RETRY",
+ "runtime_admission": false,
+ "safety": "false/hold/NOT_RUN/0/0"
+}

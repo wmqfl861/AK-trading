@@ -1,0 +1,54 @@
+{
+ "schema": "aktr-author044-explicit-independent-adoption/v1",
+ "selection": {
+  "template": {
+   "path": "C:\\AKM5C019\\capacity005\\runtime-route-031\\r19\\ROOT-BINDINGS043-TEMPLATE.json",
+   "bytes": 9017,
+   "sha256": "2b087d3cbcd02cac465cf6cb9be46c3cf9f999b3accc6a8cf5c940ca04f257a5"
+  },
+  "json_pointer": "/ready_payload_template_for_original_independent081"
+ },
+ "request": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\REQUEST.json",
+  "bytes": 74146,
+  "sha256": "bf140d0d7d57515a4b7d95db38537520496fba2e3454a85401f1a7c1f0dd21e6"
+ },
+ "response": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\stdout.json",
+  "bytes": 4198,
+  "sha256": "86c63b9c63e86991434de351e4efd79f0ffe54f973dafdf22f972c7993842c21"
+ },
+ "verdict": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\VERDICT.json",
+  "bytes": 3445,
+  "sha256": "dbd3f34d69c8c5bb80c1e067f77d61a882b1d54aad551b03d7ddb8d68c1fa362"
+ },
+ "materialized_READY": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\READY-MATERIALIZED.json",
+  "bytes": 3555,
+  "sha256": "b89afce26be048f7b4acbe3c00670fd97a26e73c05928c7db6ae64fe75f1eb76"
+ },
+ "session_id": "sess_06ac9667-3716-4c10-a5fd-dbd3310ef72d",
+ "terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\TERMINAL.json",
+  "bytes": 325,
+  "sha256": "004e43d1a20df41fb12ad38f6fa86563d58c730b197a2a1be3c528f5d0c1d300"
+ },
+ "closed_guard": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\outer-001\\RESULT.json",
+  "bytes": 1099,
+  "sha256": "2e4628cc8b222c584d5b3598531379efca0b48d9ee072a3b6ccfc785dfcde1b8"
+ },
+ "adapter": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\ADAPTER-CAPTURE.jsonl",
+  "bytes": 1059,
+  "sha256": "7daed8ea821af32217fd71cd027e7fc3866ba9b25d75391675cfd49b0d1c644e"
+ },
+ "raw_exit": 0,
+ "Job_final": 0,
+ "whole_seconds": 64.2109523001127,
+ "source_changes": [],
+ "semantic_changes": [],
+ "original082_preserved": true,
+ "product_pass": false
+}

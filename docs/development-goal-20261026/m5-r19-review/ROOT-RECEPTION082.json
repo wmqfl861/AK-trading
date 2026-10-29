@@ -1,0 +1,43 @@
+{
+ "state": "SCOPED_TOOLING_PASS_READY_BINDING_REJECTED",
+ "verdict": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-082\\VERDICT.json",
+  "bytes": 14484,
+  "sha256": "bf617e76e6d8c3a242a08b109c17ac17688daef57d0880a97c388e6f90074bcd"
+ },
+ "response": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-082\\stdout.json",
+  "bytes": 15572,
+  "sha256": "9e28dac88d0cdc9c337ccb799bd372b38515afbbb55e503824ac3427191c14f6"
+ },
+ "ready_as_returned": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-082\\READY-AS-RETURNED.json",
+  "bytes": 3554,
+  "sha256": "2b458386063725e3e505e918ca6e94f03ce658df010df409fdcc83223034716a"
+ },
+ "template": {
+  "path": "C:\\AKM5C019\\capacity005\\runtime-route-031\\r19\\ROOT-BINDINGS043-TEMPLATE.json",
+  "bytes": 9017,
+  "sha256": "2b087d3cbcd02cac465cf6cb9be46c3cf9f999b3accc6a8cf5c940ca04f257a5"
+ },
+ "differences": [
+  {
+   "field": "/prerequisites/original007_producer/sha256",
+   "expected": "0c734c311b85e5daa17fe8b2230ec6d62345ef157da308ab80a02f53bf7efc97",
+   "actual": "0c734c311b85e5daa17be8b2230ec6d62345ef157da308b80a02f53bf7efc97"
+  }
+ ],
+ "bad_hash_length": 63,
+ "CLI_native": 0,
+ "wrapper": 0,
+ "Job0": null,
+ "all_source_pins_unchanged": true,
+ "originalFull100": "UNCONSUMED",
+ "product_PASS": false,
+ "no_root_semantic_correction": true,
+ "old081_incomplete": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\M5-REVIEW081-INCOMPLETE-001.json",
+  "bytes": 447,
+  "sha256": "e2a9f553482ab58e110cc12d82a9e97d43313f84603b3d03d2a4f477186b6abb"
+ }
+}

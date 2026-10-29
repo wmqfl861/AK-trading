@@ -1,0 +1,20 @@
+{
+ "schema": "aktr-root-receipt-field-correction/v1",
+ "original_receipt": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\M5-REVIEW082-ROOT-RECEPTION-001.json",
+  "bytes": 1671,
+  "sha256": "4cad550411ebf3868c68deb1b2a220236f1017414b51eeee654fb865bd1d49fc"
+ },
+ "original_guard": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-082\\outer-001\\RESULT.json",
+  "bytes": 1102,
+  "sha256": "803f34ff4b2238a9eec1fc3a8e58a5a9dc10b05387e1b57a5784c91f3179d66b"
+ },
+ "field": "Job0",
+ "old": null,
+ "actual_job_pids_final": 0,
+ "actual_job_pids_after_wait": 0,
+ "cause": "Root looked up wrong JSON field; unchanged actual guard outcome is Job0",
+ "old_receipt_preserved": true,
+ "READY_admissible": false
+}

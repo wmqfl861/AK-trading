@@ -1,0 +1,36 @@
+{
+  "changed_inputs": [],
+  "closed_streams": [
+    {
+      "bytes": 1368,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\outer-001\\stdout.txt",
+      "sha256": "f0d6cecab5422ad6d7647384665764fd1b57c4e773ed729ec95e4ac7ea2c82c5"
+    },
+    {
+      "bytes": 0,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-083\\outer-001\\stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "enclosing_wall_s": 64.2109523001127,
+  "evidence_status": "COMPLETE",
+  "outcome": {
+    "child_exit": 0,
+    "child_pid": 205116,
+    "deadline_s": 270.0,
+    "job_pids_after_terminate": 0,
+    "job_pids_after_wait": 0,
+    "job_pids_final": 0,
+    "job_readback": {
+      "flags": 8704,
+      "job_memory_limit": 2147483648
+    },
+    "limit": 2147483648,
+    "sampled_peak_tree_rss_bytes": 1788076032,
+    "supervisor_error": null,
+    "termination": null,
+    "wall_s": 64.05
+  },
+  "supervisor_error": null,
+  "wrapper_exit": 0
+}

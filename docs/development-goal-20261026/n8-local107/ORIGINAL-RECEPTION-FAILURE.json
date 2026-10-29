@@ -1,0 +1,35 @@
+{
+ "schema": "aktr-local107-reception-contract-failure/v1",
+ "actual_local": {
+  "path": "C:\\AKN8C071\\l\\s050\\local107-001\\LOCAL-RESULT.json",
+  "bytes": 1876,
+  "sha256": "b0484077bcbd4025316ead161b7131cac0a8738a364281163ca347607a09f762"
+ },
+ "actual_outer": {
+  "path": "C:\\AKN8C071\\l\\s050\\local107-001\\outer-001\\OUTER-RECEIPT-001.json",
+  "bytes": 690,
+  "sha256": "1dcdef0ad5ac9a43cdaad5c27ecb6878464b655e88589cbe47ea1fda0b13e7f0"
+ },
+ "capture": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\n8-local107-050-001\\CUSTODY.json",
+  "bytes": 2137,
+  "sha256": "bbb4be7a17ca6c4bfb2f995ad2f1e342eb6666b4c7ecb691f45831dbdf497bc8"
+ },
+ "failed_command_tool": "251519",
+ "native_exit": 1,
+ "exact_failing_source": {
+  "path": "C:\\AKN8C071\\q063\\continuation050\\src\\r8\\receive050.py",
+  "bytes": 4146,
+  "sha256": "0fde94d2738bc6e22687132e801b989ed8aa108449429368332776f297f10358"
+ },
+ "line": 16,
+ "required_literal": "PASS",
+ "actual_literal": "COMPLETE_PASS",
+ "actual_full_local_native": 0,
+ "local_rows": 107,
+ "local_problems": [],
+ "output_absent": true,
+ "formal067_unconsumed": true,
+ "local001_consumed_no_replay": true,
+ "product_PASS": false
+}
