@@ -510,3 +510,18 @@ M5原独立062正常关闭（319.813秒，CLI0/监督0/Job0），确认旧外层
 Root两项本次接收错误保留：猜测作者文档路径导致Get-Content raw1；把SOURCE-FREEZE.files字典当成列表导致TypeError/raw1。二者均发生在CLI或产品发布前；后继从既有请求取得文档路径，并先验证真实字典schema后逐项核对。后续接收不得再凭标题猜路径或假定集合类型。原Astra029把围栏Markdown整体当JSON读取的raw1也保留；实际最终作者文本、一次completed turn和输入不变已独立接收，不伪造receiver0。
 
 T7保持原唯一完整24项payoff调用；截至23:24:27 UTC仍只有16项早期断言通过，没有最终统计。原启动、源码、参数、资源和截止均未改动。Forward run003已认证并正常关闭但无新OPEN/CLOSED，保持NO_FORWARD_BAR、strategy NOT_RUN、paper NOT_ACTIVATED。没有新的采集或真实交易。当前并行任务继续，所有未完成模块仍须独立成果硬审核；本次状态发布不宣称项目完成。
+
+
+## 2026-10-29 — 现有修复继续，M5 43 项控制验证通过
+
+T7 原一次完整 payoff 验证已结束：13,800 秒截止，offline/helper/outer 原始退出均为 1，最终 Job0；24 项中仅记录到前 16 项断言通过，没有完整测试统计，不能宣称 T7 PASS。随后按原作者017执行了一次受限真实采样，238.486 秒正常关闭监督器，内层诊断96经原启动器聚合为3，最终 Job0，原325个候选输入及 F/R0/L0 未变。113个执行栈样本中49个包含 data._on_minute_grid，63个包含 visible_bars，没有采到 can_open_before_close；当时仍在 positive_cold_run 的 fixture_setup。采样只覆盖前约235秒，16个栈被截至48帧，不能解释整个长运行。原作者018正在把同一性能修复定位到实际热点；未修改旧冻结版本，也未重试完整运行。
+
+M5 r21 的真实 verify062 返回33通过/1失败，后9项未运行，checker1/监督97/Job0。失败来自冷验证 companion 仍绑定旧 CAPACITY143，实际入口的资源检查据此拒绝；没有放宽检查。原 reviewer070明确仅更新容量元数据与新版本路径，r22 已发布，verify065 实际43/43通过，checker0/监督0/Job0，39.718秒。原独立 ZCode assessment063已立即接续。此结果只属于审核工具验证；正式007、generation001及 M5 产品硬审尚未完成。
+
+DISPATCH 的 author028 完整预检002真实通过，456.328秒、退出0/Job0。后续 context006成功，但 actual006在生产者 frozen_inputs 阶段返回1：历史051规则 FileRef被直接与当前规则文件比较，没有使用已接受的历史映射；没有执行seal006或重试006。原作者029已授权同一故障的最小修复及新007序列，原Sol owner继续。聚焦检查已覆盖98项051历史输入、43项052来源输入、22项052历史写集，13个反例按预期拒绝；最终源码和007绑定仍待交付及完整生产者准备验证。
+
+N8 已有107×2本地集成和readiness012证据保留。092在模型启动前被旧091未结束标记拦住：watchdog96/监督97，CLI启动数0。091实际监督130、Job0，CLI自身退出码UNKNOWN；现有关闭引用helper还要求旧请求未记录的数据库物理身份，不能补造历史身份或伪造终态。原作者038正处置这一既有调用接续缺口，正式063仍未运行。
+
+本轮Root接收错误原样保留：多行JSON前导误按逐行NDJSON解析（0c6023/raw1，写入前），源行范围未截到文件长度（0a4979/raw1），复制监督器后误改固定kind（6ebbed/raw1，测试启动0），以及069复制了068的临时capture路径，独占文件声明被拒（adapter/watchdog7、监督97，模型调用0）。后继采用完整JSON对象解码、按实际长度截断、保留已支持的scope标识并另记真实任务号，以及由新任务目录生成并检查每个瞬时日志路径。069失败保留；已授权070只在明确修正路径后调用。没有把原始失败改成成功。
+
+当前用户直接提供的职责保持：Astra/max负责原有计划澄清，原生Sol/max负责产品实现，独立ZCode负责产品硬审。Forward003已正常关闭但无新OPEN/CLOSED，仍为NO_FORWARD_BAR、strategy NOT_RUN、paper NOT_ACTIVATED；未重复登录、采集或传播凭据。交易false、observer hold、broker NOT_RUN、真实发送/撤单0/0。未新增产品计划，未宣称本批或项目完成。
