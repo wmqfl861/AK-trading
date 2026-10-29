@@ -1,0 +1,60 @@
+{
+ "schema": "aktr-n8-quota042-completion-hardreview-verdict/044-r1",
+ "task": "aktr-zcode-n8-quota042-review-completion-20261029-001",
+ "reviewer": "original independent ZCode reviewer sess_01d66719-8b1f-4620-b9b2-a130611ff58f (GLM-5.3/max)",
+ "date": "2026-10-29",
+ "verdict": "PASS",
+ "verdict_class": "unconditional; quota TOOLING domain only; product PASS NOT issued",
+ "scope": "quota042 r4 path-equivalence tooling (bind/lexical/identity/primary_failure and the quota-core Boundary write guard), completing the interrupted 042/043 review under Author044",
+ "basis": {
+  "reused_immutable_not_rerun": [
+   {
+    "path": "C:/AKN8C071/q063/checks042/review-001/probe-stdout.json",
+    "sha256": "e86b2e90918d86524736a7275912891fc7fb80b1d4ffd1914f0011ba9823f95b",
+    "result": "CHECKS_PASSED: alias native identity equality, OWNED_DISK_IDENTITY_CHANGED reached through the real selected caller with effect scope confined to the SYNTHETIC old-reset subtree, gross charged 52244/12 entries, 5 opposite cases, formal_launches 0"
+   },
+   {
+    "path": "C:/AKN8C071/f064/ACTUAL-PREFLIGHT-RESULT-001.json",
+    "sha256": "5da5a75b8db6eb46c5f607f83d19aea3c1026e11d22416d7a58d9bc6ff90371c",
+    "result": "PASS, elapsed 0.141s, request_sha256 5880c40f... , formal_launches 0, product_PASS false"
+   }
+  ],
+  "newly_executed": {
+   "script": "REVIEW-PROBES.py (sha256 a086a8358345fa72fa74bb24ee0293b2725d5d87156400912cd0f6df18ae6744)",
+   "binding": "quota042.bind(production=False); core.lexical patched; no activate_hooks",
+   "attempt3_native_exit": 0,
+   "cases": "12/12 exact: P1 existing-marker extended overwrite through Boundary.write_bytes (same physical file, native identity equal, same partition object, gross re-charge 4352, entries +1, no first-failure); P2 prospective alias (pre-existing route key = ordinary path, 1 physical file vs 2 gross entry units, used 8704); N1 QUOTA_CANONICAL_ESCAPE; N2 QUOTA042_UNSUPPORTED_NAMESPACE x4 (\\\\.\\NUL, \\\\.\\PhysicalDrive0, \\\\?\\GLOBALROOT, \\??\\) all rejected inside lexical before any CreateFileW, no device opened; N3 QUOTA042_REPARSE_OR_HARDLINK (extended) and QUOTA_REPARSE_PATH (ordinary) with no outside file created; N4 QUOTA042_REPARSE_OR_HARDLINK (extended) and QUOTA_HARDLINK_PATH (ordinary) with source content unchanged; M1 primary_failure exact mapping (REQUIRED_POPULATION_OUTPUT_ABSENT, child_native_exit 73, child_primary_reason retained, result_present False, outcome FAIL, acceptance False)",
+   "checks": "CHECKS.json (sha256 cee7f826f7c893df3da8da78b85217a3d4436a5a6936e84340f8adc2fdda5533)",
+   "stdout": "probe-044-stdout.json (sha256 a7d0114e5a39c8092e28105210c56f6820c2746f37c4708692ffbd7870e248bf)"
+  },
+  "raw1_disposition": {
+   "call": "Bash call_82fe54013b334298b31299b1 (review-001 REVIEW-PROBES.py r1)",
+   "observed_failure": "AttributeError: module 'quota042' has no attribute 'Boundary'",
+   "cause": "reviewer-harness defect: review-001/REVIEW-PROBES.py:35 calls q4.Boundary on the wrapper module; Boundary exists only on quota042.core (statically confirmed this review: hasattr(quota042,'Boundary')==False, hasattr(quota042.core,'Boundary')==True)",
+   "product_defect": false,
+   "old_script_rerun": false,
+   "old_script_preservation": "review-001/REVIEW-PROBES.py unchanged; its further documented defects (context reuse after negative, truncated diagnostics, non-asserted outcomes, source-text counting) were corrected by design in the 044 script, not by editing the old file"
+  },
+  "reviewer_side_failures_preserved": [
+   "probe-044-stdout/stderr.attempt1.txt: all probes executed, final CHECKS.json serialization crashed on bytes values (TypeError)",
+   "probe-044-stdout/stderr.attempt2.txt: patch heredoc pattern miss left the script unpatched; identical serialization crash"
+  ]
+ },
+ "unresolved_coverage": [
+  "QUOTA042_ALIAS_IDENTITY_MISMATCH: inspection-only; requires an existing non-reparse ancestor whose ordinary and extended native identities diverge, not producible on NTFS (reparse ancestors already fail earlier with QUOTA042_REPARSE_OR_HARDLINK); the positive identity-equality direction is executed in P1/P2",
+  "formal064 and binding005: NOT_RUN; their one-use grants are untouched by this review",
+  "043 transport interruption (CLI UNKNOWN_INTERRUPTED, no terminal): preserved as-is, no terminal manufactured; superseded by this Author044 completion review"
+ ],
+ "constraints_honored": {
+  "formal_launches": 0,
+  "runtime002_launches": 0,
+  "no_env_credentials_config_or_model_change": true,
+  "no_sdk_network_services_or_broker": true,
+  "trading": false,
+  "observer": "hold",
+  "broker": "NOT_RUN",
+  "real_send_cancel": "0/0",
+  "principal_files_budget": "3 files, well under 98304 bytes total"
+ },
+ "evidence_root": "C:/AKN8C071/q063/checks042/review-044-001"
+}

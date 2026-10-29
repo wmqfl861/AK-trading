@@ -1,0 +1,14 @@
+**Verdict published: PASS — unconditional, quota TOOLING domain only** (no product PASS issued). The quota042 review is complete under Author044, with `VERDICT.json` and `CHECKS.json` at `C:/AKN8C071/q063/checks042/review-044-001/` (3 principal files, 20,550 bytes total, well under the 98,304 budget; both JSON files machine-validated).
+
+**Raw1 disposition (the failed Bash call_82fe54013b334298b31299b1):** the actual cause was my own reviewer-harness defect, not a product defect. The preserved old script `review-001/REVIEW-PROBES.py:35` calls `q4.Boundary` on the wrapper module, but `Boundary` exists only on `quota042.core` after `bind()` — statically re-confirmed this review (`hasattr(quota042,'Boundary')==False`, `hasattr(quota042.core,'Boundary')==True`). The old defective script was preserved unrun, per the work order.
+
+**What was reused (immutable, not re-run):** the required probe (`review-001/probe-stdout.json`, CHECKS_PASSED, pinned sha e86b2e90…) and the actual-byte preflight (`f064/ACTUAL-PREFLIGHT-RESULT-001.json`, PASS 0.141s, request 5880c40f…).
+
+**What was newly executed:** a corrected `REVIEW-PROBES.py` using `quota042.bind(production=False)` and a fresh `Boundary` per case — 12/12 exact on its final attempt (native exit 0):
+- **Alias positives** through the real `Boundary.write_bytes` guard: extended `\\?\` overwrite hits the same physical file with equal native identity, same partition object, and gross non-refunded charging (4,352 bytes and +1 entry per overwrite; prospective file = 1 physical file but 2 charged entry units).
+- **Negatives with exact codes:** `QUOTA_CANONICAL_ESCAPE`; `QUOTA042_UNSUPPORTED_NAMESPACE` ×4 (`\\.\NUL`, `\\.\PhysicalDrive0`, `\\?\GLOBALROOT`, `\??\`) all rejected inside `lexical` before any `CreateFileW` — no device was ever opened; reparse and hardlink rejected under both spellings (`QUOTA042_REPARSE_OR_HARDLINK`/`QUOTA_REPARSE_PATH`, `QUOTA_HARDLINK_PATH`) with effect checks confirming no outside file and unchanged source content.
+- **`primary_failure` exact mapping** (REQUIRED_POPULATION_OUTPUT_ABSENT, child exit 73 retained, result_present False, acceptance False).
+
+My own two intermediate failures (JSON serialization crash after all probes had executed; a patch heredoc miss) are preserved as `.attempt1/.attempt2` raw files rather than relabeled.
+
+**Unresolved coverage, disclosed:** `QUOTA042_ALIAS_IDENTITY_MISMATCH` is inspection-only (needs a non-reparse ancestor with divergent ordinary/extended identity, not producible on NTFS; the identity-equality positive direction is executed); formal064/binding005 remain NOT_RUN with grants untouched; the 043 transport interruption stays as-is with no manufactured terminal. Constraints honored: zero formal launches, no credentials/config/model changes, trading false, observer hold, broker NOT_RUN, send/cancel 0/0. Memory index and topic file updated.

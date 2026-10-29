@@ -1,0 +1,38 @@
+{
+ "schema": "aktr-instrumentation021-review-verdict/v1",
+ "review_id": "t7-instrumentation021-hard-review-001",
+ "reviewer": "independent ZCode GLM-5.3/max session sess_7229454f-0586-4611-a73b-1b9a4ee0ce23 (same reviewer as accepted 019 tooling review)",
+ "date": "2026-10-29",
+ "verdict": "PASS",
+ "conditional": false,
+ "verdict_class": "TOOLING PASS — frozen helper delta 020/021 only (progress codec, supervisor closure contract, phased controls); no product runtime; product acceptance NOT_GRANTED",
+ "reviewed_unit": {
+  "progress_extension.py": "4dacf2d8ffe73d5aaef994dcd7a7107cf8983f73561a57a509cf4f31ab2ffba5",
+  "observe.py": "ecb41245ba219cc0cc5681ccadcba4f17563da505cbc36ef8781f7316362aca4 (byte-identical to accepted 019)",
+  "supervise.py": "292e6d233c1ee7568adafe84614f1782beb0d2268fa260898d1a37a4df581577",
+  "tiny_controls.py": "81546eb481ab3a97cf0089004be0983a7a85d416281023eb8f18ebceecf4e042",
+  "authority": "astra-t7-codec-completion-021/AUTHOR-DISPOSITION.md b6e85c0c... on astra-t7-instrumentation-capacity-020 (codec contract) and astra-t7-payoff-timeout-019",
+  "accepted_guard": "job_guarded2.py 56e79f07... pinned by the harness and exercised in reviewer scratch runs"
+ },
+ "required_independent_results": {
+  "scratch_replay_of_pinned_review_commands": {
+   "measurement": "exit 0, whole 36.797s within 75s ceiling, fresh admission vs CAPACITY-222 (50024d0a...), guarded child job readback 536870912",
+   "closure1": "exit 0, whole 2.281s within 35s; helper 97 / supervisor 97; decoder_failure fatal_or_noncontinuous_stream with fatal reason ProgressCodecError (runtime quota fatal through the real _p_emit/Encoder(512) path); job 536870912, pids final 0, sealed, inputs unchanged",
+   "closure2": "exit 0, whole 2.687s within 35s; helper 0 / supervisor 97; decoder_failure ProgressCodecError:forward_or_invalid_reference; job 536870912, pids final 0, sealed, inputs unchanged",
+   "exact_reproduction": "ALL 32 deterministic values of MEASUREMENT-RESULT-001 identical to the owner's frozen record: real715 (715 records, canonical logical bytes 1653053, logical/reconstructed sha 103a718a..., encoded 147894B/4f10a845..., dictionary 298 entries/45643B), synthetic13200 (2641 samples, 13257 logical events, encoded 1877023B/456fc285..., remaining-after-reserve 219105B), unique_growth (2728 accepted, rejected dictionary_entries, atomic)"
+  },
+  "independent_counterexample_probes": "19/19 pass (work/review-probes.stdout.txt, exit 0): forward-reference, version, envelope-shape, definition-order, reference-kind and duplicate-shape-field rejections; counter remove-missing and non-permutation-order rejections; logical oversize; rejection atomicity (encoder state unchanged); dictionary-bytes bound; exact round-trip incl. null-vs-missing, field order, repeated events separate, float exactness; legacy dict line parsing; decoder total quota; supervisor summarize integration (counts/fatal/stats/dictionary fields). Earlier probe failures were reviewer-side envelope-construction bugs (wrong id space, bracket nesting, literal-vs-id), preserved in run history; the codec rejected every malformed input with a precise reason throughout."
+ },
+ "delta_findings": {
+  "codec": "Versioned [1, definitions, shape, values] envelope; exact-value-equality interning (kind+canonical bytes, not hashes); definitions precede references per record; bounded dictionaries (8192 entries / 512KiB bytes) with fail-closed ProgressCodecError -> fatal 97; logical and encoded 16KiB record caps; 2MiB total with 1024B reserve enforced in encoded bytes; counters delta encoding reconstructs full dictionaries with order preservation; legacy dict lines still decode (closed 019 evidence)",
+  "supervisor": "summarize uses the new decoder with bounded summary dictionaries (8 fatal / 64 stages / 16 stats); exit contract 124-timeout / child-code-nonzero / 97-decoder-failure / 0 verified by both closure controls",
+  "controls": "phases separate measurement from closures; closures structurally require the persisted measurement (persistence-before-later-controls); per-stage JSONs published exclusive with round-trip; scoped-successful-prefix reuse from the overall raw1 020 run is honestly labeled, never a completed-suite PASS"
+ },
+ "reuse_as_authorized": "Accepted 019 controls carry over for the byte-identical wrapper/plugin/sampling runtime logic (_p_wrap semantics, phase hooks, 5s/48-frame, stall stop); codec-specific behavior fully re-probed here; frozen owner stage evidence read only, never replayed on owner output paths; reviewer replay used its own scratch (C:/AKWorktrees/bt21r001) per freeze.review_commands with the placeholder replaced",
+ "scoped_limitations": [
+  "synthetic13200 is a SYNTHETIC measured-rate capacity extension of the closed 715 stream - explicitly not a future-rate or product-completion proof (as labeled in the measurement itself)",
+  "no product runtime, no matched observation or full invocation consumed; product acceptance remains NOT_GRANTED; the old 020 raw1 and 600s-UNKNOWN ledger preserved",
+  "observe.py launcher-context pin (3cbcbe5f...) accepted as in 019; not executed against a live candidate by this reviewer"
+ ],
+ "safety": {"enable_trading": false, "observer": "hold", "broker": "NOT_RUN", "real_send_cancel": "0/0", "credentials_env": "not read", "network": "none", "config_changes": 0, "owned_source_edits": 0}
+}
