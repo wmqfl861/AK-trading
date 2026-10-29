@@ -641,3 +641,25 @@ Trading stays `enable_trading=False`, observer=`hold`, broker=`NOT_RUN`, real se
 磁盘整理已执行官方 `pnpm store prune --store-dir D:\.pnpm-store`，raw0，删除297个可重建缓存文件、5个未引用包。对关闭的历史文本产物执行NTFS无损压缩，逐文件核对内容SHA、字节数、文件身份、mtime和链接数不变；没有删除源码、行情或审核原件。回收的观测值会受其他活动写入影响，不能代替每次运行前的新鲜空间检查；没有抵扣历史账本费用。清理详情见[磁盘记录](DISK-MAINTENANCE-20261029.md)。
 
 本次只发布状态和已取得的精确审核报告；四个产品模块仍未全部最终PASS。Forward003已关闭且无新CLOSED行情，未新增SDK/凭据/网络采集。`enable_trading=False`、`observer=hold`、`broker=NOT_RUN`、真实send/cancel=0/0。
+
+
+## 2026-10-29 12:25 UTC — 磁盘恢复运行余量，实际验证与剩余修复
+
+磁盘整理继续保留全部数据内容。对14份已关闭数据文件和48份九月历史CSV做NTFS无损压缩，两个操作原始退出码均0；62份文件的SHA-256、字节数、文件身份、mtime和链接数全部不变。两次窗口观测可用空间分别增加258,723,840及1,351,958,528字节，含并发写入影响，不能当作独占释放量。CAP223恢复N8完整512MiB D预留后，D底线余量仍1,106,178,048字节；后续继续启动前即时检查。未删除行情、源码、审核原件或修改凭据。
+
+| 模块 | 本次独立结果及实际运行 | 当前状态 |
+| --- | --- | --- |
+| T7 | r13受影响M5三节点 **3/3 passed，raw0/Job0**。020/021日志helper独立 **无条件TOOLING PASS**：三阶段在审核者新scratch复跑各raw0，32个确定性测量完全重现，19/19独立反例通过；CLI0/监督0/Job0，124.630工具秒。 | 原Sol已立即接回现有900秒变化后观察及条件式完整运行，完整T7产品仍未PASS。 |
+| M5 | 原reviewer072对r8给出 **无条件TOOLING PASS**，CLI0/监督0/Job0，156.188秒；保留未执行的六项历史建议，未因这些建议追加验收门槛。随后generation001真实运行 **raw1/COMPLETE_FAIL**，15.781秒/Job0，无资源中止。 | 首因是实际validator入口将Windows解释器反斜杠拼写与同一解释器的正斜杠模板严格比较；失败在产品导入前。原Astra037已发布窄范围修复补充，原Sol已立即实施r9实际入口回归；旧001已消费，新002须修复独立接受后再运行。 |
+| N8 | 原quota042审核完成 **无条件TOOLING PASS**，CLI0/监督0/Job0，60.125工具秒；成功probe及实际字节preflight按原pins复用。formal064随后真实运行 **raw1/FAIL**，8.594秒/512MiB Job0。 | precheck015子进程raw73，首因REFERENCE_AUTHORITY_OR_FREEZE，缺人口结果为后继症状；已真实发布FAIL/FINDINGS。原Sol已确认request错误覆盖effective_authority，candidate仍要求原author060；原Astra045正澄清后继绑定修复。formal064/precheck015已消费，binding005未运行。 |
+| DISPATCH | quota039最小ADMIN常量及绑定修复已冻结，旧19+7检查和254.906秒成功preparation保留。Root八部分真实关闭记录通过既有准入函数。 | 同一独立reviewer038已给无条件TOOLING PASS，CLI0/监督0/Job0、80.094工具秒、27/27pins未变。原Sol正核对runtime入口对039新guard的实际选择，context007/actual007/seal007未消费。 |
+
+原始独立报告：[M5 r8](m5-r8-review/REVIEW.md)、[T7 helper](t7-instrumentation021-review/REVIEW.md)、[N8 quota042](n8-quota042-review/REVIEW.md)。均只接受各自工具范围，不接受整个产品。M5/N8正式失败与此前工具PASS分别保留；不把入口前失败退回为未消费，也没有自动重跑。
+
+审核者自行构造反例的中间失败和修正保留。T7新scratch实际位于C:/AKWorktrees/bt21r001，与原owner目录分离；原owner文件未修改。Root本轮两次误读可选不存在目录/文件被PowerShell后续成功命令掩盖了总退出码，另一次读取并不存在的author RESULT.json产生真实raw1；这些都是协调读取错误、没有后继运行信用。后续读取从实际目录/REQUEST取得文件名并先区分必需输入和可选产物，不能把无输出或总exit0当作成功读取。
+
+当前仍只完成已计划/已开始的授权任务，当前用户提供的Sol/max开发、Astra计划澄清、独立ZCode硬审分工有效。交易false、observer hold、broker NOT_RUN、真实send/cancel0/0。本批尚未结束，不宣称四个产品都已硬审通过。
+
+发布与续接（2026-10-29T12:57:42.277615+00:00）：磁盘记录及四份独立工具审核报告已提交 `7de5c52`，`git push origin main` raw0，目标为 `wmqfl861/AK-trading`。首次 commit 因缺少本机 Git author identity 返回 raw128；后续从本项目既有提交 ed2913b 的公开作者信息派生单命令 `git -c user.name=... -c user.email=... commit`，raw0，未修改全局配置。原失败保留。
+
+T7 已完成唯一900秒观察：预设deadline触发raw1，pytest未完成；Job已闭合、259输入不变。相同outer1030段duration扫描26780→2060（13倍去重），28任务/106候选fit群体相同；这不是全程耗时推算。观察说明收尾的35.888秒超额已保留。依原条件启动唯一完整24项验证，真实START 2026-10-29T12:48:53.991618Z，运行中，尚无产品PASS。M5原owner正在037允许的r10追加修复，r9检查器trace逐行Path.resolve导致20秒timeout及证据捕获缺口保留，generation002未运行。N8原045补充已生效，原Sol修复authority及条件准入companion；064失败不重试。DISPATCH原040补充已生效，按真实父/子入口统一guard，物化最小后继并做受影响独立复审后继续原007。均为现有故障修复，无新产品批次。
