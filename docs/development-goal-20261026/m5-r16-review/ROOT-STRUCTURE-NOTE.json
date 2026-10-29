@@ -1,0 +1,17 @@
+{
+ "schema": "aktr-m5-077-report-structure-note/v1",
+ "report": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-077\\OWNER-REPORT.md",
+  "bytes": 10013,
+  "sha256": "eaa7a63708c19c024cf6c8b4f1fdd14662c6dd74936f236291e1495f4f2a48a8"
+ },
+ "syntactically_valid_JSON": true,
+ "duplicate_keys": [
+  "id",
+  "status",
+  "severity",
+  "evidence"
+ ],
+ "whole_verdict": "FAIL",
+ "disposition": "Original report remains immutable. Text contains both F1 and F2; ordinary JSON parsers overwrite duplicated finding fields. Root preserves both findings from original text; no new or changed verdict, no format-only review replay. Correct structure with next already-required changed-scope review."
+}

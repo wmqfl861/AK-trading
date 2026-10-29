@@ -705,3 +705,23 @@ T7 已完成唯一900秒观察：预设deadline触发raw1，pytest未完成；Jo
 执行经验：生成输出必须先从冻结argv派生父目录并验证/创建，再启动独占写入；输出缺失不是可以Read的输入。工具yield不是deadline；byte002真实15work/5closure，formal066真实630上限。controls必须包含目录、每项最低分配和临时写入，不能只算payload字节；报告文字不能覆盖实际计数。hardlink反例应使用专属污染fixture，后续普通用例不可再重写它；生产guard保持有效。
 
 按最新用户直接AGENTS，原生Sol/max继续实施，原Astra只处置已有计划缺口，原独立ZCode负责审核。未修改规则文件或模型配置，未读凭据/.env，未连接真实broker。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。本批尚未全部产品硬审通过。
+
+
+## 2026-10-29 19:20 UTC — N8 入口独立通过，M5 定位收尾缺陷，T7 保留完整构造
+
+磁盘整理已经完成，本轮没有进一步删除、压缩或移动历史资料。CAP251 即时观测的预留及底线外净余量为 RAM5,498,281,984、D275,300,352、C36,732,886,039 字节；此观测不替代以后每次启动检查。T7 已关闭运行的1.5GiB内存预留释放，保留512MiB作原作者现有故障澄清。仅推进当前四个模块，无新产品批次。
+
+| 模块 | 本轮实际结果 | 继续处理的事项 |
+| --- | --- | --- |
+| N8 | a050 已获原独立 ZCode 无条件 TOOLING_ONLY PASS：CLI0/监督0/Job0，375.219秒；独立实际6tests/15cases/0失败错误跳过，另6项反例通过，154pins不变。核心050首次focused raw73/捕获1保留；修正观察器专属chain_root后，changed-only focused002 raw0/9.688秒，obs34/37/38、写hardlink拒绝和失败创建计费通过。 | 原Sol完成最终冻结，立即交原quota reviewer审核；之后才运行原计划完整LOCAL107与条件formal067。正式066的FAIL不改，F02 FAIL/F01 OPEN-INSUFFICIENT/P ABSENT，runtime002未运行。 |
+| M5 | r16 owner与Root各38/38定向检查通过；Root raw0/16.094秒/512MiB/Job0。实际只读反例确认：pytest正常产生的current目录链接被census/capture拒绝。原ZCode077给 TOOLING_ONLY FAIL，CLI0/监督0/Job0，139.906秒、138pins不变。 | F1修复正常pytest链接与严格目录防护的冲突；F2仍缺完整冷运行写入占用上界，历史超时前缀不能充当该上界。原作者042已启动窄范围补充，原Sol等待有效处置。原Full100身份未启动，007及generation003成功证据不重跑。 |
+| T7 | 新L0完成；唯一pending stream实际1/1通过，raw0/225.218秒/512MiB/Job0，旧84成功项未重跑。population022真实截止：launcher/guard/product1，6001.499秒/2GiB/Job0。完整1030outer+34234inner=35264构造保存；248/368 reference实际相等，0已观察mismatch，剩120未验证。 | 未输出完整reference、最终工作计数和cache release，不能称全量PASS或inner fit通过。原作者023正在裁定如何只读复用SCALARS及已完成构造，完成剩余验证。原population已消费，不重启；conditional full尚未启动。 |
+| DISPATCH | 原作者043允许将重复genuine前置并入未消费的同次完整proof。changed诊断真实native124/监督97、170.015秒/Job0，定位fresh observations及重复hash/路径处理成本。原Sol修复后27项SYNTHETIC受影响反例通过，raw0/21.281秒。 | 原600秒PRIVATE_CONTEXT_PROOF_AUTHOR042使用同一未消费身份和新冻结源继续，不复制grant。原生产context002/actual007/seal007仍未启动；随后按原要求独立审核。 |
+
+已发布原始报告：[N8 admission050](n8-admission050-review/REVIEW.md)、[M5 r16](m5-r16-review/REVIEW.md)，以及[T7实际停止交接](t7-population022/STOP-DISPOSITION.json)。所有工具PASS仅限其范围，不等同整个产品的硬审PASS。M5077原报告JSON语法有效，但同一finding对象存在重复键；保留原文本中的F1/F2和整体FAIL，普通JSON解析会覆盖其中字段，详见[结构说明](m5-r16-review/ROOT-STRUCTURE-NOTE.json)。不为格式问题单独重审，后续既定修复复审应输出无重复键结构。
+
+本轮实际命令：N8 `a050/checks/run_bounded_050.py 001` raw0，独立审核重跑`test_admission_050.py` raw0并自编反例；M5 `r16/checks_full100.py --scratch root041r16_once001`由冻结监督器包裹，raw0；T7原population-launch-001冻结调用在deadline关闭为1，stream原冻结单节点命令为0。每个完整argv、原始退出码和关闭捕获保留本地原记录。
+
+执行经验继续如实保留：Root一次提前读取尚未生成的TERMINAL产生raw1，随后检查存在性再读；一次把freeze的files列表误作字典，产生启动前raw1且没有子进程，新捕获尝试已通过。DISPATCH作者043的过宽可选发现出现access错误，native0/receiver1；后续精确读取支持完整作者处置，原错误不抹除。N8最终发布前静态预算检查阻止约21KiB超额，未写出不完整交付；只重分配已经核实未用的既有额度，不增加总池，不回收失败历史。
+
+继续遵守用户最新Sol/max实施、原Astra现有计划澄清、独立ZCode审核的分工。未修改规则或持久模型配置，未读取凭据/.env，未连接真实broker。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。四个产品尚未全部硬审通过，完成当前批后再停止。

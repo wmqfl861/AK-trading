@@ -1,0 +1,25 @@
+{
+ "schema": "independent050-tooling-review-verdict/v1",
+ "task": "aktr-zcode-n8-admission050-validation-20261029-001",
+ "reviewer": "auxiliary ZCode GLM-5.3/max, SID sess_565fc2bd-fc8e-4063-b071-5927e4b93a91, controls n8-admission050-validation-001",
+ "scope": "TOOLING_ONLY: frozen r1 closed_reservation_050.py + zcode_watchdog_050.py + checks, per AUTHOR050 §4 conditional companion",
+ "verdict": "PASS",
+ "unconditional": true,
+ "basis": {
+  "authority": "astra-n8-hardlink-fixture-050/AUTHOR-DISPOSITION.md 11090B 38cc4d8a...",
+  "freeze": "C:/AKN8C071/a050/checks/FREEZE-001.json (WRITE_STOP; owner suite was Root-run 6/15/0)",
+  "required_suite": "reviewer-owned 20s/512MiB wrapper ran test_admission_050.py exactly ONCE: native 0, 6 tests / 15 cases / 0 fail-error-skip, 7.01s, peak 47.5MB",
+  "gap_probes": "6/6 (baseline tuple+12-identity refresh; marker, model-selector, no-previous, spent-mismatch exact rejections; genuine 40s 002 deduction (110,80,30))",
+  "watchdog_diff": "5 changed lines, all 050-confined; AST Popen/wait/update equal; scan/tail unchanged"
+ },
+ "requirements_verified": {
+  "narrow_delta": "companion selects only the exact050 current tuple (hardlink-fixture050-001/-002); pinned047 machinery supplies historical admission with the sealed047 request and unchanged allowances; sealed predecessors can never be presented as current050",
+  "completed047048_prerequisites": "genuine 047 TERMINAL/RESULT/outer(k N8_QUOTA042_COMPLETION044, CLI0/outer0/Job0/unresolved0/65.988s) + dual independent verdicts PASS + root reception (pins, freezes 047/048 bound, clerical erratum preserved verbatim) + four closed streams + both 047 producers freshly queried with distinct classifications",
+  "common_pool": "cumulative tuple (65.988, 54.012, 95.988, 215.988) enforced; grant 150/120-spent/30 with 002 deduction computed from actual closed-001 outer seconds; missing/mismatched/non-terminal 001 rejected; no reset",
+  "scan_and_final_identity": "complete sibling scan unchanged (third writer blocks, 2 closed reservations); final admission rereads the current request once, re-queries all twelve bound producer identities and refreshes native DB identity/ancestors"
+ },
+ "not_established": ["Root actual 050 records (custody047048-001, REVIEW-CONTRACT-050, FORMAL067-HANDOFF) FUTURE_NOT_RUN — future outputs, not missing inputs", "unobserved external writers UNKNOWN_OUTSIDE_ROOT_CONTROL"],
+ "product_PASS": false,
+ "formal067": "NOT_RUN",
+ "safety": "false/hold/broker+runtime002NOT_RUN/sendcancel0/0"
+}

@@ -1,0 +1,472 @@
+{
+  "all_r14_frozen_files_verified": 323,
+  "authority": {
+    "bytes": 14306,
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-t7-prefix-reference-022\\AUTHOR-DISPOSITION.md",
+    "sha256": "6d9fabd95c585a317691cba20666a652bb1a0d22c423428210fb15092e6ac02d"
+  },
+  "budget_and_controls": {
+    "component2400_ancillary_exact_remainder": "UNKNOWN; no remaining credit claimed",
+    "component_known_run_s": 898.3920585,
+    "conditional_full14400": "NOT_LAUNCHED; condition incomplete; no historical full grant restored",
+    "disposition_prospective_payload_cap_bytes": 49152,
+    "final_delivery300_writer_elapsed_s_before_serialization": 1.4679999999934807,
+    "implementation900_initial_and_ancillary_exact_remainder": "UNKNOWN; no invented exact remaining balance or cross-pool transfer",
+    "old_charges_UNKNOWN_failures_and_excesses": "PRESERVED",
+    "population6600_consumed_s": 6001.498877300066,
+    "population_control_precharge_bytes": 4194304,
+    "population_invocation_consumed": true,
+    "quota_terminal_write_counter": "NOT_CAPTURED_AT_FORCED_TERMINATION; no quota-PASS claim",
+    "retained_bytes_are_not_cumulative_write_charge": true,
+    "retained_closed_population_bytes": 2371136,
+    "retry_grant": false
+  },
+  "closed_evidence_refs": [
+    {
+      "bytes": 5496,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-launch-001\\CLOSED.json",
+      "sha256": "e05d233e6acdd8610272ccedf46bd6cb6fcc5dfdb36bc2d2f851e1f98c7c421e"
+    },
+    {
+      "bytes": 1120,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-001\\RESULT.json",
+      "sha256": "14f7c4b7a2f1d7cf6252ae7dfebf4a436e124c702a607322e956bb6c02cc0c7d"
+    },
+    {
+      "bytes": 200566,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\QUERIES.jsonl",
+      "sha256": "d25be324e1d0b558a56e1961347cb8b13d657b9b126aaa3daa78cff089f1f67e"
+    },
+    {
+      "bytes": 2143575,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\SCALARS.jsonl.gz",
+      "sha256": "5f5037fca945be6944c02128c243933d2fab2b6e6c640061722275a4c52c75ae"
+    },
+    {
+      "bytes": 1050,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\CONSTRUCTION.json",
+      "sha256": "9b49a4052cab63e55fde9fb3d7662422844e8ac08f7af52947f08a8518cb3c2d"
+    },
+    {
+      "bytes": 7229,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\stream-launch-001\\CLOSED.json",
+      "sha256": "98b1ebcb898ea07ed951811a7ba6a5fe0ee6aeb2abe5c8d6087710930ff65826"
+    },
+    {
+      "bytes": 10500,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\stream-launch-001\\REQUEST.json",
+      "sha256": "482cd491a49a076c1368a4423c01481aea9f684835645b32e3a3b611585a23b8"
+    }
+  ],
+  "four_source_test_files_unchanged": [
+    {
+      "r14": {
+        "bytes": 26745,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r14\\src\\ak_trading\\v2\\probability\\regimes.py",
+        "sha256": "08f927856fcdc622452947de11ae74753fe1ca67173d758d88cdf6f1191eb0fe"
+      },
+      "r15": {
+        "bytes": 26745,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r15\\src\\ak_trading\\v2\\probability\\regimes.py",
+        "sha256": "08f927856fcdc622452947de11ae74753fe1ca67173d758d88cdf6f1191eb0fe"
+      },
+      "relative_path": "src/ak_trading/v2/probability/regimes.py"
+    },
+    {
+      "r14": {
+        "bytes": 108457,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r14\\src\\ak_trading\\v2\\validation\\experiments.py",
+        "sha256": "cd89482e04202ebb11074c1aee699f7018cb32b5381b480d3eeaeb23bb517a32"
+      },
+      "r15": {
+        "bytes": 108457,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r15\\src\\ak_trading\\v2\\validation\\experiments.py",
+        "sha256": "cd89482e04202ebb11074c1aee699f7018cb32b5381b480d3eeaeb23bb517a32"
+      },
+      "relative_path": "src/ak_trading/v2/validation/experiments.py"
+    },
+    {
+      "r14": {
+        "bytes": 81884,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r14\\tests\\test_v2_m3a_models.py",
+        "sha256": "19d362da5021bfe29fd02b489b925e4056f52731d594a17cf6b07a5405037752"
+      },
+      "r15": {
+        "bytes": 81884,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r15\\tests\\test_v2_m3a_models.py",
+        "sha256": "19d362da5021bfe29fd02b489b925e4056f52731d594a17cf6b07a5405037752"
+      },
+      "relative_path": "tests/test_v2_m3a_models.py"
+    },
+    {
+      "r14": {
+        "bytes": 87420,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r14\\tests\\test_v2_m5_experiments.py",
+        "sha256": "3dc5e8f8236f16f417499d9a1fd861d5b89e36d09e16e60cf81058cc20986d67"
+      },
+      "r15": {
+        "bytes": 87420,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r15\\tests\\test_v2_m5_experiments.py",
+        "sha256": "3dc5e8f8236f16f417499d9a1fd861d5b89e36d09e16e60cf81058cc20986d67"
+      },
+      "relative_path": "tests/test_v2_m5_experiments.py"
+    }
+  ],
+  "minimal_question_for_original_author022": {
+    "acceptance_preserved": "All368 actual selected-position/cutoff/sample/hash/canonical/ID comparisons, original two legacy bridges, extraction/materialization/lifetime checks and existing full/downstream hard requirements remain. Author alone decides repair; no new acceptance relaxation.",
+    "decision_needed": "Determine whether the completed field-exact scalar capture is a compatible read-only input for completing the genuine remaining reference verification without repeating world/outer/snapshot construction, and define the exact caller/reference harness boundary and any new finite invocation authorization.",
+    "evidence_based_repair_point": "Only248/368 actual calls completed before deadline. At query225 candidate144.964s and oracle46.769s are much smaller than enclosing5545.050s; the remaining time is not exclusively attributed. Existing _fit_fold continues ordinary per-feature work between day references. No measurement establishes repeated inner fitting as the cause.",
+    "successful_reusable_inputs": [
+      {
+        "bytes": 2143575,
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\SCALARS.jsonl.gz",
+        "sha256": "5f5037fca945be6944c02128c243933d2fab2b6e6c640061722275a4c52c75ae"
+      },
+      {
+        "bytes": 1050,
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\CONSTRUCTION.json",
+        "sha256": "9b49a4052cab63e55fde9fb3d7662422844e8ac08f7af52947f08a8518cb3c2d"
+      },
+      {
+        "bytes": 4622,
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\CALLER-INPUTS.json",
+        "sha256": "c37cb802f1f75192fef052739dd4f1c03ce29a85662bcdccade354fbc0d4d438"
+      }
+    ]
+  },
+  "missing_generated_outputs_after_abort": [
+    "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\RESULT.json",
+    "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\REFERENCE-COMPLETE.json",
+    "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\POPULATION-QUOTA-001.json"
+  ],
+  "native_facts": {
+    "actual_Job": {
+      "flags": 8704,
+      "job_memory_limit": 2147483648
+    },
+    "enclosing_seal_s": 6001.494511299999,
+    "final_Job": 0,
+    "guard_enclosing_s": 6000.710949899978,
+    "guard_wrapper_exit": 1,
+    "inputs_unchanged": true,
+    "launcher_native_exit": 1,
+    "native1_semantic": "deadline NONPASS; not rg NO_MATCH and not product success",
+    "old_guard_and_product_pids_absent": [
+      201608,
+      197416
+    ],
+    "outer_printed_enclosing_s": 6001.498877300066,
+    "outer_timeout": false,
+    "product_exit": 1,
+    "raw_guard_exit": 1,
+    "sampled_peak_tree_RSS_bytes": 867545088,
+    "sealed_within_6600": true,
+    "session": 76774,
+    "supervisor_error": null,
+    "termination": "deadline"
+  },
+  "no_new_implementation_fit_test_or_retry_during_reconciliation": true,
+  "owner": "/root/sol_t7_payoff_recovery_20261028 native original Sol owner",
+  "population": {
+    "construction": {
+      "construction_s": 3453.044334199978,
+      "construction_work": {
+        "independent_scalar_capture_rows": 34234
+      },
+      "descriptor_construction_s": 4.3980545999947935,
+      "duration_counts": {
+        "1800": 855,
+        "300": 5135,
+        "3600": 427,
+        "60": 25679,
+        "86400": 427,
+        "900": 1711
+      },
+      "elapsed_s": 3679.2587960999226,
+      "eligible_occurrences": 26026,
+      "expected_day_queries": 367,
+      "expected_queries": 368,
+      "initial_training_distinct_slots": 22368,
+      "initial_training_occurrences": 22368,
+      "inner_constructor_snapshots": 34234,
+      "inner_store_snapshots": 34234,
+      "oracle_artifact": {
+        "bytes": 2143575,
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\population-work-001\\SCALARS.jsonl.gz",
+        "sha256": "5f5037fca945be6944c02128c243933d2fab2b6e6c640061722275a4c52c75ae"
+      },
+      "outer_constructor_snapshots": 1030,
+      "r13_observed_total": 35264,
+      "reconciled_total": 35264,
+      "reconciles_r13_total": true,
+      "scalar_capture_rows": 34234,
+      "status": "COMPLETE"
+    },
+    "input_label": "existing SYNTHETIC_UNIT/SCENARIO fixture; genuine unchanged433-session constructor path, not historical PIT",
+    "outer_preparation": {
+      "acceptance_credit": "NONE: existing genuine producer only prepares canonical cold-chain inputs",
+      "constructor_snapshots": 1030,
+      "outer_preparation_s": 210.57386639993638,
+      "provenance": {
+        "cal_days": [
+          305,
+          366
+        ],
+        "cal_minute_slots": [
+          2,
+          6,
+          10,
+          14,
+          18,
+          22
+        ],
+        "cal_samples": 433,
+        "calibration_end_nano": 102031626000000000000,
+        "evidence_rows": 24,
+        "fit_config": {
+          "calibration_end_nano": 102031626000000000000,
+          "feature_keys": [
+            "META:price_tick:v2.1.0"
+          ],
+          "inner_embargo_days": 1,
+          "inner_embargo_minutes": 60,
+          "inner_minimum_train_days": 10,
+          "inner_minimum_validation_days": 5,
+          "inner_split_fraction": 0.7,
+          "l2": 1.0,
+          "label_version": "path-label-v2.1.0",
+          "learning_rate": 0.01,
+          "max_iterations": 500,
+          "minimum_leaf_blocks": 10,
+          "model_valid_until_nano": 102037328400000000001,
+          "quantiles": [
+            0.05,
+            0.25,
+            0.5,
+            0.75,
+            0.95
+          ],
+          "seed": 7,
+          "temperature_candidates": [
+            0.5,
+            0.75,
+            1.0,
+            1.5,
+            2.0
+          ],
+          "training_end_nano": 102025923600000000000,
+          "tree_count": 50,
+          "tree_depth": 2,
+          "tree_learning_rate": 0.05,
+          "version": "forecast-fit-v2.1.0"
+        },
+        "kind": "REAL_FIT_FORECAST_MODELS_OUTER_STAND_IN",
+        "model_set_id": "forecast_model_set:415ba5bacbfe5cc1867e968cb6c19bc9b1cb688f033d55a04fb45b06d828f11f",
+        "reference_id": "regime_reference:cab343da7bf584a62fde4e20d20cf9d4859de4ca604e8e8a9452fe308fbf2b41",
+        "train_days": [
+          3,
+          300
+        ],
+        "train_minute_slots": [
+          12
+        ],
+        "train_samples": 578,
+        "training_end_nano": 102025923600000000000,
+        "valid_evidence_rows": 6,
+        "valid_until_nano": 102037328400000000001
+      },
+      "status": "COMPLETE"
+    },
+    "queries": {
+      "all_observed_equal": {
+        "canonical_bytes_equal": true,
+        "membership_equal": true,
+        "sample_tuples_equal": true,
+        "source_hashes_equal": true
+      },
+      "candidate_s_sum_all_completed": 180.8365651005879,
+      "combined_legacy_bridge_s": 0.021302100038155913,
+      "complete_materialization_and_expansion_counter_proof": "NOT_CAPTURED; terminal proof not produced",
+      "complete_population_equivalence": false,
+      "completed": 248,
+      "continuous_indices": true,
+      "day_queries": 247,
+      "expected": 368,
+      "fold_cache_release_after_last_query": "NOT_OBSERVED: forced deadline before final query",
+      "initial_queries": 1,
+      "last_completed": {
+        "available": 102021258000000000000,
+        "cache_rows": 22368,
+        "candidate_s": 1.8225627000210807,
+        "canonical_bytes": 337152,
+        "canonical_bytes_equal": true,
+        "canonical_sha256": "9b1d0e4c8a4409e03f1c3efbf1109764102be0f432501061c8fcc655f887e552",
+        "content_hash": "085795faaead921240d193ae1597ec3cb80abc8851311499e7568ddcc4b86f8a",
+        "end": 102021258000000000000,
+        "kind": "day",
+        "legacy_bridge": false,
+        "legacy_bridge_s": 0.0,
+        "membership_equal": true,
+        "membership_sha256": "946f47debd54fa4869d89e6e2a3fae3ffba6e66598dfb06655a08d9c2b264efd",
+        "query_index": 247,
+        "reference_id": "regime_reference:085795faaead921240d193ae1597ec3cb80abc8851311499e7568ddcc4b86f8a",
+        "sample_tuples_equal": true,
+        "selected_occurrences": 14987,
+        "source_hashes_equal": true,
+        "successful_extractions_so_far": 22368,
+        "trading_day": "2024-09-04"
+      },
+      "legacy_bridges": [
+        {
+          "elapsed_s": 0.0016377000138163567,
+          "query_index": 2,
+          "selected_occurrences": 60
+        },
+        {
+          "elapsed_s": 0.019664400024339557,
+          "query_index": 3,
+          "selected_occurrences": 120
+        }
+      ],
+      "observed_max_cache_rows": 22368,
+      "observed_max_successful_extractions": 22368,
+      "observed_mismatches": [],
+      "unverified": 120
+    },
+    "world": {
+      "bars": 26413,
+      "sessions": 433,
+      "status": "COMPLETE",
+      "synthetic": true,
+      "world_s": 1.4041141999186948
+    }
+  },
+  "recorded_utc": "2026-10-29T19:09:58.075586+00:00",
+  "required_verification": {
+    "bindings": {
+      "B_F": {
+        "bytes": 2075,
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-b-successor-20261028-001\\r14-bind022-001\\F-022-001.json",
+        "sha256": "5385f53d86e9971027dfbd411e227992fd00250fe274ee9a9d80134e4ae49991"
+      },
+      "B_freeze": {
+        "bytes": 23684,
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-b-successor-20261028-001\\r14-bind022-001\\SOURCE-FREEZE-B-022-001.json",
+        "sha256": "a3c6bd87b1e9d38c635b2db02bcd3d43e6a5bdb684942e93f254962146d5c721"
+      },
+      "L0": {
+        "bytes": 55555,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r15\\data\\maintenance_artifacts\\v2-ep1-t7-lock-20260917-r1\\contract-lock.ep1-r1.candidate-r1.json",
+        "sha256": "e2ebe0ca17f20f5883e0f190fb0497432e5fc157cbed0c13b122a432b64bb7e6"
+      },
+      "R0_handoff": {
+        "bytes": 2729,
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\t7-r0-review-013\\R0-HANDOFF.json",
+        "sha256": "b91486cb50abc5a04654f14647c602cd65db3a2831746afeb1b994a44036c16d"
+      },
+      "actual_R0_report": {
+        "bytes": 5305,
+        "path": "C:\\AKWorktrees\\aktr-goal-t7regime-20261029-r15\\data\\maintenance_artifacts\\v2-ep1-t7-review-r1\\R0-REPORT.md",
+        "sha256": "9ff7b99f8dc284bcd687573f92cfac511811f9439664fa44aae80c9ac1e167c4"
+      }
+    },
+    "components_original": "85selected/84PASS+1oldbindingFAIL; raw1 preserved",
+    "coverage_disposition": "All originally required affected nodes covered across preserved84 successes and the single r15 stream PASS; no claim of one85-pass invocation. No successful component replay.",
+    "independent_product_hard_review": "PENDING; no owner-issued product PASS",
+    "pending_stream": {
+      "actual_Job_bytes": 536870912,
+      "closed": {
+        "bytes": 7229,
+        "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\stream-launch-001\\CLOSED.json",
+        "sha256": "98b1ebcb898ea07ed951811a7ba6a5fe0ee6aeb2abe5c8d6087710930ff65826"
+      },
+      "enclosing_capture_s": 225.875,
+      "errors": 0,
+      "failed": 0,
+      "final_Job": 0,
+      "native_guard_exit": 0,
+      "passed": 1,
+      "ran": 1,
+      "selected": 1
+    },
+    "small_regressions": "6 selected/6PASS retained",
+    "unchanged_evidence_reuse": {
+      "bytes": 25865,
+      "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\UNCHANGED-EVIDENCE-REUSE-001.json",
+      "sha256": "cad3330f9df51edeba4dcbfb02dc11fb4aaca4c741dec0d1daabee990c0ad5db"
+    }
+  },
+  "safety": "enable_trading=False / hold / broker NOT_RUN / real send-cancel0/0",
+  "schema": "aktr-author022-population-terminal-owner-disposition/v1",
+  "source_freeze": {
+    "bytes": 124669,
+    "path": "C:\\AKWorktrees\\aktr-goal-20261026\\sol-t7-payoff-recovery-20261028-001\\prefix-repair-022-r1\\SOURCE-FREEZE-r14-001.json",
+    "sha256": "a41ac16d8c8d8d69edfb29e7d97dc416c4086c43b0fe0d9288a1763eca39abe3"
+  },
+  "source_write_set_after_freeze": [],
+  "status": "NONPASS_INCOMPLETE_POPULATION; WRITE_STOP; original author022 clarification required",
+  "timing_at_last_common_checkpoint": {
+    "actual_checkpoint": {
+      "candidate_s": 144.96425620047376,
+      "elapsed_s": 5545.049893799936,
+      "expected": 368,
+      "oracle_s": 46.76854690024629,
+      "query": 225,
+      "selected": 13584,
+      "stage": "reference-query"
+    },
+    "candidate_reference_s_through_same_checkpoint": 144.96425620047376,
+    "inner_snapshot_construction_s": 3453.044334199978,
+    "legacy_bridge_s": 0.021302100038155913,
+    "numerical_fit_credit": {
+      "inner_fit_core": "NOT_REACHED before last required query; no completed inner fit or payoff fit",
+      "outer": "real producer fit ran once for input preparation; no T7 acceptance credit",
+      "repeated_caller_fit": "NOT_ESTABLISHED by current measurements"
+    },
+    "oracle_s_through_all248": "NOT_CAPTURED; latest oracle checkpoint is query225",
+    "outer_real_producer_including_its_actual_fit_s": 210.57386639993638,
+    "query_descriptor_construction_s": 4.3980545999947935,
+    "residual_scope": "Arithmetic residual at same query checkpoint. Includes ordinary real _fit_fold work between reference calls, harness canonical encoding/comparison/hash work, setup and other untimed work. It is not a measured exclusive caller-fit duration.",
+    "scalar_oracle_s_through_same_checkpoint": 46.76854690024629,
+    "source_call_locations": [
+      {
+        "line": 884,
+        "name": "_fit_regime_reference_from_view"
+      },
+      {
+        "line": 972,
+        "name": "_fit_forecast_models_from_views"
+      },
+      {
+        "line": 999,
+        "name": "assess_regime"
+      },
+      {
+        "line": 920,
+        "name": "assess_regime"
+      },
+      {
+        "line": 923,
+        "name": "assess_regime"
+      },
+      {
+        "line": 999,
+        "name": "freeze_range"
+      },
+      {
+        "line": 899,
+        "name": "_fit_regime_reference_from_view"
+      },
+      {
+        "line": 920,
+        "name": "freeze_range"
+      },
+      {
+        "line": 923,
+        "name": "freeze_range"
+      }
+    ],
+    "unattributed_enclosing_residual_s": 1683.8754191993503,
+    "world_s": 1.4041141999186948
+  }
+}

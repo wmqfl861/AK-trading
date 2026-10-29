@@ -1,0 +1,42 @@
+{
+ "schema": "aktr-closed-review-reception/v1",
+ "terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-admission050-validation-001\\TERMINAL.json",
+  "bytes": 337,
+  "sha256": "542e1c56bfc3e2587e0432c9bae65bb056e82c39a017dc0e260e9c82657c46cd"
+ },
+ "outer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-admission050-validation-001\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+  "bytes": 1196,
+  "sha256": "76222f7c204767b8f93ba4ae143e5069f3635895d86b94ca3c5ec0e36b7c9bca"
+ },
+ "report": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-admission050-validation-001\\OWNER-REPORT.md",
+  "bytes": 3017,
+  "sha256": "52ffdabfc9513d765930a6fbff59a30c5f4c7d65a02b3ae86ac67ed3e7f2de27"
+ },
+ "native_exit": 0,
+ "supervisor_exit": 0,
+ "Job_active": 0,
+ "whole_seconds": 375.219000000041,
+ "frozen_inputs_unchanged": true,
+ "product_PASS": false,
+ "verdict": "PASS_TOOLING_ONLY",
+ "verdict_ref": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-admission050-validation-001\\work\\VERDICT.json",
+  "bytes": 2531,
+  "sha256": "9515a27f5343683a92293b74e737a5bbd02842a5954be98a52e0db256269a5e1"
+ },
+ "checks_ref": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-admission050-validation-001\\work\\CHECKS.json",
+  "bytes": 3360,
+  "sha256": "75b209d880e70db4096bb5b3cd92d4f5e6aa4aa5781534421c8fa21222d88bf2"
+ },
+ "closed_controls_census": {
+  "charged_bound_current": 117231,
+  "entries": 22,
+  "ceiling": 393216,
+  "entry_ceiling": 64,
+  "deleted_gross": "reviewer reports single cleanrun nofailedfixture; historicalunchanged"
+ }
+}

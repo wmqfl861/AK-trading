@@ -1,0 +1,57 @@
+{
+ "actual_readonly_reproduction": {
+  "actual_links": [
+   {
+    "is_symlink": true,
+    "path": "D:/AKF261018/M5-PREPARED-CALENDAR-REVIEW-024-001/REV-6/evidence/runs/full100-024-review-001/temp/m5-real-componentscurrent",
+    "reparse_mask": 1024,
+    "st_file_attributes": 1040,
+    "target": "\\\\?\\D:\\AKF261018\\M5-PREPARED-CALENDAR-REVIEW-024-001\\REV-6\\evidence\\runs\\full100-024-review-001\\temp\\m5-real-components0"
+   },
+   {
+    "is_symlink": true,
+    "path": "D:/AKF261018/M5-PREPARED-CALENDAR-REVIEW-024-001/REV-6/evidence/runs/full100-024-review-001/temp/t7e1-runrootcurrent",
+    "reparse_mask": 1024,
+    "st_file_attributes": 1040,
+    "target": "\\\\?\\D:\\AKF261018\\M5-PREPARED-CALENDAR-REVIEW-024-001\\REV-6\\evidence\\runs\\full100-024-review-001\\temp\\t7e1-runroot0"
+   }
+  ],
+  "error": "OUTPUT_ACCOUNTING_REPARSE:D:/AKF261018/M5-PREPARED-CALENDAR-REVIEW-024-001/REV-6/evidence/runs/full100-024-review-001/temp/test_validation_failure_leavescurrent",
+  "error_type": "ControlError",
+  "input": "D:/AKF261018/M5-PREPARED-CALENDAR-REVIEW-024-001/REV-6/evidence/runs/full100-024-review-001/temp",
+  "native_harness_exit": 0,
+  "no_child_or_product_launched": true,
+  "observation": "REJECTED_NORMAL_PYTEST_GENERATED_SYMLINK",
+  "predicate": "actual frozen r16.output_census",
+  "predicate_returned_bytes": false,
+  "source": {
+   "bytes": 52497,
+   "path": "C:/AKM5C019/capacity005/runtime-route-031/r16/full100_supervision.py",
+   "sha256": "737248cfeb72abd99789714a85f6fb466227cd00aa8f65ca8195cc7ee4e77860"
+  }
+ },
+ "actual_writer": {
+  "definitions": {
+   "_force_symlink": {
+    "first_line": 204,
+    "source": "def _force_symlink(root: Path, target: str | PurePath, link_to: str | Path) -> None:\n    \"\"\"Helper to create the current symlink.\n\n    It's full of race conditions that are reasonably OK to ignore\n    for the context of best effort linking to the latest test run.\n\n    The presumption being that in case of much parallelism\n    the inaccuracy is going to be acceptable.\n    \"\"\"\n    current_symlink = root.joinpath(target)\n    try:\n        current_symlink.unlink()\n    except OSError:\n        pass\n    try:\n        current_symlink.symlink_to(link_to)\n    except Exception:\n        pass"
+   },
+   "make_numbered_dir": {
+    "first_line": 224,
+    "source": "def make_numbered_dir(root: Path, prefix: str, mode: int = 0o700) -> Path:\n    \"\"\"Create a directory with an increased number as suffix for the given prefix.\"\"\"\n    for i in range(10):\n        # try up to 10 times to create the directory\n        max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)\n        new_number = max_existing + 1\n        new_path = root.joinpath(f\"{prefix}{new_number}\")\n        try:\n            new_path.mkdir(mode=mode)\n        except Exception:\n            pass\n        else:\n            _force_symlink(root, prefix + \"current\", new_path)\n            return new_path\n    else:\n        raise OSError(\n            \"could not create numbered dir with prefix \"\n            f\"{prefix} in {root} after 10 tries\"\n        )"
+   }
+  },
+  "pin": {
+   "bytes": 37454,
+   "path": "D:/Programs/Python/Python312/Lib/site-packages/_pytest/pathlib.py",
+   "sha256": "c9fe77dccbf52afa1196ff92870ed919e09f254c082710a86ed417fd3ca90329"
+  }
+ },
+ "exact_input_origin": "retained prior Full100024 same seven tests and identical v2_ep1_t7_support",
+ "finding": "F1",
+ "product_test_execution": false,
+ "r16_not_changed": true,
+ "repair_recommendation_advisory": "Future reviewed control revision must account normal pytest current links without following out-of-lease/reparse data, duplicate bytes or disabling quota. Do not modify pinned product/tests or accepted historical evidence.",
+ "scope": "r16 Full100 runtime census rejects normal pytest current symlinks",
+ "severity": "BLOCKING_RUNTIME"
+}

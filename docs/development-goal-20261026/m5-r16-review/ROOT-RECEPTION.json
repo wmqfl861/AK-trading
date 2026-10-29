@@ -1,0 +1,28 @@
+{
+ "schema": "aktr-closed-review-reception/v1",
+ "terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-077\\TERMINAL.json",
+  "bytes": 337,
+  "sha256": "29b5d177e27520d9aa7b37414a310389425f48438ae5121f8cd30ce7bc18e984"
+ },
+ "outer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-077\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+  "bytes": 1264,
+  "sha256": "0f9c5f7f0379d84ecf51f30fd61af836dba9e037d09c0e0a82d0493edcded60f"
+ },
+ "report": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\m5-capacity-reference-005\\receipt-assess-077\\OWNER-REPORT.md",
+  "bytes": 10013,
+  "sha256": "eaa7a63708c19c024cf6c8b4f1fdd14662c6dd74936f236291e1495f4f2a48a8"
+ },
+ "native_exit": 0,
+ "supervisor_exit": 0,
+ "Job_active": 0,
+ "whole_seconds": 139.90600000007544,
+ "frozen_inputs_unchanged": true,
+ "product_PASS": false,
+ "verdict": "FAIL_TOOLING_ONLY",
+ "runtime": "HOLD_F1_REPARSE_AND_F2_UNSUPPORTED_SIZING",
+ "original_full100_declaration": "NOT_EXECUTED_BY_THIS_ORIGINAL_SESSION",
+ "report_json_parse": "VALID"
+}
