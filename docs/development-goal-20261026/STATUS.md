@@ -525,3 +525,24 @@ N8 已有107×2本地集成和readiness012证据保留。092在模型启动前�
 本轮Root接收错误原样保留：多行JSON前导误按逐行NDJSON解析（0c6023/raw1，写入前），源行范围未截到文件长度（0a4979/raw1），复制监督器后误改固定kind（6ebbed/raw1，测试启动0），以及069复制了068的临时capture路径，独占文件声明被拒（adapter/watchdog7、监督97，模型调用0）。后继采用完整JSON对象解码、按实际长度截断、保留已支持的scope标识并另记真实任务号，以及由新任务目录生成并检查每个瞬时日志路径。069失败保留；已授权070只在明确修正路径后调用。没有把原始失败改成成功。
 
 当前用户直接提供的职责保持：Astra/max负责原有计划澄清，原生Sol/max负责产品实现，独立ZCode负责产品硬审。Forward003已正常关闭但无新OPEN/CLOSED，仍为NO_FORWARD_BAR、strategy NOT_RUN、paper NOT_ACTIVATED；未重复登录、采集或传播凭据。交易false、observer hold、broker NOT_RUN、真实发送/撤单0/0。未新增产品计划，未宣称本批或项目完成。
+
+
+## 2026-10-29 — T7 数据修复落地，83 项验证通过，新 R0 已接受
+
+T7 原 Sol owner 按作者018修复 `visible_bars` 的会话查找：普通无重叠区间在单次调用内建索引并用二分查找，重叠和自定义值保留原有顺序语义。实际写集仅 `src/ak_trading/v2/data.py` 与 `tests/test_v2_m1_data.py`。旧3个测试保留，新增10个行为回归；其他323个输入及冻结r10均未改。
+
+必需命令经原离线启动器和实际2GiB保护运行完整三个文件 `tests/test_v2_m1_data.py tests/test_v2_m2_causality.py tests/test_v2_m4_causality.py`：83 passed、0 failed、0 skipped、0 errors，child/helper/outer 原始退出0/0/0，377.281秒，最终Job0。验证覆盖433会话、26,413 bars、全部1,030个train/calibration查询的完整记录、顺序和对象身份，以及4个代表性factor snapshot的完整canonical字节。该结果是开发验证，不是完整T7产品PASS。
+
+原B已在独占r12候选生成新F/DAILY，保留129/111成员、104项行为源码下限和原12份fixture字节；真实生成及两项manifest测试退出0，2 passed。原独立ZCode R0-review011正常完成：CLI0、监督0、Job0，88.933工具秒，230个输入pins前后不变，官方verifier、两项测试和审核者changed-input rejection完成，结论R0_FROZEN_INPUT_SCOPE_CHECK_OK。新报告实际5,097 bytes，SHA-256 `10d181fd789c913942361cbb19f1d4b2ebd097849242c16a103df71a987574d8`。这只接受F/DAILY输入；原M1已立即续接生成新L0，之后原开发者进行受影响的两项M5测试、一次变化后观察和满足条件后的完整24项payoff运行。
+
+M5原独立assessment063已对r22控制工具给出无条件CONTROLS_ONLY PASS，product_pass=false，依据真实43/43检查。正式007与generation001尚未执行。正式入口应区分外层r5-r1与内层r3两份companion，绑定实际当前容量；不能照抄交接文字中混合两种schema的例子。当前D盘完整运行预留不足，原作者只澄清现有存储与入口安排，不新增产品范围。
+
+N8 author038的窄范围接续工具已由独立ZCode重跑11组/49个SYNTHETIC样例，并完成11个新反例拒绝（另1项复用必需测试覆盖）；工具PASS、FINDINGS与完整哈希清单在截止前已经写出，14输入和10报告pins随后均匹配。模型调用在45.498工具秒被监督器按工作截止关闭：watchdog/监督130、Job0，CLI自身退出UNKNOWN，无TERMINAL，不能记录正常退出。按作者038只要求冻结独立工具PASS的条款接收该已写出结论，保留异常调用，不重跑测试、不伪造CLI0。原报告“stderr为空”实际为1,306字节成功unittest输出；一项审核者失败工具原始码为2；关于监督器与watchdog变更的混写也以实际源码和probe记录为准。审核记录超过其工作单子额度的历史事实保留，实际费用在作者038总上限内重新分配并据实追加正缺口，未删除证据。
+
+N8已按接受工具构造真实091关闭记录和092-transport002，仅记录新的prospective数据库文件身份，不补造历史身份。原N8 SID/store/cwd未换，092原来源写集未改，接续已真实启动。既有107×2集成和readiness012不重跑；正式063、runtime002和F02产品PASS仍未完成。
+
+DISPATCH现有029聚焦验证及构造准备保留，因恢复完整D1GiB后余量不足，尚未消费构造或007序列。原作者030只处理这一既有存储准入问题；其他互不干扰模块继续。
+
+Root本轮接收错误也保留：5c7b9c/raw1与9c08d6/raw1猜测SPEC路径，d0e54c/raw1把冻结清单的relative键误写为path；均发生在对应运行/发布前。后继从实际RESULT.spec取得路径、读取真实集合schema后完成准备。文件路径与字段必须来自现有记录，不再凭标题或同名文件推断。R0审核者的比较基线/脚本转义失败亦保留于原审核包，未改记成功。
+
+交易仍false、observer hold、broker NOT_RUN、真实send/cancel0/0。Forward003没有新OPEN/CLOSED，strategy NOT_RUN、paper NOT_ACTIVATED；未重新采集或写入任何凭据。当前所有未完成产品仍须独立硬审核；本次发布不声明完整项目完成。
