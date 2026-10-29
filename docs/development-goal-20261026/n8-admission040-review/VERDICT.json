@@ -1,0 +1,42 @@
+{
+  "schema": "independent040-admission-tooling-hardreview-verdict/v1",
+  "task": "aktr-zcode-n8-admission040-validation-20261029-001",
+  "reviewer": "independent auxiliary ZCode GLM-5.3/max, fresh session, no role in 040/041 implementation",
+  "scope": "frozen040 admission tooling (closed_reservation_040.py r1, zcode_watchdog_040.py r1, tests) + Root 041 outer supervisor derivation",
+  "verdict": "PASS",
+  "unconditional": true,
+  "suite_independent_rerun": {
+    "command": "D:/Programs/Python/Python312/python.exe -B -X utf8 C:/AKN8C071/a040/tests/run_bounded_040.py 041001",
+    "runs": 1,
+    "native_exit": 0,
+    "tests": 12,
+    "fixture_rows": 54,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "accept_rows": 3,
+    "block_rows": 51,
+    "wall_seconds": 2.191418100032024,
+    "memory_limit_bytes": 536870912,
+    "peak_job_memory_bytes": 36773888,
+    "stdout_bytes_equal_owner_run001": true,
+    "rows_equal_owner_run001": true,
+    "expected_harness_parse_diagnostic_retained": "INVALID_OR_MISSING_JSON from expected SYNTHETIC NO_LAUNCH prefix; closed suffix strictly validated"
+  },
+  "static_verification": "20/20 checks ok: frozen inputs + fixed pins unchanged pre/post; 041001 outputs absent before creation; helper PINNED_040==freeze fixed_pins; supervisor derivation exactly two literal substitutions, forward and reverse byte-exact, tokens occur exactly once; watchdog prefix/full-scan/launch-capture-tail byte-identical to accepted original, AST Popen/wait/update multiset identical, final_admission before Popen, helper pin literal present; legacy identity branch present verbatim; 038->040 helper first delta confined to exception function name",
+  "reviewer_counterexamples": {
+    "commands": 1,
+    "rows": 18,
+    "matched": 18,
+    "novel_rejections": ["040_GRANT_SESSION_STORE_CWD_MISMATCH (grant and current storage deltas)", "WRONG_040_OLD_SESSION_CWD", "WRONG_040_ACTUAL_038_OUTCOME (45.499)", "040_WRONG_SUCCESSOR_GRANT_BUDGET (stop 101)", "WRONG_040_TRANSPORT (mark absent)", "CLOSURE_REF_PIN_MISMATCH (authority039 bytes tampered)", "INVALID_OLD_PROCESS_IDENTITY (pid 0)", "MISSING_OR_INVALID_CURRENT_DB_IDENTITY (string identity)", "NATIVE_IDENTITY_PID_MISMATCH", "040_MISSING_CLOSED_STREAMS (extra ref)", "040_EXACT_RESERVATION_NOT_SCANNED", "UNBOUND_OR_DUPLICATE_CLOSED_RESERVATION"],
+    "positives": ["exact closure ACCEPT with exact amendment fields (HISTORICAL_DB_IDENTITY_NOT_RECORDED, CLI UNKNOWN, refund 0, credit false, prospective identity echo)", "legacy recorded-identity branch ACCEPT without historical key", "final_admission_040 re-queries exactly {178988,191608} once each after scan"]
+  },
+  "product_PASS": false,
+  "transport_launches": 0,
+  "model_product_launches": 0,
+  "DB_contents_read": false,
+  "processes_signalled": 0,
+  "frozen_edits": 0,
+  "safety": {"trading": false, "observer": "hold", "broker": "NOT_RUN", "send": 0, "cancel": 0},
+  "evidence_dir": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-admission040-validation-001\\work"
+}
