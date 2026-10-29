@@ -1,0 +1,45 @@
+{
+ "schema": "aktr-n8-047-048-combined-review-verdict/v1",
+ "task": "aktr-zcode-n8-quota066-entry-review-20261029-001",
+ "reviewer": "original independent quota reviewer sess_01d66719-8b1f-4620-b9b2-a130611ff58f (GLM-5.3/max)",
+ "date": "2026-10-29",
+ "verdicts": {
+  "author047_entry_allocation": "PASS",
+  "author048_reparse_fixture_composition": "PASS"
+ },
+ "verdict_class": "unconditional TOOLING per scope; neither is full N8 product PASS",
+ "basis_summary": "047: required suite once native0 (15.094s, peak 20201472B): 1024 real charged overwrites at one path with native identity; 4 opposites + 2 failed-creation + 5 invalid-policy rejections all exact with zero effects; strict actual gross 4600832B/1044 <= 4718592/1084 derived from the suite's own ledger; launcher-fit products byte-equal owner pins; entry arithmetic 2885+2598+2=5485 and 11069+8138=19207; freeze sources all pinned. Settlement SETTLED_FOR_048 with unspent 117760B/40 (exactly the conditional minimum). 048: focused proof once native0: canonical chain built; reparse alias yields the same object and hash (7760B/19c6f73e under both spellings, native identity); REFERENCE_REPARSE_REDIRECTION exact; separate writer rejected QUOTA_REPARSE_PATH with zero effects and un-poisoned boundary; corrected ledger 129024/24 within 137728/26; observation caller is static exact reverse-bytes AST + shared helper with the full battery NOT_RUN disclosed; template decodes to 20353B/37d3da80b... with the genuine066 REQUEST absent; continuation authority is exactly the 048 disposition; both r6/r7 caller selections present with entry048 final; 5 reviewer negatives all exact; both freezes fully rehashed (060/F11/ordered11/predicates/quota core/population r36/r73 unchanged).",
+ "evidence": {
+  "root047": "C:\\AKN8C071\\q063\\checks047\\review-001",
+  "root048": "C:\\AKN8C071\\q063\\checks048\\review-001",
+  "hashes": {
+   "FOCUSED-RESULT-001.json": "8c4d3a8d81576cb30af49613f49120c5b389b0be999893dc5076ac491b265ff9",
+   "PHASE2-SETTLEMENT.json": "f5df416b88af861e70bca5216a6464794b2447b79e38fbd1996c6ed08b6f287f",
+   "CHECKS.json": "65036aa06006f86f00a8d21c482a6fbd58dedf2795fa1599686fc4673df63fe0",
+   "suite-stdout.txt": "40c2840a3127941bfd2c3d4b64bcb4fed67aa2a75fa6b760680d174233c68562",
+   "proof-stdout.txt": "bc11e18d49ac973120e8199f11a2c6e0f48d20fa4f9eacaec4e29958dd489642",
+   "NEGATIVE-048-001.json": "405df1328a420ebcf1b66c42c783ea6a785cd5ed44339034bb6e5988296bc430",
+   "freeze047": "55841cd62bdf5d88b0b3c535e19480cbc09d3390a22df71dc8211cc6fb863014",
+   "freeze048": "50e6032f17e565ff0b168cbcf8338a7ea6d18c399e98e6c0a9157be1bc2da486"
+  }
+ },
+ "not_run_disclosed": [
+  "formal066/precheck-017/binding005 (Root only, untouched)",
+  "actual-byte verifier 066",
+  "semantic065 recheck",
+  "full107 battery",
+  "full observation battery (static reverse-bytes AST only, per frozen scope)"
+ ],
+ "constraints_honored": {
+  "formal_producers_started": 0,
+  "grants_consumed": 0,
+  "trading": false,
+  "observer": "hold",
+  "broker": "NOT_RUN",
+  "send_cancel": "0/0",
+  "F02": "FAIL",
+  "F01": "OPEN-INSUFFICIENT",
+  "P": "ABSENT"
+ },
+ "honesty": "reviewer harness defects (settlement true-literal, heredoc SyntaxErrors/truncation, three proof-label guesses) were each fixed without rerunning any one-use suite; all raw outputs preserved; gross never inferred from physical size"
+}

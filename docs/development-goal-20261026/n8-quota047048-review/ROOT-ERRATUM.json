@@ -1,0 +1,73 @@
+{
+ "schema": "aktr-root-independent047048-reception/v1",
+ "reviewer_final_report": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-quota066-entry-review-047-001\\OWNER-REPORT.md",
+  "bytes": 3489,
+  "sha256": "9ba13c037f1caa99230799576d7e9e70759063f9d07b8ebe476f8440b24b10b3"
+ },
+ "reviewer_verdict": {
+  "path": "C:\\AKN8C071\\q063\\checks047\\review-001\\VERDICT.json",
+  "bytes": 3350,
+  "sha256": "551a1e4c45dee86e6cae5c93c5a88f0c2f3a7706c06b8d73ee99ab9529742827"
+ },
+ "reviewer_checks": {
+  "path": "C:\\AKN8C071\\q063\\checks047\\review-001\\CHECKS.json",
+  "bytes": 3244,
+  "sha256": "65036aa06006f86f00a8d21c482a6fbd58dedf2795fa1599686fc4673df63fe0"
+ },
+ "request": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-quota066-entry-review-047-001\\REQUEST.json",
+  "bytes": 32706,
+  "sha256": "dd859cc8f5264b8fa0578f384ba64a0b0b9c92074cfce02c577c07a7bb624c8a"
+ },
+ "terminal": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-quota066-entry-review-047-001\\TERMINAL.json",
+  "bytes": 333,
+  "sha256": "0a906b32f4fdb2a25d6cae7b18cb0a45491fb70645984f582480b76475622088"
+ },
+ "outer": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\zcode-dispatch\\n8-quota066-entry-review-047-001\\ROOT-ENFORCEMENT-RUN-001\\RESULT.json",
+  "bytes": 5256,
+  "sha256": "af024b8ab7c8a59f78482b815f2b2feec201fedd8ed1c8568daf5c684de64a9f"
+ },
+ "independent_verdicts": {
+  "author047_entry_allocation": "PASS",
+  "author048_reparse_fixture_composition": "PASS"
+ },
+ "actual_input_freezes": [
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\FREEZE-001.json",
+   "bytes": 9092,
+   "sha256": "55841cd62bdf5d88d0b3c535e19480cbc09d33e0a22df71dc8211cc6fb863014"
+  },
+  {
+   "path": "C:\\AKN8C071\\q063\\continuation048\\FREEZE-001.json",
+   "bytes": 12074,
+   "sha256": "50e6032f17e565ff0b168cbcf8338a7ea6d18c399e98e6c0a9157be1bc2da486"
+  }
+ ],
+ "all_actual_request_pins_reverified": true,
+ "CLI_exit": 0,
+ "supervisor_exit": 0,
+ "Job_active_after": 0,
+ "tool_seconds": 65.988,
+ "phase2_settlement": {
+  "path": "C:\\AKN8C071\\q063\\checks047\\review-001\\PHASE2-SETTLEMENT.json",
+  "bytes": 1449,
+  "sha256": "f5df416b88af861e70bca5216a6464794b2447b79e38fbd1996c6ed08b6f287f"
+ },
+ "clerical_erratum": {
+  "field": "VERDICT.json evidence.hashes.freeze047",
+  "reported_string": "55841cd62bdf5d88b0b3c535e19480cbc09d3390a22df71dc8211cc6fb863014",
+  "actual_frozen_input": {
+   "path": "C:\\AKN8C071\\q063\\continuation047\\FREEZE-001.json",
+   "bytes": 9092,
+   "sha256": "55841cd62bdf5d88d0b3c535e19480cbc09d33e0a22df71dc8211cc6fb863014"
+  },
+  "classification": "TRANSCRIPTION_MISMATCH_IN_DESCRIPTIVE_HASH_MAP",
+  "basis": "Reviewer final prose explicitly accepts both exact attached scopes; CHECKS confirms both freezes and actual REQUEST/TERMINAL bind correct freeze with no changes. Preserve erroneous report unchanged; this receipt supplies actual mechanical binding, not a new review or rewritten verdict."
+ },
+ "historical_reviewer_harness_failures_retained": true,
+ "product_PASS": false,
+ "next": "Root exact066 publication and once20s actual-byte verifier, then authorized once066 if preconditions pass"
+}

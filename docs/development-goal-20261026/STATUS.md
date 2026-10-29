@@ -683,3 +683,25 @@ T7 已完成唯一900秒观察：预设deadline触发raw1，pytest未完成；Jo
 执行经验：tool的yield时间不是运行deadline，所有后续长任务须先有真实外层自动截止、进程身份绑定和关闭捕获。读取文件路径须来自清单或实际目录，不能猜测后缀；本轮Root两次路径猜测造成准备raw1，均发生于相应作者启动前，成功的其他发布保留。读取非UTF8诊断须保留原bytes并转义展示，不能忽略解码失败。审核提示必须实际包含待审内容；M5073缺判定保留，074通过完整内联内容完成。新admission047测试首轮夹具字段漏改raw1，r2限时4.5秒超时且部分输出未捕获，当前owner验证INCOMPLETE，必须独立真实验证，不借quota专项PASS冒充。
 
 仍按当前用户直接规则：原Astra只澄清已有计划，原生Sol/max实施，独立ZCode审核。没有新增产品批次。Forward003保持NO_FORWARD_BAR、strategy NOT_RUN、paper NOT_ACTIVATED；本轮未重连SDK或处理凭据。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。当前四项产品尚未全部硬审通过，继续已有修复后再结束。
+
+
+## 2026-10-29 18:15 UTC — M5 生成通过，T7 新清单审核结束，继续现有两处运行修复
+
+只推进已计划、已开始的四个模块；没有新增产品批次。磁盘整理已完成，源码、行情和历史审核原件保留。CAP244 启动前观测的净余量为 RAM842,915,840、D266,752,000、C36,800,658,455 字节，已经扣除完整预留和原底线；这不是后续启动许可，仍须即时检查。
+
+| 模块 | 已完成的真实结果 | 当前未完成项 |
+| --- | --- | --- |
+| M5 | r14 获原独立 ZCode075 无条件 TOOLING_ONLY PASS；Root 机械复核21/21、raw0/Job0。真实 generation003 已 COMPLETE_PASS：native0、Job0、GENERATION_VALIDATED，failed_checks=[]，CURRENT_F_GENERATED_VALIDATED_AND_BOUND。actual007继续绑定原r5 producer。 | 原 Full100 身份已找到：full100-softmax-review-r16-r4-c1-001，14400s、原七文件/100实例。现有入口实际只接两项前置，原READY尚缺、当前支持余额及C输出授权不完整；原Astra041正在补这一既有入口范围。Full100未启动，整个M5尚无产品PASS。 |
+| T7 | 原Sol完成regimes/experiments及两测试文件的四文件修复。小回归6/6通过；components85项中84通过，唯一失败为旧manifest大小不匹配。原B新F/DAILY已冻结，2/2清单测试通过。原独立R0-013实际复跑2/2、248pins不变、CLI0/监督0/Job0、58.090工具秒，给出R0_FROZEN_INPUT_SCOPE_CHECK_OK。 | 原M1已立即续接新L0。真实population022仍运行：433session/26413bars构造完成，outer1030用时210.574s，inner完整群体与reference等价性尚未完成；没有重启或fit信用。L0后只补旧绑定导致失败的stream节点，不重跑84成功项。完整payoff及最终产品硬审待前置完成。 |
+| N8 | admission047独立无条件工具PASS。quota047/048独立工具PASS：1024覆盖写及048实链/alias正反例真实通过，CLI0/监督0/Job0。Root byte001因父目录缺失raw1保留；原049补充后，byte002创建原空父目录，冻结verify048执行raw0/0.891s，ACTUAL_BYTE_BINDING_PASS。 | 正式066按冻结launcher实际执行，Root raw1/72.859s、outer72.406s、512MiB Job active0。precheck017 child73，首因QUOTA_HARDLINK_PATH；ORIG34造hardlink后，下一个用例重建同一WORKORDER被防护拒绝。原Sol已静态定位双caller同类污染，原Astra050处理共享一次性fixture的修复范围。066/017已消费FAIL，binding005未启动；F02 FAIL/F01 OPEN-INSUFFICIENT/P ABSENT。 |
+| DISPATCH | 041自动590/595/600截止真实生效，四监督反例和十组受影响检查通过；完整private proof在590.687s以124关闭、Job0，未完成前驱验证。 | 原Astra042已明确同次operation内复用已验证契约、receipt语义和行解析，同时保留实时物理观察和uncached检查。原Sol已实现新r7窄范围修复，继续真实consumer检查和唯一新proof；原context002/actual007/seal007仍未启动。 |
+
+原始独立报告：[M5 r14](m5-r14-review/REVIEW.md)、[N8 admission047](n8-admission047-review/REVIEW.md)、[N8 quota047/048](n8-quota047048-review/REVIEW.md)、[T7 r15 R0](t7-r15-r0-review/REVIEW.md)。这些接受各自工具或输入闭包范围，均不是整个模块最终产品PASS。
+
+两项报告差异明确保留：N8 VERDICT中freeze047描述字段抄写错误，实际REQUEST/terminal/CHECKS绑定正确；原049确认只需追加更正，不改原判定、不再调用审核者。见[原差异接收](n8-quota047048-review/ROOT-ERRATUM.json)与[作者处置](n8-quota047048-review/AUTHOR049-DISPOSITION.md)。T7 R0声称256KiB controls未超限，Root实测48files/15dirs、gross438554B，超过原262144B达176410B；不采纳未超限声称，原作者022允许的测得control缺额已补记，功能F结论保留，程序性超限为FAIL，见[接收更正](t7-r15-r0-review/ROOT-ERRATUM.json)。Root接收首次assert真实raw1，原接收记录保留，没有重新执行已成功的审核。
+
+本轮调用与原生结果：M5 r14/r5r1_launcher.py m5-generation003-runtime-001（冻结capacity companion）为0；T7使用冻结job_guarded2.py和scripts/test_offline.py指定两manifest nodes为0/2passed；N8 verify048.py --request <真实066> --out <原ACTUAL-BYTE-VERIFY-001.json> 后继为0；066执行FREEZE-001.json内原launcher_argv为1、precheck017子73。完整argv与退出/捕获在对应本地原记录，未把摘要当成重跑。DISPATCH作者042 native0而receiver1，原因是恢复过一次SSE idle timeout；完整作者产物和不变输入已确认，保留transport异常。
+
+执行经验：生成输出必须先从冻结argv派生父目录并验证/创建，再启动独占写入；输出缺失不是可以Read的输入。工具yield不是deadline；byte002真实15work/5closure，formal066真实630上限。controls必须包含目录、每项最低分配和临时写入，不能只算payload字节；报告文字不能覆盖实际计数。hardlink反例应使用专属污染fixture，后续普通用例不可再重写它；生产guard保持有效。
+
+按最新用户直接AGENTS，原生Sol/max继续实施，原Astra只处置已有计划缺口，原独立ZCode负责审核。未修改规则文件或模型配置，未读凭据/.env，未连接真实broker。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。本批尚未全部产品硬审通过。

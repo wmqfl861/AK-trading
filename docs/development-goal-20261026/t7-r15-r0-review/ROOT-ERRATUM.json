@@ -1,0 +1,31 @@
+{
+ "schema": "aktr-R0-controls-overrun-reception-disposition/v1",
+ "previous_receipt": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\T7-R0-R15-ROOT-RECEPTION-001.json",
+  "bytes": 2028,
+  "sha256": "35916e9b5eee6a32332f6727c975d28ab2c7b5650080c7b1a8e75c24a01f705c"
+ },
+ "original_failed_root_receive_raw": 1,
+ "cause": "assert measured gross <= declared262144 failed after completed reception record; noCAP244 or M1 launch before disposition",
+ "actual_files": 48,
+ "actual_dirs": 15,
+ "actual_gross": 438554,
+ "original_cap": 262144,
+ "actual_excess": 176410,
+ "source_authority": {
+  "path": "C:\\AKWorktrees\\aktr-goal-20261026\\astra-t7-prefix-reference-022\\AUTHOR-DISPOSITION.md",
+  "bytes": 14306,
+  "sha256": "6d9fabd95c585a317691cba20666a652bb1a0d22c423428210fb15092e6ac02d"
+ },
+ "within_author022_absolute_control_ceiling": 22262042,
+ "absolute_authorized": 25165824,
+ "old_unknown_retained": true,
+ "no_historical_refund": true,
+ "no_retroactive_compliance": true,
+ "independent_functional_verdict": "R0_FROZEN_INPUT_SCOPE_CHECK_OK",
+ "procedural_control_cap_result": "FAIL_OVERRUN",
+ "reviewer_report_control_cap_respected_not_adopted": true,
+ "reason_scope_can_continue": "independent F verdict and unchanged-input/native0/Job0 all exist; only actual control storage counter exceeds original allocation; author022 expressly permits measured shortfall within absolute24MiB; no source or acceptance predicate changed",
+ "full_T7_PASS": false,
+ "next": "originalM1 boundedL0 using actualreporthash"
+}

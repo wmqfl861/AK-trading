@@ -1,0 +1,26 @@
+{
+ "schema": "independent047-tooling-review-verdict/v1",
+ "task": "aktr-zcode-n8-admission047-validation-20261029-001",
+ "reviewer": "auxiliary ZCode GLM-5.3/max, SID sess_565fc2bd-fc8e-4063-b071-5927e4b93a91, controls n8-admission047-validation-001",
+ "scope": "TOOLING_ONLY: frozen r1 closed_reservation_047.py + zcode_watchdog_047.py + r2 test, per AUTHOR047 §4 conditional companion",
+ "verdict": "PASS",
+ "unconditional": true,
+ "basis": {
+  "authority": "astra-n8-gross-entry-completion-047/AUTHOR-DISPOSITION.md 10213B 1808a5ac...",
+  "freeze": "C:/AKN8C071/a047/checks/FREEZE-001.json (state WRITE_STOP; owner validation INCOMPLETE disclosed)",
+  "required_suite": "reviewer-owned 20s/512MiB harness ran test_admission_047_r2.py exactly ONCE: native 0, 4 tests / 3 exact negatives / 0 fail-error-skip, 7.61s, peak 47.1MB — completing the validation the owner could not (raw1 naming defect; r2 4.5s timeout)",
+  "gap_probes": "10/10 (baseline+10-identity final refresh; cumulative-accounting, marker, model-selector, streams-open, sealed-as-current rejections; genuine 30s 002 deduction + three previous047 chain gates)",
+  "supervisor": "exactly one (900,870)->(600,570) change from the accepted041 supervisor, forward/reverse byte-exact, kind preserved",
+  "watchdog_diff": "5 changed lines, all 047-confined; AST Popen/wait/update equal"
+ },
+ "requirements_verified": {
+  "completed045_history": "genuine TERMINAL/RESULT/outer/VERDICT-PASS chain with CLI0/outer0/70.938s consumed/0 credit, four closed streams bound, both 045 producers freshly queried; sealed045 is historical context only and can never be presented as current047",
+  "current047_grant": "exact task/transport (quota066-entry047-001/-002), grant tuple 120/90/30 with prior045 70.938 + combined ceiling 190.938 enforced (047_FALSE_CUMULATIVE_ACCOUNTING on tamper), one launch, no retry, no model selector, argv/input bindings, prospective identity continuity to the 045-recorded identity",
+  "conditional002": "requires genuine closed 001 chain; deducts actual spent from the same 120 pool with no reset; three chain gates reject exactly",
+  "scan_and_refresh": "complete sibling scan unchanged (third unresolved writer blocks, 2 closed reservations); final admission re-reads the current request once and freshly queries all ten bound historical producer identities"
+ },
+ "not_established": ["Root actual 047 grant/identity/closure records FUTURE_NOT_RUN (not-yet-created, not missing inputs)", "unobserved external writers UNKNOWN_OUTSIDE_ROOT_CONTROL"],
+ "product_PASS": false,
+ "formal066": "NOT_RUN",
+ "safety": "false/hold/brokerNOT_RUN/sendcancel0/0"
+}
