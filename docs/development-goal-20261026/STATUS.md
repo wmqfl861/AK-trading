@@ -626,3 +626,18 @@ Execution lessons retained: Root's guessed optional suffix `ROOT-ENFORCEMENT-SPE
 Current local authority: `C:/AKWorktrees/aktr-goal-20261026/astra-n8-review-admission-successor-043/AUTHOR-DISPOSITION.md` (11,007B, SHA `73abde3e8a93d8a9de89ce69ca1d9398d78dd98ea2c6599d3e97e9d6f99d2d19`) and `astra-dispatch-preparation-timeout-035/AUTHOR-DISPOSITION.md` (12,976B, SHA `b13d383a05f154e50fd0866ed52f3d706061a65e65393772cd49f4d77fd9d58e`). CAP207 prospectively charges043's finite components, the actual auxiliary-store excess1,593,152B and1,048,576B permitted growth; the store's original4MiB ceiling was genuinely exceeded, not retroactively compliant. Historical charges and UNKNOWNs remain.
 
 Trading stays `enable_trading=False`, observer=`hold`, broker=`NOT_RUN`, real send/cancel=`0/0`. Forward003 is closed with no new CLOSED bar; no further SDK/login/capture or credential operation was performed.
+
+
+## 2026-10-29 11:12 UTC — 现有修复与独立审核进展
+
+本批仍限已计划/已开始的工作；无新产品模块或未来批次。当前直接用户规则为 Astra 处理原计划澄清、原生 Sol/max 开发、独立 ZCode 硬审核。完成本批后推送并停止的要求继续有效。
+
+- **T7 实际修复**：r13 仅改变 factors.py 和 test_v2_m2_causality.py。完整 M2 causality/seasonality 命令为 `python -B -u -X utf8 scripts/test_offline.py -vv --basetemp <本次独立目录> tests/test_v2_m2_causality.py tests/test_v2_m2_seasonality.py`，原始退出码0，44 passed，failed/errors/skipped均0；433 sessions、26,413 bars、1,030个真实查询精确等价。新的 F/DAILY 独立R0已完成（CLI0、supervisor0、Job0），[原审核报告](t7-r13-r0-review/REVIEW.md)与[结果](t7-r13-r0-review/RESULT.json)按原字节发布。R0只验输入范围，不是完整T7产品PASS。原M1已真实生成/验证r13 L0：两个新进程均exit0/Job0，37文件/525个实际AST测试名，原521保留并新增4。三项受影响M5节点已实际启动；完整payoff仍未通过。
+- **T7 长运行日志修复**：新压缩编码helper已实现；离线验证到达自动关闭反例时，新鲜RAM准入失败，child1/Job0，保留失败。先前编码/容量断言虽执行到达，完整测量结果没有发布，不能计为完整通过。原作者正在澄清有限收尾范围；未降低五秒采样、2MiB配额或验收标准，未重跑已消费的产品诊断。
+- **N8**：原生Sol的admission044修复经独立ZCode无条件 **TOOLING_ONLY PASS**。审核者在512MiB/20秒边界下独立运行 `python -B -X utf8 C:/AKN8C071/a044/tests/test_admission_044.py`，raw0，7tests/24cases/0failures/0errors/0skips；额外9/9探针通过。审核者的一次fixture错误及修正保留。CLI0、supervisor0、Job0；[原报告](n8-admission044-review/REVIEW.md)、[原判定](n8-admission044-review/VERDICT.json)。Root真实关闭记录通过已接受准入函数后，已启动原quota042审核者的单次收尾。既有成功probe与实际字节preflight复用未重跑；formal064与binding005尚未启动。
+- **M5**：formal007已真实COMPLETE_PASS并关闭；随后发现generation publisher不能处理该次已记录的UNAVAILABLE进程身份，修复r8已冻结。开发者和独立机械复核均41/41、raw0、Job0。原ZCode响应式审核071超时，保留supervisor130和CLI UNKNOWN，无判定；原作者正修正后续审核准入中对历史store身份记录的错误假定。generation001未运行，full100未获授权；不能把工具检查计为最终产品PASS。
+- **DISPATCH**：改变后的真实preparation已成功，child0/outer0/Job0，254.906秒，3700 runner inputs/3748 validation inputs。独立19项route和7组authentication检查已通过；审核035到达工具时限，supervisor130、CLI UNKNOWN，最终判定未完成。原作者正澄清冻结配额常量与可调整账本的实际差异，再完成原审核；不重跑已成功的preparation/19+7检查。context007/actual007/seal007尚未运行。
+
+磁盘整理已执行官方 `pnpm store prune --store-dir D:\.pnpm-store`，raw0，删除297个可重建缓存文件、5个未引用包。对关闭的历史文本产物执行NTFS无损压缩，逐文件核对内容SHA、字节数、文件身份、mtime和链接数不变；没有删除源码、行情或审核原件。回收的观测值会受其他活动写入影响，不能代替每次运行前的新鲜空间检查；没有抵扣历史账本费用。清理详情见[磁盘记录](DISK-MAINTENANCE-20261029.md)。
+
+本次只发布状态和已取得的精确审核报告；四个产品模块仍未全部最终PASS。Forward003已关闭且无新CLOSED行情，未新增SDK/凭据/网络采集。`enable_trading=False`、`observer=hold`、`broker=NOT_RUN`、真实send/cancel=0/0。

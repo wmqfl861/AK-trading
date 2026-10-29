@@ -1,0 +1,27 @@
+{
+ "schema": "independent044-tooling-review-verdict/v1",
+ "task": "aktr-zcode-n8-admission044-validation-20261029-001",
+ "reviewer": "auxiliary ZCode GLM-5.3/max, SID sess_565fc2bd-fc8e-4063-b071-5927e4b93a91, controls n8-admission044-validation-001",
+ "scope": "TOOLING_ONLY: frozen r1 closed_reservation_044.py + zcode_watchdog_044.py + tests, per AUTHOR044",
+ "verdict": "PASS",
+ "unconditional": true,
+ "basis": {
+  "authority": "C:/AKWorktrees/aktr-goal-20261026/astra-n8-quota-review-completion-044/AUTHOR-DISPOSITION.md 11521B c24ccfd8...",
+  "freeze": "C:/AKN8C071/a044/implementation/FREEZE-VERIFICATION-001.json",
+  "required_suite": "reviewer-owned bounded harness (512MiB Job before child, 20s cap), suite launched ONCE: native 0, 7 tests / 24 cases / 0 fail-error-skip; result work/SUITE-044-REVIEW-001.json",
+  "gap_probes": "9/9 (baseline two-reservation positive + 8 exact-code rejections incl. grant credit tuple, argv resume/model-selector, inputs binding, marker transport, consumed marker, grant-fact, release chain)",
+  "watchdog_diff": "5 changed lines, all 044-confined; AST Popen/wait/update multiset equal; scan/launch tail unchanged"
+ },
+ "requirements_verified": {
+  "two_reservation_composition": "038 closes via pinned043 composed() with the sealed interrupted042 request as historical context (asserted call args); 043 closes via accepted recorded-identity legacy branch with complete eight-part custody; both selected exactly once in final admission",
+  "truthful_interrupted_history": "CLI UNKNOWN_INTERRUPTED, enclosing/supervisor 130, Job 0, unresolved 0, 40.261s consumed, failed tool call_82fe54013b334298b31299b1 raw1 bound in outer trace + reception; zero execution credit; no forged terminal/RESULT/report in the interrupted directory (live check)",
+  "current_completion_grant": "exact 120/90/30 tuple, prior_consumed 108.660, credit 0, refund 0, task/SID/store/cwd byte-equal to 039/043 chain, one launch, no retry, no model selector, argv resume/attach/workorder binding, required inputs bound",
+  "identity_and_store": "current db_identity == CURRENT-IDENTITY record == 043-recorded; fresh native regular-file/ancestor/reparse checks; inode/reparse/parent changes reject",
+  "sibling_scan_and_final_refresh": "third unresolved writer blocks (exit96); final re-reads REQUEST_044 once and re-queries exactly the six identities {178988,191608,193964,119492,195084,182944} after the scan; live/unavailable block; ABSENT vs PID_REUSED distinct"
+ },
+ "not_established": ["actual Root custody admission NOT_RUN (eight future records under a044/custody043-001)", "unobserved external writers UNKNOWN_OUTSIDE_ROOT_CONTROL"],
+ "product_PASS": false,
+ "DISPATCH035": "INCOMPLETE, untouched",
+ "replays": "none: no quota probe, no preflight, no formal, no successful-history rerun; 040/043 proofs reused as pins only",
+ "safety": "false/hold/brokerNOT_RUN/sendcancel0/0"
+}

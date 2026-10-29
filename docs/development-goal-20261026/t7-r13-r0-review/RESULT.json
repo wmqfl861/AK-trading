@@ -1,0 +1,98 @@
+{
+ "schema": "aktr-t7-R0-frozen-input-scope-review-result/v1",
+ "task_id": "aktr-zcode-t7-R0-review-012-20261029",
+ "sealed_utc": "2026-10-29T10:59:58+00:00",
+ "candidate": {
+  "root": "C:\\AKWorktrees\\aktr-goal-t7factor-20261029-r13",
+  "kind": "plain factor-repair successor worktree (author019 binding recut)",
+  "freeze_revision": "r13 F fresh; immediate predecessor r12 (calendar)",
+  "prior_reviews": "r8 OK -> r10 OK (clock) -> r12 OK (data) -> this review (factors)"
+ },
+ "verdict": "R0_FROZEN_INPUT_SCOPE_CHECK_OK",
+ "verdict_scope": "T7 form 5.4(2) F/DAILY input closure only; no fit, no full M2/payoff/DAILY; factor semantics reserved to the final CPU reviewer; not complete CPU/T7 PASS",
+ "commands": [
+  {
+   "id": "C1",
+   "raw_exit": "0",
+   "summary": "237/237 REQUEST pins verified pre and post"
+  },
+  {
+   "id": "C5a",
+   "raw_exit": "0",
+   "summary": "official verifier returned pinned H_F b6c7257c...4010d6"
+  },
+  {
+   "id": "C12",
+   "raw_exit": "0",
+   "summary": "delta vs r12 exactly factors.py/test_v2_m2_causality.py/DAILY manifest; data12 identical; 25 legacy identical; origins ok; zero pyc; sandbox pristine accepted; factors revert rejected",
+   "attempts": [
+    {
+     "raw_exit": "2",
+     "cause": "predecessor replacement escaped wrong (still r11 base)"
+    },
+    {
+     "raw_exit": "2",
+     "cause": "revert probe still targeted data.py from the r12 script"
+    }
+   ]
+  },
+  {
+   "id": "C5b",
+   "raw_exit": "0",
+   "summary": "guarded manifest nodes via frozen job_guarded2.py (BINDING-COMMAND-r13-001 contract): child_exit 0, Job pids final 0, 2/2 passed; records in dispatch/work/r0-manifest-run-001/"
+  },
+  {
+   "id": "C8",
+   "raw_exit": "0",
+   "summary": "closing immutability: 237/237 pins again"
+  }
+ ],
+ "key_identities": {
+  "H_F_lf_normalized": "b6c7257c586cc3471636a972cfc24922dc81c04f2bacc9a73fbd1c957e4010d6",
+  "F_bytes": 21778,
+  "F_attachments": 129,
+  "daily_manifest_H_lf_normalized": "b6c67765b31fe91e2c99dc9a99aeeb5975f739d65b12eb74a4f94341ed5da44c",
+  "daily_manifest_attachments": 111,
+  "behavioral_source_floor": 104,
+  "changed_vs_r12": [
+   "src/ak_trading/v2/factors.py",
+   "tests/test_v2_m2_causality.py",
+   "tests/fixtures/v2/ep1_t7_daily_r3_001/acceptance-input-manifest.json"
+  ],
+  "data12_identical": true,
+  "legacy_closure_files": 25,
+  "pyc_count": 0,
+  "reuse_pins_all_matched": true,
+  "guarded_run": {
+   "helper": "job_guarded2.py (frozen contract)",
+   "child_exit": 0,
+   "job_pids_final": 0,
+   "passed": 2,
+   "failed": 0
+  },
+  "world_unchanged": "3182 DAILY / N3150 / 19 windows / 433-minute / floors 200/30"
+ },
+ "reused_facts": [
+  "009: F3 closure",
+  "007/008: 14/14 producer bindings",
+  "007/008: 13/13 negatives + 14/14 regen",
+  "008: inner split/plan-set/config contracts",
+  "r10: clock delta verification",
+  "r12: data delta verification (clock/data unchanged r12->r13)"
+ ],
+ "findings": {
+  "blocking": [],
+  "non_blocking_observations": [
+   "OBS (carried): recipe.json raw newlines; hash-bound, never strict-parsed",
+   "OBS: F schema cannot express separately-pinned closure inputs (REQUEST table covers)",
+   "provenance: factors/M2-test bytes are author019 candidate with developer evidence only; factor semantics = final CPU reviewer scope"
+  ]
+ },
+ "boundary": {
+  "enable_trading": false,
+  "observer": "hold",
+  "broker": "NOT_RUN",
+  "real_send": 0,
+  "real_cancel": 0
+ }
+}
