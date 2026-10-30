@@ -1,30 +1,33 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-30 08:24 UTC。当前只完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下表为当前状态，后文日期记录保留当时事实。
+更新于 2026-10-30 09:27 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
-当前会话用户直接指定：Astra/max 负责计划和契约；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审核。磁盘旧规则的开发路由尚未同步，本页不修改规则文件。计划意见不设 PASS 门。
+当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 `9c17a22`；此前接受起点 `71ac137cfd07be89e1ae2c649b7b2c35639c5c42` 与后文历史保留。
-- A2 七策略同 bar 确认修复已通过独立硬审并推送。独立完整 M1–M4 运行 raw 1：962 ran / 948 passed / 14 个既有失败 / 0 error / 0 skip；不能宣称全套全绿。
-- A3 文档同步、用户批准的 CLAUDE 两处同步和 B1 的 234 条分诊已完成。A4 入口保护实现及独立接受已推送。
-- C05、P0-2 replay、P2-7、SQL helper、forward 工程集成等已有接受范围继续有效；这些窄 PASS 不证明研究统计或完整前瞻模拟已通过。
+- 本次更新前 main / origin/main 为 `7cab03a`。本次仅发布准确状态与调用经验，没有把待审代码冒充已接受产品。
+- A2 七策略同 bar 修复、A3 文档及已获用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
+- 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
 ## 当前工作
 
-| 模块 | 当前已核结果 | 正在推进 |
+| 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | 工具032独立无条件 PASS：实际合成成功 raw0、限额失败 raw97，8项审核者反例通过。正式 full025 已实际结束：24 selected/ran，16 passed /3 failed /4 setup errors /1 skipped，raw1，266.87秒，Job0。运行后169 R0、162 B及42直接输入均未变化。 | 原Sol已定位 Popen 被替换成函数，破坏 asyncio 的继承；另有负例测试旧锁路径缺失和版本不一致。原Astra033只澄清这次既有失败的修复与后续调用；旧full025已消费，不自动重跑。 |
-| M5 | 完整573文件源码树及r4修复经原独立086无条件工具接受。必需绑定复跑 raw0/32.187秒/Job0，负例结果发布器 raw0，7个新增反例通过。 | 完整100项 Full100002 已实际启动，使用原冷拟合工作量和2GiB Job；最终079/080产品硬审尚未完成。 |
-| N8 F02 | 原Sol061完成精确 fresh060 中断恢复修复，40/40针对性检查 raw0/Job0，含实际Root闭包及同库writer反例。创建时DB身份与首次观察前连续性仍明确UNCAPTURED。 | 独立admission061审核已启动；通过后续接原实际060审核者，再接principal060和既有bind/verify/formal068。F02 FAIL、F01 OPEN-INSUFFICIENT、P ABSENT保持。 |
-| DISPATCH | 原安全审核会话052已结束并给出无条件combined scoped PASS；native0、483.89秒、19.8工具秒、0未闭合工具、Job0。三个真实审核脚本错误已纠正，旧051 FAIL保留。 | 原Sol核对已准备入口，接续context002→actual007→成功后seal007→最终产品硬审。局部联合PASS不等于最终产品PASS。 |
-| Forward paper | 监督修复已独立PASS。run003正常关闭，三层原始退出0，568.469秒；但0新OPEN/0新CLOSED，只有bootstrap和CLOCK。 | 尚未开始真实forward bar采集，strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重复已消费的采集。 |
-| SC研究输入 | 日期标签与研究可用时点政策有效，独立建议已由原Astra处置；实际A行数仍0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail等输入证据；未新增consumer或fit。 |
+| T7 | full025 保留 raw1、24 selected/ran，16P/3F/4E/1S。原 Sol033 已修正两处 Popen 类兼容并冻结 r17 负例测试，24 展开节点与64条断言不变；connected success0/quota97、句柄/native7检查及512MiB Job0已取得。B033 两绑定节点2P/raw0，12份fixture未重写。 | 原独立 R0-016 已启动后遭 ZCode 1308/429 限额：CLI/outer raw1、Job0、输入不变，尚无R0结论；4个工具raw0、1个工具raw1保留。恢复原会话时须处置旧候选路径的审核脚本。适配器独立审核、M1新L0、full033和最终产品审仍未完成；full033未消费。 |
+| M5 | 完整573文件源码树和r4工具经原独立086无条件接受。Full100002仍运行，实际观察记录显示正执行真实训练链、特征快照及哈希工作。 | 不从进度点推断100项通过；等真实终态与逐项结果，再交079/080最终产品硬审。 |
+| N8 F02 | 独立061准入验证40/40通过；replacement060-002原审核者给出无条件 scoped admission PASS，CLI0/Job0。后续principal060实际结束CLI0/Job0，但产品工具范围 verdict FAIL。独立060记账检查及反例通过。 | 必需focus058的指定输出目录checks060与冻结runner只允许checks058冲突，命令raw1且未启动子检查。原作者062正在处理这一既有调用契约；不得重跑已成功记账检查。formal068/precheck019/sole005仍未消费；F02 FAIL/F01 OPEN-INSUFFICIENT/P ABSENT。 |
+| DISPATCH | 原052无条件 combined scoped TOOLING PASS保留，最终产品尚未PASS。正式运行前发现ADMIN无法覆盖三个阶段日志，入口尚未消费。原作者053已给有效修复范围。 | 原Sol正在实现不可变额度/选择器后继：在原1GiB内按实测正差转移，保持历史费用与既有检查。冻结后独立delta审核，再context002→actual007→成功后seal007→最终产品硬审。 |
+| Forward paper | run003三层raw0、568.469秒，但0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消费采集。 |
+| SC研究输入 | 政策已由原作者处置；实际A行数0，INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批没有新增consumer或fit。 |
 
-T7本次确实运行了训练链，完整统计暴露具体错误；工具PASS和局部通过不能替代正式链路成功。此前A4、A2、M4 causality、T7 CPU/内存/单元和chronological冻结研究实现的已接受成果继续有效。
-运行请求与原始流位于本机 `C:/AKWorktrees/aktr-goal-20261026/`；外部 CLI 不显示为 Codex 原生子代理。各模块使用独立会话库与不重叠写集；不得凭 CLI 原生 0 认定任务完成。
-本次磁盘整理已完成，未删除源码、行情或审核资料；当前物理余量已满足扣除全部预留后的RAM6/C4/D4GiB底线。最新运行记录为CAPACITY-322，物理余量不被当作新增任务授权。调用错误、实际失败和避免办法见 [Root 调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。
+ZCode 在2026-10-30 09:15 UTC返回provider1308/HTTP429及retry-after2995，提示约10:05 UTC（北京时间18:05）恢复。独立审核调用在此期间排队，保持原模型/会话，不盲重试、不以自测代替审核；Sol修复、原作者现有澄清与已在执行的M5继续。R0成功/失败工具、空stdout及原native1全部保留，限额恢复本身不代表验收通过。
+
+T7两个注入管道失败均有fatal stderr、native97、Job0，但没有建立预期JSON失败收据；该限制及检查脚本raw1已披露，等待独立判断。另有旧审核额度不足的具体问题已交原作者034；这只处理现有修复的资源和调用，不新增产品计划。
+
+磁盘整理已完成，未重复清理、删除证据或行情。2026-10-30 09:15前后D盘物理空闲约29.3GiB，当前CAPACITY-325按全部既有预留核对RAM6/C4/D4GiB底线。各模块独立会话和不重叠写集并行；两重型槽分别用于M5及已关闭的T7R0，外部CLI不显示为Codex原生子代理。
+
+安全状态保持 `enable_trading=False`、observer=`hold`、broker=`NOT_RUN`、真实send/cancel=`0/0`。未读取或修改`.env`、账户配置和模型配置。原始运行与审核包只留本机；公开仓库不发布凭据、会话库或网络暴露细节。错误及避免办法见[Root调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。
 
 ## 本次已推送与实际命令
 
