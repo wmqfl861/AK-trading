@@ -826,3 +826,20 @@ N8 原始失败原因是 `POPULATION_OBSERVATION_DISAGREEMENT:CTX-08`。人口�
 T7 旧执行耗时存在 UNKNOWN，作者029保留2101.580秒保守历史计费，以原余298.420秒加明确新增1501.580秒组成1800秒后续额度，其中180秒保护关闭；没有重置旧2400秒池。Root误读不存在的可选 REVIEW-HANDOFF.json 所致 raw1 已保留，后续改用实际目录中的 REVIEW-BRIEF.md，不作为产品失败或成功证据。
 
 当前仍未取得四模块全部最终产品硬审PASS。开发由原 Sol/max、既有计划澄清由原 Astra、独立审核由原 ZCode 执行。未改项目规则、持久模型配置或凭据；enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。完成本批审核及推送后停止。
+
+## 2026-10-30 — 七项 T7 验证通过；M5 超时与 N8 审核内存问题按真实结果接续
+
+磁盘整理已完成，本轮未重复清理。D 盘最近实测约29.78GiB可用，仍满足完整预留和4GiB底线。此前可逆压缩释放约1.083GiB，源码、行情与审核文件没有删除。本次更新之前的 main 为 `e73e4bfd8449e459b467cda854df8acc3e27c59d`。
+
+| 模块 | 已完成的实际验证 | 未完成及接续 |
+| --- | --- | --- |
+| T7 | 在r16执行 `python -B -u -X utf8 scripts/test_offline.py -vv --basetemp C:\b25a1 tests/test_v2_m5_experiments.py -k "t7w or t7ref"`：selected7、ran7、passed7、failed0、errors0、51deselected；原始退出码0，Root完整生命周期596.86秒，实际2GiB Job关闭。169项R0输入与162项B源码在运行前后全部一致，原17项成功验证保持。 | 原Sol已发布唯一 `FULL-REQUEST-r16-025-001.json`，完整测试尚未启动。现有10GiB池的历史删除/覆写费用仍有UNKNOWN；1,651,389,776保留字节不能当作累计gross使用量。原Astra030正在只澄清此既有准入缺口，不重跑已成功的17/7或已消费full022。 |
+| M5 | 原Full100真正关闭：Root原始退出码1、14435.015秒；内层为 `WHOLE_DEADLINE_TREE_TERMINATED`，Job active0、流已关闭。闭合stdout只有75个结果符号，74个通过符号、1个已知临时路径失败，另25项无终态。 | 原owner已完成只读分诊。最后测试为T7 smoke的setup；inner fit经过10286.984秒已返回，之后1771.282秒未出现新的phase或validation返回。精确停止栈/窗口UNKNOWN，摘要不是可恢复模型。原Astra046处置超时和未完成25项；原045单节点900秒条件未满足，084范围PASS不覆盖本次超时。 |
+| N8 | 原Sol完成CTX-08定向修复及068绑定后继；真实检查native0、5.25秒、512MiB Job0，冻结已完成。真实request的allowance1、原adapter及其拒绝原因均保持，只有负向fixture显式使用allowance0。 | 辅助独立审核058在实际512MiB进程组内发生 `MemoryError`，内层观察到watchdog130、监督97、外层97；361.625秒关闭，Job0。CLI无完整终态/审核结论，不能算PASS；34.705秒工具记录另含一个未闭合区间，不据此退款。原Astra059正在明确原会话受控续接与整个CLI的内存分配。principal058、bind058、verify058、formal068/019及同一份005仍未消费。 |
+| DISPATCH | 原review044真实CLI0，原始工具时间49.992秒，内存外层750.625秒，Job0；审核者签发scoped TOOLING PASS，确认完整proof045及部分反例。 | Root发现原工作单要求的独立parent用例、九源handle前后比较没有齐备；原Astra047核实该缺口。因此保留已签报告原样，但尚不放行产品。原048只校正同一次补充审核所用既有计时器及输出预算；不是新产品计划，不重跑proof045。context002/actual007/seal007保持未消费。 |
+
+M5长测释放后，按实际Job0和进程身份重分配静态槽；T7七项测试已利用独立2GiB槽完成。四个模块分别由原Astra作者处理当前缺口，原Sol交付在冻结状态，下一步仍为有效处置后立即实施或独立审核。没有新增未来批次或功能。
+
+本轮两个Root诊断错误均原样保留：`7c2a22` raw1来自把R0 Markdown报告按JSON解析，未执行产品；后续只解析具名JSON索引，报告按原字节核验。`2820b4` raw1来自将author047关闭前Job3误作最终未关闭，未生成容量文件或派工；实际接受的guard清理后Job0支持资源释放，但CLI0/receiver0与Root wrapper97分别保留。N8失败调用的旧START通过已有 `closed_reservation` 的真实请求/启动快照、关闭记录和原生进程身份核验释放，没有伪造TERMINAL或绕过同库互斥。
+
+当前四项最终产品硬审尚未全部通过。交易保持 `enable_trading=False`、`observer=hold`、`broker=NOT_RUN`、真实send/cancel=0/0；未读取凭据或修改模型配置。完成已授权模块的独立硬审、集成与推送后停止。
