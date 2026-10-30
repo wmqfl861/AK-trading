@@ -97,3 +97,39 @@ M5实际目录复制和受影响检查分别raw0/Job0、12.59/5.88秒，573文�
 - DISPATCH作者059真实CLI0，接收器因非对象包装流返回1。Root单独认证原线程、唯一turn.completed与最后作者消息和文档逐字相符，保留旧TERMINAL/receiver1；有效处置交原Sol，未重跑作者。
 - T7第一次发布续接返回75：wrapper等待120秒后明确“no CLI started”，没有thread.started。旧timeout使本任务slot7残留；Root仅在核对整个原Job0、wrapper和native child均OpenProcess87不存在、精确task与token不变后，将该单个锁目录原子重命名留存。其他项目锁未改动，未按年龄或PID单独回收。第二次续接使用新任务记录、同一原作者线程。
 - 槽位检查45363b原始1发生在任何写入前：误把锁记录的native ROOT_PID与receiver的Popen wrapper PID当作同一个。实际wrapper第480/560行明确两者关系；后继分别检查两个PID并结合整个Job关闭证据，再恢复。另一次functions.exec多行字符串解析失败发生于嵌套工具执行前；后继使用无插值String.raw文本，保留该解析错误，不计作shell命令。
+
+
+## 17:30 UTC — 调用接口、生成结果与本次实际故障
+
+- Root的旧DISPATCH059和M5作者050接收分别在已结束调用后因访问不存在的supervisor_ok而raw1。已接受job_guarded2.run_child直接返回child_exit、supervisor_error、termination和job_pids_after_terminate；supervisor_ok仅由该helper的CLI分支添加。保留原始1和真实CLI/Job结果，不重跑成功调用。后继按实际字段判断，不能以默认0兜底缺失字段。
+- Root工具0c4376原始1来自读取尚未生成的T7传输RESULT.json；当时只有TRACE/RESULT.json及未完成CLI。后继先枚举实际生成文件，分清原生调用终态、trace关闭和产品结论，未把不存在的结果文件当成功。
+- Root工具1e4b8f原始1来自给既有TRACE-SUPERVISOR.py加入并不支持的--spec。真实接口直接将argv[1]作为文件路径；失败发生在trace目录、START-INTENT和任何CLI启动前，Job0。原MEMORY留存，ROOT-PREPARATION-RECOVERY002记录事实后，用位置参数和新MEMORY002启动原未消费的唯一调用，随后真实0。以后执行精确已核接口，不根据同类CLI猜选项。
+- Root工具8018f6原始1来自把带跨行bundle前导对象的作者输出逐行交json.loads。后继用JSONDecoder.raw_decode按完整对象顺序解析；M5作者051实际CLI0，流中一次已恢复SSE重连事件令receiver/外层1，随后真实turn.completed和最终作者文本均匹配。保留分层结果与原错误，未重跑作者。此类流不能只凭扩展名假设NDJSON。
+- T7范围审核001真实130/Job0，工具91.245秒，存在一个未闭合区间；成功19/6/4和8项反例保留。002新增8项反例及CHECKS后出现服务端HTTP502 Bad Gateway，外层510.08秒截止97、Job0，无最终VERDICT或CLI终态。不归因于源码、不换模型或配置、不把CHECKS当PASS，服务端原始headers留本地。
+- N8 runtime003是实质接线缺陷：新参数和template选择003，复用009的test_offline.py固定002。真实退出4发生在reserve/pytest之前。最小修复必须同时处理四文件sibling选择、offline pin、当前有序输入和运行绑定，并通过真实启动器边界验证；只改一处字符串或仅检查invoker投影不足。原003已消费，不能自动重试。
+- M5 r3的实际准备失败为alias helper来自r1，自身ROOT/LOCAL不允许r3 basetemp。有效修复采用同字节helper及依赖文件在r4同目录放置并更新引用，保持安全谓词。旧owner002因等待和协调耗尽600秒，在发布前停止；原owner确认没有r4或残留进程。新051明确给出有限完成窗口，原失败与等待费用保留。
+
+防复发落实在每次派工的具体接口、前置条件和受影响验证；上述故障尚不能支持“此后绝不会失败”的保证。新增运行和审核仍按当前有效计划完成，文档记录不代替代码修复或独立硬审。
+
+
+## 18:00 UTC — 后续真实结果及防止重复消费
+
+- M5真正复现并解决的是helper相对目录绑定错误。r4保留原helper和依赖字节，只把它们放到与消费者一致的目录并更新引用；Root完整检查原始0、43.391秒，真实准备链及预期child1的截止反例均完成。仅静态检查路径或仅运行alias探针不足以替代这个完整边界验证。
+- T7原作者037的原始CLI0/receiver1来自首次读取错误的036目录；随后读到正确已钉住的completion002处置。Root按完整JSON对象解析实际流，核对原线程、唯一完成事件和最终文档，保留原失败，不重复调用作者。原独立审核003直接复用成功测试，只发布更正后的结论，真实native0/Job0。
+- DISPATCH实际007原始124是900秒整体额度内的890秒工作截止，不是shell传播错误。进程已收束、没有capture_failure；启动前检查尚未结束，产品runner没有启动。没有每阶段时间记录，不能猜测某个函数为根因或直接放大时限并重跑。原007已消费，先交原作者定义有界后继并明确上下文复用及阶段观测。
+- N8 owner首轮13/14、native1来自检查器将惰性bootstrap字符串误判为正在执行的import。原检查版本保留；在既有068许可的唯一关联修正后，第二次14/14、native0/Job0。闭包预发布又发现实际gross比已预留多8192B，写前断言原始1保留，Root补足精确差额后才发布。最终冻结晚于整体截止约10.34秒，这仍是实际执行偏差，不能因技术测试通过而删除或回写时间。
+
+后续继续分别记录模型原生退出、接收器退出、单个工具结果、实际交付和独立审核结论。等待中轮询原句柄；成功的一次性命令与已消费失败均不重复启动。没有“永不再失败”的保证，能落实的是避免把已知接口错误和重复消费再带入下一次运行。
+
+## 19:05 UTC — 实际运行暴露的启动缺口与针对性修复
+
+- Root读取3cbc4a原始1来自猜测job_guarded2 CLI结果名为MEMORY/RESULT.json；该CLI实际写LABEL.json，本次为review073.json。后继95e546按真实目录及接口读取，原073审核没有重跑。直接run_child的调用者自写RESULT.json和helper CLI的LABEL.json不能混用。
+- Root M5准备44e26d原始1来自对FileRef整个字典作字面比较，斜杠拼法不同导致误判。271883核对规范化路径、字节数及SHA均一致；失败发生于写入或启动之前。后继按Path规范化验证文件身份，同时保留必须字节一致的实际CLI cwd，不能把这两类要求混同。
+- M5独立049的VERDICT/REPORT实际在任务根目录，不在work子目录。以真实发布物和声明的精确采用对象接收；报告存在，不记录为缺失。其运行控制记录实际99,640B超过预留36,864B的62,776B如实留账，没有事后授权为历史合规。
+- M5 Full100003的主因是FRESH_EXCLUSIVE_RESOURCE_ADMISSION_REQUIRED：资源采样18:19:13.548407，60秒到期；Root创建年龄10.729秒、子进程启动28.791秒、关闭60.916秒，精确抛错时间未记录。所有七项非时间谓词与pins均成立。重复的外层/bootstrap/driver验证之后再使用最初快照，构成不合理的生命周期绑定。有效052保持60秒及安全门，在昂贵验证后的实际执行边界重新真实采样；不得靠改时间戳或扩大期限消除失败。
+- 同一次M5失败还暴露收束缺陷：child1且temp未生成，外层仍调用capture并对不存在的temp执行lstat，FileNotFoundError掩盖主因并留下空captured。052要求保留child原始退出和stderr，独立记录捕获是否可执行及捕获自身错误；缺少成功必需产物仍必须失败，不能伪造空manifest。003保持消费失败。
+- N8 runtime004原始1不是凭据或磁盘错误。014命令投影只替换完整目录前缀，漏掉裸command.run_owned_tag，使模板仍为003、现有完整command校验期望004。原checker只比较argv，所以14项检查和073范围审核未覆盖该字段。原Sol完整静态递归比较证实只有这个字段不同；runner/workload/ETW均0，grant不存在。修复必须显式派生当前tag，并覆盖完整命令及实际非消费启动前边界；不删强校验、不改成只比较argv、不重跑004。
+- DISPATCH061受限诊断真实child1/supervisor97为共同工作截止触发，区别于外层硬计时124。它定位历史引用构造的耗时，但没有证明安全可复用的具体校验；不能因此直接缓存所有验证或提高实际运行时限。原诊断和23项控制检查保留，062只处理证据支持的既有瓶颈。
+- DISPATCH owner的初始内存AST错误、发布后的控制台NameError、后继详细绑定的quota拒绝及1.122秒整次超额分别保留。发布控制台错误不等于全部已完成写入都失败，必须逐文件读取并追加实际处置；已成功发布的控制和已经执行的诊断不能重放。未生成的详细绑定仍记NOT_IMPLEMENTED，不以最小冻结冒充完成。
+
+本轮Root的N8实际调用只使用已成功final-arguments返回的arguments，未重新拼写路径、哈希或标签。新失败暴露的是候选内部未完整覆盖的投影；此前工具范围通过不能替代实际运行结果。修复、关联回归和独立审核继续，记录不代替完成。
