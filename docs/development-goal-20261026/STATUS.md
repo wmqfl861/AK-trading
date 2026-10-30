@@ -772,3 +772,21 @@ DISPATCH原作者044已native0/receiver0发布[有效补充](dispatch-r8-review/
 按用户最新直接AGENTS继续原Sol/max开发、原Astra现有缺口澄清、独立ZCode审核，未改规则文件或模型配置。交易关闭、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。当前批全部硬审完成后推送并停止，不新增产品计划。
 
 发布前索引核对捕获一次真实raw1：Git自动将082原报告的CRLF转为LF，尚未提交或推送。已仅将该文件的原字节写入Git blob并绑定索引，随后重新逐文件校验；未改原报告、Git持久配置、规则或全库换行。
+
+
+## 2026-10-30 00:17 UTC — M5正式运行与三项现有修复并行
+
+磁盘整理已完成，不重复执行。pnpm缓存可逆压缩释放约1.083GiB，60,119文件的逻辑内容及大小不变，prune删除0文件。后续D盘空闲继续增加；00:05 UTC实测29.931GiB，扣除完整既有预留及4GiB底线后余17.239GiB。当前磁盘不再阻止这些已授权任务。源码、行情、历史审核和凭据均未清理或迁移。
+
+| 模块 | 本次实际结果 | 正在推进的必要工作 |
+| --- | --- | --- |
+| M5 | r19、原独立082/083及真实READY接收完成后，Root已核实重计算槽释放、实际保留量和即时资源，原Full100于23:47:06 UTC真实启动，PID206156及创建时间绑定。100实例/七文件保持，至少72%进度后记录一个真实失败。 | 原运行继续且一次性身份已消费，不重启、不改冻结源。失败为shadow测试临时文件open：父目录真实存在172字符，最终文件242字符，临时名270字符，支持Windows路径长度诊断但尚无写入复现。原Sol已只读分诊，原Astra045正在给出最窄修复边界；最后079/080产品审核仍待真实结果。 |
+| T7 | full022真实以observer98停止，监督链3、PowerShell工具1；24节点收集、16个call通过，无完整统计，287pins不变、Job0。最后六个采样的完整栈与计数相同，停在_fold_records.py的前缀比较。原Astra025已给出两文件修复，Root将162文件逐字复制到独立r16。 | 原Sol立即修改块比较和已核实的同一不可变tuple复用，保留原序列语义；新的回归首先捕获预期red。原B及M1已并行准备F/R0/L0。不重跑full022/完整population，新的full-intern025-001须实际变更验证与绑定后执行。 |
+| N8 | local107及正式receive053成功事实保持。原principal053真实native0/两监督0/Job0、385.719秒；必需重跑与13反例通过，但原报告诚实记录一个已纠正的harness失败。第一次stderr被覆盖的限制保留，Root未运行已知会拒绝的binder。 | 原Astra054明确对这次精确证据绑定作窄例外，原Sol正在实现bind054/verify054，保持failed_current_tools=1及旧件。新的两文件交原独立辅助ZCode审核；不再重跑local107、接收或原13反例，不新增admission工具链。formal067/precheck018/binding005仍未消费。 |
+| DISPATCH | proof044实际native1/1.908秒：漏建claim父目录，run_owned未到达、无child/Job。原失败与1100B声明扣账保留，proof044已消费。关闭后创建目录仅为保存终态，不能当作启动前就绪。 | 原Astra045已生效，原Sol实施r10：首次保留/写入前检查真实父目录、未占用输出及ledger；隔离小反例验证后冻结。新的proof045一次1500秒等待M5释放重计算槽，再接原独立审核和既有context002/actual007/seal007。 |
+
+执行结果保持分层：M5冻结full100_outer.py --formal <实际admission> <SHA>仍运行，不能把前缀测试当成全量PASS；T7原监督器完整运行原生98/3/工具1均保留；DISPATCH具体entry044-r2.py启动失败是原生1，不是rg的NO_MATCH；N8principal原CLI0不能抹除harness child1。新作者调用使用原thread/watchdog；N8作者054、DISPATCH作者045为native0/receiver0，T7作者025native0/receiver1源于可选skill路径拒绝，已披露并以精确源码完成分析，未变更输入，不另循环计划审核。
+
+T7作者026纠正Root把独立作者配额再次扣入workflow的重复预留，源实现没有因此暂停。旧作者调用实际813,568B及289,280B超额保留，不回溯称合规；workflow在原24MiB内分配512KiB给必要实现、绑定和审核，未提高绝对上限。
+
+本条记录已发生的开发、失败和接续；四模块仍没有全部产品硬审PASS。原Sol/max开发、原Astra只修订现有计划缺口、原独立ZCode硬审核。未新开产品计划或修改项目规则/模型配置，enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。全部当前交付硬审后推送并停止。
