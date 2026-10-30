@@ -1,29 +1,29 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-30 13:35 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-10-30 15:42 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 `9d59f17`。本次仅发布准确状态与调用经验，未把待审代码冒充已接受产品。
-- A2 七策略同 bar 修复、A3 文档及已获用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
+- 本次更新前 main / origin/main 为 `0c67066`。本次仅发布准确状态与调用经验，未把待审代码冒充已接受产品。
+- A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
 ## 当前工作
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | R0-017、原B和M1的r17绑定已闭合；原Sol完成full033绑定，176项R0、162项语义源和213项运行输入已核对。full033于12:11:51 UTC实际启动，原24节点执行中，CPU与进度持续增加。 | 继续同一2GiB受控调用，不重启、不从进度推断通过。终态后立即接原独立产品审核；尚无完整24节点结果。 |
-| M5 | Full100002截止失败：child1、Job0，监督14393.281秒；100 collected，75具名节点setup/call/teardown均PASS，25无终态。冷fit实际10822.875秒，随后首个payoff至少1279.156秒。post-replay的22栈中14栈落在重复依赖图捕获。 | 原Sol完成SYNTHETIC真实生产类型比较：诊断关闭时71.111→23.511秒，哈希相等、17组行为反例两版本均通过，权威forecast计算3→3，容量失败3→1。正冻结候选送独立changed-scope审；没有Full100003授权，原079/080最终产品审未完成。 |
-| N8 F02 | 正式068在371.43/630秒内成功；precheck019、sole binding005各107/107，均已消费。原独立069真实CLI/trace/outer0、Job0、144输入未变、17.217工具秒，但其结论明确排除了repair011/009候选验收。 | 原独立070已无条件接受精确11文件，CLI/trace/outer0、Job0；一个发布后Bash收尾语法错误raw2与已完整写成的三个审核文件分别保留。Root P已发布，原final-arguments验证3.13秒/native0/Job0；原一次runtime002于本次真实启动，仍无终态。F02整体未接受，F01 OPEN-INSUFFICIENT。 |
-| DISPATCH | 原独立056写出FAIL，23检查中4失败；随后追加纠错说明，原FAIL未改。trace/outer130、90.082工具秒、Job0，CLI原生终态未捕获。原Sol已只读分诊：三项检查预期/输入身份错误，另一项反例隔离错误，尚未证明产品缺陷。 | funding的精确占用拒绝仍缺独立证据，不能用adapter拒绝或接受任意异常的owner检查替代。原审计文件保持冻结，处理缺失的有限复审；context002→actual007→成功后seal007→最终产品审仍均未消费。 |
+| T7 | full033 已消费FAIL：observer98→offline3→outer3，9277.437秒、Job0、213输入未变。停止于 smoke fixture 的 all_labels→记录物化→deep_size_estimate，尚未到内层 estimator fit。没有完整24节点结果。 | 原Sol只读定位了完成计数遗漏与昂贵计量路径；原作者036首个调用在870秒超时、raw1/Job0、无有效输出。首次续接被wrapper槽位拒绝（75，CLI未启动）；已核对原调用Job0及两个实际进程不存在，保留并移出本任务遗留槽位，原线程正在第二次续接发布。收到有效处置后立即交原Sol。未重启full033。 |
+| M5 | 缓存修复及048实际目录绑定已分别独立无条件PASS。绑定审核CLI/trace/outer0、Job0、74输入未变；573成员实际验证、7项既定拒绝和7项审核者反例完成。Full100002仍保留100 collected、75具名通过、25无终态的已消费FAIL。 | 原作者049已有效发布，原Sol正在隔离目录实现Full100003的执行控制。条件运行总上限28800秒、工作28200、收尾600，原100用例/数值不变；须先完成控制定向检查、独立READY和即时资源准入。003未执行，最终079/080未完成。 |
+| N8 F02 | 独立071真正接受012/009精确11文件：CLI/trace/outer0、Job0、191输入未变，focused9/9、审核者反例12/12。正式068、precheck019及sole005成功不重跑；002的raw1、15.406秒和OWNED_DISK_PATH_REMOVED保留。 | Root在接收时发现071的ROOT-LAUNCH只是资源准入记录，不符合实际resolver要求的v2字段。原记录和PASS不改写；原作者067已生效，Root已从真实工具记录发布事后事实登记，原Sol正在实现仅接收/绑定的013后继。P002、final-arguments及runtime003均未执行，F02 FAIL/F01 OPEN-INSUFFICIENT仍成立。 |
+| DISPATCH | 独立058已完成combined055 delta工具PASS：CLI/trace/outer0、Job0、197输入未变、3个工具全raw0、9.897工具秒；真实账本路径身份与完整FileRef继承均有证据。 | 原Sol运行前检查发现SOURCE-FREEZE054与gate044格式不匹配，且context/seal子进程指向不存在的r12 gate；旧entry还在发布INVOCATION后才检查。原作者059已生效，原Sol正在修复父子gate接线及claim前校验，精确内部转移256385B在原授权余额内；context002/actual007/seal007全部未消费，proof045/verify054不重跑。 |
 | Forward paper | run003三层raw0、568.469秒，但0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消费采集。 |
 | SC研究输入 | 政策已由原作者处置；实际A行数0，INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批没有新增consumer或fit。 |
 
-磁盘整理已完成，本次复核D盘空闲28.69GiB；未重复删除或压缩。CAPACITY-342保留全部历史费用和UNKNOWN，N8启动时扣除完整预留与底线后的RAM/C/D余量分别约4.60/23.45/15.89GiB。只有两个2GiB重型槽：T7full033与N8原runtime002；M5原Sol和DISPATCH原作者分别使用512MiB静态槽。磁盘不足已不是当前阻塞。每次启动仍核对RAM6/C4/D4GiB底线。
+磁盘整理已完成，本次实际复核D盘约28.0GiB空闲；未重复删除或压缩。CAPACITY-353保留全部历史费用和UNKNOWN，只补现有故障作者调用的有限空间预留；扣除全部预留及RAM6/C4/D4GiB底线后余量为正。最多两个2GiB重型槽；当前已关闭的作者槽按原预留交给M5/N8/DISPATCH原Sol，T7仅继续既有作者发布；任何借用仍须在重型运行前归还。CAPACITY-355另计N8实测源及定向检查新增753664B，保留历史费用。
 
-安全状态保持 `enable_trading=False`、observer=`hold`、broker=`NOT_RUN`、真实send/cancel=`0/0`。未读取或修改`.env`、账户配置和模型配置。原始运行与审核包保留本机；公开仓库不发布凭据、会话库或网络暴露细节。错误及避免办法见[Root调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。
+四个整体模块均未完成最终硬审，局部工具PASS不计作整体PASS。安全状态保持 `enable_trading=False`、observer=`hold`、broker=`NOT_RUN`、真实send/cancel=`0/0`。未读取或修改`.env`、账户配置或模型配置。原始包留本机，公开仓库不发布凭据、会话库或网络暴露细节。错误及避免办法见[Root调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。
 
 ## 本次已推送与实际命令
 
