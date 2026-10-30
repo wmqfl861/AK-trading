@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-30 09:27 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-10-30 10:51 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 `7cab03a`。本次仅发布准确状态与调用经验，没有把待审代码冒充已接受产品。
+- 本次更新前 main / origin/main 为 `daae330`。本次仅发布准确状态与调用经验，没有把待审代码冒充已接受产品。
 - A2 七策略同 bar 修复、A3 文档及已获用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -14,18 +14,16 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | full025 保留 raw1、24 selected/ran，16P/3F/4E/1S。原 Sol033 已修正两处 Popen 类兼容并冻结 r17 负例测试，24 展开节点与64条断言不变；connected success0/quota97、句柄/native7检查及512MiB Job0已取得。B033 两绑定节点2P/raw0，12份fixture未重写。 | 原独立 R0-016 已启动后遭 ZCode 1308/429 限额：CLI/outer raw1、Job0、输入不变，尚无R0结论；4个工具raw0、1个工具raw1保留。恢复原会话时须处置旧候选路径的审核脚本。适配器独立审核、M1新L0、full033和最终产品审仍未完成；full033未消费。 |
-| M5 | 完整573文件源码树和r4工具经原独立086无条件接受。Full100002仍运行，实际观察记录显示正执行真实训练链、特征快照及哈希工作。 | 不从进度点推断100项通过；等真实终态与逐项结果，再交079/080最终产品硬审。 |
-| N8 F02 | 独立061准入验证40/40通过；replacement060-002原审核者给出无条件 scoped admission PASS，CLI0/Job0。后续principal060实际结束CLI0/Job0，但产品工具范围 verdict FAIL。独立060记账检查及反例通过。 | 必需focus058的指定输出目录checks060与冻结runner只允许checks058冲突，命令raw1且未启动子检查。原作者062正在处理这一既有调用契约；不得重跑已成功记账检查。formal068/precheck019/sole005仍未消费；F02 FAIL/F01 OPEN-INSUFFICIENT/P ABSENT。 |
-| DISPATCH | 原052无条件 combined scoped TOOLING PASS保留，最终产品尚未PASS。正式运行前发现ADMIN无法覆盖三个阶段日志，入口尚未消费。原作者053已给有效修复范围。 | 原Sol正在实现不可变额度/选择器后继：在原1GiB内按实测正差转移，保持历史费用与既有检查。冻结后独立delta审核，再context002→actual007→成功后seal007→最终产品硬审。 |
+| T7 | 原R0-017独立输入范围审核完成：官方及fixture verifier通过，两绑定节点2P/child0，CLI/outer0、输入未变、Job0。原M1已真实生成r17 L0并以另一新进程验证，11.47/11.61秒，均0/512MiB/Job0；24 payoff节点与既有测试名称保留。 | 适配器033审核者已写范围内无条件TOOLING PASS，真实connected success0/quota97；随后违规追加工具使trace到90.139工具秒停止，outer130/Job0、1个未闭工具、CLI终态未捕获，报告一处哈希字面有误。原作者035只处置该审核的最小补正，不把原报告直接作为已完成接受。full033尚未消费，待真实补正完成后原Sol绑定L0及累计writer额度。 |
+| M5 | Full100002仍在原2GiB受控进程内运行；完整573文件源码树与r4入口的独立086 TOOLING接受有效。观察记录持续推进真实训练/预测计算。 | 原100项尚无完整终态，不能从进度点推断通过。继续原调用，结束后交原079/080独立最终产品审；不重启同一正式运行。 |
+| N8 F02 | 新a062准入delta已由原独立061审核者无条件接受：实际32/32，native/trace/outer0、Job0、25.934工具秒、无未闭工具，原输入不变。其owner alias修正首次实际通过，旧31/32和超时记录保留。 | 10:44 UTC原principal060-002已启动，完成剩余focus并复用成功记账检查；独立准入PASS不替代此主审核。formal068/precheck019/sole005尚未消费；F02 FAIL/F01 OPEN-INSUFFICIENT/P ABSENT。 |
+| DISPATCH | 053/054已有quota/route修正25项检查通过，native0/Job0；真实125146B临时收费退款已追溯补记。新055审核hold写入通道已实际通过publication/stream/conservation及4个反例，0/Job0；未增加partition。 | 旧65536B审核hold已有19362B分配，剩46174B。原owner超出054额度14.376秒后停止，055最终freeze/NEXT尚未发布。原作者055正在限定收尾及独立审核输出路径；之后独立delta审→context002→actual007→成功后seal007→最终产品审，均不得以工具自测替代。 |
 | Forward paper | run003三层raw0、568.469秒，但0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消费采集。 |
 | SC研究输入 | 政策已由原作者处置；实际A行数0，INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批没有新增consumer或fit。 |
 
-ZCode 在2026-10-30 09:15 UTC返回provider1308/HTTP429及retry-after2995，提示约10:05 UTC（北京时间18:05）恢复。独立审核调用在此期间排队，保持原模型/会话，不盲重试、不以自测代替审核；Sol修复、原作者现有澄清与已在执行的M5继续。R0成功/失败工具、空stdout及原native1全部保留，限额恢复本身不代表验收通过。
+ZCode此前1308/HTTP429等待期结束后，R0-017及N8独立062调用均已真实成功；保持原模型/会话/存储，没有改配置或用自审代替独立审核。T7适配器后续130来自工具时限停止，与此前provider1308分开记录。
 
-T7两个注入管道失败均有fatal stderr、native97、Job0，但没有建立预期JSON失败收据；该限制及检查脚本raw1已披露，等待独立判断。另有旧审核额度不足的具体问题已交原作者034；这只处理现有修复的资源和调用，不新增产品计划。
-
-磁盘整理已完成，未重复清理、删除证据或行情。2026-10-30 09:15前后D盘物理空闲约29.3GiB，当前CAPACITY-325按全部既有预留核对RAM6/C4/D4GiB底线。各模块独立会话和不重叠写集并行；两重型槽分别用于M5及已关闭的T7R0，外部CLI不显示为Codex原生子代理。
+磁盘整理已完成，未重复清理、删除证据或行情。D盘当前物理空闲约29GiB；最新CAPACITY-328继承全部历史费用和UNKNOWN，并按完整预留核对RAM6/C4/D4GiB底线。M5使用第二重型槽，N8主审核使用第一重型槽；原作者只借用已释放的既有512MiB槽。不存在第三重型槽。
 
 安全状态保持 `enable_trading=False`、observer=`hold`、broker=`NOT_RUN`、真实send/cancel=`0/0`。未读取或修改`.env`、账户配置和模型配置。原始运行与审核包只留本机；公开仓库不发布凭据、会话库或网络暴露细节。错误及避免办法见[Root调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。
 
