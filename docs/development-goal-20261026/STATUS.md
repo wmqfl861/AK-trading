@@ -790,3 +790,19 @@ DISPATCH原作者044已native0/receiver0发布[有效补充](dispatch-r8-review/
 T7作者026纠正Root把独立作者配额再次扣入workflow的重复预留，源实现没有因此暂停。旧作者调用实际813,568B及289,280B超额保留，不回溯称合规；workflow在原24MiB内分配512KiB给必要实现、绑定和审核，未提高绝对上限。
 
 本条记录已发生的开发、失败和接续；四模块仍没有全部产品硬审PASS。原Sol/max开发、原Astra只修订现有计划缺口、原独立ZCode硬审核。未新开产品计划或修改项目规则/模型配置，enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。全部当前交付硬审后推送并停止。
+
+
+## 2026-10-30 01:25 UTC — T7 输入审核完成，M5 路径修复获范围审核，继续四个现有模块
+
+磁盘整理已经完成。D 盘当前有约29.9GiB空闲，扣除完整已有预留和4GiB底线仍余约17.2GiB；不重复清理，不删除源码、行情或审核资料。
+
+| 模块 | 本次实际结果 | 仍需完成 |
+| --- | --- | --- |
+| M5 | atomic_write 的单行临时名修复完成，保留同目录独占创建、flush/fsync与原子替换。原版在172/242/270字符路径上真实 FileNotFoundError(errno2)，后继197字符临时路径成功。开发者及Root分别真实7/7通过；原独立084无条件 changed-scope PASS，CLI0/guard0/Job0，123.731秒。 | 原100实例运行仍在继续，已消费身份不重启；原始失败保留。须等完整终态支持复用，才可执行既有900秒单节点后继；最终079/080产品硬审待完成。范围审核见[m5-atomic-write045-review/VERDICT084.json](m5-atomic-write045-review/VERDICT084.json)，不作为整体M5 PASS。 |
+| T7 | 原Sol完成两文件序列比较修复，17passed/41deselected。原B绑定2/2通过。R0-014的两节点也真实2/2通过，但Root误把工具时间改成270秒总墙钟，切断结论写入；原生1/Job0保留。原作者027纠正后，原R0-015真实CLI0/guard0/Job0，223.344秒，最终169/169pins通过，给出R0_FROZEN_INPUT_SCOPE_CHECK_OK；成功节点未重跑。 | 原M1已经续接真实新报告生成并验证L0；之后原Sol受影响检查、唯一full-intern025及独立最终硬审，仍遵守重计算槽依赖。 |
+| N8 | bind054/verify054已冻结；原独立054实际13项required与5项边界探针成功，CLI0/两监督0/Job0，33.997工具秒。报告虽写PASS，但含错误FileRef格式、手抄哈希和失败计数不一致，Root未执行已知会拒绝的binder。 | 原作者056已授权原审核者一次交付纠正：复用已成功的验证，不改产品、不重跑13/5检查；保留其首次探针child1及纠正证据，产出正确新结论后才接bind/verify与formal067。原owner至少126.509/90秒的程序性超额仍为FAIL。 |
+| DISPATCH | 原owner已完成r11-author046并冻结WRITE_STOP。真实15项seam检查PASS、child/监督0/0、Job0；九源实际bytes/hash/handle身份核验通过；private/context/actual/seal四个静态preflight均native0。旧044失败、045超时及两次写入前尺寸断言失败保留。 | proof045仍未消费；M5释放独占重计算槽后先做即时资源preflight，再执行原proof、独立review044及既有context002/actual007/seal007。 |
+
+N8后继准备曾因当时RAM扣除完整预留低于6GiB底线而以raw1停止，未创建文件或启动模型。T7审核真实Job0后释放其额外1.5GiB，后继准入成功；不是磁盘再次不足。所有完整工具运行耗时与poll等待分开计费。T7两次Bash1分别来自已建目录的不存在断言和空stderr的末尾非空断言，底层检查raw0原样保留，由原reviewer明确处置。
+
+仍按用户本轮直接AGENTS：原Sol/max实施，原Astra只澄清已开始任务，独立ZCode硬审；没有新增开发计划。四项最终产品硬审均未齐备。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。当前批完成审核后推送并停止。
