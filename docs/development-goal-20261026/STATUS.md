@@ -930,3 +930,18 @@ DISPATCH原作者061的实际CLI0与接收器/外层1分别保留，已按原线
 DISPATCH原063首次wrapper等待140.97秒后原始75，明确没有启动CLI；Root核对本项目旧062完整Job0、精确task/token及三个native进程均不存在后，原子重命名保留其slot7锁，其他项目槽未改。第二次实际作者调用689.16秒、CLI0/receiver1/Job0；receiver1来自PowerShell普通JSON对象模式无法处理`ADMIN`/`admin`两个键。Root验证原线程、唯一turn.completed、61输入未变及最终消息与9621B处置文件完全一致，保留原1，已立即交原Sol实施063。仅原有B01–B03修复，一次新组件必须先通过真实提取片段的内存编译和完整绑定检查；原实际后继/seal仍未运行。
 
 N8原071在870.05秒截止、原始1/Job0且无作者文件。Root保留全部失败，核对其原线程和未完成状态后，仅续接原作者的最终处置发布，20:30:28启动，600whole/570stop，复用原输出额度。slot8恢复同样基于完整关闭证据及三个进程不存在，旧锁完整保留。N8接收修复仍未完成，不发布P004或启动005。T7原full036的实际训练处理计数至20:31仍持续增长，未重启。
+
+## 2026-10-30 21:20 UTC — N8 修复验证完成，DISPATCH 定位实际子进程选择缺口
+
+接续 main `2e550aa5570aeef0479edadedfbf852c5509dd17`。磁盘整理已完成，本次没有再次删除、压缩或移动源码、行情和审核文件。21:19启动前扣除全部预留及底线，RAM/C/D仍余3,498,885,120/15,117,722,691/12,920,070,144B。CAPACITY-380通过前驱引用保留所有历史费用和UNKNOWN；两条2GiB重运行槽仍由T7和M5实际使用。
+
+| 模块 | 已发生的结果 | 下一步及未完成事项 |
+| --- | --- | --- |
+| N8 | 原071最终处置已真实发布，CLI0/receiver1/Job0分别保留；Root绑定074的真实失败关闭，没有补造缺失RESULT。原Sol的016接收修复完成，`checks016.py --output-root .../owner-001 --capacity .../CAPACITY-377.json --child`真实32/32、原始0、14.37秒、512MiB、Job0。 | Owner最后交接writer在工作截止后被拒绝，原始1且未写文件。Root在其WRITE_STOP后用真实时间接收原字节，发布明确Root身份的FREEZE/HANDOFF，保留迟到。075复审已准备：原SID/store/cwd、331输入、两附件16元素argv，所有监督器输出含OWNER-REPORT均不存在且与输入不相交。等待真正空闲的重运行槽；P004、最终启动前检查和runtime005仍NOT_RUN。 |
+| DISPATCH | 063已发布41项控制，提取片段的parse/compile/AST/namespace预检成功。真实focused命令原始1，前十项仅为成功前缀；最终`R63_ACTUAL_SELECTION`拒绝，组件没有启动。21:16:43按时冻结并WRITE_STOP，旧44项062 pins未变。 | 最终`_SPEC.argv[4]`仍是旧runner040，路由只识别另一种旧入口，未落实所声明runner063。原Astra064于21:19:42实际启动，仅处理该既有B03及有限修复额度；原component063、actual-successor、seal均未消费。不绕过前置检查，不新增模块。 |
+| T7 | 原full036持续运行，21:16输出由TRAIN进入CALIBRATION处理，原句柄未重启。 | 完整24节点终态仍未产生，不能将进度计数当作23通过及原披露1跳过。 |
+| M5 | Full100004自20:17:26运行；四项真实资源门通过，已进入耗时测试，原句柄仍在。 | 100项最终结果及079/080产品硬审仍待完成；052的控制范围READY不能替代最终产品PASS。 |
+
+N8冻结入口：本地`.../resource-successor-005-owner-checks/reception-074-001/FREEZE-001.json`，9184B，SHA-256 `8ba11e128ffa12b9c25ea9ab727a432a45ec972c4bfe8881dc5ad4b77d00046f`。DISPATCH冻结入口：本地`.../actual007-prelaunch061-001/FROZEN063.json`，12226B，SHA-256 `a9c98289ad4d1401a3d1476c0711d7e9707ba486e0faac566e14fe0f35349515`。真实工具及逐文件证据继续保留本地；本次没有将未获最终硬审的候选产品代码标为已合并。
+
+当前范围仍仅四个已开始模块。按用户当前AGENTS执行原Sol/max开发、原Astra既有修复澄清、独立ZCode硬审；磁盘旧路由文字未自行修改。交易保持false/hold/broker NOT_RUN/send0/cancel0。完成四项规定硬审、必要集成和推送后停止。
