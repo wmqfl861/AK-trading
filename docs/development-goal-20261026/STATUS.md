@@ -806,3 +806,23 @@ T7作者026纠正Root把独立作者配额再次扣入workflow的重复预留，
 N8后继准备曾因当时RAM扣除完整预留低于6GiB底线而以raw1停止，未创建文件或启动模型。T7审核真实Job0后释放其额外1.5GiB，后继准入成功；不是磁盘再次不足。所有完整工具运行耗时与poll等待分开计费。T7两次Bash1分别来自已建目录的不存在断言和空stderr的末尾非空断言，底层检查raw0原样保留，由原reviewer明确处置。
 
 仍按用户本轮直接AGENTS：原Sol/max实施，原Astra只澄清已开始任务，独立ZCode硬审；没有新增开发计划。四项最终产品硬审均未齐备。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。当前批完成审核后推送并停止。
+
+
+## 2026-10-30 02:45 UTC — DISPATCH 完整验证成功，继续独立审核与现有修复
+
+本次接续仅限 M5、T7、N8、DISPATCH，不新增产品计划。上一推送为 `26d5acbb838f66070ea2a88343db6420ae62dc10`。磁盘整理已完成，不重复清理；D 盘约 29.9 GiB 空闲，源码、行情和审核文件未删除。
+
+| 模块 | 实际结果与原始退出码 | 下一步 |
+| --- | --- | --- |
+| DISPATCH | 原 proof045 已真正完成，原生 child/supervisor/外层均 0，839.406 秒，Job active=0、streams_closed=true；PRIVATE-CONTEXT 已生成，完整 stdout 保留，stderr 为空。原 r11 源码保持冻结。 | 立即准备原独立 review044；还不能视为产品 PASS。通过后按既有 context002→actual007→success-only seal007→最终硬审推进。 |
+| T7 | r16 的 L0 已生成并由新 Python 进程验证：两次原生 0、11.56/11.95 秒、512 MiB Job 关闭；169 项 R0 和 162 项源绑定不变。原作者029已澄清剩余验证时间，原 Sol 准备好七个 `t7w or t7ref` 用例。 | 依 Author028 的运行顺序取得 2 GiB 槽后执行七项受影响检查，再执行原唯一 full-intern025。已通过的17项不重复。最终独立审核仍待完成。 |
+| N8 | 原054审核交付完成后，按作者057明确许可作三处 FileRef 形状投影，原结论及 failed_current_tools=1 保留。真实 bind054 和 verify054 分别原生0、1.391/1.797秒、512 MiB Job0。原 formal067 随后真正启动并失败：外层/控制器/child均1，161.484秒、无超时、Job0；precheck018 执行96个唯一用例，95成功、CTX-08失败，97.937秒。 | 原作者058正在处理这个具体上下文缺口。原 formal067/precheck018 已消费，不重跑；原 local107、receive053 和成功绑定结果保留。F02 FAIL、F01 OPEN-INSUFFICIENT、P ABSENT不变。 |
+| M5 | 原 Full100 继续运行，原PID及创建时间保持；仍观察到持续 CPU 计算。单行 atomic_write 修复的原独立084范围PASS保持。 | 等原运行真实终态后核对完整100结果，再判断既有单节点后继条件；不重启、不改活动源或提前封存日志。最终079/080产品审核未完成。 |
+
+N8 原始失败原因是 `POPULATION_OBSERVATION_DISAGREEMENT:CTX-08`。人口检查将正式 request（formal_launches_allowed=1）传给禁止正式调用的反例，却期待 `FORMAL_MODE_NOT_PERMITTED_THIS_CALL`；实际返回 `FORMAL_MODE_UNCONFIGURED_GENUINE`。另一观察路径返回前一个原因。已定位到 population-r36.py:1459 和 context_adapter-r59.py:19，仍须按原计划修复并独立审核，不能通过放宽断言或改写报告解决。原正式命令取自冻结 FREEZE-001.json 的 formal_launcher_argv，精确参数、stdout、stderr和退出记录在本地 attempt-067 中。
+
+原作者028允许第二个隔离2GiB槽与 M5 并行，DISPATCH 因此成功执行。CAP285 的即时检查支持启动；其后内存波动导致一次未启动准入 raw1，未发布容量文件、未派工。DISPATCH关闭后按 CAP287 将该槽恢复为512MiB静态准备，重审核前须重新预留1.5GiB并核对6/4/4GiB底线。没有借用运行中的 M5 配额。
+
+T7 旧执行耗时存在 UNKNOWN，作者029保留2101.580秒保守历史计费，以原余298.420秒加明确新增1501.580秒组成1800秒后续额度，其中180秒保护关闭；没有重置旧2400秒池。Root误读不存在的可选 REVIEW-HANDOFF.json 所致 raw1 已保留，后续改用实际目录中的 REVIEW-BRIEF.md，不作为产品失败或成功证据。
+
+当前仍未取得四模块全部最终产品硬审PASS。开发由原 Sol/max、既有计划澄清由原 Astra、独立审核由原 ZCode 执行。未改项目规则、持久模型配置或凭据；enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。完成本批审核及推送后停止。
