@@ -1,30 +1,30 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-30 06:27 UTC。当前只完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下表为当前状态，后文日期记录保留当时事实。
+更新于 2026-10-30 08:24 UTC。当前只完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下表为当前状态，后文日期记录保留当时事实。
 
-当前会话用户直接指定：Astra/max 负责计划和契约；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；原独立 ZCode GLM-5.3/max 负责成果硬审核。磁盘旧规则的开发路由尚未同步，本页不修改规则文件。计划意见不设 PASS 门。
+当前会话用户直接指定：Astra/max 负责计划和契约；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审核。磁盘旧规则的开发路由尚未同步，本页不修改规则文件。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- main / origin/main 起点为 `71ac137cfd07be89e1ae2c649b7b2c35639c5c42`。
+- 本次更新前 main / origin/main 为 `9c17a22`；此前接受起点 `71ac137cfd07be89e1ae2c649b7b2c35639c5c42` 与后文历史保留。
 - A2 七策略同 bar 确认修复已通过独立硬审并推送。独立完整 M1–M4 运行 raw 1：962 ran / 948 passed / 14 个既有失败 / 0 error / 0 skip；不能宣称全套全绿。
-- A3 文档同步、用户批准的 CLAUDE 两处同步和 B1 的 234 条分诊已完成。A4 先前只完成了有限入口保护方案，本 Goal 开始实际实现。
+- A3 文档同步、用户批准的 CLAUDE 两处同步和 B1 的 234 条分诊已完成。A4 入口保护实现及独立接受已推送。
 - C05、P0-2 replay、P2-7、SQL helper、forward 工程集成等已有接受范围继续有效；这些窄 PASS 不证明研究统计或完整前瞻模拟已通过。
 
 ## 当前工作
 
 | 模块 | 当前已核结果 | 正在推进 |
 | --- | --- | --- |
-| T7 | r16的17 focused及7 affected、F/R0/L0保持有效。032完整合成启动链已真实1 passed/native0，内外512MiB Job0；保留之前的floor拒绝和接线失败。 | 原Sol完成受影响的限额/失败收尾检查与生产绑定冻结后，立即原ZCode工具审核，再执行未消费的24-case full025及R1/L1/R2。 |
-| M5 | 046有限比较3/3、native0/Job0，字节及拒绝相同，timer枚举26413→2。566文件物理源码树已完整复制/hash核对；绑定检查raw1/8.39秒/Job0，发现派生F路径不在组装清单。 | 原Astra处理这一实际source/F闭包缺口，原Sol候选保持冻结；owner002实际超窗193秒记录保留。086/087、Full100002及最终079/080均未运行。 |
-| N8 F02 | local107/receive053/058结果保持；060会计校验10项通过/native0，旧执行源不变。aux002违规清理已恢复内容，原物理身份未恢复，原审核会话永久隔离且PASS不接纳。 | 原admission Sol修复060调用绑定的缺失别名；随后新独立辅助审核→原principal060→bind/verify/formal068。F02 FAIL、F01 OPEN-INSUFFICIENT保持。 |
-| DISPATCH | r11和proof045 consumed SUCCESS保持冻结。047到570.6秒上限后native130/Job0，无VERDICT；实际工具区间29.538秒。 | 原作者051已批准同一新审核者的独立续接，60工具秒/1200整体秒，修正其尚未执行的反例脚本。真正接受后执行context002→actual007→seal007→最终产品硬审。 |
+| T7 | 工具032独立无条件 PASS：实际合成成功 raw0、限额失败 raw97，8项审核者反例通过。正式 full025 已实际结束：24 selected/ran，16 passed /3 failed /4 setup errors /1 skipped，raw1，266.87秒，Job0。运行后169 R0、162 B及42直接输入均未变化。 | 原Sol已定位 Popen 被替换成函数，破坏 asyncio 的继承；另有负例测试旧锁路径缺失和版本不一致。原Astra033只澄清这次既有失败的修复与后续调用；旧full025已消费，不自动重跑。 |
+| M5 | 完整573文件源码树及r4修复经原独立086无条件工具接受。必需绑定复跑 raw0/32.187秒/Job0，负例结果发布器 raw0，7个新增反例通过。 | 完整100项 Full100002 已实际启动，使用原冷拟合工作量和2GiB Job；最终079/080产品硬审尚未完成。 |
+| N8 F02 | 原Sol061完成精确 fresh060 中断恢复修复，40/40针对性检查 raw0/Job0，含实际Root闭包及同库writer反例。创建时DB身份与首次观察前连续性仍明确UNCAPTURED。 | 独立admission061审核已启动；通过后续接原实际060审核者，再接principal060和既有bind/verify/formal068。F02 FAIL、F01 OPEN-INSUFFICIENT、P ABSENT保持。 |
+| DISPATCH | 原安全审核会话052已结束并给出无条件combined scoped PASS；native0、483.89秒、19.8工具秒、0未闭合工具、Job0。三个真实审核脚本错误已纠正，旧051 FAIL保留。 | 原Sol核对已准备入口，接续context002→actual007→成功后seal007→最终产品硬审。局部联合PASS不等于最终产品PASS。 |
 | Forward paper | 监督修复已独立PASS。run003正常关闭，三层原始退出0，568.469秒；但0新OPEN/0新CLOSED，只有bootstrap和CLOCK。 | 尚未开始真实forward bar采集，strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重复已消费的采集。 |
-| SC研究输入 | 日期标签与研究可用时点政策有效，独立建议已由原Astra处置；实际A行数仍0、INPUT_NOT_DELIVERED。 | 需要具名合法合约、历史会话和完整prefix/tail等输入证据；没有空consumer或fit可计为交付。 |
+| SC研究输入 | 日期标签与研究可用时点政策有效，独立建议已由原Astra处置；实际A行数仍0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail等输入证据；未新增consumer或fit。 |
 
-此前A4、A2、M4 causality、T7 CPU/内存/接线单元和chronological冻结研究实现的已接受成果继续有效；这些局部PASS不代表完整冷链、正式历史报告或paper验收完成。
+T7本次确实运行了训练链，完整统计暴露具体错误；工具PASS和局部通过不能替代正式链路成功。此前A4、A2、M4 causality、T7 CPU/内存/单元和chronological冻结研究实现的已接受成果继续有效。
 运行请求与原始流位于本机 `C:/AKWorktrees/aktr-goal-20261026/`；外部 CLI 不显示为 Codex 原生子代理。各模块使用独立会话库与不重叠写集；不得凭 CLI 原生 0 认定任务完成。
-本次磁盘整理已完成；未删除源码、行情或审核资料。2026-10-30 的有限比较、调用错误与准入记录见 [Root 调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。M5 比较仅为 SYNTHETIC/no-bar/NO_CANDIDATE，不证明完整冷链已通过。
+本次磁盘整理已完成，未删除源码、行情或审核资料；当前物理余量已满足扣除全部预留后的RAM6/C4/D4GiB底线。最新运行记录为CAPACITY-322，物理余量不被当作新增任务授权。调用错误、实际失败和避免办法见 [Root 调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。
 
 ## 本次已推送与实际命令
 

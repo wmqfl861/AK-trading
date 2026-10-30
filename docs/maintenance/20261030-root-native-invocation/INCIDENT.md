@@ -16,3 +16,15 @@
 有限 M5 比较的真实命令为冻结 r2/observe_postfit046.py --output runtime/m5-postfit-observe046-001，通过已接受 r19 监督器执行，512MiB/900秒上限，实际17.797秒、native0、Job0。3 passed /0 failed，原输入哈希未变；三组规范字节与拒绝相等，枚举26413→2，耗时减少约10–33%。这是 SYNTHETIC/no-bar/NO_CANDIDATE，不是冷拟合或完整100项验收。
 
 本机证据入口：C:/AKWorktrees/aktr-goal-20261026/zcode-dispatch/dispatch044-completion050-newreview-001/ROOT-NO-LAUNCH-001.json、ROOT-CLOSED-047-001.json；C:/AKM5C019/capacity005/runtime-route-031/runtime/capture-postfit-observe046-001/RESULT.json。公开仓库不含原始会话库、凭据、网络暴露细节或大运行流。
+
+## 后续真实结果及防复发补充
+
+- DISPATCH052 的首次 Root 启动 raw1、0.65秒、Job0。TRACE 在已配置的 `clock/LIVE.tmp` 写入时发现父目录不存在；异常收尾又调用同一发布器，因而没有TRACE终态。原 watchdog START-INTENT/START/TERMINAL/RESULT 均未生成，对应时间后的模型调用记录为0，产品命令也为0。错误来自Root漏建必需父目录，不是产品失败。保留失败TRACE/MEMORY；补齐父目录后用独立TRACE-002/MEMORY-002/SPEC-002接同一尚未使用的CLI授权。后继实际native0/Job0/19.8工具秒、独立联合PASS。今后从SPEC中的live_budget_path导出并检查父目录，再启动，不能只创建顶层工作目录。
+- 上述恢复的第一次只读诊断自身raw1：对Python traceback中repr转义的路径进行单反斜杠字面匹配，断言失败，发生在任何文件写入前。改为匹配错误类型和文件basename，并以真实文件/模型记录核对，不用traceback的显示转义作路径身份。
+- Root曾将JSON模板的ROOT_ACTUAL_BYTES/SHA256占位符当成真实FileRef，导致启动前raw1。模板与真实引用按字段类型区分；实际060对象生成后逐项验证。r4不存在的REVIEW086-MAP猜测读取、未先判存在的N8生成目录枚举也保留为读取错误。必需路径从冻结记录取得；尚未生成的输出先判断存在，后继成功不能抹去前一错误。
+- T7工具审核第一调用被Root套了600秒整体上限，实际工具额度并未耗尽；后续在原剩余额度内完成独立审核。工具执行额度与包含模型等待的整体上限分别记录，不能擅自把前者用作后者。
+- T7正式full025真实raw1，24项为16P/3F/4E/1S。原Sol在实际栈中定位entry035将subprocess.Popen替换为普通函数，导致Windows asyncio的Popen子类定义TypeError，随后出现base_events导入连带错误。另有negative fixture旧锁路径不存在、v2.1.6与实际v2.1.7绑定不一致。根因已定位，修复及复审尚未完成。新的adapter应保留类/继承契约，并在实际accounting安装后用新进程覆盖子类定义和asyncio/SQLAlchemy导入；不能只验证简单子进程成功。不得改stdlib、放宽M1门或把异常字符串改成当前错误以凑通过。
+- N8作者061实际CLI native0、输入未变，接收器因流中一次已恢复的SSE Reconnecting事件返回1；作者有效处置文件已完整发布。分别保留原生退出、接收器退出和产物事实，未把接收器1改写为0，也未重复模型调用。M5原owner最终交接曾因窗口已关闭在I/O前停止，原PowerShell raw1和未生成文件事实同样保留。
+- T7独立工具报告的一个辅助wiring031哈希字面有录入错误；主配置、请求、冻结清单的绑定正确，真实依赖与这些已审核输入逐项一致。Root在单独启动记录披露错字及正确来源，未修改审核包或伪称错误字面正确；这不是重新签发独立PASS。
+
+这些记录不承诺以后绝无错误。已发生的每次失败保留原始结果，后继依据实际执行与明确范围判断；最终产品接受仍由独立审核给出。
