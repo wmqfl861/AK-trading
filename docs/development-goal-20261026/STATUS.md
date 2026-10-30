@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-30 11:32 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-10-30 13:35 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 `adbf30e`。本次仅发布准确状态与调用经验，未把待审代码冒充已接受产品。
+- 本次更新前 main / origin/main 为 `9d59f17`。本次仅发布准确状态与调用经验，未把待审代码冒充已接受产品。
 - A2 七策略同 bar 修复、A3 文档及已获用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -14,14 +14,14 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | 原R0-017独立输入审核完成，两个绑定节点2P，CLI/outer0、输入未变、Job0；原M1已生成并独立进程验证r17 L0。适配器033真实connected success0/quota97及九项断言已保留。 | 原审核033在报告后追加工具导致outer130、未捕获CLI终态；报告另有哈希字面和断言列表错误。原作者035已给出仅接收既有证据的补正，原会话请求及关闭记录已准备，通过既有validator，等待DISPATCH释放第一2GiB槽。full033未消费，之后由原Sol绑定L0及累计writer额度，执行原24节点。 |
-| M5 | Full100002持续在原2GiB受控进程内运行；573文件源码和r4入口的独立086 TOOLING接受有效。观察记录仍显示真实模型计算。 | 原100项尚无完整终态，不从进度点推断通过。继续同一调用；结束后由原079/080审核者完成最终产品审，不重启正式运行。 |
-| N8 F02 | principal060-002已无条件TOOLING PASS，CLI/trace/outer0、Job0；必要focus真实4.313秒。Root bind060和实际字节verify060均0。正式068已完成：630秒上限内实际371.43秒，child0、Job0；precheck019及sole binding005各107/107合并检查通过，输入未变、流及配额关闭完整。 | 068/019/005均已消费成功，不再重跑。自动生成的限定工具结论尚不能替代原ZCode最终CLI接收及严格终态引用；原Astra正在澄清这一已有验收衔接。F02仍FAIL待原生验收，F01 OPEN-INSUFFICIENT，P ABSENT，runtime002 NOT_RUN。 |
-| DISPATCH | 原owner已完成055冻结并WRITE_STOP。053/054共25项、055出版/流/收费守恒与四个反例均0/Job0；旧退款125146B已追加补账。冻结时review hold43171B、已分配22365B，ADMIN不变。 | 独立原ZCode会话055已实际启动，60/40/20工具额度及1200整体上限；请求完整152项输入已验证。其后仅在真实delta PASS后接context002→actual007→成功后seal007→最终产品审；这些正式阶段仍未消费。 |
+| T7 | R0-017、原B和M1的r17绑定已闭合；原Sol完成full033绑定，176项R0、162项语义源和213项运行输入已核对。full033于12:11:51 UTC实际启动，原24节点执行中，CPU与进度持续增加。 | 继续同一2GiB受控调用，不重启、不从进度推断通过。终态后立即接原独立产品审核；尚无完整24节点结果。 |
+| M5 | Full100002截止失败：child1、Job0，监督14393.281秒；100 collected，75具名节点setup/call/teardown均PASS，25无终态。冷fit实际10822.875秒，随后首个payoff至少1279.156秒。post-replay的22栈中14栈落在重复依赖图捕获。 | 原Sol完成SYNTHETIC真实生产类型比较：诊断关闭时71.111→23.511秒，哈希相等、17组行为反例两版本均通过，权威forecast计算3→3，容量失败3→1。正冻结候选送独立changed-scope审；没有Full100003授权，原079/080最终产品审未完成。 |
+| N8 F02 | 正式068在371.43/630秒内成功；precheck019、sole binding005各107/107，均已消费。原独立069真实CLI/trace/outer0、Job0、144输入未变、17.217工具秒，但其结论明确排除了repair011/009候选验收。 | 原独立070已无条件接受精确11文件，CLI/trace/outer0、Job0；一个发布后Bash收尾语法错误raw2与已完整写成的三个审核文件分别保留。Root P已发布，原final-arguments验证3.13秒/native0/Job0；原一次runtime002于本次真实启动，仍无终态。F02整体未接受，F01 OPEN-INSUFFICIENT。 |
+| DISPATCH | 原独立056写出FAIL，23检查中4失败；随后追加纠错说明，原FAIL未改。trace/outer130、90.082工具秒、Job0，CLI原生终态未捕获。原Sol已只读分诊：三项检查预期/输入身份错误，另一项反例隔离错误，尚未证明产品缺陷。 | funding的精确占用拒绝仍缺独立证据，不能用adapter拒绝或接受任意异常的owner检查替代。原审计文件保持冻结，处理缺失的有限复审；context002→actual007→成功后seal007→最终产品审仍均未消费。 |
 | Forward paper | run003三层raw0、568.469秒，但0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消费采集。 |
 | SC研究输入 | 政策已由原作者处置；实际A行数0，INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批没有新增consumer或fit。 |
 
-磁盘整理已完成，未重复清理、删除证据或行情。最近D盘物理空闲约29GiB，扣除完整预留及4GiB底线后仍有约16GiB余量。CAPACITY-332保留全部历史费用和UNKNOWN；仍只有两个2GiB重型槽，M5占第二槽，DISPATCH审核占第一槽，N8作者复用正式068结束后的原512MiB槽。每次启动另核对RAM6/C4/D4GiB底线。
+磁盘整理已完成，本次复核D盘空闲28.69GiB；未重复删除或压缩。CAPACITY-342保留全部历史费用和UNKNOWN，N8启动时扣除完整预留与底线后的RAM/C/D余量分别约4.60/23.45/15.89GiB。只有两个2GiB重型槽：T7full033与N8原runtime002；M5原Sol和DISPATCH原作者分别使用512MiB静态槽。磁盘不足已不是当前阻塞。每次启动仍核对RAM6/C4/D4GiB底线。
 
 安全状态保持 `enable_trading=False`、observer=`hold`、broker=`NOT_RUN`、真实send/cancel=`0/0`。未读取或修改`.env`、账户配置和模型配置。原始运行与审核包保留本机；公开仓库不发布凭据、会话库或网络暴露细节。错误及避免办法见[Root调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。
 

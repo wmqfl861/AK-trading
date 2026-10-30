@@ -55,3 +55,19 @@
 - DISPATCH055准备检查35019b和d1d9cf分别raw1：完整请求序列化36163B超过暂定32768B；补入必需输入闭包后41838B又超过暂定40000B。两次均在最终REQUEST/SPEC发布及CLI启动前停止，没有消费审核。后继根据实际152项输入完整序列化41804B，配置45056B请求上限，并在原作者81920B外部非时钟上限内作一次明确追加分配；原失败、旧763B超额和已有费用均保留。随后请求发布raw0、实际独立审核已启动。后续先完成最终字段和输入闭包、测量整个序列化结果，再确定具体分配；不要反复猜测请求大小，也不要为塞入旧上限删掉必需pins。
 - N8正式068本身已成功，但Root接收准备84b532 raw1：把外层RESULT假定成扁平child_exit字段；实际已接受capture把Job结果放在outcome对象。错误发生在任何写入或新launch之前。读取实际结构后使用outcome.child_exit，后继接收raw0，正式producer没有重跑。接收不同wrapper时须先核对真实结构和字段类型，按该版本的明确路径取值，不能用缺失字段的默认0或通用成功值掩盖差异。
 - N8正式068的生成VERDICT表示限定工具范围，且product_review_credit=false；其两个流程107项通过不能自动变成原ZCode最终CLI终态或F02整体PASS。保留真实自动运行与独立审核的区别，按现有严格引用契约接续，不伪造CLI记录。
+
+## 13:12 UTC 续接经验
+
+- T7 full033准入准备`c9fb2e`原始1：Root把请求字段`input_pins`误写成`inputs`，发生在写入和启动前。改按真实字段核对213项，后继`a4a382`原始0。正式full033只实际启动一次；不要根据另一种请求schema套字段。
+- N8 069初次外层`c05f90`原始97、watchdog1：沿用正式068的仅path解释器描述，现有watchdog要求完整path/bytes/sha256。没有START-INTENT、START或CLI；原请求与声明在失败副本保留。校验完整FileRef后，独立SPEC-002/TRACE-002实际调用一次，原生0、Job0。不能把失败前的准备当实际模型调用，也不能把产品成功producer重跑作为恢复。
+- DISPATCH 056准备`e66ef1`原始1：Root把账本的父目录层级取错，断言在写入前停止；实际是B.parent。后续另一次只读`ad9d02`原始1：将固定大小、NUL填充的STORAGE034-LEDGER.bin直接交json.loads，产生Extra data。应先核对冻结storage035第79行的真实编码契约，仅读取时按该契约去除尾部NUL；不能猜文件格式或调用会回写账本的context manager来做只读查看。
+- 原M5作者047首个调用用尽900秒：外层1、Job0，无有效作者输出，不算完成。原线程随后仅发布既有分析，原生0，清理后Job0；有效047立即交原Sol实施。前请求遗留的prompt字段并未使用，receiver实际读取的是WORKORDER字节；后继去掉歧义字段。不要因中间自然语言表示意向就声称有效计划已发布。
+- N8 069真实原生终态和144输入核对均通过，但VERDICT.scope_statement与F18明确排除候选011/009验收。机械字段齐备不能覆盖这种语义排除；原作者065指定原独立070补结论，成功的068/019/005保持不重跑。
+- DISPATCH 056的原FAIL、矛盾的报告文字、纠错说明及追加探针均保留。报告发布后继续调用工具，最终在90.082工具秒被受控停止，trace/outer130、Job0、CLI终态未捕获。未完成覆盖不能因事后分诊为harness错误就转成PASS；funding占用拒绝与adapter占用拒绝是不同义务。报告应由真实检查行生成，发布最终verdict后立即返回。
+- 准备N8作者065时的一次functions.exec脚本SyntaxError发生在任何嵌套工具执行前；改为明确的多行字符串后成功。其他生成目录不存在的读取错误仍保留，不把后继成功回溯成“全程无错误”。
+
+本次磁盘复核未执行删除、压缩或产品代码变更；仅协调原任务。以上原始失败不能套用rg的NO_MATCH语义，也不构成产品硬审核结论。
+
+N8 070补充：真实CLI/trace/outer均0、Job0，独立候选PASS已发布。最终Bash工具raw2来自Python完成FINDINGS/HASHES/VERDICT写入后，附加cwd发布语句pwd -P >的语法错误；该尾句不在审核者提交的command中。原SQLite part、精确输出、三份JSON及其嵌套pins均已核对，Root以单独ROOT-RECEPTION-070记录处置；没有重跑成功写入或改写raw2。固定终态引用随后通过未改repair011实际final-arguments校验，3.13秒/native0/Job0。后续需要多行发布时优先预存完整脚本并用短参数调用，避免将大型heredoc嵌入CLI的shell收尾包装；未修改ZCode配置或冻结审计包。
+
+准备上段协调文本时，Root在JavaScript模板字符串中放入未转义的Markdown反引号，functions.exec再次在解析时SyntaxError，嵌套工具调用0。后继去掉该模板内的反引号才执行；这种解析错误不是shell原生退出。多层文本应采用安全的独立字符串参数或apply_patch，不能把文档标点直接嵌入代码分隔符。
