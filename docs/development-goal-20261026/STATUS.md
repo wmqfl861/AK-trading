@@ -991,3 +991,23 @@ T7的SYNTHETIC真实caller计数中，8次重复pair的source检查由422,608降
 N8作者081的实际CLI0与receiver/外层1分别保留：stdout混入三个旧call缺少工具输出的诊断行。Root独立核对相同旧call在080已存在、当前原线程、唯一turn.completed、零当前失败工具、最终消息与作者文档完全一致及12输入不变，接收该作者处置；没有宣称监督器返回0或产品PASS。
 
 两个重运行槽当前为M5与T7，N8/DISPATCH原Sol在512MiB静态额度内并行。仅处理四项已开始任务，不新增模块计划。交易维持false/hold/broker NOT_RUN/send0/cancel0；四模块最终硬审、必要集成和推送尚未完成。
+
+
+## 2026-10-31 19:29 UTC — 空间已恢复，独立复跑暴露两处剩余性能缺口
+
+接续 main `94235de`。磁盘整理已完成：48份旧RB副本无损压缩释放1,340,824,860B，源码、行情、审核材料及原字节/哈希/身份/mtime保留。最新容量CAPACITY-444仍保留所有磁盘实际费用和UNKNOWN；扣除完整预留及底线后RAM/C/D余量约5.58/3.72/26.54GiB。当前只推进M5、T7、N8、DISPATCH四个已有模块。
+
+| 模块 | 实际结果与当前状态 |
+| --- | --- |
+| M5 | 唯一full100006原exec35675自15:07:21持续运行，原进程未重启；完整100项结果和079/080最终硬审仍待产生。72%及后续标记不代表最终完成。 |
+| T7 | 唯一full-join039-001原exec27370自17:38:01持续运行。19:29真实work/full-join039-001.stdout.txt已793,104B，处理计数仍推进；24节点最终统计和后续R1/L1/R2尚未完成。 |
+| N8 | 原Sol冻结020自测20/20、完整48.23秒。原独立ZCode080于19:14:53真实启动，精确复跑同一required命令：实际19/20，child1，59.1秒/60秒、512MiB、Job0。唯一失败是完整冷启动检查在54.156秒报OUTER_180_PREPARATION_EXHAUSTED；准备/审核引用/最终uncached分别31.844/9.953/12.109秒。全部1057最终读取不等于完整命令已经返回成功。审核继续后触及90.561工具秒，trace及外层130、374.61秒、2GiB Job0；没有CLI TERMINAL/RESULT或产品VERDICT。Root核对559输入未变，诚实关闭为INCOMPLETE，reference007、final-arguments003、runtime007均未执行。原作者084正在处理这个既有性能缺口和有限修复/复审续接，不把owner通过当独审通过。 |
+| DISPATCH | 原073修复实际37focused+13绑定/样本检查通过，唯一完整测量仍失败：internal840.109秒，inner1/entry97/Root1、outer842.71秒、512MiB、Job0，无捕获故障。7822次读取观察完成，最终uncached未到达。错误位于嵌套native验证遍历before_inputs+required_outputs时的companion截止检查；具体最后FileRef/前驱stage未记录。摘要优化避免303,688,481B额外哈希，但hash19.474秒与handoff13.144秒很小，主要观测读取458.698秒和循环exclusive185.293秒仍在。原Sol已追加关闭并WRITE_STOP，原始47源文件未变；073保留CONSUMED_INCOMPLETE，实际执行/seal未启动。原作者074正针对这个已有瓶颈裁定最小修复。 |
+
+三个原作者056/083/041同意的临时2GiB审核专用槽已真实用于N8这一调用，与M5/T7同时运行。N8关闭且DISPATCH073不具备审核条件后，该临时槽已按规则退役，释放的只是有Job0证据的2GiB RAM，历史磁盘费用未退款。既有两个长运行的输入、绝对截止和资源界限未变。
+
+调用与调度错误分别保留：N8/T7作者首次wrapper75是在120秒外部槽等待后、CLI尚未启动；后继原线程调用完成。N8作者后继实际CLI0、接收器1来自已在旧会话存在的同一missing-call诊断，Root核对唯一turn.completed、原线程、最终文本/文件一致及零当前失败工具后仅接收作者处置，不改写raw1。两个旧本项目槽在精确task/token、原Job0、绑定PID均不存在和终态registry四项核对后原子重命名保留，未删除记录或动其他项目槽。
+
+Root还保留两个真实raw1：资源核对错误地要求刚自然结束的DISPATCH仍存活；随后未先检查该前置失败就执行依赖CAP442的准备。两次均未产生文件或启动CLI。后继先核对已关闭Job，再发布容量；只有前置命令原生0和必需产物实际存在后才运行依赖命令。DISPATCH接收器的64位identity舍入和8947B超过8847B预检失败也保留；后继直接用Python解析原生JSON、缩减冗余字段后原生0，未改产品或重复测量。
+
+N8与DISPATCH原Astra现并行处置具体既有故障，随后立即续接各自原Sol负责人。当前无最终四模块PASS；不新增模块计划、不读取凭据或改模型配置。交易保持false/hold/broker NOT_RUN/send0/cancel0。完成当前四项规定硬审、必要集成并推送后停止。
