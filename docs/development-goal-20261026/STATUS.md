@@ -1063,3 +1063,21 @@ T7 owner 最终补录被其等待额度校验拒绝，原生1且输出未创建�
 当前仅推进 M5、T7、N8、DISPATCH 四个已开始模块；没有新增开发计划。开发继续由原 Sol/max 负责，原 Astra 只澄清既有故障，成果由独立 ZCode 硬审。保持 `enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。全部规定硬审及必要集成完成后推送并停止；本次状态提交不将尚未完整接受的候选代码合入 main。
 
 本次首次 `git commit` 原生退出1：本进程没有已配置的Git作者身份，未生成提交。后继提交显式使用最近已接受提交的 `wmqfl861` 作者身份，仅通过本次命令参数传入，不修改全局Git配置。后续提交先检查作者身份并沿用该明确参数，不能把此失败归为可选搜索的NO_MATCH。
+
+
+## 2026-10-31 23:49 UTC — 磁盘阻塞解除，T7完整测试与M5独审实际推进
+
+空间整理已完成，48份旧RB副本共无损释放1,340,824,860B，原内容、哈希、身份与mtime保持；本轮没有再次清理。23:47实测C/D可用67,241,246,720/51,394,904,064B。CAPACITY-459保留全部旧实际占用、UNKNOWN和运行预留，启动时仍满足RAM/C/D的6/4/4GiB底线。
+
+| 模块 | 最新真实结果与命令 | 当前边界及后续 |
+| --- | --- | --- |
+| T7 | 原R0-021两节点2/2及错误行反例通过；原M1已发布并独立进程验证真实默认L0，58,045B、SHA `06d360b43feb550628cb1849a61aa54f4b9a702fe6bc072ee7ed20124f94a319`。043最终绑定static preflight原始0、512MiB Job0，523直接输入核对成功。Root已按冻结 `entry037.py run PRODUCTION-CONFIG042-043-001.json <sha256>` 启动唯一 `full-projection042-001`，2GiB，输出至D盘原预留包；实际工具句柄80431。 | 完整24节点测试正在运行，目标仍为23通过及原披露1跳过；尚无最终退出码或统计。102/102+20/20只代表先前修复范围硬审，最终R1/L1/R2待完整结果。 |
+| M5 | 003诊断实际Root/inner0、83.93秒、2GiB Job0，七case已逐项保存；hash四组public/prepared一致，65MiB容量拒绝真实执行。110只恢复旧完整gzip，130/150新执行；原始fixture end-index误称seconds的解释已澄清。原ZCode联合057/058/059审核真实CLI/Root0、372.83秒、Job0、759输入未变，五组必需检查及14个审核反例全部通过，签发无条件工具范围PASS。 | 原006内存异常未复现，确切失败分配UNKNOWN，四产品文件未改，不能宣称内存修好。原Astra060仅根据003真实结果处置同一故障最短下一步；Full100007未授权，最终079/080仍待完成。 |
+| N8 | completion001独立审核真实CLI/Root0、414.61秒、2GiB Job0、64输入未变；16/16接收检查及2个反例通过，原021十五项结果复用。它签发真实022范围PASS，但三报告缺四个必需绑定字段；Root接收的reference001原始1，`KeyError: actual_accepted_candidate`，reference007未创建。 | 原Astra086已明确最小接收修复；原Sol正在023六文件及publisher/consumer边界验证，旧报告和022保持只读。完成后立即原独审completion002。final-arguments003/runtime007未运行，F02 FAIL/F01 OPEN保留。 |
+| DISPATCH | 075真实startup/focused/scale Job原始0、57.01秒、512MiB Job0；12项差分一致，受控解释耗时10.41235→1.895706秒。唯一完整测量075实际启动后失败：Root1/child97，内部child1，4.50秒、全部Job0、144输入不变；尚未进入完整收据处理。 | 已确证startup外层在初始化前查找加载器，真实子进程报 `KeyError: aktr068_deriver`，随后启动身份检查拒绝。原Sol正在已有connected修复窗口修正外层自举，并以全新解释器验证；075已消费，不重跑。actual/seal未执行。 |
+
+M5审核者保留两个harness原始1：控制检查第一次未创建输出父目录，以及反例初稿错误假设结果schema；修正后分别真实通过。其“all five commands once”文字与cmd5事实不符，Root接收记录明确cmd1–4一次、cmd5两次，原报告不改写，不为这处表述重复整轮审核。
+
+Root的DISPATCH元数据检查也再次遗漏importlib的sys.modules注册，原始1、零测量调用；随后使用已验证注册顺序成功。这个协调错误与真实子进程startup缺陷分别保留。今后直接复用已验证加载方式，读取打包对象使用既有decoder；全新解释器检查须覆盖实际自动sitecustomize，不以已预载模块的同进程检查代替。
+
+当前仅推进四个既有模块。开发为原Sol/max，原Astra只处置既有故障，独立ZCode签发成果结论；未增加模块或未来开发计划，未把未完整接受的产品候选合入main。交易保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。所有既有任务完成规定硬审和必要集成后推送并停止。
