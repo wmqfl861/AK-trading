@@ -1030,3 +1030,19 @@ N8后继独审的旧080会话关闭材料已使用现成八引用校验器验证
 N8独审沿原SID/store/cwd和accepted044；DISPATCH的180/150/30额度不能直接填入固定120/90的044监督器。已找到既有034的180/150/30版本，原始失败与Job关闭记录保持；没有为了审核新增监督框架或修改配置。普通两重槽仍由M5/T7占用，静态修复并行，退役的临时第三槽不复用。
 
 只推进这四个已开始模块；当前没有新增最终产品PASS或已接受产品代码合并。交易保持false/hold/broker NOT_RUN/send0/cancel0，不读取凭据。四项规定硬审、必要集成和推送完成后停止。
+
+
+## 2026-10-31 21:32 UTC — 完整运行已关闭，按实际故障并行修复
+
+接续main `489fbad`。磁盘维护已经完成：48个旧RB副本无损压缩，实测释放1,340,824,860B；字节、SHA-256、身份及mtime均不变。未重复清理。CAP447在保留全部历史预留和UNKNOWN后，RAM/C/D扣底线余量为9,577,312,256 / 3,963,055,342 / 28,472,320,683B；CAP448再为M5完整实测紧凑包预留3,620,864B，空间仍满足运行要求。只推进四个已开始模块，不新增模块计划。
+
+| 模块 | 已关闭的真实结果 | 当前接续 |
+| --- | --- | --- |
+| M5 | full100006于20:59关闭：Root1、pytest3，75 passed，21,122.91秒，2GiB Job0，无deadline终止。pytest格式化longrepr时出现MemoryError。原作者057从观察记录973确认此前首个MemoryError已从replay_payoff_training_window逃逸；确切失败分配仍UNKNOWN。 | 作者057真实CLI/receiver/Root0，35输入未变；原Sol已继续补充首个异常的格式化前捕获，并准备唯一一次不重新训练的内存诊断。完整P3,620,864B/V0已资助，历史失败保留。full100007未授权；100实例、cold500/50和最终079/080要求不变。 |
+| T7 | full-join039-001于21:18关闭：实际child1，13,200.16秒deadline，所有Job0、输入不变。24节点尚未取得最终统计；仍停留在positive_cold_run夹具，最后栈为_fold_records.matches→_partition_feature_view→_fit_fold，360,360个label完成。 | 原Astra042于21:28:57真实启动，只处置既有算法瓶颈及最小修复；不原样重跑已消费039。原039范围62/62及26反例、R0、已采用L0的真实接受保留，不能当完整产品PASS。 |
+| N8 | 原080-r2独审必需批真实15/15、child0、53.07秒/512MiB Job0，checker49.890秒、1059最终引用。随后重复AST解析耗尽90秒工具工作额，实际91.009秒/trace及Root130、347.41秒/2GiB Job0，无CLI终态或VERDICT。Root核对604输入未变、原CLI不存在、监督PID已复用。 | 原Astra085于21:29:01真实启动，处理原独立审核的剩余反例与裁决，不将成功批次重跑作为默认步骤。reference007/final-arguments003/runtime007仍未执行，F02 FAIL/F01 OPEN保持。 |
+| DISPATCH | 074冻结后的19项原检查、23项扩展检查通过；唯一完整测量实际840.094秒内部截止，child97/Root1、842.91秒/512MiB Job0，165输入无变化，7156观察完成但final-uncached未完成。实际并发vector最高4worker，主要耗时仍在递归校验；074已CONSUMED_INCOMPLETE。 | 原owner已在既有1296B余量内追加954B关闭记录并WRITE_STOP，未改旧NEXT或再运行。原Astra075于21:28:57真实启动，只处理现有性能缺口；actual/seal仍未执行。 |
+
+Root准备错误也保留：N8首次将REQUEST放在混合工作根目录，watchdog扫描无REQUEST的相邻START目录而失败，Root97/watchdog1、零CLI；后继放入既有canonical dispatch父目录才产生唯一实际r2调用。DISPATCH两次准备raw1分别来自把json-delta的最终对象哈希误作压缩patch哈希、importlib加载模块未注册sys.modules；均发生在测量启动前。后继使用现成derive069.packed并正确注册模块，未改校验门槛，最终只启动一次074。以后复用既有编码器与canonical路径，明确模块装载依赖后再运行；原失败不涂改成成功。
+
+按当前人类inline AGENTS，原Sol/max执行开发、原Astra处理既有方案缺口、独立ZCode完成成果硬审。旧磁盘角色文字未自行修改。交易保持false/hold/broker NOT_RUN/send0/cancel0，不读取凭据。四项最终硬审和必要集成尚未完成；本次仅发布真实进度，不合并未接受候选或新增下一批工作。
