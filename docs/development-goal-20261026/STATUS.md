@@ -1367,3 +1367,28 @@ Root只读接收错误保留：612a57/raw1假定retained_slots元素为dict，�
 磁盘维护现已停止：实际无损释放仍7,365,031,406B（约6.86GiB）。052仅纠正已关闭039的未来重复扣款、实物释放0；042预留未动。CAP535新鲜RAM/C/D净余量均为正，逐次启动仍需复核。详见维护RESULT。
 
 本地证据：G/zcode-dispatch/m5-capacity-reference-005/offline063-hard-review001/ROOT-RECEPTION.json；G/astra-m5-offline063-accepted-delivery-068；G/n8-scope-observation100-owner001/ownercheck100-003及diagnostic100-004；G/zcode-dispatch/dispatch087-preparation-review-001；G/CAPACITY-535.json。G仅证据目录C:/AKWorktrees/aktr-goal-20261026，Git只在D:/Projects/AK-trading。仍只完成M5、T7、N8、DISPATCH，规定硬审、集成、推送完成后停止。false/hold/brokerNOT_RUN/send0/cancel0；未接受的产品代码没有合入。
+
+
+## 2026-11-01 23:07 UTC — 完整验证启动，四模块并行修复与审核
+
+本批仅 M5、T7、N8、DISPATCH。原 Sol gpt-6.1-sol/max 开发、原 Astra 处置现有故障、原独立 ZCode 硬审；全部规定硬审、集成和推送完成后停止。磁盘维护已完成：累计实测无损释放7,365,031,406B（约6.86GiB），未删除或搬移源码、行情、审核文件。CAP537保留历史消耗和UNKNOWN，各实际启动已通过fresh6/4/4GiB准入。
+
+| 模块 | 最新实际结果 | 下一步 |
+| --- | --- | --- |
+| M5 | OFFLINE063修复已独审PASS。573文件物理源已交付；原独立READY068审核CLI/Root0、446.92秒、2GiB、Job0，51输入未变；真实入口8/8组、6独立拒绝通过，工具123.252秒。结论仅为交付/可执行READY范围PASS。Root原样具现所采用对象，原materializer两步均0；Full100008已真实启动（PID242816/exec43444）。 | 原100实例、七文件、500iterations/50trees、2GiB、28800whole/28200work/600closure不变；实际终态后原独立final review，不声明整体PASS。 |
+| N8 | owner100-007实际0、16.31秒、512MiB、Job0，37观察/21协议/3overlay检查完成。101仅受影响重绑，owner101-001实际0、8.4秒、512MiB、三Job0，5metadata确定性重建及9拒绝完成；48文件审核union冻结。原独立combined101已启动（exec65236），分别评价真实010接收和后继readiness。 | 在原101窗口完成独审，011仍条件授权且NOT_RUN。010CONSUMED_FAIL、F02FAIL/F01OPEN-INSUFFICIENT、008原因UNKNOWN保留。 |
+| T7 | 唯一049自然复现1455：guard采样线程全局parent-map枚举抛错，触发原fatal97。系统commit UNKNOWN/1450，资源原因未定；最后CDF帧不是因果证明。closed049静态独审已启动（exec46964）。原Astra053授权私有guard窄修复，原Sol已接续准备。 | bounded native Job及验证身份替代全局枚举，保留fatal、2GiB和Job0边界；小规模受影响验证后独审。无新full/长诊断授权，产品/F/R0/L0不改。 |
+| DISPATCH | 087独审CLI/Root0、402.93秒、2GiB、Job0，工具62.824秒；必需物理复跑raw0且CHECKS与owner字节一致。原reviewer已在同一调用中纠正不足额度fixture漏EXTRA，并发布revision001无条件范围PASS。Root核对真实最终回复、完整hash及闭合后已接收；59请求inputs未变。 | 直接衔接既有actual/seal和finalreview，复用成功mandatory。088重复修复在零文件/零转账/零测试/零CLI处停止，原FAIL保留。 |
+
+Root保留DISPATCH首个transport真实raw1：TRACE前未建clock父目录，CLI未启动；后继先建目录后完成。预防已用于N8/T7：先核输入/generated-output，再建clock父目录，仅producer访问LIVE。N8独审scratch在启动前纠正为reviewer harness绑定HERE到专属work，子argv/cwd/inputs/guard不变；两个检查累计计费。一次STATUS更新在工具编排层因JavaScript模板中的Markdown反引号报SyntaxError，shell/native未启动、无文件变更；后继改为无反引号文本载体，未把编排失败当产品失败。
+
+本地依据：G/root-m5-full100008-068；G/zcode-dispatch/m5-capacity-reference-005/full008-ready068-review001/ROOT-RECEPTION.json；G/n8-scope-observation100-owner001/FREEZE-101-001.json；G/n8-author101-combined-review001；G/zcode-dispatch/t7-closed049-disposition-review001；G/astra-t7-natural1455-sampler-policy-053；G/astra-dispatch087-review-fixture-088。G=C:/AKWorktrees/aktr-goal-20261026，仅本地证据根。未合入未接受产品。false/hold/brokerNOT_RUN/send0/cancel0。
+
+
+## 2026-11-01 23:26 UTC — 独审接收与真实接口缺口
+
+N8 combined101实际CLI/Root0、544.89秒、2GiB、三Job0，工具72.688秒、未闭合0。181refs核对，原48union readiness无条件PASS和010独立接收已完成；两必需检查13.4/7.3秒，10协议与6custody反例通过，reviewer前置fixture失败保留。Root随后核对真实resolve入口发现Q主仓库watchdog产物与声明R101逻辑目录冲突；原Sol只读精确guard按预期拒绝AUTHOR100_TRANSPORT_OUTPUT_PATH，未执行finalargs/011。Root接收仅限实际审过范围，不发布虚假可运行引用。原Astra102正明确最小严格transport绑定修复，第二combinedcall尚未消费。
+
+T7 closed049静态审核在512MiB约束下启动即Node Fatal process out of memory: Zone：CLI2147483651、TRACE97、Root97，14.91秒、Job0、模型工具0、无verdict。保持原失败和消耗记录，下一独立调用按053既有普通2GiB路线，在私有guard冻结后合并接收closed049与审核guard delta。CAP538按实测完整包资助owner8MiBC、Root256KiBC、首次repairreview16MiBC、focusedD总8MiB及N8原作者102静态1MiBC，既有049Dhold与UNKNOWN保留；第二repairreview未提前资助。原Sol已获准立即实施，M5full008仍运行。
+
+DISPATCH状态纠正原因是Root只读首版顶层FAIL，漏看原CLI最终回复明确指向的revision001。现已接收原独立后继PASS，未补造或重复审核。避免办法：先读取实际终态回复，按其明确路径追踪最终verdict和supersedes链，再核scope/冻结pins/terminal后派修复；不能凭顶层文件名推定最新结论。完整依据记录于G/zcode-dispatch/dispatch087-preparation-review-002/ROOT-RECEPTION.json。N8与T7真实接收分别在G/n8-author101-combined-review001/ROOT-RECEPTION.json、G/zcode-dispatch/t7-closed049-disposition-review001/ROOT-RECEPTION-FAILURE.json。无未接受产品合入；false/hold/NOT_RUN/0/0。
