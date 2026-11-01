@@ -1083,7 +1083,7 @@ Root的DISPATCH元数据检查也再次遗漏importlib的sys.modules注册，原
 当前仅推进四个既有模块。开发为原Sol/max，原Astra只处置既有故障，独立ZCode签发成果结论；未增加模块或未来开发计划，未把未完整接受的产品候选合入main。交易保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。所有既有任务完成规定硬审和必要集成后推送并停止。
 
 
-## 2026-11-01 00:35 UTC — N8 接收通过，DISPATCH 与 T7 并行运行
+## 2026-11-01 00:33 UTC — N8 接收通过，DISPATCH 与 T7 并行运行
 
 磁盘整理已完成，仍只推进 M5、T7、N8、DISPATCH 四个既有模块。00:32 实测 C/D 可用 67,241,996,288 / 51,381,940,224 B；CAPACITY-462 保留历史完整预留及 UNKNOWN，仅为 DISPATCH076 新捕获增加 49,152 B。扣除全部预留后 RAM/C/D 仍满足 6/4/4 GiB 底线，无重复清理。
 
@@ -1097,3 +1097,27 @@ Root的DISPATCH元数据检查也再次遗漏importlib的sys.modules注册，原
 N8保留一次真实工具错误及Root接收错误：审核者在三份报告完成后更新其私有 MEMORY.md，第一次 Edit 因未先 Read 被拒绝，随后 Read 和 Edit 成功；精确工具ID、原始trace、数据库part哈希和处置见本地 `n8-preflight080-r2-completion002/RESOLVED-TOOL-DISPOSITION-001.json`。该错误未涉及冻结源码或报告。Root接收002原始1（7737bd）来自额外的全部工具零错断言，且未写产物；接收003只对这一个已核实的错误作具体终态处置，保留全部原错误，实际执行未修改的冻结消费者验证，原始0（e535c3）。没有重跑独立审核、补写审核者结论或放宽产品门槛。之后调用 Edit 前先读取目标；协调接收应区分已解决工具前置错误与实际验收条件，不能人为加入重复审核门槛。
 
 开发仍由原 Sol/max，原 Astra 只澄清既有故障，独立 ZCode负责硬审；不新增模块计划、不合入尚未完整接受的候选。交易保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。完成本批全部规定硬审、集成和推送后停止。
+
+
+## 2026-11-01 01:42 UTC — C 盘整理完成，原四模块按真实结果接续
+
+接续 main `5f2fc41`。本轮 C 盘三次无损压缩实测释放759,602,115B；此前D盘1,340,824,860B保持，合计约1.96GiB。另执行 `python -m pip cache purge`，原始0，pip报告清理2268文件/9目录/878.2MB；该数不是逐文件实测物理释放量。源码、行情和审核材料保留。详情见[维护记录](../maintenance/20261031-disk-space-r1/RESULT.md)。CAP466保留完整历史费用、UNKNOWN和预留，01:40扣除底线后RAM/C/D余量约6.72/0.66/16.11GiB；正式启动继续实时核对。
+
+| 模块 | 已关闭的实际结果 | 当前接续与未完成项 |
+| --- | --- | --- |
+| M5 | 原Sol的有界JSON字符串输出修复仅涉及r6/models.py的私有hash helper。唯一005已原始0/144.70秒/2GiB Job0，45项正确性通过、canonical bytes/digest一致；4MiB/65MiB公共hash峰值分别4,269,189→340,850B和68,232,349→345,694B。小case峰值45,812→301,606B、tracemalloc下候选80.125秒而基线36.172秒，代价如实保留。 | 原ZCode review002实际执行独立oracle、baseline、candidate均raw0，oracle45项通过；随后其反例harness七次raw1，570.1秒deadline/Root1/全部Job0，829输入未变，CLI native UNKNOWN、无TERMINAL或VERDICT。原Astra061已按原线程实际启动，仅处置剩余反例与裁决，不重跑三条成功命令。确切Full006失败分配仍UNKNOWN；Full100007/cold fit未授权，最终079/080未完成。 |
+| N8 | 唯一runtime007已实际执行并消费：Root/runner1，104.203秒且within180；census一次0、runner一次1，均KNOWN_TERMINAL且lifecycle_problems为空。pytest实际1项/1失败/0错误/0跳过，具体为F02-a-00000230 POST ProbeError: bounded context/marker metadata store overflow。native raw/result均NOT_PRODUCED，未伪称Job0。 | 接收路线首次在CLI启动前被拒绝（watchdog96/trace97/Root1，零模型启动）；Root遗漏db_identity_expected，已从原接受请求补齐，并由同一helper真实核对三份closed-reservation。后继原SID/store/cwd实际于01:44:23启动，CLI/trace/Root均0、334.18秒、30.104工具秒、2GiB全部Job0；原独立审核签发真实无条件FAIL。007不重跑；008未授权，F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
+| DISPATCH | 唯一076已消费：Root1/entry97/inner1，842.89秒、512MiB、Job0、179pins不变；内部840.094秒截止，10518 observations但完整receipt未返回、final-uncached未完成，不能作完成比例。 | 原Astra077已完成并生效；原Sol立即续接，修复同次read重复facts与重复依赖传播，保留独立fresh检查、全部认证和最终uncached。静态512MiB工作进行中；一次最多300秒paired live比较须等真实普通槽，唯一077完整测量仍有前置门。actual/seal未运行。 |
+| T7 | 原full-projection042-001（exec80431）保持运行，当前TRAIN数据处理计数仍推进；未重启、未提前封存打开流。 | 全24节点统计与最终R1/L1/R2未完成；此前102/102+20/20只是已接受修复范围，不能冒充完整回测结果。 |
+
+M5审核者七次raw1分属路径、sys.modules、canonical LF、转义/语法和反例断言；工具metadata的0来自其后续echo，原stdout中的RAW_EXIT=1保留。第七次在未消费generator前断言错误；之后的断言也未完成验证，不能把这些harness结果直接当产品缺陷。仅原独立审核者可修复其探针并签发产品结论；Root没有补写PASS。
+
+Root本轮也保留两次真实准备raw1：DISPATCH077首次因C盘余量不足在零写入时停止（e397d1），Root却继续依赖调用，因REQUEST不存在再失败（5e602c），零模型启动；后继空间整理和准备raw0后才真实调用。今后依赖调用在编排层明确检查前置exit_code==0及必需产物，不以顺序await或后续成功掩盖前置失败。DISPATCH076接收首次尺寸预检raw1、M5关闭首次尺寸预检raw1也保留，均在final文件创建前停止，后继在原额度内完成。
+
+开发继续由原Sol/max负责，原Astra仅处置既有故障，原独立ZCode审核。当前人类inline AGENTS覆盖旧磁盘开发角色文字；未自行改规则。只推进M5、T7、N8、DISPATCH四个既有模块，不新增模块计划；全部规定硬审、必要集成与推送完成后停止。交易保持false/hold/broker NOT_RUN/send0/cancel0，不读取凭据。
+
+
+2026-11-01 02:10 UTC 续接：M5原Astra061真实CLI/receiver0、25输入未变，明确复用三条成功独立命令，仅完成一个审核者后继反例与裁决；原ZCode review003于01:58:36启动（exec64457），600whole/570stop，保护最后150秒报告窗口。Author061工具/源码复制与Full100007授权边界保留。N8接收FAIL已核实原SID、真实GLM-5.3日志、CLI/trace/Root0和689输入未变，原Astra087已实际启动，仅调整这个既有metadata overflow故障的有限离线诊断/条件修复。接收审核最后私有MEMORY Edit未先Read的错误随后Read/Edit解决；精确工具ID和part哈希保留，未改产品或报告。Root另保留e8438a原始1：错误假定UTC日期日志文件，实际logger仍用本地10月31日，零输出/零CLI；按实际存在日志路径核对后接收成功。后续先发现和检查真实日志路径，不猜日期。CAP469维持全部旧费用与UNKNOWN。DISPATCH077原owner已量出完整214016B包、兼容30314B，仅申请正缺183702B的既有总额内调拨；paired live尚未启动。
+
+
+2026-11-01 02:23 UTC — M5单文件修复获独立无条件范围PASS：review003 CLI/Root0，369.19秒，2GiB全部Job0，854冻结输入未变。复用三条成功独立对照；唯一后继探针compile0、实际raw1，审核者记录17/18，并依据未变化的公共surrogate回退及接口范围明确处置私有分片异常消息位置1/0差异；raw1未改成0。Root核对原SID、实际GLM-5.3日志及裁决，接受该限定PASS，非最终M5完成。原Astra062已实际启动，补足既定物理交付/READY步骤的有限执行授权；Full100007仍未启动。N8原Astra087已发布既有metadata故障离线诊断及条件修复方案，原Sol于02:21:53 UTC真实激活并立即实施；source5MiB/check1MiB按实际继承8文件完整包预留，原3MiBmetadata上限及观察语义保持。原作者CLI0、receiver1由多行bundle前缀/三条未使用MCP启动诊断触发；精确原线程turn.completed和最终文本一致、14输入未变，Root具体处置后接收，未重跑或修改旧失败。Root首次逐行JSON解析的raw1也保留；今后先识别完整流格式。DISPATCH077已按实测调拨184726B，实际startup与文件差分002通过；最初Windows held-handle替换harness失败保留。最终003固定98个真实声明引用，含171及finalization0，Root于02:18:11明确授予≤300秒/512MiB的唯一paired live普通槽，与T7并行。CAP471保留所有旧费用和UNKNOWN。
