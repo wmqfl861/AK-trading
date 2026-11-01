@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-01 04:05 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-01 05:10 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 `0c67066`。本次仅发布准确状态与调用经验，未把待审代码冒充已接受产品。
+- 本次更新前 main / origin/main 为 `86b57d2`。本次仅发布准确状态与调用经验，未把待审代码冒充已接受产品。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -14,18 +14,27 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | r21投影修复的独立102/102及20/20范围PASS、R0/L0保留。full042已终态：child deadline13200.1秒/raw1，Root13214.68秒/2GiB/Job0，523输入未变；24收集、16个call通过、第17项fixture中断、7项未开始，无最终统计。 | 已跨过两个投影与inner join；剩余证据指向请求源tuple物化/构造校验及终态经验CDF应用。原Sol已完成只读故障报告并停止写入，原Astra044正在处置这一既有故障。042已消费，不重跑；最终R1/L1/R2未完成。 |
+| T7 | 原Astra044已确认物化/CDF四文件修复，原Sol在r22实施。CHECK044-001因不支持的-p参数raw4/零测试；修正后002实际117 passed、0 failed/errors，raw0/66.78秒/2GiB/Job0。 | 原owner继而发现单record缓存的旧identity契约回归，正在原044范围修复；旧结果保留，新必要检查和测量待冻结。full042不重跑，最终R1/L1/R2未完成。 |
 | M5 | accepted060完整573成员已物理交付。Root入口8组通过；原独立review062实际重跑8组及6个自写反例通过，明确接受READY007。CLI/Root0、660.88秒/2GiB/Job0、1547输入未变。 | Full100007于04:00:09 UTC按真实READY、即时资源及冻结argv启动，原exec61552运行；28800秒总界/28200工作/600关闭，2GiB及1GiB输出约束保持。原006失败与确切分配UNKNOWN保留；本次完整终态及最终079/080仍待。 |
-| N8 F02 | 原007元数据溢出FAIL保持。r2离线工作负载1项通过（55.72秒），发布/边界18项通过（49.61秒），均raw0/Job0；两次60秒截止失败仍保留。直接024已按staged字节发布。 | entry007检查raw1/29.43秒/512MiB/Job0，唯一失败为错误回执反例的预期标识与实际拒绝顺序不一致，交原Sol核实。旧final JSON本已过滤内部_charge，未据getter差异新增契约轮。联合硬审及条件runtime008仍待；F02 FAIL/F01 OPEN-INSUFFICIENT。 |
-| DISPATCH | 078修复保住原生结果和完整原始流；本地失败路径检查通过。真实paired live外层raw0/79.30秒/512MiB/Job0，12引用/6不同查询的新旧结果及依赖完全一致。 | changed-path auth和same_read均0；所选工作4.594→4.906秒，未证明提速。9638完整声明引用的成本上界仍未建立。原owner已关闭，原Astra079正在处置现有覆盖缺口；full077未消费且未准入，actual/seal/独审未启动。 |
+| N8 F02 | metadata003的1项和004的18项均通过；entry008真实positive/单字段negative通过，raw0/1.97秒/512MiB/Job0。Root按088完成真实closure，15项write-set冻结。 | 首次Root调用漏建clock目录，raw1/0.81秒/Job0，ZCode实际启动0；原记录已归档。原作者089仅授权一次纠正调用，Root补齐前置检查后于05:08:46UTC真实启动原独立ZCode审核；联合结论及条件runtime008仍待。F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
+| DISPATCH | 079 parser的12cases/393切分通过，raw0/0.87秒。唯一live079外层raw1/46.2秒/512MiB/Job0；baseline在身份检查中KeyError:authenticate，尚未进入生产caller，repair侧未运行。 | 原owner已冻结probe079-002，从真实闭包取authenticate并静态校验；不改core077或旧捕获。原live079已消费，无性能结论；新的实际对比仍需原计划作者限定执行范围。full077未消费未准入。 |
 | Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理已完成并由提交`cb1781c`推送：D盘48份旧RB副本无损释放1,340,824,860B；C盘三轮无损释放759,602,115B，两卷合计2,100,426,975B（约1.96GiB）。pip另报告清理878.2MB缓存，该数不冒充逐文件实测物理释放。未删除源码、行情或审核材料。CAPACITY-477保留完整历史费用、预留和UNKNOWN；最新实测扣全部预留及RAM/C/D的6/4/4GiB底线后余量均为正，启动仍实时准入。最多两普通重槽，M5完整运行占一槽，另一槽用于已准备好的N8检查与硬审。
+磁盘整理已完成并由提交`cb1781c`推送：D盘48份旧RB副本无损释放1,340,824,860B；C盘三轮无损释放759,602,115B，两卷合计2,100,426,975B（约1.96GiB）。pip另报告清理878.2MB缓存，该数不冒充逐文件实测物理释放。未删除源码、行情或审核材料。CAPACITY-481保留完整历史费用、预留和UNKNOWN；最新实测扣全部预留及RAM/C/D的6/4/4GiB底线后余量均为正，启动仍实时准入。最多两普通重槽；M5完整运行占一槽，N8原独立审核占另一槽。
 
 四个整体模块均未完成最终硬审，局部工具或修复范围PASS不计作整体PASS。安全状态保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。未读取或修改`.env`、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果，不发布会话库或网络暴露细节。当前直接人类规则指定原Sol/max开发，原Astra处置既有计划缺口，独立ZCode硬审；旧磁盘角色文字未在本批擅自修改。
 
 ## 本次已推送与实际命令
+
+- 2026-11-01 05:03补充：T7命令为`python -B -u -X utf8 scripts/test_offline.py -q -p no:cacheprovider --basetemp <044-001新路径> tests/test_v2_m5_experiments.py -k "t7material044 or t7cdf044 or t7projection042 or t7join039"`，raw4，stderr为“Offline launcher: plugin, configuration and response-file overrides are disabled”，0 collected/0 ran。原owner发布的后继命令须按实际launcher支持项构造，不能直接套普通pytest选项；原001失败与82B stderr保留。
+- N8 entry007错误反例标识已由原owner修正，entry008检查raw0并闭合；产品没有为适配错误断言而修改。Root随后机械finalizer raw0/1.0秒，关闭产物真实存在。作者088出现一次SSE重连后真实完成：native0/receiver1/Root1原值保留；精确解析确认同thread、最终文件、一条turn.completed、零失败工具及14个输入不变，未重跑作者。
+- N8审核启动错误归Root：TRACE先ResumeThread启动Python watchdog，随后usage写缺失的clock/LIVE.tmp失败，finally再次失败而未生成TRACE RESULT。不能把TRACE START称为ZCode START。已核固定watchdog在Popen前必须写START-INTENT并创建stdout/stderr，三者均未产生；结合实际Job0，记录ZCode启动0。修复要求输出父目录存在且可用、完整前置验证后才启动，原失败与所有产物保留；未自行复用受一次调用合同约束的入口，原作者089仅处理该现有故障。
+- DISPATCH命令`python -B -X utf8 pair079-001.py parser`，raw0，12cases/393分块通过。后继`... live`已结束：外层raw1/46.2秒/Job0，baseline的测试字典缺authenticate键，零生产caller；无差分或性能PASS。Root附加捕获64KiB和N8原作者1MiB已在CAP481先计入，未从失败运行退还费用。
+
+
+- N8原作者089 native0/receiver0，16输入未变；Root Job after-wait/final为3、terminate后0，不能写成三次均0。机械恢复准备raw0/2.72秒/512MiB/Job0；148输入一致，旧Root控制逐字节归档并映射，新增clock父目录检查。原15个产品pin及helper未改，exact工具参数不变；纠正调用原始失败和新启动分别记录，实际ZCode只启动一次。
+
 
 - `628463d` 已推送较早的真实状态；本节后续结果发生在该提交之后，接受范围分别记录。M5执行`run_check062.py --label entry-owner001`实际8组通过/raw0；独立`entry-review001`8组通过/raw0及自写6个反例通过。审核者前五次反例脚本的字段/形状/错误前缀错误均保留为raw1并明确处置，没有隐藏为产品成功。`ROOT-M5-007-RUN.py`的resource与admission均raw0后，才调用冻结`full100_outer.py --formal M5-FULL100-ADMISSION062-007.json <实际SHA>`；正式运行仍在进行。
 - T7的`full-projection042-001`完整运行raw1，原因为13200秒deadline；不能把16个已通过call写成完整23通过。原owner仅解析已关闭日志与定点源码，两个只读Job均raw0，未重跑fit。报告首次超64KiB而在创建前raw1；后继从已闭合捕获压缩发布，未重跑成功分析。独占耗时未测，采样次数和阶段包含耗时不冒充独占时间。
