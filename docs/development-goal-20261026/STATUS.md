@@ -1279,3 +1279,17 @@ T7 postfull接收9文件152,676B，5745条progress连续且零解码错误；30�
 本地关键依据：G/n8-repair028-review097-002/transport002/ROOT-RECEPTION097-002.json（4955B，SHA25651a57c988a7f88836868a8137594df0eb110e6048d9a640a77a8335f9c10e43e）；N8 attempt-runtime009-repair097-002/VERDICT.json；M5 runtime/offline063/m5-full100007-offline063-populated-check-001/RESULT.json；G/sol-t7-payoff-recovery-20261028-001/runtime-binding045-r1/postfull-reception045-r1/CLOSED.json；DISPATCH admission/actual007-prelaunch061-001/FROZEN084-r2.json、ROOT-POSITION084.json和CONTEXT084.json。G是本地证据根C:/AKWorktrees/aktr-goal-20261026，不是Git仓库。
 
 Root本段一次只读命令误用不存在的ROOT-INVOKE.json（真实文件是ROOT-INVOKE.py），原生1保留，无写入或CLI启动；后继核对目录实际文件名，未把失败当作NO_MATCH。以后未知后缀先查目录元数据。没有改规则、凭据、交易安全边界或冻结产品。四模块尚未全部硬审通过，不合入未接受候选；保持false/hold/NOT_RUN/send0/cancel0，完成规定硬审、集成和推送后停止。
+
+
+## 2026-11-01 17:02 UTC — 修复验证与独审的最新结果
+
+磁盘维护累计实测无损释放 **6,764,591,173B，约6.30GiB**，已随提交2fcddad推送；未删除/搬移。原T7作者048另外纠正closed045的未来物理预留：保留历史10,098,027,861B及全部actual/gross UNKNOWN，只排除已关闭运行的未来重复扣款10,081,250,645B，并保留16MiB D收尾。此项物理释放0B，不重复044调整。CAP517包含新有限修复/审核包，D未来扣款29,639,720,618B，C安全余量仍需逐次重测。
+
+- **M5：** 原作者064和原Sol完成r4报告修复，27纯序列化检查PASS；冻住45pins，r2产品未变。唯一compare001真实启动于16:41:59Z，原生/child1、62.781秒、2GiB Job0，deadline未触发、资源未abort、quotaPASS。真正失败是合成用例52events/78forecasts但0proposals、0path decisions、0fills/orders，NO_TRIGGERED_BUDGETED_PATH，未满足有实际决策路径的要求。完整生产结果本次成功保留：gzip137,016B、解压1,396,936B；不是原Decimal出版错误。candidate及后续case没有执行。compare001已消费，不自动重跑；原作者065正在处置这个明确失败和有界fixture修复，full100008仍NOT_GRANTED。
+- **N8：** 在repair028范围PASS后，原Sol修复旧入口先消费009及旧v2引用绑定的问题；新010薄入口原地引用790,783B invoker，7source冻结，14拒绝反例raw0/child0/Job0，2.19秒。source实际资助到8,913,920B，不放宽10MiB上限。097原窗口如实关闭；原作者098给出有限续接，实际anchor16:54:04Z、work18:19:04Z/hard18:24:04Z。独立call3于16:54:56Z真实启动，call4仍未消费。010 final-arguments/census/runner/runtime仍NOT_RUN；009FAIL、008原因UNRESOLVED、F02FAIL/F01OPEN保持。
+- **T7：** 原独立ZCode闭合失败复核正常结束：CLI/Root0、32.374工具秒、366.15Job秒、Job三项0，40请求输入不变；独立核对30闭合pins及16完整通过/1未完成/7未开始，明确无条件全套接受FAIL。原作者048允许原Sol仅在新目录补充fatal线程/traceback/当时可用commit与Job读数，并验证原fatal安全行为；原Sol已接续，实际anchor16:46:02Z，whole截止17:31:02Z。无full046、无pagefile/Job资源增加。
+- **DISPATCH：** r2独审触及90秒工具工作截止，Root/TRACE130，91.165已知工具秒、1未闭合工具区间、868.5Job秒、Job0；39输入复核不变。必需verify084-r2独立raw0，不重跑。初稿和revision001均保留FAIL；审核者随后纠正harness，最新r084c080探针JSON的failed为空/verdict=PASS，但该probe原生退出及最终CLI TERMINAL/RESULT未捕获，revision002报告未发布。因此仍未硬审接收，Root不补造PASS。原作者085处置同一审核/修复的有限续接；actual/seal仍NOT_RUN。
+
+Root另保留一次只读诊断raw1：误按JSON读取审核者的零字节r084c078输出。后继先检查实际长度，正确记录EMPTY_FAILED_CAPTURE及该探针NameError；未把它当产品问题或成功。原失败文件未覆盖。
+
+本地依据：M5 offline063/r4/ROOT-HANDOFF064-R4.json及runtime/offline063/m5-full100007-offline063-compare-001；G/n8-confirmation010-entry-review097-003；N8 author097-001/confirmation010/FREEZE-010-001.json；G/zcode-dispatch/t7-full045-terminal-review-001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch084-r2-binding-review-001/ROOT-INCOMPLETE-RECEPTION.json；G/CAPACITY-517.json。G=C:/AKWorktrees/aktr-goal-20261026，仅证据根。原始大包留本地，不合入尚未接受候选。继续只收尾四模块，保持false/hold/NOT_RUN/send0/cancel0，完成规定硬审、集成和推送后停止。
