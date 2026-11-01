@@ -1189,3 +1189,23 @@ Root只读辅助错误单独保留：误猜M5的START.json（实际LAUNCH.json�
 本地最小依据：`G/T7-OBSERVER045-ROOT-RECEPTION-001.json`、`G/t7-closed044-capacity-reconciliation046/RECONCILIATION046-001.json`、`G/CAPACITY-495.json`、`E009/author093-001/access-proof-001/JOB-RESULT-001.json`、`G/n8-runtime009-declared/TRANSPORT-DECLARATIONS009-001.json`。G为C:/AKWorktrees/aktr-goal-20261026，E009为D:/AKF261004/EXECUTION/n8-f02-qualification-20261021-r20/evidence/resource-successor-009-owner-checks。
 
 全部当前任务仍待最终产品硬审及必要集成。保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel0/0；完成当前批次、推送后停止，不新增任务。
+
+
+## 2026-11-01 09:57 UTC — N8 独立必需检查通过，原四模块继续收尾
+
+接续 main `d088a58`。本批仍限 M5、T7、N8、DISPATCH，当前用户 inline AGENTS 指定原 Sol/max 开发，原 Astra 仅处置已有故障，原独立 ZCode 硬审。没有新增模块或修改规则文件。
+
+| 模块 | 已核实结果与下一步 |
+| --- | --- |
+| M5 | 唯一 full100007 原 exec61552 仍运行，PID及创建时间匹配。09:46 实际 CPU user20023.1875/system109.59375秒、RSS1079615488B；完整100项结果和079/080最终硬审仍待产生，不重启007。 |
+| N8 | 原Sol已冻结r2观测及025入口。owner collector41通过，entry首批19通过/1失败（错误cwd），只补跑该失败正向后通过；旧失败保留。09:44:41原ZCode真正启动联合硬审，首次独立collector41及entry20全部native0，required Job32.57秒、2GiB、终态0。随后监督器替换动态LIVE文件时WinError5，Root/trace97、watchdog130、全部Job0；ZCode native UNKNOWN，无TERMINAL/RESULT或最终裁决。55.279工具秒、230.078墙钟秒，9工具完成、0失败；成功必需检查不重跑。原Astra094只处置这个已有审核的缺失终态恢复，尚未取得处置结论。009诊断仍NOT_RUN；F02FAIL/F01OPEN不变。 |
+| DISPATCH | 唯一full077已消费INCOMPLETE：Root1/entry97/measurement1，842.04秒、512MiB、全部Job0。内部840秒到期于第三层校验，前两层返回，最终uncached边界未完整完成，剩余成本UNKNOWN。原owner082接收三文件native0并WRITE_STOP。原Astra083真实CLI/receiver0、476.62秒，Job收尾后0；确认840/900来自作者执行限额，前瞻授权有限measurement3600/actual10800/seal3600窗口，校验标准不变。09:43:12原Sol已续接，仅绑定新调用控制和针对性检查，旧077不重跑；新测量、actual、seal均未启动。 |
+| T7 | 045修复的独立限定PASS与最终绑定保持；完整full045仍未启动、未消费。原作者047正在核对已关闭044的历史gross/UNKNOWN是否被再次当作未来物理预留扣除；Root未自行退款或改准入。保留完整历史记录，只请求对这个已有容量阻塞作具体裁定。 |
+
+N8此次监督器故障与产品结果分开记录。Root读取活动中的LIVE文件与故障时间重叠，但没有保留当时持柄者证据，不能断言唯一根因。孤立SYNTHETIC实验实测：目标存在开放读句柄时os.replace返回WinError5；关闭读句柄后成功，无读者时成功。连FILE_SHARE_DELETE情形也失败，故第一次预期其成功的探针raw1保留，后继完整实验raw0。操作纠正为不读取正在写入的LIVE.json/LIVE.tmp，改观察进程及已闭合产物；尚不宣称实际恢复完成。原SOURCE/REQUEST全部输入未变，真实失败保留在`G/n8-runtime009-review001/ROOT-INCOMPLETE-RECEPTION-001.json`。既有primary/completion要求的真实TERMINAL/RESULT缺失，不能由Root补造。
+
+Root还保留一次前置诊断raw1：误以为新ROOT-INVOKE字符串含字面反斜杠换行，检查在零写入时停止。后继AST核对确认原脚本本来就是真换行，未修改或重复启动。一次functions编排JavaScript语法错误未执行任何工具。后续以真实AST和字段校验代替对转义文本的猜测。
+
+空间整理详见维护记录。09:56 CAP499仍保留全部既有历史费用、UNKNOWN和预留；C/D净可分配余量约383396078/2685011969B。有限元数据检查未找到足够可直接清理的缓存，本轮无新增删除、搬移或压缩。当前M5占普通槽1，N8原审核已关闭释放槽2，DISPATCH实施及两位原作者的既有故障处置在各自静态额度内运行。
+
+本地依据：`G/n8-runtime009-review001/`、`G/astra-dispatch077-full-deadline-083/AUTHOR-DISPOSITION.md`、原owner的`OWNER082-MEASUREMENT-RECEPTION-001.json`/`OWNER082-ASSESSMENT-001.json`/`OWNER082-CLOSURE-001.json`、`G/CAPACITY-499.json`。G为C:/AKWorktrees/aktr-goal-20261026。四模块尚未最终硬审全部通过，保持false/hold/brokerNOT_RUN/send0/cancel0，完成规定硬审、必要集成及推送后停止。
