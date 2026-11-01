@@ -1081,3 +1081,19 @@ M5审核者保留两个harness原始1：控制检查第一次未创建输出父�
 Root的DISPATCH元数据检查也再次遗漏importlib的sys.modules注册，原始1、零测量调用；随后使用已验证注册顺序成功。这个协调错误与真实子进程startup缺陷分别保留。今后直接复用已验证加载方式，读取打包对象使用既有decoder；全新解释器检查须覆盖实际自动sitecustomize，不以已预载模块的同进程检查代替。
 
 当前仅推进四个既有模块。开发为原Sol/max，原Astra只处置既有故障，独立ZCode签发成果结论；未增加模块或未来开发计划，未把未完整接受的产品候选合入main。交易保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。所有既有任务完成规定硬审和必要集成后推送并停止。
+
+
+## 2026-11-01 00:35 UTC — N8 接收通过，DISPATCH 与 T7 并行运行
+
+磁盘整理已完成，仍只推进 M5、T7、N8、DISPATCH 四个既有模块。00:32 实测 C/D 可用 67,241,996,288 / 51,381,940,224 B；CAPACITY-462 保留历史完整预留及 UNKNOWN，仅为 DISPATCH076 新捕获增加 49,152 B。扣除全部预留后 RAM/C/D 仍满足 6/4/4 GiB 底线，无重复清理。
+
+| 模块 | 已取得的真实结果 | 尚待完成 |
+| --- | --- | --- |
+| N8 | completion002 独立 ZCode CLI/Root 原始退出均 0、2 GiB Job0，82 输入未变；35/35 必需检查、3/3 新反例通过，原 021/022 成功证据复用，实际 023 候选获无条件范围 PASS。三份新报告已明确接受实际候选。Root 使用冻结 sealer、Job closure validator、strict reference builder，依次原始 0，已真实发布 reference007。随后唯一 `prepare_replacement.py --final-arguments --review-terminal-reference ...` 原始 0，41.92 秒、512 MiB、Job0，取得真实完整命令。 | final-arguments003 已完成；runtime007 等普通重槽释放后执行一次，不重跑 preflight。F02 FAIL/F01 OPEN 尚未被工具范围 PASS 改变。 |
+| M5 | 唯一 hash-allocation004 实际原始 0，42.18 秒、2 GiB Job0。4 MiB / 65 MiB 输入的公共 hash 峰值为 4,265,893 / 68,229,541 B；真实 encoder 单次分别物化 4,194,306 / 68,157,442 字符 token，65 MiB 活跃分配耗尽 token 后从 68,164,463 降至 4,468 B。 | 原 Sol 正按 Author060 修复有界 JSON token 输出，准备字节/hash/Unicode/error/cache 等价验证及唯一005。该分配已证实可优化，但仍不能认定为旧完整006确切失败分配。full100007未获授权，最终079/080待完成。 |
+| DISPATCH | 修复后的自动 startup 在新解释器中原始 0，31.92 秒、512 MiB Job0；旧075错误真实重现并保留。076绑定已冻结，Root核对179 pins后启动唯一 `measurement-entry076.py`，工具句柄13091、launch2a8a96，900秒内部整体预算、930秒Root Job，512 MiB。 | 正在测量，与T7占用两普通重槽；终态后原owner按独立接收窗口交回原ZCode审核。075已消费不重跑；actual/seal尚未运行。 |
+| T7 | full-projection042-001 原句柄80431保持运行，实际进度计数持续增长。已采用默认L0和此前102/102+20/20独立修复PASS不变。 | 全24节点统计、最终R1/L1/R2待真实完成。不得将合成投影测量当作完整回测结果。 |
+
+N8保留一次真实工具错误及Root接收错误：审核者在三份报告完成后更新其私有 MEMORY.md，第一次 Edit 因未先 Read 被拒绝，随后 Read 和 Edit 成功；精确工具ID、原始trace、数据库part哈希和处置见本地 `n8-preflight080-r2-completion002/RESOLVED-TOOL-DISPOSITION-001.json`。该错误未涉及冻结源码或报告。Root接收002原始1（7737bd）来自额外的全部工具零错断言，且未写产物；接收003只对这一个已核实的错误作具体终态处置，保留全部原错误，实际执行未修改的冻结消费者验证，原始0（e535c3）。没有重跑独立审核、补写审核者结论或放宽产品门槛。之后调用 Edit 前先读取目标；协调接收应区分已解决工具前置错误与实际验收条件，不能人为加入重复审核门槛。
+
+开发仍由原 Sol/max，原 Astra 只澄清既有故障，独立 ZCode负责硬审；不新增模块计划、不合入尚未完整接受的候选。交易保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。完成本批全部规定硬审、集成和推送后停止。
