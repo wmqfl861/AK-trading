@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-01 07:25 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-01 10:28 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 d695da3。本次发布真实局部审核与推进状态，未把待完整运行和最终审核的候选冒充整体接受。
+- 本次更新前 main / origin/main 为 1a6f08b。本次发布真实局部审核与推进状态，未把待完整运行和最终审核的候选冒充整体接受。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -14,18 +14,24 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | r22四文件独立scoped PASS、R0-022及新M1默认L0均已完成；原owner最终运行绑定和静态预检通过。full044已真实消费：Root1/原生child3、17.72秒/2GiB/Job0，输入未变。 | 安装observer036时拒绝，实际collected/ran/passed均0；原owner已定位旧观测器要求_fit_fold内生成器，而044把标签迭代移到辅助函数。正在既有postfull范围核实最小修复；未重跑已消费full。最终R1→L1→R2仍待。 |
+| T7 | r22四文件、R0-022及新M1默认L0已接受；observer045兼容修复已独立重跑27+2项和13反例PASS。最终运行绑定raw0/13.187秒/512MiB/Job0，810输入不变。 | 原作者047纠正closed044历史费用再次计入未来物理预留的问题；CAP500/501已保留full045完整10,098,027,861B。full045尚未执行/未消费，等待普通槽；最终R1→L1→R2仍待。full044 consumed FAIL保留。 |
 | M5 | accepted060完整573成员已物理交付。Root入口8组通过；原独立review062实际重跑8组及6个自写反例通过，明确接受READY007。CLI/Root0、660.88秒/2GiB/Job0、1547输入未变。 | Full100007于04:00:09 UTC按真实READY、即时资源及冻结argv启动，原exec61552运行；28800秒总界/28200工作/600关闭，2GiB及1GiB输出约束保持。原006失败与确切分配UNKNOWN保留；本次完整终态及最终079/080仍待。 |
-| N8 F02 | 元数据r2与entry024独立局部PASS保留。runtime008真实消费，census0/runner1，各一次且生命周期闭合；junit1 test/1 failure，原生输出缺失。原独立结果复审CLI/Root0、246.61秒/Job0、777inputs未变、18.164工具秒，结论FAIL。 | 首个worker响应超时；关闭日志另有标记生产线程未明确停止导致snapshot publication失败。原Astra正在处理同一既有故障的离线修复范围；无009授权、无重跑。F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
-| DISPATCH | live080完整比较已真实PASS：368.6秒/512MiB/Job0，完整返回值、291依赖、277映射相同；same-read582次生效。warm合计93.319→94.235秒，未证明目标性能收益。 | 原owner已闭合assessment，完整成本仍有动态闭包及两次最终uncached等UNKNOWN；full077未消费、未准入。原Astra正在处置既有负面测量，不能把比较PASS当产品PASS，未启动actual/seal。 |
+| N8 F02 | 独立ZCode对PUBLICATION_REPAIR、DIAGNOSTIC_OBSERVATION_R2、ENTRY_DELTA025三scope签发无条件PASS；61项必需检查保留原真实成功且未重跑，新增5反例通过。corrective002 CLI/Root0、64.153工具秒、563.02墙钟秒、2GiB/Job0、108输入不变。 | receipt与Job闭包各raw0，但strict reference因ROOT-LAUNCH新增授权字段发生raw1/REFERENCE_LAUNCH_SCHEMA。reference009未发布、diagnostic009未执行；原Sol按作者094第6条做append-only026绑定修复，并单独硬审delta。008主响应根因仍UNRESOLVED，F02 FAIL/F01 OPEN-INSUFFICIENT不变。 |
+| DISPATCH | full077真实deadline失败，两个nested完成及第三ordinal416中断原样保留。作者083已授权完整测量/actual/seal时限；083测量16文件冻结、checks和bounded Root捕获已准备。 | measurement083尚未启动，排在N8必要短修复/独审后；完成后原owner接收→原独立硬审→actual→成功后seal→最终硬审。077不重跑，actual/seal未执行，准备或局部比较PASS不计产品完成。 |
 | Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理已完成并由提交`cb1781c`推送：D盘48份旧RB副本无损释放1,340,824,860B；C盘三轮无损释放759,602,115B，两卷合计2,100,426,975B（约1.96GiB）。pip另报告清理878.2MB缓存，该数不冒充逐文件实测物理释放。未删除源码、行情或审核材料。CAPACITY-486保留完整历史费用、预留和UNKNOWN；最新实测扣全部预留及RAM/C/D的6/4/4GiB底线后余量均为正，启动仍实时准入。最多两普通重槽；M5完整运行仍占一槽，T7full044与N8结果复审均已真实闭合。启动其他检查前继续实时准入，旧actual、UNKNOWN和完整预留不退款。
+磁盘整理累计逐文件实测无损释放2,100,426,975B，pip报告878.2MB单列；本轮没有再次删除、搬移或压缩。作者047保留044历史K=9,829,723,477B及pytest gross UNKNOWN=9,533,893,973B，只将已关闭历史费用9,812,946,261B从未来物理扣款排除，closed044继续保留16MiB收尾。该纠正物理释放0B。CAP500资助full045，CAP501追加第三次N8审核C10,479,616B/D524,288B，其他承诺保留。CAP501发布时扣预留及RAM/C/D的6/4/4GiB底线，余量为7,453,519,872/361,474,286/2,305,640,449B。最多两普通重槽；M5原Full100007持续，第二槽优先N8已有故障短修复/审核，随后DISPATCH083测量、T7full045。每次启动重新读取即时余量。
 
 四个整体模块均未完成最终硬审，局部工具或修复范围PASS不计作整体PASS。安全状态保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。未读取或修改`.env`、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果，不发布会话库或网络暴露细节。当前直接人类规则指定原Sol/max开发，原Astra处置既有计划缺口，独立ZCode硬审；旧磁盘角色文字未在本批擅自修改。
 
 ## 本次已推送与实际命令
+
+- N8 corrective002真实47635e→37d30a/raw0；61项独立检查未重复。两次补充correlation探针的harness形状错误保留，由审核者依据既有真实collector覆盖具体处置。三scope PASS只覆盖工具，不代表F02或F01通过。
+- N8接收cae019→a564c5/raw1，receipt002与jobclosure002先各raw0，reference002在发布前拒绝REFERENCE_LAUNCH_SCHEMA。Root恢复launch的三项真实授权字段未被025 exact-fields合同接受。禁止删除字段、重写裁决输入或由Root放宽consumer；原作者094第6条已授权原Sol做最小绑定后继，026立即实施，独审仅新delta并承接旧三scope。预防：变更声明前核对实际消费者的完整schema和授权链，不能只检查JSON可解析。
+- N8首次监督器故障保留Root97/trace97/watchdog130，实际ZCode退出UNKNOWN_NO_TERMINAL。WinError5发生于LIVE.tmp替换LIVE.json；隔离实验验证读句柄会造成此文件系统拒绝替换，历史持柄者UNKNOWN。恢复调用禁止读取、哈希或复制活跃LIVE，已真实正常闭合，未修改监督器或重跑成功检查。
+- DISPATCH Root捕获源码经消息传输曾hash不匹配，原raw1发生于任何写入/启动前。原owner直接发布实际测试变量的机器编码，Root核实5210B/SHA38f32a876d1a4afad099c2dcd6b9feef76bd557f6802147105db2ad59a0e6d22，原pin未改。冻结源码以后从机器产物传递，避免手抄。
+- Root状态编辑432cd3/raw1把历史28张T7表也纳入唯一性断言，发布前停止、零文件修改；后继仅匹配当前工作段。历史状态原样保留。
 
 - T7实际full044：11effb→ca9980，Root1，原生controller/child3，17.72秒，Job三项0。观测器安装失败，pytest尚未收集/运行；未把这次短失败报成完整回测。原owner只读postfull诊断继续。
 - N8实际runtime008：d3c5a5→05ad28，raw1，census0/runner1各一次、未触及180秒上限且生命周期问题为空。真正结果复审bc9533→f40a8d，native/Root0，独立FAIL和四个判定反例均已形成；元数据局部PASS不扩大成模块PASS。
