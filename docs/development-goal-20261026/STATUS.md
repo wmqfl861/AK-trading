@@ -1355,3 +1355,15 @@ Root准备错误2e754f/raw1将N8请求误定位到本地证据目录，而真实
 Root只读接收错误保留：612a57/raw1假定retained_slots元素为dict，后继按实际类型读取；f9ccc8/raw1误猜comparison输出为work/RESULT.json，真实终态指向work/FINDINGS.json，后继从实际producer stdout取得路径。均无产品重跑、无证据改写。以后从真实schema和输出引用读取，不能猜文件名。比较原始外层native0与该Root读取raw1分别记录。
 
 本地依据：G/t7-legacy-capacity-reconciliation051-001/RECONCILIATION051-001.json；G/CAPACITY-529至532.json；M5 runtime/offline063下本次baseline/compare及G/zcode-dispatch/m5-capacity-reference-005/offline063-hard-review001；DISPATCH原B/owner087-output002/final-handoff087.json；G/n8-author100-combined-review001。G仅本地证据根C:/AKWorktrees/aktr-goal-20261026。保持false/hold/brokerNOT_RUN/send0/cancel0；未接受源码没有合入。
+
+
+## 2026-11-01 21:56 UTC — M5 离线修复独审通过，继续四模块既有收尾
+
+- **M5：** 原独立 ZCode offline063-hard-review001 已终止，Root/CLI0、526.31秒、2GiB、Job三项0，140输入未变。独立必要检查61项、raw0、fit0；审核者反例17/17，两个已纠正的fixture raw1完整保留。三个比较的完整压缩/解压输出字节一致；CDF的隔离CPU358.36→46.94秒仅为该用例观测。独立结论是 **OFFLINE063_REPAIR_ONLY 无条件PASS**，不是完整M5或Full100接受。Root已接收实际报告和17条已关闭工具元数据（32.047秒、未闭合0），没有重跑成功检查。原作者068正在明确该已接受修复的实际物理源/F/consumer交付；Full100007仍CONSUMED_FAIL/finalpytestUNKNOWN，Full100008仍NOT_GRANTED。
+- **N8：** ownercheck100-003的真实child/run_check为124、100.52秒、512MiB、Job0；外层PowerShell未显式传递而显示1，两个退出码分别保留。后续必须立即保存并显式exit原生码。新诊断004仅执行一次，Root/child0、3.19秒、512MiB、Job0；原Sol继续处置夹具动态作用域问题及固定CAP535的薄绑定，最终冻结和组合独审仍待完成，011未运行。原100窗口work-stop22:26:55Z/hard-stop22:31:55Z不延长。
+- **DISPATCH：** 完整087受影响检查已通过、原owner WRITE_STOP。原独立会话的复审REQUEST/SPEC已经准备，58输入绑定、旧084中断记录经原接受helper验证关闭；尚未启动本次复审。原084的130/CLI UNKNOWN/FAIL保留，不重跑旧成功verify或已消费owner driver。当前重槽优先给有限窗口的N8检查/组合审核；actual/seal仍NOT_RUN。
+- **T7：** 原049诊断exec99788仍运行，不重启、不提前封存活动流；原2GiB和13200/13500/14000/14400秒约束保持，完整D预留保留。自然1455原因仍未解决，原full045 FAIL/incomplete、R1/L1/R2未达。
+
+磁盘维护现已停止：实际无损释放仍7,365,031,406B（约6.86GiB）。052仅纠正已关闭039的未来重复扣款、实物释放0；042预留未动。CAP535新鲜RAM/C/D净余量均为正，逐次启动仍需复核。详见维护RESULT。
+
+本地证据：G/zcode-dispatch/m5-capacity-reference-005/offline063-hard-review001/ROOT-RECEPTION.json；G/astra-m5-offline063-accepted-delivery-068；G/n8-scope-observation100-owner001/ownercheck100-003及diagnostic100-004；G/zcode-dispatch/dispatch087-preparation-review-001；G/CAPACITY-535.json。G仅证据目录C:/AKWorktrees/aktr-goal-20261026，Git只在D:/Projects/AK-trading。仍只完成M5、T7、N8、DISPATCH，规定硬审、集成、推送完成后停止。false/hold/brokerNOT_RUN/send0/cancel0；未接受的产品代码没有合入。
