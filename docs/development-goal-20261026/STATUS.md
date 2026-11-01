@@ -1241,3 +1241,19 @@ M5已核对冻结监督器：所谓WHOLE_DEADLINE_TREE_TERMINATED实际由28200�
 Root本段错误原样记录：N8接收首次d09b67 raw1是Root漏建clock父目录，TRACE无法创建LIVE.tmp；外层Job0，watchdog必需START-INTENT/stdout/stderr均未生成，按固定watchdog第49–52行顺序证实ZCode启动0。原失败保留，独立transport002先创建并断言clock父目录，再消费尚未使用的唯一审核调用；没有重新运行诊断。其准备曾有一次functions.exec JavaScript语法错误，嵌套工具/写入0，改用明确多行源码载体。只读b2762f raw1错误地把C:/AKWorktrees/aktr-goal-20261026当Git仓库（git原始128）并读取不存在的STATUS；该目录实际上是本地证据根，Git主仓库始终D:/Projects/AK-trading。以后先确认目录类型及文件存在，发现失败立即停止依赖读取，不把名字含Worktrees当Git证明。
 
 本地关键依据：G/n8-runtime009-binding026-review001/、G/n8-finalarguments009-001/、G/n8-runtime009-reception001/transport002/、G/zcode-dispatch/m5-capacity-reference-005/full100-verdict-079/、G/root-m5-full100007-062/CLOSED.json、G/astra-dispatch083-binding-balance-084/AUTHOR-DISPOSITION.md。G为本地证据根C:/AKWorktrees/aktr-goal-20261026。全部四模块仍未最终硬审通过；保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel0/0，完成规定硬审、集成和推送后停止。
+
+
+## 2026-11-01 13:20 UTC — N8实质修复验证完成，M5转入有界性能诊断
+
+仍只收尾M5、T7、N8、DISPATCH四个既有模块，按最新用户inline AGENTS续原Sol/max开发、原Astra处置既有计划缺口、原独立ZCode硬审。磁盘整理已实测释放2,100,426,975B；本段未重复清理或另计释放。CAP509仍保留旧费用、UNKNOWN与运行预留，最近fresh RAM/C/D均满足6/4/4GiB保底。
+
+- N8：009真实结果接收的原独立ZCode调用fd5cb9→05818b为CLI/Root0，28.233工具秒/318.687墙钟秒，160输入未变、Job0，给出无条件实际结果FAIL。原Astra097真实CLI/receiver0后立即交原Sol。实际冻结validator拒绝的原因已定位为producer framing新增两键与缺triggers；原009两条POST实际HTTP200/hold/evaluator_busy，原保护逻辑保持。唯一离线REPRODUCE及PUBLICATION、CONSUMER、SEMANTICS均实际native0/child0/Job0，分别5.1/4.99/10.13/17.79秒。原Sol正在冻结最小双文件及独立新scratch检查；这些是开发验证，尚不是新产品硬审PASS。009已消费，010未启动。
+- M5：原final079实际CLI/Root0、394.6秒、2GiB Job三项0、1644输入不变，明确无条件产品FAIL。VERDICT有效；FINDINGS第11行把225及解释写成非法JSON，原文件和HASHES保留。原作者063已真实CLI/receiver0、418.58秒、9输入不变，授权有界离线因果/性能诊断与必要最小修复，明确不再直接延长或重跑全套。原Sol于13:14:03 UTC接续；008仍NOT_GRANTED。原079出版更正可合并进下一次原独审，但与旧产品FAIL分别记录。
+- T7：原full045/exec35064继续实际运行，supervisor PID243012及创建时间仍匹配，产品CPU和进度持续增加。未产生完整24节点最终成绩，不提前宣称通过或重启。
+- DISPATCH：原084 call002已落盘30文件、gross1,086,406B，编译和28refs检查0，但发现新context缺预付claim以及review OUTPUT仍指旧路径；该包准确状态为STATIC_BOUND_BUT_NOT_ADMISSIBLE。原owner已按084剩余call003做append-only最小修复，旧包与成功measurement083/独审PASS保留，actual/seal仍NOT_RUN。Root已核原source的dev/ino及首metadata身份，未以未来声明伪造实际执行行。
+
+Root准备错误另行保留：976ca9/raw1因假定旧062请求有可选consumer_required_request_fields_verified字段，在CLI启动前KeyError；只补缺失REQUEST后成功启动063，未覆盖旧产物。063外层e51730/raw1则因Root把guard真实child_exit误写成get(returncode,1)，在完成并保存真实child0后误映射为1。实际CLI0、receiver0、原线程、9输入不变与Job最终0分别核实，原作者文本有效且不重跑；以后严格检查实际helper schema并传播必需child_exit。详见G/astra-m5-full007-deadline-repair-063/ROOT-RECEPTION.json与PREPARATION-DISPOSITION.json。旧raw1保持，不改记成功。
+
+本地依据：G/n8-runtime009-reception001/transport002/ROOT-RECEPTION.json、G/astra-n8-diagnostic009-existing-failure-097/AUTHOR-DISPOSITION.md、G/n8-existing009-repair097/WINDOW.json、N8 evidence/resource-successor-009-owner-checks/author097-001、G/zcode-dispatch/m5-capacity-reference-005/full100-verdict-079、G/astra-m5-full007-deadline-repair-063、DISPATCH原admission目录FROZEN084.json。G仍是C:/AKWorktrees/aktr-goal-20261026本地证据根，Git操作只在D:/Projects/AK-trading。
+
+当前四模块尚未全部通过最终硬审，不合入未接受候选。保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel0/0；完成规定硬审、集成和推送后停止，不新增模块。
