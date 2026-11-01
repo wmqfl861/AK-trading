@@ -1,6 +1,6 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-01 02:40 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-01 03:02 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
@@ -15,9 +15,9 @@
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
 | T7 | r21 投影修复独立102/102及20/20反例PASS；R0-021两节点PASS，原M1真实默认L0已发布并新进程验证。full042已按冻结入口实际启动，原exec80431继续运行，TRAIN物化计数推进。 | 全24节点终态尚未返回；目标23通过及原披露1跳过。完整运行及最终R1/L1/R2未完成，合成提速不能代表完整回测。 |
-| M5 | 原Sol单文件有界JSON输出修复获review003无条件范围PASS；CLI/Root0、369.19秒、2GiB Job0、854输入未变。45项正确性与canonical bytes/hash一致；小case峰值增加和tracemalloc下减速如实保留。 | 原Astra062已有效发布；原Sol02:33:50激活完整573成员物理交付和实际入口验证。新Full100007已获条件授权，须真实READY、容量及空闲槽后才能启动一次。006已消费FAIL、确切失败分配UNKNOWN；最终079/080未完成。 |
-| N8 F02 | runtime007实际Root/runner1，104.203秒，pytest1项/1失败；3MiB metadata store overflow，native结果NOT_PRODUCED。原ZCode已独立接收FAIL。087离线基线真实重现同一ProbeError：child1、expectation0、6.53秒、512MiB Job0。 | 原Sol修复metadata表示和原子性，保持3MiB及完整观察语义，并准备直接024入口；之后立即原独立联合硬审。runtime008只有条件授权、尚未运行；F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
-| DISPATCH | 077的19项合成差分和7项真实文件系统检查通过。唯一paired live外层1、253.781秒、512MiB Job0；父脚本先检查输出长度再保存，导致baseline内层exit/长度/采集丢失，repair未开始。 | 原失败和UNKNOWN保留，无有效live改善或完整耗时估计。原Astra078正在处置这一个已有采集故障，随后仍由原Sol修复；full077、actual、seal未启动。 |
+| M5 | 原Sol单文件有界JSON输出修复获review003无条件范围PASS；CLI/Root0、369.19秒、2GiB Job0、854输入未变。45项正确性与canonical bytes/hash一致；小case峰值增加和tracemalloc下减速如实保留。 | 原Astra062已有效发布；原Sol02:33:50激活完整573成员物理交付和实际入口验证，实测新增56,726,528B已按CAP473预留。新Full100007已获条件授权，须真实READY、容量及空闲槽后才能启动一次。006已消费FAIL、确切失败分配UNKNOWN；最终079/080未完成。 |
+| N8 F02 | runtime007实际Root/runner1，104.203秒，pytest1项/1失败；3MiB metadata store overflow，native结果NOT_PRODUCED。原ZCode已独立接收FAIL。087离线基线真实重现同一ProbeError：child1、expectation0、6.53秒、512MiB Job0。 | 原Sol已实施r2 metadata表示/原子性修复，首批18项定向检查触及60秒截止（raw1/Job0、无用例统计），正定位耗时阶段并准备024入口；后续联合硬审仍待。runtime008只有条件授权、尚未运行；F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
+| DISPATCH | 077的19项合成差分和7项真实文件系统检查通过。唯一paired live外层1、253.781秒、512MiB Job0；父脚本先检查输出长度再保存，导致baseline内层exit/长度/采集丢失，repair未开始。 | 原失败和UNKNOWN保留，无有效live改善或完整耗时估计。原Astra078已真实完成并发布；原Sol已立即接续capture/有限输入比较修复，full077、actual、seal未启动。 |
 | Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
@@ -1132,3 +1132,6 @@ N8执行`python -B -X utf8 baseline_capture087.py`，原始外层0；实际子�
 DISPATCH077唯一pair命令`python -B -X utf8 pair077-003.py live`外层原始1，253.781秒、512MiB Job0。有效父源码line13先执行stdout/stderr限额断言，line15才保存退出码/实际长度/封闭流，line17异常处理覆盖已有row；baseline输出触限后证据丢失、candidate未开始。因此内层原生退出码与字节数UNKNOWN，没有live性能结论，full077不得启动。原owner已WRITE_STOP并交最小故障报告，原Astra078沿同一线程真实调用，仅处置该既有故障。避免办法是先持久化原始退出码、实际字节数和封闭采集，再施加报告展示限；异常路径不得丢失已取得事实。是否及如何给出新的有界比较由原作者处置，已消费003不重跑。
 
 T7原full042继续运行；本轮日志显示TRAIN label物化仍推进，尚无完整24节点结果。磁盘维护已经结束，不重复清理。开发、审核继续仅覆盖原四模块，全部完成必要硬审和集成后推送并停止。
+
+
+2026-11-01 03:02 UTC 续接：DISPATCH原作者078 CLI/receiver0、348.61秒，12输入未变，512MiB guard收尾后Job0（after-wait/final均3，原值保留）；原Sol已接续，完整capture必须在展示/parse前保存，local错误路径验证通过后才允许新的有界pair，旧pair不重跑。M5完整573物理包54,029,312B及controls/check/review/closure2,697,216B，正缺共56,726,528B，已按CAP473预留；首次assembly因完整FileRef路径斜杠比较而raw1、零源复制，后继被通用1MiB检查输出限额中止（仅复制30个有效成员、Job0）。原Sol正在同一062范围内以已资助物理包限额纠正，验证已有成员后只补缺失项，不另建重复树，也没有消费正式007。N8 metadata001的实际Job为termination=deadline/60.13秒/child1/Job0，stdout与stderr均0B、JUnit未产生，不能记为18项测试失败或通过。原owner在同一087范围定位静默耗时，必要新批次分阶段即时记录，保持3MiB、单Job60秒和完整观察要求。T7原full042继续运行，日志已出现CALIBRATION物化进展，无最终24节点统计。
