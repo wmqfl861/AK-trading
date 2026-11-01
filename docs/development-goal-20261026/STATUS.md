@@ -1221,3 +1221,23 @@ Root还保留一次前置诊断raw1：误以为新ROOT-INVOKE字符串含字面�
 空间整理详见维护记录。09:56 CAP499仍保留全部既有历史费用、UNKNOWN和预留；C/D净可分配余量约383396078/2685011969B。有限元数据检查未找到足够可直接清理的缓存，本轮无新增删除、搬移或压缩。当前M5占普通槽1，N8原审核已关闭释放槽2，DISPATCH实施及两位原作者的既有故障处置在各自静态额度内运行。
 
 本地依据：`G/n8-runtime009-review001/`、`G/astra-dispatch077-full-deadline-083/AUTHOR-DISPOSITION.md`、原owner的`OWNER082-MEASUREMENT-RECEPTION-001.json`/`OWNER082-ASSESSMENT-001.json`/`OWNER082-CLOSURE-001.json`、`G/CAPACITY-499.json`。G为C:/AKWorktrees/aktr-goal-20261026。四模块尚未最终硬审全部通过，保持false/hold/brokerNOT_RUN/send0/cancel0，完成规定硬审、必要集成及推送后停止。
+
+
+## 2026-11-01 12:34 UTC — N8诊断已执行，M5全套中断，T7与DISPATCH继续
+
+只收尾M5、T7、N8、DISPATCH四个已开始模块；最新用户inline AGENTS仍为原Sol/max开发、原Astra处理现有计划缺口、原独立ZCode硬审。没有新增模块、改动持久模型配置或合入未接受候选。
+
+| 模块 | 真实结果 | 正在进行的下一步 |
+| --- | --- | --- |
+| N8 | 原binding026补审对实际repair027无条件PASS：a4f189→148399，CLI/Root0，34.914工具秒/274.328墙钟秒，2GiB Job0，147输入不变。旧025三个范围PASS及61/31/4成功检查复用，没有重跑。冻结027接收helper的receipt、seal-job、reference全部raw0；final-arguments009 raw0/49.26秒/512MiB Job0。唯一diagnostic009为64e3e2→e00336，Root/runner1，104.484秒，census和runner各一次，retries0。实际原始数据与native结果已产生，但当前校验报NATIVE_FRAMING_SCHEMA；JUnit1项/1失败/0错误/0跳过。 | 原独立reviewer的043结果接收已真实启动，exec98372，60/40/20工具限额、600whole/570Job。诊断009已消费，不重跑008/009、不启动010。F02FAIL/F01OPEN-INSUFFICIENT保持，008响应原因仍UNRESOLVED。 |
+| M5 | full100007于11:52:57闭合，外层raw1/28367.3秒/2GiB Job三项0。原owner只读接收43秒：100收集、76开始、75节点各setup/call/teardown通过、24未开始；第76项真实训练链测试卡在setup，body验收未执行。最终pytest返回及全套成绩UNKNOWN，不能把supervisor child1当正常pytest最终返回。 | 原final079已准备，1644输入，900whole/870stop；等待N8实际接收结束释放普通槽后立即原SID审核。007已消费FAIL，008未授权。 |
+| T7 | full045已按接受045入口真正启动，exec35064，D:/AKT7RUN045已存在且机会已消费；完整10,098,027,861B运行承诺已资助。 | 保持原句柄运行，完整24节点及最终R1/L1/R2仍待；不重启、不提前封存活动流。 |
+| DISPATCH | measurement083已真实闭合，raw0/1018.26秒，13630observations；完整receipt内包含965.203秒validator，不重复相加。原独审同次调用先出FAIL后自行发布correction001无条件PASS，37.785工具秒/909.609墙钟秒/Job0，旧FAIL原样保留。原作者084真实CLI/receiver0、12inputs不变，明确接收此更正、不再测量复审。 | 原Sol已立即续接actual/seal完整carrier绑定。原900工具余额UNKNOWN保留；084仅提供有限600owner/240Root完成额度及原剩余两次审核。actual/seal仍NOT_RUN，不将静态接线或测量PASS当产品完成。 |
+
+M5已核对冻结监督器：所谓WHOLE_DEADLINE_TREE_TERMINATED实际由28200秒workload截止触发；outer28365.078秒尚未耗尽28800秒whole。quota_passed=false包含deadline abort条件，本次peak37,026,441B远低于1GiB，不能归因磁盘超限。PRIMARY-EXCEPTION057是no_model-smoke预期负例，后续三阶段通过，不能当终止根因。inner fit真实返回耗10348.516秒；outer明确stand-in。最后hash/JSON栈只是采样位置，不是已证实的性能根因。capture声明86文件2,561,437B核对0mismatch，不替代缺失完整测试终态。
+
+空间整理结果保持实测无损释放2,100,426,975B，本段无重复删除或释放声明。CAP507保留旧实际费用/UNKNOWN和所有运行承诺；本次新预留仅N8结果接收clock10,479,616B+512KiB证据、M5原final079的2MiB有界材料。12:33准备时RAM/C/D净余量约8,497,926,144/296,706,286/1,275,246,593B；正式启动须重新测量。普通重任务最多两槽，当前T7和N8。
+
+Root本段错误原样记录：N8接收首次d09b67 raw1是Root漏建clock父目录，TRACE无法创建LIVE.tmp；外层Job0，watchdog必需START-INTENT/stdout/stderr均未生成，按固定watchdog第49–52行顺序证实ZCode启动0。原失败保留，独立transport002先创建并断言clock父目录，再消费尚未使用的唯一审核调用；没有重新运行诊断。其准备曾有一次functions.exec JavaScript语法错误，嵌套工具/写入0，改用明确多行源码载体。只读b2762f raw1错误地把C:/AKWorktrees/aktr-goal-20261026当Git仓库（git原始128）并读取不存在的STATUS；该目录实际上是本地证据根，Git主仓库始终D:/Projects/AK-trading。以后先确认目录类型及文件存在，发现失败立即停止依赖读取，不把名字含Worktrees当Git证明。
+
+本地关键依据：G/n8-runtime009-binding026-review001/、G/n8-finalarguments009-001/、G/n8-runtime009-reception001/transport002/、G/zcode-dispatch/m5-capacity-reference-005/full100-verdict-079/、G/root-m5-full100007-062/CLOSED.json、G/astra-dispatch083-binding-balance-084/AUTHOR-DISPOSITION.md。G为本地证据根C:/AKWorktrees/aktr-goal-20261026。全部四模块仍未最终硬审通过；保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel0/0，完成规定硬审、集成和推送后停止。
