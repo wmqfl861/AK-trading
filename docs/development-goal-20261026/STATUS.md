@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-01 05:57 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-01 06:35 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 `ee0c8eb`。本次仅发布准确状态与调用经验，未把待审代码冒充已接受产品。
+- 本次更新前 main / origin/main 为 e04cc57。本次发布真实局部审核与推进状态，未把待完整运行和最终审核的候选冒充整体接受。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -14,18 +14,24 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | 当前r22四文件冻结；002的117项、003的32项、004的6项分别真实通过/raw0，保留各自版本和范围。四个small对比均COMPLETE/raw0/Job0：material构造30→2、label访问240→120；CDF转换12800→128且输出一致。 | 原Sol已接过第二重槽，按RUNLIST044-002顺序执行16个未跑测量和两组必要回归；采用高精度计时后继，不重跑四个small。独立scoped审核、F/R0/L0、条件full044及R1/L1/R2仍待。 |
+| T7 | r22四文件已获原独立ZCode无条件scoped PASS：139、13、44项独立回归分别通过，24个自写反例通过；CLI/Root0、623.21秒、2GiB/Job0，315输入未变。原B完成真实四源条目及父DAILY更新，两绑定节点通过。 | 原R0-022正在实际核验新绑定；原M1已准备live AST/L0更新并等R0终态。五个有界测量cap保留INCOMPLETE。F→R0→L0→owner/R1→L1→R2、条件full044仍待，scoped PASS不冒充整体接受。 |
 | M5 | accepted060完整573成员已物理交付。Root入口8组通过；原独立review062实际重跑8组及6个自写反例通过，明确接受READY007。CLI/Root0、660.88秒/2GiB/Job0、1547输入未变。 | Full100007于04:00:09 UTC按真实READY、即时资源及冻结argv启动，原exec61552运行；28800秒总界/28200工作/600关闭，2GiB及1GiB输出约束保持。原006失败与确切分配UNKNOWN保留；本次完整终态及最终079/080仍待。 |
-| N8 F02 | 原独立review真实重跑三组必需检查，全部native0/60.469秒，148输入未变；工具90.414秒停止raw130，未出最终报告。后续同session完成4项反例PASS，另2项被reviewer自行识别为过严计账断言/错误预期拒绝码，并写corrected脚本。 | Root为保留旧机械lease收尾将外层降至334秒，该段334.59秒deadline/raw1/Job0，corrected脚本未交付终态；159输入未变，未有产品PASS/FAIL。原Astra091处置这一现有未完成审核；保留成功结果，仅续未完成2probe及报告，产品源码不因无效probe而修。F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
+| N8 F02 | 原独立ZCode已对METADATA_REPAIR_R2与ENTRY_DELTA024发布无条件PASS。三组成功检查沿用原独立结果，修正的两反例实际通过；本段native/Root0、282.4秒、2GiB/Job0、164输入未变。真实receipt/job/reference均经冻结consumer校验通过。 | final-arguments008实际预检raw0、49.43秒、512MiB/Job0，精确命令已交付；runtime008仍未启动，等待重槽。其实际结果及最终独立接收仍待；F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
 | DISPATCH | 原079 KeyError失败、全捕获和静态纠正保留。原Astra080批准独立新live-pair080-001；原Sol完成完整包计量、锁内调拨及真实冻结，publish b75e6c/raw0，parent/capture相关AST一致。 | 080新比较未运行，等待M5/T7之外实际空槽；baseline/repair及full077仍按原准入条件。full077未消费未准入，actual/seal/最终独审未启动。 |
 | Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理已完成并由提交`cb1781c`推送：D盘48份旧RB副本无损释放1,340,824,860B；C盘三轮无损释放759,602,115B，两卷合计2,100,426,975B（约1.96GiB）。pip另报告清理878.2MB缓存，该数不冒充逐文件实测物理释放。未删除源码、行情或审核材料。CAPACITY-485保留完整历史费用、预留和UNKNOWN；最新实测扣全部预留及RAM/C/D的6/4/4GiB底线后余量均为正，启动仍实时准入。最多两普通重槽；M5完整运行占一槽，T7原开发者的顺序测量/必要回归占另一槽。
+磁盘整理已完成并由提交`cb1781c`推送：D盘48份旧RB副本无损释放1,340,824,860B；C盘三轮无损释放759,602,115B，两卷合计2,100,426,975B（约1.96GiB）。pip另报告清理878.2MB缓存，该数不冒充逐文件实测物理释放。未删除源码、行情或审核材料。CAPACITY-486保留完整历史费用、预留和UNKNOWN；最新实测扣全部预留及RAM/C/D的6/4/4GiB底线后余量均为正，启动仍实时准入。最多两普通重槽；M5完整运行占一槽，T7原R0绑定独审占另一槽。
 
 四个整体模块均未完成最终硬审，局部工具或修复范围PASS不计作整体PASS。安全状态保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。未读取或修改`.env`、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果，不发布会话库或网络暴露细节。当前直接人类规则指定原Sol/max开发，原Astra处置既有计划缺口，独立ZCode硬审；旧磁盘角色文字未在本批擅自修改。
 
 ## 本次已推送与实际命令
+
+- 本次N8原审核分段的真实工具调用为3f524e→62f222：root/native0，282.4秒，TRACE65.556工具秒/0未闭合/0错误。两scope的PASS属于元数据修复和入口工具；root只用已审helper接收，未代写审核断言。completion_transport.py reference原始退出0，发布真实reference008；prepare_replacement.py --final-arguments --review-terminal-reference <reference008>原始退出0，49.43秒/Job0。runtime008尚未运行。
+- T7独立审核5cb5cc→5bf5bd真实native0，139/13/44三组与24反例分别通过；五个测量cap不扩大成全规模完成。原B仅更新四真实源及父DAILY条目，保留12fixture字节与mtime；M1需按实际581 AST测试声明重建清单（含13新增测试，不计3帮助函数）。
+- Root的T7首次启动42f852为raw1、0.42秒/Job0，监督器在启动模型之前拒绝不支持的1200/1080参数；实际ZCode启动0。原因是把固定300/270的已验监督器误当参数化接口。原失败完整保留，后继选用原有、未修改的900/870监督器并先核其固定合同；未修改监督器或任何模型配置。后继真实审核已正常完成。预防：复用启动器时先核对其接受的预算和schema，再发布匹配工单；不能只核脚本哈希而假定其支持任意预算。
+- 本次状态编辑第一次在functions.exec的JavaScript解析期因模板字符串内未处理的Markdown反引号被拒；零nested调用、零写入、非原生命令退出。随后使用不含嵌套反引号的文本成功发布；不将该解析错误伪装为产品或原生测试失败。
+
 
 - `ee0c8eb`已推送05:10状态；本次续报不将尚未独立接受的候选合入main。T7 CHECK004实际6 passed/0 failed/errors、raw0/11.7秒/2GiB/Job0；原四small每child raw0/Job0，batch12.625秒。旧计时受Windows monotonic量化，局部改善据真实work counts，不能报告0秒提速；后继仅改未执行measure的计时为perf_counter。
 - N8第三次Root调用8d2b30→e9ac4f真实raw1，334.59秒外层deadline，实际CLI退出UNKNOWN、TRACE终态及watchdog终态均缺失。保留完整Job0、clock最后76.645秒/10closed1open，未将未明消耗退还。Root不得因为旧协调窗口快到期就安排无法留足完整审核及报告时间的调用；以后先取得足以容纳完整模型等待和收尾的有效窗口，再启动，不能把准备完成等同准入。原15产品pin未变；CEX001两FAIL原值保留，reviewer的cex090b尚未完成，不记为PASS。
