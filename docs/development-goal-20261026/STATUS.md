@@ -1293,3 +1293,33 @@ Root本段一次只读命令误用不存在的ROOT-INVOKE.json（真实文件是
 Root另保留一次只读诊断raw1：误按JSON读取审核者的零字节r084c078输出。后继先检查实际长度，正确记录EMPTY_FAILED_CAPTURE及该探针NameError；未把它当产品问题或成功。原失败文件未覆盖。
 
 本地依据：M5 offline063/r4/ROOT-HANDOFF064-R4.json及runtime/offline063/m5-full100007-offline063-compare-001；G/n8-confirmation010-entry-review097-003；N8 author097-001/confirmation010/FREEZE-010-001.json；G/zcode-dispatch/t7-full045-terminal-review-001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch084-r2-binding-review-001/ROOT-INCOMPLETE-RECEPTION.json；G/CAPACITY-517.json。G=C:/AKWorktrees/aktr-goal-20261026，仅证据根。原始大包留本地，不合入尚未接受候选。继续只收尾四模块，保持false/hold/NOT_RUN/send0/cancel0，完成规定硬审、集成和推送后停止。
+
+
+## 2026-11-01 17:48 UTC — 已释放磁盘空间后的四模块收尾
+
+磁盘维护已完成并推送，累计实测无损释放6,764,591,173B（约6.30GiB），不重复计数；没有删除或搬移源码、行情和审核文件。只继续M5、T7、N8、DISPATCH四个已有模块。最新用户inline AGENTS指定原Sol gpt-6.1-sol/max开发、原Astra处置现有计划缺口、原独立ZCode审核，优先于磁盘旧路由文字。
+
+- T7诊断048获原独立ZCode无条件范围PASS：独立driver54检查、14反例通过；CLI/Root0，45.806工具秒/585.23Job秒，Job三项0，18inputs不变。首次preflight因未建已声明的runtime父目录raw1，driver当时未执行；创建该父目录后独立driver0，原失败保留。该PASS只覆盖5份诊断文件；自然1455仍未复现、根因未定，full045仍FAIL/incomplete、最终pytestUNKNOWN、R1/L1/R2未达。原作者049正在处置同一故障的最小因果验证步骤，无full046。
+- N8 call3真实CLI/Root0、395.31Job秒、29.431工具秒，但三份报告共6处冻结SHA拼写错误，未被Root接受。原Sol发布最小010-002绑定后继，5个受影响拒绝用例及正例通过，owner检查0/9.9秒/512MiB Job0；保留同一010机会和原strict消费者。call4已于17:36:59Z启动，剩余原097最后一次入口审核，要求所有当前FileRef从实际文件程序生成并核对。010 final-arguments/runtime尚未运行；009FAIL、008原因UNRESOLVED、F02FAIL/F01OPEN保持。
+- M5有效r5补充唯一SYNTHETIC DIRECTION20成熟证据，原产品和NONEMPTY断言不变。新eligibility065001于17:34:52Z真实运行，Root/child1、22.922秒、2GiB Job0，quotaPASS、无deadline/resource abort；原输入重建及旧结果拒绝通过，replay/fit0。失败为检查入口误把四参predict_market直接当三参forecast_provider，尚未验证实际admission/budget。原Sol已静态修正为与生产replay相同的三参适配器，使用request.features.decision_nano；066原作者真实CLI/receiver/Root0、246.79秒、512MiB、最终清理后Job0，授权紧凑r6及一次新eligibility066。原065 baseline/compare未消费，仍须逐级满足真实前置条件，未重跑失败身份、未授权full100008。
+- DISPATCH原owner核实旧四争议项存在reviewer harness错误，同时通过真实受限probe复现新的seal委托缺口：admission模块未导出successful，seal-child直接调用导致AttributeError。probe native0（捕获预期异常）、1.68秒、512MiB Job0。原085允许的必要append-only修复进行中。现有1GiB内部transfer110401B已落账，仅补owner49152、reviewer正缺44865、Root16384；旧charges不退。actual/seal仍NOT_RUN，原FAIL未由Root改成PASS。
+
+CAP520仍保留历史actual/gross/UNKNOWN；N8 call4有独立资金，新增两个原作者静态包各1MiB；正式动作逐次检查6/4/4GiB底线。普通重任务最多两槽。当前N8独审占一槽，T7闭合释放槽已准入DISPATCH受影响检查；原作者静态调用512MiB单列。
+
+本段Root准备错误保留：55d67f/raw1把Python carrier错误交给JSON decoder，无写入，后继按真实AST carrier schema读取成功；c393d1误读不存在的可选ROOT-INVOKE.py，PowerShell最后命令0不代表该读取成功，已记录NOT_PRESENT_OPTIONAL，改用真实REQUEST/ROOT-LAUNCH。两者均不是产品测试PASS；防范是先确认文件类型/存在性、按实际schema解析、分别保留每条命令结果。
+
+本地依据：G/zcode-dispatch/t7-fatal1455-review-048-001/ROOT-RECEPTION.json；G/n8-confirmation010-entry-review097-004；M5 runtime/offline063/m5-full100007-offline065-eligibility-001；M5 r5/PROVIDER-FAILURE-DISPOSITION065.json；G/astra-m5-eligibility065-adapter-fix-066；DISPATCH admission/actual007-prelaunch061-001/ROOT-FUNDING085-001.json。G=C:/AKWorktrees/aktr-goal-20261026，仅本地证据根。保持false/hold/brokerNOT_RUN/send0/cancel0；所有既有模块规定硬审、集成、推送完成后停止，不新增模块。
+
+
+## 2026-11-01 19:05 UTC — 真实资格通过，保持四模块收尾
+
+本批仍仅M5、T7、N8、DISPATCH；按最新用户inline AGENTS由原Sol gpt-6.1-sol/max开发、原Astra处置现有缺口、原独立ZCode硬审。没有新增模块或未来计划，完成硬审、集成和推送后停止。
+
+- M5：067 eligibility001已真实raw0/child0/27.078秒/2GiBJob0，全部12实质条件true。同一SYNTHETIC输入按真实evaluate/commit_observation走WAIT(0→1)、WAIT(1→2)、OPEN(2→3)，实际7lots；旧两次观察不足导致的失败已定位。源和NONEMPTY未放宽；002/003不再执行。原065完整baseline/comparison仍未运行，等待实时容量；准备662237/raw1在child启动前因D净余不足停止，baseline未消费。原final079仍FAIL，当前资格检查不是独立产品PASS。
+- T7：048诊断工具已独审PASS，049真实controller/guard接线检查均raw0、所有Job0，元数据绑定无需额外计划PASS。唯一真实positive_cold_run诊断于18:44:59Z启动（438702/exec99788），沿冻结r22与原2GiB/13200/13500/14000/14400约束运行；不重启、不提前钉住活动流。自然1455根因尚未确定，full045仍FAIL/incomplete/finalpytestUNKNOWN，R1/L1/R2未达。
+- N8：010-002入口已获限定独审PASS；实际010却在资源scope准入返回FRESH_SCOPE_RESOURCE_SAMPLE_REQUIRED，finalinvoker1/27.032秒、censusnative0，runner/workload/ETW均0。010已消费，011未授权。原结果接收唯一CLI本次真实130/344.91秒/2GiBJob0，TRACE已知40.348工具秒与1未闭合区间，CEX通过但没有最终VERDICT/CLI TERMINAL，不伪造独审完成。原作者099已给有限离线诊断范围，原Sol已续接，核查非祖先候选缺heldidentity的真实原因，未强行修改正确fail-closed逻辑。
+- DISPATCH：085受影响检查真实outer97/child1/6.79秒/512MiBJob0，完整bootstrap在Windows环境变量超过32767字符处失败，9反例尚未执行。当前完整值47899字符，旧r2也41770；原失败与冻结保留。原Astra087真实CLI/receiver/Root0、271.42秒、最终Job0，允许最小认证传输后继及有限完整链检查；原Sol已立即继续。剩余独立准备审核未消费，actual/seal仍NOT_RUN。
+
+磁盘维护累计无损释放7,172,894,638B（约6.68GiB），无删除/搬移；具体记录见维护RESULT。当前容量仍需逐次准入，不能用累计释放替代可用余量。CAP525仅比524增加原DISPATCH作者静态包1MiB C，历史actual/gross/UNKNOWN保持。
+
+Root准备错误2e754f/raw1将N8请求误定位到本地证据目录，而真实REQUEST在主仓库dispatch目录；只读失败、零CLI启动，后继按SPEC.argv的准确路径完成绑定。f49e6e/raw1为D净余量不足，原作者CLI尚未启动；空间恢复后5e1afc→9b26d0完成唯一实际调用，不重跑已成功动作。保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel0/0。
