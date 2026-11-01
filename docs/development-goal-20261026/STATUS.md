@@ -1243,7 +1243,7 @@ Root本段错误原样记录：N8接收首次d09b67 raw1是Root漏建clock父目
 本地关键依据：G/n8-runtime009-binding026-review001/、G/n8-finalarguments009-001/、G/n8-runtime009-reception001/transport002/、G/zcode-dispatch/m5-capacity-reference-005/full100-verdict-079/、G/root-m5-full100007-062/CLOSED.json、G/astra-dispatch083-binding-balance-084/AUTHOR-DISPOSITION.md。G为本地证据根C:/AKWorktrees/aktr-goal-20261026。全部四模块仍未最终硬审通过；保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel0/0，完成规定硬审、集成和推送后停止。
 
 
-## 2026-11-01 13:20 UTC — N8实质修复验证完成，M5转入有界性能诊断
+## 2026-11-01 13:17 UTC — N8实质修复验证完成，M5转入有界性能诊断
 
 仍只收尾M5、T7、N8、DISPATCH四个既有模块，按最新用户inline AGENTS续原Sol/max开发、原Astra处置既有计划缺口、原独立ZCode硬审。磁盘整理已实测释放2,100,426,975B；本段未重复清理或另计释放。CAP509仍保留旧费用、UNKNOWN与运行预留，最近fresh RAM/C/D均满足6/4/4GiB保底。
 
@@ -1257,3 +1257,25 @@ Root准备错误另行保留：976ca9/raw1因假定旧062请求有可选consumer
 本地依据：G/n8-runtime009-reception001/transport002/ROOT-RECEPTION.json、G/astra-n8-diagnostic009-existing-failure-097/AUTHOR-DISPOSITION.md、G/n8-existing009-repair097/WINDOW.json、N8 evidence/resource-successor-009-owner-checks/author097-001、G/zcode-dispatch/m5-capacity-reference-005/full100-verdict-079、G/astra-m5-full007-deadline-repair-063、DISPATCH原admission目录FROZEN084.json。G仍是C:/AKWorktrees/aktr-goal-20261026本地证据根，Git操作只在D:/Projects/AK-trading。
 
 当前四模块尚未全部通过最终硬审，不合入未接受候选。保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel0/0；完成规定硬审、集成和推送后停止，不新增模块。
+
+
+## 2026-11-01 16:12 UTC — 磁盘整理完成，修复与独审接续
+
+只收尾 M5、T7、N8、DISPATCH 四个已有模块；不新增模块或未来开发计划。用户最新 inline AGENTS 指定原 Sol gpt-6.1-sol/max 开发、原 Astra 处置现有计划缺口、独立 ZCode 硬审，优先于磁盘旧路由文本。
+
+| 模块 | 已核实结果 | 下一步与限制 |
+| --- | --- | --- |
+| N8 | repair028 两文件修复获原独立 ZCode 无条件范围 PASS。真实 call2 CLI/Root0，533.43 秒 Job，最终进程数0；62.912工具秒，110输入及7项源记录复核不变。Root receipt 已发布。 | 原 Sol 接续097内的条件010绑定准备。仅修复范围被接受；009仍CONSUMED_FAIL，008原因UNRESOLVED，F02FAIL/F01OPEN-INSUFFICIENT。010尚未运行。 |
+| M5 | 唯一 populated-check 原生1、child1、58.125秒、Job0；失败位于结果写出：Decimal不能直接JSON序列化。没有完整populated baseline可复用，不能据调用栈推定回放通过。 | 原 Sol 拟定r4类型保真报告修正；原 Astra064已实际续接，仅处置原工具余额UNKNOWN的有限正向额度。compare001未运行；不重跑已消费短检查、diagnose或全套007，008未授权。 |
+| T7 | full045已关闭，Root1/Job child97；24收集、16项三phase完整通过，第17项positive_cold_run未完成，7项未观察开始。最终pytest退出/摘要UNKNOWN。 | 闭合receipt含thread WinError1455。实际故障操作及系统commit/2GiB Job因果未确定，不据文案扩大pagefile或Job。原owner接收结束，待原独立reviewer评价闭合失败及作者处置；full046未授权。 |
+| DISPATCH | 原owner r2唯一验证原生0、7.53秒、512MiB Job0，29文件/5caps检查及有限反例通过。Root已真实发布position/context，原生0、2.156秒。 | r2独立硬审待派；owner自测不是独审。actual/seal仍NOT_RUN，机会未消费；measurement083已接受，不重复运行。 |
+
+磁盘本轮新增实测无损释放3,279,750,412B，累计5,380,177,387B；没有删除/搬移。本轮详情见 `docs/maintenance/20261031-disk-space-r1/RESULT.md`。CAP512保留历史消耗/UNKNOWN，只新增M5原作者静态调用1MiB，正式调用仍逐次核验6/4/4GiB底线。普通重任务最多两槽。
+
+N8审核保留原call1 publication/consumer原生退出UNKNOWN，独立审核据完整且认证的闭合检查结果复用；semantics独立执行一次raw0。第一条framing反例因审核harness选错层级失败，纠正后的反例通过，两份原产物均保留。Root接受的是该独立修复裁决，不是整体qualification PASS。
+
+T7 postfull接收9文件152,676B，5745条progress连续且零解码错误；30条原始终端引用复核一致。接收工具原生时间60.4967844s、whole1075.551s，waiting实际UNKNOWN且保守上界1017.08s超过900s，明确NOT_VERIFIED，不重置额度。M5和DISPATCH旧未知工具余额均保留，不按零消耗使用。
+
+本地关键依据：G/n8-repair028-review097-002/transport002/ROOT-RECEPTION097-002.json（4955B，SHA25651a57c988a7f88836868a8137594df0eb110e6048d9a640a77a8335f9c10e43e）；N8 attempt-runtime009-repair097-002/VERDICT.json；M5 runtime/offline063/m5-full100007-offline063-populated-check-001/RESULT.json；G/sol-t7-payoff-recovery-20261028-001/runtime-binding045-r1/postfull-reception045-r1/CLOSED.json；DISPATCH admission/actual007-prelaunch061-001/FROZEN084-r2.json、ROOT-POSITION084.json和CONTEXT084.json。G是本地证据根C:/AKWorktrees/aktr-goal-20261026，不是Git仓库。
+
+Root本段一次只读命令误用不存在的ROOT-INVOKE.json（真实文件是ROOT-INVOKE.py），原生1保留，无写入或CLI启动；后继核对目录实际文件名，未把失败当作NO_MATCH。以后未知后缀先查目录元数据。没有改规则、凭据、交易安全边界或冻结产品。四模块尚未全部硬审通过，不合入未接受候选；保持false/hold/NOT_RUN/send0/cancel0，完成规定硬审、集成和推送后停止。
