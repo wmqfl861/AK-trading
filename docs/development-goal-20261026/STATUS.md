@@ -1,6 +1,6 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-10-30 15:42 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-01 02:40 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
@@ -14,16 +14,16 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | full033 已消费FAIL：observer98→offline3→outer3，9277.437秒、Job0、213输入未变。停止于 smoke fixture 的 all_labels→记录物化→deep_size_estimate，尚未到内层 estimator fit。没有完整24节点结果。 | 原Sol只读定位了完成计数遗漏与昂贵计量路径；原作者036首个调用在870秒超时、raw1/Job0、无有效输出。首次续接被wrapper槽位拒绝（75，CLI未启动）；已核对原调用Job0及两个实际进程不存在，保留并移出本任务遗留槽位，原线程正在第二次续接发布。收到有效处置后立即交原Sol。未重启full033。 |
-| M5 | 缓存修复及048实际目录绑定已分别独立无条件PASS。绑定审核CLI/trace/outer0、Job0、74输入未变；573成员实际验证、7项既定拒绝和7项审核者反例完成。Full100002仍保留100 collected、75具名通过、25无终态的已消费FAIL。 | 原作者049已有效发布，原Sol正在隔离目录实现Full100003的执行控制。条件运行总上限28800秒、工作28200、收尾600，原100用例/数值不变；须先完成控制定向检查、独立READY和即时资源准入。003未执行，最终079/080未完成。 |
-| N8 F02 | 独立071真正接受012/009精确11文件：CLI/trace/outer0、Job0、191输入未变，focused9/9、审核者反例12/12。正式068、precheck019及sole005成功不重跑；002的raw1、15.406秒和OWNED_DISK_PATH_REMOVED保留。 | Root在接收时发现071的ROOT-LAUNCH只是资源准入记录，不符合实际resolver要求的v2字段。原记录和PASS不改写；原作者067已生效，Root已从真实工具记录发布事后事实登记，原Sol正在实现仅接收/绑定的013后继。P002、final-arguments及runtime003均未执行，F02 FAIL/F01 OPEN-INSUFFICIENT仍成立。 |
-| DISPATCH | 独立058已完成combined055 delta工具PASS：CLI/trace/outer0、Job0、197输入未变、3个工具全raw0、9.897工具秒；真实账本路径身份与完整FileRef继承均有证据。 | 原Sol运行前检查发现SOURCE-FREEZE054与gate044格式不匹配，且context/seal子进程指向不存在的r12 gate；旧entry还在发布INVOCATION后才检查。原作者059已生效，原Sol正在修复父子gate接线及claim前校验，精确内部转移256385B在原授权余额内；context002/actual007/seal007全部未消费，proof045/verify054不重跑。 |
-| Forward paper | run003三层raw0、568.469秒，但0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消费采集。 |
-| SC研究输入 | 政策已由原作者处置；实际A行数0，INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批没有新增consumer或fit。 |
+| T7 | r21 投影修复独立102/102及20/20反例PASS；R0-021两节点PASS，原M1真实默认L0已发布并新进程验证。full042已按冻结入口实际启动，原exec80431继续运行，TRAIN物化计数推进。 | 全24节点终态尚未返回；目标23通过及原披露1跳过。完整运行及最终R1/L1/R2未完成，合成提速不能代表完整回测。 |
+| M5 | 原Sol单文件有界JSON输出修复获review003无条件范围PASS；CLI/Root0、369.19秒、2GiB Job0、854输入未变。45项正确性与canonical bytes/hash一致；小case峰值增加和tracemalloc下减速如实保留。 | 原Astra062已有效发布；原Sol02:33:50激活完整573成员物理交付和实际入口验证。新Full100007已获条件授权，须真实READY、容量及空闲槽后才能启动一次。006已消费FAIL、确切失败分配UNKNOWN；最终079/080未完成。 |
+| N8 F02 | runtime007实际Root/runner1，104.203秒，pytest1项/1失败；3MiB metadata store overflow，native结果NOT_PRODUCED。原ZCode已独立接收FAIL。087离线基线真实重现同一ProbeError：child1、expectation0、6.53秒、512MiB Job0。 | 原Sol修复metadata表示和原子性，保持3MiB及完整观察语义，并准备直接024入口；之后立即原独立联合硬审。runtime008只有条件授权、尚未运行；F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
+| DISPATCH | 077的19项合成差分和7项真实文件系统检查通过。唯一paired live外层1、253.781秒、512MiB Job0；父脚本先检查输出长度再保存，导致baseline内层exit/长度/采集丢失，repair未开始。 | 原失败和UNKNOWN保留，无有效live改善或完整耗时估计。原Astra078正在处置这一个已有采集故障，随后仍由原Sol修复；full077、actual、seal未启动。 |
+| Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
+| SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理已完成，本次实际复核D盘约28.0GiB空闲；未重复删除或压缩。CAPACITY-353保留全部历史费用和UNKNOWN，只补现有故障作者调用的有限空间预留；扣除全部预留及RAM6/C4/D4GiB底线后余量为正。最多两个2GiB重型槽；当前已关闭的作者槽按原预留交给M5/N8/DISPATCH原Sol，T7仅继续既有作者发布；任何借用仍须在重型运行前归还。CAPACITY-355另计N8实测源及定向检查新增753664B，保留历史费用。
+磁盘整理已完成并由提交`cb1781c`推送：D盘48份旧RB副本无损释放1,340,824,860B；C盘三轮无损释放759,602,115B，两卷合计2,100,426,975B（约1.96GiB）。pip另报告清理878.2MB缓存，该数不冒充逐文件实测物理释放。未删除源码、行情或审核材料。CAPACITY-472保留完整历史费用、预留和UNKNOWN，最近实测扣全部预留及RAM/C/D的6/4/4GiB底线后余量均为正；正式启动仍实时准入。最多两普通重槽，短检查结束即交下一模块。
 
-四个整体模块均未完成最终硬审，局部工具PASS不计作整体PASS。安全状态保持 `enable_trading=False`、observer=`hold`、broker=`NOT_RUN`、真实send/cancel=`0/0`。未读取或修改`.env`、账户配置或模型配置。原始包留本机，公开仓库不发布凭据、会话库或网络暴露细节。错误及避免办法见[Root调用经验](../maintenance/20261030-root-native-invocation/INCIDENT.md)。
+四个整体模块均未完成最终硬审，局部工具或修复范围PASS不计作整体PASS。安全状态保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。未读取或修改`.env`、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果，不发布会话库或网络暴露细节。当前直接人类规则指定原Sol/max开发，原Astra处置既有计划缺口，独立ZCode硬审；旧磁盘角色文字未在本批擅自修改。
 
 ## 本次已推送与实际命令
 
@@ -1121,3 +1121,14 @@ Root本轮也保留两次真实准备raw1：DISPATCH077首次因C盘余量不足
 
 
 2026-11-01 02:23 UTC — M5单文件修复获独立无条件范围PASS：review003 CLI/Root0，369.19秒，2GiB全部Job0，854冻结输入未变。复用三条成功独立对照；唯一后继探针compile0、实际raw1，审核者记录17/18，并依据未变化的公共surrogate回退及接口范围明确处置私有分片异常消息位置1/0差异；raw1未改成0。Root核对原SID、实际GLM-5.3日志及裁决，接受该限定PASS，非最终M5完成。原Astra062已实际启动，补足既定物理交付/READY步骤的有限执行授权；Full100007仍未启动。N8原Astra087已发布既有metadata故障离线诊断及条件修复方案，原Sol于02:21:53 UTC真实激活并立即实施；source5MiB/check1MiB按实际继承8文件完整包预留，原3MiBmetadata上限及观察语义保持。原作者CLI0、receiver1由多行bundle前缀/三条未使用MCP启动诊断触发；精确原线程turn.completed和最终文本一致、14输入未变，Root具体处置后接收，未重跑或修改旧失败。Root首次逐行JSON解析的raw1也保留；今后先识别完整流格式。DISPATCH077已按实测调拨184726B，实际startup与文件差分002通过；最初Windows held-handle替换harness失败保留。最终003固定98个真实声明引用，含171及finalization0，Root于02:18:11明确授予≤300秒/512MiB的唯一paired live普通槽，与T7并行。CAP471保留所有旧费用和UNKNOWN。
+
+
+## 2026-11-01 02:40 UTC — 原开发者接续，N8已重现metadata溢出
+
+原M5作者062真实CLI/receiver0，295.39秒、14输入未变，Job在原guard收尾后为0（此前after-wait/final为3，未伪称全部读数0）。有效范围允许完整573成员物理继承，仅替换接受的models.py，准备READY后一次Full100007；原Sol已立即接续。初测物理新包54,029,312B，尚未在资金核对前复制。原006不重跑，修复范围PASS不代替最终079/080。
+
+N8执行`python -B -X utf8 baseline_capture087.py`，原始外层0；实际子命令`metadata_case.py <原r1 probe> <新case输出>`原始1，精确`ProbeError: bounded context/marker metadata store overflow`。接受guard6.53秒、512MiB、全部Job计数0、无acquisition。source-derived序列计划4038 identities/2049 jobs，旧实现到517 contexts拒绝；当时charged3,145,087B、独立保留图测量2,143,289B。QPC和重建顺序明确SYNTHETIC；不把请求序号当context计数，也不声称复原007缺失的native证据。原Sol继续实际修复及024接线；Root已声明primary及唯一conditional completion的准确工具参数，尚未启动审核。
+
+DISPATCH077唯一pair命令`python -B -X utf8 pair077-003.py live`外层原始1，253.781秒、512MiB Job0。有效父源码line13先执行stdout/stderr限额断言，line15才保存退出码/实际长度/封闭流，line17异常处理覆盖已有row；baseline输出触限后证据丢失、candidate未开始。因此内层原生退出码与字节数UNKNOWN，没有live性能结论，full077不得启动。原owner已WRITE_STOP并交最小故障报告，原Astra078沿同一线程真实调用，仅处置该既有故障。避免办法是先持久化原始退出码、实际字节数和封闭采集，再施加报告展示限；异常路径不得丢失已取得事实。是否及如何给出新的有界比较由原作者处置，已消费003不重跑。
+
+T7原full042继续运行；本轮日志显示TRAIN label物化仍推进，尚无完整24节点结果。磁盘维护已经结束，不重复清理。开发、审核继续仅覆盖原四模块，全部完成必要硬审和集成后推送并停止。
