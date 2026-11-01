@@ -1339,3 +1339,19 @@ Root准备错误2e754f/raw1将N8请求误定位到本地证据目录，而真实
 本地关键交接：G/sol-dispatch-scope-20261028-001/owner007-runtime-c001/admission/actual007-prelaunch061-001/owner087-output001/call001-handoff087.json8781B/SHAb85ba126e8a9feb9ff58d24becec8ce2dcfdb8bbb84f0673fed6583548bbc83f；G/astra-n8-scope010-minimal-observation-100/AUTHOR-DISPOSITION.md6130B/SHA3161ecf5d78ac75e9cde60c495aeae1442c3f98c60fd9d220945b562a8a2efed。G仅本地证据根C:/AKWorktrees/aktr-goal-20261026，Git只在主仓库。
 
 保持false/hold/brokerNOT_RUN/send0/cancel0。四模块尚未全部完成硬审；未接受源码不合入。全部既有硬审、集成与推送完成后停止。
+
+
+## 2026-11-01 21:20 UTC — 容量修正落地，M5进入独立修复硬审
+
+继续且仅收尾M5、T7、N8、DISPATCH；原Sol gpt-6.1-sol/max开发、原Astra澄清现有缺口、原独立ZCode硬审。没有新增模块；规定硬审、集成和推送完成后停止。
+
+- M5：同一r7冻结下，唯一populated baseline实际Root/child0，71.203秒、2GiB、Job0，真实SYNTHETIC回放1 proposal/5 path decisions/3 orders/2 fills；不是实盘订单。唯一candidate compare实际Root/child0，163.938秒、Job0，无deadline/resource abort，三组比较及受影响语义检查通过。原不变baselines复用，无成功重跑。原独立ZCode offline063-hard-review001于21:16:34Z实际启动，exec44919，原SID/store/cwd、2GiB/870Job/900whole，现尚无产品裁决；同时要求原reviewer纠正079非法JSON出版并保留原FAIL。Full100007原FAIL、finalpytestUNKNOWN、Full100008未授权均保持。
+- DISPATCH：087 affected001因检查的DEVNULL打开Windows nul遭已有存储保护拒绝，Root/child1、11.36秒、512MiB、三Job0；原失败保持。原owner在已授权call002做check-only append-only stdin=None及EOF断言修复，产品guard/auth不变。affected002于21:14:34Z实际启动，Root/child0、28.12秒guard/29.109秒完整、三Job0；9拒绝、14传输、3继承及Windows below/at/above边界完成，source/ledger不变。原owner已WRITE_STOP；原独审排M5后，实际actual/seal仍NOT_RUN。
+- N8：100首检真实child1/4.77秒/512MiB/Job0，ASSERT100:active:binding。唯一后继只读诊断raw0/child0/2.29秒/Job0，确定新增草稿误用Windows PowerShell5不支持的ConvertFrom-Json -AsHashtable；不是010历史根因。原Sol正在兼容修复，保持原解释器、一次census和原冲突拒绝谓词。精确source正缺176128B已资助，source总10413056B仍低于10MiB。组合独审已准备真实declaration与旧130闭合引用，尚未启动；011仍条件授权且NOT_RUN。
+- T7：唯一049真实诊断继续原exec99788，不重启、不提前封流，完整D运行预留和原2GiB/时限保持；自然1455根因尚未确定，full045原FAIL/incomplete、R1/L1/R2未达保持。
+
+作者051已生效并完成一次有界机械修正。CAP529退役无当前关联writer的三项D旧权益5368709120B，另排除C已关闭full033的pytest历史扣款9605197141B；历史gross/UNKNOWN与已物化文件保留，物理释放0。当前实际物理无损释放累计仍7365031406B（约6.86GiB）。修正后的正式准入已真实用于上述M5/DISPATCH运行；后续CAP530–532仅补现有N8审核/源和M5独审需要，逐次fresh检查，不把账面退役当物理清理。
+
+Root只读接收错误保留：612a57/raw1假定retained_slots元素为dict，后继按实际类型读取；f9ccc8/raw1误猜comparison输出为work/RESULT.json，真实终态指向work/FINDINGS.json，后继从实际producer stdout取得路径。均无产品重跑、无证据改写。以后从真实schema和输出引用读取，不能猜文件名。比较原始外层native0与该Root读取raw1分别记录。
+
+本地依据：G/t7-legacy-capacity-reconciliation051-001/RECONCILIATION051-001.json；G/CAPACITY-529至532.json；M5 runtime/offline063下本次baseline/compare及G/zcode-dispatch/m5-capacity-reference-005/offline063-hard-review001；DISPATCH原B/owner087-output002/final-handoff087.json；G/n8-author100-combined-review001。G仅本地证据根C:/AKWorktrees/aktr-goal-20261026。保持false/hold/brokerNOT_RUN/send0/cancel0；未接受源码没有合入。

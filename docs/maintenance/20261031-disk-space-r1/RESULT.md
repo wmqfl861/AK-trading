@@ -136,3 +136,12 @@ d020、d021、c019、d022四批已真实结束，原生退出均为0，分别完
 原作者050允许有证据时排除基数6GiB历史重复扣款，但有界核对发现直接引用011仍把其中5GiB写作capital-stress/C-paired/scenario的prospective frozen-output charges。Root按作者停点保留整个歧义部分，实际扣减0、物理释放0；没有以名称推定闭合。G/astra-t7-legacy-nonprospective-capacity-050/ROOT-COMPONENT-CHECK050-001.json记录具体歧义。原作者051已沿原线程继续澄清现有容量政策，使用050已资助C1MiB中的未用327680B，未新增全局预留；正式运行仍HOLD。运行中T7 049的完整D预留不动。
 
 准备故障保留：cc0492/raw1把contextmanager当JSON值，只读失败且未进入ledger；后继按实际with接口完成已授权转账。051首次ff5ec0/raw1是C完整净余不足，未创建CAP/目录/CLI；随后d45104/raw1错误继续读取尚不存在的REQUEST，实际CLI0次，未冒充已调用。后继先验证依赖和已有资金再准备独立请求。一次可选d013/CANDIDATES.json路径不存在的读取失败也保留；今后先确认存在性。root命令/工具/子进程/产品裁决分开记录，未把这些失败当产品测试或PASS。
+
+
+## 2026-11-01 21:20 UTC — 历史预留修正已经解除一次运行阻塞
+
+原作者051明确授权退役三个未关联当前writer的旧D输出权益，并排除已关闭、无未来写义务的精确C组件。Root核对现有dispatch、原Job闭合、当前进程身份与已验证容量链后，在CAP529一次记录：D减少未来扣款5368709120B；C减少已关闭full033的pytest历史扣款9605197141B。原始历史gross/UNKNOWN、所有文件、活动049完整10098027861B D hold及另外歧义1GiB都保留。此为准入计算修正，物理释放 **0B**，不增加累计清理量。
+
+执行原生0，结果G/t7-legacy-capacity-reconciliation051-001/RECONCILIATION051-001.json（6524B，SHA f6b149327f896202feeb55bf4b3af6cfb1c940a06083f36312f1bcb5a595c2f6）。发布后fresh RAM/C/D扣全额预留和底线净余分别2443104256/6915954243/1158306817B，已停止进一步历史清算；M5基线/比较和DISPATCH检查随后真实执行。旧044/045调整没有重复。
+
+累计实测NTFS无损释放仍 **7365031406B，约6.86GiB**，pip旧报告单列。已有运行仍会占用空间，21:16新的完整D净余约141097985B；后续每次启动继续fresh准入，不能把一次通过作为永久容量许可。没有删除源码、行情、审核文件或改动服务、凭据、模型配置。当前模块执行详情见STATUS。
