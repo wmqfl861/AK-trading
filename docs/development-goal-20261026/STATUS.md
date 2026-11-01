@@ -1167,3 +1167,25 @@ T7原full042继续运行；本轮日志显示TRAIN label物化仍推进，尚无
 
 
 2026-11-01 03:02 UTC 续接：DISPATCH原作者078 CLI/receiver0、348.61秒，12输入未变，512MiB guard收尾后Job0（after-wait/final均3，原值保留）；原Sol已接续，完整capture必须在展示/parse前保存，local错误路径验证通过后才允许新的有界pair，旧pair不重跑。M5完整573物理包54,029,312B及controls/check/review/closure2,697,216B，正缺共56,726,528B，已按CAP473预留；首次assembly因完整FileRef路径斜杠比较而raw1、零源复制，后继被通用1MiB检查输出限额中止（仅复制30个有效成员、Job0）。原Sol正在同一062范围内以已资助物理包限额纠正，验证已有成员后只补缺失项，不另建重复树，也没有消费正式007。N8 metadata001的实际Job为termination=deadline/60.13秒/child1/Job0，stdout与stderr均0B、JUnit未产生，不能记为18项测试失败或通过。原owner在同一087范围定位静默耗时，必要新批次分阶段即时记录，保持3MiB、单Job60秒和完整观察要求。T7原full042继续运行，日志已出现CALIBRATION物化进展，无最终24节点统计。
+
+
+## 2026-11-01 09:09 UTC — 已有四模块接续，T7限定修复通过、空间仍有限
+
+接续main `8c375fd`。只处理M5、T7、N8、DISPATCH已开始的任务，使用当前用户inline AGENTS：原Sol/max开发、原Astra处置既有计划缺口、原独立ZCode硬审。未修改规则文件，未合入尚未完整接受的候选代码。
+
+| 模块 | 已有真实结果 | 当前状态 |
+| --- | --- | --- |
+| M5 | 573成员物理交付、限定修复与READY已接受，唯一full100007于04:00:09 UTC按冻结入口启动，原exec61552保留。09:07实际child仍运行，CPU17918.98秒、RSS1,078,607,872B。 | 完整100项结果仍未产生；不能从72%及后续点号推算最终通过数。最终079/080硬审待完整结果。 |
+| T7 | r22的B/R0/M1已完成，真实默认L0为58,985B、sha cc820da6697c70dd1d7720339837a96dcbac85cba72133b549e83c067bfd7e23。full044因旧observer安装契约不兼容实际失败，机会已消费。045同时修复安装与真实完成计数；原独立ZCode真实重跑27+2项及13个反例，CLI0/Job0、746.47秒，签发无条件SCOPED TOOLING PASS。finalbinding原生0/Job0，810输入核对成功。 | full045未资助、未执行。完整24节点目标仍23通过+原披露1跳过，最终R1/L1/R2未完成。小型SYNTHETIC正例仅TRAIN populated，不宣称CALIBRATION/TEST populated覆盖。 |
+| N8 | r1修复pool.submit嵌套恢复后的错误preimage验证：baseline1 failed/5 passed、raw1；修后31 passed/5 deselected、raw0/Job0。093允许现有harness补采原工作线程时间值。Root唯一access-proof001实际5 passed/9 deselected、raw0/16.38秒/512MiB Job0。 | 原Sol正在r2观测器和025入口接线；collector/lifecycle新检查已准备且未启动。009未执行。旧008确切响应失败原因仍未证明，不能把200响应或附近时间当作完整原始deadline证据；F02 FAIL/F01 OPEN保持。 |
+| DISPATCH | Author082取消其先前引入的循环性能门，完整认证与840内部deadline不变；原Sol完成13文件绑定，准备raw0。Root已实际启动唯一full077-bounded-admission082-001（exec12905），900whole/930Root Job/512MiB，占第二普通槽。 | 完整测量终态尚待产生；closed receipt、独立审核、actual900与success-only seal600保持各自条件，不能把准备或测量启动当作产品PASS。 |
+
+磁盘此前已实测无损释放2,100,426,975B（约1.96GiB），另一次pip清理报告878.2MB但未逐文件测量。本轮没有重复清理或新增物理释放。原作者046真实CLI/receiver0、246.78秒、512MiB Job0后，Root只核对已关闭full044声明域。14文件/6目录的内容与元数据未变；只确认两层raw捕获的未用未来承诺268,304,384B可退役。pytest子进程os._exit97未留下终态gross计数，因此完整9,533,893,973B UNKNOWN与16MiB closure及其余role预留继续保留。CAP495只追加此项账面调整，物理释放为0；当时D净余量2,742,753,281B，full045仍短7,355,274,580B（约6.85GiB）。限定空间核对已结束，没有无期限扫描或删除数据。
+
+本轮错误与避免办法：T7审核者的Edit陈旧读取错误、后继probe的None.setattr错误及复制namespace导致的假阴性，均从原会话part逐项保留；最终真实修正后13/13通过，Root未重跑成功检查或改产品PASS。审核最初两次缺scratch父目录的raw1也保留；之后先创建明确的新父目录。N8原owner在Root已经启动access-proof后误再次启动，fresh-output断言以raw1拒绝，零额外Job；原Root运行成功不受影响，之后所有owner验证只交准确argv由Root单点执行。
+
+Root只读辅助错误单独保留：误猜M5的START.json（实际LAUNCH.json）；巨大目录rg发现真实超时；对混有多行bundle前缀的活动stdout逐行json.loads报raw1。它们没有重启产品或改变证据。以后从真实目录/既有引用确定文件名，发现限定已知根及深度，CLI终态使用原receiver的闭合TERMINAL及真实schema，不能把混合流假设为逐行JSON。原作者046首次外部槽等待75与第二次watchdog state lock初始化1都发生在模型启动前；同线程剩余预算内第三transport真实完成，没有改全局slots、锁或其他项目进程。
+
+本地最小依据：`G/T7-OBSERVER045-ROOT-RECEPTION-001.json`、`G/t7-closed044-capacity-reconciliation046/RECONCILIATION046-001.json`、`G/CAPACITY-495.json`、`E009/author093-001/access-proof-001/JOB-RESULT-001.json`、`G/n8-runtime009-declared/TRANSPORT-DECLARATIONS009-001.json`。G为C:/AKWorktrees/aktr-goal-20261026，E009为D:/AKF261004/EXECUTION/n8-f02-qualification-20261021-r20/evidence/resource-successor-009-owner-checks。
+
+全部当前任务仍待最终产品硬审及必要集成。保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel0/0；完成当前批次、推送后停止，不新增任务。
