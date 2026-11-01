@@ -1,6 +1,6 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-01 10:28 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-01 11:35 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
@@ -16,16 +16,22 @@
 | --- | --- | --- |
 | T7 | r22四文件、R0-022及新M1默认L0已接受；observer045兼容修复已独立重跑27+2项和13反例PASS。最终运行绑定raw0/13.187秒/512MiB/Job0，810输入不变。 | 原作者047纠正closed044历史费用再次计入未来物理预留的问题；CAP500/501已保留full045完整10,098,027,861B。full045尚未执行/未消费，等待普通槽；最终R1→L1→R2仍待。full044 consumed FAIL保留。 |
 | M5 | accepted060完整573成员已物理交付。Root入口8组通过；原独立review062实际重跑8组及6个自写反例通过，明确接受READY007。CLI/Root0、660.88秒/2GiB/Job0、1547输入未变。 | Full100007于04:00:09 UTC按真实READY、即时资源及冻结argv启动，原exec61552运行；28800秒总界/28200工作/600关闭，2GiB及1GiB输出约束保持。原006失败与确切分配UNKNOWN保留；本次完整终态及最终079/080仍待。 |
-| N8 F02 | 独立ZCode对PUBLICATION_REPAIR、DIAGNOSTIC_OBSERVATION_R2、ENTRY_DELTA025三scope签发无条件PASS；61项必需检查保留原真实成功且未重跑，新增5反例通过。corrective002 CLI/Root0、64.153工具秒、563.02墙钟秒、2GiB/Job0、108输入不变。 | receipt与Job闭包各raw0，但strict reference因ROOT-LAUNCH新增授权字段发生raw1/REFERENCE_LAUNCH_SCHEMA。reference009未发布、diagnostic009未执行；原Sol按作者094第6条做append-only026绑定修复，并单独硬审delta。008主响应根因仍UNRESOLVED，F02 FAIL/F01 OPEN-INSUFFICIENT不变。 |
-| DISPATCH | full077真实deadline失败，两个nested完成及第三ordinal416中断原样保留。作者083已授权完整测量/actual/seal时限；083测量16文件冻结、checks和bounded Root捕获已准备。 | measurement083尚未启动，排在N8必要短修复/独审后；完成后原owner接收→原独立硬审→actual→成功后seal→最终硬审。077不重跑，actual/seal未执行，准备或局部比较PASS不计产品完成。 |
+| N8 F02 | 三scope025独立PASS继续有效；026原31PASS/3FAIL保留，原Sol的027修复4项检查通过。本次ZCode独立重跑4项全部PASS，实际child66.187秒/Job67.44秒，未重跑原31/61。 | 第三审核7893c3→87b387原始130，达到90工具秒工作界；91.027工具秒/236.203墙钟秒/2GiB/Job0，反例Bash有1未闭合区间，实际CLI退出UNKNOWN_NO_TERMINAL，140输入未变。无最终裁决/真实TERMINAL/RESULT，不能冒充可普通completion；原Astra095模型调用在570秒Job上限退出1、无裁定，现沿原thread续接096；原开发者已只读确认现有严格schema，未改冻结文件。reference009/final-arguments009/runtime009均未执行，F02 FAIL/F01 OPEN-INSUFFICIENT。 |
+| DISPATCH | measurement083已一次真实成功：16777e→fc0b7d原始0，1018.26秒/512MiB/Job三项0；完整receipt返回、13630观察、2nested/3semantic返回，原16pins不变。原owner接收和评估已冻结。 | 原独立ZCode已于11:33:32 UTC通过f750cd/exec83744实际启动限定硬审；完整actual/seal尚未绑定或运行，测量成功不等于产品PASS。首次启动58d867原始1在模型启动前拒绝Root错误的240/210预算；后继只纠正为已接受的120/90/30，不改监督器。 |
 | Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理累计逐文件实测无损释放2,100,426,975B，pip报告878.2MB单列；本轮没有再次删除、搬移或压缩。作者047保留044历史K=9,829,723,477B及pytest gross UNKNOWN=9,533,893,973B，只将已关闭历史费用9,812,946,261B从未来物理扣款排除，closed044继续保留16MiB收尾。该纠正物理释放0B。CAP500资助full045，CAP501追加第三次N8审核C10,479,616B/D524,288B，其他承诺保留。CAP501发布时扣预留及RAM/C/D的6/4/4GiB底线，余量为7,453,519,872/361,474,286/2,305,640,449B。最多两普通重槽；M5原Full100007持续，第二槽优先N8已有故障短修复/审核，随后DISPATCH083测量、T7full045。每次启动重新读取即时余量。
+磁盘整理累计逐文件实测无损释放2,100,426,975B，pip报告878.2MB单列；本轮没有再次删除、搬移或压缩。closed044历史账面调整物理释放0B，与无损压缩分开记录。CAP502在CAP501上仅追加原N8作者1MiB，CAP503再保留DISPATCH首个未消费审核的10,479,616B clock；原有预留、历史费用及UNKNOWN保留。DISPATCH后继11:33启动扣全部预留和6/4/4GiB底线后的RAM/C/D净余量为6,676,955,136/346,415,342/1,751,619,585B。最多两个普通重任务槽：M5Full100007和DISPATCH独审正在使用；N8原作者仅静态处置，T7full045已资助并待可用槽。每次启动均重读实际容量。
 
 四个整体模块均未完成最终硬审，局部工具或修复范围PASS不计作整体PASS。安全状态保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。未读取或修改`.env`、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果，不发布会话库或网络暴露细节。当前直接人类规则指定原Sol/max开发，原Astra处置既有计划缺口，独立ZCode硬审；旧磁盘角色文字未在本批擅自修改。
 
 ## 本次已推送与实际命令
+
+- DISPATCH083测量完整返回：Root/native0，1018.26秒；receipt1015.891秒包含validator965.203秒，嵌套耗时不相加。原wrapper完整返回支持两处final uncached边界，直接completion counter未捕获，不能伪造数值。原owner de5cc8/raw0接收并冻结；独审只覆盖本次控制与真实测量，后续actual和seal另行满足既有门。
+- N8 binding027独审必需4项实际全部成功，RUN-OUTCOME raw0/Job0。监督器因反例工具触及90秒stop而返回130，成功检查不重跑；未闭合反例和缺少CLI终态仍是未完成审核。保留旧025真实PASS及026的31PASS/3FAIL，不用无关成功覆盖失败。
+- Root错误58d867/raw1在实际ZCode启动前发生：未核对已冻结TRACE-SUPERVISOR的固定(120,90)接口，将总预算(240,210)直接用作单次参数。没有产品写入，Job0，TRACE尚未创建；3f76ae/raw0发布独立后继002，使用已支持120/90/30，原始失败和未消费clock依据保留。此前经验未被落实到此次配置检查，责任在Root。后续复用监督器必须先核对真实允许的kind/常量/字段，再发布参数，不能仅验证hash或从总预算推断接口。
+- Root只读17b4b1/raw1把普通OWNER083-CLOSURE-002.json误当packed容器，触发KeyError(payload)，零文件或账本写入。814d21/raw0按真实schema读取；只有schema=aktr-author068-packed-json/v1才能base85/lzma解码并校验内部bytes/hash，不能因同目录其他文件使用压缩格式就推广。
+
 
 - N8 corrective002真实47635e→37d30a/raw0；61项独立检查未重复。两次补充correlation探针的harness形状错误保留，由审核者依据既有真实collector覆盖具体处置。三scope PASS只覆盖工具，不代表F02或F01通过。
 - N8接收cae019→a564c5/raw1，receipt002与jobclosure002先各raw0，reference002在发布前拒绝REFERENCE_LAUNCH_SCHEMA。Root恢复launch的三项真实授权字段未被025 exact-fields合同接受。禁止删除字段、重写裁决输入或由Root放宽consumer；原作者094第6条已授权原Sol做最小绑定后继，026立即实施，独审仅新delta并承接旧三scope。预防：变更声明前核对实际消费者的完整schema和授权链，不能只检查JSON可解析。
