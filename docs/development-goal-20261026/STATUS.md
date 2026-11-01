@@ -1,6 +1,6 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-01 03:02 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-01 04:05 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
@@ -14,18 +14,24 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | r21 投影修复独立102/102及20/20反例PASS；R0-021两节点PASS，原M1真实默认L0已发布并新进程验证。full042已按冻结入口实际启动，原exec80431继续运行，TRAIN物化计数推进。 | 全24节点终态尚未返回；目标23通过及原披露1跳过。完整运行及最终R1/L1/R2未完成，合成提速不能代表完整回测。 |
-| M5 | 原Sol单文件有界JSON输出修复获review003无条件范围PASS；CLI/Root0、369.19秒、2GiB Job0、854输入未变。45项正确性与canonical bytes/hash一致；小case峰值增加和tracemalloc下减速如实保留。 | 原Astra062已有效发布；原Sol02:33:50激活完整573成员物理交付和实际入口验证，实测新增56,726,528B已按CAP473预留。新Full100007已获条件授权，须真实READY、容量及空闲槽后才能启动一次。006已消费FAIL、确切失败分配UNKNOWN；最终079/080未完成。 |
-| N8 F02 | runtime007实际Root/runner1，104.203秒，pytest1项/1失败；3MiB metadata store overflow，native结果NOT_PRODUCED。原ZCode已独立接收FAIL。087离线基线真实重现同一ProbeError：child1、expectation0、6.53秒、512MiB Job0。 | 原Sol已实施r2 metadata表示/原子性修复，首批18项定向检查触及60秒截止（raw1/Job0、无用例统计），正定位耗时阶段并准备024入口；后续联合硬审仍待。runtime008只有条件授权、尚未运行；F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
-| DISPATCH | 077的19项合成差分和7项真实文件系统检查通过。唯一paired live外层1、253.781秒、512MiB Job0；父脚本先检查输出长度再保存，导致baseline内层exit/长度/采集丢失，repair未开始。 | 原失败和UNKNOWN保留，无有效live改善或完整耗时估计。原Astra078已真实完成并发布；原Sol已立即接续capture/有限输入比较修复，full077、actual、seal未启动。 |
+| T7 | r21投影修复的独立102/102及20/20范围PASS、R0/L0保留。full042已终态：child deadline13200.1秒/raw1，Root13214.68秒/2GiB/Job0，523输入未变；24收集、16个call通过、第17项fixture中断、7项未开始，无最终统计。 | 已跨过两个投影与inner join；剩余证据指向请求源tuple物化/构造校验及终态经验CDF应用。原Sol已完成只读故障报告并停止写入，原Astra044正在处置这一既有故障。042已消费，不重跑；最终R1/L1/R2未完成。 |
+| M5 | accepted060完整573成员已物理交付。Root入口8组通过；原独立review062实际重跑8组及6个自写反例通过，明确接受READY007。CLI/Root0、660.88秒/2GiB/Job0、1547输入未变。 | Full100007于04:00:09 UTC按真实READY、即时资源及冻结argv启动，原exec61552运行；28800秒总界/28200工作/600关闭，2GiB及1GiB输出约束保持。原006失败与确切分配UNKNOWN保留；本次完整终态及最终079/080仍待。 |
+| N8 F02 | 原007元数据溢出FAIL保持。r2离线工作负载1项通过（55.72秒），发布/边界18项通过（49.61秒），均raw0/Job0；两次60秒截止失败仍保留。直接024已按staged字节发布。 | entry007检查raw1/29.43秒/512MiB/Job0，唯一失败为错误回执反例的预期标识与实际拒绝顺序不一致，交原Sol核实。旧final JSON本已过滤内部_charge，未据getter差异新增契约轮。联合硬审及条件runtime008仍待；F02 FAIL/F01 OPEN-INSUFFICIENT。 |
+| DISPATCH | 078修复保住原生结果和完整原始流；本地失败路径检查通过。真实paired live外层raw0/79.30秒/512MiB/Job0，12引用/6不同查询的新旧结果及依赖完全一致。 | changed-path auth和same_read均0；所选工作4.594→4.906秒，未证明提速。9638完整声明引用的成本上界仍未建立。原owner已关闭，原Astra079正在处置现有覆盖缺口；full077未消费且未准入，actual/seal/独审未启动。 |
 | Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理已完成并由提交`cb1781c`推送：D盘48份旧RB副本无损释放1,340,824,860B；C盘三轮无损释放759,602,115B，两卷合计2,100,426,975B（约1.96GiB）。pip另报告清理878.2MB缓存，该数不冒充逐文件实测物理释放。未删除源码、行情或审核材料。CAPACITY-472保留完整历史费用、预留和UNKNOWN，最近实测扣全部预留及RAM/C/D的6/4/4GiB底线后余量均为正；正式启动仍实时准入。最多两普通重槽，短检查结束即交下一模块。
+磁盘整理已完成并由提交`cb1781c`推送：D盘48份旧RB副本无损释放1,340,824,860B；C盘三轮无损释放759,602,115B，两卷合计2,100,426,975B（约1.96GiB）。pip另报告清理878.2MB缓存，该数不冒充逐文件实测物理释放。未删除源码、行情或审核材料。CAPACITY-477保留完整历史费用、预留和UNKNOWN；最新实测扣全部预留及RAM/C/D的6/4/4GiB底线后余量均为正，启动仍实时准入。最多两普通重槽，M5完整运行占一槽，另一槽用于已准备好的N8检查与硬审。
 
 四个整体模块均未完成最终硬审，局部工具或修复范围PASS不计作整体PASS。安全状态保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。未读取或修改`.env`、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果，不发布会话库或网络暴露细节。当前直接人类规则指定原Sol/max开发，原Astra处置既有计划缺口，独立ZCode硬审；旧磁盘角色文字未在本批擅自修改。
 
 ## 本次已推送与实际命令
+
+- `628463d` 已推送较早的真实状态；本节后续结果发生在该提交之后，接受范围分别记录。M5执行`run_check062.py --label entry-owner001`实际8组通过/raw0；独立`entry-review001`8组通过/raw0及自写6个反例通过。审核者前五次反例脚本的字段/形状/错误前缀错误均保留为raw1并明确处置，没有隐藏为产品成功。`ROOT-M5-007-RUN.py`的resource与admission均raw0后，才调用冻结`full100_outer.py --formal M5-FULL100-ADMISSION062-007.json <实际SHA>`；正式运行仍在进行。
+- T7的`full-projection042-001`完整运行raw1，原因为13200秒deadline；不能把16个已通过call写成完整23通过。原owner仅解析已关闭日志与定点源码，两个只读Job均raw0，未重跑fit。报告首次超64KiB而在创建前raw1；后继从已闭合捕获压缩发布，未重跑成功分析。独占耗时未测，采样次数和阶段包含耗时不冒充独占时间。
+- N8原始metadata基线为child1、expectation0；`metadata003`1 passed/raw0，`metadata004`18 passed/raw0。`publish_and_check024.py`的entry007为raw1，10份实际024文件发布成功，反例拒绝标识不一致待原owner修正。内部getter差异曾被过度推断为final JSON合同变化；核实原`publish`过滤和实际serializer后撤销该推断，保留错误说明，沿原087继续。
+- DISPATCH本地capture检查覆盖已知native7、大流、malformed、报告失败、overflow及timeout；所有原生事实分别保留。`pair078-001.py`实际外层raw0，两个子进程raw0，闭合流完整；仅差分/捕获通过。CRLF readiness标记未被LF匹配器识别，两个`ready=false`保留，完整子进程时间只能给启动完成上界。完整成本与提速门未满足，不启动full077。Root本地检查属于prepare阶段；实际live结束后的首次接收另计，原时间和费用均保留。
+- Root准备错误原件保留：对packed动态源码使用`inspect.getsource`发生raw1；后继误把`expand`返回的字符串调用`decode`也为raw1。现按已知`expand`字符串接口读取。另一次将Astra终态字段`raw_native_exit`套到ZCode导致raw1；现按ZCode实际`native_exit_code/status/frozen_inputs_unchanged/input_changes`接收。三次均未启动依赖产品或模型调用。以后先核实际schema/返回类型，禁止按另一个CLI的字段猜测。
 
 - `ad7c3d6`：M4 causality两行修复、独立无条件PASS及N8原作者012裁定已推送；`git push origin main` raw0，本地main与origin/main一致。受控重点4P和完整九文件259P均raw0，独立反例16/16。提交代码的Git blob SHA-256与审核冻结一致；既有Git文本过滤对四份公开证据副本的CRLF转换已分别记录原件与Git blob哈希，不改冻结原件或全库换行规则。
 
