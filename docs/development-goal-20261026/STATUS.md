@@ -1495,3 +1495,17 @@ Root本次305b26/raw1源于对尚未生成的审核输出目录调用iterdir，�
 本轮调用错误及防止方式：N8结果审核的首个Root transport错误地按固定argv索引取到utf8而非watchdog路径（Python2/supervisor97/外层PowerShell1），发生在CLI启动前；后继保留完整认证argv、只替换REQUEST末参并断言watchdog文件，显式传递LASTEXITCODE。两个作者续接首试因缺少已声明MEMORY输出父目录而raw1，均在receiver/CLI前失败；保留旧记录，先创建并核对该生成目录，再执行原模型调用。DISPATCH账本首试因持有Windows字节锁时另开句柄读取而PermissionError，零变更；成功后继使用已锁定句柄，未重复成功扩容。M5候选写入首试因CRLF精确替换不匹配在写入前退出1，后继保留原换行绑定后静态编译通过。所有失败按原码保留，不宣称这些错误已永不再现。
 
 本地依据：G/root-disk-space-20261102-summary001；G/n8-author108-binding-completion-review001/ROOT-RECEPTION.json；G/n8-runtime012-independent-reception108-001及002；G/zcode-dispatch/t7-first-exception055-hard-review001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch089-r2-delta-review001；G/zcode-dispatch/m5-offline069-repair-review001/ROOT-VERIFY069-RECEPTION.json。G=C:/AKWorktrees/aktr-goal-20261026。只收尾已授权M5/T7/N8/DISPATCH，按最新inline用户规则由原Sol开发、原Astra处置必要计划缺口、独立ZCode硬审；完成规定验收、集成和推送后停止。安全边界false/hold/brokerNOT_RUN/send0/cancel0不变。
+
+
+## 2026-11-02 11:10 UTC — 磁盘整理完成，四项既有任务并行继续
+
+本批仍仅 M5、T7、N8、DISPATCH，按最新用户 inline 规则由原 Sol 开发、原 Astra 处置既有缺口、原独立 ZCode 硬审；完成规定验收、集成、推送后停止。磁盘整理的已核实结果保持 D 盘 4.90 GiB、C 盘 0.71 GiB，没有追加删除或搬移。11:06 fresh 检查扣全部承诺及底线后，RAM/C/D 仍均有正余量。
+
+- M5：069 局部修复已取得原独立 ZCode 无条件范围 PASS。最终续接 CLI/Root 0、303.11 秒、实际 2 GiB、Job0；此前必需验证及审核者反例按实际证据接续，不重跑成功检查。报告把已成功消费的 causal001 写成 skipped 等三处笔误由 Root 追加事实更正，原报告不改。完整 Full008 仍 FAIL，Full009 NOT_GRANTED。原 Astra070 已据保留测量，把下一步限定为主导耗时的既有特征计算，原 Sol 已立即续接定位与最小因果观察准备，没有新增产品模块。
+- T7：一次 first-allocation056 诊断于 10:01:56Z 启动，原 exec76845 仍运行。使用真实训练链、已接受捕获工具、原 r22/F/R0/M1L0 和数值参数，未重启。此前 full054 的 MemoryError 及 FAIL 保留，首分配根因仍待真实终态，不能计产品 PASS。
+- N8：012 实际失败已完成原独立事实接收，真实 CLI0/Job0；013 尚未消费。110 的实际局部 launcher 检查 child0、2.12 秒、512 MiB、Job0，但完整调用链仍有两个继承的 012 引用，故按时停止且未发布 FREEZE109。原 Astra111 已明确授权同一 grant013 链的最薄修复及完整受影响验证，并补足实际测得的 37,888B 包缺口：复用 14,336B 旧兼容余额，加 23,552B 从已关闭作者包移转；没有重复全局收费。原 Sol 已续接，180-pin baseline、原 Q/R producer 和 CAP561 源绑定保持。
+- DISPATCH：纠正 09:19 状态中的不完整接收。原同一次审核先发 revision001 FAIL，随后已发 revision002 TOOLING PASS；旧结论与更正均保留，不能只引用第一版，也不能把工具 PASS 当整体 PASS。之后实际源核对确认当前 actual089 spec 与 limits084 的旧 actual083 字面约束冲突、默认 tempfile 路由未绑定，以及 root-grants 不接受已授权的 connected 报告位置。原 Astra095 已一次性明确这些连接修复，原 Sol 在原调用中继续；完整写集合和账本容纳证明尚未完成，actual089/seal 仍 NOT_RUN。
+
+本轮调用经验：M5 审核续接前两次被身份 schema 校验拒绝，raw96、CLI 启动0，原失败保留；按现有验证器真实 schema 表达 PID 重用、执行预验后，第三次 transport 才启动并正常结束，不是改权限或绕过校验。Root 作者准备脚本一次因 `else` 与数字字面量缺空格而在解析阶段 raw1、零写入/零 CLI；修正后执行成功。后续复用已验证的结构化载体，保留每次原码，不宣称错误永不再现。
+
+本地依据：G/zcode-dispatch/m5-offline069-repair-review002-transport003/ROOT-RECEPTION.json；G/astra-m5-069-accepted-existing-completion-070/ROOT-RECEPTION.json；G/root-t7-diag056-001/LAUNCH.json；G/n8-scope-observation100-owner001/CLOSURE110-001.json；G/n8-recovery109-controls001/FUNDING111-001.json；G/zcode-dispatch/dispatch089-r2-delta-review001/ROOT-RECEPTION-CORRECTION002.json；G/astra-dispatch-existing089-route-completion-095/ROOT-RECEPTION.json。G=C:/AKWorktrees/aktr-goal-20261026。当前尚无本轮私有产品源码合入 main。安全边界保持 false / hold / broker NOT_RUN / send0 / cancel0。
