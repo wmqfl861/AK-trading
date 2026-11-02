@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-01 11:35 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-02 14:18 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 1a6f08b。本次发布真实局部审核与推进状态，未把待完整运行和最终审核的候选冒充整体接受。
+- 本次更新前 main / origin/main 为 34e3f85。本次发布真实局部审核与推进状态，未把待完整运行和最终审核的候选冒充整体接受。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -14,18 +14,23 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | r22四文件、R0-022及新M1默认L0已接受；observer045兼容修复已独立重跑27+2项和13反例PASS。最终运行绑定raw0/13.187秒/512MiB/Job0，810输入不变。 | 原作者047纠正closed044历史费用再次计入未来物理预留的问题；CAP500/501已保留full045完整10,098,027,861B。full045尚未执行/未消费，等待普通槽；最终R1→L1→R2仍待。full044 consumed FAIL保留。 |
-| M5 | accepted060完整573成员已物理交付。Root入口8组通过；原独立review062实际重跑8组及6个自写反例通过，明确接受READY007。CLI/Root0、660.88秒/2GiB/Job0、1547输入未变。 | Full100007于04:00:09 UTC按真实READY、即时资源及冻结argv启动，原exec61552运行；28800秒总界/28200工作/600关闭，2GiB及1GiB输出约束保持。原006失败与确切分配UNKNOWN保留；本次完整终态及最终079/080仍待。 |
-| N8 F02 | 三scope025独立PASS继续有效；026原31PASS/3FAIL保留，原Sol的027修复4项检查通过。本次ZCode独立重跑4项全部PASS，实际child66.187秒/Job67.44秒，未重跑原31/61。 | 第三审核7893c3→87b387原始130，达到90工具秒工作界；91.027工具秒/236.203墙钟秒/2GiB/Job0，反例Bash有1未闭合区间，实际CLI退出UNKNOWN_NO_TERMINAL，140输入未变。无最终裁决/真实TERMINAL/RESULT，不能冒充可普通completion；原Astra095模型调用在570秒Job上限退出1、无裁定，现沿原thread续接096；原开发者已只读确认现有严格schema，未改冻结文件。reference009/final-arguments009/runtime009均未执行，F02 FAIL/F01 OPEN-INSUFFICIENT。 |
-| DISPATCH | measurement083已一次真实成功：16777e→fc0b7d原始0，1018.26秒/512MiB/Job三项0；完整receipt返回、13630观察、2nested/3semantic返回，原16pins不变。原owner接收和评估已冻结。 | 原独立ZCode已于11:33:32 UTC通过f750cd/exec83744实际启动限定硬审；完整actual/seal尚未绑定或运行，测量成功不等于产品PASS。首次启动58d867原始1在模型启动前拒绝Root错误的240/210预算；后继只纠正为已接受的120/90/30，不改监督器。 |
+| T7 | 056真实失败栈定位到 `_prepare_empirical_cdf` 的全量 float 列表复制。原 Sol 最小修复在精确内置 list/float 路径借用只读输入；独立 ZCode 必需12/12、6个唯一反例通过，实际 apply 路径临时分配减少至少一份指针数组。CLI/Root0、606.21秒、2GiB、Job三项0，局部无条件PASS已接收。 | 原B/F/R0/M1做受影响绑定继承；旧相关窗口已关闭，原作者处置现有验收续接。没有新的完整运行授权；未宣称完整23项或T7整体PASS。 |
+| M5 | 069数据优化局部PASS保留。072已完成调用及生命周期分析，静态准备冻结211个输入；不改产品。 | 原始 public 与现有 prepared 接口的唯一完整上下文比较于14:16:39 UTC启动（exec2430），600/540/60秒、2GiB、重试0。输出一致且因果条件成立才解锁原071修复；Full008 FAIL和Full009 NOT_GRANTED保持。 |
+| N8 F02 | 004真实callee/global和013参数修复已独立PASS，required检查19.3秒及当前路径反例完成；CLI/Root0、388.3秒、2GiB、Job三项0，工具53.883秒/未闭合0。 | Root完整resolver原始1/0.72秒：实际启动记录漏 declaration，尚未触发013。REQUEST还缺继承消费者要求的两个顶层字段；原记录和局部PASS保留，原Astra115处理最小不可变记录衔接方案。013 NOT_RUN/未消费，F02 FAIL/F01 OPEN-INSUFFICIENT。 |
+| DISPATCH | 原owner097准备32文件，真实预留和旧ledger基线均冻结。Root sole096 preflight/transition均raw0，7秒/512MiB/Job三项0，全部3061旧claims保留，迁移结果及文件身份核对一致。 | 原Sol已续接FINISH，发布候选并执行必要focused检查；冻结后立即原独立review093。actual089/seal083及最终硬审尚未运行。 |
 | Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理累计逐文件实测无损释放2,100,426,975B，pip报告878.2MB单列；本轮没有再次删除、搬移或压缩。closed044历史账面调整物理释放0B，与无损压缩分开记录。CAP502在CAP501上仅追加原N8作者1MiB，CAP503再保留DISPATCH首个未消费审核的10,479,616B clock；原有预留、历史费用及UNKNOWN保留。DISPATCH后继11:33启动扣全部预留和6/4/4GiB底线后的RAM/C/D净余量为6,676,955,136/346,415,342/1,751,619,585B。最多两个普通重任务槽：M5Full100007和DISPATCH独审正在使用；N8原作者仅静态处置，T7full045已资助并待可用槽。每次启动均重读实际容量。
+磁盘整理已完成，本轮不再重复整理；前次实测D盘约4.90GiB、C盘约0.71GiB回收，与账面未来预留调整分开。CAP582保留全部旧费用、UNKNOWN及运行预留。14:16 M5启动扣全部预留和6/4/4GiB底线后的RAM/C/D余量分别为8,202,842,112 /9,056,885,315 /6,298,151,254B。普通重槽上限仍为两个；M5占第一槽，DISPATCH准备第二槽独审，N8原作者与T7绑定为静态工作。每次实际启动重新核容量。
 
-四个整体模块均未完成最终硬审，局部工具或修复范围PASS不计作整体PASS。安全状态保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。未读取或修改`.env`、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果，不发布会话库或网络暴露细节。当前直接人类规则指定原Sol/max开发，原Astra处置既有计划缺口，独立ZCode硬审；旧磁盘角色文字未在本批擅自修改。
+四个整体模块仍未完成最终硬审，局部PASS不扩大为整体PASS。安全状态保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取或修改.env、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果。当前用户直接规则指定原Sol/max开发、原Astra处置已有计划缺口、独立ZCode硬审，磁盘旧规则未擅自修改。
 
 ## 本次已推送与实际命令
+
+- 2026-11-02 14:18：T7独审要求12/12和6个唯一CEX通过；后4个保留v2实际成功，另2个在v3修正审核harness后成功。原3次harness native1保留。Root接收86c86f/raw1把v2 checks字段误写为cases，未写任何receipt；读实际schema后df00e2/raw0完成两项接收。不能用v3报告的2项冒称6项均重新执行。
+- N8真实完整resolver调用3ef280/raw1、0.72秒/512MiB/Job三项0，错误是Root生成的ROOT-LAUNCH缺少declaration。静态继续核实REQUEST还缺candidate_freeze和ordered_actual_write_set顶层字段；真实输入已绑定不等于消费者schema齐备。原报告、请求、启动记录保持不可变，原作者115处理必要衔接，013未执行。预防要求：生成协调请求前对照实际consumer的所有必需字段及真实版本，不只核JSON可解析或复制旧模板；当前问题尚未修复，不记为成功。
+- DISPATCH sole096：TRANSITION096.py --preflight <原脚本SHA>，随后一次 --transition <同SHA> <实际preflightSHA>，a7ce49/raw0，两个原生阶段均0；实际guard7.0秒/512MiB/三Job0，stderr0B。保留完整preimage和旧3061claims，固定迁移217088B，2795B未用；实际业务仍NOT_RUN。
+- M5：run_target072.py --spec PREPARED-PROOF-SPEC072-001.json --spec-sha <冻结SHA> --capacity CAPACITY-582.json --lane PROOF072-LANE001.json。14:16:39启动，仅记录进行中，不预填通过数或退出码。
 
 - DISPATCH083测量完整返回：Root/native0，1018.26秒；receipt1015.891秒包含validator965.203秒，嵌套耗时不相加。原wrapper完整返回支持两处final uncached边界，直接completion counter未捕获，不能伪造数值。原owner de5cc8/raw0接收并冻结；独审只覆盖本次控制与真实测量，后续actual和seal另行满足既有门。
 - N8 binding027独审必需4项实际全部成功，RUN-OUTCOME raw0/Job0。监督器因反例工具触及90秒stop而返回130，成功检查不重跑；未闭合反例和缺少CLI终态仍是未完成审核。保留旧025真实PASS及026的31PASS/3FAIL，不用无关成功覆盖失败。
