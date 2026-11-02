@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-02 18:48 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-02 19:43 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 69ff02e。本次发布真实局部审核与推进状态，未把待完整运行和最终审核的候选冒充整体接受。
+- 本次更新前 main / origin/main 为 27bfedd。本次发布真实失败、局部接受与继续修复状态；待完整运行和最终审核的候选尚未作为整体接受合入。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -15,17 +15,24 @@
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
 | T7 | CDF 最小修复独立 PASS 保留；B 的真实 2 节点、独立 R0-023 和 M1 实际 default L0 均完成。原 owner 已冻结正式 057 控制及 905 个有效输入。 | 完整 `tests/test_v2_m5_payoff_integration.py` 已实际启动，进程 256400、2GiB、13200秒 workload / 14400秒最终收回；运行中，退出码及通过数待真实终态。仍须完整24节点（23通过及原1跳过）和后续独立审核，未计T7整体PASS。 |
-| M5 | 原073优化保持未接受。074控制文件已完成，189个源及19个直接绑定核验通过；原作者075允许前瞻接收，Root接收raw0。 | 原cold节点的一次有限观测已准备好，使用已接受063+069，等待普通重槽并保留N8优先。历史封口超时raw1及PARTIAL不改写，测量尚未启动；Full009未授权，M5整体未通过。 |
+| M5 | 074真实观测已消费：child1、7.281秒、2GiB、Job0；Windows QueryInformationJobObject漏传第五参数，在pytest开始前TypeError，未产生pytest报告。原作者076已明确最小修复。 | 原Sol已续接076，正在追加第五参数None并验证实际512MiB Job中的两次sample和progress发布；完整窄审已资金化，证明后立即独立审核。唯一cold076只在窄审接受后启动；Full008未接受、Full009未授权。 |
 | N8 F02 | 119修复已通过真实检查：child0、Job0、7.69秒，真实monitor到首样本及4个精确合同反例通过；历史FileRef完整三元组保留。10个源已冻结，原Sol WRITE_STOP。 | 原118独立ZCode审核于18:41:39实际启动（exec30323）；完整审核费用已计入CAP605。014仍须独审PASS、当前完整resolver及finalarguments通过，尚未运行。013保持CONSUMED_FAIL，F02 FAIL/F01 OPEN-INSUFFICIENT。 |
 | DISPATCH | 101清理修复的8例检查raw0/7秒；原093独立ZCode审核已无条件PASS，CLI0、540.9秒、Job0，11项核验及实际清理反例完成，Root接收raw0。 | PASS仅覆盖冻结101工具修复。actual089、success-only seal083和最终review089/revision003尚未完成；正式运行等待普通重槽，整体未计PASS。 |
 | Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理已完成，本轮不再重复整理；实际回收D盘约4.90GiB、C盘约0.71GiB，不能误称为当前剩余空间。T7实际启动扣全部预留及6/4/4GiB底线后，RAM/C/D余量为9,274,302,464 / 8,914,905,155 / 6,272,448,854B。之后CAP601另给N8的条件014预留1GiB D，未退款013历史费用。普通重槽最多两个；T7占一槽，M5/N8/DISPATCH原Sol并行做静态准备或修复，每次实际运行重新核容量。
+磁盘整理已完成，本轮不再重复整理；已核实回收D盘约4.90GiB、C盘约0.71GiB，不能误称为当前剩余空间。19:35 M5轻量证明准入时扣全部预留及RAM6/C4/D4GiB底线后，余量为7,380,877,312 / 8,851,940,419 / 4,121,946,454B。后续CAP611/612另行预留作者和M5两次窄审费用，每次真正启动仍重采样。普通重槽最多两个，T7占一槽；N8/M5准备和已授权512MiB局部检查独立推进，另一重槽按就绪顺序交独立审核，DISPATCH正式验证待槽。
 
 四个整体模块仍未完成最终硬审，局部PASS不扩大为整体PASS。安全状态保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取或修改.env、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果。当前用户直接规则指定原Sol/max开发、原Astra处置已有计划缺口、独立ZCode硬审，磁盘旧规则未擅自修改。
 
+
 ## 本次已推送与实际命令
+
+- 2026-11-02 19:43 UTC：M5 actual074只有一次真实启动；首个工具进程创建os267源于Root把Windows cwd写入普通JavaScript字符串导致反斜杠丢失，模型/guard/测试启动0。后继从认证REQUEST取字面cwd并校验绝对路径/目录存在后，实际guard才启动；真实child1为独立的五参数API遗漏，二者不混淆。原076作者正常闭合，最小修复和真实Job证明正在原owner执行。
+- N8 actual014真实执行后原独立结果审核CLI0、315.18秒、Job0，结论FAIL。保留118局部PASS、成功census与下游runner失败的不同范围。120首检查因canonical字节差异失败，未运行fresh-child或015；完整最小后继已量测20,480B，现有source hold4,096B，差额16,384B交原作者处理，不能覆盖旧冻结文件或把源码改称证据。
+- Root只读0b44b1/raw1将owner消息中的C变量误当n8-recovery109-controls001，未读取到已存在的closure，零写入/零产品启动。按owner返回的绝对路径n8-scope-observation100-owner001/owner120-capture001读取成功（e19c97/raw0）；后续交接使用完整绝对路径或原FileRef，不自行展开未定义缩写。
+- 本地依据：G/n8-monitor118-delta-review001/ROOT-RECEPTION.json、G/n8-runtime014-reception118-001/ROOT-RECEPTION.json、G/n8-scope-observation100-owner001/owner120-capture001/CLOSURE120-001.json、G/m5-cold074-controls001/MEASUREMENT074-ROOT-CLOSED001.json、G/astra-m5-cold074-native-api-completion-076/ROOT-RECEPTION.json、G/m5-cold074-controls001/OWNER076-ADMISSION001.json。G=C:/AKWorktrees/aktr-goal-20261026；私有源和原始审核不随本状态提交进入公开仓库。
+
 
 - 2026-11-02 18:48：DISPATCH原独审按冻结101源码独立执行合法父记录清理及错marker/错path/生产者未关闭反例，报告无条件局部PASS。生产者真实CLI/Root均0，540.9秒、2GiB、Job0；原8例focused100未重复。正式actual/seal仍NOT_RUN。
 - N8命令为冻结entry014_118_002.py --owner-check，child0/Job0/7.69秒，first sample1、disk open/close31/31、memory query1；仅机器观测接口使用SYNTHETIC。原main的SystemExit(0)使末尾额外打印未执行，事前FileRef断言实际通过，未为补打印复跑。119闭合raw0；独立审核运行中，不能记为硬审通过。
