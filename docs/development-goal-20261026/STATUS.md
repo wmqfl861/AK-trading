@@ -1481,3 +1481,17 @@ Root本次305b26/raw1源于对尚未生成的审核输出目录调用iterdir，�
 本地依据另见G/astra-dispatch-light-diagnostic-lane-090/ROOT-RECEPTION.json；G/sol-dispatch-scope-20261028-001/owner007-runtime-c001/admission/actual007-prelaunch061-001/DIAG089-LIGHT090-TERMINAL.json；G/astra-n8-105-stage-admission-timing-106/ROOT-STATIC-CLOSE106-001.json。仅继续本批M5/T7/N8/DISPATCH，原Sol开发、原Astra处置既有缺口、独立ZCode硬审，全部规定硬审、集成及推送完成后停止。false/hold/brokerNOT_RUN/send0/cancel0。
 
 本次状态提交首试d82c58/raw128因本机Git缺少作者身份而停止，未生成提交；最近三份已发布提交均使用wmqfl861。后继仅对本次命令传入历史已有的name/noreply email，不修改全局Git配置。后续Root提交先核对有效身份与精确暂存清单，避免重复同类失败。
+
+
+## 2026-11-02 09:19 UTC — 空间回收后恢复验证，M5 实际修复进入独审
+
+磁盘整理已完成：本次18批可绑定记录释放D盘5,262,899,697B（4.90GiB）、C盘761,306,849B（0.71GiB），未删移源码、行情或审核文件。后续运行逐次扣除全部已记预留与RAM6/C4/D4GiB底线；09:17准入仍有RAM约7.51GiB、C约8.57GiB、D约7.17GiB余量。未重复压缩或按空闲波动虚报回收。
+
+- M5：Full100008已闭合失败，75/100完成、1处setup停滞、24未开始，原最终pytest摘要未产生；独立最终068为FAIL，不能以已通过部分替代全量验收。有效069下原Sol仅修改private data.py的visible_bars，用单次调用的日历索引消除重复扫描，异常/重叠/非标准输入保留原fallback。原代码causal001和修复verify001均真实退出0、2GiB、Job0。verify001为161组等价用例、2份完整策略上下文生产编码逐字节一致、3组交替计时及释放检查通过；相关操作5,637,660降至230,871。该路径不是全部耗时的主要部分，不推断全量任务已提速或完成。09:17原独立ZCode已开始069硬审；Full009尚未授权，产品文件未合入main。
+- T7：full054已消费失败，实际MemoryError，首个分配位置仍UNRESOLVED。原Sol的首异常捕获工具已独立硬审PASS（11组检查、实际无训练路由1 passed、8个反例），只代表捕获工具通过。Root已接收真实CLI0/Job0结果；原Astra056正在决定如何用已接受工具取得缺失观察，不重跑已消费054、不新增产品模块。
+- N8：108修复入口获原独立审核PASS，180文件union、真实终态和完整resolver已核对。最终参数命令退出0；唯一012实际运行31.484秒后退出4，1次census/runner、0重试。启动器test_offline.py第542行的requested_temp != ENVELOPE拒绝了路径绑定，尚未生成junit或原生采集结果。保留F02FAIL/F01OPEN-INSUFFICIENT和012CONSUMED_FAIL。实际结果独审002因在整个工作/证据目录进行宽泛rg而耗尽工具窗口：supervisor130、已知92.087秒、1个未闭合工具区间、Job0，无最终审核产物；不是产品PASS。原Astra109正在处置同一故障及未完成审核，未擅自启动013。
+- DISPATCH：同一账本扩容和31个后继文件已完成，check002实际退出0、48项通过、265引用认证，既有业务/actual claim均0。原独立089 delta审核真实CLI0/Job0、78.581工具秒，结论FAIL；其宽度判断、transition取证、部分反例仅在前置条件退出以及custody对物理/解码冻结描述的差异需原流程核实。原FAIL完整保留，未自行改成PASS。业务内部写集合仍NOT_ENUMERATED，actual/seal继续阻断。
+
+本轮调用错误及防止方式：N8结果审核的首个Root transport错误地按固定argv索引取到utf8而非watchdog路径（Python2/supervisor97/外层PowerShell1），发生在CLI启动前；后继保留完整认证argv、只替换REQUEST末参并断言watchdog文件，显式传递LASTEXITCODE。两个作者续接首试因缺少已声明MEMORY输出父目录而raw1，均在receiver/CLI前失败；保留旧记录，先创建并核对该生成目录，再执行原模型调用。DISPATCH账本首试因持有Windows字节锁时另开句柄读取而PermissionError，零变更；成功后继使用已锁定句柄，未重复成功扩容。M5候选写入首试因CRLF精确替换不匹配在写入前退出1，后继保留原换行绑定后静态编译通过。所有失败按原码保留，不宣称这些错误已永不再现。
+
+本地依据：G/root-disk-space-20261102-summary001；G/n8-author108-binding-completion-review001/ROOT-RECEPTION.json；G/n8-runtime012-independent-reception108-001及002；G/zcode-dispatch/t7-first-exception055-hard-review001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch089-r2-delta-review001；G/zcode-dispatch/m5-offline069-repair-review001/ROOT-VERIFY069-RECEPTION.json。G=C:/AKWorktrees/aktr-goal-20261026。只收尾已授权M5/T7/N8/DISPATCH，按最新inline用户规则由原Sol开发、原Astra处置必要计划缺口、独立ZCode硬审；完成规定验收、集成和推送后停止。安全边界false/hold/brokerNOT_RUN/send0/cancel0不变。
