@@ -1551,3 +1551,17 @@ Root本次305b26/raw1源于对尚未生成的审核输出目录调用iterdir，�
 执行经验保留：N8的测试同进程污染、嵌入子代码报告NameError分别以独立进程及精确字面量修正，完整验证已成功；交付的8KiB单文件限制不能替代已授权的12KiB完整用途额度，114明确合并计量并使用简洁引用。M5先前GBK读取失败改用显式UTF-8，过长Windows命令在任何进程启动前被os206拒绝，后继用有界发布成功。Root不能用自己的工具命名空间访问子代理exec75562；Unknown process id不是进程已退出证据，最终由原owner接收真实终态。所有原失败保留，未宣称错误永不再现。
 
 本地依据：G/root-t7-diag056-001/CLOSED.json；G/sol-t7-payoff-recovery-20261028-001/first-allocation056-r1/repair056-r1/ROOT-HANDOFF-REPAIR056-001.json；G/zcode-dispatch/t7-cdf056-causal-hard-review001/ROOT-LAUNCH.json；H/FREEZE-109-001.json、CLOSURE114-001.json；G/n8-author109-envelope-delta-review001/ROOT-LAUNCH.json；G/m5-offline070-controls001/CAUSAL070-ROOT-CLOSED001.json、G/m5-offline071-controls001/CAUSAL071-ROOT-CLOSED001.json；G/astra-dispatch-existing096-completion-097/ROOT-RECEPTION.json；CAP580/581。G=C:/AKWorktrees/aktr-goal-20261026，H=G/n8-scope-observation100-owner001。当前本轮私有产品源码未合入main；安全边界 false / hold / broker NOT_RUN / send0 / cancel0。
+
+
+## 2026-11-02 21:54 UTC — T7 修复送硬审，M5／N8 真实运行结果已接收
+
+磁盘整理已经完成，核实释放量仍为 D 盘 4.90 GiB、C 盘 0.71 GiB；未追加删除、搬移或重复压缩源码、行情和审核文件。21:53 准入扣除所有预留及 RAM6/C4/D4 GiB 底线后仍有正余量。本批只收尾 M5、T7、N8、DISPATCH，按最新用户 inline AGENTS 由原 Sol 实施、原 Astra 澄清已有故障、原独立 ZCode 硬审；最终验收、集成和推送完成后停止。
+
+- T7：full057 已消费失败，24 collected、21 ran、17 passed、1 skip、2 setup errors，原始 native3；首个完整分配异常定位在 r23 models.py 的正值列表构造。原作者059下，原 Sol 仅在私有 r24 models.py 增加已验证有限、非降序 exact-float 列表的只读正值后缀，其他形态保留原转换及排序。976 项语义证明通过；两档 SYNTHETIC 样本 N=1,048,576/2,097,152 中，prepare 峰值从8,449,188/17,128,740B降至284/284B，真实 apply 为5,996B、带 context 为7,560B，输出存储另记5,712B。两 proof native0，累计75.765秒；这不是完整 fit 或最终产品 PASS。候选163文件已冻结，162份未改副本字节及 mtime 保持。21:47 原独立 causal reviewer 已实际启动；尚未开始新 F/R0/L0 绑定或 full059。
+- M5：076 native API 修复此前已独立窄审 PASS。随后实际 cold076 返回 native1、PARTIAL，3297.781秒，Job0、流关闭、pytest 最终报告未产生。外层生成和 forecast fit 完成，inner payoff fold 尚未结束；唯一3000秒栈在 holding-window/calendar reuse，不能以单栈认定全程瓶颈。实际输出144,652B远低于61MiB；原 quota_passed=false 保留，不解释为字节配额耗尽。原 Sol 已完成闭合评估并停止写入；21:50 原独立结果审核已启动，核实真实阶段及3300工作时限与 WHOLE 标签的对应。Full008未接受，Full009未授权，cold076不重跑。
+- N8：122 启动链修复已独立范围 PASS，真实完整 resolver、finalarguments 均 native0。唯一016已实际进入测试和原生采集，生成16MiB raw及65,536条记录，但最终 Root124/76.813秒，监控状态 INSUFFICIENT，无 runner RESULT/junit。原独立实际结果审核已完成：CLI/Root0、Job0、37.485工具秒，结论无条件 FAIL。真实 monitor callable 反例复现了临时文件原子重命名后旧路径重检的 OWNED_DISK_PATH_REMOVED；不是180秒超时或内存／字节超额。原生结果仍为 INSUFFICIENT，burst/drop及cohort缺失的触发原因另为 UNKNOWN，不能用启动链或采集成功替代资格验收。原 Astra123 已接手该既有故障；016不可重跑，017尚未授权。
+- DISPATCH：actual089 已消费失败，Root97／inner1，8.11秒、Job0。入口传入 AUTH101，却仍选择 startup089-r3；route101 也传播旧启动目录，缓存旧 bootstrap 随后被错误复用。原作者103已明确整个启动／认证链及缓存来源核验的同一次修复范围，原 Sol 已续接实际实现及完整用量测量。旧101冻结、旧FAIL及cleanup范围PASS保留；actual103仍须真实proof、独立delta及全部前置条件，seal083未激活。
+
+本次继续使用两个普通重负载槽，T7/M5 独立审核并行；DISPATCH 修复准备和 N8 原作者澄清使用分别核算的轻量资源。未将工具或局部PASS计为模块最终完成，未合入未接受的私有产品源码。安全边界仍为 false / hold / broker NOT_RUN / send0 / cancel0。
+
+本地依据：G/sol-t7-payoff-recovery-20261028-001/cdf-allocation059-r1/SOURCE-FREEZE059-001.json、PROOF-RECEPTION059-001.json；G/zcode-dispatch/t7-cdf059-causal-hard-review001/ROOT-LAUNCH.json；G/m5-cold074-controls001/runtime076-assessment002/REPORT076-002.json；G/zcode-dispatch/m5-cold076-result-review001/ROOT-LAUNCH.json；G/n8-launch-chain122-delta-review001/ROOT-RECEPTION.json；G/n8-runtime016-reception122-001/ROOT-RECEPTION.json；G/astra-dispatch-startup101-completion-103/ROOT-RECEPTION.json；CAP618–620。G=C:/AKWorktrees/aktr-goal-20261026。
