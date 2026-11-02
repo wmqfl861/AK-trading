@@ -1469,3 +1469,15 @@ Root本次305b26/raw1源于对尚未生成的审核输出目录调用iterdir，�
 
 
 2026-11-02 02:59 UTC 更新：DISPATCH原Astra089已正常完成（CLI/Root0、329.78s、512MiB、cleanupJob0），Root接收13个完整JSON对象及全部输入pins。有效089授权既有预检接口的薄修复、独立delta和一个条件actual089-completion001，旧083永久CONSUMED_FAILED；阶段时钟在真实准入时启动。已通过followup_task立即续接原Sol owner，先在512MiB下进行认证静态定位、完整最小package测量和必要薄修复；实质诊断/测试/独审等待M5或T7释放普通槽。新actual仍NOT_RUN，seal083仅在新actual成功后追加重绑，独立最终硬审仍必需。依据G/astra-dispatch-actual083-preflight-type-089/AUTHOR-DISPOSITION.md及ROOT-RECEPTION.json；未新增模块或未来计划。
+
+## 2026-11-02 04:48 UTC — 空间复核完成，既有修复继续
+
+本次能逐项绑定的18批已关闭压缩记录，D盘释放5,262,899,697B（约4.90GiB），C盘释放761,306,849B（约0.71GiB）。没有删除或移动文件，也没有重复压缩这些批次；普通文件批次有内容哈希验证，日志批次仅核对文件身份、大小和修改时间。04:43Z实测D物理可用37,401,735,168B，扣CAP546全部预留和4GiB保底后余7,682,279,766B。当前停止额外磁盘整理。依据G/root-disk-space-20261102-summary001/RESULT.json及SUMMARY.md；这些是本次可绑定批次的核对数，不以盘符空闲变化代替压缩释放量。
+
+- M5 Full100008、T7 full054：04:48Z原PID及创建时间仍匹配，CPU时间持续增长，T7真实进度输出继续增长；尚无正式终态，原运行均未重启，不能计整体PASS。
+- DISPATCH：原作者090允许既有唯一诊断及累计不超过300秒的受影响检查使用一个独立512MiB轻量运行槽，其他预算、次数和门槛不变。诊断089已实际消费：Root工具786590/raw3，launcher1.875秒，内层child3/0.58秒、512MiB、Job0、流已关闭；在input-authentication阶段因把packed freeze当作逻辑JSON读取而KeyError `files`，未到原083故障入口，business/actual claim均0。该错误不能作为原083 TypeError根因证明，也不允许重复诊断。原Sol于04:38:53Z续接call2，修复已证实的读取及factory接口问题，并准备真实消费者链的受影响检查；独立2GiB审核及actual089仍须普通槽准入。防复发：先按实际封装通过已认证解码器读取，再验证逻辑字段，禁止对原始envelope猜测字段。
+- N8：105/106静态call超过1200秒且未完成，真实状态为STATIC_PREPARATION_INCOMPLETE_CHECKS_NOT_RUN_OVER_TIME，源码和metadata写入0、检查0；Root资金尝试703578/raw1在时间前置检查停止，未转账。04:02:27Z起按原106关闭入队，等待普通槽；保留两个尚未使用的verification/connected-repair calls和原11:37:42Z绝对截止，不重置静态机会或预算。011已消费失败，012未执行，F02FAIL/F01OPEN-INSUFFICIENT不变。
+
+本地依据另见G/astra-dispatch-light-diagnostic-lane-090/ROOT-RECEPTION.json；G/sol-dispatch-scope-20261028-001/owner007-runtime-c001/admission/actual007-prelaunch061-001/DIAG089-LIGHT090-TERMINAL.json；G/astra-n8-105-stage-admission-timing-106/ROOT-STATIC-CLOSE106-001.json。仅继续本批M5/T7/N8/DISPATCH，原Sol开发、原Astra处置既有缺口、独立ZCode硬审，全部规定硬审、集成及推送完成后停止。false/hold/brokerNOT_RUN/send0/cancel0。
+
+本次状态提交首试d82c58/raw128因本机Git缺少作者身份而停止，未生成提交；最近三份已发布提交均使用wmqfl861。后继仅对本次命令传入历史已有的name/noreply email，不修改全局Git配置。后续Root提交先核对有效身份与精确暂存清单，避免重复同类失败。
