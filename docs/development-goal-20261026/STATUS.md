@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-02 20:51 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-03 05:14 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
 
 当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 483af31。本次发布真实失败、局部接受与继续修复状态；待完整运行和最终审核的候选尚未作为整体接受合入。
+- 本次更新前 main / origin/main 为 0feba69。本次发布真实失败、局部接受与继续修复状态；待完整运行和最终审核的候选尚未作为整体接受合入。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -14,19 +14,23 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | 正式057已关闭：native3、11125.219秒、Job0；selected/collected24、ran21、passed17、skip1、setup errors2、failed0，905个输入未变。首个完整异常为 models.py:864 正值排序列表 MemoryError，随后pytest呈现异常时也MemoryError并INTERNALERROR退出。 | 原owner已接收真实失败，原Astra059正在处置同一CDF函数的剩余内存分配。057消费失败，不进入成功R1/L1/R2，不重跑旧成功检查；T7整体未PASS。 |
-| M5 | 076第五参数None修复及真实512MiB native证明已通过独立ZCode窄审：CLI0、760.32秒、Job0；独立真实sample/progress重跑child0，10/10反例通过，零失败工具。 | 唯一cold076已实际启动，原exec40638持续运行；3600秒whole/3300work/300closure、2GiB及61MiB输出界限不变。局部控制PASS不代表冷运行或M5通过；Full008未接受、Full009未授权。 |
-| N8 F02 | 120共享子进程读取修复独审局部PASS，CLI0/580.42秒/Job0。actual015仅执行一次：raw1/27.515秒，census0/COMPLETE，真实子命令在旧109启动器的013参数绑定处拒绝；结果独审CLI0/357.39秒/Job0，结论FAIL。 | 原Astra122已给出整条正常导入链的有效修复范围；原Sol正在实现parent→runner→launcher→internal-offline的当前绑定及fresh subprocess证明。仅条件许可016一次，须独审与完整resolver通过后启动；013/014/015失败保留，F02 FAIL/F01 OPEN-INSUFFICIENT。 |
-| DISPATCH | 101清理修复的8例检查raw0/7秒；原093独立ZCode审核已无条件PASS，CLI0、540.9秒、Job0，11项核验及实际清理反例完成，Root接收raw0。 | actual089已按冻结FACTORIES101的原样arguments启动（exec16346）；Root10920秒/Job10860秒、2GiB，等待真实终态。仅成功后允许seal083，随后最终review089/revision003；整体未计PASS。 |
-| Forward paper | run003三层raw0、568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
+| T7 | 060 导入边界、B 两项清单及 R0-025 已独立接受。M1 已采用真实 L0；原 owner 的实际 L0 冷启动就绪检查 1 passed、raw0、9.782 秒、Job0；1,009 项输入已核对。 | full060 已实际启动，原 exec55180 持续运行；完整24节点、100实例、500迭代、50棵树与原验收标准保持。等待原运行终态，不重复启动，不预填 PASS。 |
+| M5 | 078 范围内 PASS 保留。cold077 实际 raw1、3300.99 秒、Job0、PARTIAL；独立结果复核确认 outer generation 已结束、inner snapshot 构造未完成，原测试正文未到达，整体仍 FAIL/PARTIAL。 | 原 Astra 的079已生效，原 Sol 已恢复，完成真实 inner split/完整历史的代表点与因果测量准备。准备及一次因果测量空间已落实；先证明重复谱系工作占比，再按条件修复。Full009未授权，cold077不重跑。 |
+| N8 F02 | 127观测与128诊断绑定均获独立范围内 PASS；真实完整consumer和finalargs检查均raw0。017随后只执行一次：raw1、16.89秒，runner/workload/原生采集均0。已定位入口先创建消费目录、再把自身目录当作非新输出拒绝。 | 原 Sol 正修复当前invoker自拒绝，保持对旧目录、他人身份和篡改的拒绝。后继绑定已给出，随后立即独立审核017事实及修复delta。017已消费；018只可在修复独立接受及独立容量准入后运行。服务busy分支未被观察，F02 FAIL/F01 OPEN-INSUFFICIENT保留。 |
+| DISPATCH | 105已修正既有标记/捕获绑定，但发布发现AUTH以另一个delta为base，与原decoder要求flat base冲突。原Sol已证明AUTH103单层anchor可用；最小后继31项、116071字节，完整CONTROL新增缺口155648字节。 | 第三次owner调用已闭合，原Astra正处置既有修复的有限容量与后续调用。保留已发布部分和失败；startup105证明、actual104与seal083均未运行，整体尚未PASS。 |
+| Forward paper | run003 三层原生0，568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
-磁盘整理已完成，本轮不再重复整理；已核实回收D盘约4.90GiB、C盘约0.71GiB，不能误称为当前剩余空间。DISPATCH本次准入扣除CAP615全部预留、保守轻槽及RAM6/C4/D4GiB底线后，余量为8,518,152,192 / 8,793,815,107 / 3,017,578,838B。普通重槽由M5冷运行和DISPATCH正式验证占用；N8原Sol修复与T7原Astra故障处置使用各自已授权轻槽。每次真正启动仍重新采样，不预先把未来超时算作槽位释放。
+磁盘整理累计已核实回收D盘5,655,981,499字节（约5.27GiB）、C盘761,306,849字节（约0.71GiB），这是累计回收量，不是当前可用空间。最近400个已关闭生成文件的无损压缩释放393,081,802字节；内容哈希、大小、修改时间和文件身份全部一致，未删除或移动源码、行情或审核记录。九个使用中的安装库压缩未成功，原native1保留，未重试或改配置。包缓存prune实际删除0，未虚报收益。T7full060已单独保留10,098,027,861字节；旧059未来预留核销未产生物理空间回收，历史实际/UNKNOWN与16MiB收尾均保留。每次运行继续检查所有预留后的RAM6/C4/D4GiB底线；N8的018独立1GiB目前仍未落实。
 
-四个整体模块仍未完成最终硬审，局部PASS不扩大为整体PASS。安全状态保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取或修改.env、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果。当前用户直接规则指定原Sol/max开发、原Astra处置已有计划缺口、独立ZCode硬审，磁盘旧规则未擅自修改。
-
+四个整体模块仍未完成最终硬审，局部PASS不扩大为整体PASS。安全状态保持enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取或修改.env、凭据或模型配置；公开仓库只发布紧凑状态和已接受成果。
 
 ## 本次已推送与实际命令
+
+- 2026-11-03 03:17 UTC：T7 R0-025 原生 0、489.38 秒、Job0，实际两项必需测试通过，审核工具合计 63.849 秒；首轮静态核对误把 FileRef 当列表，内部原生 2、外层工具 1，后继按实际清单引用重建 163/163 并通过。原失败保留，没有修改产品迎合审核脚本。
+- N8 独立127原生 0、458.89 秒、Job0、15 个工具合计48.625秒，范围仅为观测适配器。Root 首次启动 87eb68/原生1发生在创建进程前：缺失 MEMORY 日志父目录，CLI及产品启动均0。后继先验证并创建输出父目录，原会话真实成功闭合。预防措施落实到下一次 T7 R0-025 启动：生成输出仍要求不存在，承载输出的父目录须在启动 guard 前存在；不得混淆两类条件。原失败与恢复记录分别保留。
+- cold077 原始退出 1 与 N8 的启动器退出 1 是不同事件：前者为真实工作上限超时及 PARTIAL；后者为监督器启动前目录缺失。两者均不按 rg 的 NO_MATCH 规则处理，不据其他局部 PASS 改写结果。
+- 当前本地依据：G/zcode-dispatch/t7-r0-review-025/ROOT-RECEPTION.json、G/n8-preburst127-hard-review001/ROOT-RECEPTION.json、G/m5-clock078-controls001/cold077-root001/ROOT-NATIVE.json、G/t7-import060-controls001/CLOSED059-MAPPING060-001.json。G=C:/AKWorktrees/aktr-goal-20261026。只发布紧凑状态，原始大日志及未接受候选保留本地。
 
 - 2026-11-02 20:51 UTC：T7唯一完整057运行终态native3，失败发生在真实CDF正值排序分配，后续pytest INTERNALERROR单独保留；原owner只接收关闭证据，没有重新fit或collection。M5独审真实复跑两次sample、progress发布/解析及10反例全部成功；`run_cold076.py --spec <冻结spec> --spec-sha <实际SHA> --capacity <CAP615前有效CAP613> --lane <当前lane>`随后一次启动，尚无通过数。DISPATCH actual089使用冻结工厂返回的arguments原样执行，尚无终态。
 - N8实际015已从共享读取门推进到更深的旧启动器，`109_EXACT_LAUNCHER_ARGV_REQUIRED`发生在normalizer/pytest之前；未产生junit/native结果。独立复核保留局部120 PASS并对015签FAIL；原122修复要求fresh进程经过真实内部ENVELOPE校验，不以父进程提前停止的探针代替。016仍未执行。
