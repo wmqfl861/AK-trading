@@ -1595,3 +1595,17 @@ N8首次审核预检因Root遗漏旧123的关闭证明而返回watchdog96/外层
 作者/协调调用错误不冒充产品结论：DISPATCH作者的只读codec假设错误、N8作者已恢复的SSE通知、T7作者可选依赖文件缺失、M5 reviewer误import xz均保留原码。Root本轮两次未先确认可选路径、一次混合stdout误按纯JSONL解析及一次JS模板字符串语法错误也保留；修正使用实际记录路径、结构化事件和无反引号模板，失败时未启动产品或写源码。不得声称此类错误永不再现。
 
 依据：G/zcode-dispatch/m5-clock077-hard-review001/ROOT-RECEPTION.json；G/m5-clock077-controls001/OWNER077-REVIEW-ASSESSMENT001.json；G/astra-m5-clock077-review-repair-078/ROOT-RECEPTION.json；G/sol-t7-payoff-recovery-20261028-001/runtime-binding059-r1/POSTFULL-RECEPTION059-001.json；G/astra-t7-offline-platform-import-060/ROOT-RECEPTION.json；G/n8-scope-observation100-owner001/owner126-capture001/OWNER-CLOSURE126-001.json；G/n8-publication123-completion124-001/ROOT-LAUNCH.json和zero-cli-preflight001/DISPOSITION.json；G/astra-dispatch-windows-identity-completion-104/ROOT-RECEPTION.json；CAP643。G=C:/AKWorktrees/aktr-goal-20261026。私有产品修复尚未合入main，安全边界false/hold/brokerNOT_RUN/send0/cancel0。
+
+
+## 2026-11-03 02:10 UTC — M5 独审通过，T7 审核与其余修复继续
+
+磁盘整理已经完成，核实释放 D 盘4.90GiB、C盘0.71GiB；未重复清理。本批仍只有M5、T7、N8、DISPATCH，最终验收、集成和推送完成后停止。
+
+- M5：clock078修复已取得原独立ZCode无条件范围PASS。审核者真实重跑49项检查和8组完整字节比较，native0、683.813秒、Job0；三组候选CPU均低于基线，合计比例0.7503448275862069，达到≤0.8门槛。9个审核者反例B/C无差异；一项子类探针受前置修改污染的局限已保留，未用于宣称额外覆盖。CLI0、1030.21秒、Job0，16工具全部原始0。原Sol立即准备既有条件冷运行077；整个M5尚未验收，Full009仍未授权。
+- T7：060仅修复export.py和v2/artifacts.py的离线导入／真实延迟注解处理，其他161候选文件保留字节和mtime。开发者唯一针对性运行native0、35.281秒，8项通过，无失败／错误／跳过，Job0；原始未适配legacy节点NOT_RUN，明确标注的本地替身调用保留其断言。launcher的collected_files为空、unresolved_files=1与实际8项运行记录之间的差异仍保留。01:51:46Z原独立ZCode已启动，尚待正式结论；full060未运行。
+- N8：publication123/completion126修复已取得独立范围PASS，CLI0、409.7秒、Job0；实际关闭后的完整consumer退出0、7秒、校验655份文件。第37请求的evaluator_busy两个分支仍不能由016证据区分；F02FAIL/F01OPEN状态保持。原作者127已明确不改8工作者、0.25秒预算或验收条件，先用真实_evaluate做确定性分支观测验证，再按实际证据修复；原Sol已续接该既有故障。017尚未执行，不能以发布修复PASS冒充资格通过。
+- DISPATCH：104真实birthtime身份修复发布后，唯一启动证明返回native1、26.95秒、Job0。已定位proof发送旧103标记、inner要求104标记的harness缺陷；另有认证的retirement字段被旧noncarrier集合拒绝，以及意外产生的监督输出占用后续capture目录。业务子进程没有创建，但3份实际输出及71,146字节计费保留，不宣称零写入。原作者105正处理这一已有修复范围，未重复证明或启动actual/seal。
+
+本轮T7首送审预检因继承059旧输入清单中的过期锁文件pin返回1，CLI启动0；保留失败后，只绑定060当前冻结集及必要历史报告，正式审核启动一次。未修改历史pin、未重跑成功产品命令。所有开发仍由原Sol/max实施，原Astra只处置既有计划缺口，独立ZCode签发成果结论；持久化模型配置不变。
+
+依据：G/zcode-dispatch/m5-clock078-hard-review002/ROOT-RECEPTION.json；G/sol-t7-payoff-recovery-20261028-001/offline-export060-r1/FREEZE060-002.json；G/zcode-dispatch/t7-import060-causal-hard-review001/ROOT-LAUNCH.json；G/n8-publication123-completion124-001/ROOT-RECEPTION.json及consumer126-closed001/RESULT.json；G/astra-n8-preburst-busy-recovery-127/ROOT-RECEPTION.json；G/dispatch103-controls001/root104-proof001/ROOT-NATIVE.json及owner104-capture003/ASSESSMENT104-PROOF001.json。G=C:/AKWorktrees/aktr-goal-20261026。本轮私有产品修复尚未合入main；false/hold/brokerNOT_RUN/send0/cancel0保持。
