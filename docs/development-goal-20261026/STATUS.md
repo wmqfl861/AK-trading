@@ -1579,3 +1579,19 @@ Root本次305b26/raw1源于对尚未生成的审核输出目录调用iterdir，�
 本轮调用错误及处理：T7 R0首transport因Root漏建clock生成目录返回1，0个产品命令；补齐目录后在同一原审核会话、原阶段截止内使用独立transport002完成，不覆盖旧失败。R0一个Bash原始1来自末尾空stderr的“[ -s ] && head”测试，原产品命令捕获exit0，日志与数据库tool part核对后追加精确处置；未将原码改为0或重复成功测试。R0报告的provider-interrupted和167候选统计笔误保留并追加更正，M1按实际188输入/162required pins核对。Root及M1的旧字段/路径假设错误在写入或产品启动前停止，改从实际REQUEST的具名字段解析，不凭命名猜测。N8一次已完成控制写入后的诊断print错误独立核对全部pins后封存，实际proof无工具失败。DISPATCH测量及工厂早期失败保留，最后r3验证成功；资金采用机器测量CONTROL287744/ROOT115712，未采用文字摘要的旧分项。
 
 依据：G/zcode-dispatch/t7-cdf059-causal-hard-review001/ROOT-RECEPTION.json；G/zcode-dispatch/t7-r0-review-024-transport002/ROOT-RECEPTION.json；G/sol-t7-m1-successor-20261028-001/newl0-r24/L0-HANDOFF-059-001.json；G/astra-m5-inner-calendar-completion-077/ROOT-RECEPTION.json；G/m5-clock077-controls001/FUNDING077-001.json；H/FREEZE123-001.json、owner123-capture001/OWNER-CLOSURE123-001.json；G/n8-publication123-delta-review001/ROOT-LAUNCH.json；G/dispatch103-controls001/ROOT-TRANSITION103-RECEPTION001.json；CAP628。G=C:/AKWorktrees/aktr-goal-20261026，H=G/n8-scope-observation100-owner001。交易边界仍false/hold/brokerNOT_RUN/send0/cancel0。本次状态更新不代表私有产品源码已合入main。
+
+
+## 2026-11-03 01:03 UTC — 四模块既有修复继续，N8已进入独立审核
+
+磁盘维护已完成，核实释放量保持D盘4.90GiB、C盘0.71GiB；本轮未追加清理。本批仍只推进M5/T7/N8/DISPATCH，完成规定独审、集成、推送后停止。
+
+- T7：full059已真实闭合native1、Job0、无超时，24项实际收集/运行，19passed、1原有skip、4setup errors，964输入未变。四项错误共享session fixture：签名核验导入SQLAlchemy，platform.machine在本机间接尝试shell ver，被离线guard正确拒绝，相关测试主体尚未执行。原Astra060已明确窄修复export.py的可选依赖延迟导入及artifacts.py中真实Connection声明的精确签名处理；禁止dummy类型、常量签名、预热或放宽guard。原Sol已续接实现，原CDF059证明及独审仍有效；未启动full060。
+- M5：clock077独立审核真实FAIL。必需验证未在540秒工作截止前发布完整结果；三对CPU合计candidate/baseline=7.109375/8.546875=0.83181，未达到不高于0.8的门槛。原owner发现697,235,080B重复解码；该harness修复不能豁免收益失败。原Astra078已授权真正修订受保护dict原生迭代并保留全部身份检查，同时去除重复解码。两次未用的第二验证绑定新revision，900/780/120秒，性能门不变；原Sol已续接。冷测077未运行，Full009未授权。
+- N8：126实际schema修复完成，原Sol首次针对性检查native0、Job0、9.17秒，真实resolve→Bank→validate及21个反例通过，原15和124/125字节保留。01:02:31Z已实际启动原独立ZCode completion124审核，等待真实结果。旧123审核中完成的验证/反例复用，未重跑。016失败、BRANCH_NOT_OBSERVED、017阻断和F02FAIL/F01OPEN状态保持；发布修复不是资格验收。
+- DISPATCH：原Astra104确认Windows路径与句柄ctime语义差异，授权以真实birthtime严格比较并保留其他身份、哈希和来源检查。原Sol正在完成关联绑定的完整测量；准备时的两个实际失败已定位并保留，均未写产品或执行proof/actual。原两次103证明仍为失败，actual104和seal083未运行。
+
+N8首次审核预检因Root遗漏旧123的关闭证明而返回watchdog96/外层97，CLI启动数0。已按既有严格helper重新核对原进程身份和Job关闭，保存零启动尝试的全部原字节，再修正未启动的控制记录；原任务、会话、store、声明路径及18个冻结文件保持。随后一次输出目录前置检查返回1、仍为零启动，关闭的clock原件已归档且未读取内容。当前审核仅启动一次，无权限绕过或已消费命令重跑。
+
+作者/协调调用错误不冒充产品结论：DISPATCH作者的只读codec假设错误、N8作者已恢复的SSE通知、T7作者可选依赖文件缺失、M5 reviewer误import xz均保留原码。Root本轮两次未先确认可选路径、一次混合stdout误按纯JSONL解析及一次JS模板字符串语法错误也保留；修正使用实际记录路径、结构化事件和无反引号模板，失败时未启动产品或写源码。不得声称此类错误永不再现。
+
+依据：G/zcode-dispatch/m5-clock077-hard-review001/ROOT-RECEPTION.json；G/m5-clock077-controls001/OWNER077-REVIEW-ASSESSMENT001.json；G/astra-m5-clock077-review-repair-078/ROOT-RECEPTION.json；G/sol-t7-payoff-recovery-20261028-001/runtime-binding059-r1/POSTFULL-RECEPTION059-001.json；G/astra-t7-offline-platform-import-060/ROOT-RECEPTION.json；G/n8-scope-observation100-owner001/owner126-capture001/OWNER-CLOSURE126-001.json；G/n8-publication123-completion124-001/ROOT-LAUNCH.json和zero-cli-preflight001/DISPOSITION.json；G/astra-dispatch-windows-identity-completion-104/ROOT-RECEPTION.json；CAP643。G=C:/AKWorktrees/aktr-goal-20261026。私有产品修复尚未合入main，安全边界false/hold/brokerNOT_RUN/send0/cancel0。
