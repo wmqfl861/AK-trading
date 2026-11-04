@@ -1662,3 +1662,15 @@ N8 018 独立接收于2026-11-04 04:37 UTC完成：CLI0、监督器0、Job0、36
 MemoryError的“整机提交耗尽”结论未获证实：同一期间主机提交余量约60GiB，CLI所在512MiB Job已接近上限；Root独立512MiB Job中同一默认lzma压缩操作退出0。保留旧失败及作者原表述，区分CLI进程组限额与产品内存限额；不改pagefile、不靠放宽产品门槛解决。另3221225773的正确十六进制为0xC000012D，不能记成0xC0000139。
 
 依据：G/zcode-dispatch/t7-context061-owner-implementation002/ROOT-RECEPTION.json；G/zcode-dispatch/t7-context061-delta-hard-review002/ROOT-DISPOSITION.json、ADMISSION.json、START.json；G/zcode-dispatch/m5-cold080-owner-implementation001/ROOT-RECEPTION.json；G/astra-n8-runtime018-prospective-root-repair-135/ROOT-LAUNCH.json；G/astra-dispatch110-cli-overhead-completion-111/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch110-owner-implementation001/ROOT-LZMA-CONTROL001.json；CAP718。G=C:/AKWorktrees/aktr-goal-20261026。未把私有未接受源码合入main；false/hold/brokerNOT_RUN/send0/cancel0保持。
+
+
+## 2026-11-04 05:50 UTC — T7 修复独审完成，N8与DISPATCH并行实施
+
+- T7：原独立审核003补齐四个反例的真实512MiB执行，native0、2.10秒、Job0、4/4通过；与002已接受的主证明11PASS/1INFO/0FAIL合并，context061修复范围无条件PASS已接收。冻结models.py SHA a1a2d6ace009a301fa482637c570842cebf814bee0efa9f14f6036c5946c7954未变。B/F后继工单已准备，随后仍须原R0、M1及唯一formal061；整个T7尚未验收。
+- M5：cold080控制窄审返回真实FAIL：运行结束后的旧files字段不适配080冻结清单，若启动会在收尾处触发KeyError。21项窄检查已定位；cold080尚未消费，接受的080产品PASS保留，Full009仍未授权。已准备原ZCode owner的既有correction002，修复前后路径并重新窄审，不重复产品矩阵。
+- N8：原作者135已明确未来目录生命周期修复、完整80MiBC/2MiBD加独立019运行1GiBD预算和条件性019授权。新专用ZCode owner已在05:37:53Z实际启动，固定独立store；A135自真实准入起算，018仍CONSUMED_FAIL，019未执行，F02FAIL/F01OPEN状态保持。先完成真实监控链离线验证，再原独立审核。
+- DISPATCH：原owner call2已于05:37:17Z在原SID/store/cwd续接，正在产生完整候选及Root可执行控制器。CLI2GiB普通槽；其退出后产品验证仍独立512MiB。核心补额、proof110、actual104和seal083均未执行。
+
+当前两个普通槽分别用于N8与DISPATCH；M5修复、T7绑定工单等待实际槽位。CAP719已包含上述全部未来预留；D盘物理空闲约34.9GiB，扣完整预留及4GiB底线后约0.1GiB。历史磁盘维护核实释放D4.90GiB/C0.71GiB，本轮没有追加删除、移动或压缩。Root一次读取猜测的HANDOFF路径返回原始1，已从实际目录确定正确嵌套路径，未重跑成功证明；原失败保留。
+
+依据：G/zcode-dispatch/t7-context061-delta-hard-review003/ROOT-RECEPTION.json；G/zcode-dispatch/m5-cold080-controls-hard-review001/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation001/START.json、ADMISSION.json；G/zcode-dispatch/dispatch110-owner-implementation002/START.json；CAP719。G=C:/AKWorktrees/aktr-goal-20261026。当前开发使用ZCode，模型配置不变；false/hold/brokerNOT_RUN/send0/cancel0。完成当前四模块规定独审、集成、推送后停止，未合入未接受的私有源码。
