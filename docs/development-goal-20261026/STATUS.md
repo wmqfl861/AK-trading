@@ -1721,3 +1721,16 @@ Root本轮一次读取不存在的旧REQUEST.json得到原始1；实际文件为
 Root曾把不存在的ROOT-RESULT.json与必需REQUEST合并读取，PowerShell原始退出1；该路径未被当成成功证据。已改为读取真实RESULT.json和MEMORY/RESULT.json，后续可选路径必须先检查存在性。完整保留原失败，不重跑成功调用。
 
 依据：G/astra-m5-cdf082-proof-failures-083-continued001/ROOT-RECEPTION.json；G/zcode-dispatch/m5-cdf083-owner003/ADMISSION.json；G/zcode-dispatch/n8-prospective135-hard-review001/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation006/ADMISSION.json；G/n8-recovery109-controls001/prospective135-root001/WINDOW141-001.json；G/root-t7-full061-001/ROOT-RECEPTION.json；G/root-dispatch114-qualification001/ROOT-RECEPTION.json；CAPACITY-738。G=C:/AKWorktrees/aktr-goal-20261026。只继续本批M5/T7/N8/DISPATCH，独审、集成、推送完成后停止；false/hold/NOT_RUN/send0/cancel0不变。
+
+
+## 2026-11-04 12:05 UTC — N8送独立硬审，T7实际修复，M5性能门槛未过
+
+- N8：原owner006闭合native0/Job0，313.734工具秒；冻结006及attempt010已核对，正向census和受影响负例共9项ALL_OK。Root实测保留源码gross315392B，开发者127190B表述不能代替完整累计量；attempt010 sanity记录14监控样本，交接41样本引用其他记录，独审须按真实封包核对。原独立review002已实际启动，2400whole/120工具秒，原FAIL保留，019仍未消费。
+- M5：Root执行冻结COMMAND-PROOF082-003对应正式命令，raw1/49.60秒/Job0。正确性及真实500/50拟合身份检查通过，大样本CPU合计1.34375对4.28125达标；小样本中位CPU0.171875对0.109375，比例1.5714286超过1.10上限，故正式结果FAIL。proof003已消费，性能失败不解锁proof004；原作者084处理既有修复的下一步，不盲目重跑。额外未命名dryrun作为历史实际执行披露，不冒充获批的第四次preflight。
+- T7：原作者065已给出有边界的来源序列表示与预测对象生命周期修复；full061仍CONSUMED_FAIL。原owner接收失败结果、核对163基线文件后，现已启动062实际开发及一次受限区分性诊断。仅在独立delta PASS、必要绑定和独立D空间预留齐备后，才能启动条件性full062；目前未启动。
+- DISPATCH：116布局修正后，Root正式隔离资格检查仍raw1/0.92秒/Job0：fixture创建名与fixture_layout引用的LEDGER-FIXTURE-114.bin不一致，FileNotFoundError发生在transition之前。真实账本SHA未变；没有正式commit、startup110或actual104。原作者117处置该具体路径缺陷及有界后继，保留两次已消费夹具，不回滚、不修改原证据。
+- 两次作者调用均有真实最终文本，原CLI0但接收器1：065为读取超过源码EOF导致IndexError；116为SSE断线重连事件。原始异常及完整输出分别保留，未改写成全流程0，也未为取得计划PASS重复调用。
+
+Root勘误：固定Job helper真实长度20184B、SHA56e79f07…86e613，与原005交接一致；此前7363B的摘要说法错误，不要求据此修改产品。Root另一次读取猜测的ADMISSION.json以及严格解析尚未闭合的stdout.ndjson均返回原始1，只影响只读诊断；已记录原因。接收时只使用实际列出的REQUEST/LANE/LAUNCH及终态文件，运行中输出不按完整JSON解析。
+
+依据：G/zcode-dispatch/n8-prospective-root135-owner-implementation006/ROOT-RECEPTION.json、n8-prospective135-hard-review002/ADMISSION.json；G/root-m5-cdf082-proof003/ROOT-RECEPTION.json；G/zcode-dispatch/t7-full061-reception065-owner001/ROOT-RECEPTION.json、t7-memory062-owner001/ADMISSION.json；G/root-dispatch116-qualification001/ROOT-RECEPTION.json；G/astra-t7-full061-memory-failure-065/ROOT-RECEPTION.json；G/astra-dispatch114-qualification-failure-116/ROOT-RECEPTION.json；G/root-continuation-read-recovery-20261104-001/CORRECTION.json；CAPACITY-740。G=C:/AKWorktrees/aktr-goal-20261026。只推进既有四模块，交易边界false/hold/NOT_RUN/send0/cancel0不变。
