@@ -1,36 +1,35 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-04 19:21 UTC。本批仅完成已开始的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。没有新增模块或下一批计划；下文历史记录只反映当时事实。
+更新于 2026-11-04 20:45 UTC。本批仅完成已开始的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。没有新增模块或下一批计划；下文历史记录只反映当时事实。
 
-当前路由以用户最新提供的 AGENTS.md 及 PROJECT-MODEL-ROLES.md 为准：原 Astra/max 作者处理现有计划和契约澄清；专用 ZCode CLI 会话负责开发和修复；另一独立 ZCode GLM-5.3/max 会话负责成果硬审。旧 Sol 开发者均已停止，T7 与 DISPATCH 已显式交接给独立 ZCode 开发会话；历史作者和失败保留。旧状态中继续使用 Sol 的调度表述不再适用。计划意见不设 PASS 门。
+当前路由：原 Astra/max 作者负责已有计划的必要澄清；专用 ZCode CLI 负责开发与修复；另一独立 ZCode GLM-5.3/max 会话负责成果硬审。计划意见不设 PASS 门。所有后续操作保持原会话、固定存储和文件归属，不按旧 Sol/Claude 开发工单续写。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 f246d23。本次只发布真实进度和阻塞；尚未完成整体审核的候选不作为已接受产品合入。
+- 本次更新前 main / origin/main 为 92ee167。尚未通过整体验收的候选不作为已接受产品合入。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
-- 历史完整 M1–M4 为 raw1、962 ran /948 passed /14 个既有失败；M4 后续独立九文件259 passed。各范围分别记录，不宣称整个项目全绿。
+- 历史完整 M1–M4 为 raw1、962 ran / 948 passed / 14 个既有失败；M4 后续独立九文件 259 passed。各范围分别记录，不宣称整个项目全绿。
 
 ## 当前工作
 
 | 模块 | 当前已核结果 | 剩余工作及实际限制 |
 | --- | --- | --- |
-| M5 | 原独立ZCode review003对085/086 r4诊断控制与报告修正给出无条件范围PASS；CLI0、Job0、42个引用一致。 | 本项诊断交付已审核。CDF082性能候选仍为UNACCEPTED_CLOSED；proof003 benefit FAIL、归因NOT_ESTABLISHED保留。Full009未获准，不开启新的M5优化或运行。 |
-| T7 | child_install修复及完整bootstrap/collection链经原独立ZCode 067范围PASS；实际收集24节点、运行0，4个反例完成。 | 唯一formal064于17:52 UTC实际启动，正在完整运行；尚无最终退出码或通过数。保留100实例、500迭代/50树、2GiB和原门槛。成功关闭后立即接原owner/R1→L1→R2，不把收集成功当作完整测试通过。 |
-| N8 F02 | review006保留无条件范围PASS，但Root真实新进程eligibility为raw1/5.23秒/Job0，复现实际REFERENCE、ENTRY、RUNNER仍指向002；Root accepted=false。 | 原Astra147已明确修复真实执行上下文，原ZCode owner013正在实施并准备独立007复审。展示信息更新不算实际接线完成；019仍UNUSED，F02FAIL/F01OPEN-INSUFFICIENT及preburst=false不变。 |
-| DISPATCH | ledger118与publication118成功、startup118真实raw1且已消费保持。AUTHOR121已允许完整启动依赖修复；owner001/002均闭合native0，但Root发现交付尚不能安全执行，未消费任何121正式动作。 | 原ZCode owner003在121既有最后续接额度内修复：共享基础文件被覆盖、转义路径未完整重绑、packed元数据/顺序不一致、演练参数非实际描述派生、负例未断言等。随后真实演练与独立硬审；actual104/seal083仍NOT_RUN。 |
-| Forward paper | run003原生结果和0新OPEN/0新CLOSED保持；无新增采集。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消耗采集，不扩大本批。 |
-| SC研究输入 | 已有处置和INPUT_NOT_DELIVERED保持。 | 不新增consumer/fit或研究计划。 |
+| M5 | 独立 review003 对 085/086 r4 诊断控制与报告修正给出无条件范围 PASS；CLI0、Job0、42 个引用一致。 | 诊断交付已审核。CDF082 性能候选仍为 UNACCEPTED_CLOSED；proof003 benefit FAIL、归因 NOT_ESTABLISHED 保留；Full009 未获准，不开启新的 M5 优化或运行。 |
+| T7 | formal064 真实闭合：Root/domain raw3、Job0，无超时，1054 输入 pins 不变。收集 24、运行 21、17 passed / 1 skipped / 2 errors。 | 首个 MemoryError 位于训练路径结果序列化（experiments.py:1287 → schemas.py:539/290 → json.dumps）；pytest 错误报告的 MemoryError 为次生错误。064 已消费，不重跑。原 Astra068 正在处置同一故障的必要修复，之后原 ZCode 开发并独立审核；不降低 2GiB、100 实例、500 迭代/50 树及原门槛。 |
+| N8 F02 | owner014 native0、Job0、1410.16 秒；414.744 秒实际工具耗时保留，取代报告中的约数。候选冻结且原输入 pins 不变。 | 独立 ZCode review007 已启动，核对真实 014 路由、完整 grant 边界、反例与预算；owner 自测不计硬审核。019 仍 UNUSED，F02 FAIL / F01 OPEN-INSUFFICIENT / preburst=false 不变。 |
+| DISPATCH | owner123-001 native0、Job0、228.95 秒、35.991 工具秒。Root 在执行前发现完整用例、实际路径隔离与最终依赖 pins 仍不齐备。 | 原 owner123-002 在既有最后续接额度内修复。qualification123、commit/publication/startup121、actual104/seal083 均未由本轮启动；不把 PREPARED 或 CLI0 计作通过。 |
+| Forward paper | run003 原生结果和 0 新 OPEN / 0 新 CLOSED 保持；无新增采集。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消费采集、不扩大本批。 |
+| SC 研究输入 | 已有处置和 INPUT_NOT_DELIVERED 保持。 | 不新增 consumer/fit 或研究计划。 |
 
-三条未完成链并行推进：T7正式测试、N8原owner013修复、DISPATCH原owner003修复。T7截至本次更新仍有实际计算及完成计数增长，没有最终通过数。M5诊断范围PASS与性能候选未接受分别记录；没有把局部PASS扩大为整个模块或项目PASS。
+当前并行：N8 独立硬审007、DISPATCH 原 owner123-002 修复、T7 原作者068对实际失败的既有计划澄清。T7 完整运行已经结束，不再报告 RUNNING。所有产品 PASS 均须依对应实际计划由独立 ZCode 出具；现有范围 PASS 不扩大为全模块或全项目通过。
 
-本次实际结果：N8 owner012 native0/751.81秒，review006 native0/1084.35秒；其独立quick10/10不能覆盖Root随后复现的真实旧路由失败。原Astra147 native0/376.12秒，原ZCode013已启动。DISPATCH owner121-002 native0/540.59秒、工具247.566秒，原始Bash1/2保留；Root仅做源代码与派生内容检查，没有执行有缺陷的演练。T7仍为RUNNING，不预填退出码或passed/failed。
+本轮调用/协调错误也保留：Root 初次发现时枚举了不存在的可选 coordination 目录；后续先检查存在性，不把缺失目录当产品错误。N8 当前生成的 ADMISSION 起初遗漏 producer 实际所需的 task_id/argv；在 verdict 前确认它不属于冻结输入，保留原始字节于 ADMISSION-ORIGINAL-INCOMPLETE.json 后透明补齐真实启动字段，未修改产品或冻结控制、未启动019。后续协调生成器直接使用实际消费者 schema。
 
-依据：G/zcode-dispatch/n8-prospective135-hard-review006/ROOT-RECEPTION.json、G/root-n8-review006-eligibility001/ROOT-RECEPTION.json、G/astra-n8-real-selection-147/AUTHOR-DISPOSITION.md、G/zcode-dispatch/n8-prospective-root135-owner-implementation013/REQUEST.json、G/zcode-dispatch/dispatch121-owner002/ROOT-RECEPTION.json、G/zcode-dispatch/dispatch121-owner003/REQUEST.json、G/root-t7-full064-001/LAUNCH.json、G/zcode-dispatch/m5-cdf086-controls-hard-review003/ROOT-RECEPTION.json。G=C:/AKWorktrees/aktr-goal-20261026。未接受候选与原始大日志仍在本地。
+本轮状态提交首尝试原生128：Git 未配置作者身份，未生成提交、未推送。已交叉核对最近提交身份与 GitHub CLI 当前账号均为用户指定的 wmqfl861；后续提交显式使用本次命令级身份参数，不改全局配置。此错误与 ZCode/产品运行无关。
 
-Root本轮接收Astra147时把含多行JSON启动前缀的日志逐行解析，产生native1，发生在写入和模型派发之前。已分类保留7行启动前缀、34个实际事件并核对最终作者文本与turn.completed；原错误记录在147/ROOT-RECEPTION.json。后续接收须先按实际日志格式区分启动信息与事件，不能直接假定整份stdout都是NDJSON。历史路径猜测、脚本语法等原始错误仍保留。
+本地依据：G/root-t7-full064-001/{CLOSED,ROOT-RECEPTION}.json；D:/AKT7RUN064/{outer,work}/CLOSED.json；G/astra-t7-full064-serialization-memory-068/REQUEST.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation014/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective135-hard-review007/{REQUEST,START}.json；G/zcode-dispatch/dispatch123-owner001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch123-owner002/{REQUEST,START}.json。G=C:/AKWorktrees/aktr-goal-20261026。原始大日志和未接受候选保留本地。
 
-安全保持enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0；未读取或修改.env、凭据、模型配置及交易开关。
-
+安全保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0；未读取或修改 .env、凭据、模型配置及交易开关。
 
 ## 磁盘整理与本轮错误处置
 
