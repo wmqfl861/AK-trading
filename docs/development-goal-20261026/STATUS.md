@@ -1,8 +1,8 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-03 09:27 UTC。本批仅完成已经开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审与接受后的推送，随后停止；不新增产品计划或下一批任务。下文历史记录保留当时事实。
+更新于 2026-11-04 04:37 UTC。继续完成已开始的 M5、T7、N8、DISPATCH 修复、独立成果硬审及接受后的集成与推送，随后按用户停止要求收尾。下文历史记录保留当时事实。
 
-当前会话用户直接指定：Astra/max 负责现有计划与契约澄清；原生 gpt-6.1-sol/max 子代理负责开发和产品修复；独立 ZCode GLM-5.3/max 负责成果硬审。磁盘旧规则路由未在本批擅自修改。计划意见不设 PASS 门。
+当前路由以用户最新提供的 AGENTS.md 及 PROJECT-MODEL-ROLES.md 为准：原 Astra/max 作者处理现有计划和契约澄清；专用 ZCode CLI 会话负责开发和修复；另一独立 ZCode GLM-5.3/max 会话负责成果硬审。旧 Sol 开发者均已停止，T7 与 DISPATCH 已显式交接给独立 ZCode 开发会话；历史作者和失败保留。旧状态中继续使用 Sol 的调度表述不再适用。计划意见不设 PASS 门。
 
 ## 已接受的起点
 
@@ -14,10 +14,10 @@
 
 | 模块 | 当前已核结果 | 下一步及真实阻塞 |
 | --- | --- | --- |
-| T7 | 060导入修复及F/R0/L0继续有效。full060已关闭：Root raw3/11457.344秒，内层监测器98，双层Job0，1009输入未变。 | positive_cold_run内层校准在903秒无计数更新后停止；期间CPU仍增881.1875秒，最后栈在经验CDF准备。最终pytest统计不可用，不能用打印零计数宣称测试结果。原owner只接收事实，原Astra待处置；不自动重跑。 |
-| M5 | 080聚合归因已正常结束：Root raw0/213.48秒，实际2GiB/Job0，582快照的完整输出与保留079参考逐字节一致。三处目标操作合计74.265625 CPU秒，占完整代表性CPU 44.9584%，达到原计划的实施条件。 | 原Sol已进入080条件优化，只处理被测出的会话搜索及字典重复构造，随后做完整等价、三对性能验证和原独立硬审。这一比例不是承诺的全量提速；078范围PASS保留，Full009仍未授权。 |
-| N8 F02 | 原review002进程身份均已实测ABSENT、内外Job0，现有严格helper已接收关闭例外；旧native130及缺失TERMINAL/RESULT保持。130的9.62秒检查和旧21.21秒独立复跑继续复用。 | 原Sol131已完成19文件74556B内存候选和完整测量，但在发布前到达工作截止，按时闭合INCOMPLETE，新增源实际0、检查NOT_RUN。已分配的74556B保持预留，不冒称已发布；原Astra132正处置有限完成续接。审核模型仍未调用，018 NOT_RUN，017不重跑、019未授权。 |
-| DISPATCH | startup105真实验证已消费失败：raw1/2.01秒/512MiB/Job0，business0、actual claim增量0。静态核实21个绑定模块，确认物理包装器缺顶层install导致启动失败，以及两处proof schema不一致。 | 原owner107call3已闭合；原Astra108正统一处置flat provenance、两处启动检查及schema生产/消费绑定，不能只修第一处。已失败proof不重跑；actual104和seal083仍NOT_RUN，整体PASS未签发。 |
+| T7 | 061 旧 WIP 和 proof001/002 保留为超时且未接受的历史成果；原作者补充处置指出旧 proof 替换 assemble_forecast，不能证明真实完整调用等价。 | 新专用 ZCode owner implementation002 已启动，按有效补充方案修复调用期缓存、补齐真实调用链与内存/成本验证。独立增量硬审、B/F/R0/M1 和 formal061 尚未完成；full060 不重跑。 |
+| M5 | 080 聚合增量已获原独立 ZCode 无条件范围 PASS，CLI0、Job 关闭；582快照/8个worker完整字节等价、54负例和18审核反例通过，三对CPU合计比值0.5443862941。 | cold080 尚未启动；原Astra081已实际启动，处置当前开发路由下的交接、完整资金和原计划冷启动绑定。Full009 仍未授予，局部 PASS 不等于 M5 完成。 |
+| N8 F02 | completion130 范围 PASS 已保留；018 于2026-11-04真实执行一次，Root raw1、46.71秒、无超时、Job0。census监控首错123_GUARD_ROOT_MISSING，内部报告124；实际采集NOT_RUN。 | 原独立 ZCode 已完成018事实硬审，明确无条件FAIL；真实缺失目录经反例复现。已准备原作者135处置，尚未授予019；018不重放，F02FAIL/F01OPEN-INSUFFICIENT、BRANCH_NOT_OBSERVED、preburst=false继续保持。 |
+| DISPATCH | startup108-proof001 保留CONSUMED_FAIL：4469字节retirement记录超过4096字节scratch界限，business0/actual claim增量0。原作者110已明确最小一致性修复及唯一新proof110授权。 | 新专用 ZCode owner implementation001 已启动准备和完整测量；先测量、再资金确认与追加发布，不改38个已冻结旧路径。proof110/actual104/seal083 尚未运行，独立审核未完成。 |
 | Forward paper | run003三层原生0，568.469秒，0新OPEN/0新CLOSED，仅bootstrap/CLOCK。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；本批不重跑已消费采集。 |
 | SC研究输入 | 原作者政策处置已完成；实际A行数0、INPUT_NOT_DELIVERED。 | 仍缺具名合法合约、历史会话和完整prefix/tail；本批无新增consumer/fit。 |
 
@@ -1630,3 +1630,17 @@ N8首次审核预检因Root遗漏旧123的关闭证明而返回watchdog96/外层
 本轮T7首送审预检因继承059旧输入清单中的过期锁文件pin返回1，CLI启动0；保留失败后，只绑定060当前冻结集及必要历史报告，正式审核启动一次。未修改历史pin、未重跑成功产品命令。所有开发仍由原Sol/max实施，原Astra只处置既有计划缺口，独立ZCode签发成果结论；持久化模型配置不变。
 
 依据：G/zcode-dispatch/m5-clock078-hard-review002/ROOT-RECEPTION.json；G/sol-t7-payoff-recovery-20261028-001/offline-export060-r1/FREEZE060-002.json；G/zcode-dispatch/t7-import060-causal-hard-review001/ROOT-LAUNCH.json；G/n8-publication123-completion124-001/ROOT-RECEPTION.json及consumer126-closed001/RESULT.json；G/astra-n8-preburst-busy-recovery-127/ROOT-RECEPTION.json；G/dispatch103-controls001/root104-proof001/ROOT-NATIVE.json及owner104-capture003/ASSESSMENT104-PROOF001.json。G=C:/AKWorktrees/aktr-goal-20261026。本轮私有产品修复尚未合入main；false/hold/brokerNOT_RUN/send0/cancel0保持。
+
+## 2026-11-04 04:37 UTC — 恢复正确开发路由并实际执行018
+
+本轮前一阶段有实际进展：接收 M5 scoped080 独审终态、执行 N8 唯一018并获得新失败定位证据、原作者完成 T7/DISPATCH 的必要处置，随后并行启动两个 ZCode 开发会话和一个原独立审核会话。并未把作者文本、开发者自测或 Root 核对计为产品 PASS。
+
+- 路由纠正：先核实旧子代理树仅剩 Root，再显式交接。T7 新开发会话 sess_120b5a4d-d692-4b53-9abb-be2081a3b939、DISPATCH 新开发会话 sess_7e45dc03-d2dd-4cd1-b66d-8e647d18e547 分用新固定库；N8 原 reviewer sess_44be3563-92f5-4684-9a49-b7ac8271f5f4 保持原库和 cwd。运行日志确认三个调用实际使用 GLM-5.3，未读取或修改模型配置。
+- M5：原审核 CLI0 与正常终态已核验，原源 SHA b4494f4aa3164d19b83fa629505958ef463c8b4d7a7a0f70e807dfa9b22a946b 未变；范围 PASS 已接收。cold080 和 Full009 的不同门槛继续保持。
+- N8：从已接受 finalargs stdout 读取原始 cmd/cwd，11个命令pin和38个引用pin核对通过，所有018输出起初不存在。新E134在实际空闲槽及准入完成后起算；唯一调用原样执行，raw1/46.71s/Job0，未超时。失败证据交原独立 reviewer；没有重跑 consumer、finalargs、017或018。
+- T7 作者补充 native0、receiver1 分别保留。三次作者读取错误为两处共享skill访问被拒和一处历史输出路径猜错；Root提供已读取skill规则及实际历史路径，并保留原错误，不复跑整次作者调用、不把receiver1改成0。原作者完整处置为前瞻授权，旧窗口超时、未完成资金准入、proof替身及候选较慢的小样本计时均如实保留。
+- 磁盘：本轮未删除或移动源码、行情、审核文件，也未追加无必要压缩。最新准入使用全部历史预留及新完整C预留，扣除RAM6/C4/D4GiB底线后仍有正余量。历史回收量与当前物理空闲分开，不把账面减少当作实际释放。
+
+本地依据：G/zcode-dispatch/m5-aggregation080-hard-review001/ROOT-RECEPTION.json；G/n8-recovery109-controls001/root134-runtime018001/GUARD-RESULT.json；G/n8-runtime018-reception134-001/ROOT-LAUNCH.json；G/astra-t7-context061-overdue-owner-transfer-063/ROOT-RECEPTION.json；G/astra-dispatch-proof108-retirement-bound-110/ROOT-RECEPTION.json；两个新owner的OWNERSHIP-TRANSFER.json和ADMISSION.json；CAPACITY-714。G=C:/AKWorktrees/aktr-goal-20261026。仍为false/hold/brokerNOT_RUN/send0/cancel0。
+
+N8 018 独立接收于2026-11-04 04:37 UTC完成：CLI0、监督器0、Job0、36.98工具秒，无未闭合工具；产品结论为无条件FAIL，qualification_credit=false。审核者用真实guard函数重现：census枚举尚未创建的018运行目录并按必须存在处理，因而在runner前失败。修复须处理未来目录的生命周期及相应严格检查，不能由Root随意建目录或放宽保护。报告launch_identity误填task_id的元数据差异已原样保留，Root接收记录另绑定真实REQUEST/ROOT-LAUNCH/终态；未声称原报告元数据完全符合。N8原作者135工单已准备，等待空闲槽；M5原作者081于04:38 UTC启动，T7/DISPATCH两个开发调用持续。
