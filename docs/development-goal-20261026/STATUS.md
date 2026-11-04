@@ -1708,3 +1708,16 @@ MemoryError的“整机提交耗尽”结论未获证实：同一期间主机提
 Root本轮一次读取不存在的旧REQUEST.json得到原始1；实际文件为REQUEST-SEED.json，已按目录结果定位并保留失败事实。后续先检查路径，不凭命名推断。
 
 依据：G/root-t7-full061-001/LAUNCH.json；G/root-m5-cdf082-proof001/ROOT-RECEPTION.json与proof002同名记录；G/zcode-dispatch/n8-prospective-root135-owner-implementation004/ROOT-RECEPTION.json、005/ROOT-RECEPTION.json、n8-prospective135-hard-review001/ADMISSION.json；G/astra-dispatch110-live-fixture-incident-114/ROOT-RECEPTION.json；G/root-disk-space-20261103-d005/RESULT008.json、RESULT017.json、RESULT018.json、RESULT019.json；CAPACITY-734。G=C:/AKWorktrees/aktr-goal-20261026。私有未通过成果未合入main；enable_trading=False、observer=hold、broker=NOT_RUN、send/cancel=0/0。
+
+
+## 2026-11-04 11:23 UTC — 四模块既有修复续接，正式失败保持原结论
+
+- M5：原作者083已发布有效补充；原ZCode owner003已续接，修复缓存生命周期、selector替换回退、8MiB真实聚合分配及完整证明用例。proof001/002仍为CONSUMED_FAIL，未把两次退出1改称成功；不授权冷运行或Full009。
+- N8：原独立审核001结论为无条件FAIL，完整census的正向验证未达标；单独反例漏传guard channel的局限另记，不混同产品发现。原作者141明确使用受认证的scratch上下文和SYNTHETIC观测适配器，保持真实进程、原生句柄与完整监控/计费链。原ZCode owner006已续接；019仍UNUSED，F02FAIL/F01OPEN_INSUFFICIENT保持。
+- T7：唯一full061于10:57 UTC结束，正式命令见冻结FULL-REQUEST061-002.json；raw3、Job0、全部源输入未变，24 selected / 21 ran / 17 passed / 1 skipped / 2 errors。首个致命诊断为校准请求物化时MemoryError，随后pytest格式化错误也发生MemoryError；无监督超时。061已消费，未重跑；原作者065正在限定该故障的必要修复，不把已通过的窄范围修复当作整个T7通过。
+- DISPATCH：005修正--commit参数数量错误，原owner闭合native0/Job0。Root按交接命令运行CONTROLLER110-005.py --qualify <冻结SHA>，raw1、0.61秒、Job0；路径布局在预检后被换成occupied，触发R114_PF_LAYOUT_MISMATCH，未到目标提交分支。真实账本与原SHA一致，fixture亦仍为基线字节；genuine commit、startup110、actual104、seal均未执行。原作者116处理这一现有缺陷及已消费fixture的后继边界。
+- 调度：M5与N8两个2GiB开发调用并行；T7与DISPATCH两个512MiB原作者调用只处理现有故障。115已纠正RAM条文为12GiB总预留加6GiB底线。未新增模块、未改变持久模型配置。
+
+Root曾把不存在的ROOT-RESULT.json与必需REQUEST合并读取，PowerShell原始退出1；该路径未被当成成功证据。已改为读取真实RESULT.json和MEMORY/RESULT.json，后续可选路径必须先检查存在性。完整保留原失败，不重跑成功调用。
+
+依据：G/astra-m5-cdf082-proof-failures-083-continued001/ROOT-RECEPTION.json；G/zcode-dispatch/m5-cdf083-owner003/ADMISSION.json；G/zcode-dispatch/n8-prospective135-hard-review001/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation006/ADMISSION.json；G/n8-recovery109-controls001/prospective135-root001/WINDOW141-001.json；G/root-t7-full061-001/ROOT-RECEPTION.json；G/root-dispatch114-qualification001/ROOT-RECEPTION.json；CAPACITY-738。G=C:/AKWorktrees/aktr-goal-20261026。只继续本批M5/T7/N8/DISPATCH，独审、集成、推送完成后停止；false/hold/NOT_RUN/send0/cancel0不变。
