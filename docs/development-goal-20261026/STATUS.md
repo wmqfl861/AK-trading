@@ -1644,3 +1644,21 @@ N8首次审核预检因Root遗漏旧123的关闭证明而返回watchdog96/外层
 本地依据：G/zcode-dispatch/m5-aggregation080-hard-review001/ROOT-RECEPTION.json；G/n8-recovery109-controls001/root134-runtime018001/GUARD-RESULT.json；G/n8-runtime018-reception134-001/ROOT-LAUNCH.json；G/astra-t7-context061-overdue-owner-transfer-063/ROOT-RECEPTION.json；G/astra-dispatch-proof108-retirement-bound-110/ROOT-RECEPTION.json；两个新owner的OWNERSHIP-TRANSFER.json和ADMISSION.json；CAPACITY-714。G=C:/AKWorktrees/aktr-goal-20261026。仍为false/hold/brokerNOT_RUN/send0/cancel0。
 
 N8 018 独立接收于2026-11-04 04:37 UTC完成：CLI0、监督器0、Job0、36.98工具秒，无未闭合工具；产品结论为无条件FAIL，qualification_credit=false。审核者用真实guard函数重现：census枚举尚未创建的018运行目录并按必须存在处理，因而在runner前失败。修复须处理未来目录的生命周期及相应严格检查，不能由Root随意建目录或放宽保护。报告launch_identity误填task_id的元数据差异已原样保留，Root接收记录另绑定真实REQUEST/ROOT-LAUNCH/终态；未声称原报告元数据完全符合。N8原作者135工单已准备，等待空闲槽；M5原作者081于04:38 UTC启动，T7/DISPATCH两个开发调用持续。
+
+
+## 2026-11-04 05:20 UTC — T7 修复进入硬审，M5 冷运行控制已交付
+
+本批仍只完成 M5、T7、N8、DISPATCH，经规定独立审核、集成及推送后停止。实际开发由固定 ZCode owner 承担，原 Astra 仅处置现有计划缺口，独立 ZCode 审核。没有新增模块。
+
+- T7：context061 修复已冻结。真实有监督的 owner proof a13 原始退出0、12.06秒、Job0；原始结果为11 PASS、1 INFO、0 FAIL（开发者“12/12”表述在此按原始记录更正）。SYNTHETIC 50,000样本完整成本约3.219→0.301秒，真实 assemble_forecast 及输出等价；这不是历史策略收益或完整T7验收。原独立 reviewer已在同一SID/store/cwd实际启动，自己的副本复跑及反例审核进行中，源码冻结。B/F、R0、M1及formal061尚未启动。
+- M5：新 ZCode owner sess_55e3c22f-5953-4605-a72b-4b74e436723e 已交付 cold080 控制、spec和完整命令，CLI0/Job0。验收记录schema适配涉及可执行逻辑，故已准备原reviewer的窄范围硬审，不能直接消费cold080。已接受080产品矩阵不重复；Full009仍NOT_GRANTED。
+- N8：原作者135已实际续接018已复现的future-root生命周期故障。018仍为CONSUMED_FAIL，019未授权；不通过预建目录或放宽监控掩盖故障。
+- DISPATCH：原owner call1已闭合，CLI0/Job0、23.352工具秒，真实缺陷为4469B完整压缩记录超过4096B。8192B修复边界及131072B核心补额尚是待最终候选验证的提案。原作者111已修正完整会话库计量和执行方式：CLI独占普通槽2GiB，关闭后Root执行owner脚本，实际验证/proof仍512MiB。原owner call2工单已就绪，核心补额、proof110、actual104和seal均未执行。
+
+磁盘清理的历史已核实释放量保持D盘4.90GiB、C盘0.71GiB。本轮未追加删除、移动或压缩源码、行情和审核文件；D盘物理空闲约34.9GiB，扣完整预留及4GiB底线后约1.1GiB。CAP718完整保留旧实际/UNKNOWN与T7 full060预留，未把账面减少称为物理释放。
+
+调用经验：T7审核首请求因Root遗漏固定库的db_identity_expected，在CLI启动前被watchdog原始96拒绝。原失败保留；从原请求取出并核对device/inode/resolved_path后，用同一审核阶段时钟的后继002正常启动。后续必须成组复用并预检store+SID+cwd+db身份，不能只复制部分字段。Root两次读取猜测的生成文件名造成原始1，已按实际目录和终态纠正；生成输出先查存在性，不凭命名猜路径。
+
+MemoryError的“整机提交耗尽”结论未获证实：同一期间主机提交余量约60GiB，CLI所在512MiB Job已接近上限；Root独立512MiB Job中同一默认lzma压缩操作退出0。保留旧失败及作者原表述，区分CLI进程组限额与产品内存限额；不改pagefile、不靠放宽产品门槛解决。另3221225773的正确十六进制为0xC000012D，不能记成0xC0000139。
+
+依据：G/zcode-dispatch/t7-context061-owner-implementation002/ROOT-RECEPTION.json；G/zcode-dispatch/t7-context061-delta-hard-review002/ROOT-DISPOSITION.json、ADMISSION.json、START.json；G/zcode-dispatch/m5-cold080-owner-implementation001/ROOT-RECEPTION.json；G/astra-n8-runtime018-prospective-root-repair-135/ROOT-LAUNCH.json；G/astra-dispatch110-cli-overhead-completion-111/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch110-owner-implementation001/ROOT-LZMA-CONTROL001.json；CAP718。G=C:/AKWorktrees/aktr-goal-20261026。未把私有未接受源码合入main；false/hold/brokerNOT_RUN/send0/cancel0保持。
