@@ -1734,3 +1734,41 @@ Root曾把不存在的ROOT-RESULT.json与必需REQUEST合并读取，PowerShell�
 Root勘误：固定Job helper真实长度20184B、SHA56e79f07…86e613，与原005交接一致；此前7363B的摘要说法错误，不要求据此修改产品。Root另一次读取猜测的ADMISSION.json以及严格解析尚未闭合的stdout.ndjson均返回原始1，只影响只读诊断；已记录原因。接收时只使用实际列出的REQUEST/LANE/LAUNCH及终态文件，运行中输出不按完整JSON解析。
 
 依据：G/zcode-dispatch/n8-prospective-root135-owner-implementation006/ROOT-RECEPTION.json、n8-prospective135-hard-review002/ADMISSION.json；G/root-m5-cdf082-proof003/ROOT-RECEPTION.json；G/zcode-dispatch/t7-full061-reception065-owner001/ROOT-RECEPTION.json、t7-memory062-owner001/ADMISSION.json；G/root-dispatch116-qualification001/ROOT-RECEPTION.json；G/astra-t7-full061-memory-failure-065/ROOT-RECEPTION.json；G/astra-dispatch114-qualification-failure-116/ROOT-RECEPTION.json；G/root-continuation-read-recovery-20261104-001/CORRECTION.json；CAPACITY-740。G=C:/AKWorktrees/aktr-goal-20261026。只推进既有四模块，交易边界false/hold/NOT_RUN/send0/cancel0不变。
+
+
+## 2026-11-04 12:36 UTC — T7内存修复送硬审，四条既有工作并行
+
+- T7：原开发者的memory062修复已闭合，CLI0/Job0。一次区分性诊断发现完整预测对象保留是主要内存来源；三份私有源码修复后，开发者delta proof最终10/10通过，512MiB子进程native0，保留早期失败。400条样本的保留量约49.8MB降到1.92MB是开发者的局部测量，不代表完整T7通过。已立即调用原独立ZCode审核者；复测必须将源码/证明脚本按哈希复制到私有目录，防止脚本固定result.json覆盖冻结结果。full062仍未执行。
+- N8：review002真实复测36.73秒、16个census样本及反例有行为证据，但复测覆盖了冻结的CENSUSPOS封包。CLI0/watchdog98/Job0与审核者所写PASS分别保留，Root拒收该次PASS。原Astra142明确最小修复：全部可写证明路径归属于新attempt，拒绝占用和外部路径，检验前一attempt不变；原ZCode owner007已开始。019仍未消费，没有020授权。
+- M5：原作者084允许一次有界性能归因；仅证实足够可避免的缓存维护开销后，才实施其明确限定的修复。原ZCode owner084已实际启动；proof003的真实性能FAIL保持，未解锁原proof004，也未启动冷运行或Full009。
+- DISPATCH：原作者117的512MiB调用曾native127（分配失败）；2GiB续接001达到既定时限，未产出有效处置。续接002为raw75：监督器等待8槽120秒后退出，实际Codex模型启动数为0，不能把接收器记录的包装器启动算成模型调用。N8作者正常结束释放槽位后，原作者117 completion003已显式续接，既往耗时保留；产品提交机会未消费。真实账本未变，startup110/actual104/seal仍未执行。
+
+当前并行：M5开发、N8开发、T7独立硬审、DISPATCH原作者故障澄清。使用现行ZCode开发/独审及Astra计划分工，没有新增模块。仅本批M5/T7/N8/DISPATCH完成规定独审、集成、推送后停止。
+
+依据：G/zcode-dispatch/t7-memory062-owner001/TERMINAL.json及work/calibration-memory062-r1/HANDOFF.json；G/zcode-dispatch/t7-memory062-delta-hard-review001/REQUEST.json；G/zcode-dispatch/n8-prospective135-hard-review002/ROOT-RECEPTION.json；G/astra-n8-replay-evidence-isolation-142/AUTHOR-DISPOSITION.md；G/zcode-dispatch/n8-prospective-root135-owner-implementation007/REQUEST.json；G/zcode-dispatch/m5-cdf084-owner001/REQUEST.json；G/astra-dispatch116-fixture-path-failure-117-continued002/ROOT-RECEPTION.json及continued003/REQUEST.json。G=C:/AKWorktrees/aktr-goal-20261026。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。
+
+## 2026-11-04 13:34 UTC — T7内存修复硬审通过，DISPATCH隔离资格通过，其他故障继续原计划闭环
+
+用户再次确认：只完成已开始计划或已有有效计划的未完成任务，随后停止。本批保持M5、T7、N8、DISPATCH；没有新增模块或下一批开发计划。
+
+- T7：memory062独立硬审无条件范围PASS，CLI0/Job0，所有冻结输入未变。审核者在私有精确副本复跑10/10，并通过5项反例；补出了开发者“空证据集相等”的局限，用真实非空的4条TREND及4条MARTINGALE证据确认字段、ID和顺序一致。r27已完成B/F绑定，2个必需manifest节点2passed/0failed/0errors；163个文件pins及mtime由Root复核。当前独立R0审核受影响绑定及061关闭事实，之后继续M1、运行绑定和条件性full062。整个T7仍未最终通过。
+- M5：085修正归因工具的键名、完整字节比较和测量方法后，attribution084-002真实执行native0/COMPLETE，96/96完整输出一致，结果NOT_ESTABLISHED。实际可移除维护开销约3.317ms，不足以解释所需51.5625ms；96次观测中先前的小样本回退未复现。这不能推翻正式proof003的FAIL。当前归因分支关闭，source3未改、003/004后继不可重试、Full009仍未授权；原作者086只处置这一既有M5故障。
+- N8：007独立硬审003无条件FAIL，CLI0/Job0且冻结输入未变。两个阻断问题均已复现：深一些的attempt路径使Windows普通文件写入超过路径长度边界；新审核来源校验函数只被元数据引用，实际consumer/projection没有调用。隔离机制中已通过的部分保留，不冒充完整PASS。原作者143明确既有142修复的继续范围，019仍未消费。
+- DISPATCH：Root执行冻结008控制器的qualification117-001，native0/3.23秒/Job0，完整验证转换、预检回执、预期占用拒绝、外部优先故障证据、PARTIAL及关联二次错误；真实账本hash/身份/claims保持不变。第一成功后资格序列关闭。提交前检查另发现成功返回字典已有state，终态回执再显式传state会触发TypeError；纯构造最小复现已记录，真实commit尚未运行。原owner在117已有第三次关联修复范围内修正成功回执并保留已验证行为，随后继续唯一正式提交及原有审核路线。
+
+调度基础设施：只对本项目已经Job0、原进程及包装器均确认退出的117旧锁做原位同目录保留改名，未结束任何进程或改动其他槽；解决了此前exit75的该次遗留占用。作者117的最终文本与真实turn.completed匹配，CLI0/接收器1分别保留；接收器被stdout中的历史缺失工具输出错误行中断，Root未改写为全流程0。
+
+Root准备阶段的容量断言、st_size误调用、括号语法及FileRef斜杠拼写比较均有原始exit1；分别在启动前记录并修正，没有伪造模型启动或重跑产品机会。后续使用独立字段构造、实际测量整数，以及内容哈希/实际路径身份校验；CLI的literal cwd仍按原REQUEST保持。STATUS最初新增空行触发diff --check 1，去掉该新增空行后检查0，未做全库换行规范化。
+
+依据：G/zcode-dispatch/t7-memory062-delta-hard-review001/ROOT-RECEPTION.json；G/zcode-dispatch/t7-memory062-bf-owner001/ROOT-RECEPTION.json、t7-memory062-r0-review001/REQUEST.json；G/zcode-dispatch/m5-cdf085-owner001/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective135-hard-review003/ROOT-RECEPTION.json；G/root-dispatch117-qualification001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch110-qualification117-owner003/REQUEST.json；G/root-dispatch117-slot-recovery001/RESULT.json；CAPACITY-749。G=C:/AKWorktrees/aktr-goal-20261026。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。
+
+## 2026-11-04 14:35 UTC — 继续既有四模块，正式提交成功，初始化与冻结缺陷仍须修复
+
+- DISPATCH：qualification117已PASS且不再重跑。009修复成功回执重复state后，Root正式preflight native0/2.67秒、唯一ledger110-supplement002提交native0/2.09秒，均Job0；真实回读与两份回执核对一致，Δ101066、total1GiB，原历史claims保留。原ZCode已接续预留postcommit call3，准备精确发布、源码冻结与唯一startup110证明；产品硬审尚未完成。
+- T7：memory062的独立delta及R0范围PASS保持。M1生成、验证、原子采用r27新L0后，Root核对1040输入并实际启动唯一full062。该运行14:13:48 UTC已结束：Root3/domain97、outer12.5秒/guard6.34秒、Job0、输入未变，观察器初始化报completion_source_pin:_fold_records.py；0 selected/0 ran，统计不可用。062已消费，没有重试。原作者066正在限定观察器对已接受新源码的真实绑定修复及完整前置验证，非新模块。Root直到14:30轮询才接收终态，这段观察延迟保留；后续在长准备前先轮询现有句柄。
+- M5：独立086 controls review001为无条件范围FAIL，CLI0/Job0；96次完整字节一致、顺序和统计复算成立，但名义100ns被误作误差界，实际CPU样本呈15.625ms网格，另有复合操作和代理操作标签不准确。原owner按086已有授权仅修正分析/报告，不重跑归因或产品性能。reviewer将一次retries0探针运行了七次的协议偏差单独保留；不能据此签发干净PASS。proof003性能FAIL、NOT_ESTABLISHED和Full009未授权均保持。
+- N8：008实现路径上限与执行链校验后，Root发现提交冻结清单中check_prospective135_008.py实际哈希不一致；独立review004启动数仍0。完整source135累计gross425984B，而非owner所报185134B，仍低于458752上限。原owner在143第二个且最后一个授权transport中修正冻结交付，并核实真实producer认证链。前次692.15秒wall、105.586工具秒扣除，剩余不重置；019仍UNUSED。
+
+容量维护：DISPATCH后续CLI曾在启动前因D预留后余量为负被拦住，raw1、模型启动数0，未消费产品动作。对已结束的历史文本文件做无损压缩，RESULT020/024/025实测分别减少2579604、85794816、245559296字节分配，均验证内容SHA、身份、大小及mtime不变，未删除文件。可选清单扫描遇长路径stat失败，以及compact不接受扩展路径前缀的原始1保留；改为原生stat使用扩展路径、compact使用其支持的普通路径，长路径不纳入该压缩批次。另一次猜测不存在作者目录的读取错误已纠正为从真实REQUEST取得路径。
+
+依据：G/root-dispatch117-commit001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch110-postcommit-owner001/REQUEST.json；G/root-t7-full062-001/ROOT-RECEPTION.json；G/astra-t7-full062-observer-binding-066/REQUEST.json；G/zcode-dispatch/m5-cdf086-controls-hard-review001/ROOT-RECEPTION.json、m5-cdf086-report-owner001/REQUEST.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation008/ROOT-RECEPTION.json、009/REQUEST.json；G/root-disk-space-20261103-d005/RESULT020.json、RESULT024.json、RESULT025.json；CAPACITY-751。G=C:/AKWorktrees/aktr-goal-20261026。仅完成M5/T7/N8/DISPATCH已有任务，硬审、集成、推送后停止；enable_trading=False、observer=hold、broker=NOT_RUN、send/cancel=0/0。
