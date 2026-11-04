@@ -1692,3 +1692,19 @@ MemoryError的“整机提交耗尽”结论未获证实：同一期间主机提
 依据：G/m5-aggregation080-controls001/cold080-root001/ROOT-RECEPTION.json；G/zcode-dispatch/t7-r0-review-027/ROOT-RECEPTION.json；G/astra-t7-r0-integrity-incident-064/REQUEST.json；G/astra-n8-first-store-closure-137/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation002/ADMISSION.json、START.json；G/zcode-dispatch/dispatch110-owner-implementation004/FUNDING.json；G/root-disk-space-20261103-d005/RESULT006.json；CAP724。G=C:/AKWorktrees/aktr-goal-20261026。未合入未接受的私有源码；false/hold/brokerNOT_RUN/send0/cancel0保持。
 
 07:39 UTC补充：原T7作者064已明确拒收027的PASS，并将该受影响R0验收显式交给独立delta reviewer（SID sess_7229454f…）。同时按现有四模块完整预算，将普通并发上限由2提高至4，保留12GiB总RAM预留、每个ZCode CLI 2GiB、产品原限额、独立DISPATCH轻量槽和6/4/4GiB底线。Root已接收，后续按实际余量立即增加并发，不新增模块或修改持久配置。
+
+
+## 2026-11-04 10:25 UTC — 现有四模块收尾，正式验证与修复继续
+
+按用户最新范围，只完成已经开始规划或已有有效计划的 M5、T7、N8、DISPATCH；规定独立硬审、集成和推送结束后停止。没有新增模块。
+
+- T7：context061 修复及受影响 R0 独立恢复审核已接收，M1 已生成并原子采用新 L0。运行控制首版因 argv 误指向已消费060且包含控制字符被 Root 在启动前拒收；原 owner 修正版经1024输入核对后，唯一 full061 于09:02 UTC实际启动，仍在计算。未把正在运行记为通过。
+- M5：CDF082窄修复已实现；owner proof001 与条件 proof002 都真实退出1、Job0。001错误导入仓库基线及堆栈输出路径已修正；002正确加载冻结基线，但出现未定义 requests，以及两项未解决断言失败，性能用例未完成。两次原始失败保留，原作者083正在处置现有修复的必要补充，不开启替代优化或完整重跑；Full009仍NOT_GRANTED。
+- N8：003曾工具超额并受控停止，native15/Job0及历史510.281秒保留；140前瞻补充不追认超额。004提交的替身/空进程列表验证在执行前被拒收。005原开发者交付18项all_ok，但真实census仍在FINAL-PROCESS目录处失败；预期结果的改变不能代替有效计划要求。原独立ZCode于10:24 UTC已实际启动硬审；019仍未消费，F02FAIL/F01OPEN_INSUFFICIENT保持。
+- DISPATCH：113修复中的隔离测试曾误写本地资源账本两条claims和两份receipt，CONTROL14336→6144，无真实交易或核心补额。114作者确认保留为历史支出，修复显式布局隔离、使用新receipt路径并测量补足剩余保护额度，不回滚或退款；原owner后继已准备。其文本要求12GiB RAM floor，本次暂按该更严值等待内存准入；与064/113的12GiB预留、6GiB floor差异保留，不静默改写。startup110仍未使用。
+
+磁盘维护：本轮先前/后续四份真实记录分别释放12,585,098、8,797,184、81,101,709、244,450,610字节（RESULT008/017/018/019），未删除或移动文件。普通compact曾返回0个文件且native0，故只用实际分配字节差统计；/F后才实际压缩。RESULT008/017/019核对内容SHA和身份/大小/mtime，018仅核对身份/大小/mtime，未声称读过内容哈希。D盘扣除完整预留及4GiB底线后已恢复正余量；新调用仍须即时实测。
+
+Root本轮一次读取不存在的旧REQUEST.json得到原始1；实际文件为REQUEST-SEED.json，已按目录结果定位并保留失败事实。后续先检查路径，不凭命名推断。
+
+依据：G/root-t7-full061-001/LAUNCH.json；G/root-m5-cdf082-proof001/ROOT-RECEPTION.json与proof002同名记录；G/zcode-dispatch/n8-prospective-root135-owner-implementation004/ROOT-RECEPTION.json、005/ROOT-RECEPTION.json、n8-prospective135-hard-review001/ADMISSION.json；G/astra-dispatch110-live-fixture-incident-114/ROOT-RECEPTION.json；G/root-disk-space-20261103-d005/RESULT008.json、RESULT017.json、RESULT018.json、RESULT019.json；CAPACITY-734。G=C:/AKWorktrees/aktr-goal-20261026。私有未通过成果未合入main；enable_trading=False、observer=hold、broker=NOT_RUN、send/cancel=0/0。
