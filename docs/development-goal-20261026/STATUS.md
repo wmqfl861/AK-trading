@@ -1783,3 +1783,16 @@ Root准备阶段的容量断言、st_size误调用、括号语法及FileRef斜�
 - 并发恢复：三次作者续接曾在模型启动前因8槽被旧标记占用而raw75。Root依据原任务、Job0、原生进程及包装器均不存在的证据，将本项目四个失效占用标记保留改名；未终止进程、未改配置。三项原会话随后重新启动，旧失败与耗时保留。今后接续前先检查真实槽位占用，不能把包装器启动算成模型已启动。
 
 依据：G/zcode-dispatch/m5-cdf086-controls-hard-review003/ROOT-RECEPTION.json及work/VERDICT.json；G/zcode-dispatch/t7-observer066-owner001/REQUEST.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation009/ROOT-RECEPTION.json；G/root-dispatch110-proof001/ROOT-RECEPTION.json；G/root-author-slot-recovery-20261104-003/RESULT.json；CAPACITY-753。G=C:/AKWorktrees/aktr-goal-20261026。仅完成本批既有任务，必要审核、集成和推送后停止；enable_trading=False、observer=hold、broker=NOT_RUN、send/cancel=0/0。
+
+## 2026-11-04 16:36 UTC — 接收两个限定范围 PASS，实际入口缺陷继续闭环
+
+仅继续已有 M5、T7、N8、DISPATCH；必要修复、独立审核、集成和推送完成后停止，不开新模块或下一批计划。
+
+- T7：observer066 独立审核无条件范围 PASS，CLI0/Job0，541.17秒，实际工具37.927秒；独立真实安装路线收集24节点、完成行为11/11、反例5/5，未运行完整产品测试。runtime063首版随后闭合，原owner260.80秒/7.730工具秒，1050输入核对一致。但 Root 正式外层入口在 controller preflight 报 `unbound guard argv`，raw1；它仍通过entry055绑定旧observer，与内部observe066参数冲突。异常在setup、outer创建及runtime子进程之前，两份Root捕获保留，formal063尚未消费。原owner已按066允许的零子进程准备修正继续，新增路由代码须先接受独立受影响审核。062关闭后不再需要的未来预留仅抵扣一次，063另行预留，未把账面抵扣称作物理释放。
+- N8：review004闭合CLI0/Job0，675.27秒/89.581工具秒；限定范围PASS接受010当前producer检查及008路径预算、完整census和隔离。审核者披露的9/10旧检查状态依赖问题保留。Root在真实审核闭合后运行 `carrier_prospective135_010.py --owner-check` 及同一carrier的 `--final-arguments --review-terminal-reference <真实接收引用>`，分别raw1/2.90秒和raw1/2.81秒，均Job0，报 `128_EXACT_LAUNCHER_ARGV`：carrier把控制命令误送给底层测试launcher。019未启动；原作者145仅处置这一既有入口修复及受影响复审额度，不能以限定PASS冒充整个N8通过。
+- DISPATCH：118两个owner窗口均闭合，第二段native0/Job0、1055.62秒/29.501工具秒。Root在真实提交前发现三处确定性脚本缺陷：锁内把当前字节与提交后目标比较；发布循环索引缺失的FROZEN118键；调用未定义publish_claim。已保持真实ledger字节不变，并交原作者119处置原计划的必要续接和完整隔离执行验证。ledger118-repair001与startup118-proof001都未消费，actual104/seal083未运行。
+- M5：维持上一记录的诊断分析/报告修复范围PASS；CDF082产品候选仍UNACCEPTED_CLOSED，性能FAIL与NOT_ESTABLISHED保留，未启动新优化或Full009。
+
+Root只读摘行时曾使用超出EOF的固定末行，导致原始IndexError/exit1；已改为按实际行数枚举。这不是产品测试结果，也没有因此重跑一次性产品动作。后续验证必须覆盖实际入口的完整正向路径；在无关前置条件处失败的反例，不能证明目标行为正确。
+
+依据：G/zcode-dispatch/t7-observer066-delta-review001/ROOT-RECEPTION.json；G/root-t7-full063-001/ROOT-RECEPTION.json；G/zcode-dispatch/t7-runtime063-owner002/REQUEST.json；G/zcode-dispatch/n8-prospective135-hard-review004/ROOT-RECEPTION.json；G/root-n8-review004-postclosure001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch118-owner002/ROOT-RECEPTION.json；CAPACITY-761。G=C:/AKWorktrees/aktr-goal-20261026。交易边界保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。
