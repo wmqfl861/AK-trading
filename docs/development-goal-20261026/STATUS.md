@@ -1674,3 +1674,21 @@ MemoryError的“整机提交耗尽”结论未获证实：同一期间主机提
 当前两个普通槽分别用于N8与DISPATCH；M5修复、T7绑定工单等待实际槽位。CAP719已包含上述全部未来预留；D盘物理空闲约34.9GiB，扣完整预留及4GiB底线后约0.1GiB。历史磁盘维护核实释放D4.90GiB/C0.71GiB，本轮没有追加删除、移动或压缩。Root一次读取猜测的HANDOFF路径返回原始1，已从实际目录确定正确嵌套路径，未重跑成功证明；原失败保留。
 
 依据：G/zcode-dispatch/t7-context061-delta-hard-review003/ROOT-RECEPTION.json；G/zcode-dispatch/m5-cold080-controls-hard-review001/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation001/START.json、ADMISSION.json；G/zcode-dispatch/dispatch110-owner-implementation002/START.json；CAP719。G=C:/AKWorktrees/aktr-goal-20261026。当前开发使用ZCode，模型配置不变；false/hold/brokerNOT_RUN/send0/cancel0。完成当前四模块规定独审、集成、推送后停止，未合入未接受的私有源码。
+
+
+## 2026-11-04 07:36 UTC — 冷运行实际结束，拒收受污染审核，继续既有修复
+
+本批仍只有M5、T7、N8、DISPATCH。实际开发使用固定ZCode会话，Astra只处置既有故障及依赖，独立ZCode负责产品硬审；完成当前批次验收、集成及推送后停止。
+
+- M5：cold080控制修复已获原独立审核范围PASS，真实冷运行随后只执行一次。外层native1、3300.80秒、Job0、峰值1453404160B；内层guard记录deadline_exceeded、PARTIAL和pytest报告未产生。quota_passed=false与时限终止耦合，不能据此断言61MiB输出额度耗尽；终态前实际输出约159KiB。post-cold原独立审核工单已准备；cold080机会已消耗，Full009仍NOT_GRANTED，整个M5未通过。
+- T7：B/F绑定已完成。R0-026真实重跑两节点2passed，并核对163个输入；Root发现12个夹具mtime及真实校验器反例覆盖仍缺，交原审核者补齐。R0-027在反例中创建硬链接并写入manifest，误改冻结原文件，随后自行恢复字节和mtime并签发PASS；受保护反例进程实际退出1。Root拒收这个PASS，当前文件pins已复核恢复，但M1仍HOLD。原Astra正在明确独立复核者交接及剩余审核范围；原报告、错误launch_identity和不真实的未来时间戳全部保留，未改写原证据。
+- N8：首个ZCode调用达到时限，outer1/Job0，CLI原生退出码未捕获。已按原作者137明确授权，发布真实Root监督关闭记录，保留原缺失捕获事实；未伪造CLI0、修改旧REQUEST或更改watchdog。07:19:10Z已用原SID/store/cwd续接开发，Root提供真实019声明、释放和预算绑定。新实现与验证脚本正在完成；019尚未执行，F02FAIL/F01OPEN_INSUFFICIENT保持。
+- DISPATCH：原作者112已明确完整提交路径修复。已准备原owner未使用的call4，修复未来输出提前claim及虚构funding哈希问题；call3应在真实一次补额后执行。完整外部用途已测量并补足至16515072B，未提交核心补额，proof110/actual104/seal083均未运行。
+
+本轮额外对80个已结束调用的旧日志做NTFS透明压缩，实际释放25790107B（约24.6MiB），零删除、零移动，文件身份/大小/mtime核对一致，未读取日志内容。此前最近两批维护另有2386149321B回收记录；不把本轮空闲变化或账面预留减少当作物理释放。D盘扣除完整预留及4GiB底线后仍约0.12GiB，启动前继续实测。CAP724保留旧实际/UNKNOWN与T7 full060义务。
+
+本次审核经验：反例副本不能使用会写回冻结输入的硬链接、目录联接或符号链接；使用独立字节或仅在真实读取边界注入私有反例。审核者改动并恢复所审文件后，不得自行签PASS。正常案例与反例必须在规定的受限子进程内完整完成，保留真实退出码；一次异常中的错误文本不能代替通过的完整验证。报告身份取自本次REQUEST，时间取实际时钟。
+
+依据：G/m5-aggregation080-controls001/cold080-root001/ROOT-RECEPTION.json；G/zcode-dispatch/t7-r0-review-027/ROOT-RECEPTION.json；G/astra-t7-r0-integrity-incident-064/REQUEST.json；G/astra-n8-first-store-closure-137/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation002/ADMISSION.json、START.json；G/zcode-dispatch/dispatch110-owner-implementation004/FUNDING.json；G/root-disk-space-20261103-d005/RESULT006.json；CAP724。G=C:/AKWorktrees/aktr-goal-20261026。未合入未接受的私有源码；false/hold/brokerNOT_RUN/send0/cancel0保持。
+
+07:39 UTC补充：原T7作者064已明确拒收027的PASS，并将该受影响R0验收显式交给独立delta reviewer（SID sess_7229454f…）。同时按现有四模块完整预算，将普通并发上限由2提高至4，保留12GiB总RAM预留、每个ZCode CLI 2GiB、产品原限额、独立DISPATCH轻量槽和6/4/4GiB底线。Root已接收，后续按实际余量立即增加并发，不新增模块或修改持久配置。
