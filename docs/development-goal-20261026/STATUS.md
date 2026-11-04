@@ -1772,3 +1772,14 @@ Root准备阶段的容量断言、st_size误调用、括号语法及FileRef斜�
 容量维护：DISPATCH后续CLI曾在启动前因D预留后余量为负被拦住，raw1、模型启动数0，未消费产品动作。对已结束的历史文本文件做无损压缩，RESULT020/024/025实测分别减少2579604、85794816、245559296字节分配，均验证内容SHA、身份、大小及mtime不变，未删除文件。可选清单扫描遇长路径stat失败，以及compact不接受扩展路径前缀的原始1保留；改为原生stat使用扩展路径、compact使用其支持的普通路径，长路径不纳入该压缩批次。另一次猜测不存在作者目录的读取错误已纠正为从真实REQUEST取得路径。
 
 依据：G/root-dispatch117-commit001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch110-postcommit-owner001/REQUEST.json；G/root-t7-full062-001/ROOT-RECEPTION.json；G/astra-t7-full062-observer-binding-066/REQUEST.json；G/zcode-dispatch/m5-cdf086-controls-hard-review001/ROOT-RECEPTION.json、m5-cdf086-report-owner001/REQUEST.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation008/ROOT-RECEPTION.json、009/REQUEST.json；G/root-disk-space-20261103-d005/RESULT020.json、RESULT024.json、RESULT025.json；CAPACITY-751。G=C:/AKWorktrees/aktr-goal-20261026。仅完成M5/T7/N8/DISPATCH已有任务，硬审、集成、推送后停止；enable_trading=False、observer=hold、broker=NOT_RUN、send/cancel=0/0。
+
+
+## 2026-11-04 15:36 UTC — M5诊断修复独审通过，继续其余既有收尾
+
+- M5：原独立ZCode review003已闭合native0/353.68秒/Job0；一次offline003命令native0/2.656秒，完成19项检查。原始18通过、1项因审核者手抄哈希漏字符而为false，原结果保留；审核者根据原REQUEST和HANDOFF的真实pins及实际文件哈希处置，Root再核对42个引用未变。最终无条件PASS仅接受085/086的r4诊断分析与报告修复。CDF082产品候选仍未接受并关闭，proof003性能FAIL、NOT_ESTABLISHED和Full009未授权保持，绝不把报告PASS写成M5产品PASS。
+- T7：原作者066已发布有效观察器绑定修复处置，原ZCode owner于15:29 UTC开始实际实施。r27产品、既有内存修复/B/F/R0/M1仍冻结并复用。先验证真实guard→observer→offline launcher安装、24节点收集和真实完成计数，再独立delta硬审；条件性full063尚未启动，full062失败不会重跑。
+- N8：009提交的35个实际源码引用核对相符，但累计保留source135为471040B，超过458752B上限12288B。另确认正常consumer.resolve仍绕过新producer校验，独立review004未启动。原作者144正在限定同一135修复的接线、预算和关联元数据更正；019仍UNUSED，020未授权。
+- DISPATCH：正式补额与110源码发布已成功且保持不可重跑。startup110-proof001实际执行native1/0.22秒/Job0，在R103_PROOF_SECOND_DESCRIPTOR_SCOPE处退出，0测试；账本与发布后哈希一致，business0、actual-claims delta0。该证明已消费为FAIL；原作者118处理具体driver/spec兼容修复及有界后继。actual104、seal083和最终硬审尚未运行。
+- 并发恢复：三次作者续接曾在模型启动前因8槽被旧标记占用而raw75。Root依据原任务、Job0、原生进程及包装器均不存在的证据，将本项目四个失效占用标记保留改名；未终止进程、未改配置。三项原会话随后重新启动，旧失败与耗时保留。今后接续前先检查真实槽位占用，不能把包装器启动算成模型已启动。
+
+依据：G/zcode-dispatch/m5-cdf086-controls-hard-review003/ROOT-RECEPTION.json及work/VERDICT.json；G/zcode-dispatch/t7-observer066-owner001/REQUEST.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation009/ROOT-RECEPTION.json；G/root-dispatch110-proof001/ROOT-RECEPTION.json；G/root-author-slot-recovery-20261104-003/RESULT.json；CAPACITY-753。G=C:/AKWorktrees/aktr-goal-20261026。仅完成本批既有任务，必要审核、集成和推送后停止；enable_trading=False、observer=hold、broker=NOT_RUN、send/cancel=0/0。
