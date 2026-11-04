@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-04 20:45 UTC。本批仅完成已开始的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。没有新增模块或下一批计划；下文历史记录只反映当时事实。
+更新于 2026-11-04 21:18 UTC。本批仅完成已开始的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。没有新增模块或下一批计划；下文历史记录只反映当时事实。
 
 当前路由：原 Astra/max 作者负责已有计划的必要澄清；专用 ZCode CLI 负责开发与修复；另一独立 ZCode GLM-5.3/max 会话负责成果硬审。计划意见不设 PASS 门。所有后续操作保持原会话、固定存储和文件归属，不按旧 Sol/Claude 开发工单续写。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 为 92ee167。尚未通过整体验收的候选不作为已接受产品合入。
+- 本次更新前 main / origin/main 为 0428019（当前修复状态已推送）。尚未通过整体验收的候选不作为已接受产品合入。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran / 948 passed / 14 个既有失败；M4 后续独立九文件 259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -15,19 +15,21 @@
 | 模块 | 当前已核结果 | 剩余工作及实际限制 |
 | --- | --- | --- |
 | M5 | 独立 review003 对 085/086 r4 诊断控制与报告修正给出无条件范围 PASS；CLI0、Job0、42 个引用一致。 | 诊断交付已审核。CDF082 性能候选仍为 UNACCEPTED_CLOSED；proof003 benefit FAIL、归因 NOT_ESTABLISHED 保留；Full009 未获准，不开启新的 M5 优化或运行。 |
-| T7 | formal064 真实闭合：Root/domain raw3、Job0，无超时，1054 输入 pins 不变。收集 24、运行 21、17 passed / 1 skipped / 2 errors。 | 首个 MemoryError 位于训练路径结果序列化（experiments.py:1287 → schemas.py:539/290 → json.dumps）；pytest 错误报告的 MemoryError 为次生错误。064 已消费，不重跑。原 Astra068 正在处置同一故障的必要修复，之后原 ZCode 开发并独立审核；不降低 2GiB、100 实例、500 迭代/50 树及原门槛。 |
-| N8 F02 | owner014 native0、Job0、1410.16 秒；414.744 秒实际工具耗时保留，取代报告中的约数。候选冻结且原输入 pins 不变。 | 独立 ZCode review007 已启动，核对真实 014 路由、完整 grant 边界、反例与预算；owner 自测不计硬审核。019 仍 UNUSED，F02 FAIL / F01 OPEN-INSUFFICIENT / preburst=false 不变。 |
-| DISPATCH | owner123-001 native0、Job0、228.95 秒、35.991 工具秒。Root 在执行前发现完整用例、实际路径隔离与最终依赖 pins 仍不齐备。 | 原 owner123-002 在既有最后续接额度内修复。qualification123、commit/publication/startup121、actual104/seal083 均未由本轮启动；不把 PREPARED 或 CLI0 计作通过。 |
+| T7 | formal064 真实闭合：Root/domain raw3、Job0，无超时，1054 输入 pins 不变。收集 24、运行 21、17 passed / 1 skipped / 2 errors。 | 首个 MemoryError 位于训练路径结果序列化；原 Astra068 已发布保持精确字节、完整证据和原验收门槛的流式序列化/暂存方案。原 ZCode serialization068-owner001 于21:13 UTC启动，在隔离后继实施并做必要验证，随后独立硬审。064已消费；条件065尚未运行。 |
+| N8 F02 | 独立 review007 无条件 FAIL：边界证明使用旧016参数、模板不完整、演练替换实际返回命令的身份；Root另发现正常入口可能无工作即返回0。CLI0、Job0、1086.48秒；工具280.122秒超过180秒额度，原违约保留。 | 原 Astra149 已统一处置F1–F4，原 ZCode owner015 于21:16 UTC启动。修复真实正常入口和完整当前模板后立即独立review008。019仍UNUSED；F02 FAIL / F01 OPEN-INSUFFICIENT / preburst=false保持，不以旧10/10局部自测替代。 |
+| DISPATCH | owner123-002 native0、Job0、1314.62秒，交付仍INCOMPLETE；实际工具893.923秒超过剩余额度。保留的开发包计费44,605,440B已超过旧41,943,040B上限，不能追认为合规。 | 剩余为707条路径的语义分类、完整35tests/624rejections真实driver及旧第五账本副本的写隔离。原Astra124于21:13 UTC接续同一修复，给出完整有限续接处置。qualification123和本轮live121/actual104/seal083均未启动。 |
 | Forward paper | run003 原生结果和 0 新 OPEN / 0 新 CLOSED 保持；无新增采集。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消费采集、不扩大本批。 |
 | SC 研究输入 | 已有处置和 INPUT_NOT_DELIVERED 保持。 | 不新增 consumer/fit 或研究计划。 |
 
-当前并行：N8 独立硬审007、DISPATCH 原 owner123-002 修复、T7 原作者068对实际失败的既有计划澄清。T7 完整运行已经结束，不再报告 RUNNING。所有产品 PASS 均须依对应实际计划由独立 ZCode 出具；现有范围 PASS 不扩大为全模块或全项目通过。
+当前并行：T7原ZCode实施序列化修复、N8原ZCode实施015修复、DISPATCH原Astra作者处置既有修复缺口。所有产品PASS均须依对应实际计划由独立ZCode出具；现有范围PASS不扩大为全模块或全项目通过。
 
 本轮调用/协调错误也保留：Root 初次发现时枚举了不存在的可选 coordination 目录；后续先检查存在性，不把缺失目录当产品错误。N8 当前生成的 ADMISSION 起初遗漏 producer 实际所需的 task_id/argv；在 verdict 前确认它不属于冻结输入，保留原始字节于 ADMISSION-ORIGINAL-INCOMPLETE.json 后透明补齐真实启动字段，未修改产品或冻结控制、未启动019。后续协调生成器直接使用实际消费者 schema。
 
 本轮状态提交首尝试原生128：Git 未配置作者身份，未生成提交、未推送。已交叉核对最近提交身份与 GitHub CLI 当前账号均为用户指定的 wmqfl861；后续提交显式使用本次命令级身份参数，不改全局配置。此错误与 ZCode/产品运行无关。
 
-本地依据：G/root-t7-full064-001/{CLOSED,ROOT-RECEPTION}.json；D:/AKT7RUN064/{outer,work}/CLOSED.json；G/astra-t7-full064-serialization-memory-068/REQUEST.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation014/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective135-hard-review007/{REQUEST,START}.json；G/zcode-dispatch/dispatch123-owner001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch123-owner002/{REQUEST,START}.json。G=C:/AKWorktrees/aktr-goal-20261026。原始大日志和未接受候选保留本地。
+本次Root准备命令raw1源于假定通用HANDOFF路径，发生在CLI和产品启动前；另一次读取尚未生成的作者输出也返回raw1。原记录保留，改为从实际目录定位交付路径、在任何新写入前统一验证必需输入、生成输出先检查存在性；恢复只续建请求，未重复模型或产品调用。N8原作者149发生一次SSE断流，原CLI自行恢复并返回native0/turn.completed；最终作者文本与消息一致且18项输入未变、Job三项0。接收器把中间error事件记为receiver1，该失败仍保留，Root仅接收这个已有明确完成证据的作者处置，未把调用改记全成功。
+
+本地依据：G/root-t7-full064-001/{CLOSED,ROOT-RECEPTION}.json；G/astra-t7-full064-serialization-memory-068/{AUTHOR-DISPOSITION.md,ROOT-RECEPTION.json}；G/zcode-dispatch/t7-serialization068-owner001/{REQUEST,START}.json；G/zcode-dispatch/n8-prospective135-hard-review007/{ROOT-RECEPTION,ROOT-SOURCE-FINDING-F4}.json；G/astra-n8-review007-connected-repair-149/ROOT-RECEPTION.json；G/zcode-dispatch/n8-prospective-root135-owner-implementation015/{REQUEST,START}.json；G/zcode-dispatch/dispatch123-owner002/ROOT-RECEPTION.json；G/astra-dispatch123-connected-completion-124/{REQUEST,START}.json；G/ROOT-PREPARATION-INCIDENT-20261104-002.json。G=C:/AKWorktrees/aktr-goal-20261026。原始大日志和未接受候选保留本地。
 
 安全保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0；未读取或修改 .env、凭据、模型配置及交易开关。
 
