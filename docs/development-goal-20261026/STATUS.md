@@ -1796,3 +1796,5 @@ Root准备阶段的容量断言、st_size误调用、括号语法及FileRef斜�
 Root只读摘行时曾使用超出EOF的固定末行，导致原始IndexError/exit1；已改为按实际行数枚举。这不是产品测试结果，也没有因此重跑一次性产品动作。后续验证必须覆盖实际入口的完整正向路径；在无关前置条件处失败的反例，不能证明目标行为正确。
 
 依据：G/zcode-dispatch/t7-observer066-delta-review001/ROOT-RECEPTION.json；G/root-t7-full063-001/ROOT-RECEPTION.json；G/zcode-dispatch/t7-runtime063-owner002/REQUEST.json；G/zcode-dispatch/n8-prospective135-hard-review004/ROOT-RECEPTION.json；G/root-n8-review004-postclosure001/ROOT-RECEPTION.json；G/zcode-dispatch/dispatch118-owner002/ROOT-RECEPTION.json；CAPACITY-761。G=C:/AKWorktrees/aktr-goal-20261026。交易边界保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。
+
+16:40 UTC勘误：原作者119及Root对完整AST的复核确认，REPAIR118.py的publish_claim实际定义在第124行；此前“未定义”结论错误，原发现记录保留并附ROOT-FINDING-CORRECTION-001.json。预映像比较、生成freeze键及提交回执认证问题仍成立，正式动作仍未执行。后续不得从截断输出推断符号缺失，必须检查实际定义。原ZCode已续接119的既有修复。
