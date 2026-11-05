@@ -1,33 +1,26 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-05 10:50 UTC。本批只完成已开始或已有有效计划的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。Forward、SC不新增运行或计划。下文历史记录不代表当前完成状态。
+更新于 2026-11-05 11:48 UTC。本批仅完成已开始或已有有效计划的 M5、T7、N8、DISPATCH，包含必要修复、独立硬审核、集成和推送，随后停止。Forward、SC不新增运行或计划。下文历史记录不代表当前完成状态。
 
-当前路由：原Astra/max作者处理既有计划的必要澄清；原ZCode专用会话开发、修复；独立ZCode GLM-5.3/max硬审核。计划意见不设PASS门，实际验证及冻结齐备后立即送硬审。本次更新前main/origin/main为8f811ed；未接受候选保留本地。
+当前路由为原 Astra/max 作者处理既有计划的必要澄清，原 ZCode 专用会话开发修复，另一独立 ZCode GLM-5.3/max 会话硬审核。计划意见不设 PASS 门，验证冻结齐备后立即独审。更新前 main/origin/main 为 75ad46a；未接受候选保留本地。
 
 | 模块 | 当前已核结果 | 余项 |
 | --- | --- | --- |
-| M5 | review003对085/086 r4诊断控制与报告修正为无条件范围PASS。 | CDF082性能候选UNACCEPTED_CLOSED；proof003 benefit FAIL、归因NOT_ESTABLISHED保留。Full009 NOT_GRANTED，不重开优化。 |
-| T7 | 079 CLI0/Job0，1015.78s、120.06工具秒；缺账户、错身份及有效控制达到对应预期，但组合验证失败。080/081已有有效处置，原ZCode正在实施080。 | 完成唯一追加组合证明后独立复审。旧9个starts、未受guard验证的违规及两项200s预留保留；064 FAIL、065 NOT_RUN。 |
-| N8 F02 | 009产出R9B源码和待peer验证冻结候选，3560.1s触及Job时限；receiver1/Job0、CLI终态UNKNOWN_NO_TERMINAL，工具30.481s。Root语法检查通过，未取得完整peer证明/HANDOFF。 | 子程序仍导入旧模块，消费契约仍指向旧版本和审核任务；原Astra159明确同一修复的追加文件/冻结方式。review009 NOT_RUN、019 UNUSED、F01 OPEN-INSUFFICIENT。 |
-| DISPATCH | 130 CLI0/Job0，1346.61s、422.688工具秒；复现并修复夹具安装异常后补丁泄漏。受影响检查4/10通过。 | 原ZCode transport013修复依赖引用、接受契约与库存夹具，并完成35项/624拒绝、当前入口验证和qualifier。qualification123及真实运行链未执行。 |
-| Forward / SC | 原run003与INPUT_NOT_DELIVERED等结论保持。 | 不新增采集、consumer、fit或研究计划。 |
+| M5 | review003 对 085/086 r4 诊断控制和报告修正无条件范围 PASS。 | CDF082 性能候选 UNACCEPTED_CLOSED；proof003 benefit FAIL、归因 NOT_ESTABLISHED 保留。Full009 NOT_GRANTED，按作者087关闭，不重开优化。 |
+| T7 | 082 完整 N1/Q1/A1/F03 组合证明全部通过，child raw0/20.03s；CLI0、443.41s、28.215 工具秒、Job0。原独立 reviewer 已于 11:32:55 UTC 启动硬审。 | 审核者独立检查原 F01/F02/F03 及实际命令可复跑性，尚无本次产品 PASS。064 CONSUMED_FAIL、065 NOT_RUN。通过后仍按既定 B/F→R0→M1→绑定/24-node collection→065→R1/L1/R2 流程。 |
+| N8 F02 | 原 completion010 正在按 AUTHOR159 修复 R9B 验证入口。Root 已核四份拟交付文件的实际字节和完整哈希，并执行唯一一次条件源额度增加 61440B，完整源范围1748992B，未增加D盘运行额度。 | 需真实 peer 正例、精确反例、完整冻结及独立 review009。019 UNUSED、020 NOT_GRANTED；旧独审FAIL与 F01 OPEN-INSUFFICIENT 保留。 |
+| DISPATCH | 131/transport014 已收尾：CLI0、1930.38s、375.615工具秒、Job0。suite002 raw1/67.21s，依赖遍历 read_bytes() 在512MiB下 MemoryError，尚未进入35项测试；parser001 raw1/90.07s deadline，部分反例已产生输出但整批未闭合。 | 原 Astra132 并行处置同一故障的有界读取和完整验证方案。旧消耗和失败保留；qualification123 UNUSED，live121/actual104/seal083 尚未执行。 |
+| Forward / SC | 原run003及INPUT_NOT_DELIVERED等结论保持。 | 不新增采集、consumer、fit或研究计划。 |
 
-当前并行是T7与DISPATCH原开发会话、N8原作者的必要澄清。本轮没有新增产品硬审PASS；Root检查、开发者自测、CLI0或保存文件都不能代替独立硬审。之前A2七策略同bar修复、A3及用户批准的规则同步、B1、A4以及已接受的M4/CPU/内存/chronological成果继续有效；历史M1–M4为raw1、948passed/14既有失败，不能宣称全项目全绿。
+当前并行：T7原独立硬审、N8原开发会话、DISPATCH原计划作者对既有失败的必要澄清。无新增模块或下一批计划。本次还没有新增产品硬审PASS；开发者证明、静态检查、CLI0及保存文件均不能代替独立审核。A2七策略同bar修复、A3及用户批准的规则同步、B1、A4和此前已接受成果继续有效。历史M1–M4为raw1、948passed/14既有失败，不宣称全项目全绿。
 
-三个开发会话分别完成内置 `/compact`：原SID、store及GLM-5.3保持，均native0/Job0、零工具调用，没有修改持久化模型或上下文配置。T7报告contextUsed从924966降至34598，DISPATCH从426750降至39289，N8压缩后40778。这是CLI投影值，不是配置故障诊断。维护不增加开发额度或重置次数；N8共享绝对时钟继续计入维护和等待。
+本轮错误及避免方式：T7测试曾把真实API的(size,sha)误写成(sha,size)，082保留失败后修正并完整重跑通过；审核命令必须使用真实审核身份和独立输出，不能套用开发者默认路径。DISPATCH整块载入输入导致内存错误，解析验证又在最后阶段超时；原作者正在决定有界读取、真实依赖覆盖及可闭合执行安排，不以静态检查冒充通过。N8先前未经Root确认便发布源和声称增加额度的偏差保留；159追加额度由Root按完整实际和未来收尾核算，先授权再继续最终交付。Root误附加不存在占位路径的读取导致raw1，无产品变更或重跑；已记录，后续只读已核存在的明确输入。
 
-本轮需保留的错误与预防措施：
+本地依据（G=C:/AKWorktrees/aktr-goal-20261026）：T7 zcode-dispatch/t7-serialization082-owner001/ROOT-RECEPTION.json 与 t7-serialization082-hard-review001/REQUEST.json；N8 n8-recovery109-controls001/prospective135-root001/ROOT-SOURCE-FUNDING159-001.json；DISPATCH zcode-dispatch/dispatch131-owner001/ROOT-RECEPTION.json、work/HANDOFF.json 与 astra-dispatch131-bounded-input-repair-132/REQUEST.json。父进程流均在关闭后才固定校验值。
 
-- T7旧账户遗漏实际工具跨度，080按真实trace把累计工具修正为162.326s，保守focused为124.057s，另保留两项200s未结预留。测试按实际返回结构断言；受影响的旧流式哈希函数不能充当碰撞用例的正确性基准。
-- DISPATCH的ExitStack在补丁安装后抛异常、未进入调用方上下文，造成后续测试污染。后继从首次安装起管理异常清理，核对失败、成功及用例间恢复。4次diagnostic超出原1次授权的事实保留；2次focused全部消耗，不得改称免费准备。
-- N8在发布源文件后才计量，并自行声称增加8192B而未取得工单要求的Root响应。实际保留源码及必需引用为1708032B；保留偏差，下一次写入前先核完整实际与未来范围，不把历史超支追认为合规。
-- Root广泛文档枚举超时后误继续准备，因必需容量文件尚未生成而raw1，无模型/产品启动；后继使用明确旧清单并逐步检查前项结果。另一次准备误要求测量值等于作者上界，raw1后改为核完整测量不超过上界，原控制记录保留。状态更新首次把全文件历史表格当成唯一当前表，断言raw1且未写文件；后继只更新顶部当前段，历史保留。
+CAP845为当前容量记录，新启动继续检查扣除既有预留后的RAM6/C4/D4GiB底线。029标准NTFS压缩60个关闭的旧文档，6条命令均raw0，释放61947550B；大小、mtime和文件身份保持，未读内容或宣称内容哈希复验，删除0、移动0。释放量不等于当前剩余空间。
 
-本地依据（G=C:/AKWorktrees/aktr-goal-20261026）：T7的t7-serialization079-owner001/ROOT-RECEPTION.json、080/081作者处置及t7-serialization080-owner001/REQUEST.json；N8 completion009/ROOT-DEADLINE-RECEPTION001.json、ROOT-009-CLOSED-SOURCE-PROFILE.json及作者159请求；DISPATCH dispatch130-owner001/ROOT-RECEPTION.json、work/HANDOFF.json和dispatch130-owner002/REQUEST.json。开发调用均位于G/zcode-dispatch，作者位于G/astra-*。
-
-CAP839为当前容量记录，启动前仍检查扣除全部预留后的RAM6/C4/D4GiB底线。今日026/027/028对已关闭旧文档/日志作标准NTFS压缩，分别释放152996009、29848977、403553868字节，各命令原生0。文件大小、mtime及身份保持；只核元数据，未读取内容或声称内容哈希已验证；删除0、移动0。释放量不等于当前可用空间。
-
-安全保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取、打印或修改.env、凭据、模型配置或交易开关。
+安全保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取、打印或修改.env、凭据、持久化模型配置或交易开关。
 
 <details>
 <summary>2026-11-05 08:50 UTC状态及错误记录（历史）</summary>
