@@ -1,5 +1,39 @@
 # 策略优先蓝图持续开发状态
 
+更新于 2026-11-05 10:50 UTC。本批只完成已开始或已有有效计划的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。Forward、SC不新增运行或计划。下文历史记录不代表当前完成状态。
+
+当前路由：原Astra/max作者处理既有计划的必要澄清；原ZCode专用会话开发、修复；独立ZCode GLM-5.3/max硬审核。计划意见不设PASS门，实际验证及冻结齐备后立即送硬审。本次更新前main/origin/main为8f811ed；未接受候选保留本地。
+
+| 模块 | 当前已核结果 | 余项 |
+| --- | --- | --- |
+| M5 | review003对085/086 r4诊断控制与报告修正为无条件范围PASS。 | CDF082性能候选UNACCEPTED_CLOSED；proof003 benefit FAIL、归因NOT_ESTABLISHED保留。Full009 NOT_GRANTED，不重开优化。 |
+| T7 | 079 CLI0/Job0，1015.78s、120.06工具秒；缺账户、错身份及有效控制达到对应预期，但组合验证失败。080/081已有有效处置，原ZCode正在实施080。 | 完成唯一追加组合证明后独立复审。旧9个starts、未受guard验证的违规及两项200s预留保留；064 FAIL、065 NOT_RUN。 |
+| N8 F02 | 009产出R9B源码和待peer验证冻结候选，3560.1s触及Job时限；receiver1/Job0、CLI终态UNKNOWN_NO_TERMINAL，工具30.481s。Root语法检查通过，未取得完整peer证明/HANDOFF。 | 子程序仍导入旧模块，消费契约仍指向旧版本和审核任务；原Astra159明确同一修复的追加文件/冻结方式。review009 NOT_RUN、019 UNUSED、F01 OPEN-INSUFFICIENT。 |
+| DISPATCH | 130 CLI0/Job0，1346.61s、422.688工具秒；复现并修复夹具安装异常后补丁泄漏。受影响检查4/10通过。 | 原ZCode transport013修复依赖引用、接受契约与库存夹具，并完成35项/624拒绝、当前入口验证和qualifier。qualification123及真实运行链未执行。 |
+| Forward / SC | 原run003与INPUT_NOT_DELIVERED等结论保持。 | 不新增采集、consumer、fit或研究计划。 |
+
+当前并行是T7与DISPATCH原开发会话、N8原作者的必要澄清。本轮没有新增产品硬审PASS；Root检查、开发者自测、CLI0或保存文件都不能代替独立硬审。之前A2七策略同bar修复、A3及用户批准的规则同步、B1、A4以及已接受的M4/CPU/内存/chronological成果继续有效；历史M1–M4为raw1、948passed/14既有失败，不能宣称全项目全绿。
+
+三个开发会话分别完成内置 `/compact`：原SID、store及GLM-5.3保持，均native0/Job0、零工具调用，没有修改持久化模型或上下文配置。T7报告contextUsed从924966降至34598，DISPATCH从426750降至39289，N8压缩后40778。这是CLI投影值，不是配置故障诊断。维护不增加开发额度或重置次数；N8共享绝对时钟继续计入维护和等待。
+
+本轮需保留的错误与预防措施：
+
+- T7旧账户遗漏实际工具跨度，080按真实trace把累计工具修正为162.326s，保守focused为124.057s，另保留两项200s未结预留。测试按实际返回结构断言；受影响的旧流式哈希函数不能充当碰撞用例的正确性基准。
+- DISPATCH的ExitStack在补丁安装后抛异常、未进入调用方上下文，造成后续测试污染。后继从首次安装起管理异常清理，核对失败、成功及用例间恢复。4次diagnostic超出原1次授权的事实保留；2次focused全部消耗，不得改称免费准备。
+- N8在发布源文件后才计量，并自行声称增加8192B而未取得工单要求的Root响应。实际保留源码及必需引用为1708032B；保留偏差，下一次写入前先核完整实际与未来范围，不把历史超支追认为合规。
+- Root广泛文档枚举超时后误继续准备，因必需容量文件尚未生成而raw1，无模型/产品启动；后继使用明确旧清单并逐步检查前项结果。另一次准备误要求测量值等于作者上界，raw1后改为核完整测量不超过上界，原控制记录保留。状态更新首次把全文件历史表格当成唯一当前表，断言raw1且未写文件；后继只更新顶部当前段，历史保留。
+
+本地依据（G=C:/AKWorktrees/aktr-goal-20261026）：T7的t7-serialization079-owner001/ROOT-RECEPTION.json、080/081作者处置及t7-serialization080-owner001/REQUEST.json；N8 completion009/ROOT-DEADLINE-RECEPTION001.json、ROOT-009-CLOSED-SOURCE-PROFILE.json及作者159请求；DISPATCH dispatch130-owner001/ROOT-RECEPTION.json、work/HANDOFF.json和dispatch130-owner002/REQUEST.json。开发调用均位于G/zcode-dispatch，作者位于G/astra-*。
+
+CAP839为当前容量记录，启动前仍检查扣除全部预留后的RAM6/C4/D4GiB底线。今日026/027/028对已关闭旧文档/日志作标准NTFS压缩，分别释放152996009、29848977、403553868字节，各命令原生0。文件大小、mtime及身份保持；只核元数据，未读取内容或声称内容哈希已验证；删除0、移动0。释放量不等于当前可用空间。
+
+安全保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取、打印或修改.env、凭据、模型配置或交易开关。
+
+<details>
+<summary>2026-11-05 08:50 UTC状态及错误记录（历史）</summary>
+
+### 前次状态
+
 更新于 2026-11-05 08:50 UTC。本批仅完成已开始的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。没有新增模块或下一批计划；下文历史记录只反映当时事实。
 
 当前路由：原 Astra/max 作者只处置已有计划的必要澄清；专用 ZCode CLI 开发与修复；另一独立 ZCode GLM-5.3/max 会话负责成果硬审。有效处置后立即开发，真实交付、验证与冻结完成后立即硬审。计划意见不设 PASS 门。原会话、固定存储、文件归属和已消耗运行机会均保留。
@@ -48,6 +82,9 @@
 CAP829按当前实占与剩余预留核对；已消费的预留只结算一次，保留原超额事实。既有失败、大日志、冻结文件和单次运行记录均保留本地。未删除或移动源码、行情、审核文件。Root一次接收误用前一自然日的CLI日志，raw1且未写接收结果；后继按实际调用日期读取并匹配原SID、时间与trace。另两次预读猜测输出路径的raw1保留，后续从实际目录与产物引用取路径。
 
 安全保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0；未读取、打印或修改 .env、凭据、模型配置或交易开关。
+
+
+</details>
 
 ## 磁盘整理与本轮错误处置
 
