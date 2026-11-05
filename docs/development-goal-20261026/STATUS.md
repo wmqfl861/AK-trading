@@ -1,12 +1,12 @@
 # 策略优先蓝图持续开发状态
 
-更新于 2026-11-05 00:26 UTC。本批仅完成已开始的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。没有新增模块或下一批计划；下文历史记录只反映当时事实。
+更新于 2026-11-05 01:53 UTC。本批仅完成已开始的 M5、T7、N8、DISPATCH 及必要修复、独立审核、集成和推送，随后停止。没有新增模块或下一批计划；下文历史记录只反映当时事实。
 
 当前路由：原 Astra/max 作者只处置已有计划的必要澄清；专用 ZCode CLI 开发与修复；另一独立 ZCode GLM-5.3/max 会话负责成果硬审。有效处置后立即开发，真实交付、验证与冻结完成后立即硬审。计划意见不设 PASS 门。原会话、固定存储、文件归属和已消耗运行机会均保留。
 
 ## 已接受的起点
 
-- 本次更新前 main / origin/main 同为 7298b77；远程已核为用户指定的 wmqfl861/AK-trading。未接受候选仍保留本地，不作为已接受产品合入。
+- 本次更新前 main / origin/main 同为 7aac28d；远程已核为用户指定的 wmqfl861/AK-trading。未接受候选仍保留本地，不作为已接受产品合入。
 - A2 七策略同 bar 修复、A3 文档及用户批准的两处规则同步、B1 分诊、A4 入口保护和此前接受的 M4、CPU、内存、chronological 成果继续有效。
 - 历史完整 M1–M4 为 raw1、962 ran / 948 passed / 14 个既有失败；M4 后续独立九文件 259 passed。各范围分别记录，不宣称整个项目全绿。
 
@@ -15,13 +15,13 @@
 | 模块 | 当前已核结果 | 剩余工作及实际限制 |
 | --- | --- | --- |
 | M5 | 独立 review003 对 085/086 r4 诊断控制与报告修正给出无条件范围 PASS；CLI0、Job0、42 个引用一致。 | 诊断交付已审核。CDF082 性能候选仍为 UNACCEPTED_CLOSED；proof003 benefit FAIL、归因 NOT_ESTABLISHED 保留。Full009 未获准，不开启新的 M5 优化或运行。 |
-| T7 | 072 的真实 eligible 正例已到生产者、相同输入的旧实现对比和实际发布；A6 生命周期断言仍 FAIL。重复保存四份大型输出导致占用 222,150,656B 超出原额度，Root 按原 PID/创建身份受控停止：CLI130、694.54s、Job18/18/0、输入未变。 | 原 Astra073 已明确 A6 应验证每次计算的临时 PayoffPathResult/缓冲区释放，而非共享模型和数据。原 ZCode 073 已立即实施；需完成正确生命周期、两尺度、发布失败回归及独立硬审，再走既有 B/F→R0→M1 等门。064 已消耗 FAIL，唯一条件065未运行。 |
-| N8 F02 | completion004 到1160.03s Job时限，receiver1、CLI UNKNOWN_NO_TERMINAL、Job0/0/0，未交最终HANDOFF。真实 callback sanity 已取得19/22次采样及 COMPLETED；原冻结H015不变。Root第二个准备探针 raw1/32.32s，已到真实 finalargs，但短探针占用相同审核目录，完整命令以 FileExistsError183 拒绝，尚未签发 grant。 | 原 Astra153 正处置这一既有测试编排冲突和精确源码额度缺口。共享工具余额367.138s；已结束调用不退款。review008未开始、019 UNUSED，F02 FAIL/F01 OPEN-INSUFFICIENT保持，不把采样局部成功扩大成完整通过。 |
-| DISPATCH | 126 两次真实35项套件均raw1：4 failures / 7 errors / 0 skipped / 398 rejection assertions。CLI0、1165.52s、Job0，交付明确 INCOMPLETE。原 Astra127 已定位实际模块注册、当前读取接口和夹具契约不一致，并指出套件失败仍可能进入启动分支等包装器缺陷。 | 原 ZCode127 已立即实施原范围修复：完整35/624要求、准确反例、零启动失败门和完整冻结。余下126账户2434.48whole / 518.704tools含240closure，两次transport上限不重置。qualification123、live121/actual104/seal083均未执行。 |
+| T7 | 074两尺度字节/EOF/哈希比较及073临时结果释放证据保留。075 CLI0、647.22s、79.227工具秒、Job0；两次小验证raw1后第三次raw0，但G4未运行。Root发现日志仍写回冻结源码目录、配额按逻辑字节且遗漏累计失败文件等缺口。 | 原Astra076已完成处置，原ZCode076实际修复中。需提供真实G4成功包围断言、正确输出路径和累计计费，再独审；允许Root在原余额内执行一次已封定G4以减少额外模型调用，不能代修源码或替代硬审。064 FAIL、065未运行。 |
+| N8 F02 | completion006 CLI0、681.48s、53.738工具秒、Job0；开发者演练达21次真实采样、grant、outer pinned-runner005和内部负载拒绝边界。独立review008 CLI0、422.24s、16.487工具秒、Job0，结论FAIL：其必需重跑child1/6.22s，因写死开发者目录而无法在审核目录运行。 | B1目录绑定、B2无效分配JSON、B3冻结数值矛盾、B4后续接受引用预留缺失均未闭合；原Astra155处置同一修复及不可覆写008的复审接续。019 UNUSED，未以开发者成功替代独审；F02 FAIL/F01 OPEN-INSUFFICIENT保持。 |
+| DISPATCH | 127第9次调用的递归挂起、工具额度超出302.180s和旧126套件失败均保留。原Astra128已明确完整夹具、模块/spec身份、读取防重入及qualifier修复；原ZCode128正在执行。 | 仍要求真实35 tests /624 rejections /0失败错误跳过及独立审核。后继工具1200s含240s收尾为明确前瞻补充，不把旧超额改为合规；旧占用只结算一次。qualification123、live121/actual104/seal083未执行。 |
 | Forward paper | run003 原生结果和0新 OPEN / 0新 CLOSED保持；无新增采集。 | strategy_evaluation NOT_RUN、paper NOT_ACTIVATED；不重跑已消耗采集、不扩大本批。 |
 | SC 研究输入 | 已有处置和 INPUT_NOT_DELIVERED保持。 | 不新增 consumer/fit 或研究计划。 |
 
-当前并行：T7、DISPATCH 原 ZCode 开发；N8 原 Astra 仅澄清既有修复。完成一项立即送其原独立 ZCode 硬审。本次没有新增产品硬审 PASS；Root核对、开发者自测、CLI0及文件保存均不能代替硬审。
+当前并行：T7、DISPATCH原ZCode开发；N8原Astra处置真实硬审FAIL。没有创建新模块计划。完成一项立即送其原独立ZCode硬审，本轮N8已实际执行独审并保留FAIL；没有新增产品硬审PASS。Root核对、开发者自测、CLI0及文件保存均不能代替硬审。
 
 当前错误与防止办法：
 
@@ -29,14 +29,19 @@
 - N8 checkpoint 把模型开始处理时间当作实际进程 START，晚约102秒，并越过约定收尾点继续工作。后继须直接绑定监督器 START和绝对端点。缺少CLI终态的调用仅按真实Job清理和原进程身份关闭存储占用，不伪造terminal0。
 - Root首个N8准备探针raw1/11s：新增长目录使原生捕获路径达到270字符，写入失败；同时须区分开发CLI cwd与产品冻结literal_cwd。后继从真实Root release读取产品cwd并使用短唯一目录，已越过该处；原失败保留，未修改系统长路径配置或产品源码。
 - DISPATCH不能用文件mtime或两份相似失败报告证明相同加载上下文。127要求实际注册对象、回调闭包和当前读接口相符；套件失败必须在真实启动前拒绝，不能仅在报告写false。
+- DISPATCH新适配器的原始read_bytes仍调用已替换的Path.open，造成递归；下一版须在实际读取边界防重入，先以小测试验证，再执行完整套件。Bash观察超时不等于子进程终止，必须使用已有Job监督器约束真实子进程；禁止把后台等待当作额外工具额度。
+- N8 completion005 HANDOFF自填00:58:30并声称超过900/1160/1200秒，实际监督仅582.9秒，原文件保留并在Root接收中明确纠正。预算和终态以监督记录、工具trace为准，不能用模型估计时间结算。
+- Root一次只读状态检查混用了Astra START的at与ZCode START的started_utc字段，raw1、零产品启动。后继按实际schema取值，不把不同CLI记录视为同一格式。
+- 可复审命令必须事前在独立输出根验证：N8 c6写死开发者目录，独立重跑真实失败；T7的--out-dir并未控制stdout/stderr位置。后继须沿完整命令链传递已认证的运行根、START和角色预算，确保所有写入都落到调用方的独立路径。
+- N8分配JSON在写入后才修数值，结果留下多余括号和冻结清单不一致。修复要求完整序列化并解析通过后再发布；先按实际字节及后续必需引用计量，再冻结一致的记录。旧坏文件、008 FAIL和错误自报时间均保留。
 
 本地依据（G=C:/AKWorktrees/aktr-goal-20261026）：
 
-- T7：G/zcode-dispatch/t7-serialization072-owner001/ROOT-RESOURCE-RECEPTION001.json；G/astra-t7-proof072-retention-completion-073/AUTHOR-DISPOSITION.md；G/zcode-dispatch/t7-serialization073-owner001/REQUEST.json。
-- N8：G/zcode-dispatch/n8-prospective-root135-owner-implementation015-completion004/{ROOT-DEADLINE-RECEPTION001.json,ROOT-COMPLETION-DEFICIT152-001.json}；同目录ROOT-PREPARED-PROOF152-001/002各自原始RESULT；G/astra-n8-sanity-output-collision-completion-153/REQUEST.json。
-- DISPATCH：G/zcode-dispatch/dispatch126-owner001/{ROOT-RECEPTION.json,ROOT-REMAINING126-001.json}；G/astra-dispatch126-suite-context-completion-127/AUTHOR-DISPOSITION.md；G/zcode-dispatch/dispatch127-owner001/REQUEST.json。
+- T7：G/zcode-dispatch/t7-serialization075-owner001/ROOT-RECEPTION.json；G/astra-t7-runnable-proof-completion-076/AUTHOR-DISPOSITION.md；G/zcode-dispatch/t7-serialization076-owner001/REQUEST.json。
+- N8：G/zcode-dispatch/n8-prospective135-hard-review008/{ROOT-RECEPTION.json,work/VERDICT.json,work/FINDINGS.json}；G/astra-n8-review008-replay-completion-155/REQUEST.json。
+- DISPATCH：G/zcode-dispatch/dispatch127-owner002/ROOT-RECEPTION.json；G/astra-dispatch127-fixture-completion-128/AUTHOR-DISPOSITION.md；G/zcode-dispatch/dispatch128-owner001/REQUEST.json。
 
-CAP808按当前实占与剩余预留核对；已消费的套件预留只结算一次。既有失败、大日志、冻结文件和单次运行记录均保留本地。未删除或移动源码、行情、审核文件。
+CAP817按当前实占与剩余预留核对；已消费的预留只结算一次，保留原超额事实。既有失败、大日志、冻结文件和单次运行记录均保留本地。未删除或移动源码、行情、审核文件。
 
 安全保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0；未读取、打印或修改 .env、凭据、模型配置或交易开关。
 
