@@ -1,26 +1,30 @@
-# 策略优先蓝图持续开发状态
+# 当前开发与独立审核状态
 
-更新于 2026-11-05 11:48 UTC。本批仅完成已开始或已有有效计划的 M5、T7、N8、DISPATCH，包含必要修复、独立硬审核、集成和推送，随后停止。Forward、SC不新增运行或计划。下文历史记录不代表当前完成状态。
+更新于 2026-11-06 18:32 UTC。本批仅完成已有 M5、T7、N8、DISPATCH 及必要修复、独立硬审核、集成与推送，然后停止。不新增模块或未来蓝图。main 仍为 3d58175；本轮状态更新尚未提交或推送。以下历史折叠记录保留原字节。
 
-当前路由为原 Astra/max 作者处理既有计划的必要澄清，原 ZCode 专用会话开发修复，另一独立 ZCode GLM-5.3/max 会话硬审核。计划意见不设 PASS 门，验证冻结齐备后立即独审。更新前 main/origin/main 为 75ad46a；未接受候选保留本地。
+当前分工：原 Astra/max 作者只处置既有任务的具体缺口；原 ZCode 开发会话实施；独立 ZCode GLM-5.3/max 硬审。上述 owner/reviewer 调用均已终态，没有新的可安全启动的并行写入任务。计划意见不设 PASS 门。
 
-| 模块 | 当前已核结果 | 余项 |
+| 模块 | 已核实结果 | 当前动作和剩余条件 |
 | --- | --- | --- |
-| M5 | review003 对 085/086 r4 诊断控制和报告修正无条件范围 PASS。 | CDF082 性能候选 UNACCEPTED_CLOSED；proof003 benefit FAIL、归因 NOT_ESTABLISHED 保留。Full009 NOT_GRANTED，按作者087关闭，不重开优化。 |
-| T7 | 082 完整 N1/Q1/A1/F03 组合证明全部通过，child raw0/20.03s；CLI0、443.41s、28.215 工具秒、Job0。原独立 reviewer 已于 11:32:55 UTC 启动硬审。 | 审核者独立检查原 F01/F02/F03 及实际命令可复跑性，尚无本次产品 PASS。064 CONSUMED_FAIL、065 NOT_RUN。通过后仍按既定 B/F→R0→M1→绑定/24-node collection→065→R1/L1/R2 流程。 |
-| N8 F02 | 原 completion010 正在按 AUTHOR159 修复 R9B 验证入口。Root 已核四份拟交付文件的实际字节和完整哈希，并执行唯一一次条件源额度增加 61440B，完整源范围1748992B，未增加D盘运行额度。 | 需真实 peer 正例、精确反例、完整冻结及独立 review009。019 UNUSED、020 NOT_GRANTED；旧独审FAIL与 F01 OPEN-INSUFFICIENT 保留。 |
-| DISPATCH | 131/transport014 已收尾：CLI0、1930.38s、375.615工具秒、Job0。suite002 raw1/67.21s，依赖遍历 read_bytes() 在512MiB下 MemoryError，尚未进入35项测试；parser001 raw1/90.07s deadline，部分反例已产生输出但整批未闭合。 | 原 Astra132 并行处置同一故障的有界读取和完整验证方案。旧消耗和失败保留；qualification123 UNUSED，live121/actual104/seal083 尚未执行。 |
-| Forward / SC | 原run003及INPUT_NOT_DELIVERED等结论保持。 | 不新增采集、consumer、fit或研究计划。 |
+| M5 | review003 对085/086 r4诊断控制与报告修正给出限定范围、无条件PASS，修复关闭。 | CDF082性能候选仍UNACCEPTED_CLOSED、benefit FAIL、归因NOT_ESTABLISHED、Full009 NOT_GRANTED；不重开优化。 |
+| T7 | owner094 native0/Job0，1205.48s。两次证明运行 raw1/260.25s、raw1/205.06s 保留；settlement 报告 17/17 必需谓词为真，真实 PayoffPathResult 两种尺寸、字节/哈希/计数和写入缩减均由独立 reviewer 复现。独立 throughput094 硬审：native0、Job0、10/10 条件通过、无条件范围 PASS。 | readiness095 的独立 R0 硬审：native0、Job0、9/9 条件通过，但包内结论仍 HOLD（保守 13,709.2s > 13,200s，最大 prefix 未实测，节点 18–24 仍为有界估计）。067 未预留/未运行，不能宣称完整 24 节点通过；本批没有可合法启动的后继运行。 |
+| N8 F02 | owner025 native0/Job0，2252.20s/330.797 工具秒。S01/S02/F01 失败保留，S03 通过，F02 完整路线 119.781s、16 组/0 失败；旧 evidence pins 未变。独立 completion005 及 metadata177 均已终态。 | metadata177 独立范围核对 native0、7/7 canonical clauses、9/9 反例/引用链通过，仅修正 scope 元数据，未运行产品命令。N8 整体仍未通过：runtime020 UNUSED_GATED、019 CONSUMED_FAIL、F01 OPEN/INSUFFICIENT、F02 产品接受仍未建立；accepted-reference 和新运行需既有后续授权，不能由本批自动触发。 |
+| DISPATCH | owner155 修复 native0/Job0，冻结 22 个文件；独立硬审 native0、Job0、12/12 检查通过、无条件范围 PASS，真实 `_ledger`、preflight-before-commit、边界与反例均核对。 | 该 PASS 只覆盖 owner002 write-set。`root_launch_authorized_now=false`，Root qualification 没有新的 successor/admission 记录；149 的 CONSUMED_FAIL 保持，不能重跑或把范围 PASS 写成产品 qualification PASS。 |
+| Forward / SC | 原输入未交付、未激活记录保持。 | 不新增采集、consumer、fit或研究计划。 |
 
-当前并行：T7原独立硬审、N8原开发会话、DISPATCH原计划作者对既有失败的必要澄清。无新增模块或下一批计划。本次还没有新增产品硬审PASS；开发者证明、静态检查、CLI0及保存文件均不能代替独立审核。A2七策略同bar修复、A3及用户批准的规则同步、B1、A4和此前已接受成果继续有效。历史M1–M4为raw1、948passed/14既有失败，不宣称全项目全绿。
+T7 正式 066 保持 CONSUMED_FAIL：13,200.03s、native1、终态 Job0、1,108 输入未变；实际 16 项通过，第 17 项夹具未完成，18–24 未启动。094 两段 focused 合计 465.31s，超过 360s 授权 105.31s，偏差已保留，不事后豁免。开发者 native0、自测和 Root 核对均不能代替独立硬审。当前所有可执行的 owner/reviewer 调用均已终态；剩余项目是既有门槛未满足或缺少明确授权，不另开计划。
 
-本轮错误及避免方式：T7测试曾把真实API的(size,sha)误写成(sha,size)，082保留失败后修正并完整重跑通过；审核命令必须使用真实审核身份和独立输出，不能套用开发者默认路径。DISPATCH整块载入输入导致内存错误，解析验证又在最后阶段超时；原作者正在决定有界读取、真实依赖覆盖及可闭合执行安排，不以静态检查冒充通过。N8先前未经Root确认便发布源和声称增加额度的偏差保留；159追加额度由Root按完整实际和未来收尾核算，先授权再继续最终交付。Root误附加不存在占位路径的读取导致raw1，无产品变更或重跑；已记录，后续只读已核存在的明确输入。
+DISPATCH149真实报告与调用输出合计34958字节；六号账本pool由158601变为115451，额外占用与保留项须按实际账本逐项核对，不能只按输出体积退款。原失败及所有输出保持。后续机会须由原作者处置既有故障后明确给出，不自动续用149。N8最后发布的contract/adjunct替换过同路径临时元数据，原hash已披露，独立005核对证明到最终版本的关联。
 
-本地依据（G=C:/AKWorktrees/aktr-goal-20261026）：T7 zcode-dispatch/t7-serialization082-owner001/ROOT-RECEPTION.json 与 t7-serialization082-hard-review001/REQUEST.json；N8 n8-recovery109-controls001/prospective135-root001/ROOT-SOURCE-FUNDING159-001.json；DISPATCH zcode-dispatch/dispatch131-owner001/ROOT-RECEPTION.json、work/HANDOFF.json 与 astra-dispatch131-bounded-input-repair-132/REQUEST.json。父进程流均在关闭后才固定校验值。
+调用与Root错误保持：175作者native0/receiver1的一次已恢复SSE断流，以及Root首次逐行解析多行JSON的raw1均未回溯改写。本次另有两次Get-Content因猜测作者目录名返回raw1；已改为从当前FUNDING的authority.path取得并核对原文件，失败没有产品执行或写入。今后同类已知路径从FileRef派生，不再根据名称拼目录。此前容量拒绝、066统计错误及静态脚本语法失败继续保留。
 
-CAP845为当前容量记录，新启动继续检查扣除既有预留后的RAM6/C4/D4GiB底线。029标准NTFS压缩60个关闭的旧文档，6条命令均raw0，释放61947550B；大小、mtime和文件身份保持，未读内容或宣称内容哈希复验，删除0、移动0。释放量不等于当前剩余空间。
+CAP991按每次启动新鲜观测准入，RAM6/C4/D4GiB底线、四普通槽12GiB及已有预留保持；仅增加两个原作者澄清各1MiB C预算，无新D。066未来需求只扣除一次，物理释放0；N8唯一020的1GiB仍只预留一次。没有删除、移动源码/行情/审核文件或复制大包。
 
-安全保持 enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取、打印或修改.env、凭据、持久化模型配置或交易开关。
+私有证据根 G=C:/AKWorktrees/aktr-goal-20261026：N8 completion025/ROOT-RECEPTION.json、独立010-completion005 及 metadata177；T7 throughput094-owner002、throughput094-hard-review001、readiness095-r0-review001；DISPATCH155 owner/review。公开仓库不收录私有源码或原始审核包。
+
+此前A2七策略同bar修复、A3用户批准规则同步、B1、A4及已接受成果保持。历史M1–M4 raw1、948passed/14失败，不能宣称全项目全绿。全部规定审核和集成检查结束后，只显式暂存已接受交付，推送wmqfl861/AK-trading，然后停止。
+
+安全边界：enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取、打印或修改.env、凭据、持久化模型配置或实盘开关。
 
 <details>
 <summary>2026-11-05 08:50 UTC状态及错误记录（历史）</summary>
