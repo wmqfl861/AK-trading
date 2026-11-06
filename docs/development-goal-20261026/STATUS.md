@@ -1,6 +1,6 @@
 # 当前开发与独立审核状态
 
-更新于 2026-11-06 18:32 UTC。本批仅完成已有 M5、T7、N8、DISPATCH 及必要修复、独立硬审核、集成与推送，然后停止。不新增模块或未来蓝图。main 仍为 3d58175；本轮状态更新尚未提交或推送。以下历史折叠记录保留原字节。
+更新于 2026-11-06 18:32 UTC。本批仅完成已有 M5、T7、N8、DISPATCH 及必要修复、独立硬审核、集成与推送，然后停止。不新增模块或未来蓝图。状态提交 `2a31196` 已推送到 `origin/main`；本次顶部事实更正随后追加提交。以下历史折叠记录保留原字节。
 
 当前分工：原 Astra/max 作者只处置既有任务的具体缺口；原 ZCode 开发会话实施；独立 ZCode GLM-5.3/max 硬审。上述 owner/reviewer 调用均已终态，没有新的可安全启动的并行写入任务。计划意见不设 PASS 门。
 
@@ -25,6 +25,8 @@ CAP991按每次启动新鲜观测准入，RAM6/C4/D4GiB底线、四普通槽12Gi
 此前A2七策略同bar修复、A3用户批准规则同步、B1、A4及已接受成果保持。历史M1–M4 raw1、948passed/14失败，不能宣称全项目全绿。全部规定审核和集成检查结束后，只显式暂存已接受交付，推送wmqfl861/AK-trading，然后停止。
 
 安全边界：enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取、打印或修改.env、凭据、持久化模型配置或实盘开关。
+
+本轮收尾命令记录：独立 verdict/ROOT-RECEPTION 读取均为原始退出 0（T7 throughput 10/10、T7 readiness 9/9、N8 metadata 7/7 条款与 9/9 反例、DISPATCH155 12/12）；`git diff --check` 原始退出 0；首次 `git commit` 原始退出 1（仓库未配置作者身份），随后仅在本仓库复用既有提交作者身份重试，提交原始退出 0；`git push origin main` 原始退出 0。首次提交失败保留为协调层错误，不改变任何产品或审核结论。
 
 <details>
 <summary>2026-11-05 08:50 UTC状态及错误记录（历史）</summary>
