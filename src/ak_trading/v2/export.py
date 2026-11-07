@@ -13,11 +13,16 @@ from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import Mapping
-
-from sqlalchemy.engine import Connection
+from typing import TYPE_CHECKING, Mapping
 
 from ak_trading.v2 import CONTRACT_VERSION, INPUT_SCHEMA_VERSION
+
+if TYPE_CHECKING:
+    # Typing-only (H3): the injected read transaction stays a SQLAlchemy
+    # Connection, but the module must import without the optional extra.
+    # artifacts._public_signature_map resolves exactly this declared token.
+    from sqlalchemy.engine import Connection
+
 from ak_trading.v2.artifacts import publish_bundle, sha256_hex, stable_id
 from ak_trading.v2.contracts import (
     DataQuality,

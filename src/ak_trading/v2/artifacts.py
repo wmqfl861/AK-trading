@@ -879,6 +879,43 @@ def canonical_function_signature(function: Any) -> str:
     return result
 
 
+def _connection_annotation_token() -> Any:
+    """Typing-only stand-in for ``sqlalchemy.engine.Connection``.
+
+    The class name is the canonical display text, so the lock keeps binding
+    the same ``Connection`` token as under a SQLAlchemy-present evaluation.
+    """
+    return type("Connection", (), {"__doc__": "typing-only sqlalchemy.engine.Connection token"})
+
+
+# H3: export.py keeps ``Connection`` under TYPE_CHECKING (SQLAlchemy optional),
+# so ``eval_str`` cannot resolve that declared token at runtime. For exactly
+# these declared (module, callable, name) triples — and nothing else — the
+# signature is evaluated with the token bound to a typing-only placeholder.
+# Every other annotation still evaluates strictly and any other unresolved
+# name still fails the lock build with signature_evaluation_failed.
+_SIGNATURE_ANNOTATION_TOKENS: tuple[tuple[str, str, str], ...] = (
+    ("ak_trading.v2.export", "export_frozen_input", "Connection"),
+)
+
+
+def _canonical_signature_with_declared_tokens(module_name: str, attribute: str,
+                                              module, function) -> str:
+    tokens = {
+        name: _connection_annotation_token()
+        for bound_module, bound_attribute, name in _SIGNATURE_ANNOTATION_TOKENS
+        if bound_module == module_name and bound_attribute == attribute
+    }
+    injected = [name for name in tokens if name not in vars(module)]
+    for name in injected:
+        setattr(module, name, tokens[name])
+    try:
+        return canonical_function_signature(function)
+    finally:
+        for name in injected:
+            delattr(module, name)
+
+
 def _public_signature_map() -> dict[str, str]:
     from ak_trading.v2.schemas import PAYOFF_PATH_RECORD_TYPES
     signatures: dict[str, str] = {}
@@ -915,7 +952,8 @@ def _public_signature_map() -> dict[str, str]:
     for module_name, attribute in exported_functions:
         module = importlib.import_module(module_name)
         function = getattr(module, attribute)
-        signatures[f"{module_name}.{attribute}"] = canonical_function_signature(function)
+        signatures[f"{module_name}.{attribute}"] = _canonical_signature_with_declared_tokens(
+            module_name, attribute, module, function)
     macro_module = importlib.import_module("ak_trading.v2.macro")
     signatures["ak_trading.v2.macro.EconTransport.call_tool"] = canonical_function_signature(
         macro_module.EconTransport.call_tool)

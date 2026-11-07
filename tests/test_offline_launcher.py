@@ -238,6 +238,25 @@ def test_network_and_native_database_calls_block_but_http_and_sqlite_work(tmp_pa
                 server.shutdown()
                 server.server_close()
                 thread.join(timeout=2)
+
+            # H3: socketpair (loopback emulation on Windows) and a listener
+            # owned by this guarded process are allowed while live, and the
+            # permission dies with the listener.
+            left, right = socket.socketpair()
+            with left, right:
+                left.sendall(b"pair-ok")
+                assert right.recv(7) == b"pair-ok"
+            owned = socket.socket()
+            owned.bind(("127.0.0.1", 0))
+            owned.listen(1)
+            owned_port = owned.getsockname()[1]
+            peer = socket.create_connection(("127.0.0.1", owned_port), timeout=2)
+            served, _ = owned.accept()
+            peer.close()
+            served.close()
+            owned.close()
+            with pytest.raises(OfflineViolation):
+                socket.create_connection(("127.0.0.1", owned_port), timeout=0.2)
     ''')
     assert result.returncode == 0, result.stdout + result.stderr
 
