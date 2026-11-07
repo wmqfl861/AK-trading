@@ -14,7 +14,7 @@ from ak_trading.v2.contracts import (
     GateDecision, JsonValue, LedgerCheckpoint, MarketForecast, OrderIntent, RegimeAssessment,
     RunPolicy, StrategyProposal, StrategyQualification, StrategySpec, StrategyState,
 )
-from ak_trading.v2.data import visible_bars, visible_rule
+from ak_trading.v2.data import visible_bars_recent, visible_rule
 from ak_trading.v2.probability.models import ForecastModelSet
 from ak_trading.v2.probability.regimes import RegimeReference
 from ak_trading.v2.schemas import encode_record, encode_record_file, encode_csv_bytes
@@ -421,7 +421,12 @@ def run_decision_replay(bundle: FrozenInput, forecast_models: ForecastModelSet,
                 continue
             rule=visible_rule(bundle,b.contract_id,now)
             capacity_key=f"{b.contract_id}|{now}|{run_policy.cost_scenario}"
-            previous=visible_bars(bundle,b.contract_id,b.duration_seconds,now,False)
+            # Raw execution capacity population (H4): the exact last-20
+            # window in capacity's own (end_nano, bar_id) order over the
+            # same raw visible population — capacity_before receives
+            # precisely the bars it would select itself from the full
+            # history, without re-sorting that history at every event.
+            previous=visible_bars_recent(bundle,b.contract_id,b.duration_seconds,now,False,20)
             cap=capacity_before(previous,b.contract_id,b.duration_seconds,now,rule)
             remaining=max(0,(cap or 0)-cumulative_capacity.get(capacity_key,0))
             for intent in matching:

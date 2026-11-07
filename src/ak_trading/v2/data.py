@@ -13,6 +13,8 @@ see the current trading day's final daily bar (devplan-v2.1.0 M1 §5, §7).
 from __future__ import annotations
 
 import os
+import sys
+from collections import OrderedDict
 from pathlib import Path
 from typing import Mapping
 
@@ -438,6 +440,13 @@ def visible_bars(bundle: FrozenInput, contract_id: str, duration_seconds: int,
     time. With ``intraday=True`` the current trading day's daily bars are
     unconditionally filtered out, even if the package already carries the
     day's final values.
+
+    Decision-independent eligibility (contract/duration, complete status,
+    non-null availability, READY quality, known temporal basis, minute-grid
+    alignment) comes from the bounded per-(bundle, contract, duration)
+    index; the cutoff ``max(end_nano, available_at_nano) <= decision_nano``
+    and the intraday current-trading-day exclusion are evaluated at every
+    query, so a previous query's day or window is never reused.
     """
     if not isinstance(bundle, FrozenInput):
         raise TypeError("bundle_must_be_FrozenInput")
@@ -449,40 +458,192 @@ def visible_bars(bundle: FrozenInput, contract_id: str, duration_seconds: int,
         raise TypeError("decision_nano_must_be_int")
     if not isinstance(intraday, bool):
         raise TypeError("intraday_must_be_bool")
-    current_day = (_current_trading_day(bundle, contract_id, decision_nano)
+    index = _visible_index_for(bundle, contract_id, duration_seconds)
+    current_day = (_current_trading_day_from_index(index, decision_nano)
                    if intraday and duration_seconds == 86400 else None)
-    # F21(r3): build the set of products for this contract to check minute
-    # grid alignment against the contract's own sessions.
-    _products = {bar.product for bar in bundle.bars if bar.contract_id == contract_id}
-    _sessions = [s for s in bundle.sessions if s.product in _products]
+    visible = [
+        bar for bar, cutoff, trading_day in zip(index.bars, index.cutoffs, index.trading_days)
+        if cutoff <= decision_nano
+        and not (current_day is not None and trading_day == current_day)
+    ]
+    return tuple(sorted(visible, key=lambda b: (b.start_nano, b.datetime_nano)))
 
-    def _on_minute_grid(bar: object) -> bool:
-        if not isinstance(bar, MarketBar) or bar.duration_seconds != 60:
-            return True
-        for session in _sessions:
+
+def visible_bars_recent(bundle: FrozenInput, contract_id: str, duration_seconds: int,
+                        decision_nano: int, intraday: bool, count: int) -> tuple[MarketBar, ...]:
+    """Exact trailing window of the visible population in capacity order.
+
+    Returns the same bars ``capacity_before`` selects from the full raw
+    visible population: the last ``count`` entries of that population
+    ordered by ``(end_nano, bar_id)`` with the original visible-order tie
+    stability. The window is produced by scanning the pre-sorted capacity
+    order backwards from the newest bar, never by re-sorting the whole
+    history per query or by taking a suffix of a differently sorted result.
+    """
+    if not isinstance(bundle, FrozenInput):
+        raise TypeError("bundle_must_be_FrozenInput")
+    if not isinstance(contract_id, str):
+        raise TypeError("contract_id_must_be_str")
+    if isinstance(duration_seconds, bool) or not isinstance(duration_seconds, int):
+        raise TypeError("duration_seconds_must_be_int")
+    if isinstance(decision_nano, bool) or not isinstance(decision_nano, int):
+        raise TypeError("decision_nano_must_be_int")
+    if not isinstance(intraday, bool):
+        raise TypeError("intraday_must_be_bool")
+    if isinstance(count, bool) or not isinstance(count, int):
+        raise TypeError("count_must_be_int")
+    if count < 0:
+        raise ValueError("count_must_be_nonnegative")
+    if count == 0:
+        return ()
+    index = _visible_index_for(bundle, contract_id, duration_seconds)
+    current_day = (_current_trading_day_from_index(index, decision_nano)
+                   if intraday and duration_seconds == 86400 else None)
+    selected: list[MarketBar] = []
+    for position in range(len(index.capacity_bars) - 1, -1, -1):
+        if index.capacity_cutoffs[position] > decision_nano:
+            continue
+        if current_day is not None and index.capacity_trading_days[position] == current_day:
+            continue
+        selected.append(index.capacity_bars[position])
+        if len(selected) == count:
+            break
+    selected.reverse()
+    return tuple(selected)
+
+
+class _VisibleBarsIndex:
+    """Immutable visibility index for one (bundle, contract, duration).
+
+    ``bars`` keeps the original ``bundle.bars`` order so the stable
+    ``(start_nano, datetime_nano)`` sort of full results preserves the
+    original ordinal ties. ``capacity_bars`` holds the same statically
+    eligible population in the exact order ``capacity_before`` produces:
+    first sorted by ``(start_nano, datetime_nano)`` (stable, bundle-order
+    ties), then stably re-sorted by ``(end_nano, bar_id)`` — so a backward
+    scan yields precisely the trailing window capacity selects, tie order
+    included. ``sessions_by_start`` / ``sessions_original_order`` carry the
+    contract-scoped calendar in the two orders the current-trading-day
+    computation needs.
+    """
+
+    __slots__ = ("bundle", "bars", "cutoffs", "trading_days", "capacity_bars",
+                 "capacity_cutoffs", "capacity_trading_days", "sessions_by_start",
+                 "sessions_original_order", "retained_bytes")
+
+    def __init__(self, bundle: FrozenInput, bars: list[MarketBar],
+                 sessions_by_start: list, sessions_original_order: list) -> None:
+        self.bundle = bundle
+        self.bars = tuple(bars)
+        self.cutoffs = [max(bar.end_nano, bar.available_at_nano) for bar in self.bars]
+        self.trading_days = [bar.trading_day for bar in self.bars]
+        visible_order = sorted(self.bars, key=lambda b: (b.start_nano, b.datetime_nano))
+        self.capacity_bars = tuple(
+            sorted(visible_order, key=lambda b: (b.end_nano, b.bar_id)))
+        self.capacity_cutoffs = [max(bar.end_nano, bar.available_at_nano)
+                                 for bar in self.capacity_bars]
+        self.capacity_trading_days = [bar.trading_day for bar in self.capacity_bars]
+        self.sessions_by_start = tuple(sessions_by_start)
+        self.sessions_original_order = tuple(sessions_original_order)
+        # Retained-memory accounting covers the containers this cache entry
+        # itself allocates; the bars and the bundle are shared objects the
+        # caller already holds.
+        self.retained_bytes = sum(sys.getsizeof(item) for item in (
+            self.bars, self.cutoffs, self.trading_days, self.capacity_bars,
+            self.capacity_cutoffs, self.capacity_trading_days,
+            self.sessions_by_start, self.sessions_original_order))
+
+
+# Bounded LRU of visibility indexes. The key carries the bundle's id, but an
+# entry is only ever served after its held bundle reference passes an
+# identity check; a manifest hash or bare object id alone never identifies
+# an entry. Oversized indexes are served without being retained.
+_INDEX_CACHE_MAX_RETAINED_BYTES = 32 * 1024 * 1024
+_index_cache: "OrderedDict[tuple[int, str, int], _VisibleBarsIndex]" = OrderedDict()
+
+
+def visible_index_cache_stats() -> dict[str, int]:
+    """Live accounting of the visibility-index cache (read-only introspection
+    for tests and benchmarks; not a product contract)."""
+    return {
+        "entries": len(_index_cache),
+        "retained_bytes": sum(entry.retained_bytes for entry in _index_cache.values()),
+        "budget_bytes": _INDEX_CACHE_MAX_RETAINED_BYTES,
+    }
+
+
+def clear_visible_index_cache() -> None:
+    """Drop every cached visibility index (test/benchmark hook)."""
+    _index_cache.clear()
+
+
+def _build_visible_index(bundle: FrozenInput, contract_id: str,
+                         duration_seconds: int) -> _VisibleBarsIndex:
+    # The product scope and grid calendar are derived exactly as the
+    # per-query scan did: instruments of this contract plus every bar of
+    # this contract (any duration), preserving bundle order.
+    products = {instrument.product for instrument in bundle.instruments
+                if instrument.contract_id == contract_id}
+    products.update(bar.product for bar in bundle.bars if bar.contract_id == contract_id)
+    scoped = [s for s in bundle.sessions if s.product in products]
+    sessions_by_start = sorted(scoped, key=lambda s: s.start_nano)
+    grid_sessions = tuple(scoped)
+
+    def _on_minute_grid(bar: MarketBar) -> bool:
+        for session in grid_sessions:
             if session.start_nano <= bar.start_nano < session.end_nano:
                 return (bar.start_nano - session.start_nano) % 60_000_000_000 == 0
         return True  # no calendar for this product — let other checks handle
 
-    visible = [
+    eligible = [
         bar for bar in bundle.bars
         if bar.contract_id == contract_id
         and bar.duration_seconds == duration_seconds
         and bar.complete
-        and bar.end_nano <= decision_nano
+        # F07: bars whose availability basis is unknown are retained for
+        # audit but are never READY-consumable at this boundary; F21(r3):
+        # READY bars with an unknown temporal basis carry no honest source
+        # evidence, and 60-second bars must align to the planned minute grid.
         and bar.available_at_nano is not None
-        and bar.available_at_nano <= decision_nano
-        # F07: bars whose availability basis is unknown are retained for audit
-        # but are never READY-consumable at this boundary.
         and bar.quality.status == "READY"
-        # F21(r3): READY bars with an unknown temporal basis carry no honest
-        # source evidence — they are rejected at the consumption boundary.
         and bar.quality.temporal_basis != "unknown"
-        # F21(r3): 60-second bars must align to the planned minute grid.
-        and _on_minute_grid(bar)
-        and not (current_day is not None and bar.trading_day == current_day)
+        and (duration_seconds != 60 or _on_minute_grid(bar))
     ]
-    return tuple(sorted(visible, key=lambda b: (b.start_nano, b.datetime_nano)))
+    return _VisibleBarsIndex(bundle, eligible, sessions_by_start, scoped)
+
+
+def _visible_index_for(bundle: FrozenInput, contract_id: str,
+                       duration_seconds: int) -> _VisibleBarsIndex:
+    key = (id(bundle), contract_id, duration_seconds)
+    cached = _index_cache.get(key)
+    if cached is not None and cached.bundle is bundle:
+        _index_cache.move_to_end(key)
+        return cached
+    index = _build_visible_index(bundle, contract_id, duration_seconds)
+    if index.retained_bytes > _INDEX_CACHE_MAX_RETAINED_BYTES:
+        # An oversized population is served without being retained.
+        return index
+    _index_cache[key] = index
+    retained = sum(entry.retained_bytes for entry in _index_cache.values())
+    while retained > _INDEX_CACHE_MAX_RETAINED_BYTES and len(_index_cache) > 1:
+        _, evicted = _index_cache.popitem(last=False)
+        retained -= evicted.retained_bytes
+    return index
+
+
+def _current_trading_day_from_index(index: _VisibleBarsIndex, decision_nano: int):
+    # Same algorithm and tie behavior as _current_trading_day: the first
+    # containing session in start order (stable bundle order among equal
+    # starts), else the first session with the maximal end_nano among
+    # preceding sessions in original bundle order.
+    for session in index.sessions_by_start:
+        if session.start_nano <= decision_nano < session.end_nano:
+            return session.trading_day
+    preceding = [s for s in index.sessions_original_order
+                 if s.end_nano <= decision_nano]
+    if preceding:
+        return max(preceding, key=lambda s: s.end_nano).trading_day
+    return None
 
 
 def visible_rule(bundle: FrozenInput, contract_id: str, decision_nano: int) -> TradingRule | None:

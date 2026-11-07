@@ -1417,3 +1417,33 @@ def test_path_determinism_same_inputs_same_identity(monkeypatch):
     changed, _h3, _b3, _p3 = _run(monkeypatch, _p1_bars(stop_bar=102),
                                   plan_overrides=dict(initial_cash_cny=D("999999")))
     assert changed.path_id != first.path_id
+
+
+def test_execution_capacity_call_site_uses_exact_recent_window(monkeypatch):
+    """H4: the payoff execution path's raw capacity call hands capacity_before
+    exactly the last-20 window it would select from the full raw visible
+    population (context.bars admission capacity stays untouched)."""
+    from ak_trading.v2.data import visible_bars, visible_bars_recent
+    from ak_trading.v2.decision.execution import capacity_before as real_capacity
+    result_probe, _holder_probe, bundle, _plan_probe = _run(monkeypatch, _p1_bars(stop_bar=102))
+    assert result_probe.status == "COMPLETE" and len(result_probe.fills) == 2
+    raw = []
+
+    def checked(bars, contract_id, duration_seconds, now, rule):
+        full = visible_bars(bundle, contract_id, duration_seconds, now, False)
+        recent = visible_bars_recent(bundle, contract_id, duration_seconds, now, False, 20)
+        if tuple(bars) == recent:
+            raw.append((contract_id, now, len(bars)))
+            assert len(bars) == min(20, len(full))
+            if len(full) >= 20:
+                assert tuple(bars) == tuple(
+                    sorted(full, key=lambda b: (b.end_nano, b.bar_id))[-20:])
+            assert real_capacity(tuple(bars), contract_id, duration_seconds, now, rule) == \
+                real_capacity(full, contract_id, duration_seconds, now, rule)
+        return real_capacity(tuple(bars), contract_id, duration_seconds, now, rule)
+
+    monkeypatch.setattr(payoff_paths_module, "capacity_before", checked)
+    result, _holder, _b, _plan = _run(monkeypatch, _p1_bars(stop_bar=102))
+    assert result == result_probe
+    assert result.status == "COMPLETE" and len(result.fills) == 2
+    assert raw and {contract for contract, _, _ in raw} == {"rb"}

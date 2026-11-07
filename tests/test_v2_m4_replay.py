@@ -892,3 +892,33 @@ def test_expired_qualification_still_leaves_timer_exit_channel_open(monkeypatch)
     assert timer and timer[0].outcome=="MANAGE_POSITION"
     assert closes and all(f.execution_nano>=timer[0].decision_nano+NS for f in closes)
     assert not result.equity[-1].lots and result.status=="COMPLETE"
+
+
+def test_execution_capacity_call_site_uses_exact_recent_window(monkeypatch):
+    """H4: replay's raw capacity call hands capacity_before exactly the
+    last-20 window it would select itself from the full raw visible
+    population — same eligibility, (end_nano, bar_id) order and ties."""
+    import ak_trading.v2.decision.replay as replay_module
+    from ak_trading.v2.data import visible_bars, visible_bars_recent
+    from ak_trading.v2.decision.execution import capacity_before as real_capacity
+    c,bundle,models,reference,pm,_bound,exit_specs,bindings,exit_registry,model_hashes=_shadow_setup(
+        monkeypatch,bar_minutes=range(70,140))
+    evidence,qualification,lock,_reg,_m,_r,_e=_qualification_chain(
+        c.spec,exit_registry=exit_registry,binding=bindings[0],model_hashes=model_hashes,
+        issued_at_nano=100*NS,valid_until_nano=102*NS)
+    raw=[]
+    def checked(bars,contract_id,duration_seconds,now,rule):
+        full=visible_bars(bundle,contract_id,duration_seconds,now,False)
+        if tuple(bars)==visible_bars_recent(bundle,contract_id,duration_seconds,now,False,20):
+            raw.append((contract_id,now,len(bars)))
+            assert len(bars)==min(20,len(full))
+            if len(full)>=20:
+                assert tuple(bars)==tuple(sorted(full,key=lambda b:(b.end_nano,b.bar_id))[-20:])
+            assert real_capacity(tuple(bars),contract_id,duration_seconds,now,rule)==\
+                real_capacity(full,contract_id,duration_seconds,now,rule)
+        return real_capacity(tuple(bars),contract_id,duration_seconds,now,rule)
+    monkeypatch.setattr(replay_module,"capacity_before",checked)
+    result=_run_shadow(c,bundle,models,reference,pm,(qualification,),evidence,exit_specs,bindings,lock,
+                       start=100*NS,end=134*NS)
+    assert result.fills and any(f.offset=="OPEN" for f in result.fills)
+    assert raw and {contract for contract,_,_ in raw}=={"rb"}

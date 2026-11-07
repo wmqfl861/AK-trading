@@ -278,3 +278,30 @@ def test_publish_input_collection_merges_shards(tmp_path: Path) -> None:
     # The collection output directory must be new.
     with pytest.raises(ArtifactsError):
         d.publish_input_collection((shard_a,), tmp_path / "collection")
+
+
+def test_visible_bars_indexed_queries_match_across_cache_states(tmp_path: Path) -> None:
+    # H4: package-level visibility is identical cold, warm, across an
+    # interleaved second bundle and after future rows appended into a NEW
+    # bundle object; the recent window equals capacity's own selection.
+    bars = minute_bars(9, 30)
+    bundle = d.read_frozen_input(build_package(tmp_path / "pkg", bars=bars))
+    decision = unano(9, 10)
+    cold = d.visible_bars(bundle, "SYN.rb2609", 60, decision, intraday=True)
+    assert cold == tuple(sorted(cold, key=lambda b: (b.start_nano, b.datetime_nano)))
+    warm = d.visible_bars(bundle, "SYN.rb2609", 60, decision, intraday=True)
+    assert warm == cold
+    full_raw = d.visible_bars(bundle, "SYN.rb2609", 60, decision, intraday=False)
+    recent = d.visible_bars_recent(bundle, "SYN.rb2609", 60, decision, False, 20)
+    assert tuple(recent) == tuple(sorted(full_raw, key=lambda b: (b.end_nano, b.bar_id))[-20:])
+    other = d.read_frozen_input(build_package(
+        tmp_path / "other", bars=minute_bars(8, 30), sessions=sessions_for_day(8)))
+    assert d.visible_bars(other, "SYN.rb2609", 60, unano(8, 10), intraday=True)
+    assert d.visible_bars(bundle, "SYN.rb2609", 60, decision, intraday=True) == cold
+    appended = d.read_frozen_input(build_package(
+        tmp_path / "grown", bars=bars + minute_bars(9, 10, start_hour=10, start_minute=30)))
+    # PIT: future rows in a new bundle never change an earlier decision.
+    assert d.visible_bars(appended, "SYN.rb2609", 60, decision, intraday=True) == cold
+    later = d.visible_bars(appended, "SYN.rb2609", 60, unano(9, 11, 30), intraday=True)
+    assert {b.start_nano for b in later} > {b.start_nano for b in cold}
+    assert len(later) == len(cold) + 10

@@ -44,7 +44,7 @@ from ak_trading.v2.contracts import (
     payoff_path_decision_id, payoff_path_decision_source_sha256, payoff_path_id,
     payoff_training_plan_sha256,
 )
-from ak_trading.v2.data import visible_bars, visible_rule
+from ak_trading.v2.data import visible_bars_recent, visible_rule
 from ak_trading.v2.decision.execution import (
     capacity_before, position_for, simulate_execution, simulate_protective_exit,
 )
@@ -478,7 +478,12 @@ def replay_payoff_training_window(
             used_bars[b.bar_id] = b
             rule = visible_rule(bundle, b.contract_id, now)
             capacity_key = f"{b.contract_id}|{now}|{run_policy.cost_scenario}"
-            previous = visible_bars(bundle, b.contract_id, b.duration_seconds, now, False)
+            # Raw execution capacity population (H4): the exact last-20
+            # window in capacity's own (end_nano, bar_id) order over the
+            # same raw visible population — identical selection to passing
+            # the full history, without re-sorting it at every event.
+            previous = visible_bars_recent(bundle, b.contract_id, b.duration_seconds,
+                                           now, False, 20)
             cap = capacity_before(previous, b.contract_id, b.duration_seconds, now, rule)
             remaining = max(0, (cap or 0) - cumulative_capacity.get(capacity_key, 0))
             for intent in matching:
