@@ -1,0 +1,46 @@
+# 草案（外部审核第三轮，2026-11-07）：本文件放在 docs 下不会运行。
+# 开发 owner 审核后复制到 .github/workflows/offline-v2.yml 才会生效（蓝图 v3 的 S2）。
+#
+# 范围：只跑 v2 M1–M4 全部文件和区间三族重复 bar 探针。它们纯离线，只依赖
+# pytest；M1 的 2 项合同锁测试还需要 SQLAlchemy（v2/export.py 在模块顶层导入它，
+# S4 修复后可去掉这项依赖）。
+# 2026-11-07 在 Linux、2 vCPU、Python 3.13.17、只装 pytest 的环境中实测：
+# 990 ran / 985 passed / 2 failed（缺 sqlalchemy）/ 3 skipped（缺历史工件），210.9 秒。
+# 装上 SQLAlchemy 后这 2 项预计通过，本环境无法联网安装，未实测。
+# 只用 Python 3.13：3.12 能跑其余 985 项，但合同锁构建在
+# inspect.signature(decode_record, eval_str=True) 处报 NameError: T（PEP 695 类型参数），
+# 这 2 项在 3.12 上必然失败；3.11 无法解析源码。
+#
+# 暂不放入：M5 测试依赖未纳入 Git 的本机工件和可选依赖；启动器测试需要 PowerShell。
+# 它们以后可以放进 windows-latest 作业，或在分档（v2 的 B2）后作为慢档运行。
+name: offline-v2
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: offline-v2-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  v2-m1-m4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install test-only dependencies
+        run: python -m pip install "pytest>=8.0" "SQLAlchemy>=2.0,<3.0"
+      - name: v2 M1–M4 and duplicate-bar probe via the offline launcher
+        shell: bash
+        run: |
+          python scripts/test_offline.py -q $(ls tests/test_v2_m[1-4]*.py) \
+            docs/repo-audit-20261026-claude/probes/test_range_duplicate_bar_probe.py
