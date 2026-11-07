@@ -1,14 +1,14 @@
 # 当前批次：T7 DAILY 与首份 RB 报告
 
-本周：2026-11-07 至 2026-11-14。基线 `main=c16c139`；最新已推送 `d9870d3`（当前 HEAD 以 Git 为准）。有效计划为 r3-001 与 [H1–H8 作者增补](strategy-first-blueprint-20261015-r1/revisions/r3-001/H1-H8-ADDENDUM-20261107.md)；本轮外部 REVIEW/BLUEPRINT/HANDOFF 仅作建议。
+本周：2026-11-07 至 2026-11-14。基线 `main=c16c139`；最新已验证 `7013db0`（当前 HEAD 以 Git 为准）。有效计划为 r3-001 与 [H1–H8 作者增补](strategy-first-blueprint-20261015-r1/revisions/r3-001/H1-H8-ADDENDUM-20261107.md)；本轮外部 REVIEW/BLUEPRINT/HANDOFF 仅作建议。
 
 | 任务 | 状态 | 负责人 / 下一步 |
 | --- | --- | --- |
-| H1 一页状态 | 已建立，待随 CI 验收 | Root；只维护本页，旧 Goal STATUS 冻结 |
-| H2 CI | 独立硬审 PASS，合入中 | 支撑提交 e434bd3；push 后验证 main 绿且 ≤10 分钟 |
-| H3 三处小修 | 独立硬审 PASS，合入中 | 原10项由0P/10F变10P/0F；独立M1–M4 raw0，994P/0F/3S/0E；另1收集跳过 |
-| H4 visible_bars | 独立硬审 PASS，已推送，待 CI | d9870d3；合法输入逐项等价，最近20根查询加速；最坏不可见尾部仍线性 |
-| H5 可续跑冷链 | 原 ZCode 开发者实施中 | 独立冷链/节点作业；artifacts.py 等 H3 验收交接，其余文件并行实施 |
+| H1 一页状态 | 完成，持续覆盖本页 | Root；旧 Goal STATUS 冻结 |
+| H2 CI | 完成 | 独立硬审 PASS；main 7013db0 的 [CI 42399775900](https://github.com/wmqfl861/AK-trading/actions/runs/42399775900) 全绿，5分10秒 |
+| H3 三处小修 | 完成 | 独立硬审 PASS；已合入且 CI 绿；原10项由0P/10F变10P/0F |
+| H4 visible_bars | 完成 | d9870d3，独立硬审 PASS、main CI 绿；合法输入等价；最坏不可见尾部仍线性 |
+| H5 可续跑冷链 | 原 ZCode 开发者实施中 | 独立冷链/节点作业；H3已验收，当前开发调用结束后交接artifacts.py |
 | H6 T7 DAILY | 等待 H5 | 关键路径 ZCode + 独立 ZCode；DAILY 全部节点通过 |
 | H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；仅核元数据，尚未选定或读收益 |
 | H8 MINUTE profile | 支撑 ZCode 实施中 | 独立工作区；cProfile/tracemalloc 前20项、峰值和开销；只提建议 |
@@ -18,9 +18,9 @@
 | 本周指标 | 当前基线 | 本批目标 |
 | --- | --- | --- |
 | 未关闭 P0 | 外审列4项，未作为已验证完成数 | 解决本批T7可续跑；A1由用户处理，完整shadow延后 |
-| 产品代码提交数 | main已推1；支撑候选1待审 | 按H3–H8实际交付计，不凑提交 |
+| 产品代码提交数 | main已接收2个产品提交（H3/H4），另1合并提交 | 按H3–H8实际交付计，不凑提交 |
 | 过程记录新增行数 | 本轮只保留本页及必要计划/交付摘要 | 不逐步新增过程文档 |
-| v2 M1–M4 | H4独立raw1：1009 selected，1004P/2F/3S/0E；另1收集跳过 | 2F为待合入H3的SQLAlchemy问题；3S因干净工作区无历史REAL_SHARD；main CI待运行 |
+| v2 M1–M4 | main Linux CI raw0：1013P/0F；3个REAL_SHARD跳过，另1收集跳过；测试296.44秒 | H3修复2个SQLAlchemy失败；组合CI已全绿，作业310秒 |
 | T7 | DAILY未通过，旧任务均已停止 | 可按节点重跑；DAILY通过 |
 | RB报告 | 0 | 1份DAILY，可报告失败或证据不足 |
 | 磁盘/容量相关提交 | 本轮0 | 无专门预算记账循环 |
