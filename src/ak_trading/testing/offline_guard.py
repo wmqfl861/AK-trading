@@ -34,6 +34,11 @@ _empty_root: Path | None = None
 _repo_root: Path | None = None
 _fixture_roots: tuple[Path, ...] = ()
 _http_servers: weakref.WeakSet = weakref.WeakSet()
+# H3: loopback sockets bound by this process (socket.socketpair()'s Windows
+# emulation, asyncio/self-loopback test servers). Permission to connect is
+# tied to the listener's identity and lifetime: a closed listener (fileno<0)
+# or a collected one no longer authorizes anything.
+_loopback_listeners: weakref.WeakSet = weakref.WeakSet()
 _powershell_fixtures: dict[tuple[Path, Path], bytes] = {}
 _startup_path = ""
 
@@ -234,15 +239,27 @@ def _loopback(host) -> bool:
     return (mapped or address).is_loopback
 
 
+def _live_listener_port(listener, port) -> bool:
+    """The listener socket still exists, is open, and serves this port."""
+    try:
+        return listener.fileno() >= 0 and listener.getsockname()[1] == port
+    except OSError:
+        return False
+
+
 def _check_connection(address) -> None:
     if not isinstance(address, tuple) or len(address) < 2 or not _loopback(address[0]):
         raise OfflineViolation("offline guard: external network and database sockets are disabled")
     port = address[1]
-    if not any(
+    if any(
         server.socket.fileno() >= 0 and server.server_address[1] == port
         for server in tuple(_http_servers)
     ):
-        raise OfflineViolation("offline guard: only local HTTP fixture connections are allowed")
+        return
+    if any(_live_listener_port(listener, port) for listener in tuple(_loopback_listeners)):
+        return
+    raise OfflineViolation(
+        "offline guard: only live in-process listener and local HTTP fixture connections are allowed")
 
 
 def _check_python_child(executable, arguments, environment, inherited_path) -> None:
@@ -301,6 +318,7 @@ def install(empty_root, repo_root, fixture_roots) -> None:
             address = arguments[1]
             if not isinstance(address, tuple) or not _loopback(address[0]):
                 raise OfflineViolation("offline guard: only loopback fixture binds are allowed")
+            _loopback_listeners.add(arguments[0])
     sys.addaudithook(audit)
     original_getaddrinfo = socket.getaddrinfo
 
