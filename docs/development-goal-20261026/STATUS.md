@@ -1,30 +1,42 @@
 # 当前开发与独立审核状态
 
-更新于 2026-11-06 18:32 UTC。本批仅完成已有 M5、T7、N8、DISPATCH 及必要修复、独立硬审核、集成与推送，然后停止。不新增模块或未来蓝图。状态提交 `2a31196` 已推送到 `origin/main`；本次顶部事实更正随后追加提交。以下历史折叠记录保留原字节。
+更新于 2026-11-07 13:37 UTC。按用户最新指令“停止所有当前任务后停止，push当前内容到仓库”，当前开发、计划续接和审核任务均已停止，不再启动后继任务。本次从 `599cb51` 提交当前状态并推送 `wmqfl861/AK-trading` 的 main。T7、N8、DISPATCH 尚未完成规定的全部硬审核和集成；本次停止不代表项目完成。
 
-当前分工：原 Astra/max 作者只处置既有任务的具体缺口；原 ZCode 开发会话实施；独立 ZCode GLM-5.3/max 硬审。上述 owner/reviewer 调用均已终态，没有新的可安全启动的并行写入任务。计划意见不设 PASS 门。
+停止时已核对：没有活跃的 Codex 原生子代理；T7 原 ZCode owner008 和 N8 原 Astra 作者182已按 START 中的 PID 与创建时间确认身份后停止。监督器最终确认两组 Job 的存活进程数均为0。DISPATCH 独立审核123在停止指令前已触及1461秒时限，实际1461.07秒、监督器原始退出1、Job0，未生成最终 VERDICT/FINDINGS/HANDOFF。所有原会话、候选文件和失败记录保留本地；计划意见、开发者自测和调用退出均不能代替产品硬审核。
+
+此前续接阶段的判断纠正（历史，不覆盖本次用户停止指令）：待 Root 接收、原作者处置和内部准入，不等于必须等待用户新增授权；这些内部步骤原应在已有授权下推进。已消耗的单次命令和过期窗口仍不得重用。旧停止说明保留为历史事实，不声称此前已全部通过。当前以用户本次明确停止为准。
 
 | 模块 | 已核实结果 | 当前动作和剩余条件 |
 | --- | --- | --- |
 | M5 | review003 对085/086 r4诊断控制与报告修正给出限定范围、无条件PASS，修复关闭。 | CDF082性能候选仍UNACCEPTED_CLOSED、benefit FAIL、归因NOT_ESTABLISHED、Full009 NOT_GRANTED；不重开优化。 |
-| T7 | owner094 native0/Job0，1205.48s。两次证明运行 raw1/260.25s、raw1/205.06s 保留；settlement 报告 17/17 必需谓词为真，真实 PayoffPathResult 两种尺寸、字节/哈希/计数和写入缩减均由独立 reviewer 复现。独立 throughput094 硬审：native0、Job0、10/10 条件通过、无条件范围 PASS。 | readiness095 的独立 R0 硬审：native0、Job0、9/9 条件通过，但包内结论仍 HOLD（保守 13,709.2s > 13,200s，最大 prefix 未实测，节点 18–24 仍为有界估计）。067 未预留/未运行，不能宣称完整 24 节点通过；本批没有可合法启动的后继运行。 |
-| N8 F02 | owner025 native0/Job0，2252.20s/330.797 工具秒。S01/S02/F01 失败保留，S03 通过，F02 完整路线 119.781s、16 组/0 失败；旧 evidence pins 未变。独立 completion005 及 metadata177 均已终态。 | metadata177 独立范围核对 native0、7/7 canonical clauses、9/9 反例/引用链通过，仅修正 scope 元数据，未运行产品命令。N8 整体仍未通过：runtime020 UNUSED_GATED、019 CONSUMED_FAIL、F01 OPEN/INSUFFICIENT、F02 产品接受仍未建立；accepted-reference 和新运行需既有后续授权，不能由本批自动触发。 |
-| DISPATCH | owner155 修复 native0/Job0，冻结 22 个文件；独立硬审 native0、Job0、12/12 检查通过、无条件范围 PASS，真实 `_ledger`、preflight-before-commit、边界与反例均核对。 | 该 PASS 只覆盖 owner002 write-set。`root_launch_authorized_now=false`，Root qualification 没有新的 successor/admission 记录；149 的 CONSUMED_FAIL 保持，不能重跑或把范围 PASS 写成产品 qualification PASS。 |
+| T7 | 006闭合原始0/2145.18s/Job0；证明实际原始1/1074.24s、2passed/2failed/1skip，无超时。深层原子临时路径失败；真实node23回放无OPEN，node24未执行。24节点收集原始0/3.7s。 | 原owner008按用户指令停止，监督记录916.51s、最终Job0，未交付HANDOFF或新硬审核结论。102两份测试文件的夹具/短路径修复未完成；067仍NOT_RUN。 |
+| N8 F02 | 028闭合原始0/2706.62s/Job0，但startup/full均NOT_RUN，七个许可仍未消费。实际928.799工具秒超过502.310限额426.489，保留超额。容量文件名endswith校验缺陷在预检修正；首个60s窗口已过期。 | 原作者182按用户指令停止，监督记录1077.30s、清理后Job0，未发布最终AUTHOR-DISPOSITION。Root短事务与实际验证交接失败、S03请求被覆盖的问题仍未闭合；独立006未启动，021仍UNUSED_GATED。 |
+| DISPATCH | 原owner123闭合原始0/4101.23s/Job0，14个启动/拒绝检查通过、30静态谓词与8变异检查已交付，生产账本未变。独立156/121-R1范围PASS及旧commit/startup失败保留。 | 独立review001因时限结束，未生成最终PASS/FAIL。混用route哈希反例经审核夹具修正后达到预期拒绝；输出捕获检查仍有未决结果，不能据中间文件签发结论。新publication/startup、actual104、seal083均NOT_RUN，不再续接。 |
 | Forward / SC | 原输入未交付、未激活记录保持。 | 不新增采集、consumer、fit或研究计划。 |
 
-T7 正式 066 保持 CONSUMED_FAIL：13,200.03s、native1、终态 Job0、1,108 输入未变；实际 16 项通过，第 17 项夹具未完成，18–24 未启动。094 两段 focused 合计 465.31s，超过 360s 授权 105.31s，偏差已保留，不事后豁免。开发者 native0、自测和 Root 核对均不能代替独立硬审。当前所有可执行的 owner/reviewer 调用均已终态；剩余项目是既有门槛未满足或缺少明确授权，不另开计划。
+T7 正式 066 保持 CONSUMED_FAIL：13,200.03s、native1、终态 Job0、1,108 输入未变；实际16项通过，第17项夹具未完成，18–24未启动。094两段focused合计465.31s，超过360s授权105.31s，偏差保留。开发者native0、自测和Root核对均不能代替独立硬审。当前全部任务按用户指令停止，等待用户后续要求。
+
+本次停止记录位于本地 `G/root-user-stop-20261107-1329/{INTENT,RESULT}.json`，监督器终态仍在各原调用的 `MEMORY/RESULT.json`。停止信号导致的非零退出与既有产品失败分别记录，不重标为成功，不自动重试。仓库受跟踪内容本轮仅有本 STATUS 修改；未完成候选、原始审核包及历史临时文件保留本地，不将其作为已接受源码合入 main。
 
 DISPATCH149真实报告与调用输出合计34958字节；六号账本pool由158601变为115451，额外占用与保留项须按实际账本逐项核对，不能只按输出体积退款。原失败及所有输出保持。后续机会须由原作者处置既有故障后明确给出，不自动续用149。N8最后发布的contract/adjunct替换过同路径临时元数据，原hash已披露，独立005核对证明到最终版本的关联。
 
 调用与Root错误保持：175作者native0/receiver1的一次已恢复SSE断流，以及Root首次逐行解析多行JSON的raw1均未回溯改写。本次另有两次Get-Content因猜测作者目录名返回raw1；已改为从当前FUNDING的authority.path取得并核对原文件，失败没有产品执行或写入。今后同类已知路径从FileRef派生，不再根据名称拼目录。此前容量拒绝、066统计错误及静态脚本语法失败继续保留。
 
-CAP991按每次启动新鲜观测准入，RAM6/C4/D4GiB底线、四普通槽12GiB及已有预留保持；仅增加两个原作者澄清各1MiB C预算，无新D。066未来需求只扣除一次，物理释放0；N8唯一020的1GiB仍只预留一次。没有删除、移动源码/行情/审核文件或复制大包。
+本次以CAP996的既有预留为基础，CAP997为三个原作者处置各预留1MiB C；启动时重新观测RAM6/C4/D4GiB底线，无新D。N8唯一020的1GiB仍只预留一次。没有删除、移动源码/行情/审核文件或复制大包。
+
+2026-11-07协调纠错：Root三次只读命令raw1分别来自猜测两个FUNDING.json路径和把当前producer源码误放在旧owner根；均无产品启动或修改。改为先检查实际REQUEST字段、从声明/最终adjunct的FileRef派生路径并核对存在性，后续读取和127输入验证成功。T7原作者另有一次只读摘要脚本对整数调用len导致raw1；原失败保留，与产品结果分开。禁止把这些失败按rg无匹配或产品FAIL混记。
+
+本轮Root又一次误把带多行watchdog前缀的Codex输出逐行解析，原始1；随后使用JSONDecoder.raw_decode完整流解析，原始0，并核对原线程最终消息与作者文本一致。该格式错误属于已有经验执行遗漏；后续统一用完整JSON流解码，不按文件扩展名假设NDJSON。T7作者096与DISPATCH作者156原生0/receiver1分别保留只读摘要错误和可恢复SSE断流；真实turn.completed、最终消息与输出逐字核对、输入未变且清理后Job0后，仅接收作者处置，不改写整次调用为全成功。
+
+N8独立实际接收的10个内存反例保留两次审核脚本修正；另有1675B反例文件写在声明工作根外的私有短路径，Root已披露该写入偏差，不追认为合规。它不改变实际资源门失败的证据。后续启动前必须同时核对当前容量记录与冻结消费端的预留口径，不能仅凭Root容量检查通过就消费一次性运行。
 
 私有证据根 G=C:/AKWorktrees/aktr-goal-20261026：N8 completion025/ROOT-RECEPTION.json、独立010-completion005 及 metadata177；T7 throughput094-owner002、throughput094-hard-review001、readiness095-r0-review001；DISPATCH155 owner/review。公开仓库不收录私有源码或原始审核包。
 
-此前A2七策略同bar修复、A3用户批准规则同步、B1、A4及已接受成果保持。历史M1–M4 raw1、948passed/14失败，不能宣称全项目全绿。全部规定审核和集成检查结束后，只显式暂存已接受交付，推送wmqfl861/AK-trading，然后停止。
+此前A2七策略同bar修复、A3用户批准规则同步、B1、A4及已接受成果保持。历史M1–M4 raw1、948passed/14失败，不能宣称全项目全绿。按本次最新指令立即提交当前状态、推送wmqfl861/AK-trading，然后停止；不等待剩余硬审核，不把未完成结果改写为通过。
 
 安全边界：enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0。未读取、打印或修改.env、凭据、持久化模型配置或实盘开关。
+
+11月7日本轮命令与纠错：DISPATCH `RECONCILE-121F-R1.py --verify <冻结SHA>` 原始0、21项true；同源 `--publish-r1 <冻结SHA> <实际admission路径/SHA/bytes>` 原始0；其真实发布结果给出的 `driver121.py <PROOF121路径/SHA/bytes>` 原始1，0个用例开始，原始报告保留，禁止重跑已消费机会。独审交接文本中的Windows路径出现控制字符，Root未执行该字符串，改为从原冻结owner机器记录取得已核实argv，追加披露而未改旧报告。Root一次只读输出因Python默认GBK无法打印Unicode减号而原始1；改用显式`-X utf8`，此错误与产品失败分开。T7准备时发现拟定通用锁路径不存在，启动前从166文件freeze派生实际默认candidate锁路径；未写错锁、未启动错误产品命令。后续路径仍须从真实FileRef/消费者schema取得，不能手抄或凭目录习惯推断。
 
 本轮收尾命令记录：独立 verdict/ROOT-RECEPTION 读取均为原始退出 0（T7 throughput 10/10、T7 readiness 9/9、N8 metadata 7/7 条款与 9/9 反例、DISPATCH155 12/12）；`git diff --check` 原始退出 0；首次 `git commit` 原始退出 1（仓库未配置作者身份），随后仅在本仓库复用既有提交作者身份重试，提交原始退出 0；`git push origin main` 原始退出 0。首次提交失败保留为协调层错误，不改变任何产品或审核结论。
 
