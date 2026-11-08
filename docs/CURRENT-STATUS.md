@@ -9,7 +9,7 @@
 | H3 三处小修 | 完成 | 独立硬审 PASS；已合入且 CI 绿；原10项由0P/10F变10P/0F |
 | H4 visible_bars | 完成 | d9870d3，独立硬审 PASS、main CI 绿；合法输入等价；最坏不可见尾部仍线性 |
 | H5 可续跑冷链 | 真实 MINUTE 冷链运行中（`h5-cold01`；尚无终态） | 原 ZCode 修复已冻结；源/夹具范围审核已 PASS，运行器23P、M1契约14P 均 raw0；30个适用节点，等待 `record.json` 和原始退出码后再做最终产品硬审 |
-| H6 T7 DAILY | 等待 H5 | 关键路径 ZCode + 独立 ZCode；DAILY 全部节点通过 |
+| H6 T7 DAILY | 等待 H5；只读准备完成 | 关键路径 ZCode + 独立 ZCode；H6 专属 `tests/test_v2_m5_t7_daily.py`、`tests/fixtures/v2/ep1_t7_h6/` 和 successor lock 尚不存在；H5 PASS 后实现真实 DAILY features→DAY20/ATR_1→regime/admission→payoff replay/fit/validation 链 |
 | H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；仅核元数据，尚未选定或读收益 |
 | H8 MINUTE profile | 真实 profile 运行中（`h8-profile03`；尚无终态） | 源码/CLI范围审核 PASS；`selection.json`、`fold-config.json`、`baseline-config.json` 已写出，`manifest.json`/`profile.json` 尚未生成；最终产品硬审待真实结果 |
 
