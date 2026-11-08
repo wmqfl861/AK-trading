@@ -8,10 +8,10 @@
 | H2 CI | 完成 | 独立硬审 PASS；main 7013db0 的 [CI 42399775900](https://github.com/wmqfl861/AK-trading/actions/runs/42399775900) 全绿，5分10秒 |
 | H3 三处小修 | 完成 | 独立硬审 PASS；已合入且 CI 绿；原10项由0P/10F变10P/0F |
 | H4 visible_bars | 完成 | d9870d3，独立硬审 PASS、main CI 绿；合法输入等价；最坏不可见尾部仍线性 |
-| H5 可续跑冷链 | 真实 MINUTE 冷链运行中（`h5-cold01`；尚无终态） | 原 ZCode 修复已冻结；源/夹具范围审核已 PASS，运行器23P、M1契约14P 均 raw0；30个适用节点，等待 `record.json` 和原始退出码后再做最终产品硬审 |
+| H5 可续跑冷链 | MINUTE 冷链恢复运行中（`h5-cold02`；尚无终态） | 原 ZCode 修复仍冻结；17文件与计划哈希、合同锁及源审核绑定复核 raw0；旧 `h5-cold01` 因重启中断、退出码未捕获；新目录 `C:/AKH/h5c2/cold`，等待真实 record 和原始退出码后做最终产品硬审 |
 | H6 T7 DAILY | 等待 H5；只读准备完成 | 关键路径 ZCode + 独立 ZCode；H6 专属 `tests/test_v2_m5_t7_daily.py`、`tests/fixtures/v2/ep1_t7_h6/` 和 successor lock 尚不存在；H5 PASS 后实现真实 DAILY features→DAY20/ATR_1→regime/admission→payoff replay/fit/validation 链 |
 | H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；仅核元数据，尚未选定或读收益 |
-| H8 MINUTE profile | 真实 profile 运行中（`h8-profile03`；尚无终态） | 源码/CLI范围审核 PASS；`selection.json`、`fold-config.json`、`baseline-config.json` 已写出，`manifest.json`/`profile.json` 尚未生成；最终产品硬审待真实结果 |
+| H8 MINUTE profile | profile 恢复运行中（`h8-profile04`；尚无终态） | 源码/CLI范围审核 PASS，2文件冻结与合同锁复核 raw0；旧 `h8-profile03` 因重启中断、退出码未捕获；配置和工作量不变，新目录 `C:/AKH/h8p4/profile`；最终产品硬审待真实结果 |
 
 并行上限：关键开发1、独立审核1、支撑1。完成标准：规定独立硬审完成、合入 main 且 CI 通过。工程运行可重跑，只对最终 holdout 保留一次性；每作业一个宽松墙钟超时、启动前一次资源检查。
 
@@ -29,5 +29,7 @@
 重启检查：2026-11-07 14:48 UTC，旧任务均停止、最终Job进程数0；可用内存51.6GiB，C盘57.7GiB、D盘30.2GiB。pull首次网络失败raw1，重试raw0至c16c139。H8接收器raw1由Root重复分配报告输出路径造成；CLI raw0，已从原输出恢复会话记录，原失败保留，后续工单明确监督器专有输出。原始日志压缩于仓库外；工程调用退出与产品审核分开记录。
 
 检查点：11-15 CI全绿、H4入库；11-22 T7 DAILY通过；11-29首份DAILY报告入库。H1–H8全部完成或被阻塞后停止。本批不续接N8/DISPATCH、不做完整shadow/Forward/paper、不重开CDF082或调整架构。
+
+运行恢复（11-07）：主机21:09重启后，原H5/H8叶进程和监督器均消失、没有终态，记为中断且原始退出码未知，不算产品PASS/FAIL。原输出与日志保留并压缩到仓库外。预检先有两次raw1（pytest专用环境无psutil；误把逐split的final_holdout当顶层字段），未启动产品；改用现有监督器Python3.12并核对真实schema后raw0。22:30按G2启动新工程标识，24h墙钟，未改模型、工作量或holdout边界。
 
 待用户决定/执行：A1（可见性、P0-1），G5/G6、分支保护、换行规范化、项目Python支持版本；服务重启、生产数据库角色切换和Windows长路径设置由用户执行。未列出的治理建议不采纳。安全始终 `enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`；不读取、打印或修改凭据。
