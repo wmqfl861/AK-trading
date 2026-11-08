@@ -5,12 +5,12 @@
 | 任务 | 状态 | 负责人 / 下一步 |
 | --- | --- | --- |
 | H1 一页状态 | 完成，持续覆盖本页 | Root；旧 Goal STATUS 冻结 |
-| H2 CI | 完成 | 独立硬审 PASS；最近核实 main `65a92bc` 的 [CI 42455472233](https://github.com/wmqfl861/AK-trading/actions/runs/42455472233) 全绿，2分43秒 |
+| H2 CI | 完成 | 独立硬审 PASS；最近核实 main `e6664ba` 的 [CI 42457081219](https://github.com/wmqfl861/AK-trading/actions/runs/42457081219) 全绿，5分04秒 |
 | H3 三处小修 | 完成 | 独立硬审 PASS；已合入且 CI 绿；原10项由0P/10F变10P/0F |
 | H4 visible_bars | 完成 | d9870d3，独立硬审 PASS、main CI 绿；合法输入等价；最坏不可见尾部仍线性 |
-| H5 可续跑冷链 | MINUTE 开发验证与独立审核复跑并行中（均尚无终态） | 原 ZCode 修复仍冻结；17文件与计划哈希、合同锁及源审核绑定复核 raw0；旧 `h5-cold01` 因重启中断、退出码未捕获；开发 `h5-cold02` 与原独立 ZCode 审核者指定的 `h5-rcold01` 使用各自输出目录；锁/报告绑定独立复核 raw0，等待真实 record 和原始退出码后完成节点验证及最终产品硬审 |
+| H5 可续跑冷链 | MINUTE 开发验证与独立审核复跑并行中（均尚无终态） | 原 ZCode 修复仍冻结；17文件与计划哈希、合同锁及源审核绑定复核 raw0；旧 `h5-cold01` 因重启中断、退出码未捕获；开发 `h5-cold02` 与原独立 ZCode 审核者指定的 `h5-rcold01` 使用各自输出目录；锁/报告绑定独立复核 raw0；开发侧节点队列及独立审核者的节点/单节点/M5/反例队列已就绪，均等待真实 record 与原始终态；探针机制12项合成断言 raw0，不计产品PASS |
 | H6 T7 DAILY | 等待 H5；只读准备完成 | 关键路径 ZCode + 独立 ZCode；H6 专属 `tests/test_v2_m5_t7_daily.py`、`tests/fixtures/v2/ep1_t7_h6/` 和 successor lock 尚不存在；H5 PASS 后实现真实 DAILY features→DAY20/ATR_1→regime/admission→payoff replay/fit/validation 链 |
-| H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；仅核元数据，尚未选定或读收益 |
+| H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；60份分片清单哈希复核、780个成员存在/非空检查 raw0；仅元数据检查，未读取价格/收益载荷或选定输入，费用/SCENARIO限制仍在 |
 | H8 MINUTE profile | profile 恢复运行中（`h8-profile04`；尚无终态） | 源码/CLI范围审核 PASS，2文件冻结与合同锁复核 raw0；旧 `h8-profile03` 因重启中断、退出码未捕获；配置和工作量不变，新目录 `C:/AKH/h8p4/profile`；最终产品硬审待真实结果 |
 
 并行上限：关键开发1、独立审核1、支撑1。完成标准：规定独立硬审完成、合入 main 且 CI 通过。工程运行可重跑，只对最终 holdout 保留一次性；每作业一个宽松墙钟超时、启动前一次资源检查。
@@ -20,7 +20,7 @@
 | 未关闭 P0 | 外审列4项，未作为已验证完成数 | 解决本批T7可续跑；A1由用户处理，完整shadow延后 |
 | 产品代码提交数 | main已接收2个产品提交（H3/H4），另1合并提交 | 按H3–H8实际交付计，不凑提交 |
 | 过程记录新增行数 | 相对c16c139净增315行：规则48、计划232、本页35 | 不逐步新增过程文档 |
-| v2 M1–M4 | main Linux CI raw0：1013P/0F；3个REAL_SHARD跳过，另1收集跳过；最近测试153.35秒 | H3修复2个SQLAlchemy失败；组合CI已全绿，最近作业163秒 |
+| v2 M1–M4 | main Linux CI raw0：1013P/0F；3个REAL_SHARD跳过，另1收集跳过；最近测试294.83秒 | H3修复2个SQLAlchemy失败；组合CI已全绿，最近作业304秒 |
 | T7 | DAILY未通过，旧任务均已停止 | 可按节点重跑；DAILY通过 |
 | RB报告 | 0 | 1份DAILY，可报告失败或证据不足 |
 | 磁盘/容量相关提交 | 本轮0 | 无专门预算记账循环 |
