@@ -1,6 +1,6 @@
 # 当前批次：T7 DAILY 与首份 RB 报告
 
-本周：2026-11-07 至 2026-11-14。基线 `main=c16c139`；最新已验证 `9337e75`（当前 HEAD 以 Git 为准）。有效计划为 r3-001 与 [H1–H8 作者增补](strategy-first-blueprint-20261015-r1/revisions/r3-001/H1-H8-ADDENDUM-20261107.md)；本轮外部 REVIEW/BLUEPRINT/HANDOFF 仅作建议。
+本周：2026-11-07 至 2026-11-14。基线 `main=c16c139`；最新已验证 `2b2f55b`（当前 HEAD 以 Git 为准）。有效计划为 r3-001 与 [H1–H8 作者增补](strategy-first-blueprint-20261015-r1/revisions/r3-001/H1-H8-ADDENDUM-20261107.md)；本轮外部 REVIEW/BLUEPRINT/HANDOFF 仅作建议。
 
 | 任务 | 状态 | 负责人 / 下一步 |
 | --- | --- | --- |
@@ -8,10 +8,10 @@
 | H2 CI | 完成 | 独立硬审 PASS；main 7013db0 的 [CI 42399775900](https://github.com/wmqfl861/AK-trading/actions/runs/42399775900) 全绿，5分10秒 |
 | H3 三处小修 | 完成 | 独立硬审 PASS；已合入且 CI 绿；原10项由0P/10F变10P/0F |
 | H4 visible_bars | 完成 | d9870d3，独立硬审 PASS、main CI 绿；合法输入等价；最坏不可见尾部仍线性 |
-| H5 可续跑冷链 | 原 ZCode 开发者实施中 | H3契约文件已交接；完整工程冷链受控中断，改为源码审核/新锁后独立运行，原退出130保留 |
+| H5 可续跑冷链 | 真实 MINUTE 冷链运行中（`h5-cold01`；尚无终态） | 原 ZCode 修复已冻结；源/夹具范围审核已 PASS，运行器23P、M1契约14P 均 raw0；30个适用节点，等待 `record.json` 和原始退出码后再做最终产品硬审 |
 | H6 T7 DAILY | 等待 H5 | 关键路径 ZCode + 独立 ZCode；DAILY 全部节点通过 |
 | H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；仅核元数据，尚未选定或读收益 |
-| H8 MINUTE profile | 源码/CLI范围审核PASS，等待H5新锁 | 生产入口原生3：M1_CONTRACT_LOCK_NOT_PUBLISHED；尚无完整profile或最终产品PASS |
+| H8 MINUTE profile | 真实 profile 运行中（`h8-profile03`；尚无终态） | 源码/CLI范围审核 PASS；`selection.json`、`fold-config.json`、`baseline-config.json` 已写出，`manifest.json`/`profile.json` 尚未生成；最终产品硬审待真实结果 |
 
 并行上限：关键开发1、独立审核1、支撑1。完成标准：规定独立硬审完成、合入 main 且 CI 通过。工程运行可重跑，只对最终 holdout 保留一次性；每作业一个宽松墙钟超时、启动前一次资源检查。
 
@@ -19,7 +19,7 @@
 | --- | --- | --- |
 | 未关闭 P0 | 外审列4项，未作为已验证完成数 | 解决本批T7可续跑；A1由用户处理，完整shadow延后 |
 | 产品代码提交数 | main已接收2个产品提交（H3/H4），另1合并提交 | 按H3–H8实际交付计，不凑提交 |
-| 过程记录新增行数 | 相对c16c139净增286行：规则48、计划205、本页33 | 不逐步新增过程文档 |
+| 过程记录新增行数 | 相对c16c139净增313行：规则48、计划232、本页33 | 不逐步新增过程文档 |
 | v2 M1–M4 | main Linux CI raw0：1013P/0F；3个REAL_SHARD跳过，另1收集跳过；测试296.44秒 | H3修复2个SQLAlchemy失败；组合CI已全绿，作业310秒 |
 | T7 | DAILY未通过，旧任务均已停止 | 可按节点重跑；DAILY通过 |
 | RB报告 | 0 | 1份DAILY，可报告失败或证据不足 |
