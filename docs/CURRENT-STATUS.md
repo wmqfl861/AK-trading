@@ -11,7 +11,7 @@
 | H5 可续跑冷链 | 最终版源码独立 PASS；新版本冷链运行中 | 原独立 ZCode `calendar-review02` 真正终态 raw0，冻结 `h5next03` 的 SOURCE/EQUIVALENCE PASS：回归1071P/0F、3运行跳过加1收集跳过；两项M5为2P/0F；独立发布反例20/20。实际报告绑定的 plan07 新锁验证通过。按原作者授权先关闭两条旧队列，再受控替代三项旧计算，真实 raw15/INTERRUPTED、未启动工作 NOT_RUN，日志保留。新 `cold04` 与独立 `rcold03` 已启动；开发队列接续4项检查，原审核者已交付新版探针，独立队列接续12项节点/M5/反例检查。最终硬审已设置原会话自动接续：等两条冷链和两条验证队列真实结束、原生退出与冻结输入核对无误后启动；完整H5硬审、合入与CI仍待完成，之后立即进入H6 |
 | H6 T7 DAILY | 等待 H5；只读准备完成 | 关键路径 ZCode + 独立 ZCode；H6 专属 `tests/test_v2_m5_t7_daily.py`、`tests/fixtures/v2/ep1_t7_h6/` 和 successor lock 尚不存在；H5 PASS 后实现真实 DAILY features→DAY20/ATR_1→regime/admission→payoff replay/fit/validation 链 |
 | H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；60份分片清单哈希复核、780个成员存在/非空检查 raw0；仅元数据检查，未读取价格/收益载荷或选定输入，费用/SCENARIO限制仍在 |
-| H8 MINUTE profile | 已定位折叠不兼容，原Astra澄清中 | `profile06`真实native3：`TRAIN_OR_CALIBRATION_INSUFFICIENT_NO_MODEL_ARTIFACT`；22809.77秒、无超时/监督器错误、最终树0，未生成正式profile。原H8 ZCode诊断正常结束native0：外层校准窗仅1天，边界后5个交易日，生产日频隔离至少20天，CALIBRATION为空；真实日历门级探针4/4及缩放真实`_fit_fold`复现支持该原因，辅助空集合统计不作证。原Astra会话正在处理`h8-fold-shape-plan08`，决定兼容真实生产的折叠修正，保留隔离/模型工作标准。独立候选`h8next03`已复制1164文件并通过原源码锁/报告校验，仅准备、未实现/测量/接受。独立profile执行及最终产品硬审仍待完成；不新增H7式research reproduce门槛 |
+| H8 MINUTE profile | plan09已生效，原ZCode开发中 | `profile06`真实native3/22809.77秒：外层1天校准无法满足至少20天隔离；旧失败保留、未生成正式profile。原Astra/max已处置独立ZCode意见并发布plan09：采用独立568天SYNTHETIC/SCENARIO输入，保留原426天TRAIN、7计划、2政策及全部训练/隔离参数；追加60天校准、60天TEST和20天尾部覆盖，须实际验证。原H8 owner/store已续接`h8-preflight-dev02`，在独立`h8next03`实施五文件前置检查/准备工具/测试/报告并构造新输入；当前尚未冻结或硬审。之后立即独立源码/CLI/输入构造审核，再执行每次72h上限的真实完整profile及独立执行/终审；不新增H7式research reproduce门槛 |
 
 并行上限：关键开发1、独立审核1、支撑1。完成标准：规定独立硬审完成、合入 main 且 CI 通过。工程运行可重跑，只对最终 holdout 保留一次性；每作业一个宽松墙钟超时、启动前一次资源检查。
 
@@ -19,7 +19,7 @@
 | --- | --- | --- |
 | 未关闭 P0 | 外审列4项，未作为已验证完成数 | 解决本批T7可续跑；A1由用户处理，完整shadow延后 |
 | 产品代码提交数 | main已接收2个产品提交（H3/H4），另1合并提交 | 按H3–H8实际交付计，不凑提交 |
-| 过程记录新增行数 | 相对c16c139净增474行：规则36、计划403、本页35 | 不逐步新增过程文档 |
+| 过程记录新增行数 | 相对c16c139净增578行：规则36、计划507、本页35 | 不逐步新增过程文档 |
 | v2 M1–M4 | 最近 main Linux CI raw0：1013P/0F、总计4跳过；pytest267.07秒；未从汇总重新推断所选/收集跳过拆分 | H3修复2个SQLAlchemy失败；组合CI已全绿 |
 | T7 | DAILY未通过，旧任务均已停止 | 可按节点重跑；DAILY通过 |
 | RB报告 | 0 | 1份DAILY，可报告失败或证据不足 |
