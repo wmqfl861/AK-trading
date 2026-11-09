@@ -11,7 +11,7 @@
 | H5 可续跑冷链 | 最终版源码独立 PASS；新版本冷链运行中 | 原独立 ZCode `calendar-review02` 真正终态 raw0，冻结 `h5next03` 的 SOURCE/EQUIVALENCE PASS：回归1071P/0F、3运行跳过加1收集跳过；两项M5为2P/0F；独立发布反例20/20。实际报告绑定的 plan07 新锁验证通过。按原作者授权先关闭两条旧队列，再受控替代三项旧计算，真实 raw15/INTERRUPTED、未启动工作 NOT_RUN，日志保留。新 `cold04` 与独立 `rcold03` 已启动；开发队列接续4项检查，原审核者已交付新版探针，独立队列接续12项节点/M5/反例检查。最终硬审已设置原会话自动接续：等两条冷链和两条验证队列真实结束、原生退出与冻结输入核对无误后启动；完整H5硬审、合入与CI仍待完成，之后立即进入H6 |
 | H6 T7 DAILY | 等待 H5；只读准备完成 | 关键路径 ZCode + 独立 ZCode；H6 专属 `tests/test_v2_m5_t7_daily.py`、`tests/fixtures/v2/ep1_t7_h6/` 和 successor lock 尚不存在；H5 PASS 后实现真实 DAILY features→DAY20/ATR_1→regime/admission→payoff replay/fit/validation 链 |
 | H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；60份分片清单哈希复核、780个成员存在/非空检查 raw0；仅元数据检查，未读取价格/收益载荷或选定输入，费用/SCENARIO限制仍在 |
-| H8 MINUTE profile | 新版本测量运行中（`profile06`） | 旧 `profile05` 真实 raw15/INTERRUPTED、捕获关闭且日志保留。原 ZCode H8 开发者完成21项配置检查；保留输入、折叠、七计划工作量与两策略政策参数，更新运行标识及源码派生绑定，最初过期声明的 raw2 保留。`h8next02` 使用同一已接受 plan07 源码锁，`profile06` 已启动。当前属于开发侧支撑测量，独立 profile 执行及最终产品硬审仍待完成；不新增 H7 式 research reproduce 门槛 |
+| H8 MINUTE profile | `profile06` 基线失败，原负责人诊断中 | 原监督器确认 native3：`TRAIN_OR_CALIBRATION_INSUFFICIENT_NO_MODEL_ARTIFACT`；墙钟22809.77秒、峰值进程树RSS约1.60GiB，未超时、无监督器错误、最终进程树0。失败发生在无插桩基线，尚无正式profile结果；封闭原始日志与失败manifest保留。已续接原H8 ZCode owner/store执行 `h8-baseline-diagnosis01`，先做真实分区/拟合前置的有限诊断，仅写仓库外work，不改当前冻结源、输入、工作量或门槛，不盲重跑完整折叠。独立profile执行及最终产品硬审仍待完成；不新增H7式research reproduce门槛 |
 
 并行上限：关键开发1、独立审核1、支撑1。完成标准：规定独立硬审完成、合入 main 且 CI 通过。工程运行可重跑，只对最终 holdout 保留一次性；每作业一个宽松墙钟超时、启动前一次资源检查。
 
