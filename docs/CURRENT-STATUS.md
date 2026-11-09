@@ -7,10 +7,10 @@
 | 任务 | 状态 | 负责人 / 下一步 |
 | --- | --- | --- |
 | H1 一页状态 | 完成，持续覆盖本页 | Root；旧 Goal STATUS 冻结 |
-| H2 CI | 完成 | 独立硬审 PASS；最近确认 main `b0438e6` 的 [CI 42600282204](https://github.com/wmqfl861/AK-trading/actions/runs/42600282204) 全绿，pytest1013P/4S/0F，303.01秒 |
+| H2 CI | 完成 | 独立硬审 PASS；main `1e0adfb` 的 [CI 42622531321](https://github.com/wmqfl861/AK-trading/actions/runs/42622531321) 全绿，1013 passed / 4 skipped / 0 failed，208.15秒 |
 | H3 三处小修 | 完成 | 独立硬审 PASS；已合入且 CI 绿；原10项由0P/10F变10P/0F |
 | H4 visible_bars | 完成 | d9870d3，独立硬审 PASS、main CI 绿；合法输入等价；最坏不可见尾部仍线性 |
-| H5 可续跑冷链 | h5next03源码范围PASS；冷链运行，既有CDF修正仅源码实施中 | 原独立 ZCode `calendar-review02` 真正终态 raw0，冻结 `h5next03` 的 SOURCE/EQUIVALENCE PASS：回归1071P/0F、3运行跳过加1收集跳过；两项M5为2P/0F；独立发布反例20/20。实际报告绑定的 plan07 新锁验证通过。按原作者授权先关闭两条旧队列，再受控替代三项旧计算，真实 raw15/INTERRUPTED、未启动工作 NOT_RUN，日志保留。新 `cold04` 与独立 `rcold03` 已启动；开发队列接续4项检查，原审核者已交付新版探针，独立队列接续12项节点/M5/反例检查。最终硬审已设置原会话自动接续：等两条冷链和两条验证队列真实结束、原生退出与冻结输入核对无误后启动；完整H5硬审、合入与CI仍待完成。已启动的CDF修正plan10及原Astra单次意见处置11生效，原ZCode owner续接`h5-cdf-source-dev05`仅在独立`h5next04`修改函数和测试源码；新版本测试/拟合/运行排在当前链之后，均未宣称通过；保留原作业及其结果，完成已有修正验收后立即进入H6 |
+| H5 可续跑冷链 | 源码范围PASS；完整运行硬审FAIL，原owner修复中 | `cold04` / 独立 `rcold03` 均自然结束 native0，但实际 engineering=FAIL；随后两条节点队列均 native1：`record_runroot_missing`，终审监视器未启动最终审核。原独立ZCode `h5-cold-failure-review03` 已复现两次并确认：目录缺失来自失败运行未注册；更主要是7个窗口无触发路径、两次replay均0 OPEN，缺少payoff训练episode，另有首窗warmup问题。真实行情/shadow限制属于离线SYNTHETIC范围，不新增为验收条件。原owner已续接 `h5-cdf-runtime-dev07`，在隔离 `h5next04` 实测并修复既有CDF/记录生命周期；新旧连通等价、独立复审、真实新锁、完整冷链/节点/M5、main与CI尚未完成，不宣称PASS |
 | H6 T7 DAILY | 等待 H5；只读准备完成 | 关键路径 ZCode + 独立 ZCode；H6 专属 `tests/test_v2_m5_t7_daily.py`、`tests/fixtures/v2/ep1_t7_h6/` 和 successor lock 尚不存在；H5 PASS 后实现真实 DAILY features→DAY20/ATR_1→regime/admission→payoff replay/fit/validation 链 |
 | H7 RB DAILY 报告 | 等待 H6 | 关键路径 ZCode；r1/r2有历史输入PASS，452日；60份分片清单哈希复核、780个成员存在/非空检查 raw0；仅元数据检查，未读取价格/收益载荷或选定输入，费用/SCENARIO限制仍在 |
 | H8 MINUTE profile | 五文件独立源码/CLI/输入构造PASS；完整profile运行中 | 原ZCode `h8-preflight-dev02`最终专项20P/0F；原独立ZCode `h8-preflight-review04`无条件范围PASS，独立20P/0F、第三次制备同一输入哈希、真实锁双验证、旧433天及缺锁两项CLI反例均为预期native3。审核JSON一处66位手抄hash由启动核对raw1挡住；原审核者`h8-review-pin-correction05`程序化重算五文件并追加更正，原记录与失败保留。`h8-profile07-plan09`已启动真实基线+插桩，单次72h墙钟，启动内存26.3GiB/C盘54.3GiB/D盘20.7GiB；使用既定568天SYNTHETIC/SCENARIO输入、原426天TRAIN、7计划、2政策及完整参数。正式profile、独立完整执行/终审、合入与CI仍待完成；旧`profile06`native3/22809.77秒失败保留；不新增H7式research reproduce门槛 |
@@ -22,7 +22,7 @@
 | 未关闭 P0 | 外审列4项，未作为已验证完成数 | 解决本批T7可续跑；A1由用户处理，完整shadow延后 |
 | 产品代码提交数 | main已接收2个产品提交（H3/H4），另1合并提交 | 按H3–H8实际交付计，不凑提交 |
 | 过程记录新增行数 | 相对c16c139净增580行：规则36、计划507、本页37 | 不逐步新增过程文档 |
-| v2 M1–M4 | 最近 main Linux CI raw0：1013P/0F、总计4跳过；pytest303.01秒；未从汇总重新推断所选/收集跳过拆分 | H3修复2个SQLAlchemy失败；组合CI已全绿 |
+| v2 M1–M4 | 最近 main Linux CI raw0：1013P/0F、总计4跳过；pytest208.15秒；未从汇总重新推断所选/收集跳过拆分 | H3修复2个SQLAlchemy失败；组合CI已全绿 |
 | T7 | DAILY未通过，旧任务均已停止 | 可按节点重跑；DAILY通过 |
 | RB报告 | 0 | 1份DAILY，可报告失败或证据不足 |
 | 磁盘/容量相关提交 | 本轮0 | 无专门预算记账循环 |
