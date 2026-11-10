@@ -15,7 +15,7 @@
 | H5 可续跑冷链 | 组合源码/夹具/等价性独立PASS；双完整冷链运行中 | Sol独立审核19 selected/19 passed/0 failed/0 skipped/errors、raw0；9个审核者反例均正确拒绝，31文件冻结一致。真实h5-sol13-r1锁及报告绑定双验证raw0；报告SHA `e204c6d2…db296`、锁 `62686f44…a9caa`。11-10 09:57 UTC分别启动开发cold01与独立rcold01，全新输出/标识，各24h墙钟，启动内存30GiB/C52GiB/D13.5GiB。固定SYNTHETIC夹具wiggle=0.15，生产过滤、确认3次、100/500/50及7计划不变。原外层携带range重放的BREAKOUT_CONFIRMED仍因空payoff模型NO_TRADE，不算inner或H5验收。旧失败保留；完整节点/M5、最终PASS、main与CI仍待完成 |
 | H6 T7 DAILY | 等待 H5；只读准备完成 | 本批Sol开发 + 独立Sol硬审；H6专属测试、夹具和新锁尚未完成；H5 PASS/main/CI后立即实施真实DAILY链 |
 | H7 RB DAILY 报告 | 等待 H6 | 本批Sol开发 + 独立Sol硬审；r1/r2历史输入PASS，452日；60份清单及780成员元数据检查raw0；正式报告/载荷评估未完成，须包含资金/保证金敏感性及费用/SCENARIO限制 |
-| H8 MINUTE profile | CDF后继源码独立PASS；真实完整profile运行中 | 原五文件20P/0F与更正后pins按原范围复用。原Astra澄清14b允许仅移植已审CDF两文件并修正真实附件绑定；独立Sol组合审核8443检查/0失败，真实h8-cdf-r1锁及preflight已验证。旧profile07受控替换，native1/82438.9秒/tree0，记INTERRUPTED，非产品PASS/FAIL。新h8-profile09-cdfsol-dev于11-10 09:15 UTC启动，单作业72h，568天SYNTHETIC/SCENARIO、原426天TRAIN、0.05配方、7计划/2政策/100/500/50不变，基线计算持续中。H8两测试的旧锁/共享夹具引用正在独立集成树修正，不改live输入；正式测量、独立完整执行/终审、main与CI仍待完成。旧profile06 native3失败保留；不新增H7 reproduce门槛 |
+| H8 MINUTE profile | CDF后继源码及两测试集成修复独立PASS；真实完整profile运行中 | 原五文件20P/0F与更正后pins按原范围复用。原Astra澄清14b允许仅移植已审CDF两文件并修正真实附件绑定；独立Sol组合审核8443检查/0失败，真实h8-cdf-r1锁及preflight已验证。旧profile07受控替换，native1/82438.9秒/tree0，记INTERRUPTED，非产品PASS/FAIL。新h8-profile09-cdfsol-dev于11-10 09:15 UTC启动，单作业72h，568天SYNTHETIC/SCENARIO、原426天TRAIN、0.05配方、7计划/2政策/100/500/50不变，基线计算持续中。H8两测试在独立集成树修正，独立24P/0F和三项拒绝反例raw0，范围报告SHA `c0698c37…9c515`；未改live输入。正式测量、独立完整执行/终审、main与CI仍待完成。旧profile06 native3失败保留；不新增H7 reproduce门槛 |
 
 并行上限：关键开发1、独立审核1、支撑1。完成标准：规定独立硬审完成、合入 main 且 CI 通过。工程运行可重跑，只对最终 holdout 保留一次性；每作业一个宽松墙钟超时、启动前一次资源检查。
 
