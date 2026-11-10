@@ -17,6 +17,8 @@
 | H7 RB DAILY 报告 | 等待 H6 | 本批Sol开发 + 独立Sol硬审；r1/r2历史输入PASS，452日；60份清单及780成员元数据检查raw0；正式报告/载荷评估未完成，须包含资金/保证金敏感性及费用/SCENARIO限制 |
 | H8 MINUTE profile | CDF后继源码及两测试集成修复独立PASS；真实完整profile运行中 | 原五文件20P/0F与更正后pins按原范围复用。原Astra澄清14b允许仅移植已审CDF两文件并修正真实附件绑定；独立Sol组合审核8443检查/0失败，真实h8-cdf-r1锁及preflight已验证。旧profile07受控替换，native1/82438.9秒/tree0，记INTERRUPTED，非产品PASS/FAIL。新h8-profile09-cdfsol-dev于11-10 09:15 UTC启动，单作业72h，568天SYNTHETIC/SCENARIO、原426天TRAIN、0.05配方、7计划/2政策/100/500/50不变，基线计算持续中。H8两测试在独立集成树修正，独立24P/0F和三项拒绝反例raw0，范围报告SHA `c0698c37…9c515`；未改live输入。正式测量、独立完整执行/终审、main与CI仍待完成。旧profile06 native3失败保留；不新增H7 reproduce门槛 |
 
+11-10 13:39 UTC已实际挂接H5原spec后续队列：开发与独立审核各自等待本role冷链真实终止，核对原始退出、封闭日志、进程树及31源/锁/报告pins，再按原参数依次执行适用nodes、完整M5、单节点及runtime audit；任一步失败停止该role后续，保留失败并交回原开发者。未重复cold、未改冻结源，最终产品结论仍由独立审核者签发。main `79a29b7` 已推送且 [CI 42808151459](https://github.com/wmqfl861/AK-trading/actions/runs/42808151459) 为success。
+
 并行上限：关键开发1、独立审核1、支撑1。完成标准：规定独立硬审完成、合入 main 且 CI 通过。工程运行可重跑，只对最终 holdout 保留一次性；每作业一个宽松墙钟超时、启动前一次资源检查。
 
 | 本周指标 | 当前基线 | 本批目标 |
