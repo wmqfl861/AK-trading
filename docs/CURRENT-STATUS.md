@@ -12,10 +12,10 @@
 | H2 CI | 完成 | 独立硬审 PASS；main `f924993` 的 [CI 42718338713](https://github.com/wmqfl861/AK-trading/actions/runs/42718338713) 全绿，1013 passed / 4 skipped / 0 failed，232.89秒 |
 | H3 三处小修 | 完成 | 独立硬审 PASS；已合入且 CI 绿；原10项由0P/10F变10P/0F |
 | H4 visible_bars | 完成 | d9870d3，独立硬审 PASS、main CI 绿；合法输入等价；最坏不可见尾部仍线性 |
-| H5 可续跑冷链 | 旧完整运行硬审FAIL；Sol接手限定修复 | 原Astra澄清13已生效：单一固定SYNTHETIC夹具wiggle改0.15，不改生产证据过滤、确认3次和验收门槛。原dev10真实外层拟合+携带原range的3决策重放已BREAKOUT_CONFIRMED且证据匹配，第三步仍被payoff门槛拒绝；不算inner或H5验收。Sol开发者正在补真实inner模型/几何消费绑定及必要验证。CDF两文件已有review08及更正09的范围PASS，独立Sol核对实际证据以复用。旧cold04/rcold03 engineeringFAIL、节点native1和旧终审未启动均保留。组合源码审核、新锁、全冷链/节点/M5、最终PASS、main与CI仍待完成 |
+| H5 可续跑冷链 | 组合源码/夹具/等价性独立PASS；双完整冷链运行中 | Sol独立审核19 selected/19 passed/0 failed/0 skipped/errors、raw0；9个审核者反例均正确拒绝，31文件冻结一致。真实h5-sol13-r1锁及报告绑定双验证raw0；报告SHA `e204c6d2…db296`、锁 `62686f44…a9caa`。11-10 09:57 UTC分别启动开发cold01与独立rcold01，全新输出/标识，各24h墙钟，启动内存30GiB/C52GiB/D13.5GiB。固定SYNTHETIC夹具wiggle=0.15，生产过滤、确认3次、100/500/50及7计划不变。原外层携带range重放的BREAKOUT_CONFIRMED仍因空payoff模型NO_TRADE，不算inner或H5验收。旧失败保留；完整节点/M5、最终PASS、main与CI仍待完成 |
 | H6 T7 DAILY | 等待 H5；只读准备完成 | 本批Sol开发 + 独立Sol硬审；H6专属测试、夹具和新锁尚未完成；H5 PASS/main/CI后立即实施真实DAILY链 |
 | H7 RB DAILY 报告 | 等待 H6 | 本批Sol开发 + 独立Sol硬审；r1/r2历史输入PASS，452日；60份清单及780成员元数据检查raw0；正式报告/载荷评估未完成，须包含资金/保证金敏感性及费用/SCENARIO限制 |
-| H8 MINUTE profile | 五文件独立源码/CLI/输入构造PASS；完整profile运行中 | 原ZCode `h8-preflight-dev02`最终专项20P/0F；原独立ZCode `h8-preflight-review04`无条件范围PASS，独立20P/0F、第三次制备同一输入哈希、真实锁双验证、旧433天及缺锁两项CLI反例均为预期native3。审核JSON一处66位手抄hash由启动核对raw1挡住；原审核者`h8-review-pin-correction05`程序化重算五文件并追加更正，原记录与失败保留。`h8-profile07-plan09`已启动真实基线+插桩，单次72h墙钟，启动内存26.3GiB/C盘54.3GiB/D盘20.7GiB；使用既定568天SYNTHETIC/SCENARIO输入、原426天TRAIN、7计划、2政策及完整参数。正式profile、独立完整执行/终审、合入与CI仍待完成；旧`profile06`native3/22809.77秒失败保留；不新增H7式research reproduce门槛 |
+| H8 MINUTE profile | CDF后继源码独立PASS；真实完整profile运行中 | 原五文件20P/0F与更正后pins按原范围复用。原Astra澄清14b允许仅移植已审CDF两文件并修正真实附件绑定；独立Sol组合审核8443检查/0失败，真实h8-cdf-r1锁及preflight已验证。旧profile07受控替换，native1/82438.9秒/tree0，记INTERRUPTED，非产品PASS/FAIL。新h8-profile09-cdfsol-dev于11-10 09:15 UTC启动，单作业72h，568天SYNTHETIC/SCENARIO、原426天TRAIN、0.05配方、7计划/2政策/100/500/50不变，基线计算持续中。H8两测试的旧锁/共享夹具引用正在独立集成树修正，不改live输入；正式测量、独立完整执行/终审、main与CI仍待完成。旧profile06 native3失败保留；不新增H7 reproduce门槛 |
 
 并行上限：关键开发1、独立审核1、支撑1。完成标准：规定独立硬审完成、合入 main 且 CI 通过。工程运行可重跑，只对最终 holdout 保留一次性；每作业一个宽松墙钟超时、启动前一次资源检查。
 
