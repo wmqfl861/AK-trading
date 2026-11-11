@@ -1,51 +1,47 @@
-本周能看到什么：修复开发中，真实全量基线已取得。
-卡在哪：组合开发与预检修复；H7缺正式输入。
-需要我做什么：安全处理完成后通知；提供H7正式输入。
+本周能看到什么：组合修复定向硬审通过，正接入预检。
+卡在哪：集成全量验收；H7缺正式输入和配置。
+需要我做什么：安全处理完成后通知；确认H7正式输入。
 
 # 第四轮第一批修复与防护
 
-有效计划为r3-001、H1–H8及原Astra本批裁定；外审仅为建议。范围仅K03→K01/K02/K05→K04，全部完成或具体阻塞后停止。已恢复Astra/max计划→ZCode开发→另一ZCode独立硬审；三份规则仅移除临时Sol头。G1一条关键开发、一条审核、一条支撑；G2工程可重跑；G3单作业宽松墙钟；G4仅本页状态、日志在仓库外。完成仍须无条件硬审PASS、合入main、CI通过及全量无新增失败/错误/收集错误。
+范围仅 K03→K01/K02/K05→K04，完成或具体阻塞后停止。有效计划为 r3-001、H1–H8 及原 Astra 本批裁定；外审不是计划或产品验收。恢复 Astra/max 计划、ZCode 开发、另一 ZCode 独立硬审。G1 一条关键开发、一条审核、一条支撑；G2 工程可重跑；G3 单作业宽松墙钟；G4 只维护本页、原始日志压缩后放仓库外。最终仍须无条件硬审 PASS、合入 main、CI 通过、全量无新增失败/错误/收集错误。
 
-## 取得与本机实测
+## 外审取得与 HANDOFF §8 实测
 
-fetch、两次ff-only合入均raw0；外审分支bbc85e0已包含，取得后HEAD **c1904354f99fbc350ad49c0e72e7f1ce5dc1207a**，审核分支仅增加外审目录15文件。按序读完五份建议，外审文件未改。2026-11-10 23:55 UTC启动前可用RAM27.89GiB、C47.81GiB、D10.19GiB。
+fetch 与 ff-only 合入 raw0；外审分支 bbc85e0 已包含，取得后 HEAD `c1904354f99fbc350ad49c0e72e7f1ce5dc1207a`，仅新增外审目录15文件。五份建议已按序读完，外审文件不改。表中命令前缀为 `python -B -X utf8`，`$R4` 仅缩写 `docs/repo-audit-20261110-claude`。
 
-下表命令前缀均为`python -B -X utf8`；`$R4`表示`docs/repo-audit-20261110-claude`，仅为本表缩写。
-
-| HANDOFF §8命令 | 原始退出 | passed/failed/errors | 结果与外审差异 |
+| 原命令 | 原始退出 | passed/failed/errors | 实测与差异 |
 |---|---:|---|---|
-| `scripts/test_offline.py -q tests/test_v2_forward_paper.py` | 1 | 20/48/0 | 与外审一致，68项实跑 |
+| `scripts/test_offline.py -q tests/test_v2_forward_paper.py` | 1 | 20/48/0 | 与外审一致 |
 | `scripts/test_offline.py -q $R4/probes/test_entry_confirmation_reachability_probe.py` | 1 | 4/5/0 | 一致 |
 | `scripts/test_offline.py -q $R4/probes/test_range_family_cross_timeframe_probe.py` | 1 | 4/7/0 | 一致 |
-| `$R4/probes/clock_horizon_bench.py` | 0 | 非pytest，3000组 | 值和ClockError全等；250日MINUTE本机114.074ms，外审约16ms；本批不做K10 |
-| `$R4/probes/budget_feasibility.py --name RB --price <真实值> --atr <真实值> --multiplier 10 --tick 1 --margin <真实值> --fee-rate <真实值>` | NOT_RUN | N/A | H7的selected_input=null，缺正式配置；未用示意价格/ATR替代 |
+| `$R4/probes/clock_horizon_bench.py` | 0 | 非 pytest；3000组 | 值与 ClockError 全等；250日 MINUTE 本机114.074ms，外审约16ms；K10不在本批 |
+| `$R4/probes/budget_feasibility.py --name RB --price <真实值> --atr <真实值> --multiplier 10 --tick 1 --margin <真实值> --fee-rate <真实值>` | NOT_RUN | N/A | H7 selected_input=null，缺正式输入和配置；不用示意价格/ATR替代 |
 
-退出1均保留真实失败含义，不当作CLI成功或rg无匹配。日志、源快照及身份核对保存在仓库外。
+## K01–K05 当前阶段（截至 2026-11-11 04:31 UTC）
 
-## K01–K05状态
-
-| 项目 | 当前阶段 | 产品合入/阻塞 |
+| 项目 | 真实成果及独立审核 | 产品合入/下一步 |
 |---|---|---|
-| K03基线对照 | ZCode已实现脚本和测试，首版完整输入审FAIL后原owner修F1/F2；52P/raw0，三文件及真实BEFORE基线独立无条件PASS | 真实四成员基线已生成；候选全量对照及最终PASS仍待完成 |
-| K01确认可达 | 原b653f7e开发者已按原会话启动K01/K02/K05实际修复 | 源码阶段前置已满足；完整候选/全量验收仍待完成 |
-| K02跨周期 | 原Astra已选方案甲，与K01同候选 | 同上；保留原矩阵默认值为单测缝，不算自然链 |
-| K05真实夹具/CI | 与K01/K02同一候选、同一原开发者 | 真实六交易族OPEN/WAIT不OPEN，已启动实施 |
-| K04预检 | 首版27P/raw0；独立反例审FAIL：多合约漏计、多品种结论串用，原owner已续接修复 | 最终时序接入待组合修复；真实H7缺正式输入/配置 |
+| K03 | 脚本、52项测试、真实 BEFORE JSON 已获无条件范围 PASS；真实输入审发现的 CE 分支及父域计数漏洞已由原 owner 修复复审 | 完整 AFTER 与最终对照待完成，尚未产品合入 |
+| K01 | 原 b653f7e 开发会话完成组合修复；23文件冻结、独立源码/定向无条件 PASS | 待集成全量及最终验收 |
+| K02 | 原 Astra 选方案甲，随组合修复获同一源码/定向 PASS | 同上；外部探针六项不兼容断言保留 |
+| K05 | 真实 SYNTHETIC 自然链六交易族 OPEN、WAIT 不开；CI 已加入 Forward 与自然链；随组合获源码/定向 PASS | 待完整候选与实际远端 CI |
+| K04 | 多合约计数、品种/模式/期限精确匹配及 >7日延迟问题已修，34项测试及反例获无条件范围 PASS | 已把23文件完整审核版本交给原 owner，正在接入真实日历 helper；H7实际预检仍缺输入 |
 
-K03首版源码阶段45P PASS后，真实完整输入审核揭露缺陷并FAIL；原owner修复后，三个冻结文件（脚本、52P测试、真实BEFORE JSON）已获独立无条件PASS，历史48与反例再次验证。该范围不是完整AFTER/最终K03 PASS；完整基线、候选全量对照和最终独立审核仍为合入前置。历史真实对照：b653f7e^的68P/raw0与b653f7e的20P48F/raw1；工具识别48个新增failed nodeid（compare raw1），反向48个resolved（raw0），JSON/raw对照一致，原pytest退出码未改。历史环境仅互比，禁止与完整环境混比。
+组合独立重跑：M1–M4 raw0，1082 selected/ran、1079P、3原有 REAL_SHARD skip、0F/0E/0CE，墙钟1091秒；Forward68P、自然链57P、确认探针9P、第二轮重复探针9P，合计143P/raw0，墙钟709秒；现有重复K线96P包含于 M1–M4。审核者17项时钟、日历、发布、可用性与幂等反例全部通过。跨周期外部探针实际 raw1/5P6F，与绑定裁定一致，原始失败不改写。Windows时间不是 Linux CI验收；保留现有20分钟时限，远端运行待实际核验。
 
-**原Astra裁定摘要及外审差异：** K01按最新已完成、可用、同频bar的end严格大于expiry判过期，等号有效；无可用bar WAIT0。DAILY按trading_day的最后收盘计数，建立日算1；日历缺失/不足返回None、WAIT0，拒绝固定日数外推，MINUTE不改。保留重复K线幂等、真实新周期1、闸门重置与冻结几何。K02选甲：非趋势结构+有效中性背景ALIGNED，方向明确CONFLICT，缺失/无效UNKNOWN；趋势与入场闸门不变，压缩BREAKOUT同此表。故不可改外审range探针预期5P6F（修复前4P7F），六项相冲突外部断言仍保留，不能追求全绿。额外冻结预期须旧值/新值/原因交作者确认，14个历史M4常量不刷。K04拒绝读取测试/holdout价格ATR，拒绝以训练天数÷最长持有期冒充回合上限；不足则UNKNOWN。
+**原 Astra 裁定摘要及外审差异：** K01 只按最新已完成、可用、同频 bar.end 严格大于 expiry 判过期，等号有效；无可用 bar 为 WAIT0。DAILY 按 trading_day 的最后收盘计数，建立日算1；日历缺失/不足为 None、WAIT0、SETUP_CALENDAR_INSUFFICIENT，MINUTE 不改。保留重复幂等、闸门重置、真实新周期1及冻结几何。K02 选甲：非趋势结构加有效已发布中性背景为 ALIGNED，明确方向为 CONFLICT，缺失/无效为 UNKNOWN；趋势及闸门不改，压缩 BREAKOUT 同表。保留矩阵 ALIGNED 默认值仅作单测缝，不能充当自然链证据。外部跨周期探针有六项与裁定不兼容，故保留5P6F，不修改探针求全绿。14个历史M4常量不刷新；当前 BEFORE 中 M1–M4无失败，历史失败不构成豁免。K04拒绝读取holdout价格ATR，拒绝用训练天数除以最长持有期冒充回合上限。
 
-## 全量对照、K04全文与既有运行
+## 完整回归与剩余前置
 
-完整依赖环境Python3.13.15、pytest9.2.0、项目TqSdk3.10.1，依赖检查raw0，H8环境未改。精简环境仅收集5128项/39收集错误；完整环境仅收集6033selected/9既有deselected/8收集错误（缺datapipeline源码），均0ran，均不是执行基线。用户明确允许全量测试触发的positive_cold_run夹具，正式H5仍不新开。固定跟踪树下`python scripts/test_offline.py -q --continue-on-collection-errors --basetemp C:/AKR41110/fb01`完整BEFORE已结束：raw1，6033selected/ran、5699P、241F、60E、33既有skip、8收集错误文件；10域全部启动，无skipped-empty/unrun/launcher-failed/unresolved，墙钟4795.41s。相同完整环境另行实跑的三条不可改探针为raw0/9P、raw1/4P5F、raw1/4P7F，最终按独立成员一并纳入。
+固定完整环境 Python3.13.15、pytest9.2.0、项目 TqSdk3.10.1，依赖检查 raw0，H8环境未改。历史对照同环境实跑 b653f7e^ 的68P/raw0与 b653f7e 的20P48F/raw1；K03准确识别48新增失败，反向48解决，JSON/raw一致；历史环境禁止与完整环境混比。精简环境只收集证据不作基线。
 
-**改动前全量为5699P/241F/60E/8CE；改动后未取得，新增数UNKNOWN。** 四成员合计6062selected/ran、5716P/253F/60E/33skip/8CE。真实描述符由封闭流及冻结入口的原argv规划生成；K03 record实际raw2，错误地把8个selected0、collection_error1、native1的完整域要求成exit5。保留实际失败，独立ZCode已复现并FAIL；原owner现已修复CE分支及JSON父域计数漏洞，52P/raw0，真实基线record raw0且保留各pytest原始退出，源码/真实BEFORE基线复审无条件PASS，52P独立重跑及反例验证；不重跑BEFORE、不刷日志。外审“其余测试”3933ran/3405P/216F/273E/39skip/22CE属于分组和不同依赖环境，不能当作本机前后回归差额。 不加skip/xfail/不稳定豁免，不放宽门槛。K04对H7的真实输出全文：**尚不存在**；两份留存均selected_input=null，仅有候选，不伪造选择或结果，不启动H7。
+实际完整 BEFORE 命令为 `python -B -X utf8 scripts/test_offline.py -q --continue-on-collection-errors --basetemp C:/AKR41110/fb01`：raw1，6033 selected/ran、5699P、241F、60E、33原有skip、8收集错误文件；10域全部启动，0空域跳过/未运行/启动失败/未解析，墙钟4795.41秒。三份独立成员探针依次为 duplicate raw0/9P、confirmation raw1/4P5F、range raw1/4P7F。四成员合计6062 selected/ran、5716P、253F、60E、33skip、8CE。8个收集错误来自实际缺失的 datapipeline 源码；如实保留。外审3933ran/3405P/216F/273E/39skip/22CE来自不同分组/环境，不当作本机前后差额。
 
-H5两条既有cold均结束：进程raw0但engineering FAIL/m5_complete=false；后续节点各raw1，33selected/33ran/23P/0F/10setupE，M5/single/audit NOT_RUN，独立运行FAIL保持。两条有实际fit，七个payoff窗口NO_CANDIDATE。H8 profile09继续原72h作业，尚无终态，不重启；仅撤销未启动的profile10队列。H6/H7暂缓，支撑不等H8。
+**AFTER 尚未取得，新增失败数 UNKNOWN。** 原作者已裁定：先源码定向审核，再 K04 接入，冻结 K03+组合修复+最终K04的同一候选；独立审核线执行一次完整 AFTER 兼集成回归，再加三份不改的探针作四成员对照。新失败/错误/收集错误必须为0，必要缺陷解决必须实测。现有范围 PASS 均不是最终全量产品 PASS。用户已明确允许回归触发 positive_cold_run 夹具，正式 H5 不新开；不加 skip/xfail、不减人口、不放宽门槛。新 report-bound v2.1.7 合同锁仅本地生成和核验。
 
-已推送main状态提交另有**47278b1**（K03源码阶段PASS/原owner开工）；CI42939755983已成功。已推送main：**e62177b**（路由恢复/实测）、**67cbe07**（有效裁定/实际开工状态）；offline-v2 CI分别成功42927490129、42932802169，均非产品硬审。用户未通知安全处理完成，不推候选分支/输入包/锁；新v2.1.7锁仅在规定审核后本地生成。安全边界保持false/hold/NOT_RUN/send0/cancel0；未读取、打印、修改凭据，未操作服务、防火墙、可见性、DB角色、系统或UI。无N8/DISPATCH、完整shadow、Forward采集、paper、K06/K10+或下一批。
+K04 对 H7 的真实输出全文：**尚不存在，缺少正式输入和配置。** 两份留存记录均 selected_input=null，仅列候选；不自行选 r1/r2，不伪造价格、ATR、预检或研究结果。
 
-协调诊断保留真实结果：存活流混前导JSON解析1、主树查不存在树外脚本rg2、自然退出进程监视竞态1；已按实际流格式/明确路径/终态与进程身份处理。恢复后误用预设产物路径也保留缺文件诊断（含raw1），改为先确认实际清单；交付在dispatch根、stdout为stdout.json。另有K04审核派工前生成器因假设work/DELIVERY路径触发assert/raw1，REQUEST未创建、审核未启动；核对实际dispatch根目录交付后才正常派工。另有push网络重置raw1、git远端连接raw128；GitHubAPI确认未送达后仅本次HTTP/1.1推送raw0，未改持久设置。以上协调诊断不改写为产品测试通过；全量raw1与record raw2另按各自实际语义保留。
+H5两条既有冷链均结束：cold进程raw0但 engineering FAIL/m5_complete=false；后续 nodes 各 raw1，33 selected/ran、23P、0F、10 setupE，M5/single/audit NOT_RUN；七个payoff窗口 NO_CANDIDATE，原独立FAIL保持。H8 profile09继续原72小时作业，尚无终态，不重启；未启动的 profile10 队列已撤销。H6/H7暂缓，支撑不等H8。
 
-审核产物核对另发现K03复审清单一处SHA抄写差一字符；原审核者已程序化确认全部实际文件与原REQUEST一致，并追加更正的无条件范围PASS，原错误清单保留，未重复产品测试。
+已推送 main 的状态/路由提交：e62177b（CI42927490129）、67cbe07（CI42932802169）、47278b1（CI42939755983）、ec7db7c（CI42946822804），四次CI均成功，均不冒称本批产品验收。本批产品尚未合入。安全处理未收到完成通知，候选分支、输入包、锁不推远端；已接受安全源码可按计划推 main。始终 false/hold/NOT_RUN/send0/cancel0；未读写凭据、未操作服务/防火墙/可见性/DB角色/系统/UI，未开启本批外模块。原始失败及协调/审核者探针修正均留存在仓库外；不把协调诊断改写为产品通过。
