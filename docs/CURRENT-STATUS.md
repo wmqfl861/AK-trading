@@ -1,5 +1,5 @@
-本周能看到什么：确认缺陷已复现，对照工具45项通过。
-卡在哪：全量基线运行中，H7未正式选定输入。
+本周能看到什么：修复开发中，真实全量基线已取得。
+卡在哪：组合开发与预检修复；H7缺正式输入。
 需要我做什么：安全处理完成后通知；提供H7正式输入。
 
 # 第四轮第一批修复与防护
@@ -26,24 +26,26 @@ fetch、两次ff-only合入均raw0；外审分支bbc85e0已包含，取得后HEA
 
 | 项目 | 当前阶段 | 产品合入/阻塞 |
 |---|---|---|
-| K03基线对照 | ZCode已实现脚本和测试，开发与独立重跑均raw0/45P0F0E；源码阶段独立无条件PASS | 完整baselineJSON待BEFORE终态；尚无最终PASS/产品提交 |
+| K03基线对照 | ZCode已实现脚本和测试，首版完整输入审FAIL后原owner修F1/F2；52P/raw0，三文件及真实BEFORE基线独立无条件PASS | 真实四成员基线已生成；候选全量对照及最终PASS仍待完成 |
 | K01确认可达 | 原b653f7e开发者已按原会话启动K01/K02/K05实际修复 | 源码阶段前置已满足；完整候选/全量验收仍待完成 |
 | K02跨周期 | 原Astra已选方案甲，与K01同候选 | 同上；保留原矩阵默认值为单测缝，不算自然链 |
 | K05真实夹具/CI | 与K01/K02同一候选、同一原开发者 | 真实六交易族OPEN/WAIT不OPEN，已启动实施 |
-| K04预检 | 原ZCode支撑owner已启动独立输入校验、报告及测试 | 最终时序接入待组合修复；真实H7缺正式输入/配置 |
+| K04预检 | 首版27P/raw0；独立反例审FAIL：多合约漏计、多品种结论串用，原owner已续接修复 | 最终时序接入待组合修复；真实H7缺正式输入/配置 |
 
-K03源码与定向测试已获独立无条件PASS（两冻结文件、45P重跑、真实48回归及审核者反例），这是原Astra明确允许的阶段范围，不是K03最终PASS；完整基线、候选全量对照和最终独立审核仍为合入前置。历史真实对照：b653f7e^的68P/raw0与b653f7e的20P48F/raw1；工具识别48个新增failed nodeid（compare raw1），反向48个resolved（raw0），JSON/raw对照一致，原pytest退出码未改。历史环境仅互比，禁止与完整环境混比。
+K03首版源码阶段45P PASS后，真实完整输入审核揭露缺陷并FAIL；原owner修复后，三个冻结文件（脚本、52P测试、真实BEFORE JSON）已获独立无条件PASS，历史48与反例再次验证。该范围不是完整AFTER/最终K03 PASS；完整基线、候选全量对照和最终独立审核仍为合入前置。历史真实对照：b653f7e^的68P/raw0与b653f7e的20P48F/raw1；工具识别48个新增failed nodeid（compare raw1），反向48个resolved（raw0），JSON/raw对照一致，原pytest退出码未改。历史环境仅互比，禁止与完整环境混比。
 
 **原Astra裁定摘要及外审差异：** K01按最新已完成、可用、同频bar的end严格大于expiry判过期，等号有效；无可用bar WAIT0。DAILY按trading_day的最后收盘计数，建立日算1；日历缺失/不足返回None、WAIT0，拒绝固定日数外推，MINUTE不改。保留重复K线幂等、真实新周期1、闸门重置与冻结几何。K02选甲：非趋势结构+有效中性背景ALIGNED，方向明确CONFLICT，缺失/无效UNKNOWN；趋势与入场闸门不变，压缩BREAKOUT同此表。故不可改外审range探针预期5P6F（修复前4P7F），六项相冲突外部断言仍保留，不能追求全绿。额外冻结预期须旧值/新值/原因交作者确认，14个历史M4常量不刷。K04拒绝读取测试/holdout价格ATR，拒绝以训练天数÷最长持有期冒充回合上限；不足则UNKNOWN。
 
 ## 全量对照、K04全文与既有运行
 
-完整依赖环境Python3.13.15、pytest9.2.0、项目TqSdk3.10.1，依赖检查raw0，H8环境未改。精简环境仅收集5128项/39收集错误；完整环境仅收集6033selected/9既有deselected/8收集错误（缺datapipeline源码），均0ran，均不是执行基线。用户明确允许全量测试触发的positive_cold_run夹具，正式H5仍不新开。固定跟踪树下`python scripts/test_offline.py -q --continue-on-collection-errors --basetemp C:/AKR41110/fb01`完整BEFORE运行中，单一72h墙钟。相同完整环境另行实跑的三条不可改探针为raw0/9P、raw1/4P5F、raw1/4P7F，最终按独立成员一并纳入。
+完整依赖环境Python3.13.15、pytest9.2.0、项目TqSdk3.10.1，依赖检查raw0，H8环境未改。精简环境仅收集5128项/39收集错误；完整环境仅收集6033selected/9既有deselected/8收集错误（缺datapipeline源码），均0ran，均不是执行基线。用户明确允许全量测试触发的positive_cold_run夹具，正式H5仍不新开。固定跟踪树下`python scripts/test_offline.py -q --continue-on-collection-errors --basetemp C:/AKR41110/fb01`完整BEFORE已结束：raw1，6033selected/ran、5699P、241F、60E、33既有skip、8收集错误文件；10域全部启动，无skipped-empty/unrun/launcher-failed/unresolved，墙钟4795.41s。相同完整环境另行实跑的三条不可改探针为raw0/9P、raw1/4P5F、raw1/4P7F，最终按独立成员一并纳入。
 
-**改动前/后完整passed、failed、errors、collection_errors仍未取得；新增数UNKNOWN。** 不加skip/xfail/不稳定豁免，不放宽门槛。K04对H7的真实输出全文：**尚不存在**；两份留存均selected_input=null，仅有候选，不伪造选择或结果，不启动H7。
+**改动前全量为5699P/241F/60E/8CE；改动后未取得，新增数UNKNOWN。** 四成员合计6062selected/ran、5716P/253F/60E/33skip/8CE。真实描述符由封闭流及冻结入口的原argv规划生成；K03 record实际raw2，错误地把8个selected0、collection_error1、native1的完整域要求成exit5。保留实际失败，独立ZCode已复现并FAIL；原owner现已修复CE分支及JSON父域计数漏洞，52P/raw0，真实基线record raw0且保留各pytest原始退出，源码/真实BEFORE基线复审无条件PASS，52P独立重跑及反例验证；不重跑BEFORE、不刷日志。外审“其余测试”3933ran/3405P/216F/273E/39skip/22CE属于分组和不同依赖环境，不能当作本机前后回归差额。 不加skip/xfail/不稳定豁免，不放宽门槛。K04对H7的真实输出全文：**尚不存在**；两份留存均selected_input=null，仅有候选，不伪造选择或结果，不启动H7。
 
 H5两条既有cold均结束：进程raw0但engineering FAIL/m5_complete=false；后续节点各raw1，33selected/33ran/23P/0F/10setupE，M5/single/audit NOT_RUN，独立运行FAIL保持。两条有实际fit，七个payoff窗口NO_CANDIDATE。H8 profile09继续原72h作业，尚无终态，不重启；仅撤销未启动的profile10队列。H6/H7暂缓，支撑不等H8。
 
-已推送main：**e62177b**（路由恢复/实测）、**67cbe07**（有效裁定/实际开工状态）；offline-v2 CI分别成功42927490129、42932802169，均非产品硬审。用户未通知安全处理完成，不推候选分支/输入包/锁；新v2.1.7锁仅在规定审核后本地生成。安全边界保持false/hold/NOT_RUN/send0/cancel0；未读取、打印、修改凭据，未操作服务、防火墙、可见性、DB角色、系统或UI。无N8/DISPATCH、完整shadow、Forward采集、paper、K06/K10+或下一批。
+已推送main状态提交另有**47278b1**（K03源码阶段PASS/原owner开工）；CI42939755983已成功。已推送main：**e62177b**（路由恢复/实测）、**67cbe07**（有效裁定/实际开工状态）；offline-v2 CI分别成功42927490129、42932802169，均非产品硬审。用户未通知安全处理完成，不推候选分支/输入包/锁；新v2.1.7锁仅在规定审核后本地生成。安全边界保持false/hold/NOT_RUN/send0/cancel0；未读取、打印、修改凭据，未操作服务、防火墙、可见性、DB角色、系统或UI。无N8/DISPATCH、完整shadow、Forward采集、paper、K06/K10+或下一批。
 
-协调诊断保留真实结果：存活流混前导JSON解析1、主树查不存在树外脚本rg2、自然退出进程监视竞态1；已按实际流格式/明确路径/终态与进程身份处理。恢复后误用预设产物路径也保留缺文件诊断（含raw1），改为先确认实际清单；交付在dispatch根、stdout为stdout.json。均非产品测试结论，不改写为通过。
+协调诊断保留真实结果：存活流混前导JSON解析1、主树查不存在树外脚本rg2、自然退出进程监视竞态1；已按实际流格式/明确路径/终态与进程身份处理。恢复后误用预设产物路径也保留缺文件诊断（含raw1），改为先确认实际清单；交付在dispatch根、stdout为stdout.json。另有K04审核派工前生成器因假设work/DELIVERY路径触发assert/raw1，REQUEST未创建、审核未启动；核对实际dispatch根目录交付后才正常派工。另有push网络重置raw1、git远端连接raw128；GitHubAPI确认未送达后仅本次HTTP/1.1推送raw0，未改持久设置。以上协调诊断不改写为产品测试通过；全量raw1与record raw2另按各自实际语义保留。
+
+审核产物核对另发现K03复审清单一处SHA抄写差一字符；原审核者已程序化确认全部实际文件与原REQUEST一致，并追加更正的无条件范围PASS，原错误清单保留，未重复产品测试。
