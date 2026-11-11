@@ -1382,8 +1382,8 @@ def test_x01_service_instance_id_exact_syntax_matrix(monkeypatch, tmp_path):
 
 
 @pytest.mark.parametrize("bad_service_id", [
-    uuid.uuid4().hex,                    # bare hex32 client identity in the service field
-    "execution-" + uuid.uuid4().hex,     # execution-<32hex>
+    pytest.param(uuid.uuid4().hex, id="bare-uuid32"),          # bare hex32 client identity in the service field
+    pytest.param("execution-" + uuid.uuid4().hex, id="execution-uuid32"),  # execution-<32hex>
     "observer-0123456789abcdef",         # wrong prefix
     "EXECUTION-0123456789ABCDEF",        # case-sensitive prefix/hex
     "",                                  # empty string

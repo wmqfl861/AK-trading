@@ -1,50 +1,49 @@
-本周能看到什么：K01–K05源码硬审通过并已推送。
-卡在哪：合同锁与H7正式输入仍缺前置。
-需要我做什么：本批无新增授权请求。
+本周能看到什么：时钟索引和稳定测试编号已完成硬审。
+卡在哪：本轮待发布与CI；研究锁和H7仍阻塞。
+需要我做什么：本轮无需新授权，H6/H7继续暂缓。
 
-# 第四轮第一批状态（2026-11-11）
+# 当前交付状态（2026-11-11）
 
-范围仅K03→K01/K02/K05→K04；有效计划r3-001、H1–H8及原Astra裁定。Astra/max计划，ZCode开发，另一独立ZCode GLM-5.3/max硬审。离线源码/工具及实际暂存发布版本均**无条件PASS**。产品提交 **`d614360dda423a8ef35fbf581afd43c2fe28fcf3`** 已推送main；[CI 42985971212](https://github.com/wmqfl861/AK-trading/actions/runs/42985971212)**success：1205 passed / 4 skipped / 0 failed，测试219.60s**。K01–K05离线源码/工具已完成硬审、推送及CI；本批停止，不开下一批。
+本轮有效计划：[有限修复优化计划](repair-and-optimization-plan-20261111.md)，原Astra/max作者已处置独立ZCode的一次计划意见，不设计划PASS门槛。基点main `c608d20791792a4838f6f3e001dd436ad2f8faba`；上一批产品 `d614360dda423a8ef35fbf581afd43c2fe28fcf3` 已独立PASS、推送，HEAD CI [42986815071](https://github.com/wmqfl861/AK-trading/actions/runs/42986815071) success（1205P/4skip/0F）。本轮为两项有限修复，完成推送与绿色CI后停止，不扩展模块。
 
-| 项目 | 成果与独立验收 | 剩余限制 |
-|---|---|---|
-| K03 | 严格对照工具、52项测试、真实完整基线；PASS | 两个UUID收集编号导致compare均raw2；精确人口等价27/27独立核实，不宣称自动compare成功 |
-| K01 | 六族观察bar过期与DAILY交易日日历，66项时钟测试；PASS | MINUTE、风险和统计门槛不改 |
-| K02 | 方案甲的ALIGNED/CONFLICT/UNKNOWN区分；PASS | 外部跨周期六项未采纳断言保留 |
-| K05 | SYNTHETIC真实形状自然链57项，六族OPEN、WAIT不开；CI增加Forward/自然链/原重复探针；PASS | 不冒充历史收益或研究验收 |
-| K04 | 预检、35项测试及11项集成反例，接入日历helper；PASS | 对真实H7的预检NOT_RUN，输入/配置未选 |
-
-**作者语义与外审差异：** 最新已完成、可用、同频bar.end严格大于expiry才过期，等号有效；无合格bar为WAIT0。DAILY建立日算1，按trading_day最后收盘取第n日；日历不足返回None/WAIT0/SETUP_CALENDAR_INSUFFICIENT，不外推墙钟日。K02选甲：已发布中性背景ALIGNED，明确方向CONFLICT，缺失/无效UNKNOWN；保留矩阵ALIGNED单测缝，不替代自然链。K04不读holdout价格/ATR，不用训练日数除最长持有期冒充回合上限。14个历史M4常量保留。
-
-## 首次复现及全量对照
-
-外审分支bbc85e0已合入，取得后HEAD `c1904354f99fbc350ad49c0e72e7f1ce5dc1207a`，仅新增外审目录15文件。命令前缀`python -B -X utf8`，`$R4=docs/repo-audit-20261110-claude`。
-
-| HANDOFF §8首次命令 | 原始退出及实测 |
+| 本轮交付 | 实际状态与验收 |
 |---|---|
-| `scripts/test_offline.py -q tests/test_v2_forward_paper.py` | raw1，20P/48F，与外审一致 |
-| `scripts/test_offline.py -q $R4/probes/test_entry_confirmation_reachability_probe.py` | raw1，4P/5F，一致 |
-| `scripts/test_offline.py -q $R4/probes/test_range_family_cross_timeframe_probe.py` | raw1，4P/7F，一致 |
-| `$R4/probes/clock_horizon_bench.py` | raw0，3000组值/ClockError等价；250日MINUTE本机114.074ms，外审约16ms；K10不在本批 |
-| `$R4/probes/budget_feasibility.py`（需真实参数） | NOT_RUN：H7未选输入/配置，不虚构价格/ATR |
+| K03 参数身份 | 两个UUID参数保留随机值、七例顺序和原断言，仅固定pytest标签；独立定向55P/0F，七例逐项通过；最终统一硬审无条件PASS |
+| K10-core | 三个时钟API内部复用有界日历索引，保留原结果、异常顺序及公共签名；独立235P/0F、21项等价边界及10项缓存反例通过；最终统一硬审无条件PASS |
+| 后继基线 | 原支撑ZCode从真实四成员终态用未改record工具生成`tests/baselines/full-suite-windows-20261111-r5.json`，raw0；独立审核者重新record及严格跨记录比较均raw0，元数据无条件PASS；旧基线和比较器不改 |
+| 发布 | 实际8个暂存文件已独立无条件PASS，6个字节一致、2个仅CRLF/LF转换；本轮待提交、推送与HEAD CI |
 
-固定完整环境Python3.13.15/pytest9.2.0/TqSdk3.10.1，依赖检查raw0。全量命令`python -B -X utf8 scripts/test_offline.py -q --continue-on-collection-errors --basetemp <独立空目录>`；精确argv和原始日志压缩留仓库外。用户允许全量夹具冷链，正式H5不新开。
+计划Astra/max；实际开发两位专属ZCode负责人；另一独立ZCode GLM-5.3/max审核。G1下关键线与支撑线并行实施，冻结即分别定向硬审，共用一次独立完整AFTER。原始流及命令、终态、SHA-256和完整报告压缩留仓库外。
+
+## 本轮全量实测与原始退出
+
+固定Python3.13.15/pytest9.2.0/TqSdk3.10.1。完整命令`python -B -X utf8 scripts/test_offline.py -q --continue-on-collection-errors --basetemp <独立空目录>`，10域全部真实启动；三份原外审探针另行捕获。BEFORE复用上批已封存AFTER，执行源码未变前不重复全量。
 
 | 范围 | selected/ran | passed | failed | errors | skip | 收集错误文件 | 原始退出 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| 改前全量 | 6033 | 5699 | 241 | 60 | 33 | 8 | 1 |
-| 改后全量 | 6244 | 5958 | 193 | 60 | 33 | 8 | 1 |
-| 改前全量＋3探针 | 6062 | 5716 | 253 | 60 | 33 | 8 | 各自保留 |
-| 改后全量＋3探针 | 6273 | 5981 | 199 | 60 | 33 | 8 | 各自保留 |
+| 本轮BEFORE全量 | 6244 | 5958 | 193 | 60 | 33 | 8 | 1 |
+| 本轮AFTER全量 | 6254 | 5994 | 167 | 60 | 33 | 8 | 1 |
+| BEFORE全量＋3探针 | 6273 | 5981 | 199 | 60 | 33 | 8 | 分别保留 |
+| AFTER全量＋3探针 | 6283 | 6017 | 173 | 60 | 33 | 8 | 分别保留 |
 
-前后10域全启动，0未运行/空域跳过/启动失败/未解析；墙钟4795.41s→6075.81s。**新增failed/阶段errors/收集错误0/0/0，真实解决54项（Forward48＋确认5＋range1）；真实新增211项测试全通过，原33项skip身份不变。** K03 record raw0；JSON及rawcapture compare均raw2且无diff：同一未改测试的两个UUID标签变化。原作者限于这两对裁定，独立审核重建全体七用例的进度顺序、F/E与计数，证明实际均PASS且无原逻辑用例丢失；基线/raw2不改写。8项原收集错误来自缺失datapipeline源码。
+重复K线探针9P/raw0；确认可达性探针9P/raw0；跨周期探针5P/6F/raw1，未改外审断言。完整AFTER墙钟4906.01秒，监督器错误/终止均null，最终子进程0。
 
-独立定向：M1–M4 raw0，1079P＋3原REAL_SHARD skip；Forward68＋自然链57＋确认9＋原重复探针9＝143P/raw0；现有重复K线96项包含于M1–M4。跨周期仍5P/6F/raw1，六项不兼容断言保留；原17项审核反例及最终27项人口证据通过。实际发布28文件：27个保留候选原字节、1个仅CRLF/LF转换；21个实际改动均独立核对，未做全库renormalize。
+**独立最终审核：无条件PASS（本轮离线源码/工具）。新增failed/阶段errors/收集错误0/0/0。** 10个真实新增时钟节点全部通过，33项原skip身份保持，M1–M4零F/E，14个历史M4常量保持。26项原infiny失败此次通过，属于未修改测试的运行差异，不能归功于本轮优化或称全部历史失败已修复。完整套件仍有上述原失败和缺失datapipeline源码引起的8项收集错误。
 
-## 单独阻塞与停止边界
+原严格JSON及raw-capture比较均raw2、无diff文件：唯一人口缺失是两个旧随机UUID标签。原Astra只准许该测试中两对精确标签桥接；独立24项人口检查通过，F/E/CE对照完全不桥接，七例在新全量均真实PASS。原raw2不改写，后继基线从新终态真实生成，未来比较保持严格、不泛化alias。定向PASS不代替最终统一硬审，完整套件raw1也不冒充全绿。
 
-`LOCAL_LOCK_BLOCKED`：T7现有`ak_ep1_t7_acceptance_input_v1`不满足builder固定路径要求的真实probability v1 manifest；builder raw1，未写锁，verify NOT_RUN。不迁移schema、不借测试夹具。作者允许离线源码独立接受，锁/研究包仍BLOCKED。
+## 上批K01–K05与外审首次复现
 
-**K04对H7预检结果全文：NOT_RUN — 缺少正式选定输入与配置，两份记录selected_input均为null；未读取价格/ATR，未生成预检或研究结论。** H6/H7暂缓；H5两条旧冷链engineering FAIL保留，节点各23P/10setupE，不新开正式作业。H8 profile09沿原输入及72h超时继续，不重启、不等待其推进本批、不启动profile10。
+外审取得后HEAD `c1904354f99fbc350ad49c0e72e7f1ce5dc1207a`，只合入外审目录。`python -B -X utf8 scripts/test_offline.py -q <文件>`的HANDOFF §8首次实测：Forward `tests/test_v2_forward_paper.py` raw1/20P48F；外审确认探针raw1/4P5F；外审跨周期探针raw1/4P7F，均与外审一致。`clock_horizon_bench.py` raw0/3000组值及ClockError等价，250日MINUTE本机114.074ms，外审约16ms；资金脚本缺真实H7参数，NOT_RUN。本轮K10仅内部索引，不承诺跨事件或完整fold收益。
 
-保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=0 / cancel=0`。不推候选分支、行情输入包或锁；不读改凭据、外审、规则、系统或服务。本批不新增决策请求；锁与恢复H7另行安排。
+K01/K02/K05已硬审、合入和CI：六族按观察bar到期，DAILY按交易日日历；中性ALIGNED/方向CONFLICT/无效UNKNOWN；真实形状SYNTHETIC自然链57项及CI。作者裁定：最新可用同频bar.end严格大于expiry才过期，等号有效，无bar为WAIT0；建立日算DAILY第1日，日历不足不外推。K02采纳方案甲，外审跨周期六项不兼容断言仍保留。K04预检工具已PASS，**真实H7预检全文：NOT_RUN — 正式输入和配置尚未选定，selected_input=null，未读取价格/ATR，未生成研究结论。**
+
+## 独立阻塞、失败与停止边界
+
+`LOCAL_LOCK_BLOCKED`：现有T7 `ak_ep1_t7_acceptance_input_v1`不满足builder要求的真实probability v1 manifest；builder raw1未写锁，verify NOT_RUN。不迁移schema、不借测试夹具；新clock源码不能沿用旧锁声明。H1–H8及研究验收未全部完成。
+
+H5两条旧冷链engineering FAIL，原节点各23P/10setupE，不启动新正式冷链；只允许全量所需夹具。H6/H7暂缓。H8 profile09已FAILED（raw2、磁盘耗尽、墙钟103563.51秒、最终PID0），不重启09/10。N8、DISPATCH、完整shadow、Forward采集、paper及holdout不启动。
+
+保留本轮纠正：K10首轮定向误含T7冷链夹具，按原PID/创建身份受控停止raw130，未作成功；原ZCode会话保留WIP续接，后续定向排除该夹具。新测试最初误用`tuple(t)`制造新对象、bench异常和零计时样本均保留原失败，修正后通过。发布预检曾因现有LF/CRLF差异raw1且零写入；改按实际HEAD核对，仅允许已证明的换行差异并补核实际索引，避免预测哈希代替发布事实。
+
+保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=cancel=0`。不读取、打印、修改或探测凭据，不改规则、外审、系统或服务；不推候选分支、输入包或锁。完整日志在仓库外，状态只维护本页。

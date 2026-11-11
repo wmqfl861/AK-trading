@@ -10,6 +10,9 @@ trading days.
 """
 from __future__ import annotations
 
+import threading
+from bisect import bisect_right
+from collections import OrderedDict
 from datetime import date
 from decimal import Decimal
 from typing import Mapping
@@ -356,65 +359,321 @@ def _aggregate_daily(reference: MarketBar, contract_bars: list[MarketBar],
     )]
 
 
-def horizon_window(decision_nano: int, product: str, horizon: Horizon,
-                   sessions: tuple[SessionWindow, ...]) -> tuple[int, int]:
-    """Window of the next ``h`` not-yet-started planned trading minutes/days.
+# ---------------------------------------------------------------------------
+# Private per-calendar index (K10-core).
+#
+# The three public query functions keep their signatures, semantics, return
+# types, exception types/args and error ordering. For an exact ``tuple`` of
+# exact frozen ``SessionWindow`` values they may reuse the already-proven
+# full validation/sort and derived per-product structures, keyed by the
+# tuple's own identity (strong reference + ``is`` on every hit). Everything
+# else — subclasses, non-tuple inputs, over-budget calendars, unknown
+# products — keeps the original code paths below.
 
-    The first slot starts strictly after ``decision_nano``; non-trading gaps
-    are skipped; missing bars still occupy planned slots. Daily horizons run
-    from the first session start of the next trading day, never from row
-    counts.
+_INDEX_MAX_CALENDARS = 8
+_INDEX_MAX_SESSION_REFS = 65_536
+_INDEX_MAX_MINUTE_SLOTS = 250_000
+
+_index_work = {
+    "session_validations": 0,
+    "product_index_builds": 0,
+    "minute_slot_materializations": 0,
+    "trading_day_group_builds": 0,
+}
+
+_INDEX_LOCK = threading.RLock()
+_INDEX_CACHE: OrderedDict[int, "_CalendarIndex"] = OrderedDict()
+_INDEX_TOTAL_SESSION_REFS = 0
+_INDEX_TOTAL_MINUTE_SLOTS = 0
+
+
+def _bump(counter: str) -> None:
+    with _INDEX_LOCK:
+        _index_work[counter] += 1
+
+
+def _index_stats() -> dict[str, int]:
+    with _INDEX_LOCK:
+        return dict(_index_work)
+
+
+def _index_cache_state() -> dict[str, int]:
+    with _INDEX_LOCK:
+        return {
+            "entries": len(_INDEX_CACHE),
+            "session_refs": _INDEX_TOTAL_SESSION_REFS,
+            "minute_slots": _INDEX_TOTAL_MINUTE_SLOTS,
+        }
+
+
+def _clear_calendar_index_cache() -> None:
+    """Drop every retained calendar index (private hook for tests/benchmarks)."""
+    global _INDEX_TOTAL_SESSION_REFS, _INDEX_TOTAL_MINUTE_SLOTS
+    with _INDEX_LOCK:
+        _INDEX_CACHE.clear()
+        _INDEX_TOTAL_SESSION_REFS = 0
+        _INDEX_TOTAL_MINUTE_SLOTS = 0
+
+
+class _DayGroups:
+    """Trading-day grouping of one product's sessions in first-start order."""
+
+    __slots__ = ("days", "first_starts", "last_ends", "sessions_by_day", "positions")
+
+    def __init__(self, days, first_starts, last_ends, sessions_by_day, positions):
+        self.days = days
+        self.first_starts = first_starts
+        self.last_ends = last_ends
+        self.sessions_by_day = sessions_by_day
+        self.positions = positions
+
+
+class _ProductIndex:
+    """Per-product derived structures of one retained calendar."""
+
+    __slots__ = ("sessions", "session_starts", "session_ends",
+                 "day_groups", "minute_starts", "minute_ends")
+
+    def __init__(self, sessions):
+        self.sessions = sessions
+        self.session_starts = tuple(s.start_nano for s in sessions)
+        self.session_ends = tuple(s.end_nano for s in sessions)
+        self.day_groups = None
+        self.minute_starts = None
+        self.minute_ends = None
+
+
+class _CalendarIndex:
+    __slots__ = ("sessions", "ordered", "products", "session_refs", "minute_slots")
+
+    def __init__(self, sessions, ordered):
+        self.sessions = sessions
+        self.ordered = ordered
+        self.products = {}
+        self.session_refs = 2 * len(sessions)
+        self.minute_slots = 0
+
+
+def _drop_entry_locked(key: int) -> None:
+    global _INDEX_TOTAL_SESSION_REFS, _INDEX_TOTAL_MINUTE_SLOTS
+    entry = _INDEX_CACHE.pop(key)
+    _INDEX_TOTAL_SESSION_REFS -= entry.session_refs
+    _INDEX_TOTAL_MINUTE_SLOTS -= entry.minute_slots
+
+
+def _make_session_room_locked(refs: int, keep) -> bool:
+    """True when ``refs`` more session references fit, evicting LRU entries."""
+    if keep is not None and keep.session_refs + refs > _INDEX_MAX_SESSION_REFS:
+        return False
+    while _INDEX_TOTAL_SESSION_REFS + refs > _INDEX_MAX_SESSION_REFS:
+        key = next(iter(_INDEX_CACHE))
+        if _INDEX_CACHE[key] is keep:
+            return False
+        _drop_entry_locked(key)
+    return True
+
+
+def _make_minute_room_locked(slots: int, keep) -> bool:
+    """True when ``slots`` more minute slots fit, evicting LRU entries."""
+    if keep is not None and keep.minute_slots + slots > _INDEX_MAX_MINUTE_SLOTS:
+        return False
+    while _INDEX_TOTAL_MINUTE_SLOTS + slots > _INDEX_MAX_MINUTE_SLOTS:
+        key = next(iter(_INDEX_CACHE))
+        if _INDEX_CACHE[key] is keep:
+            return False
+        _drop_entry_locked(key)
+    return True
+
+
+def _publish_calendar(sessions, ordered):
+    """Retain a fully validated calendar for identity-keyed reuse, else None."""
+    global _INDEX_TOTAL_SESSION_REFS
+    if type(sessions) is not tuple:
+        return None
+    for session in sessions:
+        if type(session) is not SessionWindow:
+            return None
+    refs = 2 * len(sessions)
+    if refs > _INDEX_MAX_SESSION_REFS:
+        return None
+    with _INDEX_LOCK:
+        key = id(sessions)
+        existing = _INDEX_CACHE.get(key)
+        if existing is not None and existing.sessions is sessions:
+            _INDEX_CACHE.move_to_end(key)
+            return existing
+        if not _make_session_room_locked(refs, keep=None):
+            return None
+        entry = _CalendarIndex(sessions, ordered)
+        _INDEX_CACHE[key] = entry
+        _INDEX_TOTAL_SESSION_REFS += refs
+        # The fresh entry is most recently used, so the LRU-cap eviction
+        # below can never drop it.
+        while len(_INDEX_CACHE) > _INDEX_MAX_CALENDARS:
+            _drop_entry_locked(next(iter(_INDEX_CACHE)))
+        return entry
+
+
+def _get_calendar(sessions):
+    """Return ``(ordered_sessions, entry_or_None)`` for one query.
+
+    A cache hit requires the very same tuple object (``is``); the miss path
+    always runs the original full validation first and only retains exact
+    tuples of exact frozen SessionWindows within the budgets.
     """
-    if not isinstance(horizon, Horizon):
-        raise TypeError("horizon_must_be_Horizon")
-    sessions = _check_sessions(sessions)
+    if type(sessions) is tuple:
+        key = id(sessions)
+        with _INDEX_LOCK:
+            entry = _INDEX_CACHE.get(key)
+            if entry is not None and entry.sessions is sessions:
+                _INDEX_CACHE.move_to_end(key)
+                return entry.ordered, entry
+    ordered = _check_sessions(sessions)
+    _bump("session_validations")
+    return ordered, _publish_calendar(sessions, ordered)
+
+
+def _product_index(entry, product):
+    """Per-product sorted session index of a retained calendar entry."""
+    global _INDEX_TOTAL_SESSION_REFS
+    with _INDEX_LOCK:
+        found = entry.products.get(product)
+        if found is not None:
+            return found
+    product_sessions = tuple(sorted(_product_sessions(entry.ordered, product),
+                                    key=lambda s: s.start_nano))
+    _bump("product_index_builds")
+    if not product_sessions:
+        # Unknown products are never cached so they cannot accumulate entries.
+        return None
+    candidate = _ProductIndex(product_sessions)
+    with _INDEX_LOCK:
+        found = entry.products.get(product)
+        if found is not None:
+            return found
+        if not _make_session_room_locked(len(product_sessions), keep=entry):
+            return None
+        entry.products[product] = candidate
+        entry.session_refs += len(product_sessions)
+        _INDEX_TOTAL_SESSION_REFS += len(product_sessions)
+    return candidate
+
+
+def _build_day_groups(product_sessions):
+    order = []
+    buckets = {}
+    for session in product_sessions:
+        bucket = buckets.get(session.trading_day)
+        if bucket is None:
+            buckets[session.trading_day] = [session]
+            order.append(session.trading_day)
+        else:
+            bucket.append(session)
+    days = tuple(order)
+    sessions_by_day = {day: tuple(buckets[day]) for day in order}
+    first_starts = tuple(sessions_by_day[day][0].start_nano for day in days)
+    last_ends = tuple(max(s.end_nano for s in sessions_by_day[day]) for day in days)
+    positions = {day: index for index, day in enumerate(days)}
+    return _DayGroups(days, first_starts, last_ends, sessions_by_day, positions)
+
+
+def _day_groups(entry, product_index):
+    global _INDEX_TOTAL_SESSION_REFS
+    with _INDEX_LOCK:
+        found = product_index.day_groups
+        if found is not None:
+            return found
+    groups = _build_day_groups(product_index.sessions)
+    _bump("trading_day_group_builds")
+    with _INDEX_LOCK:
+        found = product_index.day_groups
+        if found is not None:
+            return found
+        if not _make_session_room_locked(len(product_index.sessions), keep=entry):
+            return None
+        product_index.day_groups = groups
+        entry.session_refs += len(product_index.sessions)
+        _INDEX_TOTAL_SESSION_REFS += len(product_index.sessions)
+    return groups
+
+
+def _minute_grid(entry, product, product_index):
+    """Minute-slot start/end arrays for the product, materialized on demand.
+
+    The original full materialization (including its ``session_not_minute_
+    aligned`` error) runs on every miss; the arrays are retained only for
+    products within the minute-slot budget, otherwise used transiently.
+    """
+    with _INDEX_LOCK:
+        if product_index.minute_starts is not None:
+            return product_index.minute_starts, product_index.minute_ends
+    slots = _all_minute_slots(entry.ordered, product)
+    _bump("minute_slot_materializations")
+    starts = tuple(slot[0] for slot in slots)
+    ends = tuple(slot[1] for slot in slots)
+    if len(starts) <= _INDEX_MAX_MINUTE_SLOTS:
+        global _INDEX_TOTAL_MINUTE_SLOTS
+        with _INDEX_LOCK:
+            if product_index.minute_starts is None:
+                if _make_minute_room_locked(len(starts), keep=entry):
+                    product_index.minute_starts = starts
+                    product_index.minute_ends = ends
+                    entry.minute_slots += len(starts)
+                    _INDEX_TOTAL_MINUTE_SLOTS += len(starts)
+    return starts, ends
+
+
+def _bisect_containing(product_index, moment):
+    position = bisect_right(product_index.session_starts, moment) - 1
+    if position >= 0 and product_index.session_ends[position] > moment:
+        return product_index.sessions[position]
+    return None
+
+
+# Original code paths, operating on an already validated/ordered calendar.
+# Semantics, exceptions and their ordering are byte-for-byte the pre-index
+# behaviour; only the work counters differ.
+
+def _horizon_window_baseline(decision_nano, product, horizon, ordered):
     if horizon.unit == "TRADING_MINUTE":
-        slots = _all_minute_slots(sessions, product)
+        slots = _all_minute_slots(ordered, product)
+        _bump("minute_slot_materializations")
         upcoming = [slot for slot in slots if slot[0] > decision_nano]
         if not upcoming:
             raise ClockError("no_future_trading_minutes")
         if len(upcoming) < horizon.value:
             raise ClockError("horizon_exceeds_calendar")
         return upcoming[0][0], upcoming[horizon.value - 1][1]
-    days = _trading_days(sessions, product)
+    days = _trading_days(ordered, product)
+    _bump("trading_day_group_builds")
     if not days:
         raise ClockError("no_trading_days_in_calendar")
-    containing = _containing_session(_product_sessions(sessions, product), decision_nano)
+    containing = _containing_session(_product_sessions(ordered, product), decision_nano)
     if containing is not None:
         current_day = containing.trading_day
     else:
         started = [day for day in days
-                   if any(s.start_nano <= decision_nano for s in _product_sessions(sessions, product)
+                   if any(s.start_nano <= decision_nano for s in _product_sessions(ordered, product)
                           if s.trading_day == day)]
         current_day = started[-1] if started else None
     if current_day is None:
         upcoming_days = [day for day in days
                          if any(s.start_nano > decision_nano
-                                for s in _product_sessions(sessions, product) if s.trading_day == day)]
+                                for s in _product_sessions(ordered, product) if s.trading_day == day)]
     else:
         upcoming_days = days[days.index(current_day) + 1:]
     if len(upcoming_days) < horizon.value:
         raise ClockError("horizon_exceeds_calendar")
     first_day, last_day = upcoming_days[0], upcoming_days[horizon.value - 1]
-    first_sessions = [s for s in _product_sessions(sessions, product) if s.trading_day == first_day]
-    last_sessions = [s for s in _product_sessions(sessions, product) if s.trading_day == last_day]
+    first_sessions = [s for s in _product_sessions(ordered, product) if s.trading_day == first_day]
+    last_sessions = [s for s in _product_sessions(ordered, product) if s.trading_day == last_day]
     window_start = min(s.start_nano for s in first_sessions)
     window_end = max(s.end_nano for s in last_sessions)
     return window_start, window_end
 
 
-def holding_deadline(decision_nano: int, product: str, policy: HoldingPolicy,
-                     sessions: tuple[SessionWindow, ...]) -> int:
-    """Planned exit point of the allowed holding segment for ``product``.
-
-    Minute policy: same trading day; the lunch/intra-day break only extends
-    holding when ``allow_lunch``; NIGHT to DAY continuation requires
-    ``allow_night_to_day``. Daily policy: the end of the last frozen session.
-    """
-    if not isinstance(policy, HoldingPolicy):
-        raise TypeError("policy_must_be_HoldingPolicy")
-    sessions = _check_sessions(sessions)
-    product_sessions = sorted(_product_sessions(sessions, product), key=lambda s: s.start_nano)
+def _holding_deadline_baseline(decision_nano, product, policy, ordered):
+    product_sessions = sorted(_product_sessions(ordered, product), key=lambda s: s.start_nano)
     if not product_sessions:
         raise ClockError("no_sessions_for_product")
     if not policy.intraday:
@@ -440,9 +699,10 @@ def holding_deadline(decision_nano: int, product: str, policy: HoldingPolicy,
         earlier = [s for s in day_sessions if s.end_nano <= decision_nano]
         anchor = earlier[-1] if earlier else (later[0] if later else day_sessions[0])
     deadline = anchor.end_nano
-    ordered = [s for s in day_sessions if s.start_nano >= anchor.start_nano and s is not anchor]
+    follow_chain = [s for s in day_sessions
+                    if s.start_nano >= anchor.start_nano and s is not anchor]
     previous = anchor
-    for session in sorted(ordered, key=lambda s: s.start_nano):
+    for session in sorted(follow_chain, key=lambda s: s.start_nano):
         if previous.kind == "NIGHT" and session.kind == "DAY" and not policy.allow_night_to_day:
             break
         if not policy.allow_lunch and session.start_nano > previous.end_nano:
@@ -452,13 +712,136 @@ def holding_deadline(decision_nano: int, product: str, policy: HoldingPolicy,
     return deadline
 
 
+def _can_open_before_close_baseline(decision_nano, product, policy, ordered, deadline):
+    slots = _all_minute_slots(ordered, product)
+    _bump("minute_slot_materializations")
+    remaining = sum(
+        1 for slot in slots
+        if decision_nano < slot[1] <= deadline
+    )
+    return remaining > policy.stop_open_before_minutes
+
+
+# Indexed paths (warm and cold alike). Equivalence with the baselines above
+# is enforced by the differential tests against tests/v2_clock_legacy_oracle.py.
+
+def _horizon_window_indexed(decision_nano, product, horizon, entry, product_index):
+    if horizon.unit == "TRADING_MINUTE":
+        starts, ends = _minute_grid(entry, product, product_index)
+        first = bisect_right(starts, decision_nano)
+        if first >= len(starts):
+            raise ClockError("no_future_trading_minutes")
+        if len(starts) - first < horizon.value:
+            raise ClockError("horizon_exceeds_calendar")
+        return starts[first], ends[first + horizon.value - 1]
+    groups = _day_groups(entry, product_index)
+    if groups is None:
+        return _horizon_window_baseline(decision_nano, product, horizon, entry.ordered)
+    containing = _bisect_containing(product_index, decision_nano)
+    if containing is not None:
+        offset = groups.positions[containing.trading_day] + 1
+    else:
+        started = bisect_right(groups.first_starts, decision_nano) - 1
+        offset = started + 1 if started >= 0 else 0
+    if len(groups.days) - offset < horizon.value:
+        raise ClockError("horizon_exceeds_calendar")
+    return groups.first_starts[offset], groups.last_ends[offset + horizon.value - 1]
+
+
+def _holding_deadline_indexed(decision_nano, policy, entry, product_index):
+    sessions = product_index.sessions
+    if not policy.intraday:
+        return product_index.session_ends[-1]
+    containing = _bisect_containing(product_index, decision_nano)
+    if containing is not None:
+        context_day = containing.trading_day
+    else:
+        preceding_count = bisect_right(product_index.session_ends, decision_nano)
+        if preceding_count:
+            context_day = sessions[preceding_count - 1].trading_day
+        else:
+            following_position = bisect_right(product_index.session_starts, decision_nano)
+            if following_position >= len(sessions):
+                raise ClockError("no_sessions_for_product")
+            context_day = sessions[following_position].trading_day
+    groups = _day_groups(entry, product_index)
+    if groups is None:
+        return _UNCACHED
+    day_sessions = groups.sessions_by_day[context_day]
+    if containing is not None:
+        anchor = containing
+    else:
+        later = [s for s in day_sessions if s.start_nano > decision_nano]
+        earlier = [s for s in day_sessions if s.end_nano <= decision_nano]
+        anchor = earlier[-1] if earlier else (later[0] if later else day_sessions[0])
+    deadline = anchor.end_nano
+    follow_chain = [s for s in day_sessions
+                    if s.start_nano >= anchor.start_nano and s is not anchor]
+    previous = anchor
+    for session in sorted(follow_chain, key=lambda s: s.start_nano):
+        if previous.kind == "NIGHT" and session.kind == "DAY" and not policy.allow_night_to_day:
+            break
+        if not policy.allow_lunch and session.start_nano > previous.end_nano:
+            break
+        deadline = session.end_nano
+        previous = session
+    return deadline
+
+
+_UNCACHED = object()  # sentinel: indexed path deferred to the original path
+
+
+def horizon_window(decision_nano: int, product: str, horizon: Horizon,
+                   sessions: tuple[SessionWindow, ...]) -> tuple[int, int]:
+    """Window of the next ``h`` not-yet-started planned trading minutes/days.
+
+    The first slot starts strictly after ``decision_nano``; non-trading gaps
+    are skipped; missing bars still occupy planned slots. Daily horizons run
+    from the first session start of the next trading day, never from row
+    counts.
+    """
+    if not isinstance(horizon, Horizon):
+        raise TypeError("horizon_must_be_Horizon")
+    ordered, entry = _get_calendar(sessions)
+    if entry is not None:
+        product_index = _product_index(entry, product)
+        if product_index is not None:
+            return _horizon_window_indexed(decision_nano, product, horizon, entry, product_index)
+    return _horizon_window_baseline(decision_nano, product, horizon, ordered)
+
+
+def holding_deadline(decision_nano: int, product: str, policy: HoldingPolicy,
+                     sessions: tuple[SessionWindow, ...]) -> int:
+    """Planned exit point of the allowed holding segment for ``product``.
+
+    Minute policy: same trading day; the lunch/intra-day break only extends
+    holding when ``allow_lunch``; NIGHT to DAY continuation requires
+    ``allow_night_to_day``. Daily policy: the end of the last frozen session.
+    """
+    if not isinstance(policy, HoldingPolicy):
+        raise TypeError("policy_must_be_HoldingPolicy")
+    ordered, entry = _get_calendar(sessions)
+    if entry is not None:
+        product_index = _product_index(entry, product)
+        if product_index is not None:
+            deadline = _holding_deadline_indexed(decision_nano, policy, entry, product_index)
+            if deadline is not _UNCACHED:
+                return deadline
+    return _holding_deadline_baseline(decision_nano, product, policy, ordered)
+
+
 def can_open_before_close(decision_nano: int, product: str, policy: HoldingPolicy,
                           sessions: tuple[SessionWindow, ...]) -> bool:
     """True when more than ``stop_open_before_minutes`` trading minutes remain
     between ``decision_nano`` and the allowed holding segment end."""
     deadline = holding_deadline(decision_nano, product, policy, sessions)
-    remaining = sum(
-        1 for slot in _all_minute_slots(_check_sessions(sessions), product)
-        if decision_nano < slot[1] <= deadline
-    )
-    return remaining > policy.stop_open_before_minutes
+    ordered, entry = _get_calendar(sessions)
+    if entry is not None:
+        product_index = _product_index(entry, product)
+        if product_index is not None:
+            _, ends = _minute_grid(entry, product, product_index)
+            upto_deadline = bisect_right(ends, deadline)
+            upto_decision = bisect_right(ends, decision_nano)
+            remaining = upto_deadline - upto_decision if upto_deadline > upto_decision else 0
+            return remaining > policy.stop_open_before_minutes
+    return _can_open_before_close_baseline(decision_nano, product, policy, ordered, deadline)
