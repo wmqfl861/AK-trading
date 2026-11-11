@@ -39,6 +39,7 @@ from ak_trading.v2.strategies.registry import (
     observation_wait,
     admission_decision,
     open_window_fits,
+    setup_expired,
     setup_expiry_nano,
 )
 from ak_trading.v2.strategies.state import freeze_round_budget, open_candidate_state
@@ -86,7 +87,13 @@ class TrendPullback:
                                     tuple(reasons) or ("NO_COMPLETED_BARS",))
         side = 1 if context.regime.base == "UP_TREND" else -1
         distance = Decimal(str(spec.parameters["pullback_distance_atr"]))
-        setup = self._advance_setup(context, state.setup, side, bars, ma20, atr, distance)
+        setup = self._advance_setup(context, state.setup, side, bars,
+                                    ma20, atr, distance)
+        if (setup is None
+                and setup_expiry_nano(context, bars[-1].end_nano,
+                                      int(spec.parameters["setup_expiry_bars"])) is None):
+            return observation_wait(context, state, None, 0,
+                                    ("SETUP_CALENDAR_INSUFFICIENT",))
         if setup is None:
             return observation_wait(context, state, None, state.confirmation_count,
                                     ("PULLBACK_ZONE_NOT_ENTERED",))
@@ -136,12 +143,22 @@ class TrendPullback:
     def _advance_setup(self, context: StrategyContext, previous: StrategySetup | None,
                        side: int, bars, ma20: Decimal, atr: Decimal,
                        distance: Decimal) -> StrategySetup | None:
+        """Advance the PULLBACK observation period.
+
+        K01: the fresh-branch expiry test runs on the shared observation
+        clock; an existing valid setup keeps its recorded expiry. An
+        insufficient establishment calendar yields no setup; the caller
+        reports ``SETUP_CALENDAR_INSUFFICIENT``.
+        """
         spec = self._spec
         bar = bars[-1]
         close = bar.close
         expiry_bars = int(spec.parameters["setup_expiry_bars"])
         if previous is None or previous.side != side \
-                or context.now_nano > previous.expires_at_nano:
+                or setup_expired(context, previous):
+            expires = setup_expiry_nano(context, bar.end_nano, expiry_bars)
+            if expires is None:
+                return None
             frozen_ma, frozen_atr, started = ma20, atr, bar.end_nano
             observed, armed, confirmations, previous_close = 1, False, 0, close
             base_id = stable_id("setup", f"{spec.strategy_id}|{bar.bar_id}|{side}")
@@ -151,6 +168,7 @@ class TrendPullback:
             frozen_ma = previous.frozen_ma
             frozen_atr = previous.frozen_atr
             started = previous.started_at_nano
+            expires = previous.expires_at_nano
             observed = previous.observed_bars + 1
             armed = previous.armed
             confirmations = previous.consecutive_confirmations
@@ -167,7 +185,7 @@ class TrendPullback:
         return StrategySetup(
             setup_id=base_id, strategy_id=spec.strategy_id,
             contract_id=bar.contract_id, side=side, started_at_nano=started,
-            expires_at_nano=setup_expiry_nano(context, started, expiry_bars),
+            expires_at_nano=expires,
             observed_bars=observed, frozen_range=None, frozen_ma=frozen_ma,
             frozen_atr=frozen_atr, trigger_level=frozen_ma, armed=newly_armed,
             consecutive_confirmations=confirmations, previous_close=close,

@@ -39,6 +39,7 @@ from ak_trading.v2.strategies.registry import (
     observation_wait,
     admission_decision,
     open_window_fits,
+    setup_expired,
     setup_expiry_nano,
 )
 from ak_trading.v2.strategies.state import freeze_round_budget, open_candidate_state
@@ -105,7 +106,7 @@ class ConfirmedBreakout:
         buffer = buffer_ticks * tick
 
         setup = state.setup
-        if setup is not None and context.now_nano > setup.expires_at_nano:
+        if setup is not None and setup_expired(context, setup):
             setup = None
         same_bar = setup is not None and setup.last_bar_id == bars[-1].bar_id
         created = False
@@ -156,11 +157,15 @@ class ConfirmedBreakout:
                 return observation_wait(context, state, None, 0,
                                         ("NO_BOUNDARY_CROSS",))
             started = bars[-1].end_nano
+            expires = setup_expiry_nano(context, started, 3)
+            if expires is None:
+                return observation_wait(context, state, None, 0,
+                                        ("SETUP_CALENDAR_INSUFFICIENT",))
             setup = StrategySetup(
                 setup_id=stable_id("setup", f"{spec.strategy_id}|{bars[-1].bar_id}|{side}"),
                 strategy_id=spec.strategy_id, contract_id=bars[-1].contract_id,
                 side=side, started_at_nano=started,
-                expires_at_nano=setup_expiry_nano(context, started, 3),
+                expires_at_nano=expires,
                 observed_bars=1, frozen_range=frozen, frozen_ma=None, frozen_atr=atr,
                 trigger_level=trigger, armed=True, consecutive_confirmations=1,
                 previous_close=close, last_bar_id=bars[-1].bar_id)

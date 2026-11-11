@@ -37,6 +37,7 @@ from ak_trading.v2.strategies.registry import (
     observation_wait,
     admission_decision,
     open_window_fits,
+    setup_expired,
     setup_expiry_nano,
 )
 from ak_trading.v2.strategies.state import freeze_round_budget, open_candidate_state
@@ -114,8 +115,11 @@ class TrendFollowing:
                 structure_count += 1
             else:
                 structure_count = 0
-        setup = self._advance_setup(context, state.setup, side, bars, structure_count,
-                                    ma20, atr)
+        setup = self._advance_setup(context, state.setup, side, bars,
+                                    structure_count, ma20, atr)
+        if (setup is None and structure_count > 0
+                and setup_expiry_nano(context, bars[-1].end_nano, 3) is None):
+            return self._wait(context, state, None, 0, ("SETUP_CALENDAR_INSUFFICIENT",))
         event = "PERSIST:UP_TREND" if side == 1 else "PERSIST:DOWN_TREND"
         gate = admission_decision(
             context, event=event, side=side, horizon=spec.max_holding,
@@ -158,13 +162,21 @@ class TrendFollowing:
     def _advance_setup(self, context: StrategyContext, previous: StrategySetup | None,
                        side: int, bars, structure_count: int, ma20: Decimal,
                        atr: Decimal) -> StrategySetup | None:
+        """Advance the TREND observation period.
+
+        K01: continuation and expiry run on the shared observation-clock
+        predicate — a bar ending exactly at the expiry keeps the period
+        (including its frozen fields). An insufficient establishment
+        calendar yields no setup; the caller reports
+        ``SETUP_CALENDAR_INSUFFICIENT``.
+        """
         if structure_count <= 0:
             return None
         from ak_trading.v2.artifacts import stable_id
         bar = bars[-1]
         expiry_bars = 3
         if (previous is not None and previous.side == side
-                and context.now_nano < previous.expires_at_nano
+                and not setup_expired(context, previous)
                 and previous.last_bar_id != bar.bar_id):
             return StrategySetup(
                 setup_id=previous.setup_id, strategy_id=previous.strategy_id,
@@ -180,11 +192,14 @@ class TrendFollowing:
         if previous is not None and previous.last_bar_id == bar.bar_id:
             return previous
         started = bar.end_nano
+        expires = setup_expiry_nano(context, started, expiry_bars)
+        if expires is None:
+            return None
         return StrategySetup(
             setup_id=stable_id("setup", f"{self._spec.strategy_id}|{bar.bar_id}|{side}"),
             strategy_id=self._spec.strategy_id,
             contract_id=bar.contract_id, side=side, started_at_nano=started,
-            expires_at_nano=setup_expiry_nano(context, started, expiry_bars),
+            expires_at_nano=expires,
             observed_bars=1, frozen_range=None, frozen_ma=ma20, frozen_atr=atr,
             trigger_level=bar.close, armed=False,
             consecutive_confirmations=structure_count, previous_close=bar.close,

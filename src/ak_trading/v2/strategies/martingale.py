@@ -45,11 +45,13 @@ from ak_trading.v2.strategies.registry import (
     make_open_proposal,
     next_open_nano,
     observation_bars,
+    observation_clock_bar,
     observation_wait,
     admission_decision,
     open_window_fits,
     range_entry_setup,
     select_add_horizon,
+    setup_expired,
 )
 from ak_trading.v2.strategies.state import (
     StateTransitionError,
@@ -98,9 +100,12 @@ class LimitedMartingale:
         fractions = tuple(Decimal(str(value)) for value in spec.parameters["layer_fractions"])
         setup, side, wait_reason = range_entry_setup(context, state, fractions[0], 5)
         if setup is None or side == 0:
-            # §7/phase0-F1: an expired observation period leaves no credit.
-            hold = 0 if (state.setup is not None
-                         and context.now_nano > state.setup.expires_at_nano) \
+            # §7/phase0-F1 + K01: an expired observation period leaves no
+            # credit, and with no eligible observation bar the counter
+            # fails closed at zero.
+            hold = 0 if (observation_clock_bar(context) is None
+                         or (state.setup is not None
+                             and setup_expired(context, state.setup))) \
                 else state.confirmation_count
             return observation_wait(context, state, None, hold,
                                     (wait_reason or "RANGE_MIDDLE_WAIT",))

@@ -391,7 +391,51 @@ def test_fifty_percent_direction_is_not_a_range_derivation(flat_reference):
     assessment = assess(features, flat_reference, frozen=frozen,
                         background=neutral_background)
     assert assessment.base == "ORDERED_RANGE"
-    assert assessment.cross_timeframe == "UNKNOWN"  # no clear trend either way
+    # K02 option A (r4-plan01 §4): a published non-directional daily
+    # background ALIGNS with the structural range; only the cross value
+    # changed here — the structural base still never derives from it.
+    assert assessment.cross_timeframe == "ALIGNED"
+
+
+def test_nontrend_invalid_background_never_aligns(flat_reference):
+    """K02 (r4-plan01 §4): a non-trend structural base becomes ALIGNED only
+    through a genuinely eligible published background. Absent, quality-
+    failed, out-of-distribution, unpublished and expired backgrounds all
+    stay UNKNOWN; only the valid neutral one aligns."""
+    from dataclasses import replace as _replace
+
+    frozen = freeze_range(snapshot(BASE, prior_low=96.0, prior_high=104.0, atr=2.0))
+    features = snapshot(BASE, er=0.2, reference=100.0, vol001=0.03)
+    valid_neutral = _background(0.5, 0.5)
+
+    def cross_with(background):
+        return assess(features, flat_reference, frozen=frozen,
+                      background=background).cross_timeframe
+
+    assert cross_with(valid_neutral) == "ALIGNED"
+    assert cross_with(None) == "UNKNOWN"
+    quality_failed = _replace(
+        valid_neutral,
+        quality=_replace(valid_neutral.quality, status="INVALID"))
+    assert cross_with(quality_failed) == "UNKNOWN"
+    out_of_distribution = _replace(valid_neutral, out_of_distribution=True)
+    assert cross_with(out_of_distribution) == "UNKNOWN"
+    # Not-yet-published and already-expired windows stay constructor-valid;
+    # they are stale strictly relative to the decision time.
+    unpublished = _replace(valid_neutral, decision_nano=BASE + 2 * NANO,
+                           published_at_nano=BASE + 2 * NANO,
+                           window_start_nano=BASE + 3 * NANO,
+                           window_end_nano=BASE + 4 * NANO,
+                           expires_at_nano=BASE + 4 * NANO)
+    assert cross_with(unpublished) == "UNKNOWN"
+    expired = _replace(valid_neutral, decision_nano=BASE - 21 * NANO,
+                       published_at_nano=BASE - 20 * NANO,
+                       window_start_nano=BASE - 19 * NANO,
+                       window_end_nano=BASE - 10 * NANO,
+                       expires_at_nano=BASE - 10 * NANO)
+    assert cross_with(expired) == "UNKNOWN"
+    # A clear direction never aligns with a structural range either.
+    assert cross_with(_background(0.7, 0.1)) == "CONFLICT"
 
 
 def test_cross_timeframe_aligned_and_countertrend(flat_reference):

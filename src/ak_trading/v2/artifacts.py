@@ -75,6 +75,10 @@ DOWNSTREAM_TEST_FILES: tuple[str, ...] = (
     # phase0 A2 (2026-10-26): the seven-family duplicate-bar permanent
     # regression joins every future lock alongside all existing entries.
     "tests/test_v2_m3b_duplicate_bar.py",
+    # r4-plan01 K01/K05 (2026-11-10): the observation-clock timing regression
+    # and the natural-chain smoke test join every future lock.
+    "tests/test_v2_m3b_confirmation_clock.py",
+    "tests/test_v2_natural_chain_smoke.py",
     # 08-M3C §3 / OQ-2: the six P1-stage M3C test files enter the lock at
     # P0 as contract-level assertions (owner M3C; P1 behavior tests are
     # frozen separately and never back-filled as a "correction").

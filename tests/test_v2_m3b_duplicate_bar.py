@@ -333,9 +333,13 @@ def build_world(family: str, mode: str):
         last = Decimal(str(entries[-1][1]))
         decision = bars[-1].end_nano
 
-        def make(gate_ok: bool = True, now_override=None) -> StrategyContext:
+        def make(gate_ok: bool = True, now_override=None, delay_ns: int = 0) -> StrategyContext:
+            # K01 timing support: ``delay_ns`` delivers the decision this many
+            # nanoseconds after the bar's close (availability latency), which
+            # must never count as another observation bar.
+            now = now_override if now_override is not None else decision + delay_ns
             if family == "BREAKOUT":
-                return breakout_step(spec, mode, bars, key, gate_ok, now_override,
+                return breakout_step(spec, mode, bars, key, gate_ok, now,
                                      breakout_creation, calendar)
             factors = family_factors(family, bars, last)
             snap = mode_features(mode, last, family_atr(family), factors,
@@ -346,7 +350,7 @@ def build_world(family: str, mode: str):
             return make_context(
                 spec, bars=bars, forecasts=forecasts,
                 regime_obj=regime(base, flags, frozen_shared), features_snap=snap,
-                sessions_override=calendar, now_override=now_override)
+                sessions_override=calendar, now_override=now)
 
         return make
 
@@ -394,15 +398,18 @@ def breakout_step(spec: StrategySpec, mode: str, bars, key: str, gate_ok: bool,
     if key in source_of:
         source = creation_cache[source_of[key]]
         factors = {"prior_low20": source.lower, "prior_high20": source.upper}
+        snap = mode_features(mode, last, Decimal("1"), factors, decision=decision)
     else:
+        # Creation steps model the real chain: the regime (and its frozen
+        # range) is assessed at the delivery decision, so a delayed
+        # delivery freezes at ``now`` (K01: latency is not another bar).
         factors = _boundary_factors(bars)
         source = creation_cache.get(key)
         if source is None:
             source = freeze_range(mode_features(mode, last, Decimal("1"), factors,
-                                                decision=decision))
-            assert source is not None and source.frozen_at_nano == decision
+                                                decision=now_override))
             creation_cache[key] = source
-    snap = mode_features(mode, last, Decimal("1"), factors, decision=decision)
+        snap = mode_features(mode, last, Decimal("1"), factors, decision=now_override)
     forecasts = family_forecasts("BREAKOUT", mode, snap, gate_ok=gate_ok,
                                  frozen=source, published=decision)
     return make_context(

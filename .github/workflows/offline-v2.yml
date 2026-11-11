@@ -2,8 +2,9 @@
 # (external review round 3, 2026-11-07). Changes for the effective H1-H8 plan:
 # after H3, v2/export.py keeps SQLAlchemy under TYPE_CHECKING, so the two M1
 # contract-lock tests no longer need it and this job installs pytest only.
-# Scope: all tests/test_v2_m[1-4]*.py plus the unchanged external duplicate-bar
-# probe, always through scripts/test_offline.py (guard before collection).
+# Scope: all tests/test_v2_m[1-4]*.py plus the forward-paper regression, the
+# K05 natural-chain smoke and the unchanged external duplicate-bar probe,
+# always through scripts/test_offline.py (guard before collection).
 # Linux Python 3.13 is the CI execution environment, not a change to the
 # project's support declarations. M5 tests (untracked local artifacts, optional
 # dependencies) and the launcher suite (PowerShell, psycopg/dotenv) stay out.
@@ -36,8 +37,10 @@ jobs:
           python-version: "3.13"
       - name: Install test-only dependencies
         run: python -m pip install "pytest>=8.0"
-      - name: v2 M1-M4 and duplicate-bar probe via the offline launcher
+      - name: v2 M1-M4, forward paper, natural-chain smoke and probes via the offline launcher
         shell: bash
         run: |
           python scripts/test_offline.py -q $(ls tests/test_v2_m[1-4]*.py) \
+            tests/test_v2_forward_paper.py \
+            tests/test_v2_natural_chain_smoke.py \
             docs/repo-audit-20261026-claude/probes/test_range_duplicate_bar_probe.py

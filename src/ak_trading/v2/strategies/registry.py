@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from datetime import date
 from decimal import Decimal
 from hashlib import sha256
 from pathlib import Path
@@ -367,11 +368,20 @@ def evaluation_nano(context: StrategyContext, checked_at_nano: int | None = None
 
 
 def observation_bars(context: StrategyContext) -> tuple[MarketBar, ...]:
-    """Completed, visible, close-bearing bars of this spec's frequency only."""
+    """Completed, available, close-bearing bars of this spec's frequency only.
+
+    K01: the observation clock is bar-driven. A bar counts as an observation
+    only once it is complete, same-frequency, closed at or before the
+    decision and already available at the decision; a completed-but-not-yet-
+    available bar is not an observation (delivery latency is not another
+    bar).
+    """
     duration = OBSERVATION_DURATIONS[context.spec.mode]
     seen: dict[str, MarketBar] = {}
     for bar in context.bars:
         if bar.duration_seconds != duration or not bar.complete:
+            continue
+        if bar.available_at_nano is None or bar.available_at_nano > context.now_nano:
             continue
         if bar.end_nano > context.now_nano:
             continue
@@ -379,6 +389,12 @@ def observation_bars(context: StrategyContext) -> tuple[MarketBar, ...]:
             continue
         seen.setdefault(bar.bar_id, bar)
     return tuple(sorted(seen.values(), key=lambda bar: (bar.end_nano, bar.bar_id)))
+
+
+def observation_clock_bar(context: StrategyContext) -> MarketBar | None:
+    """Latest completed, available, same-frequency bar (the K01 clock)."""
+    bars = observation_bars(context)
+    return bars[-1] if bars else None
 
 
 def last_close_of(bars: tuple[MarketBar, ...]) -> Decimal | None:
@@ -425,17 +441,22 @@ def observation_span_nano(mode: Literal["MINUTE", "DAILY"]) -> int:
     return MINUTE_NANO if mode == "MINUTE" else DAY_NANO
 
 
-def setup_expiry_nano(context: StrategyContext, start_nano: int, bars: int) -> int:
-    """End of the ``bars``-th planned bar of this spec's frequency after start.
+def _planned_setup_expiry_nano(product: str, mode: Literal["MINUTE", "DAILY"],
+                               start_nano: int, bars: int,
+                               sessions: tuple[SessionWindow, ...]) -> int | None:
+    """Pure planned-setup expiry over a frozen calendar (shared with K04).
 
-    Uses the frozen product calendar directly (setup windows are 3/5 bars,
-    which are not registered ``Horizon`` values); a missing calendar falls
-    back to the plain span, never to a natural-date guess.
+    MINUTE: end of the ``bars``-th planned minute slot counting the creating
+    bar as #1, keeping the historical tail fallback when the calendar runs
+    out. DAILY (K01): close of the ``bars``-th distinct trading day, where a
+    day closes at its latest session end and the establishment bar's day
+    counts as #1; nights, breaks and weekends never create extra DAILY
+    observations. Missing or insufficient DAILY coverage returns ``None`` —
+    no wall-day extrapolation or partial-calendar arithmetic.
     """
-    product = context.features.product
-    ordered = sorted((s for s in context.sessions if s.product == product),
+    ordered = sorted((s for s in sessions if s.product == product),
                      key=lambda s: s.start_nano)
-    if context.spec.mode == "MINUTE":
+    if mode == "MINUTE":
         # The creating bar is planned bar #1, so the setup spans ``bars - 1``
         # further planned bars; expiry is the end of the ``bars``-th one.
         remaining = bars - 1
@@ -456,15 +477,31 @@ def setup_expiry_nano(context: StrategyContext, start_nano: int, bars: int) -> i
                 return session.start_nano + (slot_index + remaining) * MINUTE_NANO
             remaining -= usable
         return start_nano + remaining * MINUTE_NANO
-    day_ends: dict[int, int] = {}
+    day_close: dict[date, int] = {}
     for session in ordered:
-        if session.start_nano > start_nano:
-            day_ends[session.start_nano] = max(
-                day_ends.get(session.start_nano, session.end_nano), session.end_nano)
-    starts = sorted(day_ends)
-    if 1 <= bars <= len(starts):
-        return starts[bars - 1]
-    return start_nano + bars * DAY_NANO
+        current = day_close.get(session.trading_day)
+        day_close[session.trading_day] = (session.end_nano if current is None
+                                          else max(current, session.end_nano))
+    later = [day_close[day] for day in sorted(day_close)
+             if day_close[day] > start_nano]
+    remaining = bars - 1
+    if remaining <= 0:
+        return start_nano
+    if remaining <= len(later):
+        return later[remaining - 1]
+    return None
+
+
+def setup_expiry_nano(context: StrategyContext, start_nano: int, bars: int) -> int | None:
+    """End of the ``bars``-th planned bar of this spec's frequency after start.
+
+    Uses the frozen product calendar directly (setup windows are 3/5 bars,
+    which are not registered ``Horizon`` values). Insufficient DAILY
+    calendars return ``None``; callers decline establishment instead of
+    extrapolating.
+    """
+    return _planned_setup_expiry_nano(
+        context.features.product, context.spec.mode, start_nano, bars, context.sessions)
 
 
 def cooldown_end_nano(now_nano: int, product: str, mode: Literal["MINUTE", "DAILY"],
@@ -1281,6 +1318,20 @@ def with_regime(state: StrategyState, regime: RegimeAssessment) -> StrategyState
     )
 
 
+def setup_expired(context: StrategyContext, setup: StrategySetup) -> bool:
+    """K01 shared observation-clock expiry predicate.
+
+    A setup is expired only once a completed, available, same-frequency bar
+    closes strictly after its expiry; a bar ending exactly at the expiry
+    keeps the period alive. Wall-clock decision time never expires an
+    observation period: delivery latency is not another bar. With no
+    eligible bar there is no evidence of expiry; callers fail closed
+    separately (WAIT, zero confirmation credit).
+    """
+    bar = observation_clock_bar(context)
+    return bar is not None and bar.end_nano > setup.expires_at_nano
+
+
 def range_entry_setup(context: StrategyContext, state: StrategyState,
                       fraction: Decimal, expiry_bars: int,
                       ) -> tuple[StrategySetup | None, int, str | None]:
@@ -1291,7 +1342,8 @@ def range_entry_setup(context: StrategyContext, state: StrategyState,
     below M confirms. Short is the mirror at ``U - fraction*W``. First touch
     and re-cross must be different bars; middle-of-range or one-sided
     adverse crossings never confirm. Returns the new setup, the side and a
-    WAIT reason when no structure exists.
+    WAIT reason when no structure exists. An insufficient establishment
+    calendar declines with ``SETUP_CALENDAR_INSUFFICIENT``.
     """
     frozen = context.regime.frozen_range
     if frozen is None:
@@ -1309,7 +1361,7 @@ def range_entry_setup(context: StrategyContext, state: StrategyState,
     previous = state.setup
     if previous is not None and (
             previous.frozen_range is None or previous.frozen_range.range_id != frozen.range_id
-            or context.now_nano > previous.expires_at_nano):
+            or setup_expired(context, previous)):
         previous = None
     if previous is not None and previous.last_bar_id == bar.bar_id:
         return previous, previous.side, None
@@ -1322,12 +1374,15 @@ def range_entry_setup(context: StrategyContext, state: StrategyState,
             side = -1
         if side == 0:
             return None, 0, "RANGE_MIDDLE_WAIT"
+        expires = setup_expiry_nano(context, bar.end_nano, expiry_bars)
+        if expires is None:
+            return None, 0, "SETUP_CALENDAR_INSUFFICIENT"
         setup = StrategySetup(
             setup_id=stable_id(
                 "setup", f"{context.spec.strategy_id}|{bar.bar_id}|{side}|{frozen.range_id}"),
             strategy_id=context.spec.strategy_id, contract_id=bar.contract_id,
             side=side, started_at_nano=bar.end_nano,
-            expires_at_nano=setup_expiry_nano(context, bar.end_nano, expiry_bars),
+            expires_at_nano=expires,
             observed_bars=1, frozen_range=frozen, frozen_ma=None,
             frozen_atr=context.features.atr_points or Decimal("1"),
             trigger_level=long_level if side == 1 else short_level,
@@ -1364,28 +1419,30 @@ def advance_confirmation_count(context: StrategyContext, state: StrategyState,
     The old observation period is always judged from the setup held by
     ``state`` BEFORE this call's family advance, never from the freshly
     returned setup's ``last_bar_id``; the qualifying observation is the
-    current last completed same-frequency bar. Fixed priority: a failed
-    admission gate resets to 0; ``created`` marks a genuinely new
-    observation period established by this call (BREAKOUT's real creation,
-    a fresh range arming) and starts at 1; an expired old period never
-    lends credit — no rebuilt structure leaves 0, a rebuilt valid setup
-    counts its first qualifying observation as 1, and a still-expired old
-    object is never itself a new setup; an unexpired same-bar redelivery
-    holds the counter; any other qualifying new bar advances it by one.
+    latest completed, available, same-frequency bar (K01 observation clock).
+    Fixed priority: a failed admission gate resets to 0; a genuinely new
+    observation period created by this call (BREAKOUT's real creation, a
+    fresh range arming) starts at 1 only when its creating bar is already
+    available; with no eligible bar the counter fails closed at 0; an
+    expired old period (a bar closed strictly after its expiry) never lends
+    credit — no rebuilt structure leaves 0, a rebuilt valid setup counts
+    its first qualifying observation as 1, and a still-expired old object
+    is never itself a new setup; an unexpired same-bar redelivery holds the
+    counter; any other qualifying new bar advances it by one.
     """
     if not gate_ok:
         return 0
+    bar = observation_clock_bar(context)
     if created:
-        return 1
-    bars = observation_bars(context)
-    if not bars:
+        return 1 if bar is not None else 0
+    if bar is None:
         return 0
     previous = state.setup
-    if previous is not None and context.now_nano > previous.expires_at_nano:
+    if previous is not None and bar.end_nano > previous.expires_at_nano:
         if setup is not None and setup.setup_id != previous.setup_id:
             return 1
         return 0
-    if previous is not None and previous.last_bar_id == bars[-1].bar_id:
+    if previous is not None and previous.last_bar_id == bar.bar_id:
         return state.confirmation_count
     return state.confirmation_count + 1
 

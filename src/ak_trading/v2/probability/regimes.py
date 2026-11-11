@@ -307,6 +307,27 @@ def _background_trend(background: MarketForecast | None) -> str | None:
     return None
 
 
+def _nontrend_background_cross(background: MarketForecast | None,
+                               decision_nano: int) -> str:
+    """K02 option A cross-timeframe result for a structural range base.
+
+    A valid published non-directional daily background is ALIGNED with the
+    structural range judgment; a clear background direction is CONFLICT (the
+    daily background trends while the decision timeframe ranges — range
+    families must not open). An absent, not-yet-published, expired,
+    quality-failed or out-of-distribution background stays UNKNOWN: an
+    invalid object never becomes ALIGNED merely by being non-null.
+    """
+    if background is None:
+        return "UNKNOWN"
+    if background.quality.status != "READY" or background.out_of_distribution:
+        return "UNKNOWN"
+    if not background.published_at_nano <= decision_nano < background.expires_at_nano:
+        return "UNKNOWN"
+    trend = _background_trend(background)
+    return "CONFLICT" if trend is not None else "ALIGNED"
+
+
 def _structural_base(features: FeatureSnapshot, frozen_range: FrozenRange | None,
                      round_trip_cost_points: Decimal,
                      reference: RegimeReference) -> tuple[str, tuple[str, ...]]:
@@ -424,12 +445,20 @@ def assess_regime(features: FeatureSnapshot, macro: MacroContext,
             flags.append("PULLBACK")
             reasons.append("near_ma20_with_clear_background_trend")
 
-    if trend is None or base not in ("UP_TREND", "DOWN_TREND"):
-        cross_timeframe = "UNKNOWN"
-    elif (trend == "UP" and base == "UP_TREND") or (trend == "DOWN" and base == "DOWN_TREND"):
-        cross_timeframe = "ALIGNED"
+    if base in ("UP_TREND", "DOWN_TREND"):
+        if trend is None:
+            cross_timeframe = "UNKNOWN"
+        elif (trend == "UP" and base == "UP_TREND") or (trend == "DOWN" and base == "DOWN_TREND"):
+            cross_timeframe = "ALIGNED"
+        else:
+            cross_timeframe = "COUNTERTREND"
+    elif base in ("ORDERED_RANGE", "COMPRESSION", "WIDE_RANGE"):
+        # K02 option A: the daily background either agrees with the
+        # structural range (published non-directional), conflicts with it
+        # (clear direction), or is absent/unusable (UNKNOWN).
+        cross_timeframe = _nontrend_background_cross(background, features.decision_nano)
     else:
-        cross_timeframe = "COUNTERTREND"
+        cross_timeframe = "UNKNOWN"
 
     if base == "UNKNOWN":
         confirmed = 0
