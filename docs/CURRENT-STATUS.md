@@ -1,6 +1,6 @@
-本周能看到什么：组合修复定向硬审通过，正接入预检。
-卡在哪：集成全量验收；H7缺正式输入和配置。
-需要我做什么：安全处理完成后通知；确认H7正式输入。
+本周能看到什么：K01/K02/K05与K04集成硬审通过。
+卡在哪：合同锁缺真实v1 manifest，AFTER未启动。
+需要我做什么：由M5验收方提供真实v1 manifest；确认H7输入。
 
 # 第四轮第一批修复与防护
 
@@ -18,7 +18,7 @@ fetch 与 ff-only 合入 raw0；外审分支 bbc85e0 已包含，取得后 HEAD 
 | `$R4/probes/clock_horizon_bench.py` | 0 | 非 pytest；3000组 | 值与 ClockError 全等；250日 MINUTE 本机114.074ms，外审约16ms；K10不在本批 |
 | `$R4/probes/budget_feasibility.py --name RB --price <真实值> --atr <真实值> --multiplier 10 --tick 1 --margin <真实值> --fee-rate <真实值>` | NOT_RUN | N/A | H7 selected_input=null，缺正式输入和配置；不用示意价格/ATR替代 |
 
-## K01–K05 当前阶段（截至 2026-11-11 04:31 UTC）
+## K01–K05 当前阶段（截至 2026-11-11 04:56 UTC）
 
 | 项目 | 真实成果及独立审核 | 产品合入/下一步 |
 |---|---|---|
@@ -26,7 +26,7 @@ fetch 与 ff-only 合入 raw0；外审分支 bbc85e0 已包含，取得后 HEAD 
 | K01 | 原 b653f7e 开发会话完成组合修复；23文件冻结、独立源码/定向无条件 PASS | 待集成全量及最终验收 |
 | K02 | 原 Astra 选方案甲，随组合修复获同一源码/定向 PASS | 同上；外部探针六项不兼容断言保留 |
 | K05 | 真实 SYNTHETIC 自然链六交易族 OPEN、WAIT 不开；CI 已加入 Forward 与自然链；随组合获源码/定向 PASS | 待完整候选与实际远端 CI |
-| K04 | 多合约计数、品种/模式/期限精确匹配及 >7日延迟问题已修，34项测试及反例获无条件范围 PASS | 已把23文件完整审核版本交给原 owner，正在接入真实日历 helper；H7实际预检仍缺输入 |
+| K04 | 多合约计数、品种/模式/期限精确匹配及 >7日延迟问题已修，34项测试及反例获无条件范围 PASS | 原 owner 已接入真实日历 helper，35项自测/raw0；独立重跑35P/raw0，补充反例审核中；H7仍缺输入 |
 
 组合独立重跑：M1–M4 raw0，1082 selected/ran、1079P、3原有 REAL_SHARD skip、0F/0E/0CE，墙钟1091秒；Forward68P、自然链57P、确认探针9P、第二轮重复探针9P，合计143P/raw0，墙钟709秒；现有重复K线96P包含于 M1–M4。审核者17项时钟、日历、发布、可用性与幂等反例全部通过。跨周期外部探针实际 raw1/5P6F，与绑定裁定一致，原始失败不改写。Windows时间不是 Linux CI验收；保留现有20分钟时限，远端运行待实际核验。
 
@@ -42,6 +42,15 @@ fetch 与 ff-only 合入 raw0；外审分支 bbc85e0 已包含，取得后 HEAD 
 
 K04 对 H7 的真实输出全文：**尚不存在，缺少正式输入和配置。** 两份留存记录均 selected_input=null，仅列候选；不自行选 r1/r2，不伪造价格、ATR、预检或研究结果。
 
+## 本批收尾阻塞（2026-11-11 05:10 UTC）
+
+K04 集成审核已无条件 PASS：union 上 35P/raw0，集成反例 11/11 PASS，28/28 依赖 pin 与 import origin 均核对。原 owner 生成本地 `devplan-v2.1.7` 锁的第一次有效调用由 ZCode 返回 native0，但内部锁构建命令返回 **raw1**，没有写锁；实际错误为 `ArtifactsError: acceptance_manifest_root_fields_must_be_exactly_['bindings','dataset_kind','files','generation','inputs','labels','schema_version','selection','splits']`。重试前的调度输入错误（把目录当普通文件 pin）在启动前返回 **raw96 / NO_LAUNCH PermissionError**，未启动模型；第二次已修正并真实执行，仍保留原始尝试。
+
+阻塞文件 `tests/fixtures/v2/ep1_t7/acceptance-input-manifest.json` 的当前真实 schema 是 `ak_ep1_t7_acceptance_input_v1`，根字段为 `code_files、derived_identity、files、labels、not_contained、profile、recipe_sha256、schema_version、seed、synthetic`；锁 builder 要求的真实 `ak_probability_acceptance_input_manifest_v1` 九字段版本不存在于仓库或冻结 union。只找到的九字段文件在 `C:/AKH1107/bt0` 测试临时镜像中，是 `_mirror_lock_tree` 生成的 SYNTHETIC 测试夹具，不能作为产品输入。根据计划和边界，不复制、改写、伪造或放宽 lock verifier，也不把旧 T7 manifest冒充 v1。
+
+因此本批在真实硬依赖处停止：完整 AFTER（一次完整回归 + 三探针）、四成员 K03 对照、最终 union 硬审核、锁绑定的最终接受、产品源码合入和产品提交均**未启动/未完成**。已完成并独立 PASS 的范围：K03 修复工具及真实 BEFORE 范围；组合 K01/K02/K05 23文件源码/定向范围；最终 K04 两文件集成范围。解除动作：由 M5 acceptance-input owner 提供并独立审核真实 `ak_probability_acceptance_input_manifest_v1`，或由 Astra 计划作者对该既有 lock 前置作出明确裁定后，再从原 ZCode owner 续接 lock；不得用测试临时镜像替代。
+
+
 H5两条既有冷链均结束：cold进程raw0但 engineering FAIL/m5_complete=false；后续 nodes 各 raw1，33 selected/ran、23P、0F、10 setupE，M5/single/audit NOT_RUN；七个payoff窗口 NO_CANDIDATE，原独立FAIL保持。H8 profile09继续原72小时作业，尚无终态，不重启；未启动的 profile10 队列已撤销。H6/H7暂缓，支撑不等H8。
 
-已推送 main 的状态/路由提交：e62177b（CI42927490129）、67cbe07（CI42932802169）、47278b1（CI42939755983）、ec7db7c（CI42946822804），四次CI均成功，均不冒称本批产品验收。本批产品尚未合入。安全处理未收到完成通知，候选分支、输入包、锁不推远端；已接受安全源码可按计划推 main。始终 false/hold/NOT_RUN/send0/cancel0；未读写凭据、未操作服务/防火墙/可见性/DB角色/系统/UI，未开启本批外模块。原始失败及协调/审核者探针修正均留存在仓库外；不把协调诊断改写为产品通过。
+已推送 main 的状态/路由提交：e62177b（CI42927490129）、67cbe07（CI42932802169）、47278b1（CI42939755983）、ec7db7c（CI42946822804），四次CI均成功，均不冒称本批产品验收。d131a49（组合源码范围PASS/接入状态）亦已推送，CI42960085240成功。本批产品尚未合入。安全处理未收到完成通知，候选分支、输入包、锁不推远端；已接受安全源码可按计划推 main。始终 false/hold/NOT_RUN/send0/cancel0；未读写凭据、未操作服务/防火墙/可见性/DB角色/系统/UI，未开启本批外模块。原始失败及协调/审核者探针修正均留存在仓库外；不把协调诊断改写为产品通过。
