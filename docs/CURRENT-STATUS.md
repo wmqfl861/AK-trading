@@ -1,6 +1,6 @@
-本周能看到什么：K01/K02/K05与K04集成硬审通过。
-卡在哪：合同锁缺真实v1 manifest，AFTER未启动。
-需要我做什么：由M5验收方提供真实v1 manifest；确认H7输入。
+本周能看到什么：修复与预检集成硬审通过，全量运行中。
+卡在哪：AFTER待终态；合同锁单独阻塞。
+需要我做什么：确认H7输入；锁另待真实v1 manifest。
 
 # 第四轮第一批修复与防护
 
@@ -48,9 +48,13 @@ K04 集成审核已无条件 PASS：union 上 35P/raw0，集成反例 11/11 PASS
 
 阻塞文件 `tests/fixtures/v2/ep1_t7/acceptance-input-manifest.json` 的当前真实 schema 是 `ak_ep1_t7_acceptance_input_v1`，根字段为 `code_files、derived_identity、files、labels、not_contained、profile、recipe_sha256、schema_version、seed、synthetic`；锁 builder 要求的真实 `ak_probability_acceptance_input_manifest_v1` 九字段版本不存在于仓库或冻结 union。只找到的九字段文件在 `C:/AKH1107/bt0` 测试临时镜像中，是 `_mirror_lock_tree` 生成的 SYNTHETIC 测试夹具，不能作为产品输入。根据计划和边界，不复制、改写、伪造或放宽 lock verifier，也不把旧 T7 manifest冒充 v1。
 
-因此本批在真实硬依赖处停止：完整 AFTER（一次完整回归 + 三探针）、四成员 K03 对照、最终 union 硬审核、锁绑定的最终接受、产品源码合入和产品提交均**未启动/未完成**。已完成并独立 PASS 的范围：K03 修复工具及真实 BEFORE 范围；组合 K01/K02/K05 23文件源码/定向范围；最终 K04 两文件集成范围。解除动作：由 M5 acceptance-input owner 提供并独立审核真实 `ak_probability_acceptance_input_manifest_v1`，或由 Astra 计划作者对该既有 lock 前置作出明确裁定后，再从原 ZCode owner 续接 lock；不得用测试临时镜像替代。
+最初按lock-before-launch把整个候选记为阻塞；该调度结论已由原Astra的本批裁定更正：四条离线命令不消费拟建外部锁，允许先运行AFTER，锁依赖单独保留。已完成并独立 PASS 的范围：K03 修复工具及真实 BEFORE 范围；组合 K01/K02/K05 23文件源码/定向范围；最终 K04 两文件集成范围。解除动作：由 M5 acceptance-input owner 提供并独立审核真实 `ak_probability_acceptance_input_manifest_v1`，或由 Astra 计划作者对该既有 lock 前置作出明确裁定后，再从原 ZCode owner 续接 lock；不得用测试临时镜像替代。
 
 
 H5两条既有冷链均结束：cold进程raw0但 engineering FAIL/m5_complete=false；后续 nodes 各 raw1，33 selected/ran、23P、0F、10 setupE，M5/single/audit NOT_RUN；七个payoff窗口 NO_CANDIDATE，原独立FAIL保持。H8 profile09继续原72小时作业，尚无终态，不重启；未启动的 profile10 队列已撤销。H6/H7暂缓，支撑不等H8。
 
 已推送 main 的状态/路由提交：e62177b（CI42927490129）、67cbe07（CI42932802169）、47278b1（CI42939755983）、ec7db7c（CI42946822804），四次CI均成功，均不冒称本批产品验收。d131a49（组合源码范围PASS/接入状态）亦已推送，CI42960085240成功。本批产品尚未合入。安全处理未收到完成通知，候选分支、输入包、锁不推远端；已接受安全源码可按计划推 main。始终 false/hold/NOT_RUN/send0/cancel0；未读写凭据、未操作服务/防火墙/可见性/DB角色/系统/UI，未开启本批外模块。原始失败及协调/审核者探针修正均留存在仓库外；不把协调诊断改写为产品通过。
+
+**原Astra合同锁裁定（已生效，2026-11-11）：** 不替换真实T7 manifest，不授权本批M5 schema迁移；记为 `LOCAL_LOCK_BLOCKED`。四个已核定AFTER作业可立即在不变union上运行，只覆盖原执行记录的“锁先于启动”条件。源码/工具在完整四成员对照零新增失败/错误/收集错误、必要缺陷实测解决、独立无条件最终PASS后，可推main并验证CI；这不构成锁/研究包接受。后续仅锁/报告元数据操作、且源码测试夹具选择环境不变时，不要求重复全量。无需新计划审核循环。
+
+AFTER已于2026-11-11 05:43:10 UTC实际启动：原`test_offline.py -q --continue-on-collection-errors`、固定完整环境、同10域、新fa01基目录、独立8GiB保护与72h墙钟；用户已授权回归夹具冷链。三探针终态分别raw0/9P、raw0/9P、raw1/5P6F；全量尚未终态，新增失败数仍UNKNOWN。当前main109bb86的CI42964447592成功，属于状态提交，不能代替产品验收。
