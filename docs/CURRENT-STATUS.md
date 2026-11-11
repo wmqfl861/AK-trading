@@ -1,17 +1,17 @@
-本周能看到什么：时钟索引和稳定测试编号已完成硬审。
-卡在哪：本轮待发布与CI；研究锁和H7仍阻塞。
+本周能看到什么：两项修复已硬审通过并推送main。
+卡在哪：本轮已完成；研究锁和H7仍阻塞。
 需要我做什么：本轮无需新授权，H6/H7继续暂缓。
 
 # 当前交付状态（2026-11-11）
 
-本轮有效计划：[有限修复优化计划](repair-and-optimization-plan-20261111.md)，原Astra/max作者已处置独立ZCode的一次计划意见，不设计划PASS门槛。基点main `c608d20791792a4838f6f3e001dd436ad2f8faba`；上一批产品 `d614360dda423a8ef35fbf581afd43c2fe28fcf3` 已独立PASS、推送，HEAD CI [42986815071](https://github.com/wmqfl861/AK-trading/actions/runs/42986815071) success（1205P/4skip/0F）。本轮为两项有限修复，完成推送与绿色CI后停止，不扩展模块。
+本轮有效计划：[有限修复优化计划](repair-and-optimization-plan-20261111.md)，原Astra/max作者已处置独立ZCode的一次计划意见，不设计划PASS门槛。基点main `c608d20791792a4838f6f3e001dd436ad2f8faba`；本轮产品提交 **`e4fe37b80c5aee2d97a3e540ea5a47d9928c8f8e`** 已推送main，[CI 43120738564](https://github.com/wmqfl861/AK-trading/actions/runs/43120738564) **success：1215P/4skip/0F，测试294.05秒**。上一批产品`d614360dda423a8ef35fbf581afd43c2fe28fcf3`及HEAD `c608d20`的PASS和绿色CI保持。本轮两项有限修复已完成，收尾只更新本页，不新增模块或下一批计划。
 
 | 本轮交付 | 实际状态与验收 |
 |---|---|
 | K03 参数身份 | 两个UUID参数保留随机值、七例顺序和原断言，仅固定pytest标签；独立定向55P/0F，七例逐项通过；最终统一硬审无条件PASS |
 | K10-core | 三个时钟API内部复用有界日历索引，保留原结果、异常顺序及公共签名；独立235P/0F、21项等价边界及10项缓存反例通过；最终统一硬审无条件PASS |
 | 后继基线 | 原支撑ZCode从真实四成员终态用未改record工具生成`tests/baselines/full-suite-windows-20261111-r5.json`，raw0；独立审核者重新record及严格跨记录比较均raw0，元数据无条件PASS；旧基线和比较器不改 |
-| 发布 | 实际8个暂存文件已独立无条件PASS，6个字节一致、2个仅CRLF/LF转换；本轮待提交、推送与HEAD CI |
+| 发布 | 实际8个发布文件已独立无条件PASS，6个字节一致、2个仅CRLF/LF转换；产品提交`e4fe37b`已推送main，1215P/4skip的CI成功；本页收尾提交不改接受源码或基线 |
 
 计划Astra/max；实际开发两位专属ZCode负责人；另一独立ZCode GLM-5.3/max审核。G1下关键线与支撑线并行实施，冻结即分别定向硬审，共用一次独立完整AFTER。原始流及命令、终态、SHA-256和完整报告压缩留仓库外。
 
@@ -44,6 +44,6 @@ K01/K02/K05已硬审、合入和CI：六族按观察bar到期，DAILY按交易�
 
 H5两条旧冷链engineering FAIL，原节点各23P/10setupE，不启动新正式冷链；只允许全量所需夹具。H6/H7暂缓。H8 profile09已FAILED（raw2、磁盘耗尽、墙钟103563.51秒、最终PID0），不重启09/10。N8、DISPATCH、完整shadow、Forward采集、paper及holdout不启动。
 
-保留本轮纠正：K10首轮定向误含T7冷链夹具，按原PID/创建身份受控停止raw130，未作成功；原ZCode会话保留WIP续接，后续定向排除该夹具。新测试最初误用`tuple(t)`制造新对象、bench异常和零计时样本均保留原失败，修正后通过。发布预检曾因现有LF/CRLF差异raw1且零写入；改按实际HEAD核对，仅允许已证明的换行差异并补核实际索引，避免预测哈希代替发布事实。
+保留本轮纠正：K10首轮定向误含T7冷链夹具，按原PID/创建身份受控停止raw130，未作成功；原ZCode会话保留WIP续接，后续定向排除该夹具。新测试最初误用`tuple(t)`制造新对象、bench异常和零计时样本均保留原失败，修正后通过。发布预检曾因现有LF/CRLF差异raw1且零写入；改按实际HEAD核对，仅允许已证明的换行差异并补核实际索引。附加空白检查raw2的419项均为clock.py既有CRLF行尾CR，没有尾空格或制表符；保留诊断，不改源码或Git配置。以后先核文件换行约定，使用实际索引验证，避免预测哈希或不适用的空白检查代替发布事实。
 
 保持`enable_trading=False / observer=hold / broker=NOT_RUN / send=cancel=0`。不读取、打印、修改或探测凭据，不改规则、外审、系统或服务；不推候选分支、输入包或锁。完整日志在仓库外，状态只维护本页。
