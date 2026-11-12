@@ -1230,7 +1230,7 @@ def cmd_build(args: argparse.Namespace) -> int:
         "argv": sys.argv,
         "cwd": os.getcwd(),
         "python": platform.python_version(),
-        "platform": platform.platform(),
+        "platform": sys.platform,
         "surface_path": str(surface_path),
         "output_root": str(output_root),
         "final_dir": str(final_dir),

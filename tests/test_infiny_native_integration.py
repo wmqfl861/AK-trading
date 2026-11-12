@@ -22,8 +22,10 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import sys
 import threading
 import time
+import weakref
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -234,30 +236,55 @@ def test_h21_sync_callback_before_return_persisted_first(monkeypatch, tmp_path):
     service = FakeExecutionService()
     bridge = None
     probe = None
+    restore_arming = None
     try:
         # W2 reversed direction: no arming-effective round -> the dispatch is
         # blocked before any native call could fire the sync-callback path.
         probe = _assert_legacy_rearm_blocks_dispatch(module, fake, tmp_path, service)
 
-        bridge = _armed(module, fake, tmp_path, service)
+        bridge, restore_arming = _h21_armed_serialized(module, fake, tmp_path, service)
 
-        # a fill callback fires synchronously DURING the native send
+        # a fill callback fires synchronously DURING the native send; the
+        # callback thread's command clock stays pinned at the command's
+        # issued_at (ruling06 §3 seam) so the real 0.45s CONSUMED write below
+        # cannot expire the unchanged 400ms TTL; every other thread keeps the
+        # real clock. The in-send observation reads the REAL committed outbox
+        # (unfiltered, not only acked=0) between on_trade returning and the
+        # original send returning: the real append_event return plus its
+        # committed row prove persistence BEFORE send returns — receipts or
+        # eventual uploads never substitute.
         invoked = []
         original_send = fake.sendOrder
+        append_returns = []
+        real_append_event = bridge._stores.append_event
+        durable_inside_send = {}
+
+        def observing_append_event(body_text):
+            returned = real_append_event(body_text)
+            append_returns.append((body_text, returned))
+            return returned
 
         def send_with_sync_callback(**kwargs):
             invoked.append(kwargs)
             bridge.on_trade({"TradeID": "SIM_TRADE_1", "Volume": 1})
+            durable_inside_send["rows"] = _committed_outbox_rows(
+                bridge, "SIM_TRADE_1")
             result = original_send(**kwargs)
             invoked.append("returned")
             return result
 
         fake.sendOrder = send_with_sync_callback
+        bridge._stores.append_event = observing_append_event
         command = armed_dispatch(bridge)
-        bridge._receive_dispatch(command)
-        bridge._pump_once()
+        _after_real_consumed(bridge, lambda: time.sleep(0.45))
+        with _CommandClockSeam(module, command):
+            bridge._receive_dispatch(command)
+            bridge._pump_once()
+        assert len(invoked) == 2, f"dispatch never reached the native send: {invoked!r}"
         assert invoked == [invoked[0], "returned"] and len(invoked) == 2  # single call, sync trade inside
         assert bridge.state_map.event_gap is False  # capture during call persisted
+        assert append_returns, "real append_event never returned during the callback"
+        assert durable_inside_send["rows"], "callback row was not durable inside the send"
         deadline = time.monotonic() + 2
         while time.monotonic() < deadline:
             rows = bridge._stores.pending_events(10)
@@ -273,7 +300,536 @@ def test_h21_sync_callback_before_return_persisted_first(monkeypatch, tmp_path):
     finally:
         stop_started_bridge(bridge)
         stop_started_bridge(probe)
+        if restore_arming is not None:
+            restore_arming()
         service.close()
+
+
+class _CommandClockSeam:
+    """Ruling06 §3 test seam over the isolated client module's ``_now_utc``.
+
+    Narrow scope: only the thread running ``_receive_dispatch``/``_pump_once``
+    (the callback thread) sees the controlled command time — pinned at the
+    command's ``issued_at``, optionally advanced by the test after the real
+    CONSUMED receipt write returns. Every other thread keeps the original
+    clock. Restoration is guaranteed even on exceptions; no system clock,
+    global datetime, time.monotonic or thread wait is touched, and no arming,
+    freshness, admission or post-fsync fence is disabled.
+    """
+
+    def __init__(self, module, command):
+        self._module = module
+        self._original = module._now_utc
+        self._thread = threading.get_ident()
+        self._moment = datetime.fromisoformat(
+            command["issued_at"].replace("Z", "+00:00"))
+        self.expires_at = datetime.fromisoformat(
+            command["expires_at"].replace("Z", "+00:00"))
+
+    def advance_to(self, moment):
+        self._moment = moment
+
+    def _seam_now(self):
+        if threading.get_ident() == self._thread:
+            return self._moment
+        return self._original()
+
+    def __enter__(self):
+        self._module._now_utc = self._seam_now
+        return self
+
+    def __exit__(self, *exc_info):
+        self._module._now_utc = self._original
+        return False
+
+
+def _after_real_consumed(bridge, hook):
+    """Run ``hook`` right after the REAL durable CONSUMED receipt append
+    returns; every append itself stays the production write."""
+    real_append = bridge._stores.append_receipt
+
+    def wrapped(record):
+        result = real_append(record)
+        if record.get("stage") == "CONSUMED":
+            hook()
+        return result
+
+    bridge._stores.append_receipt = wrapped
+
+
+def _committed_outbox_rows(bridge, needle):
+    """Rows of the REAL committed outbox containing ``needle`` — an
+    unfiltered read (ruling07 §3: never only acked=0) of what append_event
+    has actually committed."""
+    stores = bridge._stores
+    with stores._lock:
+        rows = stores.outbox.execute(
+            "SELECT event_id, body FROM events ORDER BY rowid").fetchall()
+    return [row for row in rows if needle in row[1]]
+
+
+def _h21_install_serialization(module):
+    """Ruling07 §2 class-level installation (before any on_start): a
+    thread-safely registered per-bridge RLock around every
+    ``_process_arming_files`` call, plus a delegating on_start that
+    registers the instance before the real start. Background control-lane
+    entrances queue behind the manual chain — never dropped or faked — and
+    no caller waits on this test lock while holding a production lock (the
+    lane loop calls _control_cycle bare). Returns (lock_for, stop_and_join,
+    restore): every actually created instance is strongly registered until
+    stopped, so helper failure cleanup can stop bridges even when _started
+    or the ladder never returned."""
+    original_process = module.AKExecutionBridge._process_arming_files
+    original_start = module.AKExecutionBridge.on_start
+    locks_guard = threading.Lock()
+    locks = weakref.WeakKeyDictionary()
+    instances = []
+
+    def lock_for(bridge):
+        with locks_guard:
+            lock = locks.get(bridge)
+            if lock is None:
+                lock = threading.RLock()
+                locks[bridge] = lock
+            return lock
+
+    def register(bridge):
+        with locks_guard:
+            if not any(existing is bridge for existing in instances):
+                instances.append(bridge)
+
+    def stop_and_join():
+        """Stop every registered instance OUTSIDE the test lock. Each stop is
+        attempted; a stop failure neither skips the remaining stops nor
+        masks an already-propagating exception."""
+        import sys as _sys
+        stop_failures = []
+        for bridge in list(instances):
+            try:
+                stop_started_bridge(bridge)
+            except Exception as error:  # noqa: BLE001 - collected, never masked
+                stop_failures.append(error)
+        if stop_failures and _sys.exc_info()[0] is None:
+            raise stop_failures[0]
+
+    def serialized_process_arming_files(self):
+        with lock_for(self):
+            return original_process(self)
+
+    def registering_on_start(self):
+        register(self)  # strongly registered before the real start
+        return original_start(self)
+
+    module.AKExecutionBridge._process_arming_files = serialized_process_arming_files
+    module.AKExecutionBridge.on_start = registering_on_start
+
+    def restore():
+        module.AKExecutionBridge._process_arming_files = original_process
+        module.AKExecutionBridge.on_start = original_start
+
+    return lock_for, stop_and_join, restore
+
+
+def _h21_cleanup_on_failure(stop_and_join, restore):
+    """Author07 §2 failure cleanup ordering: stop/join every registered
+    instance first — outside the test lock — then restore the wrappers; a
+    restore failure never masks the original exception and the remaining
+    cleanup still runs."""
+    import sys as _sys
+    stop_and_join()
+    try:
+        restore()
+    except Exception:  # noqa: BLE001 - never masks the original failure
+        if _sys.exc_info()[0] is None:
+            raise
+
+
+def _h21_armed_serialized(module, fake, tmp_path, service):
+    """Ruling07 §2 h21-specific preparation: the original startup flow, then
+    ONE complete original arm_bridge_to_armed while holding the per-bridge
+    serialization lock (manual pump re-enters reentrantly; background
+    entrances queue), then the standard gate capture and control-lane nudge.
+    Returns (bridge, restore); restore only after every bridge stopped. Any
+    startup, ladder or assertion failure propagates AFTER the manual lock is
+    released, every registered instance is stopped outside the test lock and
+    the class wrappers are restored."""
+    lock_for, stop_and_join, restore = _h21_install_serialization(module)
+    bridge = None
+    try:
+        bridge = _started(module, fake, tmp_path, service)
+        with lock_for(bridge):
+            arm_bridge_to_armed(module, bridge)
+    except BaseException:
+        _h21_cleanup_on_failure(stop_and_join, restore)
+        raise
+    set_synthetic_gate_capture(bridge, quote=True, account=True, position=True, contract=True)
+    _nudge_control_lane(bridge)
+    return bridge, restore
+
+
+def _h21_armed_serialized_start_only(module, fake, tmp_path, service):
+    """The same installation and original startup flow WITHOUT arming, for
+    tests that drive the manual arming chain themselves. The started
+    control lane may race the manual chain exactly like production. A
+    startup failure propagates after registered instances are stopped
+    outside the test lock and the wrappers restored."""
+    lock_for, stop_and_join, restore = _h21_install_serialization(module)
+    try:
+        bridge = _started(module, fake, tmp_path, service)
+    except BaseException:
+        _h21_cleanup_on_failure(stop_and_join, restore)
+        raise
+    return bridge, lock_for(bridge), restore
+
+
+def test_h21_helper_failure_cleans_bridge_and_restores_wrappers(monkeypatch, tmp_path):
+    # Author07 §2 failure regression (Root diagnostic shape, inside the owned
+    # file): a REAL serialized startup runs, then the complete real arming
+    # ladder raises mid-flight. The original exception stays observable,
+    # every started instance is stopped, the class wrappers are restored,
+    # and no lock/worker deadlock remains.
+    module, fake = load_client_from_temp(monkeypatch, tmp_path)
+    service = FakeExecutionService()
+    original_process = module.AKExecutionBridge._process_arming_files
+    created = []
+    record_start = module.AKExecutionBridge.on_start
+
+    def observing_start(self):
+        created.append(self)
+        return record_start(self)
+
+    module.AKExecutionBridge.on_start = observing_start
+
+    class SyntheticLadderFailure(RuntimeError):
+        pass
+
+    def failing_ladder(bridge_module, bridge):
+        raise SyntheticLadderFailure("synthetic failure before arming proposal")
+
+    monkeypatch.setattr(sys.modules[__name__], "arm_bridge_to_armed", failing_ladder)
+    try:
+        with pytest.raises(SyntheticLadderFailure):
+            _h21_armed_serialized(module, fake, tmp_path, service)
+        assert created, "real helper never started an isolated bridge"
+        assert all(not bridge._running for bridge in created)
+        assert module.AKExecutionBridge._process_arming_files is original_process
+    finally:
+        for bridge in created:
+            stop_started_bridge(bridge)
+        module.AKExecutionBridge.on_start = record_start
+        module.AKExecutionBridge._process_arming_files = original_process
+        service.close()
+
+
+def test_h21_startup_failure_cleans_and_restores_before_any_return(monkeypatch, tmp_path):
+    # Author07 §2 startup-failure regression: the real startup flow itself
+    # raises before the helper can return; cleanup still stops nothing that
+    # was not started, restores wrappers, and the original error surfaces.
+    module, fake = load_client_from_temp(monkeypatch, tmp_path)
+    service = FakeExecutionService()
+    original_process = module.AKExecutionBridge._process_arming_files
+
+    class SyntheticStartupFailure(RuntimeError):
+        pass
+
+    def failing_started(*args, **kwargs):
+        raise SyntheticStartupFailure("synthetic failure inside _started")
+
+    monkeypatch.setattr(sys.modules[__name__], "_started", failing_started)
+    try:
+        with pytest.raises(SyntheticStartupFailure):
+            _h21_armed_serialized(module, fake, tmp_path, service)
+        assert module.AKExecutionBridge._process_arming_files is original_process
+    finally:
+        module.AKExecutionBridge._process_arming_files = original_process
+        service.close()
+
+
+def test_h21_slow_consumed_write_with_frozen_command_clock_persists_first(monkeypatch, tmp_path):
+    # Ruling06 §3: the boundary diagnostic's real 0.45s CONSUMED-write delay
+    # used to expire the 400ms command before the post-fsync fence
+    # (terminal NO_CALL, IndexError in the old test shape). With the callback
+    # thread's command clock held at the command's issued_at, the REAL
+    # execution chain still completes: one simulated send, the synchronous
+    # on_trade persisted before send returns, event_gap False — TTL stays
+    # 400ms, no gate or fence is closed, nothing is rewritten.
+    module, fake = load_client_from_temp(monkeypatch, tmp_path)
+    service = FakeExecutionService()
+    bridge = None
+    probe = None
+    restore_arming = None
+    try:
+        probe = _assert_legacy_rearm_blocks_dispatch(module, fake, tmp_path, service)
+        bridge, restore_arming = _h21_armed_serialized(module, fake, tmp_path, service)
+
+        invoked = []
+        original_send = fake.sendOrder
+        append_returns = []
+        real_append_event = bridge._stores.append_event
+        durable_inside_send = {}
+
+        def observing_append_event(body_text):
+            returned = real_append_event(body_text)
+            append_returns.append((body_text, returned))
+            return returned
+
+        def send_with_sync_callback(**kwargs):
+            invoked.append(kwargs)
+            bridge.on_trade({"TradeID": "SIM_TRADE_1", "Volume": 1})
+            durable_inside_send["rows"] = _committed_outbox_rows(
+                bridge, "SIM_TRADE_1")
+            result = original_send(**kwargs)
+            invoked.append("returned")
+            return result
+
+        fake.sendOrder = send_with_sync_callback
+        bridge._stores.append_event = observing_append_event
+        command = armed_dispatch(bridge)  # ttl_ms stays the frozen 400ms
+        _after_real_consumed(bridge, lambda: time.sleep(0.45))
+        with _CommandClockSeam(module, command):
+            bridge._receive_dispatch(command)
+            bridge._pump_once()
+        assert len(invoked) == 2, f"native send did not complete: {invoked!r}"
+        assert invoked == [invoked[0], "returned"] and len(invoked) == 2
+        assert bridge.state_map.event_gap is False
+        assert append_returns, "real append_event never returned during the callback"
+        assert durable_inside_send["rows"], "callback row was not durable inside the send"
+        # supplementary only: the receipt chain of the completed send.
+        stages = [row[0] for row in
+                  bridge._stores.receipt_for_command(command["command_id"])]
+        assert "CONSUMED" in stages and "RETURNED" in stages
+        deadline = time.monotonic() + 2
+        while time.monotonic() < deadline:
+            rows = bridge._stores.pending_events(10)
+            if any("SIM_TRADE_1" in row[1] for row in rows):
+                break
+            with service.lock:
+                if any("SIM_TRADE_1" in json.dumps(r) for r in service.receipts) or \
+                        any("SIM_TRADE_1" == eid for eid in service.acked_event_ids):
+                    break
+            time.sleep(0.02)
+        rows = bridge._stores.pending_events(10)
+        assert (any("SIM_TRADE_1" in row[1] for row in rows)
+                or any("SIM_TRADE_1" in json.dumps(event) for event in service.uploaded_events))
+    finally:
+        stop_started_bridge(bridge)
+        stop_started_bridge(probe)
+        if restore_arming is not None:
+            restore_arming()
+        service.close()
+
+
+def test_h21_window_closed_at_and_after_expiry_boundary_zero_call(monkeypatch, tmp_path):
+    # Ruling06 §3 counterexamples: once the real CONSUMED write has returned
+    # and the synthetic command time reaches exactly expires_at — and then
+    # past it — the REAL post-fsync fence rejects, the simulated send count
+    # stays zero and the durable CONSUMED -> NO_CALL chain is preserved.
+    for extra_ms in (0, 1):
+        case_dir = tmp_path / f"expiry-boundary-{extra_ms}"
+        case_dir.mkdir()
+        module, fake = load_client_from_temp(monkeypatch, case_dir)
+        service = FakeExecutionService()
+        bridge = None
+        probe = None
+        restore_arming = None
+        try:
+            probe = _assert_legacy_rearm_blocks_dispatch(module, fake, case_dir, service)
+            bridge, restore_arming = _h21_armed_serialized(module, fake, case_dir, service)
+
+            invoked = []
+            original_send = fake.sendOrder
+
+            def send_with_sync_callback(**kwargs):
+                invoked.append(kwargs)
+                result = original_send(**kwargs)
+                invoked.append("returned")
+                return result
+
+            fake.sendOrder = send_with_sync_callback
+            command = armed_dispatch(bridge)
+            seam_box = {}
+
+            def advance_after_consumed():
+                seam_box["seam"].advance_to(
+                    seam_box["seam"].expires_at + timedelta(milliseconds=extra_ms))
+
+            _after_real_consumed(bridge, advance_after_consumed)
+            with _CommandClockSeam(module, command) as seam:
+                seam_box["seam"] = seam
+                bridge._receive_dispatch(command)
+                bridge._pump_once()
+            assert invoked == []  # production correctly made NO native call
+            assert bridge.counters["native_call_blocked"] >= 1
+            stages = [row[0] for row in
+                      bridge._stores.receipt_for_command(command["command_id"])]
+            assert "CONSUMED" in stages and "NO_CALL" in stages
+            assert "RETURNED" not in stages
+        finally:
+            stop_started_bridge(bridge)
+            stop_started_bridge(probe)
+            if restore_arming is not None:
+                restore_arming()
+            service.close()
+
+
+def test_h21_deferred_persistence_would_break_in_send_ordering(monkeypatch, tmp_path):
+    # Ordering counterexample with real teeth: the in-send durability
+    # observation of the repaired h21 must distinguish synchronous
+    # persistence from a deferred one. With append_event made deferring
+    # (the real write only happens AFTER the send returns), the row read
+    # inside the synchronous send is EMPTY — exactly the world the repaired
+    # assertion rejects. If the observation were ever vacuous (reading an
+    # unsynced cache), this test fails because the deferred row would show.
+    module, fake = load_client_from_temp(monkeypatch, tmp_path)
+    service = FakeExecutionService()
+    bridge = None
+    probe = None
+    restore_arming = None
+    try:
+        probe = _assert_legacy_rearm_blocks_dispatch(module, fake, tmp_path, service)
+        bridge, restore_arming = _h21_armed_serialized(module, fake, tmp_path, service)
+
+        invoked = []
+        original_send = fake.sendOrder
+        real_append_event = bridge._stores.append_event
+        deferred = []
+        durable_inside_send = {}
+
+        def deferring_append_event(body_text):
+            deferred.append(body_text)          # NOT durable yet
+            return ("deferred", body_text)
+
+        def send_with_sync_callback(**kwargs):
+            invoked.append(kwargs)
+            bridge.on_trade({"TradeID": "SIM_TRADE_1", "Volume": 1})
+            durable_inside_send["rows"] = _committed_outbox_rows(
+                bridge, "SIM_TRADE_1")
+            result = original_send(**kwargs)
+            invoked.append("returned")
+            for body in deferred:               # persist only after the return
+                real_append_event(body)
+            return result
+
+        fake.sendOrder = send_with_sync_callback
+        bridge._stores.append_event = deferring_append_event
+        command = armed_dispatch(bridge)
+        with _CommandClockSeam(module, command):
+            bridge._receive_dispatch(command)
+            bridge._pump_once()
+        assert len(invoked) == 2
+        assert durable_inside_send["rows"] == [], \
+            "in-send observation is vacuous: a deferred row appeared inside the send"
+        assert deferred, "the deferring seam never intercepted the callback append"
+    finally:
+        stop_started_bridge(bridge)
+        stop_started_bridge(probe)
+        if restore_arming is not None:
+            restore_arming()
+        service.close()
+
+
+def test_h21_background_lane_arming_publication_serialized(monkeypatch, tmp_path):
+    # Ruling07 §5 barrier counterexample: the background lane is forced
+    # through the REAL control entrance (_control_cycle -> _process_arming_
+    # files) concurrently with the complete manual arming chain. The
+    # serialization must queue the background entrance behind the manual
+    # chain — exactly ONE publisher ever enters _maybe_publish_arming_
+    # request, the published request/challenge pair stays consistent with
+    # bridge memory, and the real credential consume + HTTP ACK + legal
+    # callback assertions of arm_bridge_to_armed all hold. The barrier
+    # records the background ATTEMPT before it blocks on the test lock; the
+    # manual side never waits for the blocked side while holding the lock.
+    module, fake = load_client_from_temp(monkeypatch, tmp_path)
+    service = FakeExecutionService()
+    bridge = None
+    restore_arming = None
+    publication_entries = []
+    publication_consistency = {}
+    original_publish = module.AKExecutionBridge._maybe_publish_arming_request
+    try:
+        attempt_barrier = threading.Event()
+        background_attempted = threading.Event()
+
+        def counting_publish(self):
+            publication_entries.append(threading.get_ident())
+            published = original_publish(self)
+            if published:
+                # snapshot the publication pair versus memory at publish
+                # time — the credential consume later destroys the one-time
+                # files, so a post-hoc read cannot prove consistency.
+                challenge_record = json.loads(
+                    (Path(self._store_path) / "arming-challenge.json").read_bytes())
+                with self._admission:
+                    publication_consistency["challenge"] = (
+                        challenge_record["challenge"] == self._arm_request["challenge"])
+                    publication_consistency["request_sha"] = (
+                        challenge_record["request_sha256"]
+                        == self._arm_request["request_sha256"])
+                    publication_consistency["request_file"] = (
+                        Path(self._store_path) / "arming-request.json").is_file()
+            return published
+
+        module.AKExecutionBridge._maybe_publish_arming_request = counting_publish
+
+        bridge, bridge_lock, restore_arming = _h21_armed_serialized_start_only(
+            module, fake, tmp_path, service)
+
+        def background_control_cycle():
+            attempt_barrier.wait(5)
+            background_attempted.set()   # attempt recorded BEFORE blocking
+            bridge._control_cycle()      # the real background entrance
+
+        background = threading.Thread(target=background_control_cycle)
+        background.start()
+        # manual chain: with the background attempt imminent, the complete
+        # original arm_bridge_to_armed runs under the per-bridge lock.
+        attempt_barrier.set()
+        with bridge_lock:
+            arm_bridge_to_armed(module, bridge)
+        background.join(timeout=5)
+        assert not background.is_alive()
+        assert background_attempted.is_set()
+        assert len(publication_entries) == 1, \
+            f"second publisher entered publication: {publication_entries}"
+        assert publication_consistency == {
+            "challenge": True, "request_sha": True, "request_file": True}, \
+            f"publication inconsistent with memory: {publication_consistency}"
+        assert bridge._arm_state == module.ARM_STATE_ARMED
+        assert bridge._arming_effective_now() is True
+    finally:
+        stop_started_bridge(bridge)
+        if restore_arming is not None:
+            restore_arming()
+        module.AKExecutionBridge._maybe_publish_arming_request = original_publish
+        service.close()
+
+
+def test_h21_command_clock_seam_scope_and_restore(monkeypatch, tmp_path):
+    # Ruling06 §3 seam discipline: inside the scope the callback thread's
+    # clock is pinned while a DIFFERENT thread keeps the real advancing
+    # clock; leaving the scope normally or via exception always restores the
+    # original module clock function.
+    module, fake = load_client_from_temp(monkeypatch, tmp_path)
+    original_now = module._now_utc
+    command = {"issued_at": "2026-01-01T00:00:00.000000Z",
+               "expires_at": "2026-01-01T00:00:00.400000Z"}
+    with _CommandClockSeam(module, command):
+        pinned_first = module._now_utc()
+        pinned_second = module._now_utc()
+        assert pinned_first == pinned_second
+        other_thread = []
+        thread = threading.Thread(target=lambda: other_thread.append(module._now_utc()))
+        thread.start()
+        thread.join()
+        assert other_thread and other_thread[0] != pinned_first, \
+            "another thread saw the frozen command clock"
+    assert module._now_utc is original_now
+    try:
+        with _CommandClockSeam(module, command):
+            raise RuntimeError("boom")
+    except RuntimeError:
+        pass
+    assert module._now_utc is original_now
 
 
 def test_h37_self_contained_temp_dir_full_lifecycle(monkeypatch, tmp_path):

@@ -123,17 +123,21 @@ def test_canonical_encoding_and_publish_bundle(tmp_path: Path) -> None:
 
 def _stage_acceptance_world(tree: Path) -> bytes:
     """Stage a minimal frozen SYNTHETIC acceptance world inside ``tree``:
-    six fixture attachments plus a complete F whose files table binds every
-    src/ak_trading/v2 *.py present in the tree, both runners, every
-    lock-required test file and the attachments themselves. Returns the F
-    bytes actually written (T7 §5.1/§5.3 wiring)."""
+    new-namespace fixture attachments plus a complete F whose files table
+    binds every src/ak_trading/v2 *.py present in the tree, both runners,
+    every lock-required test file, the attachments themselves and the legacy
+    T7-directory files (the old T7 manifest stand-in included — r6 fixed
+    dual-namespace wiring). Returns the F bytes actually written."""
     attachments = {
-        "tests/fixtures/v2/ep1_t7/recipe.json": b'{"recipe": "ep1-t7-synthetic-v1"}\n',
-        "tests/fixtures/v2/ep1_t7/minute_bars.jsonl": b'{"m": 1}\r\n{"m": 2}\n',
-        "tests/fixtures/v2/ep1_t7/daily_bars.jsonl": b'{"d": 1}\n',
-        "tests/fixtures/v2/ep1_t7/calendar.json": b'{"trading_days": []}\n',
-        "tests/fixtures/v2/ep1_t7/rules.json": b'{"rules": []}\n',
-        "tests/fixtures/v2/ep1_t7/costs.json": b'{"costs": {}}\n',
+        "tests/fixtures/v2/ep1_t7_contract/recipe.json": b'{"recipe": "ep1-t7-synthetic-v1"}\n',
+        "tests/fixtures/v2/ep1_t7_contract/minute_bars.jsonl": b'{"m": 1}\r\n{"m": 2}\n',
+        "tests/fixtures/v2/ep1_t7_contract/daily_bars.jsonl": b'{"d": 1}\n',
+        "tests/fixtures/v2/ep1_t7_contract/calendar.json": b'{"trading_days": []}\n',
+        "tests/fixtures/v2/ep1_t7_contract/rules.json": b'{"rules": []}\n',
+        "tests/fixtures/v2/ep1_t7_contract/costs.json": b'{"costs": {}}\n',
+        "tests/fixtures/v2/ep1_t7/acceptance-input-manifest.json":
+            b'{"schema_version": "ak_ep1_t7_acceptance_input_v1"}\n',
+        "tests/fixtures/v2/ep1_t7/legacy-recipe.json": b'{"recipe": "ep1-t7-legacy-r2"}\n',
     }
     for name, payload in attachments.items():
         target = tree / name
@@ -155,13 +159,13 @@ def _stage_acceptance_world(tree: Path) -> bytes:
         "schema_version": a.ACCEPTANCE_INPUT_MANIFEST_SCHEMA_ID,
         "dataset_kind": "SYNTHETIC",
         "labels": ["SYNTHETIC"],
-        "generation": {"recipe": "tests/fixtures/v2/ep1_t7/recipe.json", "seed": 7},
+        "generation": {"recipe": "tests/fixtures/v2/ep1_t7_contract/recipe.json", "seed": 7},
         "inputs": {
-            "minute_bars": ["tests/fixtures/v2/ep1_t7/minute_bars.jsonl"],
-            "daily_bars": ["tests/fixtures/v2/ep1_t7/daily_bars.jsonl"],
-            "calendar": ["tests/fixtures/v2/ep1_t7/calendar.json"],
-            "rules": ["tests/fixtures/v2/ep1_t7/rules.json"],
-            "costs": ["tests/fixtures/v2/ep1_t7/costs.json"],
+            "minute_bars": ["tests/fixtures/v2/ep1_t7_contract/minute_bars.jsonl"],
+            "daily_bars": ["tests/fixtures/v2/ep1_t7_contract/daily_bars.jsonl"],
+            "calendar": ["tests/fixtures/v2/ep1_t7_contract/calendar.json"],
+            "rules": ["tests/fixtures/v2/ep1_t7_contract/rules.json"],
+            "costs": ["tests/fixtures/v2/ep1_t7_contract/costs.json"],
         },
         "splits": {"outer": {"train_days": 152}, "inner": {"fraction": 0.64}},
         "selection": {"rule": "FIRST_FEASIBLE_P1_OPEN_PER_WINDOW"},
@@ -339,10 +343,18 @@ def test_build_and_verify_contract_lock_roundtrip(tmp_path: Path) -> None:
     # unchanged (never a bare unchecked index).
     drifted_fixture = tmp_path / "drifted-fixture"
     shutil.copytree(tree, drifted_fixture)
-    (drifted_fixture / "tests/fixtures/v2/ep1_t7/minute_bars.jsonl").write_bytes(
+    (drifted_fixture / "tests/fixtures/v2/ep1_t7_contract/minute_bars.jsonl").write_bytes(
         b'{"m": 9}\r\n{"m": 2}\n')
     with pytest.raises(a.ArtifactsError, match="attachment_hash_mismatch"):
         a.verify_contract_lock(lock_path, drifted_fixture)
+    # The same holds for a drifted legacy-directory attachment (r6 dual
+    # namespace: the old T7 files are F-listed originals).
+    drifted_legacy = tmp_path / "drifted-legacy"
+    shutil.copytree(tree, drifted_legacy)
+    (drifted_legacy / "tests/fixtures/v2/ep1_t7/legacy-recipe.json").write_bytes(
+        b'{"recipe": "ep1-t7-legacy-r9"}\n')
+    with pytest.raises(a.ArtifactsError, match="attachment_hash_mismatch"):
+        a.verify_contract_lock(lock_path, drifted_legacy)
 
     with pytest.raises(ValueError):
         a.build_contract_lock(ROOT, "", ZERO)
@@ -379,17 +391,30 @@ def test_acceptance_input_manifest_freeze_drift_and_rejections(tmp_path: Path) -
 
     cases = [
         # Drift counterexamples: bytes (same length, different content),
-        # size, absence, unlisted v2 source, unlisted fixture file.
-        (lambda t: (t / "tests/fixtures/v2/ep1_t7/minute_bars.jsonl").write_bytes(
+        # size, absence, unlisted v2 source, unlisted fixture file in the new
+        # namespace, unlisted extra in the legacy directory, the legacy T7
+        # manifest dropped from the table while still on disk (r6 F6: the old
+        # manifest itself is a mandatory original attachment), and a
+        # same-length tamper of a legacy-directory attachment.
+        (lambda t: (t / "tests/fixtures/v2/ep1_t7_contract/minute_bars.jsonl").write_bytes(
             b'{"m": 9}\r\n{"m": 2}\n'),
          "attachment_hash_mismatch"),
+        (lambda t: (t / "tests/fixtures/v2/ep1_t7/legacy-recipe.json").write_bytes(
+            b'{"recipe": "ep1-t7-legacy-r9"}\n'),
+         "attachment_hash_mismatch"),
+        (lambda t: rewrite_manifest(t, lambda d: d["files"].remove(next(
+            entry for entry in d["files"]
+            if entry["path"] == "tests/fixtures/v2/ep1_t7/acceptance-input-manifest.json"))),
+         "unlisted_fixture_file"),
         (lambda t: rewrite_manifest(t, lambda d: d["files"][0].__setitem__("bytes", 0)),
          "attachment_size_mismatch"),
-        (lambda t: (t / "tests/fixtures/v2/ep1_t7/costs.json").unlink(),
+        (lambda t: (t / "tests/fixtures/v2/ep1_t7_contract/costs.json").unlink(),
          "attachment_missing"),
         (lambda t: (t / "src/ak_trading/v2/unlisted_module.py").write_bytes(b"X = 1\n"),
          "required_source_not_listed"),
-        (lambda t: (t / "tests/fixtures/v2/ep1_t7/extra-unlisted.json").write_bytes(b"{}\n"),
+        (lambda t: (t / "tests/fixtures/v2/ep1_t7_contract/extra-unlisted.json").write_bytes(b"{}\n"),
+         "unlisted_fixture_file"),
+        (lambda t: (t / "tests/fixtures/v2/ep1_t7/extra-legacy-unlisted.json").write_bytes(b"{}\n"),
          "unlisted_fixture_file"),
         # Circular-hash rejection: F never lists itself and never carries the
         # final lock hash, a future report hash or post-run readiness at any
@@ -468,6 +493,34 @@ def test_acceptance_input_manifest_freeze_drift_and_rejections(tmp_path: Path) -
         mutate(case)
         with pytest.raises(a.ArtifactsError, match=expected):
             a.verify_acceptance_input_manifest(case)
+
+
+def test_acceptance_namespace_separation(tmp_path: Path) -> None:
+    # r6 fixed-namespace separation: the generic consumer reads only the new
+    # F path — a tree with the legacy T7 manifest at the old path but no F
+    # still fails with the exact frozen message acceptance_input_manifest_
+    # not_frozen (no old-path fallback, no schema guessing), and an old-T7
+    # schema document at the new path is rejected on root fields.
+    import shutil
+    tree = _mirror_lock_tree(tmp_path / "tree")
+    shutil.rmtree(tree / "tests/fixtures/v2/ep1_t7_contract")
+    legacy_payload = (tree / "tests/fixtures/v2/ep1_t7/acceptance-input-manifest.json").read_bytes()
+    with pytest.raises(a.ArtifactsError, match="acceptance_input_manifest_not_frozen"):
+        a.verify_acceptance_input_manifest(tree)
+    with pytest.raises(a.ArtifactsError, match="acceptance_input_manifest_not_frozen"):
+        a.build_contract_lock(tree, "001", ZERO)
+    # An old-T7 schema document dropped at the NEW path is not accepted as F.
+    misdirected = tmp_path / "misdirected"
+    shutil.copytree(tree, misdirected)
+    target = misdirected / a.ACCEPTANCE_INPUT_MANIFEST_PATH
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(legacy_payload)
+    with pytest.raises(a.ArtifactsError, match="acceptance_manifest_root_fields_must_be_exactly"):
+        a.verify_acceptance_input_manifest(misdirected)
+    # The unchanged staged world still verifies through the new path.
+    assert a.verify_acceptance_input_manifest(
+        _mirror_lock_tree(tmp_path / "green")) == a.acceptance_input_manifest_sha256(
+        tmp_path / "green")
 
 
 def test_reviewer_report_and_evidence_quick_check_wiring(tmp_path: Path) -> None:

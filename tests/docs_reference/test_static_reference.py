@@ -547,6 +547,47 @@ class TestFixtureHappyPath:
         # 3 defining/alias records in impl, none duplicated in the package
         assert all(r["module"] == "pkg.impl" for r in inventory["symbols"])
 
+    @pytest.mark.parametrize("wmi_mode", ["unavailable", "reject"])
+    def test_receipt_build_uses_no_wmi_or_native_commands(
+            self, workspace: Path, monkeypatch, wmi_mode: str) -> None:
+        """Run the actual CLI with observable, refusing environment probes."""
+        program = (
+            "import atexit,json,platform,runpy,subprocess,sys\n"
+            "attempts=[]\n"
+            "mode=sys.argv.pop(1)\n"
+            "def wmi(*args, **kwargs):\n"
+            "    attempts.append('wmi')\n"
+            "    if mode=='unavailable': raise OSError('SYNTHETIC WMI unavailable')\n"
+            "    raise AssertionError('SYNTHETIC unexpected WMI query')\n"
+            "def native(*args, **kwargs):\n"
+            "    attempts.append('subprocess')\n"
+            "    raise AssertionError('SYNTHETIC unexpected native command')\n"
+            "platform._wmi_query=wmi\n"
+            "platform._platform_cache.clear()\n"
+            "platform._uname_cache=None\n"
+            "subprocess.Popen=native\n"
+            "atexit.register(lambda: print('SYNTHETIC_QUERY_ATTEMPTS '+json.dumps(attempts),file=sys.stderr))\n"
+            "sys.argv=sys.argv[1:]\n"
+            "runpy.run_path(sys.argv[0],run_name='__main__')\n"
+        )
+        children = []
+
+        def guarded_cli(*argv, cwd=None):
+            result = subprocess.run(
+                [sys.executable, "-B", "-c", program, wmi_mode,
+                 str(GENERATOR), *argv], capture_output=True, text=True,
+                encoding="utf-8", cwd=str(cwd or REPO_ROOT))
+            children.append(result)
+            assert result.returncode == 0, result.stdout + result.stderr
+            return result
+
+        monkeypatch.setattr(sys.modules[__name__], "run_cli", guarded_cli)
+        self.test_package_all_with_alias_and_reexport(workspace)
+        assert len(children) == 1
+        assert "SYNTHETIC_QUERY_ATTEMPTS []" in children[0].stderr
+        receipt = json.loads((workspace / "b1" / "receipt.json").read_text(encoding="utf-8"))
+        assert receipt["platform"] == sys.platform
+
 
 # ---------------------------------------------------------------------------
 # drift checks (H10.6)

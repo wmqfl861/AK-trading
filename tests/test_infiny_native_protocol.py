@@ -3445,6 +3445,226 @@ class TestM03ServicePairingWriterSecurity:
         self._assert_private_sddl(target, directory=False)
         _windows_acl().verify_private(target, sid=sid)
 
+    def test_new_pairing_owner_is_verified_before_first_secret_write(
+            self, tmp_path, monkeypatch):
+        from ak_trading.infiny_execution import client_service
+        pairing = tmp_path / "new-pairing"
+        toolkit = _windows_acl()
+        sid = toolkit.current_user_sid()
+        original_open = open
+        writes = []
+
+        class ObserveFirstWrite:
+            def __init__(self, handle, path):
+                self.handle = handle
+                self.path = path
+
+            def write(self, value):
+                assert self.path.stat().st_size == 0
+                toolkit.verify_private(pairing, sid=sid)
+                toolkit.verify_private(self.path, sid=sid)
+                writes.append(self.path)
+                return self.handle.write(value)
+
+            def __getattr__(self, name):
+                return getattr(self.handle, name)
+
+        def observe(path, mode="r", *args, **kwargs):
+            handle = original_open(path, mode, *args, **kwargs)
+            return (ObserveFirstWrite(handle, Path(path))
+                    if "x" in mode else handle)
+
+        monkeypatch.setattr(client_service, "open", observe, raising=False)
+        target = self._write(pairing)
+        assert writes == [target]
+        self._assert_private_sddl(pairing, directory=True)
+        self._assert_private_sddl(target, directory=False)
+
+    def test_existing_wrong_owner_directory_is_refused_without_mutation(self, tmp_path):
+        pairing = tmp_path / "foreign-existing"
+        pairing.mkdir()
+        sid = _windows_acl().current_user_sid()
+        _apply_sddl(pairing,
+                    f"O:BAD:PAI(A;OICI;FA;;;{sid})(A;OICI;FR;;;S-1-1-0)",
+                    protect=True)
+        sentinel = pairing / "SYNTHETIC-existing.txt"
+        sentinel.write_bytes(b"SYNTHETIC existing bytes")
+        before = _sddl_of(pairing)
+        with pytest.raises(OSError, match="DACL_OWNER_MISMATCH"):
+            secure_pairing_directory(pairing)
+        assert _sddl_of(pairing) == before
+        assert sentinel.read_bytes() == b"SYNTHETIC existing bytes"
+
+    @pytest.mark.parametrize("stage", ["owner", "acl", "verify"])
+    def test_new_file_initialization_failure_writes_no_secret(
+            self, tmp_path, monkeypatch, stage):
+        pairing = tmp_path / "pairing"
+        secure_pairing_directory(pairing)
+        toolkit = _windows_acl()
+        target = pairing / "instance1234.token"
+        if stage == "owner":
+            original = toolkit._SetSecurityInfo
+
+            def reject_owner(handle, kind, flags, owner, group, dacl, sacl):
+                if flags & toolkit._OWNER_SECURITY_INFORMATION:
+                    return 5  # actual Win32 AccessDenied, before any write
+                return original(handle, kind, flags, owner, group, dacl, sacl)
+
+            monkeypatch.setattr(toolkit, "_SetSecurityInfo", reject_owner)
+        elif stage == "acl":
+            original = toolkit._InitializeAcl
+            calls = []
+
+            def reject_file_acl(*args):
+                calls.append(None)
+                return False if len(calls) == 2 else original(*args)
+
+            # Existing parent tightening is first; the empty file is second.
+            monkeypatch.setattr(toolkit, "_InitializeAcl", reject_file_acl)
+        else:
+            original = toolkit.verify_private
+
+            def reject_file_verification(path, *, sid):
+                original(path, sid=sid)
+                if Path(path) == target:
+                    raise OSError("SYNTHETIC_VERIFY_FAILURE")
+
+            monkeypatch.setattr(toolkit, "verify_private", reject_file_verification)
+        with pytest.raises(OSError):
+            self._write(pairing)
+        assert target.is_file()
+        assert target.read_bytes() == b""
+        # A rename proves the exclusive/verification handles closed on failure.
+        renamed = target.with_suffix(".SYNTHETIC-failed-empty")
+        target.rename(renamed)
+        assert renamed.read_bytes() == b""
+
+    def test_new_directory_initialization_failure_closes_empty_object(
+            self, tmp_path, monkeypatch):
+        toolkit = _windows_acl()
+        pairing = tmp_path / "pairing"
+        monkeypatch.setattr(toolkit, "_SetSecurityInfo", lambda *args: 5)
+        with pytest.raises(OSError, match="DACL_APPLY_FAILED"):
+            self._write(pairing)
+        assert list(pairing.iterdir()) == []
+        renamed = tmp_path / "SYNTHETIC-failed-empty"
+        pairing.rename(renamed)
+        assert list(renamed.iterdir()) == []
+
+    def test_exclusive_file_race_winner_keeps_bytes_and_descriptor(
+            self, tmp_path, monkeypatch):
+        from ak_trading.infiny_execution import client_service
+        pairing = tmp_path / "pairing"
+        secure_pairing_directory(pairing)
+        target = pairing / "instance1234.token"
+        sid = _windows_acl().current_user_sid()
+        original_open = open
+        before = []
+
+        def raced_open(path, mode="r", *args, **kwargs):
+            if Path(path) == target and "x" in mode:
+                with original_open(target, "xb") as winner:
+                    winner.write(b"SYNTHETIC race winner")
+                _apply_sddl(target, f"O:BAD:PAI(A;;FA;;;{sid})(A;;FR;;;S-1-1-0)",
+                            protect=True)
+                before.append(_sddl_of(target))
+            return original_open(path, mode, *args, **kwargs)
+
+        monkeypatch.setattr(client_service, "open", raced_open, raising=False)
+        with pytest.raises(FileExistsError):
+            self._write(pairing)
+        assert len(before) == 1
+        assert target.read_bytes() == b"SYNTHETIC race winner"
+        assert _sddl_of(target) == before[0]
+
+    def test_exclusive_directory_race_winner_is_never_reowned(
+            self, tmp_path, monkeypatch):
+        toolkit = _windows_acl()
+        pairing = tmp_path / "pairing"
+        sid = toolkit.current_user_sid()
+        original = toolkit._relative_object
+        before = []
+
+        def raced_create(parent, name, **kwargs):
+            if name == pairing.name and kwargs["create"] and not before:
+                pairing.mkdir()
+                _apply_sddl(pairing,
+                            f"O:BAD:PAI(A;OICI;FA;;;{sid})(A;OICI;FR;;;S-1-1-0)",
+                            protect=True)
+                before.append(_sddl_of(pairing))
+            return original(parent, name, **kwargs)
+
+        monkeypatch.setattr(toolkit, "_relative_object", raced_create)
+        with pytest.raises(OSError, match="DACL_OWNER_MISMATCH"):
+            secure_pairing_directory(pairing)
+        assert len(before) == 1
+        assert _sddl_of(pairing) == before[0]
+        assert list(pairing.iterdir()) == []
+
+    @pytest.mark.parametrize("position", ["target", "ancestor"])
+    def test_reparse_entry_is_refused_without_touching_replacement(
+            self, tmp_path, position):
+        outside = tmp_path / "SYNTHETIC-outside"
+        outside.mkdir()
+        sentinel = outside / "sentinel.txt"
+        sentinel.write_bytes(b"SYNTHETIC replacement unchanged")
+        before = _sddl_of(outside)
+        link = tmp_path / "redirect"
+        os.symlink(outside, link, target_is_directory=True)
+        target = link if position == "target" else link / "new-pairing"
+        with pytest.raises(OSError):
+            secure_pairing_directory(target)
+        assert _sddl_of(outside) == before
+        assert sentinel.read_bytes() == b"SYNTHETIC replacement unchanged"
+        assert sorted(item.name for item in outside.iterdir()) == ["sentinel.txt"]
+
+    def test_creation_handles_block_target_and_ancestor_replacement(
+            self, tmp_path, monkeypatch):
+        toolkit = _windows_acl()
+        parent = tmp_path / "pinned-parent"
+        parent.mkdir()
+        pairing = parent / "pairing"
+        original = toolkit._apply_handle_private
+        attempts = []
+
+        def attempt_replacements(handle, *, sid, directory, new_object):
+            if new_object:
+                target = pairing if directory else pairing / "instance1234.token"
+                for path in (target, parent):
+                    with pytest.raises(OSError):
+                        path.rename(path.with_name(path.name + ".replacement"))
+                    attempts.append(path)
+            return original(handle, sid=sid, directory=directory, new_object=new_object)
+
+        monkeypatch.setattr(toolkit, "_apply_handle_private", attempt_replacements)
+        target = self._write(pairing)
+        assert attempts == [pairing, parent, target, parent]
+        self._assert_private_sddl(target, directory=False)
+        assert not list(tmp_path.rglob("*.replacement"))
+
+    def test_pairing_directory_stays_held_until_exclusive_file_creation(
+            self, tmp_path, monkeypatch):
+        from contextlib import contextmanager
+        toolkit = _windows_acl()
+        pairing = tmp_path / "pairing"
+        target = pairing / "instance1234.token"
+        original = toolkit._pinned_parent
+        attempts = []
+
+        @contextmanager
+        def compete_before_file_lease(path):
+            if Path(path) == target:
+                with pytest.raises(OSError):
+                    pairing.rename(tmp_path / "SYNTHETIC-replacement")
+                attempts.append(pairing)
+            with original(path) as lease:
+                yield lease
+
+        monkeypatch.setattr(toolkit, "_pinned_parent", compete_before_file_lease)
+        self._write(pairing)
+        assert attempts == [pairing]
+        self._assert_private_sddl(pairing, directory=True)
+
     def test_writer_emits_strict_v2_document(self, tmp_path):
         pairing = tmp_path / "pair"
         target = self._write(pairing)

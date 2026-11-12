@@ -24,10 +24,12 @@ import sys
 import threading
 import time
 import uuid
+import weakref
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
 
+import psutil
 import pytest
 
 from infiny_native_fakes import (
@@ -271,55 +273,150 @@ def _install_arm_credential(bridge):
     return record
 
 
-def _armed(module, fake, tmp_path, *, paths=None, **overrides):
+def _h31_serialization(module):
+    """Ruling07/08 per-bridge RLock serialization for the lifecycle file.
+
+    Installed on the ISOLATED client class BEFORE any on_start (thread-safe
+    per-instance registration via a delegating on_start): every real
+    ``_process_arming_files`` call takes the bridge's RLock first, so
+    background control-lane entrances queue behind the manual ladder — never
+    skipped or dropped — and no caller waits on this test lock while holding
+    a production lock (the lane loop calls _control_cycle bare). Returns
+    (lock_for, restore); restore only after the test's bridge threads stop.
+    """
+    original_process = module.AKExecutionBridge._process_arming_files
+    original_start = module.AKExecutionBridge.on_start
+    guard = threading.Lock()
+    locks = weakref.WeakKeyDictionary()
+
+    def lock_for(bridge):
+        with guard:
+            lock = locks.get(bridge)
+            if lock is None:
+                lock = threading.RLock()
+                locks[bridge] = lock
+            return lock
+
+    def serialized_process_arming_files(self):
+        with lock_for(self):
+            return original_process(self)
+
+    def registering_on_start(self):
+        lock_for(self)  # registered before the real start; weak-ref cleaned
+        return original_start(self)
+
+    module.AKExecutionBridge._process_arming_files = serialized_process_arming_files
+    module.AKExecutionBridge.on_start = registering_on_start
+
+    def restore():
+        module.AKExecutionBridge._process_arming_files = original_process
+        module.AKExecutionBridge.on_start = original_start
+
+    return lock_for, restore
+
+
+def _armed(module, fake, tmp_path, *, paths=None, _serialize_arming=False, **overrides):
     """Full SYNTHETIC arming chain (R1.2 seam for pairing only): explicit
     store + injected native double + SYNTHETIC token; the round is armed by
     the local arming mechanism (proposal -> plan -> request/challenge ->
-    USER credential -> exact ACK -> legal-callback ARMED), never by Params."""
-    bridge = module.AKExecutionBridge(
-        native=fake, transport=_arming_transport(module, paths=paths),
-        store_directory=tmp_path / "store", pairing_token="ab" * 32)
-    context_ready = threading.Event()
-    original_accept = bridge._accept_snapshot_context
+    USER credential -> exact ACK -> legal-callback ARMED), never by Params.
 
-    def observe_context(data, packet, request_life):
-        with bridge._state_lock:
-            accepted = original_accept(data, packet, request_life)
-            if accepted and bridge._arm_state == module.ARM_STATE_ARMED \
-                    and bridge._snapshot_context_current():
-                context_ready.set()
-            return accepted
-
-    bridge._accept_snapshot_context = observe_context
-    bridge.strategy_id = 23
-    bridge.strategy_name = "SYNTHETIC"
-    bridge.set_params({"exchange": "SHFE", "instrument_id": "rb2610", "hedge_flag": "1",
-                       "investor_id": "SYNTHETIC-ACCOUNT-A",
-                       "execution_api_url": "http://127.0.0.1:17779/execution/v1/poll",
-                       **overrides})
-    bridge.on_init()
-    bridge.on_start()
-    # SYNTHETIC service identity facts for the injection seam (the real flow
-    # learns them from the authenticated pairing handshake)
-    bridge._service_instance_id = SYNTHETIC_ARMING_SERVICE_INSTANCE
-    with bridge._service_epoch_lock:
-        bridge._service_epoch = SYNTHETIC_ARMING_SERVICE_EPOCH
-    _install_arming_proposal(bridge)
-    bridge._process_arming_files()   # -> PREPARED_DISABLED
-    bridge._process_arming_files()   # -> ARM_READY
-    _install_arm_credential(bridge)
-    bridge._process_arming_files()   # -> ARM_PENDING (+ exact ACK)
-    bridge._pump_once()              # legal callback -> ARMED
-    assert bridge._arm_state == module.ARM_STATE_ARMED
-    assert bridge._arming_effective_now() is True
-    assert bridge.params_map.enable_trading is False  # Params never armed anything
-    _nudge_control(bridge)
-    # A pre-arm context must retire before the independent gate precondition.
+    Ruling08: ``_serialize_arming=True`` (h31 and its counterexample ONLY)
+    installs the per-bridge RLock serialization on the isolated client class
+    BEFORE on_start; the manual ladder below then runs to the original
+    ARMED/validity assertions under that lock, and the lock is RELEASED
+    before _nudge_control and the 3s context wait so the background lane can
+    finish its response work. The keyword never enters **overrides or any
+    production Params; every other caller keeps the default behavior. The
+    restore hook rides on the bridge as ``_lifecycle_serialization_restore``
+    for the caller to run AFTER stopping the bridge."""
+    lock = None
+    lock_for = None
+    restore = None
+    if _serialize_arming:
+        lock_for, restore = _h31_serialization(module)
+    bridge = None
+    context_phase = False
     try:
-        assert context_ready.wait(3.0), "SYNTHETIC post-arm response context was not accepted"
+        bridge = module.AKExecutionBridge(
+            native=fake, transport=_arming_transport(module, paths=paths),
+            store_directory=tmp_path / "store", pairing_token="ab" * 32)
+        context_ready = threading.Event()
+        original_accept = bridge._accept_snapshot_context
+
+        def observe_context(data, packet, request_life):
+            with bridge._state_lock:
+                accepted = original_accept(data, packet, request_life)
+                if accepted and bridge._arm_state == module.ARM_STATE_ARMED \
+                        and bridge._snapshot_context_current():
+                    context_ready.set()
+                return accepted
+
+        bridge._accept_snapshot_context = observe_context
+        if restore is not None:
+            bridge._lifecycle_serialization_restore = restore
+        bridge.strategy_id = 23
+        bridge.strategy_name = "SYNTHETIC"
+        bridge.set_params({"exchange": "SHFE", "instrument_id": "rb2610", "hedge_flag": "1",
+                           "investor_id": "SYNTHETIC-ACCOUNT-A",
+                           "execution_api_url": "http://127.0.0.1:17779/execution/v1/poll",
+                           **overrides})
+        bridge.on_init()
+        bridge.on_start()
+        # SYNTHETIC service identity facts for the injection seam (the real flow
+        # learns them from the authenticated pairing handshake)
+        bridge._service_instance_id = SYNTHETIC_ARMING_SERVICE_INSTANCE
+        with bridge._service_epoch_lock:
+            bridge._service_epoch = SYNTHETIC_ARMING_SERVICE_EPOCH
+
+        def _manual_ladder():
+            _install_arming_proposal(bridge)
+            bridge._process_arming_files()   # -> PREPARED_DISABLED
+            bridge._process_arming_files()   # -> ARM_READY
+            _install_arm_credential(bridge)
+            bridge._process_arming_files()   # -> ARM_PENDING (+ exact ACK)
+            bridge._pump_once()              # legal callback -> ARMED
+            assert bridge._arm_state == module.ARM_STATE_ARMED
+            assert bridge._arming_effective_now() is True
+
+        if lock_for is not None:
+            with lock_for(bridge):
+                _manual_ladder()
+        else:
+            _manual_ladder()
+        assert bridge.params_map.enable_trading is False  # Params never armed anything
+        # the manual exclusive zone is RELEASED here — before the control-lane
+        # nudge and the 3s context wait, so queued background work completes.
+        _nudge_control(bridge)
+        # A pre-arm context must retire before the independent gate precondition.
+        context_phase = True
+        assert context_ready.wait(3.0), \
+            "SYNTHETIC post-arm response context was not accepted"
         assert bridge._snapshot_context_current()
-    except AssertionError:
-        stop_started_bridge(bridge)
+        context_phase = False
+    except BaseException:
+        if _serialize_arming:
+            # Author08 outer failure cleanup: the test lock is already
+            # released (context unwind), the actually created bridge is
+            # stopped/joined OUTSIDE the lock, and the wrappers are restored
+            # only afterwards — never masking the original exception.
+            import sys as _sys
+            if bridge is not None and bridge._running:
+                try:
+                    stop_started_bridge(bridge)
+                except Exception:  # noqa: BLE001 - never masks the original
+                    pass
+            if restore is not None:
+                try:
+                    restore()
+                except Exception:  # noqa: BLE001
+                    if _sys.exc_info()[0] is None:
+                        raise
+        elif context_phase and bridge is not None:
+            # default path keeps its original behavior: only the context-wait
+            # failure stopped the bridge; other preparation failures left the
+            # caller's cleanup in charge exactly as before
+            stop_started_bridge(bridge)
         raise
     set_synthetic_gate_capture(bridge, quote=True, account=True, position=True, contract=True)
     return bridge
@@ -445,7 +542,9 @@ def test_h30_stop_single_deadline_and_no_native_entry(monkeypatch, tmp_path):
 
 def test_h31_close_gate_blocks_before_native(monkeypatch, tmp_path):
     module, fake = load_client_from_temp(monkeypatch, tmp_path)
-    bridge = _armed(module, fake, tmp_path)
+    # ruling08: h31 explicitly opts into the ruling07 per-bridge serialized
+    # arming fixture; everything else about the node is unchanged.
+    bridge = _armed(module, fake, tmp_path, _serialize_arming=True)
     try:
         dispatch = _armed_dispatch(bridge, ttl_ms=1500)
         # the user revokes the round just before the consuming callback
@@ -457,6 +556,103 @@ def test_h31_close_gate_blocks_before_native(monkeypatch, tmp_path):
         assert bridge._arming_effective_now() is False
     finally:
         stop_started_bridge(bridge)
+        restore = getattr(bridge, "_lifecycle_serialization_restore", None)
+        if restore is not None:
+            restore()
+
+
+def test_h31_competing_arming_entries_serialized_then_close_gate_zero_call(
+        monkeypatch, tmp_path):
+    # Ruling08 counterexample: event barriers drive a REAL competing entry
+    # through the serialized _process_arming_files while the manual ladder
+    # inside _armed(_serialize_arming=True) holds the per-bridge lock. The
+    # competitor is admitted only after the manual publication completed
+    # (blocked, never skipped), exactly one publisher ever enters, the
+    # preparation ends consistent — and then the ORIGINAL h31 close-gate
+    # behavior is proven for real: revoke before the consuming callback,
+    # 1500ms dispatch, zero simulated sends, DISARMED_TERMINAL, ineffective
+    # arming. Preparation rejection remains a genuine failure.
+    module, fake = load_client_from_temp(monkeypatch, tmp_path)
+    publication_entries = []
+    trace = {}
+    original_publish = module.AKExecutionBridge._maybe_publish_arming_request
+
+    def publish_with_competitor(self):
+        publication_entries.append(threading.get_ident())
+        if "publication_returned_at" not in trace:
+            # one-time barrier: spawn the real competing entry mid-ladder
+            def compete(instance):
+                trace["attempted_at"] = time.monotonic()
+                instance._process_arming_files()   # real serialized entrance
+                trace["admitted_at"] = time.monotonic()
+            threading.Thread(target=compete, args=(self,), daemon=True).start()
+        result = original_publish(self)
+        trace["publication_returned_at"] = time.monotonic()
+        return result
+
+    module.AKExecutionBridge._maybe_publish_arming_request = publish_with_competitor
+    bridge = None
+    try:
+        bridge = _armed(module, fake, tmp_path, _serialize_arming=True)
+        assert len(publication_entries) == 1, \
+            f"competing publisher entered publication: {publication_entries}"
+        assert "attempted_at" in trace, "the competing entry never attempted"
+        assert trace["admitted_at"] > trace["publication_returned_at"], \
+            "competing entry was admitted while the manual chain held the lock"
+        assert bridge._arm_state == module.ARM_STATE_ARMED
+        assert bridge._arming_effective_now() is True
+        # the ORIGINAL close-gate assertions, for real, on this bridge
+        dispatch = _armed_dispatch(bridge, ttl_ms=1500)
+        bridge._revoke_arming("user_disarm")
+        bridge._receive_dispatch(dispatch)
+        bridge._pump_once()
+        assert fake.send_calls() == []
+        assert bridge._arm_state == module.ARM_STATE_DISARMED_TERMINAL
+        assert bridge._arming_effective_now() is False
+    finally:
+        stop_started_bridge(bridge)
+        restore = getattr(bridge, "_lifecycle_serialization_restore", None)
+        if restore is not None:
+            restore()
+        module.AKExecutionBridge._maybe_publish_arming_request = original_publish
+
+
+def test_h31_helper_failure_cleans_bridge_and_restores_wrappers(monkeypatch, tmp_path):
+    # Author08 failure regression (Root diagnostic shape, owned file): a
+    # REAL serialized startup runs, the manual ladder raises mid-flight, and
+    # the outer cleanup must stop the actually created bridge, restore the
+    # class wrappers and keep the original exception observable — with no
+    # lock/worker deadlock left behind.
+    module, fake = load_client_from_temp(monkeypatch, tmp_path)
+    original_process = module.AKExecutionBridge._process_arming_files
+    created = []
+    record_start = module.AKExecutionBridge.on_start
+
+    def observing_start(self):
+        created.append(self)
+        return record_start(self)
+
+    module.AKExecutionBridge.on_start = observing_start
+
+    class SyntheticLadderFailure(RuntimeError):
+        pass
+
+    def failing_proposal(bridge):
+        raise SyntheticLadderFailure("synthetic failure before arming proposal")
+
+    monkeypatch.setattr(sys.modules[__name__], "_install_arming_proposal",
+                        failing_proposal)
+    try:
+        with pytest.raises(SyntheticLadderFailure):
+            _armed(module, fake, tmp_path, _serialize_arming=True)
+        assert created, "real helper never started an isolated bridge"
+        assert all(not bridge._running for bridge in created)
+        assert module.AKExecutionBridge._process_arming_files is original_process
+    finally:
+        for bridge in created:
+            stop_started_bridge(bridge)
+        module.AKExecutionBridge.on_start = record_start
+        module.AKExecutionBridge._process_arming_files = original_process
 
 
 def test_h32_no_rearm_with_unresolved_dispatch(monkeypatch, tmp_path):
@@ -793,22 +989,69 @@ def test_m01_cross_process_lock_holds_the_slot(monkeypatch, tmp_path):
     deployment = deploy_self_strategy(monkeypatch, tmp_path)
     warm = _noarg_started(deployment)
     try:
+        warm_identity = warm._instance_id
         store = Path(warm._store_path)
         warm.on_stop()  # the store exists; the OS lock is free again
     finally:
         stop_started_bridge(warm)
+    # The holder script reports its REAL interpreter pid after the actual
+    # msvcrt.locking succeeds: the venv launcher shim may spawn the real
+    # interpreter as a child, so Popen.pid alone is not the lock holder.
     script = (
         "import msvcrt, os, sys, time\n"
         "fd = os.open(sys.argv[1], os.O_CREAT | os.O_RDWR)\n"
         "msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)\n"
-        "print('LOCKED', flush=True)\n"
+        "print('LOCKED', os.getpid(), flush=True)\n"
         "time.sleep(30)\n"
     )
-    holder = subprocess.Popen([sys.executable, "-B", "-X", "utf8", "-c", script,
-                               str(store / "client.lock")],
-                              stdout=subprocess.PIPE)
+    launcher = subprocess.Popen([sys.executable, "-B", "-X", "utf8", "-c", script,
+                                 str(store / "client.lock")],
+                                stdout=subprocess.PIPE)
+    holder = None
+    contender = None
+    probe_fd = None
+    deadline = None  # unique 5s deadline, created on first termination entry
+
+    def remaining():
+        nonlocal deadline
+        if deadline is None:
+            deadline = time.monotonic() + 5
+        return max(0.0, deadline - time.monotonic())
+
+    def _terminate_and_reap():
+        """Ruling07 §4: the holder interpreter and the launcher each get an
+        INDEPENDENTLY attempted kill (when appropriate) and wait. A resource's
+        kill/wait raising never skips the remaining resources; the single
+        shared 5s deadline starts before the first termination operation and
+        bounds every wait; the first failure (original) is surfaced only
+        after all remaining cleanup was attempted."""
+        remaining()  # the deadline includes the first termination operation
+        failure = None
+
+        def attempt(resource_kill, resource_wait):
+            nonlocal failure
+            try:
+                resource_kill()
+                resource_wait()
+            except BaseException as error:  # noqa: BLE001 - recorded, first kept
+                if failure is None:
+                    failure = error
+
+        attempt(lambda: holder.kill() if holder is not None and holder.is_running() else None,
+                lambda: holder.wait(timeout=remaining()) if holder is not None else None)
+        attempt(lambda: launcher.kill() if launcher.poll() is None else None,
+                lambda: launcher.wait(timeout=remaining()))
+        if failure is not None:
+            raise failure
+
     try:
-        assert b"LOCKED" in holder.stdout.readline()
+        line = launcher.stdout.readline().split()
+        assert line[:1] == [b"LOCKED"] and len(line) == 2
+        holder = psutil.Process(int(line[1]))
+        # the bound holder belongs to this test's launcher interpreter chain
+        assert holder.pid == launcher.pid \
+            or launcher.pid in {parent.pid for parent in holder.parents()}
+        assert holder.is_running()
         contender = deployment.no_arg(strategy_id=23, strategy_name="SYNTHETIC",
                                       params=dict(_NOARG_PARAMS))
         contender.on_init()
@@ -817,16 +1060,184 @@ def test_m01_cross_process_lock_holds_the_slot(monkeypatch, tmp_path):
         assert contender._running is False
         # the file's existence is not the lock: only the OS lock counts
         assert (store / "client.lock").exists()
+        # negative: the real holder is still alive, so readiness must NOT be
+        # declared while its byte lock physically holds the slot
+        assert holder.is_running() and contender._running is False
+        _terminate_and_reap()
+        assert not holder.is_running()
+        # bounded non-blocking release probe on the SAME path, offset 0 and
+        # length 1 via the native LockFileEx/UnlockFileEx: only the OS's
+        # ERROR_LOCK_VIOLATION (33) is a confirmed-occupation signal worth
+        # waiting for — EACCES/AccessDenied alone proves nothing — and any
+        # other error fails directly. On acquisition: unlock and close.
+        import ctypes
+        import msvcrt  # local: native Windows locking only, never collected
+        from ctypes import wintypes
+
+        class _Overlapped(ctypes.Structure):
+            _fields_ = [("Internal", ctypes.c_ulonglong),
+                        ("InternalHigh", ctypes.c_ulonglong),
+                        ("Offset", wintypes.DWORD),
+                        ("OffsetHigh", wintypes.DWORD),
+                        ("hEvent", wintypes.HANDLE)]
+
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.LockFileEx.argtypes = [wintypes.HANDLE, wintypes.DWORD, wintypes.DWORD,
+                                        wintypes.DWORD, wintypes.DWORD,
+                                        ctypes.POINTER(_Overlapped)]
+        kernel32.LockFileEx.restype = wintypes.BOOL
+        kernel32.UnlockFileEx.argtypes = [wintypes.HANDLE, wintypes.DWORD, wintypes.DWORD,
+                                          wintypes.DWORD,
+                                          ctypes.POINTER(_Overlapped)]
+        kernel32.UnlockFileEx.restype = wintypes.BOOL
+        lockfile_exclusive_fail_immediately = 0x2 | 0x1
+        probe_fd = os.open(str(store / "client.lock"), os.O_RDWR)
+        probe_handle = msvcrt.get_osfhandle(probe_fd)
+        overlapped = _Overlapped()
+        while True:
+            if kernel32.LockFileEx(probe_handle, lockfile_exclusive_fail_immediately,
+                                   0, 1, 0, ctypes.byref(overlapped)):
+                if not kernel32.UnlockFileEx(probe_handle, 0, 1, 0,
+                                             ctypes.byref(overlapped)):
+                    raise AssertionError(
+                        "probe UnlockFileEx failed: "
+                        f"winerror {ctypes.get_last_error()}")
+                break
+            error = ctypes.get_last_error()
+            if error != 33 or remaining() <= 0:
+                raise AssertionError(f"client.lock not released: winerror {error}")
+            time.sleep(0.02)
+        os.close(probe_fd)
+        probe_fd = None
     finally:
-        holder.kill()
-        holder.wait(timeout=5)
-    # the OS released the lock when the holder died
+        # outer cleanup scope: every item is initialized up front and cleaned
+        # item by item; one cleanup failure neither skips the rest nor masks
+        # the original failure — cleanup errors are raised only when no
+        # original exception is already propagating.
+        import sys as _sys
+        cleanup_errors = []
+        try:
+            _terminate_and_reap()
+        except Exception as error:  # noqa: BLE001 - recorded, never masking
+            cleanup_errors.append(error)
+        if probe_fd is not None:
+            try:
+                os.close(probe_fd)
+            except OSError as error:
+                cleanup_errors.append(error)
+        try:
+            launcher.stdout.close()
+        except OSError as error:
+            cleanup_errors.append(error)
+        if contender is not None:
+            try:
+                stop_started_bridge(contender)
+            except Exception as error:  # noqa: BLE001
+                cleanup_errors.append(error)
+        if cleanup_errors and _sys.exc_info()[0] is None:
+            raise cleanup_errors[0]
+    # the OS released the lock when the real holder died: the original restart
+    # action ONCE — running, same slot path, warm persistent identity, stop
     try:
         contender.on_start()
         assert contender._running is True
+        assert contender._store_path == str(store)
+        assert contender._instance_id == warm_identity
         contender.on_stop()
     finally:
         stop_started_bridge(contender)
+
+
+def test_m01_native_windows_imports_stay_out_of_collection():
+    # Ruling07 §4: msvcrt (Windows-only) must never be a module-level import
+    # of this file — collection on other platforms must not depend on it and
+    # no platform skip is added. Verified structurally from this module's AST.
+    import ast
+    tree = ast.parse(Path(__file__).read_text(encoding="utf-8"))
+    for node in tree.body:
+        if isinstance(node, ast.Import):
+            assert all(alias.name != "msvcrt" for alias in node.names), \
+                "msvcrt must stay inside test/helper bodies, not module level"
+        elif isinstance(node, ast.ImportFrom):
+            assert node.module != "msvcrt", \
+                "msvcrt must stay inside test/helper bodies, not module level"
+
+
+def test_m01_cleanup_error_never_masks_original_failure(monkeypatch, tmp_path):
+    # Real error injection on the actual m01 path (ruling07 §4): the body's
+    # holder assertion fails synthetically while a LATER termination wait
+    # raises inside the outer cleanup. The original AssertionError must be
+    # the one that surfaces — a cleanup TimeoutExpired/NoSuchProcess
+    # escaping instead makes this test fail by construction.
+    real_wait = psutil.Process.wait
+    wait_calls = []
+
+    def flaky_wait(self, timeout=None):
+        wait_calls.append(self.pid)
+        if len(wait_calls) > 1:
+            raise psutil.TimeoutExpired(self.pid, timeout)
+        return real_wait(self, timeout=timeout)
+
+    monkeypatch.setattr(psutil.Process, "wait", flaky_wait)
+    monkeypatch.setattr(psutil.Process, "is_running", lambda self: True)
+    with pytest.raises(AssertionError):
+        test_m01_cross_process_lock_holds_the_slot(monkeypatch, tmp_path)
+
+
+def test_m01_holder_wait_failure_still_attempts_launcher_wait(monkeypatch, tmp_path):
+    # Ruling07 §4 owned regression with REAL spawned processes: when the
+    # holder interpreter's wait raises, the launcher's kill and wait are
+    # STILL attempted (each resource independently), and the ORIGINAL
+    # holder-wait failure is the exception that surfaces.
+    from types import SimpleNamespace
+
+    real_popen = subprocess.Popen
+    launcher_ops = []
+
+    class RecordingLauncher:
+        def __init__(self, *args, **kwargs):
+            self._real = real_popen(*args, **kwargs)
+
+        def __getattr__(self, key):
+            return getattr(self._real, key)
+
+        def kill(self):
+            launcher_ops.append("kill")
+            return self._real.kill()
+
+        def wait(self, *args, **kwargs):
+            launcher_ops.append("wait")
+            return self._real.wait(*args, **kwargs)
+
+    class SyntheticHolderWaitFailure(RuntimeError):
+        pass
+
+    def faulted_wait(self, timeout=None):
+        raise SyntheticHolderWaitFailure("synthetic holder wait failed")
+
+    launchers = []
+
+    def recording_popen(*args, **kwargs):
+        launcher = RecordingLauncher(*args, **kwargs)
+        launchers.append(launcher)
+        return launcher
+
+    monkeypatch.setattr(sys.modules[__name__], "subprocess",
+                        SimpleNamespace(Popen=recording_popen, PIPE=subprocess.PIPE))
+    monkeypatch.setattr(psutil.Process, "wait", faulted_wait)
+    try:
+        with pytest.raises(SyntheticHolderWaitFailure):
+            test_m01_cross_process_lock_holds_the_slot(monkeypatch, tmp_path)
+        assert launchers, "real target path never spawned a launcher"
+        assert "kill" in launcher_ops and "wait" in launcher_ops, launcher_ops
+    finally:
+        monkeypatch.undo()
+        for launcher in launchers:
+            if launcher._real.poll() is None:
+                launcher._real.kill()
+                launcher._real.wait(timeout=5)
+            if launcher._real.stdout is not None:
+                launcher._real.stdout.close()
 
 
 def test_m01_strategy_id_zero_is_a_legal_slot(monkeypatch, tmp_path):

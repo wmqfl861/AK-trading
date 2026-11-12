@@ -131,7 +131,10 @@ PUBLIC_TEST_FILES: tuple[str, ...] = (
 # exists, so until it lands on disk every lock build fails honestly with
 # acceptance_input_manifest_not_frozen (NOT_FROZEN, never pre-filled hashes).
 ACCEPTANCE_INPUT_MANIFEST_SCHEMA_ID = "ak_probability_acceptance_input_manifest_v1"
-ACCEPTANCE_INPUT_MANIFEST_PATH = "tests/fixtures/v2/ep1_t7/acceptance-input-manifest.json"
+# r6 fixed-namespace separation: the generic acceptance manifest F lives in
+# its own directory; the legacy T7 manifest keeps the old path, schema and
+# bytes untouched. No fallback to the old path, no schema guessing.
+ACCEPTANCE_INPUT_MANIFEST_PATH = "tests/fixtures/v2/ep1_t7_contract/acceptance-input-manifest.json"
 # §5.3 item 3: F's behavioral-source floor covers everything code_hashes()
 # binds today (validation/experiments.py: all src/ak_trading/v2 *.py plus the
 # research runner), plus the offline test runner; add/remove on either side
@@ -170,7 +173,15 @@ _ACCEPTANCE_FORBIDDEN_KEY_NAMES = frozenset({
 # sources, run bundles — are future lock-dependent bytes; listing one would
 # express a lock→output→lock cycle and is rejected before existence checks.
 _ACCEPTANCE_FORBIDDEN_ATTACHMENT_PREFIXES = ("data/research_runs/",)
-_ACCEPTANCE_FIXTURE_DIR = "tests/fixtures/v2/ep1_t7"
+# Both fixture namespaces are checked for an exact on-disk file set: the
+# legacy T7 directory (every file there, the old T7 manifest itself included,
+# must be a listed attachment) and the new generic directory (every file is
+# F itself or a listed attachment). Moving a file between the two cannot
+# escape the unlisted-file rejection.
+_ACCEPTANCE_FIXTURE_DIRS = (
+    "tests/fixtures/v2/ep1_t7",
+    "tests/fixtures/v2/ep1_t7_contract",
+)
 
 DATASET_KINDS = frozenset({"HISTORICAL_RECONSTRUCTED", "HISTORICAL_PIT", "SYNTHETIC", "FORWARD_SHADOW"})
 _INPUT_MANIFEST_KEYS = frozenset({
@@ -1240,16 +1251,19 @@ def verify_acceptance_input_manifest(project_root: Path) -> str:
             raise ArtifactsError(f"acceptance_manifest_attachment_size_mismatch:{name}")
         if sha256_hex(content) != digest:
             raise ArtifactsError(f"acceptance_manifest_attachment_hash_mismatch:{name}")
-    # Exact set inside the T7 fixture directory: every file on disk is either
-    # F itself or a listed attachment — no unlisted extras.
-    fixture_root = project_root / _ACCEPTANCE_FIXTURE_DIR
-    if fixture_root.is_dir():
-        present = {
-            p.relative_to(project_root).as_posix()
-            for p in fixture_root.rglob("*") if p.is_file() and not p.is_symlink()
-        }
-        for extra in sorted(present - {ACCEPTANCE_INPUT_MANIFEST_PATH} - set(table)):
-            raise ArtifactsError(f"acceptance_manifest_unlisted_fixture_file:{extra}")
+    # Exact set inside BOTH fixture directories: every file on disk must be a
+    # listed attachment — in the legacy T7 directory the old T7 manifest
+    # itself included, in the new directory everything except F itself. No
+    # unlisted extras anywhere, no escaping by moving files between them.
+    for fixture_dir in _ACCEPTANCE_FIXTURE_DIRS:
+        fixture_root = project_root / fixture_dir
+        if fixture_root.is_dir():
+            present = {
+                p.relative_to(project_root).as_posix()
+                for p in fixture_root.rglob("*") if p.is_file() and not p.is_symlink()
+            }
+            for extra in sorted(present - {ACCEPTANCE_INPUT_MANIFEST_PATH} - set(table)):
+                raise ArtifactsError(f"acceptance_manifest_unlisted_fixture_file:{extra}")
     return sha256_hex(_lf_normalized(payload))
 
 

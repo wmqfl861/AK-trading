@@ -17,6 +17,7 @@ from __future__ import annotations
 import dataclasses
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -906,10 +907,17 @@ def test_t7_acceptance_lock_registration_wiring() -> None:
                  "tests/test_v2_m5_t7_evidence.py"):
         assert name in a.DOWNSTREAM_TEST_FILES
     assert len(set(a.DOWNSTREAM_TEST_FILES)) == len(a.DOWNSTREAM_TEST_FILES)
-    # Item 2: F joins FIXTURE_FILES so fixture_files[F] = H_F.
+    # Item 2: F joins FIXTURE_FILES so fixture_files[F] = H_F. r6 fixed
+    # namespace separation: the generic lock consumer binds only the new
+    # path; the legacy T7 manifest keeps its own path, schema and bytes and
+    # is never a fallback fixture of the generic contract lock.
     assert a.ACCEPTANCE_INPUT_MANIFEST_PATH in a.FIXTURE_FILES
     assert a.ACCEPTANCE_INPUT_MANIFEST_PATH == \
-        "tests/fixtures/v2/ep1_t7/acceptance-input-manifest.json"
+        "tests/fixtures/v2/ep1_t7_contract/acceptance-input-manifest.json"
+    assert "tests/fixtures/v2/ep1_t7/acceptance-input-manifest.json" not in a.FIXTURE_FILES
+    support = (Path(__file__).resolve().parent / "v2_ep1_t7_support.py").read_bytes()
+    assert b'"fixtures/v2/ep1_t7"' in support
+    assert b"ep1_t7_contract" not in support
     assert a.ACCEPTANCE_INPUT_MANIFEST_SCHEMA_ID == \
         "ak_probability_acceptance_input_manifest_v1"
     # §5.3 closing: the strict lock schema gains no private F/E/R root field.

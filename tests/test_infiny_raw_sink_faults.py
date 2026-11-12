@@ -46,6 +46,7 @@ class _TimedFile:
 
     def write(self, data):
         started_ns = time.perf_counter_ns()
+        previous = self._probe._enter_writer("write", started_ns, self.sequence)
         error = None
         try:
             return self._raw.write(data)
@@ -54,10 +55,12 @@ class _TimedFile:
             raise
         finally:
             self._probe._record("write", started_ns,
-                                sequence=self.sequence, error=error)
+                                sequence=self.sequence, error=error,
+                                restore_stage=previous)
 
     def flush(self):
         started_ns = time.perf_counter_ns()
+        previous = self._probe._enter_writer("flush", started_ns, self.sequence)
         error = None
         try:
             return self._raw.flush()
@@ -66,7 +69,8 @@ class _TimedFile:
             raise
         finally:
             self._probe._record("flush", started_ns,
-                                sequence=self.sequence, error=error)
+                                sequence=self.sequence, error=error,
+                                restore_stage=previous)
 
     def fileno(self):
         return self._raw.fileno()
@@ -88,6 +92,8 @@ class _BoundedSinkProbe:
     original exception unchanged.
     """
 
+    _NO_STAGE = object()
+
     def __init__(self, *, max_events=4096, max_snapshots=256):
         self._lock = threading.Lock()
         self._events = []
@@ -98,11 +104,32 @@ class _BoundedSinkProbe:
         self._snapshots = []
         self._max_snapshots = max_snapshots
         self._phases = {}
+        self._all_run_maxima = {}
+        self._writer_stage = None
+        self._last_writer_sequence = None
+        self._sink = None
+        self._first_queue_full = None
+        self._saturation_capture_error = None
+
+    def _enter_writer(self, kind, started_ns, sequence=None):
+        # One writer owns this immutable observation reference. Nested write /
+        # flush / fsync calls restore the outer reference in the existing
+        # _record lock; no diagnostic lock is held across real I/O.
+        previous = self._writer_stage
+        if sequence is None:
+            sequence = (previous["sequence"] if previous is not None
+                        else self._last_writer_sequence)
+        self._writer_stage = {
+            "kind": kind, "started_ns": started_ns, "sequence": sequence,
+        }
+        return previous
 
     def _record(self, kind, started_ns, *, sequence=None, result=None,
-                error=None, queue_wait_seconds=None):
-        elapsed_ms = (time.perf_counter_ns() - started_ns) / 1_000_000.0
-        event = {"kind": kind, "elapsed_ms": elapsed_ms}
+                error=None, queue_wait_seconds=None, restore_stage=_NO_STAGE):
+        ended_ns = time.perf_counter_ns()
+        elapsed_ms = (ended_ns - started_ns) / 1_000_000.0
+        event = {"kind": kind, "elapsed_ms": elapsed_ms,
+                 "started_ns": started_ns, "ended_ns": ended_ns}
         if sequence is not None:
             event["sequence"] = sequence
         if result is not None:
@@ -119,6 +146,42 @@ class _BoundedSinkProbe:
             if len(self._events) >= self._max_events:
                 self._events.pop(0)
             self._events.append(event)
+            maximum = self._all_run_maxima.get(kind)
+            if maximum is None or elapsed_ms > maximum["elapsed_ms"]:
+                self._all_run_maxima[kind] = event
+            if restore_stage is not self._NO_STAGE:
+                self._writer_stage = restore_stage
+
+    def _capture_first_queue_full(self):
+        if (self._first_queue_full is not None
+                or self._saturation_capture_error is not None or self._sink is None):
+            return
+        # The real failed offer has already returned. Read production status
+        # before taking the diagnostic lock, never in the successful hot path.
+        try:
+            status = self._sink.status()
+        except Exception as exc:
+            with self._lock:
+                self._saturation_capture_error = type(exc).__name__
+            return
+        status_observed_ns = time.perf_counter_ns()
+        counts = dict(status.get("counts", {}))
+        if counts.get("dropped_by_reason", {}).get("queue_full", 0) <= 0:
+            return
+        with self._lock:
+            if self._first_queue_full is None:
+                self._first_queue_full = {
+                    "status_observed_ns": status_observed_ns,
+                    "context_observed_ns": time.perf_counter_ns(),
+                    "writer_stage": self._writer_stage,
+                    "queue_depth": status.get("queue_depth"),
+                    "queued_in_flight": status.get("queued_in_flight"),
+                    "visible_append_index": status.get("visible_append_index"),
+                    "durable_append_index": status.get("durable_append_index"),
+                    "counts": counts,
+                    "event_context": list(self._events[-8:]),
+                    "meaning": "first observed queue_full after the real failed offer",
+                }
 
     def _ensure_file_probe(self, sink, sequence):
         handle = getattr(sink, "_file", None)
@@ -134,6 +197,8 @@ class _BoundedSinkProbe:
     def fsync(self, fd):
         """Measure the real fsync seam; call ``os.fsync`` exactly once."""
         started_ns = time.perf_counter_ns()
+        previous = self._enter_writer("fsync", started_ns)
+        sequence = self._writer_stage["sequence"]
         error = None
         try:
             return os.fsync(fd)
@@ -141,9 +206,11 @@ class _BoundedSinkProbe:
             error = type(exc).__name__
             raise
         finally:
-            self._record("fsync", started_ns, error=error)
+            self._record("fsync", started_ns, sequence=sequence, error=error,
+                         restore_stage=previous)
 
     def wrap_offer(self, original):
+        self._sink = getattr(original, "__self__", None)
         def observed(descriptor):
             started_ns = time.perf_counter_ns()
             result = None
@@ -157,16 +224,23 @@ class _BoundedSinkProbe:
             finally:
                 self._record("offer", started_ns, sequence=descriptor.sequence,
                              result=result, error=error)
+                if result is False:
+                    self._capture_first_queue_full()
         return observed
 
     def wrap_write_row(self, original, sink):
+        self._sink = sink
         def observed(descriptor):
-            self._ensure_file_probe(sink, descriptor.sequence)
             started_ns = time.perf_counter_ns()
-            queue_wait = time.monotonic() - descriptor.admitted_at
+            self._last_writer_sequence = descriptor.sequence
+            previous = self._enter_writer("write_flush_rotate", started_ns,
+                                          descriptor.sequence)
+            queue_wait = None
             result = None
             error = None
             try:
+                queue_wait = time.monotonic() - descriptor.admitted_at
+                self._ensure_file_probe(sink, descriptor.sequence)
                 result = original(descriptor)
                 return result
             except BaseException as exc:
@@ -175,12 +249,15 @@ class _BoundedSinkProbe:
             finally:
                 self._record("write_flush_rotate", started_ns,
                              sequence=descriptor.sequence, result=result,
-                             error=error, queue_wait_seconds=queue_wait)
+                              error=error, queue_wait_seconds=queue_wait,
+                              restore_stage=previous)
         return observed
 
     def wrap_maybe_fsync(self, original):
         def observed(*, force):
             started_ns = time.perf_counter_ns()
+            previous = self._enter_writer("maybe_fsync", started_ns)
+            sequence = self._writer_stage["sequence"]
             result = None
             error = None
             try:
@@ -190,12 +267,15 @@ class _BoundedSinkProbe:
                 error = type(exc).__name__
                 raise
             finally:
-                self._record("maybe_fsync", started_ns, result=result, error=error)
+                self._record("maybe_fsync", started_ns, sequence=sequence,
+                             result=result, error=error, restore_stage=previous)
         return observed
 
     def wrap_disk_probe(self, original):
         def observed(*args, **kwargs):
             started_ns = time.perf_counter_ns()
+            previous = self._enter_writer("disk_retention_probe", started_ns)
+            sequence = self._writer_stage["sequence"]
             result = None
             error = None
             try:
@@ -206,7 +286,8 @@ class _BoundedSinkProbe:
                 raise
             finally:
                 self._record("disk_retention_probe", started_ns,
-                             result=result, error=error)
+                             sequence=sequence, result=result, error=error,
+                             restore_stage=previous)
         return observed
 
     def snapshot(self, at_mono, status):
@@ -269,10 +350,15 @@ class _BoundedSinkProbe:
             total_events = self._total_events
             operation_totals = dict(self._operation_totals)
             operation_errors = dict(self._operation_errors)
+            all_run_maxima = dict(self._all_run_maxima)
+            first_queue_full = self._first_queue_full
+            writer_stage = self._writer_stage
+            saturation_capture_error = self._saturation_capture_error
         by_kind = {}
         for kind in sorted(set(operation_totals) | {event["kind"] for event in events}):
             retained = [event for event in events if event["kind"] == kind]
             stats = self._stats(retained)
+            stats["scope"] = "retained_event_window"
             stats["events_total"] = operation_totals.get(kind, 0)
             stats["events_evicted"] = max(0, stats["events_total"] - len(retained))
             stats["errors_total"] = {
@@ -285,6 +371,11 @@ class _BoundedSinkProbe:
             "events_total": total_events,
             "events_evicted": max(0, total_events - len(events)),
             "operations": by_kind,
+            "operation_time_clock": "perf_counter_ns",
+            "all_run_maxima": all_run_maxima,
+            "first_queue_full": first_queue_full,
+            "writer_stage_at_summary": writer_stage,
+            "saturation_capture_error": saturation_capture_error,
             "event_tail": events[-32:],
             "queue_snapshots": snapshots,
             "phases": phases,

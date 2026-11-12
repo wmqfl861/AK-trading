@@ -5,6 +5,7 @@ production registry; production CLI/HTTP paths cannot construct any of these
 helpers. Fixtures built from this module must be flagged SYNTHETIC in their
 manifests.
 """
+from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 
 from ak_trading.infiny_execution import contracts as c
@@ -2257,30 +2258,29 @@ class ArmingAclSandbox:
         self.sid = secure(self.base_dir)   # protected BEFORE anything else
         self.verify()                      # domain proven while still empty
 
+    @contextmanager
     def _create_tightened_temp(self, name):
         """Exclusive empty temp entry, REAL protected DACL applied and
         verified BEFORE any payload byte is written (AR4.3 order)."""
         temp = self.base_dir / ("." + name + ".tmp")
         if temp.exists():
             raise ArmingAclError("ARMING_TEMP_EXISTS")
-        open(temp, "xb").close()
-        self._toolkit.apply_protected_dacl(temp, sid=self.sid, directory=False)
-        self._toolkit.verify_private(temp, sid=self.sid)
-        return temp
+        with self._toolkit._pinned_parent(temp) as lease:
+            self._toolkit.verify_private(self.base_dir, sid=self.sid)
+            with open(temp, "xb") as handle:
+                with self._toolkit._initialize_exclusive_file(
+                        lease, handle, sid=self.sid):
+                    yield temp, handle
 
     def write_private(self, name, payload):
         if name not in ARMING_FILE_NAMES:
             raise ArmingSlotRefusal("ARMING_SLOT_NAME_UNKNOWN")
         if isinstance(payload, str):
             payload = payload.encode("utf-8")
-        temp = self._create_tightened_temp(name)
-        handle = open(temp, "ab")
-        try:
+        with self._create_tightened_temp(name) as (temp, handle):
             handle.write(payload)
             handle.flush()
             os.fsync(handle.fileno())
-        finally:
-            handle.close()
         final = self.base_dir / name
         os.replace(temp, final)
         self._toolkit.verify_private(final, sid=self.sid)

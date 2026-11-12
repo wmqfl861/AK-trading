@@ -136,6 +136,7 @@ import threading
 import time
 from collections import OrderedDict
 from collections.abc import Callable, Mapping
+from contextlib import contextmanager
 from dataclasses import dataclass, replace
 from datetime import datetime, timedelta, timezone
 from http import HTTPStatus
@@ -359,6 +360,63 @@ class _WindowsACL:
         self._GetAce = advapi32.GetAce
         self._GetAce.argtypes = (void_p, wt.DWORD, ctypes.POINTER(void_p))
 
+        # Creation must return an object handle, including for directories.
+        # NtCreateFile(FILE_CREATE) supplies that atomic create-and-open seam;
+        # a CreateDirectoryW followed by a path reopen has a replacement gap.
+        class _UnicodeString(ctypes.Structure):
+            _fields_ = [("Length", wt.USHORT), ("MaximumLength", wt.USHORT),
+                        ("Buffer", wt.LPWSTR)]
+
+        class _ObjectAttributes(ctypes.Structure):
+            _fields_ = [("Length", wt.ULONG), ("RootDirectory", wt.HANDLE),
+                        ("ObjectName", ctypes.POINTER(_UnicodeString)),
+                        ("Attributes", wt.ULONG), ("SecurityDescriptor", void_p),
+                        ("SecurityQualityOfService", void_p)]
+
+        class _IoStatus(ctypes.Structure):
+            _fields_ = [("StatusOrPointer", void_p),
+                        ("Information", ctypes.c_size_t)]
+
+        class _FileInformation(ctypes.Structure):
+            _fields_ = [("attributes", wt.DWORD), ("creation", wt.FILETIME),
+                        ("access", wt.FILETIME), ("write", wt.FILETIME),
+                        ("volume", wt.DWORD), ("size_high", wt.DWORD),
+                        ("size_low", wt.DWORD), ("links", wt.DWORD),
+                        ("index_high", wt.DWORD), ("index_low", wt.DWORD)]
+
+        self._UnicodeString = _UnicodeString
+        self._ObjectAttributes = _ObjectAttributes
+        self._IoStatus = _IoStatus
+        self._FileInformation = _FileInformation
+        ntdll = ctypes.WinDLL("ntdll", use_last_error=True)
+        self._NtCreateFile = ntdll.NtCreateFile
+        self._NtCreateFile.argtypes = (
+            ctypes.POINTER(wt.HANDLE), wt.DWORD,
+            ctypes.POINTER(_ObjectAttributes), ctypes.POINTER(_IoStatus),
+            void_p, wt.ULONG, wt.ULONG, wt.ULONG, wt.ULONG, void_p, wt.ULONG)
+        self._NtCreateFile.restype = wt.LONG
+        self._RtlNtStatusToDosError = ntdll.RtlNtStatusToDosError
+        self._RtlNtStatusToDosError.argtypes = (wt.LONG,)
+        self._RtlNtStatusToDosError.restype = wt.ULONG
+        self._CreateFileW = kernel32.CreateFileW
+        self._CreateFileW.argtypes = (
+            wt.LPCWSTR, wt.DWORD, wt.DWORD, void_p, wt.DWORD, wt.DWORD, wt.HANDLE)
+        self._CreateFileW.restype = wt.HANDLE
+        self._GetFileInformationByHandle = kernel32.GetFileInformationByHandle
+        self._GetFileInformationByHandle.argtypes = (
+            wt.HANDLE, ctypes.POINTER(_FileInformation))
+        self._GetFileInformationByHandle.restype = wt.BOOL
+        self._GetSecurityInfo = advapi32.GetSecurityInfo
+        self._GetSecurityInfo.argtypes = (
+            wt.HANDLE, ctypes.c_int, wt.DWORD, ctypes.POINTER(void_p),
+            ctypes.POINTER(void_p), ctypes.POINTER(void_p),
+            ctypes.POINTER(void_p), ctypes.POINTER(void_p))
+        self._GetSecurityInfo.restype = wt.DWORD
+        self._SetSecurityInfo = advapi32.SetSecurityInfo
+        self._SetSecurityInfo.argtypes = (
+            wt.HANDLE, ctypes.c_int, wt.DWORD, void_p, void_p, void_p, void_p)
+        self._SetSecurityInfo.restype = wt.DWORD
+
     # -- helpers -------------------------------------------------------------
 
     def _ace_header(self, ace_pointer):
@@ -409,6 +467,199 @@ class _WindowsACL:
             self._CloseHandle(handle)
 
     # -- operations ----------------------------------------------------------
+
+    def _information(self, handle, *, directory):
+        info = self._FileInformation()
+        if not self._GetFileInformationByHandle(handle, self._ctypes.byref(info)):
+            raise OSError("PAIRING_OBJECT_IDENTITY_UNREADABLE")
+        if info.attributes & 0x400 or bool(info.attributes & 0x10) != directory:
+            raise OSError("PAIRING_OBJECT_REPARSE_OR_TYPE_INVALID")
+        if not directory and info.links != 1:
+            raise OSError("PAIRING_OBJECT_ALIAS_INVALID")
+        return info
+
+    @staticmethod
+    def _identity(info):
+        return info.volume, info.index_high, info.index_low
+
+    def _open_path_for_identity(self, path, *, directory):
+        # OPEN_REPARSE_POINT inspects the entry itself. Share-delete is allowed
+        # only on this short read handle; the owning handles below deny it.
+        handle = self._CreateFileW(str(path), 0x80, 7, None, 3,
+                                   0x02000000 | 0x00200000, None)
+        if handle == self._ctypes.c_void_p(-1).value:
+            raise self._ctypes.WinError(self._ctypes.get_last_error())
+        return handle
+
+    def _relative_object(self, parent, name, *, create, directory, access,
+                         share=1):
+        if not name or name in (".", "..") or any(c in name for c in "\\/:"):
+            raise OSError("PAIRING_OBJECT_NAME_INVALID")
+        ctypes = self._ctypes
+        text = ctypes.create_unicode_buffer(name)
+        length = len(name.encode("utf-16-le"))
+        value = self._UnicodeString(length, length + 2,
+                                    ctypes.cast(text, self._wt.LPWSTR))
+        attributes = self._ObjectAttributes(
+            ctypes.sizeof(self._ObjectAttributes), parent, ctypes.pointer(value),
+            0x40 | 0x1000, None, None)  # CASE_INSENSITIVE | DONT_REPARSE
+        status = self._IoStatus()
+        handle = self._wt.HANDLE()
+        result = self._NtCreateFile(
+            ctypes.byref(handle), access | 0x00100000,
+            ctypes.byref(attributes), ctypes.byref(status), None, 0,
+            share, 2 if create else 1,  # FILE_CREATE / FILE_OPEN
+            (1 if directory else 0x40) | 0x20 | 0x00200000,
+            None, 0)  # synchronous, open the reparse entry itself
+        if result < 0:
+            raise ctypes.WinError(self._RtlNtStatusToDosError(result))
+        if create and status.Information != 2:  # FILE_CREATED, never OPEN_IF
+            self._CloseHandle(handle)
+            raise OSError("PAIRING_EXCLUSIVE_CREATE_NOT_PROVEN")
+        return handle
+
+    @contextmanager
+    def _pinned_parent(self, path):
+        """Hold every ancestor without write/delete sharing until completion."""
+        target = Path(os.path.abspath(Path(path)))
+        if not target.name or not target.drive:
+            raise OSError("PAIRING_DIR_INVALID")
+        chain = []
+        try:
+            root = Path(target.anchor)
+            root_handle = self._CreateFileW(
+                str(root), 0x80 | 0x20, 1, None, 3,
+                0x02000000 | 0x00200000, None)
+            if root_handle == self._ctypes.c_void_p(-1).value:
+                raise self._ctypes.WinError(self._ctypes.get_last_error())
+            chain.append((root, root_handle))
+            self._information(root_handle, directory=True)
+            for part in target.parts[1:-1]:
+                current = chain[-1][0] / part
+                try:
+                    handle = self._relative_object(
+                        chain[-1][1], part, create=False, directory=True,
+                        access=0x80 | 0x20)
+                except FileNotFoundError:
+                    try:
+                        handle = self._relative_object(
+                            chain[-1][1], part, create=True, directory=True,
+                            access=0x80 | 0x20)
+                    except FileExistsError:
+                        handle = self._relative_object(
+                            chain[-1][1], part, create=False, directory=True,
+                            access=0x80 | 0x20)
+                chain.append((current, handle))
+                self._information(handle, directory=True)
+            lease = _PinnedPairingPath(self, target, chain)
+            lease.check()
+            yield lease
+        finally:
+            for _, handle in reversed(chain):
+                self._CloseHandle(handle)
+
+    def _require_handle_owner(self, handle, sid):
+        ctypes = self._ctypes
+        owner = ctypes.c_void_p()
+        descriptor = ctypes.c_void_p()
+        expected = self._sid_from_string(sid)
+        try:
+            code = self._GetSecurityInfo(
+                handle, self._SE_FILE_OBJECT, self._OWNER_SECURITY_INFORMATION,
+                ctypes.byref(owner), None, None, None, ctypes.byref(descriptor))
+            if code:
+                raise OSError(code, "DACL_READ_FAILED")
+            if not owner.value or not self._EqualSid(owner, expected):
+                raise OSError("DACL_OWNER_MISMATCH")
+        finally:
+            if descriptor.value:
+                self._LocalFree(descriptor)
+            self._LocalFree(expected)
+
+    def _apply_handle_private(self, handle, *, sid, directory, new_object):
+        """Owner assignment is restricted to the exclusive-creation callers."""
+        ctypes = self._ctypes
+        pointer = self._sid_from_string(sid)
+        try:
+            acl = ctypes.create_string_buffer(512)
+            if not self._InitializeAcl(acl, 512, self._ACL_REVISION):
+                raise OSError("DACL_ACL_INIT_FAILED")
+            if not self._AddAccessAllowedAceEx(
+                    acl, self._ACL_REVISION,
+                    self._SUB_CONTAINERS_AND_OBJECTS_INHERIT if directory else 0,
+                    self._FILE_ALL_ACCESS, pointer):
+                raise OSError("DACL_ACE_ADD_FAILED")
+            flags = self._DACL_SECURITY_INFORMATION | self._PROTECTED_DACL_SECURITY_INFORMATION
+            if new_object:
+                flags |= self._OWNER_SECURITY_INFORMATION
+            code = self._SetSecurityInfo(
+                handle, self._SE_FILE_OBJECT, flags,
+                pointer if new_object else None, None, acl, None)
+            if code:
+                raise OSError(code, "DACL_APPLY_FAILED")
+        finally:
+            self._LocalFree(pointer)
+
+    @contextmanager
+    def _secure_directory(self, target, sid):
+        with self._pinned_parent(target) as lease:
+            try:
+                handle = self._relative_object(
+                    lease.parent, lease.path.name, create=True, directory=True,
+                    access=0x80 | 0x20 | 0x20000 | 0x40000 | 0x80000)
+                created = True
+            except FileExistsError:
+                handle = self._relative_object(
+                    lease.parent, lease.path.name, create=False, directory=True,
+                    access=0x80 | 0x20 | 0x20000 | 0x40000)
+                created = False
+            try:
+                lease.check(handle, directory=True)
+                if not created:
+                    # Refuse before changing even a single DACL/owner bit.
+                    self._require_handle_owner(handle, sid)
+                self._apply_handle_private(handle, sid=sid, directory=True,
+                                           new_object=created)
+                lease.check(handle, directory=True)
+                self.verify_private(lease.path, sid=sid)
+                lease.check(handle, directory=True)
+                yield
+                lease.check(handle, directory=True)
+                self.verify_private(lease.path, sid=sid)
+            finally:
+                self._CloseHandle(handle)
+
+    @contextmanager
+    def _initialize_exclusive_file(self, lease, file, *, sid):
+        """The caller retains its successful x/xb handle through payload/fsync.
+
+        A second handle grants security rights, but must identify the very same
+        empty, single-link object. Neither handle shares deletion. Failed empty
+        objects are retained: path-based unlink after closing would create a
+        replacement race and is deliberately not attempted.
+        """
+        import msvcrt
+        original = msvcrt.get_osfhandle(file.fileno())
+        before = self._information(original, directory=False)
+        if before.size_high or before.size_low:
+            raise OSError("PAIRING_NEW_FILE_NOT_EMPTY")
+        lease.check(original, directory=False)
+        handle = self._relative_object(
+            lease.parent, lease.path.name, create=False, directory=False,
+            access=0x80 | 0x20000 | 0x40000 | 0x80000, share=3)
+        try:
+            if self._identity(self._information(handle, directory=False)) != self._identity(before):
+                raise OSError("PAIRING_OBJECT_REPLACED")
+            lease.check(original, directory=False)
+            self._apply_handle_private(handle, sid=sid, directory=False, new_object=True)
+            lease.check(original, directory=False)
+            self.verify_private(lease.path, sid=sid)
+            yield
+            lease.check(original, directory=False)
+            self.verify_private(lease.path, sid=sid)
+            lease.check(original, directory=False)
+        finally:
+            self._CloseHandle(handle)
 
     def apply_protected_dacl(self, path: Path, *, sid: str,
                              directory: bool) -> None:
@@ -490,6 +741,30 @@ class _WindowsACL:
             self._LocalFree(expected)
 
 
+class _PinnedPairingPath:
+    """A lexical path anchored by live, non-reparse ancestor handles."""
+
+    def __init__(self, toolkit, path, chain):
+        self.toolkit = toolkit
+        self.path = path
+        self.chain = chain
+        self.parent = chain[-1][1]
+
+    def check(self, target_handle=None, *, directory=True):
+        entries = [(path, handle, True) for path, handle in self.chain]
+        if target_handle is not None:
+            entries.append((self.path, target_handle, directory))
+        for path, handle, is_directory in entries:
+            expected = self.toolkit._information(handle, directory=is_directory)
+            observed = self.toolkit._open_path_for_identity(path, directory=is_directory)
+            try:
+                actual = self.toolkit._information(observed, directory=is_directory)
+                if self.toolkit._identity(actual) != self.toolkit._identity(expected):
+                    raise OSError("PAIRING_OBJECT_REPLACED")
+            finally:
+                self.toolkit._CloseHandle(observed)
+
+
 _WINDOWS_ACL_TOOLKIT: _WindowsACL | None = None
 
 
@@ -512,13 +787,10 @@ def secure_pairing_directory(directory: str | Path) -> str:
     Returns the verified SID string (paths and SIDs only, no secrets).
     """
     target = Path(directory)
-    target.mkdir(parents=True, exist_ok=True)
-    if os.path.islink(target) or not target.is_dir():
-        raise OSError("PAIRING_DIR_INVALID")
     toolkit = _windows_acl()
     sid = toolkit.current_user_sid()
-    toolkit.apply_protected_dacl(target, sid=sid, directory=True)
-    toolkit.verify_private(target, sid=sid)
+    with toolkit._secure_directory(target, sid):
+        pass
     return sid
 
 
@@ -557,8 +829,9 @@ def write_pairing_file(
     instance must form a safe single file name, and the parent directory is
     tightened AND verified before any secret byte exists on disk. Creation
     is exclusive: an existing service-side source file is refused without
-    being read or overwritten. After flush/fsync the file itself receives a
-    protected current-user-only DACL and is re-verified. Error messages
+    being read or overwritten. While still empty, the exclusive file receives
+    its current-user owner and protected DACL and is verified. The same object
+    stays held through write/flush/fsync and final verification. Error messages
     never contain the token value.
     """
     _require_safe_instance_filename(instance_id)
@@ -587,7 +860,7 @@ def write_pairing_file(
         _require_opaque(session_epoch, "session_epoch")
     target = Path(path)
     toolkit = _windows_acl()
-    sid = secure_pairing_directory(target.parent)
+    sid = toolkit.current_user_sid()
     if target.exists() or os.path.islink(target):
         # never read, never overwrite a service-side source file
         raise FileExistsError("PAIRING_FILE_EXISTS")
@@ -602,18 +875,17 @@ def write_pairing_file(
         "diagnostic_only": diagnostic_only,
         "token": token,
     })
-    handle = open(target, "x", encoding="ascii", newline="\n")
-    try:
-        handle.write(json.dumps(document, ensure_ascii=True,
-                                separators=(",", ":")) + "\n")
-        handle.flush()
-        os.fsync(handle.fileno())
-    finally:
-        handle.close()
-    # born private through the protected parent (its inheritable ACE is the
-    # only access grant); now protect the file's own DACL and re-verify
-    toolkit.apply_protected_dacl(target, sid=sid, directory=False)
-    toolkit.verify_private(target, sid=sid)
+    with toolkit._secure_directory(target.parent, sid):
+        with toolkit._pinned_parent(target) as lease:
+            handle = open(target, "x", encoding="ascii", newline="\n")
+            try:
+                with toolkit._initialize_exclusive_file(lease, handle, sid=sid):
+                    handle.write(json.dumps(document, ensure_ascii=True,
+                                            separators=(",", ":")) + "\n")
+                    handle.flush()
+                    os.fsync(handle.fileno())
+            finally:
+                handle.close()
     return target
 
 
