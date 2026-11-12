@@ -1,0 +1,4 @@
+Temporary GitHub repository access test.
+Requested by repository owner on 2026-11-12.
+Stage: create and read back.
+This file will be deleted after verification.
