@@ -115,3 +115,107 @@ M01 命令（cwd=`D:/Projects/AK-trading`）：`C:/AKR41110/venv-full/Scripts/py
 H01 为 `C:/AKH1107/h7-rule-metadata.json`；另引用同目录 `h7-readiness-metadata.json`、`h7-input-layout-metadata-02.json`，本次逐一核对既有哈希。主元数据来源为 r1/r2 的 build-report.json、review/review.json 及 collection/shard manifest（完整 pins 在外置记录）；其中旧独审不是当前源码、边界和时钟条件下的重新验收。codebase-memory 查询与 coverage 后，对 metadata_changed 源码及 experiments.py 部分解析缺口作了精确源码补读；没有重索引或服务操作。
 
 本次元数据结果 `source-metadata.json` SHA-256 为 `efc8b35c75583962c9a3b5dff75051703e34ce0bb9a1bd8b40e62365fa8ef82f`。脚本、source pins、精确命令、原始日志和封存副本置于仓库外 `C:/AKH71113/measurements/`；仓库仅留本汇总。未访问网络、DB、TqApi、凭据或 .env，未训练、推理、回放、回测、消费最终 holdout 或重启服务。保持 `enable_trading=False / observer=hold / broker=NOT_RUN / real send/cancel=0/0`。
+
+## K42b 追加：J20 后的数量、质量、延迟与可见性（2026-11-13，第三批）
+
+本节补量 r2 的 **2,482,408 根分钟线、7,268 根日线**。r1/r2 的 30 对 bars.csv 均重算了实际 SHA-256，逐合约相同，故只统计 r2。先逐行检查全部 r2 日期，未发现交易日或原始时间日期达到 2026-09-05；再进行统计。结果一律 **SCENARIO / NOT_ASSESSED**，原输入、日历证据和缺失字段均保留原值。上文此前的停止记录及历史作者保留。
+
+本次仍有明确的正式加载限制：冻结 manifest 与 JSON 记录信封为 `v2.1.2`，当前正式 loader 要求 `v2.1.3`；第一次作业原生退出 **3**，原因为 `manifest_contract_version_mismatch`。Astra 的 `INPUT-APPLICABILITY-RULING-001.md` 随后仅批准外置记录测量路径：逐文件核原 hash，严格检查旧版本、schema、键集和 availability，全部原 JSON records 用当前 `decode_record`、原 CSV 用 `decode_csv_bytes` 验证，再通过当前 `_check_no_input_mixing` 构造完整原 shard 的内存记录；完整 sessions 全部保留。第二次测量原生退出 **0**。收据的 `official_loader_accepted=false / official_loader_status=REJECTED_VERSION / adapter_scope=K42_VISIBILITY_MEASUREMENT_ONLY`，不能据此认定正式输入兼容、特征或标签可用。
+
+30 个原分片全部通过当前记录约束校验；生产允许的完全相同行去重前/后为 **2,489,676 / 2,489,676**。字段重写、源文件改动、日历证据升级均为 0。共享日历仍为 1,795 节、452 个交易日；94 日 VERIFIED、358 日 SCENARIO，不把 30 份共享日历累加。
+
+按周期的质量 × 时间依据 × 原因组合交叉计数；原因列表为空记作“无”，每行只归入一个组合。
+
+| 周期 | 质量 | 时间依据 | 原始原因组合 | 行数 |
+| --- | --- | --- | --- | --- |
+| MINUTE | DEGRADED | unknown | availability_unknown_not_reconstructed、bar_not_closed_at_export_clock、calendar_coverage_missing | 190,125 |
+| MINUTE | DEGRADED | unknown | availability_unknown_not_reconstructed、calendar_coverage_missing | 508,906 |
+| MINUTE | READY | reconstructed | availability_reconstructed:end_plus_60s | 1,783,377 |
+| DAILY | DEGRADED | unknown | availability_unknown_not_reconstructed、bar_not_closed_at_export_clock、calendar_coverage_missing | 557 |
+| DAILY | DEGRADED | unknown | availability_unknown_not_reconstructed、calendar_coverage_missing | 1,488 |
+| DAILY | READY | reconstructed | availability_reconstructed:end_plus_60s | 5,223 |
+
+可用时刻减 K 线收盘时刻，单位为秒；分母为该周期 `available_at_nano` 非空的行，缺失行不补值。
+
+| 周期 | 非空可用时刻行数 / 总行数 | 最小 | 中位 | 最大 |
+| --- | --- | --- | --- | --- |
+| MINUTE | 2,482,408 / 2,482,408 | 60 | 60 | 145920854.763828 |
+| DAILY | 7,268 / 7,268 | 60 | 60 | 145733962.159458 |
+
+“静态可用”沿用生产可见性索引的完整、READY、时间依据已知、可用时刻非空及分钟网格检查；实际决策还需 `max(end, available_at) <= decision`。下表末列是在最后一个原 session close 的累计可见数；它没有把当日收盘后才可用的行提前放行。
+
+| 合约 | 分钟线总数 | 生产静态可用分钟 | 末节收盘前累计可见分钟 |
+| --- | --- | --- | --- |
+| SHFE.rb2301 | 82,650 | 3,330 | 3,330 |
+| SHFE.rb2302 | 82,988 | 9,075 | 9,075 |
+| SHFE.rb2303 | 82,651 | 15,975 | 15,975 |
+| SHFE.rb2304 | 83,213 | 23,445 | 23,445 |
+| SHFE.rb2305 | 82,995 | 29,190 | 29,190 |
+| SHFE.rb2306 | 83,663 | 37,125 | 37,125 |
+| SHFE.rb2307 | 82,991 | 43,905 | 43,905 |
+| SHFE.rb2308 | 82,817 | 51,150 | 51,150 |
+| SHFE.rb2309 | 83,460 | 59,085 | 59,085 |
+| SHFE.rb2310 | 82,770 | 64,140 | 64,140 |
+| SHFE.rb2311 | 83,109 | 71,730 | 71,730 |
+| SHFE.rb2312 | 83,069 | 79,320 | 79,320 |
+| SHFE.rb2401 | 82,770 | 82,770 | 82,770 |
+| SHFE.rb2402 | 83,457 | 83,457 | 83,457 |
+| SHFE.rb2403 | 83,077 | 83,077 | 83,077 |
+| SHFE.rb2404 | 82,079 | 82,079 | 82,079 |
+| SHFE.rb2405 | 82,770 | 82,770 | 82,770 |
+| SHFE.rb2406 | 82,302 | 82,302 | 82,302 |
+| SHFE.rb2407 | 82,243 | 82,243 | 82,243 |
+| SHFE.rb2408 | 83,103 | 83,103 | 83,103 |
+| SHFE.rb2409 | 82,649 | 82,649 | 82,649 |
+| SHFE.rb2410 | 82,305 | 82,305 | 82,305 |
+| SHFE.rb2411 | 82,527 | 82,527 | 82,526 |
+| SHFE.rb2412 | 82,305 | 75,060 | 75,059 |
+| SHFE.rb2501 | 82,650 | 68,280 | 68,279 |
+| SHFE.rb2502 | 81,913 | 61,798 | 61,797 |
+| SHFE.rb2503 | 82,305 | 55,290 | 55,289 |
+| SHFE.rb2504 | 82,622 | 48,827 | 48,826 |
+| SHFE.rb2505 | 82,650 | 42,420 | 42,419 |
+| SHFE.rb2506 | 82,305 | 34,950 | 34,949 |
+
+静态可用分钟线的原交易日首尾为 **2023-01-03—2024-11-15**。原 selection-evidence 的 duration=60 槽全部进入以下逐日分布，保留零值日；这张 K42b 原口径表不额外剔除 bootstrap 日。
+
+| 入选合约逐日分钟数量口径 | 交易日分母 | 最小 | 中位 | 最大 |
+| --- | --- | --- | --- | --- |
+| 生产静态可用 | 452 | 225 | 345 | 345 |
+| 在该交易日原最后一节收盘已可见 | 452 | 224 | 344 | 344 |
+
+每个原 session 的 end_nano 都是一次真实决策截止；30 个合约按相同 session 汇总。累计分母是截至该 close 已收盘的全部原行，分子是当前生产索引在该 close 放行的行，所以加总是“bar × 决策时刻”对数，历史行会重复出现。cohort 分母对分钟线取原 session_id 等于当前节的行；对日线取原交易日等于当前节交易日且已收盘的行。两个分母都先保留非 READY 行。日线分别给 `intraday=False/True`，后者按生产逻辑排除当前交易日。
+
+| 周期 / intraday | 分母口径 | 分子 | 分母 | 加权放行比例 | 各节比例最小 / 中位 / 最大 | 零分母节 |
+| --- | --- | --- | --- | --- | --- | --- |
+| MINUTE / True | 累计 bar×close | 1,654,829,315 | 2,568,336,324 | 64.431955% | 0.174184% / 64.548746% / 77.798815% | 0 |
+| MINUTE / True | cohort | 1,762,638 | 1,783,377 | 98.837094% | 98.333333% / 98.666667% / 99.166667% | 0 |
+| DAILY / False | 累计 bar×close | 4,835,620 | 7,511,803 | 64.373626% | 0.000000% / 64.469914% / 77.800985% | 0 |
+| DAILY / False | cohort | 0 | 5,223 | 0.000000% | 0.000000% / 0.000000% / 0.000000% | 1,343 |
+| DAILY / True | 累计 bar×close | 4,835,620 | 7,511,803 | 64.373626% | 0.000000% / 64.469914% / 77.800985% | 0 |
+| DAILY / True | cohort | 0 | 5,223 | 0.000000% | 0.000000% / 0.000000% / 0.000000% | 1,343 |
+
+计算复用真实生产索引，每个完整原 shard、每个周期只构造一次；全部原 sessions 与记录均保留。固定首节、四分位、中点、末节，并加入每类原质量×时间依据×原因组合的首尾边界 close，以完整原 bundle 直接调用 `visible_bars`：**594 次输出集合与计数全部相同**。逐节明细与逐分片验证只在外置 JSON；没有以局部删减日历推断生产等价。
+
+给 K45 的附带数量只使用预先固定的日期和选约条件，不是标签成熟或特征完整的样本数。主计数拒绝 bootstrap，要求 SELECTED、cutoff_before_first_session=true、选约时刻严格早于原当天首节、previous_trading_day 等于原 sessions 前一交易日、入选合约在原 manifest 清单中。分钟取原每节第 5、10、15……根完整 bar 的 end 格子，缺行不重编号，decision=max(end,available_at)，超过原节末的不计；不补第一根或尾格。日线静态可用不要求恰在当日 close 可见。
+
+| 周期 | 固定段 | 交易日起止 | 入选原行 | 生产静态可用 | 每第5格原行 | 每第5格可用且 decision≤节末 |
+| --- | --- | --- | --- | --- | --- | --- |
+| MINUTE | TRAIN | 2023-01-03—2024-02-29 | 95,070 | 95,070 | 19,014 | 17,909 |
+| MINUTE | CAL | 2024-03-01—2024-05-31 | 20,805 | 20,805 | 4,161 | 3,919 |
+| MINUTE | TEST | 2024-06-03—2024-10-18 | 31,380 | 31,380 | 6,276 | 5,911 |
+| MINUTE | TAIL | 2024-10-21—2024-11-15 | 6,900 | 6,900 | 1,380 | 1,300 |
+| DAILY | TRAIN | 2023-01-03—2024-02-29 | 278 | 278 | 不适用 | 不适用 |
+| DAILY | CAL | 2024-03-01—2024-05-31 | 61 | 61 | 不适用 | 不适用 |
+| DAILY | TEST | 2024-06-03—2024-10-18 | 92 | 92 | 不适用 | 不适用 |
+| DAILY | TAIL | 2024-10-21—2024-11-15 | 20 | 20 | 不适用 | 不适用 |
+
+K45 选约槽剔除原因（两个周期合计、原因可重叠）：BOOTSTRAP=2；PREVIOUS_DAY_NOT_ORIGINAL_SESSION_PREDECESSOR=2。逐槽原因与剔除的原行数量在外置结果中保留。
+
+命令与真实结果（cwd=`D:/Projects/AK-trading`）：
+
+- K42b-r1：`C:/AKR41110/venv-full/Scripts/python.exe -I -B -X utf8 C:/AKH81113/measurements/run_k42b_r1.py`，子命令为同解释器的 `k42b_measure.py --output C:/AKH81113/measurements/k42b-r1.json`；原生退出 **3**，版本校验失败；原始记录保留，未生成成功统计。
+- K42b-r2：`C:/AKR41110/venv-full/Scripts/python.exe -I -B -X utf8 C:/AKH81113/measurements/run_k42b_r2.py`，子命令为同解释器的 `k42b_measure_r2.py --output C:/AKH81113/measurements/k42b-r2.json`；原生退出 **0**。不是 pytest，passed/failed 不适用。
+- 外置 `k42b-r2.json` SHA-256：`d76d27353222c761974c23d9f2e4cf4723128f7585534db51fb401d6251c0d12`；`k42b-r2-RECEIPT.json` SHA-256：`9a3028032af9a4377230a8782b0cafdf2e1050954177d9f6f79169effe5f6f67`。原始日志压缩包为 `k42b-r1-raw.zip`、`k42b-r2-raw.zip`，均在 `C:/AKH81113/measurements/`。完整 argv、原生退出、源码/输入 pins、裁定 pin、历史失败与可选发现命令的独立分类均保留于收据。
+
+没有计算价格变化、收益或标签，没有模型拟合、推理、M5 调用、最终 holdout 使用、凭据或 .env 读取、DB/服务访问。`enable_trading=False / observer=hold / broker=NOT_RUN / real send/cancel=0/0`。本节由第三批支撑辅助会话追加，前文历史测量、作者与失败不改写。

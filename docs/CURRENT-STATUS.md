@@ -31,21 +31,23 @@
 | 任务 | 状态 / 下一步 / 合入提交 |
 | --- | --- |
 | S3 | `.gitattributes`独立提交ab65e45；52个仅换行文件已恢复HEAD原字节，全部1227 tracked零差异；两规则精确替换、CI补三文件已合入推送c61f772；CI 43427609055成功：1381P/4skip/raw0。首次refresh raw1保留，字节零差异后用checkout-index更新52项stat，refresh/status raw0。 |
-| K43 | Astra新作者已接原K40计划/接受链；只读确认主力口径，有效计划已发布（一次Sol意见两项采纳），七文件独立无条件PASS；97P/raw0，130318项独立比较0失败、8组反例通过，21payload+CHECK逐bytes同；本次合入，CI待运行，全批G4待最终全量。 |
+| K43 | Astra新作者已接原K40计划/接受链；只读确认主力口径，有效计划已发布（一次Sol意见两项采纳），七文件独立无条件PASS；97P/raw0，130318项独立比较0失败、8组反例通过，21payload+CHECK逐bytes同；已发布main9608b5c，CI43436732625成功，全批G4待最终全量。 |
 | K14 | 有效计划已处置一次Sol意见；BEFORE已在src01隔离树实际启动（12:49:01Z，1229源文件含B26，21模块路径核对无开发树导入），owner两文件已冻结，93P/raw0；26份回放payload逐字节不变，原scaling变raw0；完整结果齐备才最终验收。 |
-| K44 | K43实际HEAD CI通过即续原作者短计划/同owner，固定五品种；不重跑RB。 |
-| K42b | J20范围已解除；首测raw3因v2.1.2包被v2.1.3正式loader拒绝。Astra批准保原版本/字段的严格记录适配仅作SCENARIO测量，新run进行中；正式loader仍拒绝。 |
-| S4 | 独立venv创建raw0；requirements+pytest安装raw1：aiohttp(from tqsdk)无可解析版本，另有PyPI超时；鉴权NOT_RUN，P/F均NA。保留日志，不改基准环境/依赖/服务。 |
+| K44 | K43实际HEAD CI已通过；原作者正在短计划，同owner准备复用工具，固定五品种；不重跑RB。 |
+| K42b | 测量完成raw0，表已追加至k42-real-input-readiness.md，原15295字节完整保留。静态可用分钟1783377根、452交易日；累计bar×close放行64.431955%，当节cohort放行98.837094%；594次生产visible_bars集合复核相同。首测版本拒绝raw3保留，正式loader仍REJECTED_VERSION；当前仅SCENARIO测量适用。 |
+| S4 | 独立venv创建raw0；首轮安装raw1（aiohttp无可解析版本，另有PyPI超时）。按G2以新编号、相同环境/命令作一次安装恢复，当前尚未鉴权；鉴权NOT_RUN，P/F均NA。不改基准环境/依赖/服务。 |
 | K45 | 设计已写k45-forecast-skill-design.md，一次Sol五项建议全采纳；两mode选r2，日期/判定固定。只待K42b和K14补数量/估时，尚未实施或完成整项。 |
 
 **作者裁定与差异**：K43已核输入历史available_at不能证成开盘前可知，拟按J21作前一已完成bar OI的因果顺序SCENARIO归集，不伪造PIT时间。作者已处置唯一一轮独立意见并发布有效计划；裁定和外建议时点口径差异保留。K43作者独立执行补充允许产品硬PASS及实际main CI后启动K44，整批全量/新基线门保留，不改原冻结计划。K14作者批准_fit自有样本不可变tuple快路径；普通可变图及恢复list仍完整安全O(N)核验，不切外部alias。JSON/hash及数值须逐位不变，原probe必须实测raw0。K42b记录适配仅证明生产可见性测量适用，非正式v2.1.3包接受，不放行K45拟合。K45两mode选r2，不作v1适配；TRAIN2023-01-03—2024-02-29、CAL2024-03-01—05-31、TEST2024-06-03—10-18，成熟尾10-21—11-15；只设计未实施。
 
 **K14阶段验证（非最终PASS）**：原scaling AFTER raw0，CDF100倍样本warm耗时约3倍，同模型hash首次2896.2ms/第二次0.4ms；保留原BEFORE raw1。上下文AFTER原始测量MINUTE127.8ms、DAILY284.4ms，raw0/0；两后测有并发作业，不能把日线变慢确定归因或宣称隔离加速。两mode26份真实SYNTHETIC回放payload字节完全相同。最终全量AFTER要等K44最终测试清单，不能漏本批新增用例。
 
-**全量基线**：旧r7=6345ran/6107P/145F/60E/33skip/8CE，原始退出1；不含K40-B26项。新BEFORE必须包含当前全部测试，AFTER按node严格比较新增F/E/CE=0；目前尚未运行，不以旧r7冒充本批结果。仅全量回归的positive_cold_run夹具有既有授权，不启动正式新冷链。
+**全量基线**：旧r7=6345ran/6107P/145F/60E/33skip/8CE，原始退出1；不含K40-B26项。新BEFORE正在隔离快照运行，AFTER待K44最终测试冻结，按node严格比较新增F/E/CE=0；目前尚无终态，不以旧r7冒充本批结果。仅全量回归的positive_cold_run夹具有既有授权，不启动正式新冷链。
 
 **待决**：尚无DECISIONS未覆盖且必须用户决定的新事项；作者技术裁定与用户专属事项分开，不因此停止不受影响任务。
 
 **用户专属尚未确认完成**：仓库转私有；轮换行情服务令牌并重启；收紧公网入口；Windows长路径；可选分支保护；实际资金是否偏离研究100万元；遗留分支处置。按DECISIONS第四节由用户本人操作。
 
 **边界**：最终holdout为交易日2026-09-05及之后，不登记、不消耗。J20三列名包允许整包研究，遇边界行停相应任务。只K44导出脚本可按J23自行读取指定env文件，agent不查看/打印/修改凭据。公开仓库不推输入、逐笔、候选、合同锁、验收包。交易enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。暂停项不恢复，K45只设计，三个v1规则与参数不变。
+
+**发布异常**：K43常规git push原raw128（连接reset）及Git远端读取raw128保留；官方API可用。仅上传本次9文件相同Git blobs/tree/commit，核本地与远端HEAD均9608b5c，force=false更新main，native0，未推候选/输入/锁。实际该HEAD CI成功；不是用另一份内容替代已审核提交。
