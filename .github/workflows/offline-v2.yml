@@ -43,4 +43,6 @@ jobs:
           python scripts/test_offline.py -q $(ls tests/test_v2_m[1-4]*.py) \
             tests/test_v2_forward_paper.py \
             tests/test_v2_natural_chain_smoke.py \
-            docs/repo-audit-20261026-claude/probes/test_range_duplicate_bar_probe.py
+            docs/repo-audit-20261026-claude/probes/test_range_duplicate_bar_probe.py \
+            tests/test_compare_test_baselines.py \
+            tests/test_preflight_v2_research.py
