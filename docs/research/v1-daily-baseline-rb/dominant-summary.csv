@@ -1,0 +1,6 @@
+product,method,method_name,status,net,positive_years,covered_years,worst_year,worst_year_net,max_drawdown,longest_drawdown_observations,open_drawdown_at_end,covered_observations,total_observations,coverage_percent,all_accounts,all_accounts_net,all_accounts_mean_numerator,all_accounts_mean_denominator,all_accounts_mean_display
+SHFE.RB,donchian_trend,唐奇安突破,COVERED,-12026.946,3,7,2021,-14863.833,26571.805,1292,true,1488,1489,99.932841,84,-98031.111,-98031.111,84,-1167.037
+SHFE.RB,ma_trend,均线,COVERED,-13533.603,1,7,2021,-10280.39,17083.104,1384,true,1488,1489,99.932841,84,-62971.508,-62971.508,84,-749.661
+SHFE.RB,zscore_reversion,Z 分数回归,COVERED,-6798.704,3,7,2021,-5013.694,12588.551,1185,true,1488,1489,99.932841,84,-151341.044,-151341.044,84,-1801.679
+SHFE.RB,buy_hold_control,买入持有,COVERED,-2003.176,3,7,2024,-8620,30420,1292,true,1488,1489,99.932841,84,-35999.145,-35999.145,84,-428.561
+SHFE.RB,flat_control,始终空仓,COVERED,0,0,7,2020,0,0,0,false,1488,1489,99.932841,84,0,0,84,0.000

@@ -48,4 +48,5 @@ jobs:
             tests/test_preflight_v2_research.py \
             tests/test_v2_session_identity_cache.py \
             tests/experiments/test_v1_daily_baseline_report.py \
-            tests/experiments/test_v1_daily_baseline_sensitivity.py
+            tests/experiments/test_v1_daily_baseline_sensitivity.py \
+            tests/experiments/test_v1_daily_baseline_dominant.py
