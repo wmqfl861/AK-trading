@@ -24,7 +24,7 @@
 | 文件 | 对应 | 在 `90cb0e9` 上的结果 |
 | --- | --- | --- |
 | `test_cross_timeframe_reachability_probe.py` | Z01、Z08 | 16 失败、14 通过。失败就是发现 |
-| `clock_tuple_identity_bench.py` | Z02 | 250 个交易日的日历上，每个上下文新建元组约 20 毫秒，复用同一个元组约 0.02 毫秒 |
+| `clock_tuple_identity_bench.py` | Z02 | 250 个交易日的日历上，每个上下文新建元组二三十毫秒，复用同一个元组 0.02 到 0.03 毫秒 |
 | `label_session_cache_identity_probe.py` | Z09 | 退出码 1：50 次里 50 次取到已释放日历的结果 |
 | `preflight_capital_tiers_demo.py` | Z03 | 五档资金各跑一次预检：10 万元及以下报“未知”、退出码 4；校准样本上限按整个窗口计 |
 | `compare_offline_logs.py` | Z07 | 工具，不是探针：按用例比较两份离线入口日志 |
