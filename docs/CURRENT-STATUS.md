@@ -32,17 +32,19 @@
 | --- | --- |
 | S3 | `.gitattributes`独立提交ab65e45；52个仅换行文件已恢复HEAD原字节，全部1227 tracked零差异；两规则精确替换、CI补三文件已合入推送c61f772；CI 43427609055成功：1381P/4skip/raw0。首次refresh raw1保留，字节零差异后用checkout-index更新52项stat，refresh/status raw0。 |
 | K43 | Astra新作者已接原K40计划/接受链；只读确认主力口径，有效计划已发布（一次Sol意见两项采纳），七文件独立无条件PASS；97P/raw0，130318项独立比较0失败、8组反例通过，21payload+CHECK逐bytes同；已发布main9608b5c，CI43436732625成功，全批G4待最终全量。 |
-| K14 | 有效计划已处置一次Sol意见；BEFORE已在src01隔离树实际启动（12:49:01Z，1229源文件含B26，21模块路径核对无开发树导入），owner两文件已冻结，93P/raw0；26份回放payload逐字节不变，原scaling变raw0；完整结果齐备才最终验收。 |
-| K44 | K43实际HEAD CI已通过；原作者正在短计划，同owner准备复用工具，固定五品种；不重跑RB。 |
+| K14 | 有效计划已处置一次Sol意见；隔离BEFORE自然完成raw1：6133P/145F/60E/33skip/8CE，6471.89秒；较r7仅B26通过增加，无新增F/E/CE。两产品文件冻结，独审93P与完整M1–M4 1006P/raw0，26份回放逐字节不变、原scaling raw0。最终AFTER待K44完整新测试冻结，尚无最终硬PASS。 |
+| K44 | 有效计划c83ec85b已发布，唯一Sol意见5项全采纳，原Astra owner已实施工具/config/测试；五官方静态规格齐备，49新文件写集，不改src、不重跑RB。完整测试冻结后并行最终AFTER与导出/矩阵，不再等计划PASS。 |
 | K42b | 已合入推送50154b5，CI43442336144成功（1428P/4skip/raw0）。测量raw0，原15295字节保留；可用分钟1783377根、452交易日，累计bar×close放行64.431955%，当节cohort98.837094%，594次生产集合复核相同。首测版本拒绝raw3保留，正式loader仍REJECTED_VERSION，仅SCENARIO测量适用。 |
-| S4 | 独立venv创建raw0；首轮安装raw1（aiohttp无可解析版本，另有PyPI超时）。按G2以新编号、相同环境/命令作一次安装恢复，当前尚未鉴权；鉴权NOT_RUN，P/F均NA。不改基准环境/依赖/服务。 |
-| K45 | 设计定稿k45-forecast-skill-design.md，一次Sol五项建议全采纳；两mode选r2，日期/判定固定。计数上界27739分钟/431日线锚点、419964请求；合成context算术参考61.12701分钟，不是完整研究工时，真实fit/标签/统计等未测。只设计，未实施。 |
+| S4 | BLOCKED_ENVIRONMENT：独立venv创建raw0，首轮安装raw1；同命令受限恢复在1800.006秒墙钟超时，child raw1，监督记录raw0。下载中断和aiohttp多版本解析回溯，不能断言Python3.13无兼容包。鉴权启动0次，P/F/E/skip均NA；按要求停止，不改依赖/服务/基准。 |
+| K45 | 已合入推送ba26032，CI43449548520成功；设计定稿k45-forecast-skill-design.md，一次Sol五项建议全采纳；两mode选r2，日期/判定固定。计数上界27739分钟/431日线锚点、419964请求；合成context参考61.12701分钟，不是完整研究工时，真实fit/标签/统计等未测。只设计，未实施。 |
 
 **作者裁定与差异**：K43已核输入历史available_at不能证成开盘前可知，拟按J21作前一已完成bar OI的因果顺序SCENARIO归集，不伪造PIT时间。作者已处置唯一一轮独立意见并发布有效计划；裁定和外建议时点口径差异保留。K43作者独立执行补充允许产品硬PASS及实际main CI后启动K44，整批全量/新基线门保留，不改原冻结计划。K14作者批准_fit自有样本不可变tuple快路径；普通可变图及恢复list仍完整安全O(N)核验，不切外部alias。JSON/hash及数值须逐位不变，原probe必须实测raw0。K42b记录适配仅证明生产可见性测量适用，非正式v2.1.3包接受，不放行K45拟合。K45两mode选r2，不作v1适配；TRAIN2023-01-03—2024-02-29、CAL2024-03-01—05-31、TEST2024-06-03—10-18，成熟尾10-21—11-15；只设计未实施。
 
 **K14阶段验证（非最终PASS）**：原scaling AFTER raw0，CDF100倍样本warm耗时约3倍，同模型hash首次2896.2ms/第二次0.4ms；保留原BEFORE raw1。上下文AFTER原始测量MINUTE127.8ms、DAILY284.4ms，raw0/0；两后测有并发作业，不能把日线变慢确定归因或宣称隔离加速。两mode26份真实SYNTHETIC回放payload字节完全相同。最终全量AFTER要等K44最终测试清单，不能漏本批新增用例。
 
-**全量基线**：旧r7=6345ran/6107P/145F/60E/33skip/8CE，原始退出1；不含K40-B26项。新BEFORE正在隔离快照运行，AFTER待K44最终测试冻结，按node严格比较新增F/E/CE=0；目前尚无终态，不以旧r7冒充本批结果。仅全量回归的positive_cold_run夹具有既有授权，不启动正式新冷链。
+**全量基线**：旧r7=6345ran/6107P/145F/60E/33skip/8CE/raw1；新BEFORE=6371ran/6133P/145F/60E/33skip/8CE/raw1，unresolved0，仅增加K40-B26通过。四成员补充为confirmation9P/raw0、duplicate9P/raw0、range5P6F/raw1；记录/比较raw0/0，旧节点无丢失、新增F/E/CE均0。AFTER待K44最终测试冻结，届时按node严格比较；不将前测通过冒充产品最终PASS。仅全量回归positive_cold_run夹具有既有授权，不启动正式新冷链。
+
+**S4命令与终态**：`C:/AKH81113/measurements/s4-r1/venv/Scripts/python.exe -I -B -m pip --isolated install --disable-pip-version-check --index-url https://pypi.org/simple -r D:/Projects/AK-trading/requirements.txt pytest`；恢复原始退出1（WALL_CLOCK_TIMEOUT），原始压缩日志与RESULT在仓库外`C:/AKH81113/measurements/s4-r2/`。离线`tests/test_mcp_auth.py`未运行，不能宣称鉴权通过或失败。
 
 **待决**：尚无DECISIONS未覆盖且必须用户决定的新事项；作者技术裁定与用户专属事项分开，不因此停止不受影响任务。
 
