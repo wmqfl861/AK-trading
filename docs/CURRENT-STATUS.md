@@ -38,15 +38,17 @@ python scripts/test_offline.py -q tests/experiments/test_historical_daily_chrono
 | K10b | 独立无条件PASS，三文件修复与r7完整基线已推送`b658087`；实际CI 43387254071成功（1303P/4skip）。完整6345ran/6107P/145F/60E/33skip/8CE/raw1，独立严格新增F/E/CE=0/0/0。 |
 | K12 | [阻塞表](research/minute-profile.md)已推送`56aaf2c`，CI 43383466493成功（1303P/4skip）；身份/纯算术raw0。tail上界1/3/9<54，性能任务BLOCKED，Top20/内存/拟合占比未测，不触发K13。 |
 | K25 | [分诊表](research/k25-baseline-triage.md)已推送`7e1d026`，CI 43369079502成功：31文件、213/213异常匹配，145F/60E/8CE；研究路径110F/16E；生成raw0，不改测试。 |
-| J7 | [分级变更申请](contract-lock-levels-change-request-20261113.md)已推送`7271902`，CI 43371357305成功（1303P/4skip）：PROPOSED/NOT_IMPLEMENTED；K12仍用现行完整锁。 |
-| K40-B | 独立无条件PASS，精确10文件随本提交发布；独立153P/1旧skip、5反例、完整6720账户矩阵及oracle均raw0，40329产物/manifest/CHECK跨两次运行字节一致，94080年度单元及全部表精确；实际HEAD CI待核验。 |
+| J7 | [分级变更申请](contract-lock-levels-change-request-20261113.md)已推送`7271902`，CI 43371357305成功（1303P/4skip）：PROPOSED/NOT_IMPLEMENTED；现行完整锁规则未实施分级。 |
+| K40-B | 独立无条件PASS，精确10文件已推送`4b6e42b`；实际CI 43402228540成功（1303P/4skip）。独立153P/1旧skip、5反例、6720账户矩阵及oracle均raw0；40329产物/manifest/CHECK字节一致，94080年度单元及全部表精确。 |
 
 **方法裁定差异**：K02b仅标签占比回退到原已授权v1 real-input-02；外建议的回退原因为quality/time_basis，本次真实原因为r1/r2无法安全证明非holdout边界。作者明确不新增来源、不读未知区间、不解锁其余指标。 测量后原作者裁定甲′/乙′/丙选择DEFERRED：缺实际模型概率及结构状态分母，标签比例不能证明策略不可达；维持当前代码不等于采纳丙或移除策略族，不阻塞K40-B。 K12作者按完整5/20/60日历解释原要求，现有H8训练覆盖不成立，因此停止性能作业而交阻塞表；不改为长TRAIN或组件指标。 K40-B作者选择显式外置authority-dir/engine-root绑定原4资料及10/10冻结引擎，不将资料推公开库、不改旧wrapper，原70项存量失败仍保留。K10b只改上下文/标签两处缓存及新测试，其余调用点不在本批写集。
 
 **全量基线**：r6 6293 ran / 6055P / 145F / 60E / 33skip / 8CE，原始退出1；上批严格比较新增F/E/CE=0/0/0、独立PASS。K10b完整AFTER为6345ran/6107P/145F/60E/33skip/8CE/raw1；新增52P=K40-A24+K10b28，独立重建与严格对照新增F/E/CE=0/0/0，终审无条件PASS；[r7基线](../tests/baselines/full-suite-windows-20261113-r7.json)随修复入库，r6保留。三个原probe失败身份与r6相同；旧失败不隐藏，不新增skip/xfail。 K40-B未改既有产品路径，按有效计划以新26测试、独立完整矩阵和逐账复算验收；这26项未冒计入先前r7全量数量。
 
-**待决**：r1/r2需明确可验证的非holdout起止/成员范围，当前不加载价格；就绪表保留旧声明与本次测量的区别。 K02b三个后续定义方向因概率/结构证据不足暂缓裁定，本批不改准入或范围。 K12需要下一轮明确足够长完整fold或固定合法TRAIN下短评估的测量口径，本批不改窗口；训练tail至少54日，短日历最多9日。另，S1添加`* -text`前后Git状态受stat缓存影响，逐文件原始字节核验发现新合入的10份外审文件工作区CRLF、HEAD为LF，`core.autocrlf=true`；仅撤销本次新增的`.gitattributes`，未修改外审文件/持久配置/执行规范化。按S1停止该单项，后续需决定采用无换行转换的新检出完成此设置；其它任务继续。证据`C:/AKH71113/s1-gitattributes-stop01.json`。
+**待决**：r1/r2需明确可验证的非holdout起止/成员范围，当前不加载价格；就绪表保留旧声明与本次测量的区别。 K02b三个后续定义方向因概率/结构证据不足暂缓裁定，本批不改准入或范围。 K12需要下一轮明确足够长完整fold或固定合法TRAIN下短评估的测量口径，本批不改窗口；训练tail至少54日，短日历最多9日。另，S1添加`* -text`前后Git状态受stat缓存影响，逐文件原始字节核验发现新合入的10份外审文件工作区CRLF、HEAD为LF，`core.autocrlf=true`；仅撤销本次新增的`.gitattributes`，未修改外审文件/持久配置/执行规范化。按S1停止该单项，后续需决定采用无换行转换的新检出完成此设置。证据`C:/AKH71113/s1-gitattributes-stop01.json`。
 
 **用户专属未确认事项**：仓库转私有；轮换行情令牌并重启服务；收紧公网入口；Windows长路径；可选分支保护、实际资金与研究100万元假设差异、遗留`chatgpt/rw-probe-b75d2205-a7f9c2`分支由用户处理。没有替用户执行这些操作。
+
+**本批收尾**：可执行交付已通过各自规定的验收并推送，K40-A/K40-B/K10b均独立无条件PASS、实际产品提交CI成功；S1换行设置、K42安全读取边界、K12完整短fold按具体原因保留阻塞，K02b定义选择因证据不足暂缓。全部本批工作已到已交付或明确阻塞状态，停止，不自动开始下一批。K40-B审核中一次模型服务503已续接原审核身份及原矩阵，无重复运行；两个完整矩阵及所有验收作业已终态。
 
 **范围与安全**：H7取消由K40替代；H6并入以后v2日线；H5旧FAIL保留、不新冷链；H8由K12替代，09不恢复/10不启动。K11/K13/K04b/K41、T7重新冻结、锁分级实施、N8/DISPATCH/Forward/paper均不做。公开仓库仅推汇总与结论，输入包/逐笔明细/候选分支/验收清单/锁不上远端。保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0；不读取凭据、不消耗最终holdout。
