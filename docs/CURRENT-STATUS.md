@@ -1,5 +1,5 @@
 本周能看到什么：七年RB策略报告已入库。
-卡在哪：换行设置与真实输入区间边界。
+卡在哪：短fold覆盖、换行与输入边界。
 需要我做什么：私有仓库、换令牌、收紧入口、开长路径。
 
 在有观测的原始年份中，ALL 正净额年数为唐奇安 1/7、均线 3/7、Z 回归 0/7；PRIMARY 正净额年数为唐奇安 2/7、均线 3/7、Z 回归 0/7。
@@ -35,16 +35,17 @@ python scripts/test_offline.py -q tests/experiments/test_historical_daily_chrono
 | S2 | `fd8f1b3`已推送；r6原字节入库，定向87P/raw0；CI 43356267610成功，1303P/4skip/0F；r5保留。 |
 | K02b | [测量表](research/k02b-cross-timeframe.md)已推送`3ea5b32`、CI 43363683356成功：获准v1样本中性标签1步14.42%、20步2.37%，raw0；其余三项无合法模型/快照，NA而非0。 |
 | K42 | [就绪清单](research/k42-real-input-readiness.md)已推送`0e4394b`，CI 43365962196成功（1303P/4skip）；2/2候选缺安全非holdout边界，生产测量BLOCKED；60/60分片manifest一致，价格打开数0，metadata raw0。 |
-| K10b / K12 | K10b意见已采纳，三文件正式开发中；r6 BEFORE与独立小回放期望已核验，冻结后一次完整AFTER。K12等其合入。 |
+| K10b | 三文件已冻结；owner定向1118P/3旧skip，独立新增28P及9组反例raw0、36回放payload原字节等价。一次完整AFTER仍运行中，终态后严格比较并完成硬审。 |
+| K12 | [阻塞表](research/minute-profile.md)随本提交发布；身份/纯算术两命令raw0。5/20/60完整日历的tail上界1/3/9<54；性能任务BLOCKED，Top20/内存/拟合占比未测，不触发K13。 |
 | K25 | [分诊表](research/k25-baseline-triage.md)已推送`7e1d026`，CI 43369079502成功：31文件、213/213异常匹配，145F/60E/8CE；研究路径110F/16E；生成raw0，不改测试。 |
-| J7 | [分级变更申请](contract-lock-levels-change-request-20261113.md)随本提交入库：PROPOSED/NOT_IMPLEMENTED；不作当前放行依据，K12仍用现行完整锁。 |
-| K40-B | 原作者短计划已写、Sol意见进行中；新入口显式绑定原4份authority和10/10已接受冻结引擎，旧wrapper/pins不改；尚未运行新矩阵。 |
+| J7 | [分级变更申请](contract-lock-levels-change-request-20261113.md)已推送`7271902`，CI 43371357305成功（1303P/4skip）：PROPOSED/NOT_IMPLEMENTED；K12仍用现行完整锁。 |
+| K40-B | 已实施并冻结driver/test/config；定向153P/1旧skip（新26P），预检raw0。4资金×4情景×5方法×84合约的6720账户矩阵正在运行；使用原10/10冻结源码，旧wrapper/pins不改。 |
 
-**方法裁定差异**：K02b仅标签占比回退到原已授权v1 real-input-02；外建议的回退原因为quality/time_basis，本次真实原因为r1/r2无法安全证明非holdout边界。作者明确不新增来源、不读未知区间、不解锁其余指标。
+**方法裁定差异**：K02b仅标签占比回退到原已授权v1 real-input-02；外建议的回退原因为quality/time_basis，本次真实原因为r1/r2无法安全证明非holdout边界。作者明确不新增来源、不读未知区间、不解锁其余指标。 测量后原作者裁定甲′/乙′/丙选择DEFERRED：缺实际模型概率及结构状态分母，标签比例不能证明策略不可达；维持当前代码不等于采纳丙或移除策略族，不阻塞K40-B。 K12作者按完整5/20/60日历解释原要求，现有H8训练覆盖不成立，因此停止性能作业而交阻塞表；不改为长TRAIN或组件指标。
 
-**全量基线**：r6 6293 ran / 6055P / 145F / 60E / 33skip / 8CE，原始退出1；上批严格比较新增F/E/CE=0/0/0、独立PASS。K10b候选已在开发，尚无完整AFTER；本批将前移为r6对照，旧失败不隐藏，不新增skip/xfail。
+**全量基线**：r6 6293 ran / 6055P / 145F / 60E / 33skip / 8CE，原始退出1；上批严格比较新增F/E/CE=0/0/0、独立PASS。K10b候选已冻结，一次完整AFTER正在运行；三个原probe已结束，失败身份均与r6相同。未把进行中的运行记为通过；旧失败不隐藏，不新增skip/xfail。
 
-**待决**：r1/r2需明确可验证的非holdout起止/成员范围，当前不加载价格；就绪表保留旧声明与本次测量的区别。另，S1添加`* -text`前后Git状态受stat缓存影响，逐文件原始字节核验发现新合入的10份外审文件工作区CRLF、HEAD为LF，`core.autocrlf=true`；仅撤销本次新增的`.gitattributes`，未修改外审文件/持久配置/执行规范化。按S1停止该单项，后续需决定采用无换行转换的新检出完成此设置；其它任务继续。证据`C:/AKH71113/s1-gitattributes-stop01.json`。
+**待决**：r1/r2需明确可验证的非holdout起止/成员范围，当前不加载价格；就绪表保留旧声明与本次测量的区别。 K02b三个后续定义方向因概率/结构证据不足暂缓裁定，本批不改准入或范围。 K12需要下一轮明确足够长完整fold或固定合法TRAIN下短评估的测量口径，本批不改窗口；训练tail至少54日，短日历最多9日。另，S1添加`* -text`前后Git状态受stat缓存影响，逐文件原始字节核验发现新合入的10份外审文件工作区CRLF、HEAD为LF，`core.autocrlf=true`；仅撤销本次新增的`.gitattributes`，未修改外审文件/持久配置/执行规范化。按S1停止该单项，后续需决定采用无换行转换的新检出完成此设置；其它任务继续。证据`C:/AKH71113/s1-gitattributes-stop01.json`。
 
 **用户专属未确认事项**：仓库转私有；轮换行情令牌并重启服务；收紧公网入口；Windows长路径；可选分支保护、实际资金与研究100万元假设差异、遗留`chatgpt/rw-probe-b75d2205-a7f9c2`分支由用户处理。没有替用户执行这些操作。
 
