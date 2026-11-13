@@ -1,54 +1,43 @@
-本周能看到什么：七年RB报告与资金成本对照。
-卡在哪：短fold覆盖、换行与输入边界。
-需要我做什么：私有仓库、换令牌、收紧入口、开长路径。
+本周：补主力与多品种报告，修预测开销。
+卡点：缓存修复待实施，多品种待主力报告。
+请你：仓库转私有、换令牌、收紧入口、开长路径。
 
-C1000000/BASE 的正净额年数：ALL 为唐奇安 1/7、均线 3/7、Z 回归 0/7；PRIMARY 为唐奇安 2/7、均线 3/7、Z 回归 0/7。
-预定 16 个相关资金/成本单元的 ALL 净额范围与最大开仓阻断次数分别为唐奇安 -101111.111 至 -98031.111 元、0 次；均线 -70071.508 至 -62971.508 元、0 次；Z 回归 -164001.044 至 -151341.044 元、0 次，这些相关单元不构成独立试验。
-C1000000/BASE/ALL 中，三策略减买持的净额差为唐奇安 -62031.966 元、均线 -26972.363 元、Z 回归 -115341.899 元；仍为 SCENARIO，非样本外、历史实盘或组合收益。
+# 当前批次：第六轮外审第三批（2026-11-13）
 
-# 当前状态（第五轮第二批，2026-11-13）
+仅执行 S3、K43、K14、K44、K42b、S4、K45；完成或真实阻塞后停止。外审是建议，产品验收仍按有效计划及作者裁定。`git fetch origin` 和 `git -c core.autocrlf=false merge --ff-only origin/claude/repo-audit-20261113-r6` 均原始退出0；分支仅新增外审目录9文件，合入 HEAD=`af9436fe77b8f75f9043a4c55121bd1a120cb376`。现行分工：Astra/max计划、开发；Sol6.1/max独审、辅助。旧子代理不在可续接列表，已显式移交其有效成果和历史证据；不冒称旧作者。G1一开发、一独审、一支撑，计划准备穿插。
 
-本批以 [DECISIONS](repo-audit-20261113-claude/DECISIONS.md) J1–J18 和 [NEXT-BATCH](repo-audit-20261113-claude/NEXT-BATCH.md) 为授权；全部完成或被阻塞后停止。外审分支已仅新增10个指定目录文件并快进合入，HEAD `79d9134cdcdead75d98e83e894080a5567c15130`。外审意见不是产品硬审。现行分工只看 PROJECT-MODEL-ROLES 顶部：计划/开发 Astra/max，独立审核/辅助 Sol6.1/max。
+## 开工复现
 
-| 本机复现（固定Python 3.13环境） | 原始退出 | 实测结果与外审差异 |
+以下 cwd 为仓库根，命令前缀均为 `C:/AKR41110/venv-full/Scripts/python.exe -B -X utf8`，路径前缀 `docs/repo-audit-20261113-r6-claude/probes/`。四组实际五条调用，原始结果保存在仓库外 `C:/AKH81113/reproduction01/RESULT.json`，原始日志压缩外置；不是pytest的测量不虚报passed数。
+
+| 命令（上述前缀） | 原始退出 | 实测结果 |
 | --- | ---: | --- |
-| Z01 跨周期可达性 | 1 | 14P/16F/0E，与外审一致；中性标签1日15.7%、20日1.8%。 |
-| Z02 时钟元组身份 | 0 | 5/20/60/250日新建与复用耗时比51/230/836/4641；本机绝对耗时不同，重复构建现象一致。 |
-| Z09 标签缓存身份 | 1 | 50次地址复用、50次返回旧分钟格，与外审一致。 |
-| Z06 分年工具 | 1 | 36P/63F/7E，106项；外审列63F/7E，当前Windows另外36项通过。 |
+| `k40_published_tables_recheck.py` | 0 | 7195 checks / 0 failed；566引用；1.605秒。 |
+| `pipeline_context_reuse_bench.py` | 0 | 40/120/250日为1.2/1.5/1.9倍；首上下文后新增校验/物化均0/0；94.948秒。 |
+| `empirical_apply_scaling_bench.py` | 1 | Z13复现；100000样本/horizon60=6383.350ms；同模型第二次hash=3174.1ms（首次99%）；120.919秒。 |
+| `context_cost_profile.py MINUTE 250 TREND` | 0 | 333.2ms/上下文；模型/特征/hash占65.0%/25.9%/0.4%；639.121秒。 |
+| `context_cost_profile.py DAILY 250 TREND` | 0 | 158.4ms/上下文；模型/特征/hash占29.2%/65.2%/0.5%；503.292秒。 |
 
-四条实际命令（解释器均为 `C:/AKR41110/venv-full/Scripts/python.exe`，cwd为仓库根）：
+与外审区别：算术与缓存结论一致；Windows性能绝对耗时更大，CDF100倍样本耗时191倍，外审Linux约255–310ms，本机约6383ms；这不是数值等价失败。四组五条均已终态，原始退出依次0/0/1/0/0；两profile供K14 BEFORE复用。原始测量耗时不含任何产品修复，不把工具捕获器退出0当作Z13通过。资源预检 C/D盘空余65011265536/53347770368字节，可用内存41993854976字节。
 
-```text
-python scripts/test_offline.py -q -s docs/repo-audit-20261113-claude/probes/test_cross_timeframe_reachability_probe.py
-python docs/repo-audit-20261113-claude/probes/clock_tuple_identity_bench.py
-python docs/repo-audit-20261113-claude/probes/label_session_cache_identity_probe.py
-python scripts/test_offline.py -q tests/experiments/test_historical_daily_chronological_transfer.py
-```
+## 任务
 
-原始输出及压缩件：`C:/AKH71113/reproduction01/RESULT.json`及同目录。四作业均自然终态，无超时；预期探针失败按原始码保留，不作产品PASS。
-
-| 任务 | 当前状态 / 下一步 |
+| 任务 | 状态 / 下一步 / 合入提交 |
 | --- | --- |
-| S1 | 可做部分已提交并推送`43c44e0`；CI 43353862057成功，1216P/4skip/0F。两个已合入外审分支已删除。`.gitattributes`单项停止，见待决。 |
-| K40-A | [七年报告](research/v1-daily-baseline-rb.md)已推送`a80db5c`，独立无条件PASS、24P/raw0、4反例通过；CI 43364742379成功，1303P/4skip。 |
-| S2 | `fd8f1b3`已推送；r6原字节入库，定向87P/raw0；CI 43356267610成功，1303P/4skip/0F；r5保留。 |
-| K02b | [测量表](research/k02b-cross-timeframe.md)已推送`3ea5b32`、CI 43363683356成功：获准v1样本中性标签1步14.42%、20步2.37%，raw0；其余三项无合法模型/快照，NA而非0。 |
-| K42 | [就绪清单](research/k42-real-input-readiness.md)已推送`0e4394b`，CI 43365962196成功（1303P/4skip）；2/2候选缺安全非holdout边界，生产测量BLOCKED；60/60分片manifest一致，价格打开数0，metadata raw0。 |
-| K10b | 独立无条件PASS，三文件修复与r7完整基线已推送`b658087`；实际CI 43387254071成功（1303P/4skip）。完整6345ran/6107P/145F/60E/33skip/8CE/raw1，独立严格新增F/E/CE=0/0/0。 |
-| K12 | [阻塞表](research/minute-profile.md)已推送`56aaf2c`，CI 43383466493成功（1303P/4skip）；身份/纯算术raw0。tail上界1/3/9<54，性能任务BLOCKED，Top20/内存/拟合占比未测，不触发K13。 |
-| K25 | [分诊表](research/k25-baseline-triage.md)已推送`7e1d026`，CI 43369079502成功：31文件、213/213异常匹配，145F/60E/8CE；研究路径110F/16E；生成raw0，不改测试。 |
-| J7 | [分级变更申请](contract-lock-levels-change-request-20261113.md)已推送`7271902`，CI 43371357305成功（1303P/4skip）：PROPOSED/NOT_IMPLEMENTED；现行完整锁规则未实施分级。 |
-| K40-B | 独立无条件PASS，精确10文件已推送`4b6e42b`；实际CI 43402228540成功（1303P/4skip）。独立153P/1旧skip、5反例、6720账户矩阵及oracle均raw0；40329产物/manifest/CHECK字节一致，94080年度单元及全部表精确。 |
+| S3 | 原始字节预检1226 tracked，52个仅换行差异、真实变动0；待复现完成后按J26单独提交attributes并恢复HEAD字节，再执行两规则替换与CI三文件。 |
+| K43 | Astra新作者已接原K40计划/接受链；只读确认主力口径，有效计划已发布（一次Sol意见两项采纳），待S3完成即开发；不得新跑回放。 |
+| K14 | Astra作者裁定缓存有效性；独立Astra owner仅准备BEFORE，尚未改产品或启动全量。 |
+| K44 | 等K43发布，再由同计划作者写短计划，按固定五品种推进。 |
+| K42b | J20已解除读取范围阻塞；支撑线S3后统计，未开始生产测量。 |
+| S4 | 等支撑线，在独立venv跑一次；基准环境不变。 |
+| K45 | Astra专职作者只写设计，不读检验价格/标签；待K42b和K14结果补数量与时间估计。 |
 
-**方法裁定差异**：K02b仅标签占比回退到原已授权v1 real-input-02；外建议的回退原因为quality/time_basis，本次真实原因为r1/r2无法安全证明非holdout边界。作者明确不新增来源、不读未知区间、不解锁其余指标。 测量后原作者裁定甲′/乙′/丙选择DEFERRED：缺实际模型概率及结构状态分母，标签比例不能证明策略不可达；维持当前代码不等于采纳丙或移除策略族，不阻塞K40-B。 K12作者按完整5/20/60日历解释原要求，现有H8训练覆盖不成立，因此停止性能作业而交阻塞表；不改为长TRAIN或组件指标。 K40-B作者选择显式外置authority-dir/engine-root绑定原4资料及10/10冻结引擎，不将资料推公开库、不改旧wrapper，原70项存量失败仍保留。K10b只改上下文/标签两处缓存及新测试，其余调用点不在本批写集。
+**作者裁定与差异**：K43已核输入历史available_at不能证成开盘前可知，拟按J21作前一已完成bar OI的因果顺序SCENARIO归集，不伪造PIT时间。作者已处置唯一一轮独立意见并发布有效计划；裁定和外建议时点口径差异保留。K14缓存方案尚未定稿；K45未实施。
 
-**全量基线**：r6 6293 ran / 6055P / 145F / 60E / 33skip / 8CE，原始退出1；上批严格比较新增F/E/CE=0/0/0、独立PASS。K10b完整AFTER为6345ran/6107P/145F/60E/33skip/8CE/raw1；新增52P=K40-A24+K10b28，独立重建与严格对照新增F/E/CE=0/0/0，终审无条件PASS；[r7基线](../tests/baselines/full-suite-windows-20261113-r7.json)随修复入库，r6保留。三个原probe失败身份与r6相同；旧失败不隐藏，不新增skip/xfail。 K40-B未改既有产品路径，按有效计划以新26测试、独立完整矩阵和逐账复算验收；这26项未冒计入先前r7全量数量。
+**全量基线**：旧r7=6345ran/6107P/145F/60E/33skip/8CE，原始退出1；不含K40-B26项。新BEFORE必须包含当前全部测试，AFTER按node严格比较新增F/E/CE=0；目前尚未运行，不以旧r7冒充本批结果。仅全量回归的positive_cold_run夹具有既有授权，不启动正式新冷链。
 
-**待决**：r1/r2需明确可验证的非holdout起止/成员范围，当前不加载价格；就绪表保留旧声明与本次测量的区别。 K02b三个后续定义方向因概率/结构证据不足暂缓裁定，本批不改准入或范围。 K12需要下一轮明确足够长完整fold或固定合法TRAIN下短评估的测量口径，本批不改窗口；训练tail至少54日，短日历最多9日。另，S1添加`* -text`前后Git状态受stat缓存影响，逐文件原始字节核验发现新合入的10份外审文件工作区CRLF、HEAD为LF，`core.autocrlf=true`；仅撤销本次新增的`.gitattributes`，未修改外审文件/持久配置/执行规范化。按S1停止该单项，后续需决定采用无换行转换的新检出完成此设置。证据`C:/AKH71113/s1-gitattributes-stop01.json`。
+**待决**：尚无DECISIONS未覆盖且必须用户决定的新事项；作者技术裁定与用户专属事项分开，不因此停止不受影响任务。
 
-**用户专属未确认事项**：仓库转私有；轮换行情令牌并重启服务；收紧公网入口；Windows长路径；可选分支保护、实际资金与研究100万元假设差异、遗留`chatgpt/rw-probe-b75d2205-a7f9c2`分支由用户处理。没有替用户执行这些操作。
+**用户专属尚未确认完成**：仓库转私有；轮换行情服务令牌并重启；收紧公网入口；Windows长路径；可选分支保护；实际资金是否偏离研究100万元；遗留分支处置。按DECISIONS第四节由用户本人操作。
 
-**本批收尾**：可执行交付已通过各自规定的验收并推送，K40-A/K40-B/K10b均独立无条件PASS、实际产品提交CI成功；S1换行设置、K42安全读取边界、K12完整短fold按具体原因保留阻塞，K02b定义选择因证据不足暂缓。全部本批工作已到已交付或明确阻塞状态，停止，不自动开始下一批。K40-B审核中一次模型服务503已续接原审核身份及原矩阵，无重复运行；两个完整矩阵及所有验收作业已终态。
-
-**范围与安全**：H7取消由K40替代；H6并入以后v2日线；H5旧FAIL保留、不新冷链；H8由K12替代，09不恢复/10不启动。K11/K13/K04b/K41、T7重新冻结、锁分级实施、N8/DISPATCH/Forward/paper均不做。公开仓库仅推汇总与结论，输入包/逐笔明细/候选分支/验收清单/锁不上远端。保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0；不读取凭据、不消耗最终holdout。
+**边界**：最终holdout为交易日2026-09-05及之后，不登记、不消耗。J20三列名包允许整包研究，遇边界行停相应任务。只K44导出脚本可按J23自行读取指定env文件，agent不查看/打印/修改凭据。公开仓库不推输入、逐笔、候选、合同锁、验收包。交易enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。暂停项不恢复，K45只设计，三个v1规则与参数不变。
