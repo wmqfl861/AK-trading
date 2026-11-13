@@ -1,0 +1,4 @@
+strategy,n,net_sum,median,min,max,profit,zero,loss,closed_trades,gross_sum,fee_sum,slippage_sum
+donchian_trend,14,42305.049,4072.02,-3261.182,7134.361,10,1,3,19,42830,144.951,380
+ma_trend,14,5523.779,126.271,-2380.348,4404.51,7,1,6,59,7150,446.221,1180
+zscore_reversion,14,-45372.477,-1999.2945,-10862.404,157.472,2,1,11,53,-43930,382.477,1060

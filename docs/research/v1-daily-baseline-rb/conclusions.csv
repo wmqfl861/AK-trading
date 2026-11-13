@@ -1,0 +1,7 @@
+strategy,view,calendar_year_slots,observed_years,empty_years,positive_years,zero_years,negative_years,worst_year,worst_net,all_tied_worst_years,worst_description,status
+donchian_trend,ALL,7,7,0,1,0,6,2021,-121247.923,2021,最差年,OBSERVED
+donchian_trend,PRIMARY,7,7,0,2,0,5,2021,-128633.251,2021,最差年,OBSERVED
+ma_trend,ALL,7,7,0,3,0,4,2021,-53740.537,2021,最差年,OBSERVED
+ma_trend,PRIMARY,7,7,0,3,0,4,2021,-53740.537,2021,最差年,OBSERVED
+zscore_reversion,ALL,7,7,0,0,0,7,2021,-47132.908,2021,最差年,OBSERVED
+zscore_reversion,PRIMARY,7,7,0,0,0,7,2021,-39582.512,2021,最差年,OBSERVED
