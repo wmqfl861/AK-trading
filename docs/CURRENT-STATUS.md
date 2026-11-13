@@ -36,8 +36,8 @@ python scripts/test_offline.py -q tests/experiments/test_historical_daily_chrono
 | K02b | [测量表](research/k02b-cross-timeframe.md)已推送`3ea5b32`、CI 43363683356成功：获准v1样本中性标签1步14.42%、20步2.37%，raw0；其余三项无合法模型/快照，NA而非0。 |
 | K42 | [就绪清单](research/k42-real-input-readiness.md)已推送`0e4394b`，CI 43365962196成功（1303P/4skip）；2/2候选缺安全非holdout边界，生产测量BLOCKED；60/60分片manifest一致，价格打开数0，metadata raw0。 |
 | K10b / K12 | K10b意见已采纳，三文件正式开发中；r6 BEFORE与独立小回放期望已核验，冻结后一次完整AFTER。K12等其合入。 |
-| K25 | [分诊表](research/k25-baseline-triage.md)随本提交入库：31文件、213/213异常匹配，145F/60E/8CE；研究路径110F/16E；生成raw0，不改测试。 |
-| J7 | Astra正在写合同锁分级变更申请；只提案、不实施，本批K12仍用现行完整锁。 |
+| K25 | [分诊表](research/k25-baseline-triage.md)已推送`7e1d026`，CI 43369079502成功：31文件、213/213异常匹配，145F/60E/8CE；研究路径110F/16E；生成raw0，不改测试。 |
+| J7 | [分级变更申请](contract-lock-levels-change-request-20261113.md)随本提交入库：PROPOSED/NOT_IMPLEMENTED；不作当前放行依据，K12仍用现行完整锁。 |
 | K40-B | 原作者短计划已写、Sol意见进行中；新入口显式绑定原4份authority和10/10已接受冻结引擎，旧wrapper/pins不改；尚未运行新矩阵。 |
 
 **方法裁定差异**：K02b仅标签占比回退到原已授权v1 real-input-02；外建议的回退原因为quality/time_basis，本次真实原因为r1/r2无法安全证明非holdout边界。作者明确不新增来源、不读未知区间、不解锁其余指标。
