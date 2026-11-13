@@ -1,7 +1,9 @@
 """Pure context assembly with an explicit producer for every published forecast."""
 from __future__ import annotations
 
-from dataclasses import replace
+from collections import OrderedDict
+from dataclasses import dataclass, replace
+import threading
 from decimal import Decimal
 from typing import Callable, Mapping
 from types import MappingProxyType
@@ -12,7 +14,7 @@ from ak_trading.v2.contracts import (
     AccountSnapshot, DataQuality, ExitExecutionLink, ExitPolicyBinding, ExitProposal,
     ExitSpec, ForecastRequest, FrozenInput, Horizon, MacroContext, MarketForecast,
     OrderIntent, RegimeAssessment, RunPolicy, StrategyContext, StrategyQualification,
-    StrategySpec, StrategyState, StrategyProposal,
+    StrategySpec, StrategyState, StrategyProposal, SessionWindow,
 )
 from ak_trading.v2.data import visible_bars, visible_rule
 from ak_trading.v2.factor_specs import factor_registry_v2, baseline_registry_v2
@@ -374,6 +376,52 @@ def _daily_background(bundle, contract, current, models, reference, family, sess
     return background,published
 
 
+@dataclass(frozen=True)
+class _ProductSessionsEntry:
+    source: tuple[SessionWindow, ...]
+    filtered: tuple[SessionWindow, ...]
+
+
+_PRODUCT_SESSIONS_MAX_ENTRIES = 8
+_PRODUCT_SESSIONS_MAX_REFS = 65_536
+_PRODUCT_SESSIONS_LOCK = threading.RLock()
+_PRODUCT_SESSIONS_CACHE: OrderedDict[tuple[int, str], _ProductSessionsEntry] = OrderedDict()
+
+
+def _clear_product_sessions_cache() -> None:
+    with _PRODUCT_SESSIONS_LOCK:
+        _PRODUCT_SESSIONS_CACHE.clear()
+
+
+def _cached_product_sessions(sessions: tuple[SessionWindow, ...],
+                             product: str) -> tuple[SessionWindow, ...]:
+    """Reuse only immutable calendars, preserving the original filtering order."""
+    with _PRODUCT_SESSIONS_LOCK:
+        key = (id(sessions), product)
+        cached = _PRODUCT_SESSIONS_CACHE.get(key)
+        if cached is not None:
+            if cached.source is sessions:
+                _PRODUCT_SESSIONS_CACHE.move_to_end(key)
+                return cached.filtered
+            del _PRODUCT_SESSIONS_CACHE[key]
+        filtered = tuple(s for s in sessions if s.product == product)
+        if not filtered or type(sessions) is not tuple \
+                or any(type(s) is not SessionWindow for s in sessions):
+            return filtered
+        refs = len(sessions) + len(filtered)
+        if refs > _PRODUCT_SESSIONS_MAX_REFS or _PRODUCT_SESSIONS_MAX_ENTRIES < 1:
+            return filtered
+        retained = sum(len(entry.source) + len(entry.filtered)
+                       for entry in _PRODUCT_SESSIONS_CACHE.values())
+        while _PRODUCT_SESSIONS_CACHE and (
+                len(_PRODUCT_SESSIONS_CACHE) >= _PRODUCT_SESSIONS_MAX_ENTRIES
+                or retained + refs > _PRODUCT_SESSIONS_MAX_REFS):
+            _, removed = _PRODUCT_SESSIONS_CACHE.popitem(last=False)
+            retained -= len(removed.source) + len(removed.filtered)
+        _PRODUCT_SESSIONS_CACHE[key] = _ProductSessionsEntry(sessions, filtered)
+        return filtered
+
+
 def build_strategy_context(bundle: FrozenInput, contract_id: str, decision_nano: int,
                            account: AccountSnapshot, state: StrategyState | None,
                            forecast_models: ForecastModelSet, payoff_model: PathPayoffModel,
@@ -387,7 +435,7 @@ def build_strategy_context(bundle: FrozenInput, contract_id: str, decision_nano:
     if len(matches)!=1:
         raise ValueError("contract_identity_missing_or_duplicate")
     instrument=matches[0]
-    sessions=tuple(s for s in bundle.sessions if s.product==instrument.product)
+    sessions=_cached_product_sessions(bundle.sessions,instrument.product)
     hashes=model_hashes_for(forecast_models,payoff_model,regime_reference,seasonality_model)
     if (forecast_models.calibration_end_nano>=decision_nano or payoff_model.training_end_nano>=decision_nano
             or regime_reference.available_at_nano>decision_nano):

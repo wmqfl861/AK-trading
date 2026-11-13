@@ -10,7 +10,10 @@ prediction-favourable direction.
 """
 from __future__ import annotations
 
+from collections import OrderedDict
+from dataclasses import dataclass
 from datetime import date
+import threading
 from decimal import Decimal
 
 from ak_trading.v2.contracts import (
@@ -51,20 +54,54 @@ def price_tick_from_features(request: ForecastRequest) -> Decimal | None:
     return None
 
 
-_SESSION_STARTS_CACHE: dict[tuple[int, str], tuple[tuple[int, ...], tuple[SessionWindow, ...]]] = {}
+@dataclass(frozen=True)
+class _SessionStartsEntry:
+    source: tuple[SessionWindow, ...]
+    result: tuple[tuple[int, ...], tuple[SessionWindow, ...]]
+
+
+_SESSION_STARTS_MAX_ENTRIES = 8
+_SESSION_STARTS_MAX_REFS = 65_536
+_SESSION_STARTS_LOCK = threading.RLock()
+_SESSION_STARTS_CACHE: OrderedDict[tuple[int, str], _SessionStartsEntry] = OrderedDict()
+
+
+def _clear_session_starts_cache() -> None:
+    with _SESSION_STARTS_LOCK:
+        _SESSION_STARTS_CACHE.clear()
 
 
 def _product_sessions_ordered(sessions: tuple[SessionWindow, ...],
                               product: str) -> tuple[tuple[int, ...], tuple[SessionWindow, ...]]:
     """Sorted product sessions plus their start-nano bisect index (pure cache)."""
-    key = (id(sessions), product)
-    cached = _SESSION_STARTS_CACHE.get(key)
-    if cached is None or len(cached[1]) != sum(1 for s in sessions if s.product == product):
+    with _SESSION_STARTS_LOCK:
+        key = (id(sessions), product)
+        cached = _SESSION_STARTS_CACHE.get(key)
+        if cached is not None:
+            if cached.source is sessions:
+                _SESSION_STARTS_CACHE.move_to_end(key)
+                return cached.result
+            del _SESSION_STARTS_CACHE[key]
         ordered = tuple(sorted((s for s in sessions if s.product == product),
                                key=lambda s: s.start_nano))
-        cached = (tuple(s.start_nano for s in ordered), ordered)
-        _SESSION_STARTS_CACHE[key] = cached
-    return cached
+        result = (tuple(s.start_nano for s in ordered), ordered)
+        if not ordered or type(sessions) is not tuple \
+                or any(type(s) is not SessionWindow for s in sessions):
+            return result
+        refs = len(sessions) + 2 * len(ordered)
+        if refs > _SESSION_STARTS_MAX_REFS or _SESSION_STARTS_MAX_ENTRIES < 1:
+            return result
+        # Derive occupancy from live entries: the original Z09 probe also uses
+        # the container's direct clear() in its single-threaded allocation loop.
+        retained = sum(len(entry.source) + 2 * len(entry.result[1])
+                       for entry in _SESSION_STARTS_CACHE.values())
+        while _SESSION_STARTS_CACHE and (
+                len(_SESSION_STARTS_CACHE) >= _SESSION_STARTS_MAX_ENTRIES
+                or retained + refs > _SESSION_STARTS_MAX_REFS):
+            _, removed = _SESSION_STARTS_CACHE.popitem(last=False)
+            retained -= len(removed.source) + 2 * len(removed.result[1])
+        _SESSION_STARTS_CACHE[key] = _SessionStartsEntry(sessions, result)
+        return result
 
 
 def _expected_minute_slots(sessions: tuple[SessionWindow, ...], product: str,
