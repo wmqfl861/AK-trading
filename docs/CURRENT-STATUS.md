@@ -1,32 +1,43 @@
-本周能看到什么：本批源码已推main且CI通过。
-卡在哪：H6/H7暂缓；本批无新增研发阻塞。
-需要我做什么：暂无；交接收尾后停止。
+本周能看到什么：七年RB策略报告与v2测量。
+卡在哪：换行设置待处置；其余任务继续。
+需要我做什么：私有仓库、换令牌、收紧入口、开长路径。
 
-# 当前交付状态（2026-11-12）
+# 当前状态（第五轮第二批，2026-11-13）
 
-本批既有合同输入及回归阻塞修复已获独立 **FINAL_PRODUCT 无条件 PASS**，十三个接受文件原字节已合入并推送 main。产品提交为 `a46114ec82395b94a7a1fc66715b2f36edd22743`，远端同SHA；该提交 [offline-v2 CI 43305750650](https://github.com/wmqfl861/AK-trading/actions/runs/43305750650) **success，1216 passed / 4 skipped / 0 failed**。本交接随文档收尾提交发布，收尾HEAD的CI在本次交付终态核对后停止。
+本批以 [DECISIONS](repo-audit-20261113-claude/DECISIONS.md) J1–J18 和 [NEXT-BATCH](repo-audit-20261113-claude/NEXT-BATCH.md) 为授权；全部完成或被阻塞后停止。外审分支已仅新增10个指定目录文件并快进合入，HEAD `79d9134cdcdead75d98e83e894080a5567c15130`。外审意见不是产品硬审。现行分工只看 PROJECT-MODEL-ROLES 顶部：计划/开发 Astra/max，独立审核/辅助 Sol6.1/max。
 
-有效依据为[完整合同输入修复计划及 Astra 原文补充](repair-blocking-contract-inputs-20261112.md)。用户指定计划/开发 `gpt-6-astra/max`、独立硬审/辅助 `gpt-6.1-sol/max`，持久化配置未改。开发 owner 为 `/root/astra_regression_owner_20261112`，独立终审为 `/root/sol_final_hard_review_20261112`。唯一接受源 `C:/AKR61112/repair09` 的 **13 文件**由最终 VERDICT 逐项绑定；[交接文档](HANDOFF-20261112.md)列完整范围、原作者身份和外置证据。
+| 本机复现（固定Python 3.13环境） | 原始退出 | 实测结果与外审差异 |
+| --- | ---: | --- |
+| Z01 跨周期可达性 | 1 | 14P/16F/0E，与外审一致；中性标签1日15.7%、20日1.8%。 |
+| Z02 时钟元组身份 | 0 | 5/20/60/250日新建与复用耗时比51/230/836/4641；本机绝对耗时不同，重复构建现象一致。 |
+| Z09 标签缓存身份 | 1 | 50次地址复用、50次返回旧分钟格，与外审一致。 |
+| Z06 分年工具 | 1 | 36P/63F/7E，106项；外审列63F/7E，当前Windows另外36项通过。 |
 
-| 当前修复与验证 | 已核实事实 |
-|---|---|
-| 历史七文件及新增六文件 | 合同清单五文件、h21/m01/h31 两测试保留；新增 `client_service.py` 新对象安全初始化、protocol/fakes、文档收据及测试、raw-sink 诊断 helper。生产改动不启用交易。 |
-| 独立定向/组合 | 边界 27P/raw0；当前冻结组合 340P/1F/8E/9skip/raw1，严格局部新增0/0/0、遗漏0。真实受控停顿反例1F/raw1、queue_full21、sequence1/write一次/PID0，不能记原测试PASS。 |
-| 最终 source09 AFTER | 唯一完整运行自然终态，5475.14秒、10/10域、PID0；原16品种零丢失节点真实选中、无F/E/skip路径、原函数体/全部断言保留。 |
-| 独立最终接受 | VERDICT为无条件FINAL_PRODUCT PASS；四成员正式record/compare各raw0，新增F/E/CE0/0/0、遗漏0、每成员skip数量不变。整体source/input报告绑定新本地锁，production build/verify及终态再verify通过。 |
+四条实际命令（解释器均为 `C:/AKR41110/venv-full/Scripts/python.exe`，cwd为仓库根）：
 
-| 完整回归 | passed | failed | errors | skip | CE | 原始退出 | 相对 r5 新增 F/E/CE |
-|---|---:|---:|---:|---:|---:|---:|---|
-| 固定 r5 BEFORE，6254 ran | 5994 | 167 | 60 | 33 | 8 | 1 | 基线 |
-| 历史 repair08 AFTER，6279 ran | 6012 | 174 | 60 | 33 | 8 | 1 | **28/0/0，FAIL保留** |
-| 最终 repair09 AFTER，6293 ran | 6055 | 145 | 60 | 33 | 8 | 1 | **0/0/0，严格比较raw0** |
+```text
+python scripts/test_offline.py -q -s docs/repo-audit-20261113-claude/probes/test_cross_timeframe_reachability_probe.py
+python docs/repo-audit-20261113-claude/probes/clock_tuple_identity_bench.py
+python docs/repo-audit-20261113-claude/probes/label_session_cache_identity_probe.py
+python scripts/test_offline.py -q tests/experiments/test_historical_daily_chronological_transfer.py
+```
 
-固定 baseline SHA-256 为 `8733347028dbf277393a07236c51dc77b459ea67f4e75fd6771dfe0ec3590602`。原source08失败与旧报告/锁保留；全量原始raw1、严格比较raw0和产品PASS分别报告，不称全库绿色。原launcher只留skip数量，按四成员数量及full33核验；冻结写集无新增skip/xfail/排除或baseline改动。三份本轮未修改外部原探针为duplicate9P/raw0、confirmation9P/raw0、range5P/6F/raw1，人口及失败身份与r5一致。历史停顿具体子因未知，未宣称重现同一调度或等压。
+原始输出及压缩件：`C:/AKH71113/reproduction01/RESULT.json`及同目录。四作业均自然终态，无超时；预期探针失败按原始码保留，不作产品PASS。
 
-最终外置证据位于 `C:/AKH1107/cli-dispatch/r6-infiny-sol-review09/work`；VERDICT SHA-256 `29d45a3ba2a90ae1bc1d6f7c7026d446a4b2a2bcea78dd074bdeac553de092b8`。发布已逐文件核对worktree、Git index及产品HEAD blob的十三个SHA，全部与最终VERDICT一致；只提交十三产品文件和三份批准文档，不改已审核产品。
+| 任务 | 当前状态 / 下一步 |
+| --- | --- |
+| S1 | 四规则按§5原文替换/插入、Python>=3.13、端点占位符完成并随本提交入库；CI待实际HEAD运行。`.gitattributes`单项停止，见待决。 |
+| K40-A | 已找到10月无条件PASS的84合约来源记录；短计划确认写集后，只读重算、独立逐格复算并发布一页报告。 |
+| S2 | 待将r6真实完整结果入库并把两个工具测试加CI；r5保留。 |
+| K02b / K42 | 后续支撑线只读r1/r2非留出区间；不修填输入、不拟合。 |
+| K10b / K12 | 作者确认两处身份缓存写集；K40-A让出审核线后实施，K10b合入后做三档profile。 |
+| K25 / J7 | 按序做旧失败分诊表 / 合同锁分级变更申请；只列/只写，不实施处置。 |
+| K40-B | K40-A入库后，原作者写同84合约资金/成本/两对照短计划；保留默认策略与参数。 |
 
-上一批 K01/K02/K05、K03/K04 工具及 K10-core 已接受并推送；`e4fe37b80c5aee2d97a3e540ea5a47d9928c8f8e` 的 [CI 43120738564](https://github.com/wmqfl861/AK-trading/actions/runs/43120738564) success、1215P/4skip/0F。它们不代表H1–H8或全项目完成。
+**全量基线**：r6 6293 ran / 6055P / 145F / 60E / 33skip / 8CE，原始退出1；上批严格比较新增F/E/CE=0/0/0、独立PASS。新批尚无产品变更或AFTER；本批将前移为r6对照，旧失败不隐藏，不新增skip/xfail。
 
-**K04/H7真实预检：NOT_RUN — 正式输入和配置尚未选定，selected_input=null，未读取价格/ATR，未生成研究结论。** H5两条既有正式冷链均engineering FAIL，各23P/10setupE，不启动新正式冷链；H6/H7暂缓；H8 profile09 raw2/磁盘耗尽/103563.51秒/PID0，不恢复09或启动10。N8、DISPATCH、完整shadow、Forward、paper、研究及holdout均不启动。
+**待决**：S1添加`* -text`前后Git状态受stat缓存影响，逐文件原始字节核验发现新合入的10份外审文件工作区CRLF、HEAD为LF，`core.autocrlf=true`；仅撤销本次新增的`.gitattributes`，未修改外审文件/持久配置/执行规范化。按S1停止该单项，后续需决定采用无换行转换的新检出完成此设置；其它任务继续。证据`C:/AKH71113/s1-gitattributes-stop01.json`。
 
-候选、输入包、F、锁和原始日志留仓库外；只发布接受的安全源码、完整有效计划、本页及交接。保持 `enable_trading=False / observer=hold / broker=NOT_RUN / real send/cancel=0/0`。状态只维护本页，完成本批发布与CI后停止。
+**用户专属未确认事项**：仓库转私有；轮换行情令牌并重启服务；收紧公网入口；Windows长路径；可选分支保护、实际资金与研究100万元假设差异、遗留`chatgpt/rw-probe-b75d2205-a7f9c2`分支由用户处理。没有替用户执行这些操作。
+
+**范围与安全**：H7取消由K40替代；H6并入以后v2日线；H5旧FAIL保留、不新冷链；H8由K12替代，09不恢复/10不启动。K11/K13/K04b/K41、T7重新冻结、锁分级实施、N8/DISPATCH/Forward/paper均不做。公开仓库仅推汇总与结论，输入包/逐笔明细/候选分支/验收清单/锁不上远端。保持enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0；不读取凭据、不消耗最终holdout。

@@ -1,7 +1,7 @@
 # AK 行情数据 MCP 使用说明(给 AI agent)
 
 你通过 MCP 服务 `ak-market-data` 访问中国期货历史行情数据库(只读,写入物理不可能)。
-端点 `http://114.66.31.43:17779/mcp`,需要 Bearer Token 鉴权。
+端点 `http://<你的入口>:<端口>/mcp`,需要 Bearer Token 鉴权。
 
 ## 推荐工作流
 
