@@ -31,10 +31,10 @@ python scripts/test_offline.py -q tests/experiments/test_historical_daily_chrono
 | 任务 | 当前状态 / 下一步 |
 | --- | --- |
 | S1 | 可做部分已提交并推送`43c44e0`；CI 43353862057成功，1216P/4skip/0F。两个已合入外审分支已删除。`.gitattributes`单项停止，见待决。 |
-| K40-A | [七年报告](research/v1-daily-baseline-rb.md)随本提交发布；独立无条件PASS，2161数值/日期及804分类/空值全符，24P/raw0、4反例通过；提交后查CI。 |
+| K40-A | [七年报告](research/v1-daily-baseline-rb.md)已推送`a80db5c`，独立无条件PASS、24P/raw0、4反例通过；CI 43364742379成功，1303P/4skip。 |
 | S2 | `fd8f1b3`已推送；r6原字节入库，定向87P/raw0；CI 43356267610成功，1303P/4skip/0F；r5保留。 |
 | K02b | [测量表](research/k02b-cross-timeframe.md)已推送`3ea5b32`、CI 43363683356成功：获准v1样本中性标签1步14.42%、20步2.37%，raw0；其余三项无合法模型/快照，NA而非0。 |
-| K42 | r1/r2缺可确认的非holdout边界，价格打开数0；正在完成元数据与不可测项清单。 |
+| K42 | [就绪清单](research/k42-real-input-readiness.md)随本提交入库；2/2候选缺安全非holdout边界，生产测量BLOCKED；60/60分片manifest一致，价格打开数0，metadata raw0。 |
 | K10b / K12 | K10b三文件计划与开发准备已齐；Sol现给一次计划意见，原作者处置后立即开发。K12等其合入。 |
 | K25 / J7 | 按序做旧失败分诊表 / 合同锁分级变更申请；只列/只写，不实施处置。 |
 | K40-B | A已发布，原作者接续同84合约资金/成本/两对照短计划；保留默认策略与参数。 |
@@ -43,7 +43,7 @@ python scripts/test_offline.py -q tests/experiments/test_historical_daily_chrono
 
 **全量基线**：r6 6293 ran / 6055P / 145F / 60E / 33skip / 8CE，原始退出1；上批严格比较新增F/E/CE=0/0/0、独立PASS。新批尚无产品变更或AFTER；本批将前移为r6对照，旧失败不隐藏，不新增skip/xfail。
 
-**待决**：S1添加`* -text`前后Git状态受stat缓存影响，逐文件原始字节核验发现新合入的10份外审文件工作区CRLF、HEAD为LF，`core.autocrlf=true`；仅撤销本次新增的`.gitattributes`，未修改外审文件/持久配置/执行规范化。按S1停止该单项，后续需决定采用无换行转换的新检出完成此设置；其它任务继续。证据`C:/AKH71113/s1-gitattributes-stop01.json`。
+**待决**：r1/r2需明确可验证的非holdout起止/成员范围，当前不加载价格；就绪表保留旧声明与本次测量的区别。另，S1添加`* -text`前后Git状态受stat缓存影响，逐文件原始字节核验发现新合入的10份外审文件工作区CRLF、HEAD为LF，`core.autocrlf=true`；仅撤销本次新增的`.gitattributes`，未修改外审文件/持久配置/执行规范化。按S1停止该单项，后续需决定采用无换行转换的新检出完成此设置；其它任务继续。证据`C:/AKH71113/s1-gitattributes-stop01.json`。
 
 **用户专属未确认事项**：仓库转私有；轮换行情令牌并重启服务；收紧公网入口；Windows长路径；可选分支保护、实际资金与研究100万元假设差异、遗留`chatgpt/rw-probe-b75d2205-a7f9c2`分支由用户处理。没有替用户执行这些操作。
 
