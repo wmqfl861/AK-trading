@@ -1,5 +1,5 @@
-现在：日线20天实测完成，分钟流程在接通。
-卡点：日线实测标签未成熟，正在核实原因。
+现在：日线输入不可用，分钟20天实测运行中。
+卡点：分钟预算、全流程验证和硬审尚未完成。
 请你：仓库转私有、换令牌、收紧入口、开长路径。
 
 检验还没有结果。处于阶段一：日线20天成本实测已完成；完整外推/全程漏斗、阶段二及阶段三未完成，R001未消费。
@@ -28,7 +28,7 @@
 | --- | --- |
 | K45a2／检查点1 | 有效v3及两段实施澄清已入main（25964e1、914967d），两次CI均success；唯一Sol意见A1/A2均ADOPTED，原Astra开发者已实施。设计SHA cc753d6175a21deb513857e66d8d3271befa7989138d13bda8afb169e977f09a；前82377字节与原提交完全一致，校验及diff-check均raw0。 |
 | 工作分支首次冻结 | `work/k45-forecast-skill`已推送`e2df16c6331e435efd71b579b8b8524fdf117028`，仅新增第四批source-r3的四个工具/测试原字节。明确WIP/非产品PASS/尚非v3实现；主分支仍无这四文件。 |
-| K45b／检查点2、3 | DAILY首末各10日实测完成raw0；完整外推表仍缺同规模fit/reference等补测，不能冒称预算通过。20日0成熟标签正交原作者核实，非全期不足结论。MINUTE未启动，下一版在接通。 |
+| K45b／检查点2、3 | DAILY首末各10日实测完成raw0；完整外推表仍缺同规模fit/reference等补测，不能冒称预算通过。日线全源时间必要条件经原作者及独立复核支持，按INPUT_UNUSABLE关闭。MINUTE20日正在source-v3-r2上实测。 |
 | K45b／检查点4 | 阶段二、真实预演及三范围独立硬审未运行。 |
 | K45c／检查点5 | R001未运行；只在独立硬审无条件PASS后重算核ID、封存概率、标签评分一次并独立复算主表。 |
 
@@ -47,9 +47,15 @@
 | reference前缀/终点 | 10/1 | 0.001728/0.000469 | 仅实测日人口 |
 | 标签h1/h5 | 27/15 | 0.229877/0.100154 | 0.008514/0.006677秒 |
 
-20日计数（**不是全期漏斗**）：19候选（Jan3无选约）→10可用快照→90请求→42合法标签调用→0MATURE/0方向样本；48请求被原split跨界排除；标签不成熟原因为bar_not_slot_aligned39、missing_future_bars:1为3。原作者正在区分工具使用问题与固定输入/契约不兼容，不修输入、不改门槛，不凭20日样本判全期。TEST标签/概率/评分调用均0，未测预测效果。
+20日计数（**不是全期漏斗**）：19候选（Jan3无选约）→10可用快照→90请求→42合法标签调用→0MATURE/0方向样本；48请求被原split跨界排除；标签不成熟原因为bar_not_slot_aligned39、missing_future_bars:1为3。原作者及独立审核已通过全源时间必要条件核实固定输入/契约不兼容，见下；不修输入、不改门槛，也不是用20日样本推断全期。TEST标签/概率/评分调用均0，未测预测效果。
 
-完整外推待补：全期候选/历史档计数；同规模formal/rehearsal reference与完整tuple fit/两对照/温度/预测/bootstrap/ID及数值I/O；h20合法标签合成成本；父子重叠峰值。暂不能给全程小时数，也不称触发72h停止。MINUTE实测/两模式全期漏斗/阶段二及R001均NOT_RUN。
+完整外推待补：全期候选/历史档计数；同规模formal/rehearsal reference与完整tuple fit/两对照/温度/预测/bootstrap/ID及数值I/O；h20合法标签合成成本；父子重叠峰值。暂不能给全程小时数，也不称触发72h停止。MINUTE实测RUNNING；未实际生成的全期漏斗、阶段二及R001仍NOT_RUN。DAILY因必要条件不满足，不再补造非零拟合人口或空转完整特征。
+
+**DAILY停止依据（原作者裁定＋独立复核）**：正式T/C三期限h1/h5/h20的MATURE方向样本上界为0，`STRUCTURAL_ZERO_PROVEN`，阶段一状态`NOT_ASSESSED:INPUT_UNUSABLE`。独立核验30个r1分片的2489676行、7268根日线，不按源trading_day过滤；所有日线start与任意正式T/C生产日slot.start匹配数0。次级诊断4080根源日期属于T/C的日线start匹配0/end匹配4080。原collection/index/30manifest/bars/共用sessions及生产pins一致；生产日slot函数与独立session分组结果一致。生产labels要求精确slot.start才能产生MATURE，工具duration86400/窗口没有误用。未实际生成的全期漏斗层、拟合、两对照、温度、TEST评分均NOT_RUN，保留三期限NA/原因。
+
+原作者两次纯时间核对raw0（26.187/23.796秒）及SYNTHETIC3断言支持机制；独立复核raw0/41.973秒、22152个校验断言（非pytest测试），CHECK SHA `6e12c31b8c5e93800b29255d29f6d85311f2a89a9e1414d310de9e7f431dabbc`。独立脚本首次因nullable trading_day处理raw1保留为REVIEWER_HARNESS_ERROR，后继修复不归因产品。整文件原字节用于哈希核验，只解析时间/身份列，不解码或输出价格/成交量/OI尾部，不调用标签/fit/predict/score。此结论只支持日线停止，不是整个K45硬审PASS。
+
+**MINUTE当前运行**：source-v3-r2已推工作分支`d8d071da19b495c40f239386683b945ac5b0ab98`，主工具207308 bytes/SHA `2779174bc8d63b21d2a690da4fc9ff3a8b98b6ea019142c531731c691ba549b9`。9项resident定向测试raw0/9P0F0E/38 deselected，实际为直接pytest；完整硬审使用规定offline入口。20日入口16函数AST与已测版本一致，不能当整体等价证明。MINUTE job起点2026-11-14T14:03:27.348627Z，固定cap22.992GiB，使用独立核过的r2监督器；原resource SHA `894344999d47b58dafbdbeace21efed5ff7d246015013731fc29f7eecc141246`。目前仍INPUT_VALIDATION，原始退出码尚未产生。下一候选修补回退预算漏输入成本、TEST漏斗计数汇总，2项轻量offline合成回归raw0/2P0F0E；未替换当前冻结源码。
 
 **有效v3九项裁定**（原设计§11.1–§11.9；与J44路径一致，没有更换检验内容）：
 
