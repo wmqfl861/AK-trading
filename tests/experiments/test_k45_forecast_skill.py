@@ -773,3 +773,374 @@ def test_resident_v3_release_requires_both_mode_decisions_before_predictions(tmp
                'review': k.pin(review), 'reviewer': 'SYNTHETIC', 'independent': True, 'one_time_run': 'R001'}
     with pytest.raises(k.ResearchError, match='BOTH_MODE_DECISIONS_REQUIRED'):
         k.validate_release_v3(release)
+
+
+def test_budget_step_fifteen_inherits_only_unchanged_input_costs():
+    original = {'mode': 'MINUTE', 'step': 5, 'days': ['2023-01-03'],
+        'resource': {'sha256': HASH}, 'code_pins': [{'sha256': HASH}],
+        'timings': [
+            {'component': 'input_validation', 'calls': 30, 'total_seconds': 300.},
+            {'component': 'scenario', 'calls': 5, 'total_seconds': 15.},
+            {'component': 'resident_features', 'calls': 30, 'total_seconds': 90.}]}
+    measured = {'mode': 'MINUTE', 'step': 15, 'days': ['2023-01-03'],
+        'timings': [{'component': 'resident_features', 'calls': 10, 'total_seconds': 33.}]}
+    before = copy.deepcopy((original, measured))
+    result = k.measurement_after_step_change(original, measured)
+    assert result['step'] == 15 and result['resource'] == original['resource']
+    assert result['code_pins'] == original['code_pins']
+    costs = {row['component']: row['total_seconds'] for row in result['timings']}
+    assert costs == {'resident_features': 33., 'input_validation': 300., 'scenario': 15.}
+    assert (original, measured) == before
+    with pytest.raises(k.ResearchError, match='FALLBACK_INPUT_COST_MISSING'):
+        k.measurement_after_step_change(dict(original, timings=original['timings'][1:]), measured)
+    with pytest.raises(k.ResearchError, match='FALLBACK_MEASUREMENT_IDENTITY'):
+        k.measurement_after_step_change(original, dict(measured, days=['2023-01-04']))
+
+
+def test_child_funnel_carries_actual_test_counts_without_numeric_objects(tmp_path, monkeypatch):
+    k.CALL_COUNTS.clear()
+    sessions = formal_sessions()
+    request, _, _ = formal_request(date(2024, 6, 4))
+    feature = request.features
+    chain = k.resident_chain((feature,), (), sessions, 'MINUTE', k.Timings())
+    assignments = tuple(SplitAssignment(r.request_id, 'SYNTHETIC-SPLIT', 'TEST', ()) for r in chain.requests)
+    audits = [
+        {'mode': 'MINUTE', 'partition': 'TEST', 'day': '2024-06-04', 'usable': True, 'reasons': []},
+        {'mode': 'MINUTE', 'partition': 'TEST', 'day': '2024-06-05', 'usable': False, 'reasons': ['ATR_MISSING']}]
+    sequences = k.identity_sequences(chain, assignments, (), 'MINUTE', 5, partitions=('TEST',))
+    receipt = {'count': 0, 'sha256': k.assignment_hash(()), 'day_counts': []}
+    monkeypatch.setattr(k, 'reconstruct_test', lambda *_: (
+        SimpleNamespace(mode='MINUTE'), chain, (), assignments, sequences, receipt, audits))
+    def forbidden(*args, **kwargs):
+        pytest.fail('The count-only child must not call a numeric TEST operation')
+    for name in ('label_forecast', 'fit_direction', 'predict_rows', 'direction_probability', 'score_predictions'):
+        monkeypatch.setattr(k, name, forbidden)
+    ticket = tmp_path / 'ticket.json'
+    k.dump_new(ticket, {'schema': 'k45-test-reconstruction-ticket-v3', 'step': 5, 'bindings': {'SYNTHETIC': True}})
+    output = tmp_path / 'count.json'
+    k.count_test(ticket, output)
+    counts = k.load_json(output)
+    assert not any(counts['actual_test_calls'].values())
+    assert len(counts['funnel']) == 6
+    total = counts['funnel'][0]
+    assert total['candidate_anchors']['count'] == 2
+    assert total['usable_features']['count'] == 1
+    assert total['generated_requests']['count'] == 15
+    assert total['legal_requests']['days'] == 1
+    assert total['label_mature'] == total['direction_samples'] == 'NOT_RUN:TEST_SEALED'
+    assert ['ATR_MISSING', 1] in total['usable_features']['top3_reasons_nonexclusive']
+    payload = json.dumps(counts)
+    assert 'reference_price' not in payload and 'source_bar_ids' not in payload and '"ids"' not in payload
+    training_rows = [{'partition': 'TRAIN'}, {'partition': 'CALIBRATION'}, {'partition': 'TEST', 'count': 0}]
+    combined = k.combined_stage_one_funnel('MINUTE', training_rows, counts)
+    assert combined[:2] == training_rows[:2] and combined[2:] == counts['funnel']
+    tampered = copy.deepcopy(counts)
+    tampered['counts']['5']['legal_requests'] += 1
+    with pytest.raises(k.ResearchError, match='TEST_FUNNEL_COUNT_MISMATCH'):
+        k.combined_stage_one_funnel('MINUTE', training_rows, tampered)
+
+
+def test_report_export_reads_frozen_results_keeps_eight_cells_and_never_scores(tmp_path, monkeypatch):
+    import csv
+    frozen = {mode: {'status': 'STOP:INPUT_UNUSABLE', 'assessment': 'NOT_ASSESSED:INPUT_UNUSABLE',
+        'reason': 'daily_start_not_production_slot' if mode == 'DAILY' else 'SYNTHETIC_STOP',
+        'structural_mature_direction_upper_bound': 0 if mode == 'DAILY' else None}
+        for mode in k.HORIZONS}
+    scores = {mode: k.stopped_mode_scores(mode, item) for mode, item in frozen.items()}
+    # A declared summary fixture exercises nonzero exports without changing any
+    # production statistics, fitting threshold or model parameter.
+    cell = scores['MINUTE']['cells'][0]
+    cell.update(rows=17, days=7, excluded_rows=3, algorithm='SOFTMAX', execution='SYNTHETIC_SUMMARY_FIXTURE',
+                half_width95=.02, inner_sufficient=True)
+    cell['independent_rows'] = {'model': 20, 'raw': 19, 'calibrated': 18}
+    cell['losses']['model'] = {'brier': .4, 'logloss': .7}
+    cell['loss_reasons']['model'] = {'brier': None, 'logloss': None}
+    cell['metrics']['raw_brier'].update(skill=.2, point_reason=None, valid_repeats=20000,
+        ci95=[.18, .22], ci_family=[.17, .23], ci_reason=None)
+    model_pin = k.dump_new(tmp_path / 'models.json', {'SYNTHETIC_SUMMARY_FIXTURE': True})
+    candidates = k.direction_algorithm_rows(SimpleNamespace(models={}), 'MINUTE', PRODUCT, (), ())
+    algorithm_pin = k.dump_new(tmp_path / 'algorithms.json', {'model': model_pin, 'rows': candidates})
+    frozen['MINUTE'].update(status='FROZEN_AWAITING_INDEPENDENT_HARD_REVIEW', model=model_pin, algorithms=algorithm_pin)
+    artifacts = {'MINUTE': {
+        'probabilities': k.dump_new(tmp_path / 'probabilities.json', {'SYNTHETIC_SUMMARY_FIXTURE': True}),
+        'labels': k.dump_new(tmp_path / 'labels.json', {'SYNTHETIC_SUMMARY_FIXTURE': True}),
+        'prediction_counts': {'1': 20}}}
+    score_pin = k.dump_new(tmp_path / 'scores.json', scores)
+    def forbidden(*args, **kwargs):
+        pytest.fail('Summary export must not perform fitting, prediction, labeling or scoring')
+    for name in ('fit_direction', 'predict_rows', 'label_forecast', 'direction_probability', 'score_predictions'):
+        monkeypatch.setattr(k, name, forbidden)
+    exported = k.export_r001_summaries(tmp_path / 'summary', scores, frozen, artifacts, score_pin)
+    with (tmp_path / 'summary/main.csv').open(encoding='utf-8', newline='') as stream:
+        rows = list(csv.DictReader(stream))
+    assert [(row['mode'], int(row['horizon'])) for row in rows] == [
+        ('DAILY', 1), ('DAILY', 5), ('DAILY', 20), ('MINUTE', 1), ('MINUTE', 5), ('MINUTE', 15), ('MINUTE', 30), ('MINUTE', 60)]
+    assert all(row['common_days'] == row['model_brier'] == 'NA' for row in rows[:3])
+    assert all(row['reasons'] == 'daily_start_not_production_slot' for row in rows[:3])
+    assert rows[3]['common_rows'] == '17' and rows[3]['common_days'] == '7'
+    assert rows[3]['half_width95'] == '0.02' and rows[3]['raw_brier_ci_family_lower'] == '0.17'
+    assert rows[3]['probabilities_sha256'] == artifacts['MINUTE']['probabilities']['sha256']
+    assert rows[3]['labels_sha256'] == artifacts['MINUTE']['labels']['sha256']
+    assert all(row['scores_sha256'] == score_pin['sha256'] for row in rows)
+    manifest = k.load_json(exported['manifest']['path'])
+    assert manifest['family_cells'] == 8 and manifest['report_recomputed_scores'] == 0
+    assert len(manifest['summary_files']) == 7 and manifest['external_artifact_count'] == 2
+    assert all('path' not in row for row in manifest['summary_files'])
+    report = (tmp_path / 'summary/report.md').read_text(encoding='utf-8')
+    assert '假设分钟线在收盘后5秒可用。' in report and len(report.splitlines()) <= 50
+    altered = copy.deepcopy(scores)
+    altered['MINUTE']['cells'][0]['rows'] += 1
+    with pytest.raises(k.ResearchError, match='SUMMARY_FROZEN_SCORE_MISMATCH'):
+        k.export_r001_summaries(tmp_path / 'tampered-summary', altered, frozen, artifacts, score_pin)
+    assert not (tmp_path / 'tampered-summary').exists()
+
+
+def test_synthetic_resident_lifecycle_freezes_before_labels_and_exports_once(tmp_path, monkeypatch):
+    """Real tuple/fit/labels/statistics; synthetic input transport and cost gate.
+
+    This exercises orchestration, not real-source loading or process isolation.
+    The independent isolation tests cover those boundaries. All five minute
+    horizons and the production 500/50, 120/30, 20,000 defaults remain unchanged.
+    """
+    k.CALL_COUNTS.clear()
+    sessions = tuple(s for s in formal_sessions() if s.trading_day.weekday() < 5)
+    population = {'daily_synthetic_counts': {s.trading_day.isoformat(): 1 for s in sessions
+                  if k.partition_day(s.trading_day) in k.FORMAL_DATES}}
+    features = k.synthetic_population(SimpleNamespace(sessions=sessions), population, 'MINUTE', 5)
+    contract = features[0].contract_id
+    bars = []
+    for index, session in enumerate(sessions):
+        signal = Decimal((index * 7) % 19 - 9) / Decimal(10)
+        for minute in range(70):
+            start = session.start_nano + minute * k.MINUTE
+            bars.append(replace(bar(f'SYNTHETIC-LIFECYCLE-{index}-{minute}'), contract_id=contract,
+                raw_symbol='RB', datetime_nano=start, start_nano=start, end_nano=start + k.MINUTE,
+                trading_day=session.trading_day, session_id=session.session_id,
+                available_at_nano=start + k.MINUTE + 5 * NANO, open=Decimal(100),
+                high=Decimal(102), low=Decimal(98), close=Decimal(100) + signal,
+                quality=quality('READY', 'observed')))
+    bundle = k.FrozenInput(Path('SYNTHETIC_LIFECYCLE_ONLY'), HASH, (), sessions, tuple(bars), (), ())
+    selected = {(s.trading_day, 60): contract for s in sessions}
+    cutoff = k.split_for(sessions, 'MINUTE').calibration_end_nano
+    bounded = k.truncate_fit_bundle(bundle, cutoff)
+    fit_inputs = k.ResidentInputs({contract: bounded}, sessions, (), selected, 'MINUTE', cutoff, ())
+    full_inputs = k.ResidentInputs({contract: bundle}, sessions, (), selected, 'MINUTE', None, ())
+    def fixture_inputs(mode, timing, *, for_fit, extra_contracts=()):
+        assert mode == 'MINUTE'
+        return fit_inputs if for_fit else full_inputs
+    def fixture_features(inputs, timing, *, step=5, partitions=('TRAIN', 'CALIBRATION'), days=None, reuse=None):
+        assert step == 5
+        if inputs.fit_cutoff is not None:
+            inputs.check_fit_boundary()
+            assert set(partitions) <= {'TRAIN', 'CALIBRATION'}
+        group = tuple(f for f in features if k.partition_day(f.trading_day) in partitions
+                      and (days is None or f.trading_day in days))
+        audits = [{'mode': 'MINUTE', 'partition': k.partition_day(f.trading_day), 'day': f.trading_day.isoformat(),
+                   'usable': True, 'reasons': []} for f in group]
+        return group, audits, {}
+    monkeypatch.setattr(k, 'resident_inputs', fixture_inputs)
+    monkeypatch.setattr(k, 'resident_features', fixture_features)
+    source = k.pin(k.__file__)
+    monkeypatch.setattr(k, 'code_pins', lambda: [source])
+    metadata = {'rows': [{'step': 5, 'day': f.trading_day.isoformat(), 'bucket': 0, 'candidates': 1}
+                         for f in features]}
+    scenario = {'source_collection_sha256': k.SOURCE_COLLECTION_SHA, 'tool_sha256': source['sha256'],
+                'shards': [{'contract': contract, **k.scenario_metadata_summary(HASH, (), len(bars), {})}]}
+    metadata.update(schema='k45-candidate-metadata-v3', source_collection_sha256=k.SOURCE_COLLECTION_SHA,
+                    scenario_identity=scenario, scenario_collection_sha256=k.sha256_hex(k.canonical_json_bytes(scenario)))
+    monkeypatch.setattr(k, 'source_identity', lambda: (tmp_path, {contract: {'manifest_sha256': HASH}}))
+    def fixture_child(command, output, capture):
+        if command[0] == 'candidate-metadata':
+            k.dump_new(output, metadata)
+            return metadata, {'classification': 'SYNTHETIC_TRANSPORT_ONLY'}
+        assert command[:2] == ['count-test', '--ticket']
+        k.count_test(command[2], output)
+        return k.load_json(output), {'classification': 'SYNTHETIC_TRANSPORT_ONLY'}
+    monkeypatch.setattr(k, 'safe_child', fixture_child)
+    monkeypatch.setattr(k, 'synthetic_mode_costs', lambda inputs, population, *args: {'population': population})
+    def fixture_budget(inputs, metadata, measurement, costs, step, resource, started, directory, **evidence):
+        result = {'schema': 'SYNTHETIC_COST_GATE_NOT_A_MEASUREMENT', 'status': 'READY_FOR_FORMAL',
+                  'population': costs['population']}
+        k.dump_new(Path(directory) / 'budget.json', result)
+        return result
+    monkeypatch.setattr(k, 'mode_budget', fixture_budget)
+    resource = {'schema': 'k45-mode-resource-v3', 'mode': 'MINUTE', 'status': 'READY',
+        'available_physical_bytes': 4 * 1024 ** 3, 'available_commit_bytes': 4 * 1024 ** 3,
+        'process_tree_limit_bytes': 3 * 1024 ** 3, 'wall_seconds': 259200,
+        'logical_job_started_utc': datetime.now(timezone.utc).isoformat()}
+    resource_path = tmp_path / 'resource.json'
+    resource_pin = k.dump_new(resource_path, resource)
+    measurement_path = tmp_path / 'measurement.json'
+    k.dump_new(measurement_path, {'mode': 'MINUTE', 'step': 5, 'resource': resource_pin,
+        'code_pins': [source, source], 'buckets_by_day': [{'day': '2023-01-03', 'bucket': 0, 'candidates': 1, 'usable': 1}],
+        'days': ['2023-01-03'], 'classification': 'SYNTHETIC_COST_GATE_NOT_A_MEASUREMENT'})
+    measurement_freeze = tmp_path / 'measurement-freeze.json'
+    k.dump_new(measurement_freeze, {'files': [{'relative': 'tools/experiments/k45_forecast_skill.py', 'frozen': source}]})
+    minute_dir = tmp_path / 'formal/MINUTE'
+    result = k.continue_mode('MINUTE', measurement_path, measurement_freeze, resource_path, minute_dir)
+    assert result['status'] == 'FROZEN_AWAITING_INDEPENDENT_HARD_REVIEW'
+    minute = k.load_json(result['artifact']['path'])
+    assert minute['training_calls'] == {'formal': 1, 'rehearsal': 1}
+    assert not any(minute['actual_test_calls'].values())
+    stage1 = k.load_json(minute['stage1']['path'])
+    assert stage1['inner']['sufficient']
+    test_total = next(row for row in stage1['funnel'] if row['partition'] == 'TEST' and row['horizon'] is None)
+    assert test_total['legal_requests']['days'] >= 60
+    assert test_total['label_mature'] == test_total['direction_samples'] == 'NOT_RUN:TEST_SEALED'
+    fit = k.load_json(minute['model']['path'], compressed=True)['fit']
+    assert fit['config']['max_iterations'] == 500 and fit['config']['tree_count'] == 50
+    assert fit['config']['inner_minimum_train_days'] == 120 and fit['config']['inner_minimum_validation_days'] == 30
+    daily_path = tmp_path / 'formal/DAILY/mode-freeze.json'
+    daily_pin = k.dump_new(daily_path, {'schema': 'k45-mode-freeze-v3', 'mode': 'DAILY', 'status': 'STOP:INPUT_UNUSABLE',
+        'assessment': 'NOT_ASSESSED:INPUT_UNUSABLE', 'reason': 'SYNTHETIC_UNUSABLE_MODE',
+        'steps': [], 'resource': resource_pin, 'code_pins': [source]})
+    mode_freezes = {'DAILY': daily_pin, 'MINUTE': result['artifact']}
+    review = k.dump_new(tmp_path / 'SYNTHETIC-REVIEW.json', {'verdict': 'PASS', 'conditional': False,
+        'review_scope': 'K45_PRODUCT_HARD_REVIEW', 'independent': True,
+        'reviewer': 'SYNTHETIC_TEST_FIXTURE_NOT_A_PRODUCT_PASS', 'mode_freezes': mode_freezes,
+        'reviewed_code_pins': [source]})
+    release_path = tmp_path / 'SYNTHETIC-release.json'
+    k.dump_new(release_path, {'schema': 'k45-stage3-release-v3', 'purpose': 'R001', 'one_time_run': 'R001',
+        'review': review, 'reviewer': 'SYNTHETIC_TEST_FIXTURE_NOT_A_PRODUCT_PASS', 'independent': True,
+        'modes': mode_freezes})
+    output = tmp_path / 'SYNTHETIC-R001'
+    original_label = k.label_forecast
+    calls = []
+    def label_after_probability_seal(request, *args, **kwargs):
+        if k.partition_day(request.features.trading_day) == 'TEST':
+            frozen = k.load_json(output / 'MINUTE-probabilities-frozen.json')
+            k.verify_pin(frozen['artifact'])
+            calls.append(request.request_id)
+        return original_label(request, *args, **kwargs)
+    monkeypatch.setattr(k, 'label_forecast', label_after_probability_seal)
+    check = k.stage_three_v3(release_path, output)
+    assert check['research_run_count'] == check['test_scoring_run_count'] == 1
+    assert check['mode_calls']['DAILY']['scoring_runs'] == 0
+    assert check['mode_calls']['MINUTE']['scoring_runs'] == 1
+    assert check['test_label_calls'] == len(calls) > 0
+    assert check['test_probability_calls'] == 3 * len(calls)
+    assert len(k.load_json(check['scores']['path'])['MINUTE']['cells']) == 5
+    assert (output / 'summaries/main.csv').is_file()
+    before = k.actual_test_counts()
+    with pytest.raises(k.ResearchError, match='R001_ALREADY_STARTED'):
+        k.stage_three_v3(release_path, tmp_path / 'SYNTHETIC-FORBIDDEN-SECOND-RUN')
+    assert k.actual_test_counts() == before
+
+
+def test_cost_history_points_use_timed_population_and_interpolate_only_with_coverage():
+    measurement = {'mode': 'MINUTE', 'step': 5, 'days': ['2023-01-04'],
+        'timings': [{'component': 'resident_features', 'dimensions': ['MINUTE', '0'], 'calls': 3, 'total_seconds': 3.},
+                    {'component': 'resident_features', 'dimensions': ['MINUTE', '2'], 'calls': 2, 'total_seconds': 8.}],
+        'buckets_by_day': [{'bucket': 0, 'candidates': 4, 'usable': 1, 'feature_seconds': 3.},
+                          {'bucket': 2, 'candidates': 2, 'usable': 2, 'feature_seconds': 8.}]}
+    metadata = {'history_population_source': 'SAME_PINNED_STRICT_DEDUP_AND_PRODUCTION_VISIBILITY_TIME_METADATA',
+        'rows': [{'step': 5, 'day': '2023-01-04', 'bucket': 0, 'timed_feature_calls': 3,
+                  'timed_history_total': 300, 'timed_history_min': 50, 'timed_history_max': 150},
+                 {'step': 5, 'day': '2023-01-04', 'bucket': 2, 'timed_feature_calls': 2,
+                  'timed_history_total': 40000, 'timed_history_min': 10001, 'timed_history_max': 29999}]}
+    points, rejected = k.feature_measurement_points(metadata, measurement)
+    assert not rejected and points[0]['calls'] == 3 and points[0]['history_mean'] == 100
+    assert points[0]['unit_seconds'] == 1.0
+    assert k.feature_rate_for_target(points, 0, 120)['source'] == 'REAL_TWENTY_DAY_BUCKET_MEAN'
+    interpolated = k.feature_rate_for_target(points, 1, 10050)
+    assert interpolated['source'] == 'INTERPOLATED_BETWEEN_MEASURED_HISTORY_POINTS'
+    assert interpolated['unit_seconds'] == 2.5
+    # Being in an observed bucket is insufficient when its lengths lack coverage.
+    assert k.feature_rate_for_target(points, 0, 500)['source'].startswith('INTERPOLATED')
+    assert k.feature_rate_for_target(points, 4, 80000) is None
+    altered = copy.deepcopy(metadata)
+    altered['rows'][0]['timed_feature_calls'] += 1
+    kept, rejected = k.feature_measurement_points(altered, measurement)
+    assert len(kept) == len(rejected) == 1 and rejected[0]['bucket'] == 0
+
+
+def test_metadata_history_matches_strict_dedup_and_untimed_empty_calls(tmp_path, monkeypatch):
+    import csv
+    session = next(s for s in formal_sessions() if s.trading_day == date(2023, 1, 4))
+    session = replace(session, end_nano=session.start_nano + 20 * k.MINUTE)
+    sessions = tuple(session if s.trading_day == session.trading_day else s for s in formal_sessions())
+    session_pin = k.dump_new(tmp_path / 'sessions.json', {'schema_version': k.SESSIONS_SCHEMA_ID,
+        'record_type': 'SessionWindow', 'contract_version': k.SOURCE_VERSION,
+        'records': [k.encode_record(s) for s in sessions]})
+    selection_pin = k.dump_new(tmp_path / 'selection-evidence.json', {'SYNTHETIC': True})
+    rows = []
+    for index in range(15):
+        start = session.start_nano + index * k.MINUTE
+        rows.append({'bar_id': f'SYNTHETIC-METADATA-{index}', 'contract_id': CONTRACT, 'duration_seconds': 60, 'product': PRODUCT,
+            'datetime_nano': start, 'start_nano': start, 'end_nano': start + k.MINUTE,
+            'available_at_nano': start + 2 * k.MINUTE, 'trading_day': session.trading_day.isoformat(),
+            'session_id': session.session_id, 'complete': 'true',
+            'quality': json.dumps({'status': 'DEGRADED' if index < 5 else 'READY',
+                                   'temporal_basis': 'unknown' if index < 5 else 'reconstructed'}),
+            'open': 'SYNTHETIC_PRICE_MUST_NOT_BE_DECODED'})
+    # The prior strict-adapter receipt binds the exact duplicate's original bytes.
+    rows.insert(2, dict(rows[1]))
+    with (tmp_path / 'bars.csv').open('w', encoding='utf-8', newline='') as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    bars_pin = k.pin(tmp_path / 'bars.csv')
+    manifest_pin = k.dump_new(tmp_path / 'manifest.json', {'files': {'bars.csv': bars_pin['sha256']}})
+    validation = [{'source_manifest_sha256': manifest_pin['sha256'], 'bars_before_dedup': 16, 'bars_after_dedup': 15,
+                   'scenario_target_count': 10}]
+    validation.extend({'source_manifest_sha256': hashlib.sha256(f'SYNTHETIC-UNUSED-{i}'.encode()).hexdigest(),
+                       'bars_before_dedup': 0, 'bars_after_dedup': 0, 'scenario_target_count': 0} for i in range(29))
+    measurement_path = tmp_path / 'measurement.json'
+    k.dump_new(measurement_path, {'mode': 'MINUTE', 'source_collection_sha256': k.SOURCE_COLLECTION_SHA,
+                                'input_validation': validation})
+    monkeypatch.setattr(k, 'SESSIONS_SHA', session_pin['sha256'])
+    monkeypatch.setattr(k, 'SELECTION_SHA', selection_pin['sha256'])
+    monkeypatch.setattr(k, 'FULL_SOURCE_SCENARIO_COUNT', 10)
+    monkeypatch.setattr(k, 'source_identity', lambda: (tmp_path, {CONTRACT: {
+        'path': str(tmp_path), 'manifest_sha256': manifest_pin['sha256']}}))
+    monkeypatch.setattr(k, 'select_contracts', lambda *args: ({(session.trading_day, 60): CONTRACT}, {}))
+    output = tmp_path / 'metadata.json'
+    k.candidate_metadata('MINUTE', output, measurement_path)
+    result = k.load_json(output)
+    step5 = [row for row in result['rows'] if row['step'] == 5]
+    assert sum(row['candidates'] for row in step5) == 4
+    assert sum(row['callable_candidates'] for row in step5) == 3
+    assert sum(row['empty_history_calls'] for row in step5) == 1
+    assert sum(row['timed_feature_calls'] for row in step5) == 2
+    assert sum(row['timed_history_total'] for row in step5) == 15
+    assert result['price_fields_decoded'] is False
+    assert result['strict_input_validation_receipt'] == k.pin(measurement_path)
+
+
+def test_scenario_metadata_hash_is_exact_original_scenario_view_identity(tmp_path):
+    bundle = k.FrozenInput(tmp_path, HASH, (), SESSIONS[:1],
+        (bar('SYNTHETIC-ONE'), bar('SYNTHETIC-TWO', offset=1),
+         bar('SYNTHETIC-DAILY', duration=86400), bar('SYNTHETIC-DEGRADED', status='DEGRADED')), (), ())
+    transformed, expected = k.scenario_view(bundle)
+    ids = [row.bar_id for row in bundle.bars if row.duration_seconds == 60
+           and row.quality.status == 'READY' and row.quality.temporal_basis == 'reconstructed']
+    partition_counts = k.Counter(k.partition_day(row.trading_day) or 'OUTSIDE' for row in bundle.bars if row.bar_id in ids)
+    result = k.scenario_metadata_summary(HASH, ids, len(bundle.bars), partition_counts)
+    assert {key: value for key, value in result.items() if key != 'source_manifest_sha256'} == expected
+    assert len(ids) == expected['changed_count'] == 2
+    assert [row.available_at_nano for row in transformed.bars[:2]] != [row.available_at_nano for row in bundle.bars[:2]]
+
+
+def test_release_rejects_old_pass_wrong_modes_and_code_but_accepts_reviewer_copy_paths(tmp_path, monkeypatch):
+    source = k.pin(k.__file__)
+    monkeypatch.setattr(k, 'code_pins', lambda: [source])
+    modes = {mode: k.dump_new(tmp_path / mode / 'mode-freeze.json', {'schema': 'k45-mode-freeze-v3',
+        'mode': mode, 'status': 'STOP:SYNTHETIC', 'steps': [], 'code_pins': [source]}) for mode in k.HORIZONS}
+    relative = Path(source['path']).resolve().relative_to(k.REPOSITORY.resolve()).as_posix()
+    copied_pin = dict(source, path='C:/SYNTHETIC-REVIEW-COPY/' + relative)
+    review = {'verdict': 'PASS', 'conditional': False, 'review_scope': 'K45_PRODUCT_HARD_REVIEW',
+        'independent': True, 'reviewer': 'SYNTHETIC-REVIEWER', 'mode_freezes': modes, 'reviewed_code_pins': [copied_pin]}
+    def released(payload, attempt):
+        return {'schema': 'k45-stage3-release-v3', 'purpose': 'R001', 'one_time_run': 'R001',
+            'modes': modes, 'review': k.dump_new(tmp_path / f'review-{attempt}.json', payload),
+            'reviewer': 'SYNTHETIC-REVIEWER', 'independent': True}
+    assert set(k.validate_release_v3(released(review, 'valid'))) == set(k.HORIZONS)
+    bad_revision = dict(review, reviewed_code_pins=[dict(copied_pin, sha256='0' * 64)])
+    with pytest.raises(k.ResearchError, match='PRODUCT_REVIEW_CODE_REVISION_MISMATCH'):
+        k.validate_release_v3(released(bad_revision, 'old-source'))
+    wrong_mode = dict(review, mode_freezes=dict(modes, DAILY=modes['MINUTE']))
+    with pytest.raises(k.ResearchError, match='PRODUCT_REVIEW_MODE_FREEZES_MISMATCH'):
+        k.validate_release_v3(released(wrong_mode, 'wrong-mode'))
+    with pytest.raises(k.ResearchError, match='PRODUCT_REVIEW_IDENTITY_REQUIRED'):
+        k.validate_release_v3(released(dict(review, review_scope='DAILY_STRUCTURE_ONLY'), 'wrong-scope'))
+    assert not (tmp_path / 'K45-R001.started.json').exists()

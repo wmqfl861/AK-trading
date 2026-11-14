@@ -20,6 +20,7 @@ import gzip
 import gc
 import hashlib
 import importlib.util
+import io
 import json
 import math
 import os
@@ -79,6 +80,7 @@ PLAN_SHA = "cc753d6175a21deb513857e66d8d3271befa7989138d13bda8afb169e977f09a"
 PRODUCTION_MODELS_SHA = "ce91e507d4acae6566b21bbf5f56caf858746cfe86a995a54a8511e49b1ade2f"
 HOLDOUT = date(2026, 9, 5)
 SCENARIO_SECONDS = 5
+FULL_SOURCE_SCENARIO_COUNT = 1_783_377
 HORIZONS = {"MINUTE": (1, 5, 15, 30, 60), "DAILY": (1, 5, 20)}
 FORMAL_DATES = {"TRAIN": (date(2023, 1, 3), date(2024, 2, 29)),
                 "CALIBRATION": (date(2024, 3, 1), date(2024, 5, 31)),
@@ -2248,20 +2250,22 @@ def authoritative_assignments(requests, local, receipt):
     return restored
 
 
-def fixed_bindings(mode, step, config, reference, previous, sources):
+def fixed_bindings(mode, step, config, reference, previous, sources, scenario=None):
     return {"source_collection_sha256": SOURCE_COLLECTION_SHA, "sessions_sha256": SESSIONS_SHA,
             "selection_sha256": SELECTION_SHA, "scenario_seconds": SCENARIO_SECONDS,
             "scenario_predicate": "MINUTE_READY_RECONSTRUCTED", "mode": mode, "step": step,
             "config": config, "reference_sha256": sha256_hex(canonical_json_bytes(reference_payload(reference))),
-            "previous_sha256": sha256_hex(canonical_json_bytes(previous_payload(previous))), "code_pins": sources}
+            "previous_sha256": sha256_hex(canonical_json_bytes(previous_payload(previous))), "code_pins": sources,
+            "scenario": scenario}
 
 
 def reconstruct_test(ticket, timing):
     for member in ticket["bindings"]["code_pins"]:
         verify_pin(member)
     reference, previous = decode_reference(ticket["reference"]), decode_previous(ticket["previous"])
+    scenario = verified_scenario_identity(ticket["scenario_metadata"])
     require(fixed_bindings(ticket["mode"], ticket["step"], ticket["bindings"]["config"], reference,
-                           previous, ticket["bindings"]["code_pins"]) == ticket["bindings"], "TEST_TICKET_BINDINGS")
+                           previous, ticket["bindings"]["code_pins"], scenario) == ticket["bindings"], "TEST_TICKET_BINDINGS")
     time_requests = tuple(decode_time_request(row) for row in ticket["train_cal_time_requests"])
     require(all(partition_day(r.features.trading_day) in ("TRAIN", "CALIBRATION") for r in time_requests), "TEST_TIME_CONTEXT_SCOPE")
     inputs = resident_inputs(ticket["mode"], timing, for_fit=False,
@@ -2284,7 +2288,7 @@ def count_test(ticket_path, output):
     ticket = load_json(ticket_path)
     require(ticket.get("schema") == "k45-test-reconstruction-ticket-v3", "TEST_TICKET_SCHEMA")
     timing = Timings()
-    inputs, chain, _, assignments, sequences, tc_receipt, _ = reconstruct_test(ticket, timing)
+    inputs, chain, _, assignments, sequences, tc_receipt, audits = reconstruct_test(ticket, timing)
     identities = seal_identity_sequences(Path(output).parent / "sealed-test-ids", sequences, ticket["bindings"])
     by_id = {a.sample_id: a for a in assignments}
     counts = {str(h): {"requests": sum(r.horizon.value == h for r in chain.requests),
@@ -2293,7 +2297,9 @@ def count_test(ticket_path, output):
                            and by_id[r.request_id].partition == "TEST"})} for h in HORIZONS[inputs.mode]}
     result = {"schema": "k45-test-counts-v3", "mode": inputs.mode, "step": ticket["step"],
         "ticket": pin(ticket_path), "identities": identities, "train_cal_assignments": tc_receipt,
-        "counts": counts, "timings": timing.report(), "memory_at_completion": tree_memory(),
+        "counts": counts, "funnel": [row for row in funnel(inputs.mode, audits, chain.requests, assignments,
+            (), (), (), chain.reasons) if row["partition"] == "TEST"],
+        "timings": timing.report(), "memory_at_completion": tree_memory(),
         "actual_test_calls": actual_test_counts(), "status": "TEST_COUNTS_FROZEN"}
     require(not any(actual_test_counts().values()), "TEST_COUNT_NUMERIC_CALL_FORBIDDEN")
     dump_new(output, result)
@@ -2402,6 +2408,7 @@ def resident_rehearsal(inputs, formal_chain, timing, directory, bindings, step):
               "reference_populations": list(chain.reference_populations), "test_probability_calls": 0,
               "test_label_calls": 0, "scoring_runs": 0, "research_conclusions_published": False}
     if inner["sufficient"]:
+        CALL_COUNTS["DRY_RUN:training"] += 1
         fitted = timing.call(("resident_fit", inputs.mode, "DRY_RUN"), fit_direction,
                               segments["TRAIN"], segments["CALIBRATION"], config, chain.reference)
         model_pin = dump_new(Path(directory) / "models.json.gz", {"fit": fitted.payload()}, compressed=True)
@@ -2422,34 +2429,93 @@ def resident_rehearsal(inputs, formal_chain, timing, directory, bindings, step):
                       test_probability_calls=3 * len(predictions), test_label_calls=len(test_labels), scoring_runs=1,
                       calendar_days=scores["calendar_days"])
     result["actual_test_calls"] = actual_test_counts()
+    result["training_calls"] = CALL_COUNTS["DRY_RUN:training"]
     dump_new(Path(directory) / "rehearsal-check.json", result)
     return result
 
 
-def candidate_metadata(mode, output):
+def scenario_metadata_summary(source_manifest_sha256, changed_ids, source_count, changed_by_partition):
+    identity = {"source_manifest_sha256": source_manifest_sha256, "seconds": SCENARIO_SECONDS,
+                "predicate": "MINUTE_READY_RECONSTRUCTED", "changed_bar_ids": sorted(changed_ids),
+                "tool_sha256": pin(__file__)["sha256"]}
+    return {"source_manifest_sha256": source_manifest_sha256,
+            "scenario_input_hash": sha256_hex(canonical_json_bytes(identity)), "changed_count": len(changed_ids),
+            "unchanged_count": source_count - len(changed_ids), "changed_by_partition": dict(changed_by_partition),
+            "original_seconds": 60, "scenario_seconds": SCENARIO_SECONDS, "source_mutations": 0,
+            "quality_reasons_describe_original_evidence": True}
+
+
+def verified_scenario_identity(member):
+    verify_pin(member)
+    metadata = load_json(member["path"])
+    require(metadata["schema"] == "k45-candidate-metadata-v3"
+            and metadata["source_collection_sha256"] == SOURCE_COLLECTION_SHA, "SCENARIO_METADATA_IDENTITY")
+    payload = metadata["scenario_identity"]
+    require(payload["source_collection_sha256"] == SOURCE_COLLECTION_SHA
+            and payload["tool_sha256"] == pin(__file__)["sha256"]
+            and metadata["scenario_collection_sha256"] == sha256_hex(canonical_json_bytes(payload)),
+            "SCENARIO_IDENTITY_HASH")
+    _, shards = source_identity()
+    require([(row["contract"], row["source_manifest_sha256"]) for row in payload["shards"]]
+            == [(contract, row["manifest_sha256"]) for contract, row in sorted(shards.items())],
+            "SCENARIO_SHARD_IDENTITY")
+    return {"metadata": member, "source_collection_sha256": SOURCE_COLLECTION_SHA,
+            "scenario_collection_sha256": metadata["scenario_collection_sha256"],
+            "full_source_target_count": sum(row["changed_count"] for row in payload["shards"]),
+            "scope": "FULL_SOURCE_TRANSFORM_DEFINITION; FIT_RETAINS_TRAIN_CAL_ONLY"}
+
+
+def fit_scenario_counts(inputs):
+    rows = []
+    for contract, bundle in sorted(inputs.bundles.items()):
+        targets = [bar for bar in bundle.bars if bar.duration_seconds == 60 and bar.quality.status == "READY"
+                   and bar.quality.temporal_basis == "reconstructed"]
+        require(all(bar.available_at_nano == bar.end_nano + SCENARIO_SECONDS * NANO for bar in targets),
+                "RETAINED_SCENARIO_AVAILABILITY")
+        rows.append({"contract": contract, "retained_rows": len(bundle.bars), "actually_transformed_rows": len(targets)})
+    return {"scope": "RETAINED_TRAIN_CAL_ONLY", "contracts": rows,
+            "actually_transformed_rows": sum(row["actually_transformed_rows"] for row in rows)}
+
+
+def candidate_metadata(mode, output, measurement_path):
     """Separate process: inspect time/quality fields, never decode a bar price."""
     started = time.perf_counter()
+    measurement = load_json(measurement_path)
+    require(measurement["mode"] == mode and measurement["source_collection_sha256"] == SOURCE_COLLECTION_SHA
+            and len(measurement["input_validation"]) == 30, "METADATA_VERIFIED_INPUT_REQUIRED")
+    validations = {row["source_manifest_sha256"]: row for row in measurement["input_validation"]}
+    require(len(validations) == 30, "METADATA_VERIFIED_INPUT_IDENTITY")
     _, shards = source_identity()
     first = Path(next(iter(shards.values()))["path"])
+    verify_pin({"path": str(first / "sessions.json"), "sha256": SESSIONS_SHA})
+    verify_pin({"path": str(first / "selection-evidence.json"), "sha256": SELECTION_SHA})
     sessions = original_record_envelope((first / "sessions.json").read_bytes(), SessionWindow, SESSIONS_SCHEMA_ID)
     selected, _ = select_contracts(load_json(first / "selection-evidence.json"), sessions, set(shards))
     duration = 86400 if mode == "DAILY" else 60
     chosen = {contract for (day, frequency), contract in selected.items()
               if frequency == duration and partition_day(day) in FORMAL_DATES}
-    grouped, input_rows = {}, 0
+    grouped, input_rows, scenario_shards = {}, 0, []
     for contract, source in sorted(shards.items()):
         path = Path(source["path"])
         manifest = load_json(path / "manifest.json")
         verify_pin({"path": str(path / "bars.csv"), "sha256": manifest["files"]["bars.csv"]})
-        if contract not in chosen:
-            continue
-        rows = []
+        require(source["manifest_sha256"] in validations, "METADATA_VERIFIED_SHARD_MISSING")
+        validation = validations[source["manifest_sha256"]]
+        rows, seen, products, source_rows = [], set(), set(), 0
+        changed_ids, changed_by_partition = [], Counter()
         with (path / "bars.csv").open(encoding="utf-8", newline="") as stream:
             for raw in csv.DictReader(stream):
                 input_rows += 1
+                source_rows += 1
                 frequency = int(raw["duration_seconds"])
-                if frequency != duration:
+                products.add(raw["product"])
+                # The original strict adapter proved equality for duplicates
+                # in these exact pinned bytes. Reproduce its identity-key
+                # deduplication using metadata without decoding price values.
+                identity = raw["contract_id"], frequency, int(raw["datetime_nano"])
+                if identity in seen:
                     continue
+                seen.add(identity)
                 day = date.fromisoformat(raw["trading_day"]) if raw["trading_day"] else None
                 require((day is None or day < HOLDOUT) and
                         datetime.fromtimestamp(int(raw["datetime_nano"]) // NANO, TZ).date() < HOLDOUT, "STOP_HOLDOUT_BOUNDARY")
@@ -2459,37 +2525,80 @@ def candidate_metadata(mode, output):
                 if frequency == 60 and quality["status"] == "READY" and quality["temporal_basis"] == "reconstructed":
                     require(available == end + 60 * NANO, "SOURCE_MINUTE_AVAILABILITY_NOT_60_SECONDS")
                     available = end + SCENARIO_SECONDS * NANO
+                    changed_ids.append(raw["bar_id"])
+                    changed_by_partition[partition_day(day) or "OUTSIDE"] += 1
+                if contract not in chosen or frequency != duration:
+                    continue
                 require(raw["complete"] in ("true", "false"), "METADATA_COMPLETE_ENCODING")
                 rows.append(SimpleNamespace(contract_id=contract, product=raw["product"], duration_seconds=frequency,
                     start_nano=int(raw["start_nano"]), end_nano=end, available_at_nano=available,
                     trading_day=day, session_id=raw["session_id"] or None, complete=raw["complete"] == "true",
                     quality=SimpleNamespace(status=quality["status"], temporal_basis=quality["temporal_basis"])))
-        scoped = sorted((s for s in sessions if s.product in {r.product for r in rows}), key=lambda s: s.start_nano)
+        require(source_rows == validation["bars_before_dedup"] and len(seen) == validation["bars_after_dedup"],
+                "METADATA_STRICT_DEDUP_POPULATION_MISMATCH")
+        scenario_shards.append(dict(scenario_metadata_summary(source["manifest_sha256"], changed_ids,
+                                                              len(seen), changed_by_partition), contract=contract))
+        del changed_ids, changed_by_partition
+        if contract not in chosen:
+            del rows, seen
+            continue
+        grid_sessions = tuple(s for s in sessions if s.product in products)
+        scoped = sorted(grid_sessions, key=lambda s: s.start_nano)
         starts = [s.start_nano for s in scoped]
+        disjoint = all(left.end_nano <= right.start_nano for left, right in zip(scoped, scoped[1:]))
         def eligible(row):
             if not row.complete or row.available_at_nano is None or row.quality.status != "READY" or row.quality.temporal_basis == "unknown":
                 return False
-            slot = bisect_right(starts, row.start_nano) - 1
-            return duration != 60 or slot < 0 or row.start_nano >= scoped[slot].end_nano or (row.start_nano - starts[slot]) % MINUTE == 0
-        cutoffs = sorted(max(row.end_nano, row.available_at_nano) for row in rows if eligible(row))
+            if duration != 60:
+                return True
+            if disjoint:
+                slot = bisect_right(starts, row.start_nano) - 1
+                return slot < 0 or row.start_nano >= scoped[slot].end_nano or (row.start_nano - starts[slot]) % MINUTE == 0
+            for session in grid_sessions:
+                if session.start_nano <= row.start_nano < session.end_nano:
+                    return (row.start_nano - session.start_nano) % MINUTE == 0
+            return True
+        visible_rows = [row for row in rows if eligible(row)]
+        cutoffs = sorted(max(row.end_nano, row.available_at_nano) for row in visible_rows)
+        fit_cutoff = split_for(sessions, mode).calibration_end_nano
+        fit_cutoffs = sorted(max(row.end_nano, row.available_at_nano) for row in visible_rows
+            if row.trading_day is not None and row.trading_day <= FORMAL_DATES["CALIBRATION"][1] and row.end_nano < fit_cutoff)
         projection = SimpleNamespace(bars=rows, sessions=sessions, instruments=(SimpleNamespace(contract_id=contract),))
         for step in ((5, 15) if mode == "MINUTE" else (5,)):
             for anchor in anchors(projection, selected, step=step, mode=mode):
-                count = bisect_right(cutoffs, anchor.decision) if anchor.decision is not None else 0
+                history = fit_cutoffs if partition_day(anchor.day) in ("TRAIN", "CALIBRATION") else cutoffs
+                count = bisect_right(history, anchor.decision) if anchor.decision is not None else 0
                 bucket = history_bin(count)
                 key = step, anchor.day.isoformat(), bucket
                 row = grouped.setdefault(key, {"step": step, "day": anchor.day.isoformat(), "bucket": bucket,
                     "partition": partition_day(anchor.day), "candidates": 0, "callable_candidates": 0,
-                    "history_total": 0, "history_min": None, "history_max": None})
+                    "history_total": 0, "history_min": None, "history_max": None,
+                    "timed_feature_calls": 0, "timed_history_total": 0,
+                    "timed_history_min": None, "timed_history_max": None, "empty_history_calls": 0})
                 row["candidates"] += 1
                 if anchor.decision is not None:
                     row["callable_candidates"] += 1
                     row["history_total"] += count
                     row["history_min"] = count if row["history_min"] is None else min(count, row["history_min"])
                     row["history_max"] = count if row["history_max"] is None else max(count, row["history_max"])
-        del rows, projection, cutoffs
+                    if count:
+                        row["timed_feature_calls"] += 1
+                        row["timed_history_total"] += count
+                        row["timed_history_min"] = count if row["timed_history_min"] is None else min(count, row["timed_history_min"])
+                        row["timed_history_max"] = count if row["timed_history_max"] is None else max(count, row["timed_history_max"])
+                    else:
+                        row["empty_history_calls"] += 1
+        del rows, projection, cutoffs, fit_cutoffs, visible_rows, seen
+    scenario = {"source_collection_sha256": SOURCE_COLLECTION_SHA, "tool_sha256": pin(__file__)["sha256"],
+                "shards": scenario_shards}
+    require(sum(row["changed_count"] for row in scenario_shards)
+            == sum(row["scenario_target_count"] for row in validations.values()) == FULL_SOURCE_SCENARIO_COUNT,
+            "SCENARIO_FULL_SOURCE_TRANSFORM_COUNT_MISMATCH")
     result = {"schema": "k45-candidate-metadata-v3", "mode": mode, "source_collection_sha256": SOURCE_COLLECTION_SHA,
+              "scenario_identity": scenario, "scenario_collection_sha256": sha256_hex(canonical_json_bytes(scenario)),
               "sessions_sha256": SESSIONS_SHA, "selection_sha256": SELECTION_SHA,
+              "strict_input_validation_receipt": pin(measurement_path),
+              "history_population_source": "SAME_PINNED_STRICT_DEDUP_AND_PRODUCTION_VISIBILITY_TIME_METADATA",
               "price_fields_decoded": False, "input_rows_inspected": input_rows,
               "rows": [grouped[key] for key in sorted(grouped)], "elapsed_seconds": time.perf_counter() - started}
     dump_new(output, result)
@@ -2662,7 +2771,7 @@ def synthetic_population(inputs, population, mode, step):
     return tuple(result)
 
 
-def synthetic_labels_for(chain, intervals, assignments, measurement, purpose):
+def synthetic_labels_for(chain, intervals, assignments, measurement, purpose, *, partitions=("TRAIN", "CALIBRATION")):
     from ak_trading.v2.contracts import PathLabel
     by_id = {r.sample_id: r for r in assignments}
     by_interval = {r.sample_id: r for r in intervals}
@@ -2674,7 +2783,7 @@ def synthetic_labels_for(chain, intervals, assignments, measurement, purpose):
     labels, seen = [], Counter()
     for request in chain.requests:
         assignment = by_id[request.request_id]
-        if assignment.partition not in ("TRAIN", "CALIBRATION"):
+        if assignment.partition not in partitions:
             continue
         slot = seen[request.horizon.value] // 3
         seen[request.horizon.value] += 1
@@ -2735,7 +2844,7 @@ def synthetic_mode_costs(inputs, population, measurement, mode, step, directory)
     features = synthetic_population(inputs, population, mode, step)
     # No real object is used as synthetic numerical input.
     formal = resident_chain(features, (), inputs.sessions, mode, timing)
-    rows, fallbacks, io_rows, memories = [], [], [], []
+    rows, fallbacks, memories = [], [], []
     for purpose in ("R001", "DRY_RUN"):
         if purpose == "R001":
             chain = formal
@@ -2784,26 +2893,79 @@ def synthetic_mode_costs(inputs, population, measurement, mode, step, directory)
         predictions = predict_rows(fitted, segments["TEST"], purpose="SYNTHETIC")
         rows.append({"component": "prediction_three_components", "purpose": purpose, "n": len(predictions),
                      "seconds": time.perf_counter() - start})
+        test_labels, _ = synthetic_labels_for(replace(chain, requests=canonical_requests(segments["TEST"].requests)),
+            intervals, assignments, measurement, purpose, partitions=("TEST",))
+        labels_by_id = {label.request_id: label for label in test_labels}
         from k45_forecast_statistics import Observation, score_mode
         dates = FORMAL_DATES if purpose == "R001" else DRY_DATES
         calendar = sorted({s.trading_day.isoformat() for s in inputs.sessions if dates["TEST"][0] <= s.trading_day <= dates["TEST"][1]})
-        observations = [Observation(r["request_id"], r["day"], mode, r["horizon"], "UP",
+        observations = [Observation(r["request_id"], r["day"], mode, r["horizon"],
+                                   labels_by_id[r["request_id"]].direction,
                                    r["model"], r["raw"], r["calibrated"]) for r in predictions]
         start = time.perf_counter()
         score = score_mode(observations, calendar, mode, selected_algorithms(fitted, mode, inputs.sessions[0].product), inner["sufficient"])
         rows.append({"component": "bootstrap", "purpose": purpose, "n": len(observations), "seconds": time.perf_counter() - start})
         start = time.perf_counter()
-        payload = {"fit": fitted.payload(), "probabilities": predictions, "statistics": score}
-        member = dump_new(Path(directory) / f"SYNTHETIC-{purpose}-numerical.json.gz", payload, compressed=True)
-        io_rows.append({"purpose": purpose, "bytes": member["bytes"], "seconds": time.perf_counter() - start, "artifact": member})
-        rows.append({"component": "numerical_output", "purpose": purpose, **io_rows[-1]})
+        numeric = {"models": {"fit": fitted.payload()}, "probabilities": predictions,
+                   "labels": [encode_record(label) for label in test_labels], "statistics": score}
+        members = {name: dump_new(Path(directory) / f"SYNTHETIC-{purpose}-{name}.json.gz", payload, compressed=True)
+                   for name, payload in numeric.items()}
+        decoded_fit = decode_fit(load_json(members["models"]["path"], compressed=True)["fit"])
+        require(decoded_fit.payload() == fitted.payload(), "SYNTHETIC_MODEL_NUMERIC_IO_MISMATCH")
+        rows.append({"component": "numerical_output_and_model_read", "purpose": purpose, "files": len(members),
+            "seconds": time.perf_counter() - start, "bytes": sum(member["bytes"] for member in members.values()),
+            "uncompressed_bytes": sum(len(canonical_json_bytes(payload)) + 1 for payload in numeric.values()),
+            "largest_uncompressed_member": max(len(canonical_json_bytes(payload)) + 1 for payload in numeric.values()),
+            "artifacts": members})
+        if purpose == "R001":
+            start = time.perf_counter()
+            algorithm_pin = dump_new(Path(directory) / "SYNTHETIC-algorithms.json", {
+                "schema": "k45-direction-algorithms-v3", "mode": mode, "model": members["models"],
+                "rows": direction_algorithm_rows(fitted, mode, inputs.sessions[0].product, train, cal)})
+            synthetic_modes = {other: {"status": "STOP:SYNTHETIC_COST_PLACEHOLDER"} for other in HORIZONS}
+            synthetic_modes[mode] = {"status": "FROZEN_AWAITING_INDEPENDENT_HARD_REVIEW",
+                                    "model": members["models"], "algorithms": algorithm_pin}
+            synthetic_scores = {other: stopped_mode_scores(other, synthetic_modes[other]) for other in HORIZONS if other != mode}
+            synthetic_scores[mode] = score
+            score_member = dump_new(Path(directory) / "SYNTHETIC-family-scores.json", synthetic_scores)
+            summaries = export_r001_summaries(Path(directory) / "SYNTHETIC-summaries", synthetic_scores, synthetic_modes,
+                {mode: {"probabilities": members["probabilities"], "labels": members["labels"],
+                        "prediction_counts": {str(h): sum(row["horizon"] == h for row in predictions) for h in HORIZONS[mode]}}},
+                score_member)
+            summary_members = [algorithm_pin, score_member, summaries["manifest"], *summaries["files"]]
+            rows.append({"component": "algorithm_and_summary_output", "purpose": purpose, "files": len(summary_members),
+                "seconds": time.perf_counter() - start, "bytes": sum(member["bytes"] for member in summary_members),
+                "uncompressed_bytes": sum(member["bytes"] for member in summary_members),
+                "largest_uncompressed_member": max(member["bytes"] for member in summary_members)})
         start = time.perf_counter()
         sequences = identity_sequences(chain, assignments, (*segments["TRAIN"].requests, *segments["CALIBRATION"].requests),
                                        mode, step, purpose=purpose)
-        sealed = seal_identity_sequences(Path(directory) / f"SYNTHETIC-{purpose}-ids", sequences, {"SYNTHETIC": True})
-        verify_identity_sequences(sealed, sequences, {"SYNTHETIC": True})
+        synthetic_bindings = fixed_bindings(mode, step, config, chain.reference, chain.previous, code_pins())
+        sealed = seal_identity_sequences(Path(directory) / f"SYNTHETIC-{purpose}-ids", sequences, synthetic_bindings)
+        verify_identity_sequences(sealed, sequences, synthetic_bindings)
         rows.append({"component": "identity_write_read_hash", "purpose": purpose, "n": sum(len(s["ids"]) for s in sequences),
-                     "seconds": time.perf_counter() - start, "bytes": sum(p["file"]["bytes"] for p in sealed)})
+                     "seconds": time.perf_counter() - start, "bytes": sum(p["file"]["bytes"] for p in sealed),
+                     "uncompressed_bytes": sum(p["file"]["bytes"] for p in sealed),
+                     "largest_uncompressed_member": max(p["file"]["bytes"] for p in sealed)})
+        if purpose == "R001":
+            ticket = {"schema": "k45-test-reconstruction-ticket-v3", "mode": mode, "step": step,
+                "bindings": synthetic_bindings, "reference": reference_payload(chain.reference),
+                "previous": previous_payload(chain.previous),
+                "train_cal_time_requests": [request_time_payload(request) for request in chain.requests
+                    if partition_day(request.features.trading_day) in ("TRAIN", "CALIBRATION")]}
+            start = time.perf_counter()
+            ticket_pin = dump_new(Path(directory) / "SYNTHETIC-time-ticket.json", ticket)
+            rows.append({"component": "time_ticket_write", "purpose": purpose,
+                "n": len(ticket["train_cal_time_requests"]), "seconds": time.perf_counter() - start,
+                "bytes": ticket_pin["bytes"], "uncompressed_bytes": ticket_pin["bytes"],
+                "largest_uncompressed_member": ticket_pin["bytes"]})
+            start = time.perf_counter()
+            restored = load_json(ticket_pin["path"])
+            time_requests = tuple(decode_time_request(row) for row in restored["train_cal_time_requests"])
+            require(len(time_requests) == len(ticket["train_cal_time_requests"]), "SYNTHETIC_TIME_TICKET_IO_COUNT")
+            rows.append({"component": "time_ticket_read_and_decode", "purpose": purpose, "n": len(time_requests),
+                         "seconds": time.perf_counter() - start})
+            del restored, time_requests, ticket
     result = {"schema": "k45-synthetic-mode-costs-v3", "classification": "SYNTHETIC", "mode": mode, "step": step,
               "population": population, "components": rows, "fallback_uncertainty": fallbacks,
               "reference_measurements": [r for r in timing.report() if r["component"].startswith("resident_reference")],
@@ -2899,7 +3061,86 @@ def synthetic_label_cost(mode, horizon):
             "source": "SYNTHETIC_SAME_HORIZON_PRODUCTION_LABEL"}
 
 
-def mode_budget(inputs, metadata, measurement, costs, step, resource, started_utc, directory):
+def feature_measurement_points(metadata, measurement):
+    """Reconcile metadata with the exact successful-return feature timing cohort."""
+    require(metadata.get("history_population_source") ==
+            "SAME_PINNED_STRICT_DEDUP_AND_PRODUCTION_VISIBILITY_TIME_METADATA", "FEATURE_HISTORY_METADATA_REQUIRED")
+    observed_days = set(measurement["days"])
+    points, rejected = [], []
+    for bucket in range(5):
+        timings = [row for row in measurement["timings"] if row["component"] == "resident_features"
+                   and row["dimensions"] == [measurement["mode"], str(bucket)]]
+        if not timings:
+            continue
+        calls = sum(row["calls"] for row in timings)
+        seconds = math.fsum(row["total_seconds"] for row in timings)
+        population = [row for row in metadata["rows"] if row["step"] == measurement["step"]
+                      and row["day"] in observed_days and row["bucket"] == bucket and row["timed_feature_calls"]]
+        reconstructed = sum(row["timed_feature_calls"] for row in population)
+        day_seconds = math.fsum(row["feature_seconds"] for row in measurement["buckets_by_day"] if row["bucket"] == bucket)
+        if not calls or reconstructed != calls or day_seconds != seconds:
+            rejected.append({"bucket": bucket, "timing_calls": calls, "metadata_calls": reconstructed,
+                             "timing_seconds": seconds, "day_seconds": day_seconds,
+                             "reason": "TIMED_POPULATION_OR_TOTAL_NOT_RECONCILED"})
+            continue
+        history_total = sum(row["timed_history_total"] for row in population)
+        points.append({"bucket": bucket, "calls": calls, "total_seconds": seconds,
+            "history_total": history_total, "history_mean": history_total / calls, "unit_seconds": seconds / calls,
+            "history_min": min(row["timed_history_min"] for row in population),
+            "history_max": max(row["timed_history_max"] for row in population),
+            "source": "RECONSTRUCTED_FROM_TIME_METADATA"})
+    return points, rejected
+
+
+def feature_rate_for_target(points, bucket, history_mean):
+    observed = next((row for row in points if row["bucket"] == bucket
+                     and row["history_min"] <= history_mean <= row["history_max"]), None)
+    if observed is not None:
+        return {"unit_seconds": observed["unit_seconds"], "source": "REAL_TWENTY_DAY_BUCKET_MEAN",
+                "history_mean": history_mean, "evidence": [observed]}
+    grouped = defaultdict(list)
+    for row in points:
+        grouped[row["history_mean"]].append(row)
+    combined = [{"history_mean": history, "unit_seconds": math.fsum(row["total_seconds"] for row in group)
+                / sum(row["calls"] for row in group), "evidence": group} for history, group in sorted(grouped.items())]
+    exact = next((row for row in combined if row["history_mean"] == history_mean), None)
+    if exact is not None:
+        return dict(exact, source="MEASURED_MATCHING_HISTORY_POINT")
+    left = next((row for row in reversed(combined) if row["history_mean"] < history_mean), None)
+    right = next((row for row in combined if row["history_mean"] > history_mean), None)
+    if left is None or right is None:
+        return None
+    rate = left["unit_seconds"] + (right["unit_seconds"] - left["unit_seconds"]) * (
+        history_mean - left["history_mean"]) / (right["history_mean"] - left["history_mean"])
+    return {"unit_seconds": rate, "source": "INTERPOLATED_BETWEEN_MEASURED_HISTORY_POINTS",
+            "history_mean": history_mean, "evidence": [left, right]}
+
+
+def synthetic_empty_history_feature_cost(mode):
+    """Measure the known no-visible-bars failure path instead of assigning zero."""
+    path = REPOSITORY / "tests/v2_realistic_fixtures.py"
+    spec = importlib.util.spec_from_file_location("k45_empty_history_cost_fixture", path)
+    fixture = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = fixture
+    spec.loader.exec_module(fixture)
+    calendar = fixture.exchange_calendar(2)
+    bundle = FrozenInput(Path("SYNTHETIC_EMPTY_HISTORY_COST"), fixture.SYNTHETIC_HASH,
+                         (fixture.instrument(),), calendar, (), (), (fixture.trading_rule(),))
+    started = time.perf_counter()
+    for _ in range(10):
+        try:
+            _features(bundle, fixture.CONTRACT, calendar[0].start_nano + 5 * NANO,
+                      86400 if mode == "DAILY" else 60, None, None, calendar, canonical_daily=mode == "DAILY")
+        except FactorsError as error:
+            require(str(error) == "no_visible_bars_for_snapshot", "SYNTHETIC_EMPTY_HISTORY_REASON")
+        else:
+            raise ResearchError("SYNTHETIC_EMPTY_HISTORY_DID_NOT_FAIL")
+    return {"source": "SYNTHETIC_NO_VISIBLE_HISTORY_FAILURE", "calls": 10,
+            "unit_seconds": (time.perf_counter() - started) / 10}
+
+
+def mode_budget(inputs, metadata, measurement, costs, step, resource, started_utc, directory,
+                *, metadata_receipt, measurement_receipt):
     population = costs["population"]
     entries, feature_rates = [], {}
     def entry(component, count, seconds, source, **extra):
@@ -2907,24 +3148,32 @@ def mode_budget(inputs, metadata, measurement, costs, step, resource, started_ut
         entries.append({"component": component, "count": count, "unit_seconds": seconds,
                         "estimated_seconds": count * seconds, "source": source, **extra})
     metadata_rows = [r for r in metadata["rows"] if r["step"] == step]
+    points, rejected_points = feature_measurement_points(metadata, measurement)
+    def feature_passes(row):
+        if row["partition"] == "TEST":
+            return 2
+        # At step 15 these twenty-day objects remain in the same process and
+        # are reused in the formal chain. Step 5 uses a separate completed run.
+        return 0 if step == 15 and row["partition"] == "TRAIN" and row["day"] in measurement["days"] else 1
     for bucket in range(5):
-        targets = [r for r in metadata_rows if r["bucket"] == bucket and r["callable_candidates"]]
+        targets = [r for r in metadata_rows if r["bucket"] == bucket and r["timed_feature_calls"] and feature_passes(r)]
         if not targets:
             continue
-        observed = next((r for r in measurement["timings"] if r["component"] == "resident_features"
-                         and r["dimensions"] == [inputs.mode, str(bucket)]), None)
-        if observed:
-            rate, source = observed["mean_seconds"], "REAL_TWENTY_DAY_BUCKET_MEAN"
-        else:
-            count = math.ceil(sum(r["history_total"] for r in targets) / sum(r["callable_candidates"] for r in targets))
-            supplement = synthetic_feature_cost(inputs.mode, count)
+        count = sum(row["timed_feature_calls"] * feature_passes(row) for row in targets)
+        history_mean = sum(row["timed_history_total"] * feature_passes(row) for row in targets) / count
+        selected_rate = feature_rate_for_target(points, bucket, history_mean)
+        if selected_rate is None:
+            supplement = synthetic_feature_cost(inputs.mode, math.ceil(history_mean))
             dump_new(Path(directory) / f"history-bucket-{bucket}.json", supplement)
-            rate, source = supplement["seconds"], supplement["source"]
-        feature_rates[str(bucket)] = {"unit_seconds": rate, "source": source}
-        # Formal T/C is reconstructed after the separate completed 20-day job;
-        # TEST is generated once for counts and once after hard review.
-        count = sum(r["callable_candidates"] * (2 if r["partition"] == "TEST" else 1) for r in targets)
-        entry("features", count, rate, source, bucket=bucket)
+            selected_rate = {"unit_seconds": supplement["seconds"], "source": supplement["source"],
+                             "history_mean": history_mean, "evidence": [supplement]}
+        feature_rates[str(bucket)] = selected_rate
+        entry("features", count, selected_rate["unit_seconds"], selected_rate["source"], bucket=bucket)
+    empty_calls = sum(row["empty_history_calls"] * feature_passes(row) for row in metadata_rows)
+    if empty_calls:
+        supplement = synthetic_empty_history_feature_cost(inputs.mode)
+        dump_new(Path(directory) / "empty-history-feature-cost.json", supplement)
+        entry("features_empty_history_failure", empty_calls, supplement["unit_seconds"], supplement["source"])
     totals = {p: sum(n for day, n in population["daily_expected"].items() if partition_day(date.fromisoformat(day)) == p)
               for p in FORMAL_DATES}
     assessed = totals["TRAIN"] * 2 + totals["CALIBRATION"] + 2 * totals["TEST"]
@@ -2953,11 +3202,17 @@ def mode_budget(inputs, metadata, measurement, costs, step, resource, started_ut
         repeats = 3 if row["component"] == "full_population_split" and row["purpose"] == "R001" else 1
         if row["component"] == "identity_write_read_hash" and row["purpose"] == "R001":
             repeats = 2
+        if row["component"] == "time_ticket_read_and_decode":
+            repeats = 2
         entry(row["component"], repeats, row["seconds"], "SYNTHETIC_SAME_ESTIMATED_POPULATION", purpose=row["purpose"])
-    validation = sum(r["total_seconds"] for r in measurement["timings"] if r["component"] == "input_validation")
+    validation_rows = [r for r in measurement["timings"] if r["component"] == "input_validation"]
+    require(sum(row["calls"] for row in validation_rows) == 30, "COMPLETE_INPUT_VALIDATION_COST_REQUIRED")
+    validation = math.fsum(r["total_seconds"] for r in validation_rows)
     # Current resident loader is already in elapsed; count child + stage three remain.
     entry("remaining_full_input_validation", 2, validation, "REAL_ALL_30_SHARDS")
-    scenario = sum(r["total_seconds"] for r in measurement["timings"] if r["component"] == "scenario")
+    scenario_rows = [r for r in measurement["timings"] if r["component"] == "scenario"]
+    require(sum(row["calls"] for row in scenario_rows) > 0, "SCENARIO_COST_REQUIRED")
+    scenario = math.fsum(r["total_seconds"] for r in scenario_rows)
     entry("remaining_scenario_views", 2, scenario, "REAL_SELECTED_CONTRACT_INPUTS")
     # Unique full source tuples, shared request references, and a parent/TEST
     # child overlap. Strings already belong to the input objects and are not
@@ -2975,15 +3230,31 @@ def mode_budget(inputs, metadata, measurement, costs, step, resource, started_ut
     fit_bytes = sum(r["additional_fit_sample_model_bytes"] for r in costs["memory_measurements"])
     estimated_peak = math.ceil(2 * input_bytes + source_bytes + count_features * object_rate
                               + request_count * (request_rate + label_rate) + fit_bytes)
-    output_bytes = sum(r.get("bytes", 0) for r in costs["components"]) * 3
+    # Storage uses measured uncompressed envelopes and explicit occurrences;
+    # compression savings are never needed to pass the capacity check.
+    output_components = [{"component": row["component"], "purpose": row["purpose"],
+                          "planned_files_bytes": row["uncompressed_bytes"]}
+                         for row in costs["components"] if "uncompressed_bytes" in row]
+    completed_output_bytes = sum(path.stat().st_size for path in Path(directory).parent.rglob("*") if path.is_file())
+    temporary_member_bytes = max((row.get("largest_uncompressed_member", 0) for row in costs["components"]), default=0)
+    identity_envelope_reserve = sum(row.get("n", 0) * 256 for row in costs["components"]
+        if row["component"] == "identity_write_read_hash")
+    output_bytes = completed_output_bytes + sum(row["planned_files_bytes"] for row in output_components) \
+        + temporary_member_bytes + identity_envelope_reserve
     elapsed = (datetime.now(timezone.utc) - datetime.fromisoformat(started_utc)).total_seconds()
     total = elapsed + math.fsum(row["estimated_seconds"] for row in entries)
     status = "STOP:MEMORY" if estimated_peak > resource["process_tree_limit_bytes"] else "STOP:DISK" if output_bytes > resource["disk_free_bytes"]["C:/"] else "STOP:TIME" if total > 259200 else "READY_FOR_FORMAL"
     result = {"schema": "k45-mode-budget-v3", "mode": inputs.mode, "step": step, "status": status,
         "population_status": "ESTIMATED", "population": population, "components": entries,
         "feature_rates": feature_rates, "elapsed_current_job_seconds": elapsed, "planning_total_seconds": total,
+        "feature_observed_points": points, "feature_rejected_points": rejected_points,
+        "feature_evidence": {"metadata": metadata_receipt, "measurement": measurement_receipt},
         "remaining_seconds": total - elapsed, "estimated_peak_bytes": estimated_peak,
         "process_tree_limit_bytes": resource["process_tree_limit_bytes"], "estimated_output_bytes": output_bytes,
+        "output_components": output_components, "completed_output_bytes": completed_output_bytes,
+        "temporary_uncompressed_member_bytes": temporary_member_bytes,
+        "identity_envelope_reserve_bytes": identity_envelope_reserve,
+        "identity_envelope_reserve_basis": "256_BYTES_PER_ID_IN_ADDITION_TO_SAME_POPULATION_MEASURED_ENVELOPES",
         "memory_components": {"input_and_child_overlap": 2 * input_bytes, "independent_source_tuples": source_bytes,
             "feature_objects": count_features * object_rate, "shared_request_objects": request_count * request_rate,
             "labels": request_count * label_rate, "fit_samples_models_and_rehearsal_references": fit_bytes},
@@ -3010,6 +3281,44 @@ def measurement_compatibility(measurement, manifest_path):
     require(signatures(before) == signatures(after) and len(signatures(after)) == len(names), "MEASUREMENT_PATH_CHANGED")
     for member in measurement["code_pins"][5:]:
         verify_pin(member)
+    return {"classification": "COST_REUSE_ONLY; CURRENT_FORMAL_RUN_USES_CURRENT_FREEZE",
+            "measurement_source": old, "current_source": pin(__file__),
+            "unchanged_functions": list(names)}
+
+
+def measurement_after_step_change(original, measured):
+    """Reuse only the unchanged full-input costs when step 15 is measured."""
+    require(original["mode"] == measured["mode"] == "MINUTE" and original["step"] == 5
+            and measured["step"] == 15 and measured["days"] == original["days"],
+            "FALLBACK_MEASUREMENT_IDENTITY")
+    inherited = [row for row in original["timings"] if row["component"] in ("input_validation", "scenario")]
+    require({row["component"] for row in inherited} == {"input_validation", "scenario"}
+            and all(row["calls"] > 0 for row in inherited), "FALLBACK_INPUT_COST_MISSING")
+    require(not any(row["component"] in ("input_validation", "scenario") for row in measured["timings"]),
+            "FALLBACK_INPUT_COST_DUPLICATE")
+    return dict(original, **dict(measured, timings=[*measured["timings"], *inherited]),
+                reused_input_costs={"source_step": 5, "target_step": 15,
+                    "components": ["input_validation", "scenario"],
+                    "reason": "SAME_PINNED_INPUTS_ALREADY_RESIDENT; MEASURED_GRID_ONLY_CHANGED"})
+
+
+def combined_stage_one_funnel(mode, training_rows, test_counts):
+    """Use the child aggregates for TEST, whose objects never enter this parent."""
+    require(test_counts["mode"] == mode and test_counts["schema"] == "k45-test-counts-v3",
+            "TEST_FUNNEL_HANDOFF_IDENTITY")
+    rows = test_counts["funnel"]
+    require([row["horizon"] for row in rows] == [None, *HORIZONS[mode]]
+            and all(row["mode"] == mode and row["partition"] == "TEST"
+                    and row["label_mature"] == row["direction_samples"] == "NOT_RUN:TEST_SEALED"
+                    for row in rows), "TEST_FUNNEL_HANDOFF_SCOPE")
+    for row in rows:
+        if row["horizon"] is None:
+            continue
+        count = test_counts["counts"][str(row["horizon"])]
+        require(row["generated_requests"]["count"] == count["requests"]
+                and row["legal_requests"]["count"] == count["legal_requests"]
+                and row["legal_requests"]["days"] == count["legal_days"], "TEST_FUNNEL_COUNT_MISMATCH")
+    return [row for row in training_rows if row["partition"] != "TEST"] + rows
     return {"measurement_source": old, "current_source": pin(__file__), "unchanged_functions": list(names),
             "classification": "COST_REUSE_ONLY; CURRENT_FORMAL_RUN_USES_CURRENT_FREEZE"}
 
@@ -3018,6 +3327,7 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
     """One resident continuation: budget, formal T/C, TEST count child, fit, rehearsal."""
     measurement = load_json(measurement_path)
     resource = load_json(resource_path)
+    current_measurement_path = measurement_path
     require(measurement["mode"] == resource["mode"] == mode and resource["schema"] == "k45-mode-resource-v3"
             and measurement["resource"] == pin(resource_path), "MODE_CONTINUATION_RESOURCE_IDENTITY")
     require(resource["wall_seconds"] == 259200 and resource["process_tree_limit_bytes"] == min(
@@ -3029,10 +3339,12 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
     output.mkdir(parents=True)
     sources = code_pins()
     dump_new(output / "measurement-compatibility.json", compatibility)
-    metadata, metadata_run = safe_child(["candidate-metadata", "--mode", mode], output / "candidate-metadata.json",
+    metadata, metadata_run = safe_child(["candidate-metadata", "--mode", mode, "--measurement", str(measurement_path)], output / "candidate-metadata.json",
                                         output / "metadata-capture")
+    scenario = verified_scenario_identity(pin(output / "candidate-metadata.json"))
     timing = Timings()
     inputs = resident_inputs(mode, timing, for_fit=True)
+    fit_scenario = timing.call(("retained_scenario_accounting", mode), fit_scenario_counts, inputs)
     steps, budget, step, reuse = [], None, 5, None
     with resident_fit_scope(inputs):
         for attempt in range(2):
@@ -3040,7 +3352,9 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
             population = estimated_population(metadata, measurement, step)
             costs = synthetic_mode_costs(inputs, population, measurement, mode, step, directory / "synthetic")
             budget = mode_budget(inputs, metadata, measurement, costs, step, resource,
-                                 resource["logical_job_started_utc"], directory)
+                                 resource["logical_job_started_utc"], directory,
+                                 metadata_receipt=pin(output / "candidate-metadata.json"),
+                                 measurement_receipt=pin(current_measurement_path))
             steps.append({"step": step, "budget": pin(directory / "budget.json"), "status": budget["status"]})
             if mode == "MINUTE" and step == 5 and budget["status"] == "STOP:TIME":
                 # The sole author-selected change, before any real prediction.
@@ -3049,14 +3363,16 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
                     "memory_within_cap": True, "actual_test_calls": actual_test_counts()})
                 step = 15
                 measured, reuse, _ = measured_twenty_days(inputs, Timings(), step=step)
-                measurement = dict(measurement, **measured)
-                dump_new(output / "step-15-real-measurement.json", measurement)
+                measurement = measurement_after_step_change(measurement, measured)
+                current_measurement_path = output / "step-15-real-measurement.json"
+                dump_new(current_measurement_path, measurement)
                 continue
             break
         status = budget["status"]
         shared = {"schema": "k45-mode-freeze-v3", "mode": mode, "step": step, "steps": steps,
                   "resource": pin(resource_path), "measurement": pin(measurement_path),
                   "metadata": pin(output / "candidate-metadata.json"), "code_pins": sources,
+                  "scenario": scenario, "retained_fit_scenario": fit_scenario,
                   "source_collection_sha256": SOURCE_COLLECTION_SHA, "logical_job_started_utc": resource["logical_job_started_utc"],
                   "actual_test_calls": actual_test_counts(), "safety": SAFETY}
         if status != "READY_FOR_FORMAL":
@@ -3070,8 +3386,9 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
         chain = resident_chain(features, inputs.rules, inputs.sessions, mode, timing, state_keys=state_keys)
         intervals, local_assignments = resident_split(inputs, chain, timing)
         config = resident_config(inputs.sessions, mode)
-        bindings = fixed_bindings(mode, step, config, chain.reference, chain.previous, sources)
+        bindings = fixed_bindings(mode, step, config, chain.reference, chain.previous, sources, scenario)
         ticket = {"schema": "k45-test-reconstruction-ticket-v3", "mode": mode, "step": step, "bindings": bindings,
+                  "scenario_metadata": pin(output / "candidate-metadata.json"),
                   "reference": reference_payload(chain.reference), "previous": previous_payload(chain.previous),
                   "train_cal_time_requests": [request_time_payload(r) for r in chain.requests]}
         ticket_pin = dump_new(output / "test-reconstruction-ticket.json", ticket)
@@ -3090,7 +3407,8 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
                      "inner": inner, "input_validation": list(inputs.validation),
                      "reference_population_status": "ACTUAL", "reference_populations": list(chain.reference_populations),
                      "estimated_population": budget["population"],
-                     "funnel": funnel(mode, audits, chain.requests, assignments, labels, train, cal, chain.reasons),
+                     "funnel": combined_stage_one_funnel(mode,
+                         funnel(mode, audits, chain.requests, assignments, labels, train, cal, chain.reasons), counts),
                      "actual_test_calls": actual_test_counts()}
         stage1_pin = dump_new(output / "stage1.json", stage_one)
         sufficient_days = any(row["legal_days"] >= 60 for row in counts["counts"].values())
@@ -3099,17 +3417,225 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
             frozen = dict(shared, status=status, stage1=stage1_pin, stopped_horizons=list(HORIZONS[mode]), inner=inner,
                           timings=timing.report())
         else:
+            CALL_COUNTS["R001:training"] += 1
             fitted = timing.call(("resident_fit", mode, "R001"), fit_direction,
                                   segments["TRAIN"], segments["CALIBRATION"], config, chain.reference)
             model_pin = dump_new(output / "models.json.gz", {"schema": "k45-frozen-models-v3", "bindings": bindings,
                 "fit": fitted.payload(), "actual_test_calls": actual_test_counts()}, compressed=True)
+            algorithm_pin = dump_new(output / "algorithms.json", {"schema": "k45-direction-algorithms-v3",
+                "mode": mode, "model": model_pin, "rows": direction_algorithm_rows(fitted, mode,
+                    inputs.sessions[0].product, train, cal)})
             rehearsal = resident_rehearsal(inputs, chain, timing, output / "rehearsal", bindings, step)
             status = "FROZEN_AWAITING_INDEPENDENT_HARD_REVIEW" if mode == "DAILY" or rehearsal["status"] == "DRY_RUN_CHAIN_COMPLETED" else "STOP:MINUTE_REHEARSAL_INSUFFICIENT"
-            frozen = dict(shared, status=status, stage1=stage1_pin, model=model_pin, ticket=ticket_pin,
+            frozen = dict(shared, status=status, stage1=stage1_pin, model=model_pin, algorithms=algorithm_pin, ticket=ticket_pin,
                           test_counts=pin(output / "test-counts.json"), rehearsal=pin(output / "rehearsal/rehearsal-check.json"),
-                          timings=timing.report(), actual_test_calls=actual_test_counts())
+                          timings=timing.report(), actual_test_calls=actual_test_counts(),
+                          training_calls={"formal": CALL_COUNTS["R001:training"], "rehearsal": CALL_COUNTS["DRY_RUN:training"]})
         dump_new(output / "mode-freeze.json", frozen)
     return {"status": status, "mode": mode, "artifact": pin(output / "mode-freeze.json")}
+
+
+def direction_algorithm_rows(fitted, mode, product, train, calibration):
+    """Summarize frozen candidates, retaining failed and absent candidates."""
+    rows = []
+    for horizon in HORIZONS[mode]:
+        unit = "TRADING_DAY" if mode == "DAILY" else "TRADING_MINUTE"
+        cell = product, mode, unit, horizon
+        groups = [models._usable_samples(models.TASK_DIRECTION, models._common_samples(sorted(
+            [sample for sample in source if models._cell_key(sample) == cell],
+            key=lambda sample: (sample.decision_nano, sample.request_id)))) for source in (train, calibration)]
+        for algorithm in models._task_algorithms(models.TASK_DIRECTION):
+            key = models.model_key(product, mode, Horizon(unit, horizon), models.COMMON_BARRIER,
+                                   models.TASK_DIRECTION, algorithm)
+            candidate = fitted.models.get(key)
+            losses = [] if candidate is None else candidate.get("samples", {}).get("development_score", [])
+            rows.append({"product": product, "mode": mode, "horizon": horizon, "algorithm": algorithm,
+                "fit_status": "NOT_PRESENT" if candidate is None else candidate["fit_status"],
+                "selected": False if candidate is None else candidate["fit_status"].startswith("SELECTED:"),
+                "temperature": None if candidate is None else candidate.get("temperature"),
+                "development_loss": losses[0] if losses else None,
+                "train_direction_samples": len(groups[0]), "train_days": len({s.trading_day for s in groups[0]}),
+                "calibration_direction_samples": len(groups[1]), "calibration_days": len({s.trading_day for s in groups[1]}),
+                "reason": "CANDIDATE_NOT_PRESENT" if candidate is None else candidate["fit_status"]})
+    return rows
+
+
+def stopped_mode_scores(mode, frozen):
+    """A stopped mode remains in the eight-cell family with unrun values as NA."""
+    reason = frozen.get("reason", frozen["status"])
+    metrics = {name: {"skill": None, "point_reason": reason, "valid_repeats": None,
+        "invalid_repeats": {}, "ci95": None, "ci_family": None, "ci_reason": "NOT_RUN:" + reason}
+        for name in ("raw_brier", "raw_logloss", "calibrated_brier", "calibrated_logloss")}
+    cells = [{"mode": mode, "horizon": horizon, "rows": None, "days": None,
+        "independent_rows": {name: None for name in ("model", "raw", "calibrated")}, "excluded_rows": None,
+        "exclusion_reasons_nonexclusive": {},
+        "losses": {name: {"brier": None, "logloss": None} for name in ("model", "raw", "calibrated")},
+        "loss_reasons": {name: {"brier": reason, "logloss": reason} for name in ("model", "raw", "calibrated")},
+        "metrics": copy.deepcopy(metrics), "algorithm": None, "inner_sufficient": False,
+        "status": "INSUFFICIENT", "conclusion": "本固定设计没有可评估结果", "reasons": [reason],
+        "assessment": frozen.get("assessment", "NOT_ASSESSED"), "execution": "NOT_RUN",
+        "half_width95": None, "resolved_at_002": False,
+        "diagnostics": {"reliability": [], "spread_quantiles": {}, "row_equal_quantiles": {}, "neutral": None}}
+        for horizon in HORIZONS[mode]]
+    return {"schema": "k45-direction-statistics-v2", "mode": mode, "status": frozen["status"],
+        "calendar_days": None, "cells": cells, "mode_conclusion": "本固定设计没有可评估结果",
+        "assessment": frozen.get("assessment", "NOT_ASSESSED"), "execution": "NOT_RUN",
+        "structural_mature_direction_upper_bound": frozen.get("structural_mature_direction_upper_bound")}
+
+
+def text_artifact_new(path, value):
+    """Finish encoding before creating an artifact; keep failed attempts visible."""
+    path = Path(path)
+    raw = value.encode("utf-8")
+    require(not path.exists(), "OUTPUT_ALREADY_EXISTS")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(path.name + ".writing")
+    with temporary.open("xb") as stream:
+        stream.write(raw)
+    temporary.replace(path)
+    return pin(path)
+
+
+def summary_csv(path, rows, fields):
+    stream = io.StringIO(newline="")
+    writer = csv.DictWriter(stream, fieldnames=fields, lineterminator="\n", extrasaction="raise")
+    writer.writeheader()
+    for row in rows:
+        writer.writerow({field: "NA" if row.get(field) is None else row[field] for field in fields})
+    return text_artifact_new(path, stream.getvalue())
+
+
+def export_r001_summaries(directory, scores, modes, artifact_pins, score_pin):
+    """Pure summaries of sealed results: never fit, predict, label or score again."""
+    from k45_forecast_statistics import CLASSES, QUANTILES
+    directory = Path(directory)
+    require(set(scores) == set(modes) == set(HORIZONS), "SUMMARY_MODE_FAMILY")
+    verify_pin(score_pin)
+    require(load_json(score_pin["path"]) == scores, "SUMMARY_FROZEN_SCORE_MISMATCH")
+    for artifacts in artifact_pins.values():
+        for name in ("probabilities", "labels"):
+            verify_pin(artifacts[name])
+    main, reliability, quantiles, neutral, algorithms, model_shares = [], [], [], [], [], []
+    for mode in ("DAILY", "MINUTE"):
+        score, frozen = scores[mode], modes[mode]
+        require([cell["horizon"] for cell in score["cells"]] == list(HORIZONS[mode]), "SUMMARY_HORIZON_FAMILY")
+        for cell in score["cells"]:
+            row = {"mode": mode, "horizon": cell["horizon"], "common_rows": cell["rows"],
+                "common_days": cell["days"], "excluded_rows": cell["excluded_rows"],
+                "algorithm": cell["algorithm"], "inner_sufficient": cell["inner_sufficient"],
+                "half_width95": cell["half_width95"], "resolved_at_002": cell["resolved_at_002"],
+                "status": cell["status"], "conclusion": cell["conclusion"],
+                "reasons": ";".join(cell["reasons"]), "execution": cell.get("execution", "SCORED_ONCE"),
+                "assessment": cell.get("assessment", "SCENARIO / NOT_ASSESSED"), "scores_sha256": score_pin["sha256"],
+                "probabilities_sha256": artifact_pins.get(mode, {}).get("probabilities", {}).get("sha256"),
+                "labels_sha256": artifact_pins.get(mode, {}).get("labels", {}).get("sha256")}
+            for name in ("model", "raw", "calibrated"):
+                row[name + "_independent_rows"] = cell["independent_rows"][name]
+                for metric in ("brier", "logloss"):
+                    row[name + "_" + metric] = cell["losses"][name][metric]
+                    row[name + "_" + metric + "_reason"] = cell["loss_reasons"][name][metric]
+            for name, metric in cell["metrics"].items():
+                row[name + "_skill"] = metric["skill"]
+                row[name + "_point_reason"] = metric["point_reason"]
+                row[name + "_valid_repeats"] = metric["valid_repeats"]
+                row[name + "_invalid_repeats"] = json.dumps(metric["invalid_repeats"], sort_keys=True, separators=(",", ":"))
+                for interval in ("ci95", "ci_family"):
+                    pair = metric[interval]
+                    row[name + "_" + interval + "_lower"] = pair[0] if pair is not None else None
+                    row[name + "_" + interval + "_upper"] = pair[1] if pair is not None else None
+                row[name + "_ci_reason"] = metric["ci_reason"]
+            row["exclusion_reasons_nonexclusive"] = json.dumps(cell["exclusion_reasons_nonexclusive"],
+                                                               sort_keys=True, separators=(",", ":"))
+            main.append(row)
+            diag = cell["diagnostics"]
+            bins = {(r["class"], r["bin"]): r for r in diag["reliability"]}
+            for label in CLASSES:
+                for index in range(10):
+                    item = bins.get((label, index), {"class": label, "bin": index,
+                        "rows": 0 if cell["rows"] == 0 else None, "days": 0 if cell["rows"] == 0 else None,
+                        "predicted": None, "actual": None, "gap": None})
+                    reliability.append({"mode": mode, "horizon": cell["horizon"], **item})
+            for q in QUANTILES:
+                quantiles.append({"mode": mode, "horizon": cell["horizon"], "quantile": q,
+                    "day_equal": diag["spread_quantiles"].get(str(q)),
+                    "row_equal": diag["row_equal_quantiles"].get(str(q))})
+            neutral.append({"mode": mode, "horizon": cell["horizon"], **(diag["neutral"] or
+                {"strict_maximum": None, "tied_maximum": None, "strict_or_tied": None})})
+        if frozen["status"].startswith("STOP:"):
+            current_algorithms = [{"product": "SHFE.RB", "mode": mode, "horizon": horizon, "algorithm": algorithm,
+                "fit_status": "NOT_RUN", "selected": False, "temperature": None, "development_loss": None,
+                "train_direction_samples": None, "train_days": None, "calibration_direction_samples": None,
+                "calibration_days": None, "reason": frozen.get("reason", frozen["status"])}
+                for horizon in HORIZONS[mode] for algorithm in models._task_algorithms(models.TASK_DIRECTION)]
+        else:
+            verify_pin(frozen["algorithms"])
+            algorithm_payload = load_json(frozen["algorithms"]["path"])
+            require(algorithm_payload["model"] == frozen["model"], "ALGORITHM_MODEL_IDENTITY")
+            current_algorithms = algorithm_payload["rows"]
+            require(len(current_algorithms) == 4 * len(HORIZONS[mode]) and
+                    all(row["mode"] == mode for row in current_algorithms), "ALGORITHM_SUMMARY_FAMILY")
+        algorithms.extend(current_algorithms)
+        selected = {row["horizon"]: row["algorithm"] for row in current_algorithms if row["selected"]}
+        prediction_counts = artifact_pins.get(mode, {}).get("prediction_counts", {})
+        total_predictions = sum(prediction_counts.values())
+        for algorithm in models._task_algorithms(models.TASK_DIRECTION):
+            wins = sum(value == algorithm for value in selected.values())
+            predicted = sum(prediction_counts.get(str(h), 0) for h, value in selected.items() if value == algorithm)
+            model_shares.append({"mode": mode, "algorithm": algorithm, "selected_cells": wins,
+                "valid_model_cells": len(selected), "cell_share": wins / len(selected) if selected else None,
+                "predictions_with_algorithm": predicted, "prediction_total": total_predictions,
+                "prediction_share": predicted / total_predictions if total_predictions else None})
+    outputs = [summary_csv(directory / "main.csv", main, list(main[0])),
+        summary_csv(directory / "reliability.csv", reliability, list(reliability[0])),
+        summary_csv(directory / "spread-quantiles.csv", quantiles, list(quantiles[0])),
+        summary_csv(directory / "neutral.csv", neutral, list(neutral[0])),
+        summary_csv(directory / "algorithms.csv", algorithms, list(algorithms[0])),
+        summary_csv(directory / "algorithm-shares.csv", model_shares, list(model_shares[0]))]
+    def display(value):
+        return "NA" if value is None else format(value, ".8g") if isinstance(value, float) else str(value)
+    def interval(row, prefix):
+        lower, upper = row[prefix + "_lower"], row[prefix + "_upper"]
+        return "NA" if lower is None or upper is None else f"[{display(lower)}, {display(upper)}]"
+    lines = ["# K45-R001 方向组件信息量检验", "", "SCENARIO / NOT_ASSESSED。",
+        "假设分钟线在收盘后5秒可用。", "日线：" + scores["DAILY"]["mode_conclusion"] + "。",
+        "分钟：" + scores["MINUTE"]["mode_conclusion"] + "。", "八个期限全部保留，NA表示未运行或不能评估，原因逐行列明。", "",
+        "| 模式/期限 | 共同日/行 | Brier 模型/原始/调温 | Logloss 模型/原始/调温 | Brier技能 | 普通95% | 半宽 | 家族99.375% | Logloss技能及95% | 调温对照Brier技能及95% | 结论/原因 |",
+        "|---|---:|---|---|---:|---|---:|---|---|---|---|"]
+    for row in main:
+        losses = [" / ".join(display(row[name + "_" + metric]) for name in ("model", "raw", "calibrated"))
+                  for metric in ("brier", "logloss")]
+        values = [f'{row["mode"]}/{row["horizon"]}', f'{display(row["common_days"])}/{display(row["common_rows"])}',
+            *losses, display(row["raw_brier_skill"]), interval(row, "raw_brier_ci95"), display(row["half_width95"]),
+            interval(row, "raw_brier_ci_family"), display(row["raw_logloss_skill"]) + " " + interval(row, "raw_logloss_ci95"),
+            display(row["calibrated_brier_skill"]) + " " + interval(row, "calibrated_brier_ci95"),
+            row["conclusion"] + ("；" + row["reasons"] if row["reasons"] else "")]
+        lines.append("| " + " | ".join(value.replace("|", "/") for value in values) + " |")
+    lines.extend(["", "主表CSV保留未舍入数值、独立与共同分母、排除原因、区间有效重复数及冻结概率/标签哈希。",
+        "方向四候选、算法占比、可靠性、分位数和中性最大占比见同目录CSV；不构成交易资格或交易建议。",
+        "最终holdout未读取，真实报单/撤单为0/0。"])
+    outputs.append(text_artifact_new(directory / "report.md", "\n".join(lines) + "\n"))
+    external = []
+    for mode, artifacts in artifact_pins.items():
+        external.extend({"kind": mode + ":" + kind, "bytes": member["bytes"], "sha256": member["sha256"]}
+                        for kind, member in artifacts.items() if kind in ("probabilities", "labels"))
+    manifest = {"schema": "k45-summary-manifest-v3", "source_scores": {"sha256": score_pin["sha256"], "bytes": score_pin["bytes"]},
+        "family_cells": 8, "external_artifact_count": len(external), "external_artifacts": external,
+        "summary_files": [{"name": Path(member["path"]).name, "bytes": member["bytes"], "sha256": member["sha256"]} for member in outputs],
+        "report_recomputed_predictions": 0, "report_recomputed_scores": 0}
+    manifest_pin = dump_new(directory / "MANIFEST.json", manifest)
+    return {"files": outputs, "manifest": manifest_pin}
+
+
+def normalized_review_code_pins(members, current):
+    """Compare logical repository members across independent frozen copies."""
+    expected = {Path(row["path"]).resolve().relative_to(REPOSITORY.resolve()).as_posix(): row for row in current}
+    normalized = {}
+    for member in members:
+        supplied = str(member["path"]).replace("\\", "/")
+        matches = [relative for relative in expected if supplied == relative or supplied.endswith("/" + relative)]
+        require(len(matches) == 1 and matches[0] not in normalized, "REVIEW_CODE_MEMBER_IDENTITY")
+        normalized[matches[0]] = {"sha256": member["sha256"], "bytes": member["bytes"]}
+    return normalized
 
 
 def validate_release_v3(release):
@@ -3120,6 +3646,13 @@ def validate_release_v3(release):
     verify_pin(release["review"])
     review = load_json(release["review"]["path"])
     require(review.get("verdict") == "PASS" and review.get("conditional") is False, "INDEPENDENT_UNCONDITIONAL_PASS_REQUIRED")
+    require(review.get("review_scope") == "K45_PRODUCT_HARD_REVIEW" and review.get("independent") is True
+            and review.get("reviewer") == release["reviewer"], "PRODUCT_REVIEW_IDENTITY_REQUIRED")
+    require(review.get("mode_freezes") == release["modes"], "PRODUCT_REVIEW_MODE_FREEZES_MISMATCH")
+    current = code_pins()
+    expected_sources = normalized_review_code_pins(current, current)
+    require(normalized_review_code_pins(review.get("reviewed_code_pins", ()), current) == expected_sources,
+            "PRODUCT_REVIEW_CODE_REVISION_MISMATCH")
     modes = {}
     for mode, member in release["modes"].items():
         verify_pin(member)
@@ -3129,13 +3662,28 @@ def validate_release_v3(release):
                 "MODE_DECISION_NOT_FINAL")
         for source in frozen["code_pins"]:
             verify_pin(source)
+        require(normalized_review_code_pins(frozen["code_pins"], current) == expected_sources,
+                "MODE_REVIEW_CODE_REVISION_MISMATCH")
         for step in frozen["steps"]:
             verify_pin(step["budget"])
         if not frozen["status"].startswith("STOP:"):
-            for name in ("stage1", "model", "ticket", "test_counts", "rehearsal"):
+            for name in ("stage1", "model", "algorithms", "ticket", "test_counts", "rehearsal"):
                 verify_pin(frozen[name])
             dry = load_json(frozen["rehearsal"]["path"])
             require(mode == "DAILY" or dry["status"] == "DRY_RUN_CHAIN_COMPLETED", "REHEARSAL_REQUIRED")
+            ticket = load_json(frozen["ticket"]["path"])
+            stage_one = load_json(frozen["stage1"]["path"])
+            expected = load_json(frozen["test_counts"]["path"])
+            model = load_json(frozen["model"]["path"], compressed=True)
+            require(ticket["mode"] == frozen["mode"] == expected["mode"]
+                    and ticket["step"] == frozen["step"] == expected["step"]
+                    and stage_one["bindings"] == model["bindings"] == ticket["bindings"]
+                    and stage_one["ticket"] == expected["ticket"] == frozen["ticket"]
+                    and not any(expected["actual_test_calls"].values()), "RELEASE_ARTIFACT_BINDING_MISMATCH")
+            for identity in expected["identities"]:
+                verify_pin(identity["file"])
+            require(verified_scenario_identity(ticket["scenario_metadata"]) == frozen["scenario"]
+                    == ticket["bindings"]["scenario"], "RELEASE_SCENARIO_BINDING_MISMATCH")
         modes[mode] = frozen
     return modes
 
@@ -3154,9 +3702,8 @@ def stage_three_v3(release_path, output):
     for mode in ("DAILY", "MINUTE"):
         frozen = modes[mode]
         if frozen["status"].startswith("STOP:"):
-            scores[mode] = {"mode": mode, "status": frozen["status"], "cells": [
-                {"horizon": h, "status": "INSUFFICIENT", "reason": frozen["status"]} for h in HORIZONS[mode]]}
-            calls[mode] = {"scoring_runs": 0}
+            scores[mode] = stopped_mode_scores(mode, frozen)
+            calls[mode] = {"scoring_runs": 0, "probability_calls": 0, "label_calls": 0}
             continue
         timing = Timings()
         ticket = load_json(frozen["ticket"]["path"])
@@ -3176,17 +3723,25 @@ def stage_three_v3(release_path, output):
         label_pin = dump_new(output / f"{mode}-labels.json.gz", [encode_record(label) for label in labels], compressed=True)
         scores[mode] = score_predictions(predictions, labels, inputs.sessions, mode, fitted)
         calls[mode] = {"scoring_runs": 1, "probability_calls": 3 * len(predictions), "label_calls": len(labels)}
-        artifacts[mode] = {"probabilities": probability_pin, "labels": label_pin, "timings": timing.report()}
+        artifacts[mode] = {"probabilities": probability_pin, "labels": label_pin, "timings": timing.report(),
+            "prediction_counts": {str(horizon): sum(row["horizon"] == horizon for row in predictions)
+                                  for horizon in HORIZONS[mode]}}
         del inputs, chain, segment, fitted, predictions, labels
         from ak_trading.v2.data import clear_visible_index_cache
         clear_visible_index_cache()
         gc.collect()
     CALL_COUNTS["R001:TEST:scoring_run"] += int(bool(artifacts))
     score_pin = dump_new(output / "scores.json", scores)
+    reports = export_r001_summaries(output / "summaries", scores, modes, artifacts, score_pin)
     result = {"schema": "k45-r001-check-v3", "classification": "SCENARIO / NOT_ASSESSED", "run_id": "K45-R001",
-        "release": pin(release_path), "scores": score_pin, "artifacts": artifacts, "mode_calls": calls,
+        "release": pin(release_path), "scores": score_pin, "artifacts": artifacts, "mode_calls": calls, "reports": reports,
         "minute_assumption": "假设分钟线在收盘后5秒可用。", "research_run_count": int(bool(artifacts)),
-        **actual_test_counts(), "verification_recomputations": 0, "safety": SAFETY}
+        **actual_test_counts(), "training_calls": {mode: frozen.get("training_calls", {"formal": 0, "rehearsal": 0})
+                                                   for mode, frozen in modes.items()},
+        "code_pins": code_pins(), "source_collection_sha256": SOURCE_COLLECTION_SHA,
+        "mode_scenarios": {mode: frozen.get("scenario") for mode, frozen in modes.items()},
+        "mode_freezes": release["modes"], "engineering_jobs": {mode: frozen["resource"] for mode, frozen in modes.items()},
+        "verification_recomputations": 0, "safety": SAFETY}
     dump_new(output / "CHECK.json", result)
     return result
 
@@ -3209,6 +3764,7 @@ def main(argv=None):
     measured.add_argument("--output", required=True)
     metadata = commands.add_parser("candidate-metadata")
     metadata.add_argument("--mode", choices=tuple(HORIZONS), required=True)
+    metadata.add_argument("--measurement", required=True)
     metadata.add_argument("--output", required=True)
     count = commands.add_parser("count-test")
     count.add_argument("--ticket", required=True)
@@ -3248,7 +3804,7 @@ def main(argv=None):
         require(output.is_relative_to(Path("C:/AKR81114/k45/runs").resolve()) or
                 output.is_relative_to(Path("C:/AKR81114/k45/owner").resolve()), "OUTPUT_OUTSIDE_AUTHORIZED_SCOPE")
         if args.command == "measure-mode": result = measure_mode(args.mode, args.resource, output)
-        elif args.command == "candidate-metadata": result = candidate_metadata(args.mode, output)
+        elif args.command == "candidate-metadata": result = candidate_metadata(args.mode, output, args.measurement)
         elif args.command == "count-test": result = count_test(args.ticket, output)
         elif args.command == "continue-mode": result = continue_mode(args.mode, args.measurement, args.measurement_freeze, args.resource, output)
         elif args.command == "r001": result = stage_three_v3(args.release, output)
