@@ -391,7 +391,7 @@ def main() -> int:
     child = subprocess.run(
         [sys.executable, "-B", "-X", "utf8", str(Path(__file__).resolve()), "--child",
          "--total", str(max(days_list) + 1), "--days", *map(str, check_groups)],
-        capture_output=True, text=True, env=environment, cwd=os.getcwd())
+        capture_output=True, encoding="utf-8", errors="replace", env=environment, cwd=os.getcwd())
     mine = id_digest(result["ids"], check_groups)
     theirs = child.stdout.strip().splitlines()[-1] if child.stdout.strip() else f"子进程失败：{child.stderr[-300:]}"
     count = sum(len(result["ids"][days]) for days in check_groups)
