@@ -17,7 +17,7 @@
    - 设计让生产函数把 23 类任务全部拟合一遍，而要回答的问题只需要方向这一类。全部拟合比只拟合方向贵约 60 到 70 倍，在基准机器上很可能超过 72 小时的上限（Z24）。
 6. K45 还有三处要在实施前定下来：日线部分的检验段只有约 70 个可用交易日，分辨不了有没有信息量；r2 里有 9 条交易规则在当时不可见，检验段会因此少一段交易日；r2 的文件版本被现行的正式读取入口拒绝（Z29）。
 7. 报告仍然不是写给你看的：第一屏的五句话是内部术语，正文里有一张 375 行的表。五个 `CHECK.json` 共 32 MB，内容是 17 万个仓库外文件的清单（Z30）。
-8. S4 阻塞的原因是装了整份 `requirements.txt`（含 `tqsdk`），而这个测试只需要 `fastmcp`（Z31）。
+8. S4 阻塞的原因是装了整份 `requirements.txt`（含 `tqsdk`），而这个测试用不到 `tqsdk`（Z31）。
 9. 安全项连续第七轮未动。六个品种的策略报告现在也是公开的。
 
 对第四批的安排见 [NEXT-BATCH.md](NEXT-BATCH.md)，替你定下的事见 [DECISIONS.md](DECISIONS.md)。
@@ -236,7 +236,7 @@ K14 之后，一个上下文里特征快照占 64%（分钟）到 84%（日线�
 
 ### Z31（P2）S4 装的范围过大
 
-S4 的命令是 `pip install -r requirements.txt pytest`。`requirements.txt` 里有 `tqsdk==3.10.1`，它带一长串依赖；第二次安装在 1,800 秒处超时。`tests/test_mcp_auth.py` 只需要 `fastmcp`（服务导入时用到）和 pytest。上一轮我写的是“装 `requirements.txt` 和 pytest”，范围是我给大的。
+S4 的命令是 `pip install -r requirements.txt pytest`。`requirements.txt` 里有 `tqsdk==3.10.1`，它带一长串依赖；第二次安装在 1,800 秒处超时。`tests/test_mcp_auth.py` 用得到的第三方包是 `fastmcp`（它会带上 `starlette` 和 `httpx`）、`python-dotenv` 和 pytest：行情服务的模块在导入时只用标准库和 `dotenv`，`fastmcp`、`starlette` 是在构造应用时才导入的，整条链用不到 `tqsdk`。上一轮我写的是“装 `requirements.txt` 和 pytest”，范围是我给大的。
 
 ### Z12（P0，延续）安全：连续第七轮
 
@@ -264,7 +264,7 @@ S4 的命令是 `pip install -r requirements.txt pytest`。`requirements.txt` �
 | K45 的规格：“估算 K14 合入后的运行时间（用 K42b 的样本量）” | 这句话把估算引到了“每个决策上下文多少毫秒”上。K45 的时间主要在拟合，其次是特征快照。本轮的两个探针给出了这两项 |
 | K45 的规格：“对象：方向预测……其余任务列为附表” | 附表的代价是主表的 60 倍以上。本轮改为不做附表（J34） |
 | K14 的验收只写了“探针退出码由 1 变 0” | 没有覆盖从 JSON 读回的模型集，那条路径的哈希反而变慢了（Z26） |
-| S4：“装 `requirements.txt` 和 pytest” | 只需要 `fastmcp` 和 pytest（Z31） |
+| S4：“装 `requirements.txt` 和 pytest” | 只需要 `fastmcp`、`python-dotenv` 和 pytest，用不到 `tqsdk`（Z31） |
 | 第六轮没有提分钟线可用时刻的问题 | K42 的文档当时已经写着“收盘后 60 秒”。我没有把它和特征的锚点规则对上（Z23） |
 | 上一轮的探针 `k40_published_tables_recheck.py` | 螺纹钢报告改版后小标题变了，它现在找不到标记而报错。螺纹钢的数字由本轮的 k44 探针覆盖 |
 
