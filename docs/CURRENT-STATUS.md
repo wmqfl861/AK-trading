@@ -1,5 +1,5 @@
-现在：独立65项验证通过，分钟完整作业续跑。
-卡点：待完整预算、漏斗、拟合及预演证据。
+现在：20天实测和65项独立验证已完成。
+卡点：成本人口与网格不一致，原开发者修复。
 请你：仓库转私有、换令牌、收紧入口、开长路径。
 
 检验还没有结果。处于阶段一：日线20天成本实测已完成；完整外推/全程漏斗、阶段二及阶段三未完成，R001未消费。
@@ -76,7 +76,11 @@ r2三范围静态审核及独立offline9P0F/raw0完成，无新增已确证问�
 
 **source-v3-r3与独立完整验证**：四源码已推工作分支`f1cde503d1527b3bfc9cd18d37e128ee1f5bf95f`；main未合工具。原owner最终字节三组offline验证65唯一用例全部通过（1生命周期102.116秒、60常规112.785秒、4实际tuple oracle1082.231秒；各raw0）。独立审核者完整运行同两文件一次：runner/supervisor/child均raw0，65P/0F/0E/0skip/0deselected，pytest1358.75秒；当前/冻结四文件及20code/plan/dependency pins前后不变，无残留。独立自写8项receipt反例也raw0通过。完整验证receipt SHA `8cb3591efa2fd74f659a5b83c8a54f6d2feb18b0dc85156a866646793c6f7473`。不再重复同版本数学oracle；最终产品PASS仍待真实阶段产物，NOT_ISSUED。
 
-成本路由SYNTHETIC小检查017 raw0/0、20.155秒，15组件覆盖数值/模型/报告/时间ticket/ID读写；仅12日且inner不足，明确不作正式预算或真实拟合证据。真实MINUTE `continue-mode`已立即接续，沿用原job资源/14:03:27.348627Z起点与22.992GiB，不新查资源、不重跑20日；正在补全元数据、同规模成本外推、全程生成及阶段二。request SHA `9418b3a145517356b877b4b956b049d0e3bc8a061ad69683cf0bc31b6d4aee00`，仓库外输出`C:/AKR81114/k45/runs/minute-continue-001`。原始退出未产生，不宣称完成；真实TEST评分/R001仍NOT_RUN。
+成本路由SYNTHETIC小检查017 raw0/0、20.155秒，15组件覆盖数值/模型/报告/时间ticket/ID读写；仅12日且inner不足，明确不作正式预算或真实拟合证据。真实MINUTE `continue-mode`已立即接续，沿用原job资源/14:03:27.348627Z起点与22.992GiB，不新查资源、不重跑20日；正在补全元数据、同规模成本外推、全程生成及阶段二。request SHA `9418b3a145517356b877b4b956b049d0e3bc8a061ad69683cf0bc31b6d4aee00`，仓库外输出`C:/AKR81114/k45/runs/minute-continue-001`。本次工具raw3/监督器raw0，工程错误已交回原owner，见下；真实TEST评分/R001仍NOT_RUN。
+
+**当前工程修复**：minute-continue-001完整30片输入核验后，在synthetic_population构造成本人口时报`SYNTHETIC_POPULATION_EXCEEDS_GRID`。工具原始退出3、监督器0，2643.625秒，峰值RSS1.346GiB/private1.338GiB，capture完整/无残留/源码pins不变，TEST各调用0；未产生预算或mode STOP。原始RESULT SHA `ffcd852f93e296f2945266f4d178e74a20e2460d8d84b14ad49b55cddc3ad709`，001全保留。这是工程实现错误，不是研究样本不足或超72小时结论。
+
+独立聚合反例：135个step5日期估计人口超合法网格；首个2023-01-17 estimated67.6486→ceil68，合法网格65。节末无decision锚点混入bucket0候选分母/估计人口，获非零可用率而造成超出。原作者正在裁定同调用人口口径，原owner修复；不以min(count,slots)静默截断、不改原研究日期/采样/迭代。下一修订先用已封存真实聚合元数据完整验证人口/网格，再恢复真实作业，不重跑20日。r3的65项独立测试仍为该版本的真实通过证据，但未覆盖这个实际人口形状，独立r3产品硬审已出FAIL（K45-R3-F01），FINDINGS SHA 9eb30a80e3f44b29565ed5df7645b3146e98b3bed692fff728bfc83716b58e8d；同owner修r4后复审。作者已裁定派生预算用callable_candidates及同域可用率，decision=None单列结构排除，不改变旧漏斗/五档/日期/step5；修复后Jan17应65而非68。
 
 **有效v3九项裁定**（原设计§11.1–§11.9；与J44路径一致，没有更换检验内容）：
 
