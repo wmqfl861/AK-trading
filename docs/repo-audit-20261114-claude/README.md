@@ -19,13 +19,14 @@
 
 ## 探针
 
-都在 [probes/](probes/) 下，只读，不修改产品树。在仓库根目录运行。后四个用合成数据调用生产函数。
+都在 [probes/](probes/) 下，只读，不修改产品树。在仓库根目录运行。后五个用合成数据调用生产函数。
 
 | 文件 | 对应 | 在 `b08c444` 上的结果 |
 | --- | --- | --- |
 | `k44_published_tables_recheck.py` | K43、K44 的报告 | 退出码 0：32,467 项算术和引用核对全部一致 |
 | `minute_anchor_availability_probe.py` | Z23 | 退出码 1（问题存在）：分钟线收盘后 60 秒可用时，交易节内 65 个取样时刻里可用的是 0 个；延迟 1 到 59 秒时 65 个全部可用 |
 | `k45_fit_cost_probe.py` | Z24 | 只是测量：分钟模式五个期限，全部任务 7 到 17 小时，只拟合方向 7 到 14 分钟 |
+| `direction_only_equivalence_probe.py` | J34 的依据 | 退出码 0：只拟合方向得到的 8 个方向模型，与全部任务一起拟合时逐项相同；同时记录到“生成校准证据”那一步在只有方向模型时报错 |
 | `feature_history_scaling_probe.py` | Z28 | 退出码 1（问题存在）：可见历史长 102 倍，一个特征快照慢约 13 到 15 倍；同一时刻重复构造再慢 6 到 7 倍 |
 | `model_hash_residual_bench.py` | Z26、Z27 | 退出码 1（问题存在）：从 JSON 读回的模型集，内容哈希每次调用是直接重算的约 6 倍；收益模型和行情状态参考的哈希没有缓存 |
 
@@ -33,6 +34,7 @@
 python docs/repo-audit-20261114-claude/probes/k44_published_tables_recheck.py
 python docs/repo-audit-20261114-claude/probes/minute_anchor_availability_probe.py
 python docs/repo-audit-20261114-claude/probes/k45_fit_cost_probe.py
+python docs/repo-audit-20261114-claude/probes/direction_only_equivalence_probe.py
 python docs/repo-audit-20261114-claude/probes/feature_history_scaling_probe.py
 python docs/repo-audit-20261114-claude/probes/model_hash_residual_bench.py
 ```

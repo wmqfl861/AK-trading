@@ -20,7 +20,7 @@
 1. git fetch origin，把分支 claude/repo-audit-20261114 合入 main。它只新增 docs/repo-audit-20261114-claude/ 目录。记录合入后的 HEAD。
 2. 按顺序阅读该目录下的 DECISIONS.md、NEXT-BATCH.md、REVIEW.md。
 3. REVIEW.md 是外部审核意见，不是产品硬审核。DECISIONS.md 是我认可的决定，见第二节。涉及代码语义的地方仍由计划作者裁定；裁定和外部文档不一致时以裁定为准，把差异写进状态页。
-4. 动手之前，在本机跑 REVIEW.md 附录里标了“请复现”的五条命令，把每条的原始退出码和结果写进 docs/CURRENT-STATUS.md。结果和文档不一致的地方，以你的实测为准，并写明差异。其中 minute_anchor_availability_probe.py 在本机的退出码如果是 0（延迟 60 秒时交易节内也有可用快照），先不做 K45a 里关于可用时刻的那一项，把输出写进状态页。
+4. 动手之前，在本机跑 REVIEW.md 附录里标了“请复现”的六条命令，把每条的原始退出码和结果写进 docs/CURRENT-STATUS.md。结果和文档不一致的地方，以你的实测为准，并写明差异。其中 minute_anchor_availability_probe.py 在本机的退出码如果是 0（延迟 60 秒时交易节内也有可用快照），先不做 K45a 里关于可用时刻的那一项，把输出写进状态页。
 
 二、我的决定
 
