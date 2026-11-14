@@ -190,7 +190,7 @@ def main() -> int:
     print("表 3  分钟模式五个期限合计（本机，单进程）")
     print(f"{'做法':<30}{'低估':>12}{'高估':>12}{'是只拟合方向的':>16}")
     for name, low, high in rows:
-        a, b = round(low / dir_low), round(high / dir_high)
+        a, b = sorted((round(low / dir_low), round(high / dir_high)))
         ratio = f"{a} 倍" if a == b else f"{a}–{b} 倍"
         print(f"{name:<30}{fmt(low):>12}{fmt(high):>12}{ratio:>14}")
     print()
