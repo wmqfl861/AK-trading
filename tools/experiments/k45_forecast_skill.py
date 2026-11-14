@@ -16,6 +16,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass, fields, is_dataclass, replace
 from datetime import date, datetime, timezone
 from decimal import Decimal
+from fractions import Fraction
 import gzip
 import gc
 import hashlib
@@ -2710,29 +2711,113 @@ def measure_mode(mode, resource_path, output):
 
 
 def estimated_population(metadata, measurement, step):
+    require(step == measurement["step"], "POPULATION_MEASUREMENT_STEP_MISMATCH")
     observations = measurement["buckets_by_day"]
-    observed = {b: (sum(r["usable"] for r in observations if r["bucket"] == b),
-                    sum(r["candidates"] for r in observations if r["bucket"] == b)) for b in range(5)}
+    rows = [r for r in metadata["rows"] if r["step"] == step]
+    measured_days = set(measurement["days"])
+    require(all(type(r["candidates"]) is int and type(r["callable_candidates"]) is int
+                and 0 <= r["callable_candidates"] <= r["candidates"] for r in rows),
+            "POPULATION_CALLABLE_COUNTS_INVALID")
+    # A missing decision has no visible-history length. The original funnel
+    # remains unchanged; this derived cohort contains only defined histories,
+    # including callable H=0 failures in bucket zero.
+    observed = {}
+    original_candidates = {}
+    for bucket in range(5):
+        good = sum(r["usable"] for r in observations if r["bucket"] == bucket)
+        original = sum(r["candidates"] for r in observations if r["bucket"] == bucket)
+        cohort = [r for r in rows if r["day"] in measured_days and r["bucket"] == bucket]
+        callable_count = sum(r["callable_candidates"] for r in cohort)
+        require(sum(r["candidates"] for r in cohort) == original and 0 <= good <= callable_count,
+                "POPULATION_MEASURED_CALLABLE_MISMATCH")
+        observed[bucket] = good, callable_count
+        original_candidates[bucket] = original
     total_usable, total_candidates = map(sum, zip(*observed.values()))
-    rates = {b: {"value": good / count if count else total_usable / total_candidates if total_candidates else 1.,
+    fractions = {b: Fraction(good, count) if count else Fraction(total_usable, total_candidates)
+                 if total_candidates else Fraction(1) for b, (good, count) in observed.items()}
+    rates = {b: {"value": float(fractions[b]), "numerator": fractions[b].numerator,
+                 "denominator": fractions[b].denominator, "usable": good, "callable_candidates": count,
+                 "original_candidates": original_candidates[b], "structurally_excluded": original_candidates[b] - count,
+                 "cohort": "DECISION_PRESENT_HISTORY_DEFINED",
                  "source": "REAL_TWENTY_DAY_BUCKET" if count else "REAL_TWENTY_DAY_MODE_POOLED" if total_candidates
                  else "CANDIDATE_POPULATION_ASSUMPTION_NO_OBSERVATIONS"} for b, (good, count) in observed.items()}
-    daily = defaultdict(float)
-    for row in metadata["rows"]:
-        if row["step"] == step:
-            daily[row["day"]] += row["candidates"] * rates[row["bucket"]]["value"]
-    if step == measurement["step"]:
-        for day in measurement["days"]:
-            daily[day] = sum(r["usable"] for r in observations if r["day"] == day)
-    rounded, cumulative, previous = {}, 0., 0
+    daily, callable_by_day, exclusions = defaultdict(Fraction), Counter(), Counter()
+    for row in rows:
+        day = row["day"]
+        daily[day] += row["callable_candidates"] * fractions[row["bucket"]]
+        callable_by_day[day] += row["callable_candidates"]
+        exclusions[day] += row["candidates"] - row["callable_candidates"]
+    for day in measurement["days"]:
+        daily[day] = Fraction(sum(r["usable"] for r in observations if r["day"] == day))
+    rounded, cumulative, previous = {}, Fraction(0), 0
     for day, value in sorted(daily.items()):
         cumulative += value
         current = math.ceil(cumulative)
         rounded[day] = current - previous
+        require(0 <= rounded[day] <= callable_by_day[day], "POPULATION_ESTIMATE_EXCEEDS_CALLABLE")
         previous = current
     return {"status": "ESTIMATED", "rates": {str(b): v for b, v in rates.items()},
-            "daily_expected": dict(sorted(daily.items())), "daily_synthetic_counts": rounded,
-            "rounding": "CEIL_CUMULATIVE_PREFIX_DIFFERENCE"}
+            "cohort": "DECISION_PRESENT_HISTORY_DEFINED", "daily_expected": {day: float(value) for day, value in sorted(daily.items())},
+            "daily_expected_ratio": {day: [value.numerator, value.denominator] for day, value in sorted(daily.items())},
+            "daily_callable_candidates": {day: callable_by_day[day] for day in sorted(daily)},
+            "structural_exclusions": {day: exclusions[day] for day in sorted(daily)},
+            "structural_exclusion_reason": "NO_DECISION_NO_DEFINED_VISIBLE_HISTORY",
+            "daily_synthetic_counts": rounded, "rounding": "CEIL_EXACT_RATIONAL_CUMULATIVE_PREFIX_DIFFERENCE"}
+
+
+def synthetic_population_grid(sessions, mode, step):
+    require(mode in HORIZONS and step in (5, 15), "SYNTHETIC_GRID_ARGUMENTS")
+    by_day = defaultdict(list)
+    for session in sorted(sessions, key=lambda s: s.start_nano):
+        if partition_day(session.trading_day) in FORMAL_DATES:
+            by_day[session.trading_day].append(session)
+    grid = {}
+    for day, sessions in by_day.items():
+        if mode == "DAILY":
+            slots = [(sessions[-1], sessions[-1].end_nano + 60 * NANO)]
+        else:
+            slots = [(s, end + SCENARIO_SECONDS * NANO) for s in sessions
+                     for end in range(s.start_nano + step * MINUTE, s.end_nano + 1, step * MINUTE)
+                     if end + SCENARIO_SECONDS * NANO <= s.end_nano]
+        grid[day.isoformat()] = slots
+    return grid
+
+
+def preflight_synthetic_population(inputs, population, mode, step):
+    """Check aggregate counts on all original dates before any numerical costs."""
+    grid = synthetic_population_grid(inputs.sessions, mode, step)
+    rows, cumulative, assigned = [], Fraction(0), 0
+    for day, count in sorted(population["daily_synthetic_counts"].items()):
+        require(day in grid and type(count) is int and count >= 0, "SYNTHETIC_POPULATION_DAY_COUNTS")
+        require(count <= len(grid[day]), "SYNTHETIC_POPULATION_EXCEEDS_GRID")
+        callable_count = population.get("daily_callable_candidates", {}).get(day)
+        if callable_count is not None:
+            require(count <= callable_count <= len(grid[day]), "SYNTHETIC_CALLABLE_EXCEEDS_GRID")
+        if "daily_expected_ratio" in population:
+            numerator, denominator = population["daily_expected_ratio"][day]
+            cumulative += Fraction(numerator, denominator)
+            assigned += count
+            require(assigned == math.ceil(cumulative), "SYNTHETIC_PREFIX_CEIL_MISMATCH")
+        rows.append({"day": day, "formal_partition": partition_day(date.fromisoformat(day)),
+            "rehearsal_partition": partition_day(date.fromisoformat(day), DRY_DATES),
+            "count": count, "callable_candidates": callable_count, "grid_slots": len(grid[day])})
+    return {"schema": "k45-synthetic-population-preflight-v1", "mode": mode, "step": step,
+        "classification": "ESTIMATED_COUNTS_ON_ORIGINAL_CALENDAR; NO_FEATURES_OR_FIT",
+        "status": "GRID_AND_PREFIX_VERIFIED", "rows": rows, "actual_test_calls": actual_test_counts()}
+
+
+def synthetic_cost_calendar_inputs(metadata, mode):
+    """Pinned session metadata only; this never replaces full input validation."""
+    require(metadata["mode"] == mode and metadata["source_collection_sha256"] == SOURCE_COLLECTION_SHA
+            and metadata["sessions_sha256"] == SESSIONS_SHA and metadata["selection_sha256"] == SELECTION_SHA,
+            "SYNTHETIC_COST_METADATA_IDENTITY")
+    verify_pin(metadata["strict_input_validation_receipt"])
+    _, shards = source_identity()
+    first = Path(next(iter(shards.values()))["path"])
+    verify_pin({"path": str(first / "sessions.json"), "sha256": SESSIONS_SHA})
+    verify_pin({"path": str(first / "selection-evidence.json"), "sha256": SELECTION_SHA})
+    sessions = original_record_envelope((first / "sessions.json").read_bytes(), SessionWindow, SESSIONS_SCHEMA_ID)
+    return SimpleNamespace(mode=mode, sessions=sessions)
 
 
 def synthetic_population(inputs, population, mode, step):
@@ -2741,22 +2826,14 @@ def synthetic_population(inputs, population, mode, step):
     duration = 86400 if mode == "DAILY" else 60
     keys = tuple(spec.factor_key for spec in factor_registry_v2(duration))
     quality = DataQuality("READY", ("SYNTHETIC_COST_ONLY",), "observed", "7" * 64)
-    by_day = defaultdict(list)
-    for session in sorted(inputs.sessions, key=lambda s: s.start_nano):
-        if partition_day(session.trading_day) in FORMAL_DATES:
-            by_day[session.trading_day].append(session)
+    grid = synthetic_population_grid(inputs.sessions, mode, step)
     result = []
     for day_text, count in population["daily_synthetic_counts"].items():
         day = date.fromisoformat(day_text)
         if not count:
             continue
-        sessions = by_day[day]
-        if mode == "DAILY":
-            slots = [(sessions[-1], sessions[-1].end_nano + 60 * NANO)]
-        else:
-            slots = [(s, end + SCENARIO_SECONDS * NANO) for s in sessions
-                     for end in range(s.start_nano + step * MINUTE, s.end_nano + 1, step * MINUTE)
-                     if end + SCENARIO_SECONDS * NANO <= s.end_nano]
+        require(day_text in grid, "SYNTHETIC_POPULATION_DAY_COUNTS")
+        slots = grid[day_text]
         require(count <= len(slots), "SYNTHETIC_POPULATION_EXCEEDS_GRID")
         # Fixed evenly spread positions preserve day counts and session structure.
         selected_slots = [slots[index * len(slots) // count] for index in range(count)]
@@ -3217,7 +3294,7 @@ def mode_budget(inputs, metadata, measurement, costs, step, resource, started_ut
     # Unique full source tuples, shared request references, and a parent/TEST
     # child overlap. Strings already belong to the input objects and are not
     # multiplied by horizon/barrier count.
-    source_bytes = sum((40 + 8 * (r["history_total"] / r["callable_candidates"])) * r["candidates"]
+    source_bytes = sum((40 + 8 * (r["history_total"] / r["callable_candidates"])) * r["callable_candidates"]
         * population["rates"][str(r["bucket"])]["value"] for r in metadata_rows if r["callable_candidates"])
     count_features = sum(totals.values())
     object_rate = measurement["feature_object_bytes_without_sources"] / measurement["features"] if measurement["features"] else 0
@@ -3342,15 +3419,31 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
     metadata, metadata_run = safe_child(["candidate-metadata", "--mode", mode, "--measurement", str(measurement_path)], output / "candidate-metadata.json",
                                         output / "metadata-capture")
     scenario = verified_scenario_identity(pin(output / "candidate-metadata.json"))
+    # Costs need only the original pinned calendar and the sealed aggregate
+    # population. Exercise that path before rebuilding all real inputs; the
+    # completed same-scale costs are reused once after strict validation.
+    cost_inputs = synthetic_cost_calendar_inputs(metadata, mode)
+    initial_population = estimated_population(metadata, measurement, 5)
+    dump_new(output / "step-5/population-preflight.json",
+             preflight_synthetic_population(cost_inputs, initial_population, mode, 5))
+    initial_costs = synthetic_mode_costs(cost_inputs, initial_population, measurement, mode, 5,
+                                        output / "step-5/synthetic")
     timing = Timings()
     inputs = resident_inputs(mode, timing, for_fit=True)
+    require(inputs.sessions == cost_inputs.sessions, "SYNTHETIC_COST_CALENDAR_CHANGED")
+    del cost_inputs
     fit_scenario = timing.call(("retained_scenario_accounting", mode), fit_scenario_counts, inputs)
     steps, budget, step, reuse = [], None, 5, None
     with resident_fit_scope(inputs):
         for attempt in range(2):
             directory = output / f"step-{step}"
-            population = estimated_population(metadata, measurement, step)
-            costs = synthetic_mode_costs(inputs, population, measurement, mode, step, directory / "synthetic")
+            if step == 5:
+                costs = initial_costs
+            else:
+                population = estimated_population(metadata, measurement, step)
+                dump_new(directory / "population-preflight.json",
+                         preflight_synthetic_population(inputs, population, mode, step))
+                costs = synthetic_mode_costs(inputs, population, measurement, mode, step, directory / "synthetic")
             budget = mode_budget(inputs, metadata, measurement, costs, step, resource,
                                  resource["logical_job_started_utc"], directory,
                                  metadata_receipt=pin(output / "candidate-metadata.json"),

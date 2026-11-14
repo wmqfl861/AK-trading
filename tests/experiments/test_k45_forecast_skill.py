@@ -742,16 +742,82 @@ def test_resident_authoritative_day_counts_preserve_legitimate_global_embargo():
 def test_resident_metadata_population_rates_are_measured_or_disclosed():
     measurement = {'days': ['2023-01-03'], 'step': 5,
                    'buckets_by_day': [{'day': '2023-01-03', 'bucket': 0, 'candidates': 10, 'usable': 4}]}
-    metadata = {'rows': [{'step': 5, 'day': '2023-01-03', 'bucket': 0, 'candidates': 10},
-                         {'step': 5, 'day': '2023-01-04', 'bucket': 1, 'candidates': 20}]}
+    metadata = {'rows': [{'step': 5, 'day': '2023-01-03', 'bucket': 0, 'candidates': 10, 'callable_candidates': 8},
+                         {'step': 5, 'day': '2023-01-04', 'bucket': 1, 'candidates': 20, 'callable_candidates': 16}]}
     result = k.estimated_population(metadata, measurement, 5)
     assert result['daily_expected'] == {'2023-01-03': 4, '2023-01-04': 8}
     assert result['rates']['1']['source'] == 'REAL_TWENTY_DAY_MODE_POOLED'
     assert result['status'] == 'ESTIMATED'
     empty = dict(measurement, buckets_by_day=[], days=[])
     assumed = k.estimated_population(metadata, empty, 5)
-    assert assumed['daily_expected']['2023-01-04'] == 20
+    assert assumed['daily_expected']['2023-01-04'] == 16
     assert assumed['rates']['1']['source'] == 'CANDIDATE_POPULATION_ASSUMPTION_NO_OBSERVATIONS'
+
+
+def test_estimated_population_excludes_no_decision_before_actual_synthetic_grid():
+    """Exact sealed bucket totals and Jan17 shape; only SYNTHETIC sessions.
+
+    Observed rows below consolidate the original twenty-day aggregates onto
+    three fixture dates; they are not historical daily observations.
+    """
+    observed = [('2023-01-04', 0, 222, 147), ('2023-01-05', 1, 438, 438),
+                ('2023-01-06', 4, 627, 627)]
+    measurement = {'step': 5, 'days': [day for day, *_ in observed],
+        'buckets_by_day': [{'day': day, 'bucket': bucket, 'candidates': total, 'usable': usable}
+                          for day, bucket, total, usable in observed]}
+    metadata = {'rows': [{'step': 5, 'day': day, 'bucket': bucket,
+                          'candidates': total, 'callable_candidates': usable}
+                         for day, bucket, total, usable in observed] + [
+        {'step': 5, 'day': '2023-01-17', 'bucket': 0, 'candidates': 4, 'callable_candidates': 0},
+        {'step': 5, 'day': '2023-01-17', 'bucket': 1, 'candidates': 65, 'callable_candidates': 65}]}
+    before = copy.deepcopy((metadata, measurement))
+    population = k.estimated_population(metadata, measurement, 5)
+    day = date(2023, 1, 17)
+    start = int(datetime(2023, 1, 17, tzinfo=timezone.utc).timestamp()) * NANO
+    sessions = []
+    for index, minutes in enumerate((120, 75, 60, 90)):
+        sessions.append(k.SessionWindow(f'SYNTHETIC-GRID-{index}', PRODUCT, day,
+            start, start + minutes * k.MINUTE, 'DAY', 'SYNTHETIC', 'SCENARIO'))
+        start += (minutes + 60) * k.MINUTE
+    group = dict(population, daily_synthetic_counts={day.isoformat(): population['daily_synthetic_counts'][day.isoformat()]})
+    features = k.synthetic_population(SimpleNamespace(sessions=tuple(sessions)), group, 'MINUTE', 5)
+    assert len(features) == population['daily_expected'][day.isoformat()] == 65
+    assert population['rates']['0']['value'] == population['rates']['1']['value'] == 1
+    assert population['rates']['2']['source'] == 'REAL_TWENTY_DAY_MODE_POOLED'
+    assert population['rates']['2']['value'] == 1
+    assert population['structural_exclusions']['2023-01-17'] == 4
+    assert population['rates']['0']['structurally_excluded'] == 75
+    assert all(f.decision_nano <= next(s.end_nano for s in sessions if s.session_id == f.session_id)
+               for f in features)
+    assert (metadata, measurement) == before
+
+
+def test_estimated_population_keeps_callable_empty_history_and_exact_prefix_rounding():
+    from fractions import Fraction
+    measured_day = '2023-01-03'
+    measurement = {'step': 5, 'days': [measured_day], 'buckets_by_day': [
+        {'day': measured_day, 'bucket': 0, 'candidates': 4, 'usable': 1}]}
+    rows = [{'step': 5, 'day': measured_day, 'bucket': 0, 'candidates': 4,
+             'callable_candidates': 3, 'empty_history_calls': 1}]
+    for index in range(1, 40):
+        rows.append({'step': 5, 'day': (date(2023, 1, 3) + timedelta(days=index)).isoformat(),
+            'bucket': index % 5, 'candidates': 2, 'callable_candidates': 1, 'empty_history_calls': 1})
+    result = k.estimated_population({'rows': rows}, measurement, 5)
+    assert result['rates']['0']['value'] == 1 / 3
+    assert result['rates']['0']['callable_candidates'] == 3
+    cumulative = Fraction(0)
+    assigned = 0
+    for day, count in result['daily_synthetic_counts'].items():
+        cumulative += Fraction(1) if day == measured_day else Fraction(1, 3)
+        assigned += count
+        assert assigned == math.ceil(cumulative)
+        assert count <= result['daily_callable_candidates'][day]
+    with pytest.raises(k.ResearchError, match='POPULATION_MEASUREMENT_STEP_MISMATCH'):
+        k.estimated_population({'rows': rows}, measurement, 15)
+    invalid = copy.deepcopy(measurement)
+    invalid['buckets_by_day'][0]['usable'] = 4
+    with pytest.raises(k.ResearchError, match='POPULATION_MEASURED_CALLABLE_MISMATCH'):
+        k.estimated_population({'rows': rows}, invalid, 5)
 
 
 def test_resident_time_ticket_has_no_prices_sources_features_or_state():
@@ -925,8 +991,11 @@ def test_synthetic_resident_lifecycle_freezes_before_labels_and_exports_once(tmp
     bounded = k.truncate_fit_bundle(bundle, cutoff)
     fit_inputs = k.ResidentInputs({contract: bounded}, sessions, (), selected, 'MINUTE', cutoff, ())
     full_inputs = k.ResidentInputs({contract: bundle}, sessions, (), selected, 'MINUTE', None, ())
+    cost_order = []
     def fixture_inputs(mode, timing, *, for_fit, extra_contracts=()):
         assert mode == 'MINUTE'
+        if for_fit:
+            cost_order.append('STRICT_REAL_INPUT_VALIDATION')
         return fit_inputs if for_fit else full_inputs
     def fixture_features(inputs, timing, *, step=5, partitions=('TRAIN', 'CALIBRATION'), days=None, reuse=None):
         assert step == 5
@@ -942,7 +1011,8 @@ def test_synthetic_resident_lifecycle_freezes_before_labels_and_exports_once(tmp
     monkeypatch.setattr(k, 'resident_features', fixture_features)
     source = k.pin(k.__file__)
     monkeypatch.setattr(k, 'code_pins', lambda: [source])
-    metadata = {'rows': [{'step': 5, 'day': f.trading_day.isoformat(), 'bucket': 0, 'candidates': 1}
+    metadata = {'rows': [{'step': 5, 'day': f.trading_day.isoformat(), 'bucket': 0,
+                         'candidates': 1, 'callable_candidates': 1}
                          for f in features]}
     scenario = {'source_collection_sha256': k.SOURCE_COLLECTION_SHA, 'tool_sha256': source['sha256'],
                 'shards': [{'contract': contract, **k.scenario_metadata_summary(HASH, (), len(bars), {})}]}
@@ -957,7 +1027,12 @@ def test_synthetic_resident_lifecycle_freezes_before_labels_and_exports_once(tmp
         k.count_test(command[2], output)
         return k.load_json(output), {'classification': 'SYNTHETIC_TRANSPORT_ONLY'}
     monkeypatch.setattr(k, 'safe_child', fixture_child)
-    monkeypatch.setattr(k, 'synthetic_mode_costs', lambda inputs, population, *args: {'population': population})
+    monkeypatch.setattr(k, 'synthetic_cost_calendar_inputs', lambda *_: SimpleNamespace(mode='MINUTE', sessions=sessions))
+    def fixture_costs(inputs, population, *args):
+        assert set(vars(inputs)) == {'mode', 'sessions'}
+        cost_order.append('SYNTHETIC_COSTS')
+        return {'population': population}
+    monkeypatch.setattr(k, 'synthetic_mode_costs', fixture_costs)
     def fixture_budget(inputs, metadata, measurement, costs, step, resource, started, directory, **evidence):
         result = {'schema': 'SYNTHETIC_COST_GATE_NOT_A_MEASUREMENT', 'status': 'READY_FOR_FORMAL',
                   'population': costs['population']}
@@ -978,6 +1053,7 @@ def test_synthetic_resident_lifecycle_freezes_before_labels_and_exports_once(tmp
     k.dump_new(measurement_freeze, {'files': [{'relative': 'tools/experiments/k45_forecast_skill.py', 'frozen': source}]})
     minute_dir = tmp_path / 'formal/MINUTE'
     result = k.continue_mode('MINUTE', measurement_path, measurement_freeze, resource_path, minute_dir)
+    assert cost_order == ['SYNTHETIC_COSTS', 'STRICT_REAL_INPUT_VALIDATION']
     assert result['status'] == 'FROZEN_AWAITING_INDEPENDENT_HARD_REVIEW'
     minute = k.load_json(result['artifact']['path'])
     assert minute['training_calls'] == {'formal': 1, 'rehearsal': 1}
@@ -1105,6 +1181,13 @@ def test_metadata_history_matches_strict_dedup_and_untimed_empty_calls(tmp_path,
     assert sum(row['timed_history_total'] for row in step5) == 15
     assert result['price_fields_decoded'] is False
     assert result['strict_input_validation_receipt'] == k.pin(measurement_path)
+    def forbidden_source(*args, **kwargs):
+        raise AssertionError('COST_CALENDAR_OPENED_REAL_BARS')
+    monkeypatch.setattr(k, 'read_original_shard', forbidden_source)
+    calendar = k.synthetic_cost_calendar_inputs(result, 'MINUTE')
+    assert set(vars(calendar)) == {'mode', 'sessions'} and calendar.sessions == sessions
+    with pytest.raises(k.ResearchError, match='SYNTHETIC_COST_METADATA_IDENTITY'):
+        k.synthetic_cost_calendar_inputs(dict(result, sessions_sha256='0' * 64), 'MINUTE')
 
 
 def test_scenario_metadata_hash_is_exact_original_scenario_view_identity(tmp_path):
