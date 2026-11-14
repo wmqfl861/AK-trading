@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import dataclasses
 import math
+import threading
 from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
@@ -128,6 +129,140 @@ _FIT_CONFIG_INITIAL: Mapping[str, JsonValue] = MappingProxyType({
 
 class FitError(ValueError):
     """Fixed-reason fit configuration or training-input violation."""
+
+
+class _OwnedSamples(tuple):
+    """Fit-owned immutable numeric samples; derived state stays with its owner.
+
+    External lists keep their existing mutable semantics. Only exact built-in
+    numeric leaves can receive this certificate; numeric subclasses are not
+    assumed immutable. Neither construction nor certification converts floats.
+    """
+
+    def __new__(cls, values):
+        result = super().__new__(cls, values)
+        if any(type(value) not in (bool, int, float) for value in result):
+            raise TypeError("owned_samples_require_builtin_numeric_leaves")
+        result._prepare_lock = threading.RLock()
+        result._float_values = None
+        result._cdf_counts = None
+        return result
+
+    def __copy__(self):
+        return self
+
+    def __deepcopy__(self, memo):
+        return self
+
+    def __reduce__(self):
+        return (_OwnedSamples, (tuple(self),))
+
+
+def _own_samples(values):
+    if all(type(value) in (bool, int, float) for value in values):
+        return _OwnedSamples(values)
+    return values
+
+
+class _FloatTuple(tuple):
+    """Immutable conversion with the former list indexing error contract."""
+
+    def __getitem__(self, index):
+        try:
+            return super().__getitem__(index)
+        except IndexError:
+            raise IndexError("list index out of range") from None
+
+
+def _sample_floats(samples):
+    if type(samples) is not _OwnedSamples:
+        return [float(value) for value in samples]
+    with samples._prepare_lock:
+        if samples._float_values is None:
+            # Publish only successful conversion; huge ints must still fail
+            # at the first nonempty query, never during fit or certification.
+            samples._float_values = _FloatTuple(float(value) for value in samples)
+        return samples._float_values
+
+
+def _count_cdf(values):
+    total = len(values)
+    ambiguous = sum(1 for value in values if value < 0)
+    buckets: dict[int, int] = {}
+    for value in values:
+        if value > 0 and math.isfinite(value):
+            step = math.ceil(value)
+            buckets[step] = buckets.get(step, 0) + 1
+    return total, ambiguous, buckets
+
+
+def _sample_cdf_counts(samples):
+    if type(samples) is not _OwnedSamples:
+        return _count_cdf(_sample_floats(samples))
+    with samples._prepare_lock:
+        if samples._cdf_counts is None:
+            samples._cdf_counts = _count_cdf(_sample_floats(samples))
+        return samples._cdf_counts
+
+
+class _SampleIdentity:
+    """Strong ownership and an O(1) identity comparison, never tuple equality."""
+
+    __slots__ = ("source",)
+
+    def __init__(self, source):
+        self.source = source
+
+    def __eq__(self, other):
+        return type(other) is _SampleIdentity and self.source is other.source
+
+
+class _UncacheableSignature(Exception):
+    pass
+
+
+def _content_signature(value, active):
+    kind = type(value)
+    if kind is _OwnedSamples:
+        return _SampleIdentity(value)
+    if kind in (type(None), bool, int, str):
+        return (kind, value)
+    if kind is float:
+        return (float, value.hex())  # distinguishes -0.0, +0.0 and ints/bools
+    if kind not in (dict, MappingProxyType, list, tuple, Horizon):
+        raise _UncacheableSignature
+    identity = id(value)
+    if identity in active:
+        raise _UncacheableSignature
+    active.add(identity)
+    try:
+        if kind in (dict, MappingProxyType):
+            return (kind, tuple((_content_signature(key, active),
+                                 _content_signature(item, active))
+                                for key, item in value.items()))
+        if kind is Horizon:
+            return (Horizon, _content_signature(value.unit, active),
+                    _content_signature(value.value, active))
+        return (kind, tuple(_content_signature(item, active) for item in value))
+    finally:
+        active.remove(identity)
+
+
+def _model_set_signature(model_set):
+    # Evidence contains an exact Horizon, while custom dataclasses and mutable
+    # scalar subclasses deliberately fall back to the original serializer.
+    if type(model_set.evidence) is not tuple or any(
+            type(row) is not CalibrationEvidence for row in model_set.evidence):
+        raise _UncacheableSignature
+    evidence = tuple(tuple((field.name, getattr(row, field.name))
+                           for field in dataclasses.fields(CalibrationEvidence)
+                           if field.name not in ("model_id", "evidence_id"))
+                     for row in model_set.evidence)
+    return _content_signature((
+        model_set.regime_reference_id, model_set.feature_keys,
+        model_set.training_end_nano, model_set.calibration_end_nano,
+        model_set.valid_until_nano, model_set.fit_config, model_set.models,
+        model_set.source_hashes, evidence), set())
 
 
 def default_fit_config(feature_keys: tuple[str, ...], training_end_nano: int,
@@ -267,6 +402,13 @@ class ForecastModelSet:
         are ordered by their de-referenced canonical bytes and duplicate
         identities are rejected.
         """
+        try:
+            signature = _model_set_signature(self)
+        except (_UncacheableSignature, RecursionError):
+            signature = None
+        cached = getattr(self, "_content_hash_cache", None)
+        if signature is not None and cached is not None and signature == cached[0]:
+            return cached[1]
         projected_evidence = [
             evidence_projection_without_back_references(row) for row in self.evidence]
         projected_evidence.sort(
@@ -286,7 +428,12 @@ class ForecastModelSet:
             "source_hashes": dict(sorted(self.source_hashes.items())),
             "evidence": projected_evidence,
         }
-        return sha256_hex(canonical_json_bytes(payload))
+        result = sha256_hex(canonical_json_bytes(payload))
+        if signature is not None:
+            # One non-dataclass cache pair: replace() starts with no cache;
+            # mutations are inspected again before every reuse.
+            object.__setattr__(self, "_content_hash_cache", (signature, result))
+        return result
 
 
 # ---------------------------------------------------------------------------
@@ -683,7 +830,8 @@ def _fit_empirical_quantile(values: list[float], levels: list[tuple[str, str, st
         "intercepts": [],
         "trees": [],
         "counts": {"minimum_leaf_blocks": [minimum_leaf_blocks]},
-        "samples": {key: sorted(set(sample)) for key, sample in sorted(samples.items())},
+        "samples": {key: _own_samples(sorted(set(sample)))
+                    for key, sample in sorted(samples.items())},
         "temperature": 1.0,
         "fit_status": "CONVERGED",
     }
@@ -700,14 +848,21 @@ def _apply_empirical_quantile(model: dict[str, JsonValue], levels: tuple[str, st
     chosen = None
     for level in levels:
         entry = samples.get(level)
-        if isinstance(entry, list) and len(entry) >= minimum_leaf_blocks:
+        if (isinstance(entry, list) or type(entry) is _OwnedSamples) \
+                and len(entry) >= minimum_leaf_blocks:
             chosen = entry
             break
     if chosen is None:
         chosen = samples.get(levels[-1])
-    if not isinstance(chosen, list) or not chosen:
+    if not (isinstance(chosen, list) or type(chosen) is _OwnedSamples) or not chosen:
         return None
-    return [_empirical_quantile([float(v) for v in chosen], q) for q in quantiles]
+    values = None
+    result = []
+    for quantile in quantiles:
+        if values is None:
+            values = _sample_floats(chosen)
+        result.append(_empirical_quantile(values, quantile))
+    return result
 
 
 def _pinball(quantile: float, actual: float, prediction: float) -> float:
@@ -807,7 +962,8 @@ def _fit_empirical_cdf(first_steps: list[int], levels: list[tuple[str, str, str]
         "intercepts": [],
         "trees": [],
         "counts": {},
-        "samples": {key: sorted(value) for key, value in sorted(samples.items())},
+        "samples": {key: _own_samples(sorted(value))
+                    for key, value in sorted(samples.items())},
         "temperature": 1.0,
         "fit_status": "CONVERGED",
     }
@@ -819,22 +975,22 @@ def _apply_empirical_cdf(model: dict[str, JsonValue], levels: tuple[str, str, st
     if not isinstance(samples, Mapping):
         return None
     chosen = None
-    total = 0
     for level in levels:
         entry = samples.get(level)
-        if isinstance(entry, list) and entry:
-            chosen = [float(v) for v in entry]
-            total = len(chosen)
+        if (isinstance(entry, list) or type(entry) is _OwnedSamples) and entry:
+            chosen = entry
             break
-    if chosen is None or total == 0:
+    if chosen is None:
         return None
-    ambiguous = sum(1 for value in chosen if value < 0)
+    total, ambiguous, buckets = _sample_cdf_counts(chosen)
+    if total == 0:
+        return None
     unknown = ambiguous / total
-    cumulative = 0.0
+    cumulative = 0
     entries: list[tuple[float, float]] = []
     for step in range(1, horizon_value + 1):
-        cumulative = sum(1 for value in chosen if 0 < value <= step) / total
-        entries.append((cumulative, unknown))
+        cumulative += buckets.get(step, 0)
+        entries.append((cumulative / total, unknown))
     return entries
 
 

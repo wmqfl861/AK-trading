@@ -1,55 +1,62 @@
-本周：主力报告已出，三个规则仍亏损。
-卡点：全量回归、多品种报告尚未完成。
+本周：六品种报告已出，产品独审通过。
+卡点：S4独立环境安装未完成。
 请你：仓库转私有、换令牌、收紧入口、开长路径。
 
-本报告沿用 2020-07-20 至 2026-09-04 的 84 个螺纹钢合约，比较既定的五种做法，每个原账户初始资金 1000000 元、固定 1 手，规则和参数未调整。
-主力口径的全期净额分别为唐奇安突破 -12026.946 元、均线 -13533.603 元、Z 分数回归 -6798.704 元、买入持有 -2003.176 元、始终空仓 0 元。
-有覆盖年份中净额为正的年数及最差年份分别为唐奇安突破 3/7 年、2021 年 -14863.833 元；均线 1/7 年、2021 年 -10280.39 元；Z 分数回归 3/7 年、2021 年 -5013.694 元；买入持有 3/7 年、2024 年 -8620 元；始终空仓 0/7 年、2020 年 0 元。
-选择使用前一根已存完整日线的收盘持仓量，历史可用时刻没有核实，当天有日线也是事后支持条件，因此这里只作情景归集。
-合约切换直接采用新合约原账户的既有状态，保留原终点成本且没有新增换月成本，这不是一笔资本连续运行的可执行回放。
+五个新增品种都完成了固定条件下的日线模拟，螺纹钢沿用此前接受的结果。
+首表使用相同初始资金和基准成本，分别列出主力归集与全部独立合约的净额。
+规格采用已核实的静态合约值；前根持仓量的历史可知时点仍未得到验证。
+主力列拼接的是各原账户当日盈亏，不是一笔资本连续执行的换月回测。
+结果为情景描述，统计资格未评定，也没有据此调参或建议交易。
 
-# 当前批次：第六轮外审第三批（2026-11-13）
+# 第六轮外审第三批：发布收尾
 
-仅执行 S3、K43、K14、K44、K42b、S4、K45；完成或真实阻塞后停止。外审是建议，产品验收仍按有效计划及作者裁定。`git fetch origin` 和 `git -c core.autocrlf=false merge --ff-only origin/claude/repo-audit-20261113-r6` 均原始退出0；分支仅新增外审目录9文件，合入 HEAD=`af9436fe77b8f75f9043a4c55121bd1a120cb376`。现行分工：Astra/max计划、开发；Sol6.1/max独审、辅助。旧子代理不在可续接列表，已显式移交其有效成果和历史证据；不冒称旧作者。G1一开发、一独审、一支撑，计划准备穿插。
+本批仅S3、K43、K14、K44、K42b、S4、K45，完成或阻塞后停止。外审分支仅新增9文件，fetch/merge均raw0，合入HEAD `af9436fe77b8f75f9043a4c55121bd1a120cb376`。现行分工为Astra/max计划与开发、Sol6.1/max独审及辅助。原始压缩日志、输入及审核包均留仓库外`C:/AKH81113/`，以下为交接摘要。
 
-## 开工复现
-
-以下 cwd 为仓库根，命令前缀均为 `C:/AKR41110/venv-full/Scripts/python.exe -B -X utf8`，路径前缀 `docs/repo-audit-20261113-r6-claude/probes/`。四组实际五条调用，原始结果保存在仓库外 `C:/AKH81113/reproduction01/RESULT.json`，原始日志压缩外置；不是pytest的测量不虚报passed数。
-
-| 命令（上述前缀） | 原始退出 | 实测结果 |
-| --- | ---: | --- |
-| `k40_published_tables_recheck.py` | 0 | 7195 checks / 0 failed；566引用；1.605秒。 |
-| `pipeline_context_reuse_bench.py` | 0 | 40/120/250日为1.2/1.5/1.9倍；首上下文后新增校验/物化均0/0；94.948秒。 |
-| `empirical_apply_scaling_bench.py` | 1 | Z13复现；100000样本/horizon60=6383.350ms；同模型第二次hash=3174.1ms（首次99%）；120.919秒。 |
-| `context_cost_profile.py MINUTE 250 TREND` | 0 | 333.2ms/上下文；模型/特征/hash占65.0%/25.9%/0.4%；639.121秒。 |
-| `context_cost_profile.py DAILY 250 TREND` | 0 | 158.4ms/上下文；模型/特征/hash占29.2%/65.2%/0.5%；503.292秒。 |
-
-与外审区别：算术与缓存结论一致；Windows性能绝对耗时更大，CDF100倍样本耗时191倍，外审Linux约255–310ms，本机约6383ms；这不是数值等价失败。四组五条均已终态，原始退出依次0/0/1/0/0；两profile供K14 BEFORE复用。原始测量耗时不含任何产品修复，不把工具捕获器退出0当作Z13通过。资源预检 C/D盘空余65011265536/53347770368字节，可用内存41993854976字节。
-
-## 任务
-
-| 任务 | 状态 / 下一步 / 合入提交 |
+| 任务 | 状态、提交与验证 |
 | --- | --- |
-| S3 | `.gitattributes`独立提交ab65e45；52个仅换行文件已恢复HEAD原字节，全部1227 tracked零差异；两规则精确替换、CI补三文件已合入推送c61f772；CI 43427609055成功：1381P/4skip/raw0。首次refresh raw1保留，字节零差异后用checkout-index更新52项stat，refresh/status raw0。 |
-| K43 | Astra新作者已接原K40计划/接受链；只读确认主力口径，有效计划已发布（一次Sol意见两项采纳），七文件独立无条件PASS；97P/raw0，130318项独立比较0失败、8组反例通过，21payload+CHECK逐bytes同；已发布main9608b5c，CI43436732625成功，全批G4待最终全量。 |
-| K14 | 有效计划已处置一次Sol意见；隔离BEFORE自然完成raw1：6133P/145F/60E/33skip/8CE，6471.89秒；较r7仅B26通过增加，无新增F/E/CE。两产品文件冻结，独审93P与完整M1–M4 1006P/raw0，26份回放逐字节不变、原scaling raw0。最终AFTER待K44完整新测试冻结，尚无最终硬PASS。 |
-| K44 | 有效计划c83ec85b已发布，唯一Sol意见5项全采纳，原Astra owner已实施工具/config/测试；五官方静态规格齐备，49新文件写集，不改src、不重跑RB。完整测试冻结后并行最终AFTER与导出/矩阵，不再等计划PASS。 |
-| K42b | 已合入推送50154b5，CI43442336144成功（1428P/4skip/raw0）。测量raw0，原15295字节保留；可用分钟1783377根、452交易日，累计bar×close放行64.431955%，当节cohort98.837094%，594次生产集合复核相同。首测版本拒绝raw3保留，正式loader仍REJECTED_VERSION，仅SCENARIO测量适用。 |
-| S4 | BLOCKED_ENVIRONMENT：独立venv创建raw0，首轮安装raw1；同命令受限恢复在1800.006秒墙钟超时，child raw1，监督记录raw0。下载中断和aiohttp多版本解析回溯，不能断言Python3.13无兼容包。鉴权启动0次，P/F/E/skip均NA；按要求停止，不改依赖/服务/基准。 |
-| K45 | 已合入推送ba26032，CI43449548520成功；设计定稿k45-forecast-skill-design.md，一次Sol五项建议全采纳；两mode选r2，日期/判定固定。计数上界27739分钟/431日线锚点、419964请求；合成context参考61.12701分钟，不是完整研究工时，真实fit/标签/统计等未测。只设计，未实施。 |
+| S3 | 完成：`ab65e45`的`* -text`、`c61f772`的两处规则替换/CI三文件。52个仅换行文件恢复HEAD字节；无renormalize。CI43427609055成功，1381P/4skip/raw0。 |
+| K43 | 完成：`9608b5c`，独审无条件PASS；97P/raw0，130318独立比较/0失败，8组反例；CI43436732625成功，1428P/4skip。报告[v1-daily-baseline-rb.md](research/v1-daily-baseline-rb.md)。 |
+| K14 | 独立无条件PASS；本提交含两个冻结文件及新增测试CI接线，推送/CI回读进行中。93P、完整M1–M4 1006P均raw0；669差分断言，26回放产物字节不变；最终完整回归零新增。 |
+| K44 | 独立无条件PASS，49文件待本批下一项提交。最终r2工具与r1实际生成结果来源分别保留；195P/raw0、78守卫反例；两次28400账户/170470产物/7CHECK字节差异0；253816634项独立Fraction检查/0失败，未用owner数学函数。报告[v1-daily-baseline-universe.md](research/v1-daily-baseline-universe.md)。 |
+| K42b | 完成：`50154b5`，CI43442336144成功，1428P/4skip。测量raw0：1783377可用分钟、452日、累计bar×close放行64.431955%，当节cohort98.837094%；594次生产集合相同。表[k42-real-input-readiness.md](research/k42-real-input-readiness.md)。 |
+| S4 | 阻塞，记录已推送`b10a4ee`，CI43451659023成功。独立venv创建raw0，安装两次raw1（后次1800.006秒超时）。鉴权启动0次，P/F/E/skip均NA；未改依赖、测试、守卫或基准环境，不继续重试。 |
+| K45 | 完成设计：`ba26032`，CI43449548520成功。一次Sol意见5项全采纳；只设计，未真实拟合/评分。[k45-forecast-skill-design.md](research/k45-forecast-skill-design.md)。 |
 
-**作者裁定与差异**：K43已核输入历史available_at不能证成开盘前可知，拟按J21作前一已完成bar OI的因果顺序SCENARIO归集，不伪造PIT时间。作者已处置唯一一轮独立意见并发布有效计划；裁定和外建议时点口径差异保留。K43作者独立执行补充允许产品硬PASS及实际main CI后启动K44，整批全量/新基线门保留，不改原冻结计划。K14作者批准_fit自有样本不可变tuple快路径；普通可变图及恢复list仍完整安全O(N)核验，不切外部alias。JSON/hash及数值须逐位不变，原probe必须实测raw0。K42b记录适配仅证明生产可见性测量适用，非正式v2.1.3包接受，不放行K45拟合。K45两mode选r2，不作v1适配；TRAIN2023-01-03—2024-02-29、CAL2024-03-01—05-31、TEST2024-06-03—10-18，成熟尾10-21—11-15；只设计未实施。
+**开工复现**：cwd仓库根，命令前缀`C:/AKR41110/venv-full/Scripts/python.exe -B -X utf8 docs/repo-audit-20261113-r6-claude/probes/`。四组实际五条，非pytest不虚报通过数。
 
-**K14阶段验证（非最终PASS）**：原scaling AFTER raw0，CDF100倍样本warm耗时约3倍，同模型hash首次2896.2ms/第二次0.4ms；保留原BEFORE raw1。上下文AFTER原始测量MINUTE127.8ms、DAILY284.4ms，raw0/0；两后测有并发作业，不能把日线变慢确定归因或宣称隔离加速。两mode26份真实SYNTHETIC回放payload字节完全相同。最终全量AFTER要等K44最终测试清单，不能漏本批新增用例。
+| 命令尾部 | 原始退出 | 实测 |
+| --- | ---: | --- |
+| `k40_published_tables_recheck.py` | 0 | 7195检查/0失败，566引用；1.605秒 |
+| `pipeline_context_reuse_bench.py` | 0 | 40/120/250日1.2/1.5/1.9倍；热路径新增验证/物化0/0；94.948秒 |
+| `empirical_apply_scaling_bench.py` | 1 | Z13复现：100k/H60=6383.350ms，第二hash3174.1ms；修复后原探针raw0 |
+| `context_cost_profile.py MINUTE 250 TREND` | 0 | 333.2ms/context；模型/特征/hash份额65.0%/25.9%/0.4% |
+| `context_cost_profile.py DAILY 250 TREND` | 0 | 158.4ms/context；模型/特征/hash份额29.2%/65.2%/0.5% |
 
-**全量基线**：旧r7=6345ran/6107P/145F/60E/33skip/8CE/raw1；新BEFORE=6371ran/6133P/145F/60E/33skip/8CE/raw1，unresolved0，仅增加K40-B26通过。四成员补充为confirmation9P/raw0、duplicate9P/raw0、range5P6F/raw1；记录/比较raw0/0，旧节点无丢失、新增F/E/CE均0。AFTER待K44最终测试冻结，届时按node严格比较；不将前测通过冒充产品最终PASS。仅全量回归positive_cold_run夹具有既有授权，不启动正式新冷链。
+外审差异：本机Windows耗时高于外审Linux；结论按实测，不视为数值等价失败。K14后测MINUTE127.8ms（份额2.8%/65.5%/8.8%）、DAILY284.4ms（1.5%/86.9%/5.1%），原probe raw0/0；后测有其他并发，不能宣称普遍加速或确定日线变慢原因。份额来自独立profile循环，不能乘plain毫秒冒充绝对组件耗时。
 
-**S4命令与终态**：`C:/AKH81113/measurements/s4-r1/venv/Scripts/python.exe -I -B -m pip --isolated install --disable-pip-version-check --index-url https://pypi.org/simple -r D:/Projects/AK-trading/requirements.txt pytest`；恢复原始退出1（WALL_CLOCK_TIMEOUT），原始压缩日志与RESULT在仓库外`C:/AKH81113/measurements/s4-r2/`。离线`tests/test_mcp_auth.py`未运行，不能宣称鉴权通过或失败。
+**完整回归**：两侧均用同Python3.13.15、74包版本、8GiB原监督器及离线入口。原226测试文件逐字节保留，新增K14/K43/K44=92/47/98共237节点。命令为`python -B -X utf8 scripts/test_offline.py -q --continue-on-collection-errors --basetemp <独立目录>`，前测src01/tb01，最终确认src03/ta03。
 
-**待决**：尚无DECISIONS未覆盖且必须用户决定的新事项；作者技术裁定与用户专属事项分开，不因此停止不受影响任务。
+| 完整运行 | P | F | E | skip | 收集错误文件 | selected | 原始退出 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 旧r7（不含K40-B26项） | 6107 | 145 | 60 | 33 | 8 | 6345 | 1 |
+| 本批BEFORE（6471.89秒） | 6133 | 145 | 60 | 33 | 8 | 6371 | 1 |
+| AFTER02（6311.63秒，失败保留） | 6369 | 146 | 60 | 33 | 8 | 6608 | 1 |
+| 最终AFTER03（5459.68秒） | 6370 | 145 | 60 | 33 | 8 | 6608 | 1 |
 
-**用户专属尚未确认完成**：仓库转私有；轮换行情服务令牌并重启；收紧公网入口；Windows长路径；可选分支保护；实际资金是否偏离研究100万元；遗留分支处置。按DECISIONS第四节由用户本人操作。
+最终record/compare/assembler均raw0：新增及消失F/E/CE全0，旧nodes/files/domains无丢失，unresolved0；237新节点纳入且不在F/E，完整M1–M4同1006节点/F/E0。四成员另含confirmation9P/raw0、duplicate9P/raw0、range5P6F/raw1；三个同src03探针原样复用并保留实际run ID，四成员总6637selected。新r8基线待随K44入库，旧基线不覆盖。
 
-**边界**：最终holdout为交易日2026-09-05及之后，不登记、不消耗。J20三列名包允许整包研究，遇边界行停相应任务。只K44导出脚本可按J23自行读取指定env文件，agent不查看/打印/修改凭据。公开仓库不推输入、逐笔、候选、合同锁、验收包。交易enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。暂停项不恢复，K45只设计，三个v1规则与参数不变。
+**保留的失败及作者裁定**：K44-F01在r1确实FAIL（输出允许置于输入包内）；r2仅修目录守卫及29条回归，非守卫53定义/config不变，四小矩阵各2478文件字节一致，独审确认修复。实际两矩阵输出从未重叠，按作者001裁定复用原r1真实结果，CHECK不改签r2。src02过期后测受控停为PARTIAL/raw130，自动assembler2拒绝残缺，未冒充基线。AFTER02唯一新增为`test_internal_decode_defect_still_500_not_widened_400`在收HTTP状态行前超时；D1单例1P、D2整文件141P仅诊断。按原作者限定的一次低并发完整AFTER03确认后零新增；原FAIL永久保留，原因/归因仍NOT_ESTABLISHED，未改原5秒超时、断言或源码。
 
-**发布异常**：K43常规git push原raw128（连接reset）及Git远端读取raw128保留；官方API可用。仅上传本次9文件相同Git blobs/tree/commit，核本地与远端HEAD均9608b5c，force=false更新main，native0，未推候选/输入/锁。实际该HEAD CI成功；不是用另一份内容替代已审核提交。
+**其他裁定与外审差异**：K43/K44只用前根已存完整bar持仓量，历史可知时点未证，标SCENARIO，不冒称PIT。K14拟合自产样本走不可变tuple缓存，外来可变图保持安全回退与别名语义，JSON/hash/数值不变。K42b首测raw3因v2.1.2封套被正式v2.1.3 loader拒绝；作者仅批准保原字段/版本的记录测量适配，正式loader仍REJECTED_VERSION，不授权K45拟合。
+
+**K45固定设计**：两模式均r2；TRAIN2023-01-03—2024-02-29，CAL2024-03-01—2024-05-31，TEST2024-06-03—2024-10-18，成熟尾2024-10-21—2024-11-15（不新增决策）。分钟原每节第5格；候选上界27739分钟/431日线锚点、419964请求。Brier八期限家族控制、logloss/校准对照一致、非UNCONDITIONAL胜者和至少60共同评分日；较外部“任一期限95%下限>0”建议更严格。合成context算术参考61.12701分钟，1/3/10倍规划情景1.02/3.06/10.19小时；真实fit/label/IO/bootstrap工时未测，不承诺完整研究约一小时。
+
+**S4命令**：`C:/AKH81113/measurements/s4-r1/venv/Scripts/python.exe -I -B -m pip --isolated install --disable-pip-version-check --index-url https://pypi.org/simple -r D:/Projects/AK-trading/requirements.txt pytest`；第二次child raw1/WALL_CLOCK_TIMEOUT，监督记录raw0。见外置`s4-r2/RESULT.json`，鉴权NOT_RUN不当测试FAIL。
+
+**独立最终结论**：K14 `reviews/k14/hard-review-r1/final-001/VERDICT.json` SHA256 `a957f831d0c24a32264da1147c4527e9251a80afadb078203497b663fccee918`；K44 `reviews/k44/hard-review-final-r1/VERDICT.json` SHA256 `ca2f2aaba95a38be28ac898134134a66faa014cfb77116f9b8af81784f1e78e1`（均相对外置根`C:/AKH81113/`，均无条件PASS）。当前发布仍待main/CI回读，产品审核与整批集成事实分别记录。
+
+**待决**：无DECISIONS未覆盖且需要用户决定的新事项。S4依赖安装阻塞留给后续授权批次，不自动开修复计划。
+
+**用户专属尚未确认完成**：仓库转私有；轮换行情服务令牌并重启；收紧公网入口；Windows长路径；可选分支保护；实际资金是否偏离研究100万元；遗留分支处置。继续由用户本人操作。
+
+**安全及停止边界**：无最终holdout使用；新导出均截止2026-09-04。只授权脚本按env-file路径自行读取连接串，agent不看/打印/修改凭据。公开仓库只推工具/测试/配置/汇总，不推输入、逐笔、候选分支、合同锁、验收包。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。H5/H6/H7、N8/DISPATCH、shadow/Forward/paper及暂停工程项均未恢复。
