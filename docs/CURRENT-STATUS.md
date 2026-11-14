@@ -1,64 +1,53 @@
-本周：六品种报告、优化与基线已推送，CI通过。
-卡点：S4独立环境安装未完成。
+本周：修订预测检验设计，完成六品种报告第二版。
+卡点：设计已定，进入工具开发及报告复算。
 请你：仓库转私有、换令牌、收紧入口、开长路径。
 
-五个新增品种都完成了固定条件下的日线模拟，螺纹钢沿用此前接受的结果。
-首表使用相同初始资金和基准成本，分别列出主力归集与全部独立合约的净额。
-规格采用已核实的静态合约值；前根持仓量的历史可知时点仍未得到验证。
-主力列拼接的是各原账户当日盈亏，不是一笔资本连续执行的换月回测。
-结果为情景描述，统计资格未评定，也没有据此调参或建议交易。
+# 第七轮外审第四批：执行中
 
-# 第六轮外审第三批：完成及阻塞交接
+本批仅 K45a、K45b、K45c、K46、S4b，全部完成或阻塞后停止，不自动开始下一批。外审是建议与用户采纳的决定，不是有效开发计划或产品硬审。计划/开发使用 Astra/max，独立审核/辅助使用 Sol6.1/max，依据 PROJECT-MODEL-ROLES.md 顶部现行表；规则文件本批不改。
 
-本批仅S3、K43、K14、K44、K42b、S4、K45，完成或阻塞后停止。外审分支仅新增9文件，fetch/merge均raw0，合入HEAD `af9436fe77b8f75f9043a4c55121bd1a120cb376`。现行分工为Astra/max计划与开发、Sol6.1/max独审及辅助。原始压缩日志、输入及审核包均留仓库外`C:/AKH81113/`，以下为交接摘要。
+**取得文档**：`git fetch origin`、`git merge --ff-only origin/claude/repo-audit-20261114`、`git push origin main` 均原始退出0；原HEAD `b08c444c35ab14656a68b5b970db6e99c43fc443`，合入/已推送HEAD `8c55c476d3b369f35d80fa1c2f547505a6ab16b0`。逐项验证仅新增指定外审目录11文件。已按顺序完整读 DECISIONS、NEXT-BATCH、REVIEW。
 
-| 任务 | 状态、提交与验证 |
+**开工资源**：空闲内存约33.1GiB，C盘47.573GiB，D盘42.089GiB。上一批开发/审核已结束。原始日志压缩后留仓库外 `C:/AKR71114/`。
+
+| 任务 | 当前阶段、负责人和依赖 |
 | --- | --- |
-| S3 | 完成：`ab65e45`的`* -text`、`c61f772`的两处规则替换/CI三文件。52个仅换行文件恢复HEAD字节；无renormalize。CI43427609055成功，1381P/4skip/raw0。 |
-| K43 | 完成：`9608b5c`，独审无条件PASS；97P/raw0，130318独立比较/0失败，8组反例；CI43436732625成功，1428P/4skip。报告[v1-daily-baseline-rb.md](research/v1-daily-baseline-rb.md)。 |
-| K14 | 完成：`4021186`已推送，CI43538842942成功，1520P/4skip/raw0；独立无条件PASS。93P、完整M1–M4 1006P均raw0；669差分断言，26回放产物字节不变；最终完整回归零新增。 |
-| K44 | 完成：`769be5a`已推送，CI43539555058成功，1618P/4skip/raw0；独立无条件PASS，49文件、CI接线及r8基线已入库。最终r2工具与r1实际生成结果来源分别保留；195P/raw0、78守卫反例；两次28400账户/170470产物/7CHECK字节差异0；253816634项独立Fraction检查/0失败，未用owner数学函数。报告[v1-daily-baseline-universe.md](research/v1-daily-baseline-universe.md)。 |
-| K42b | 完成：`50154b5`，CI43442336144成功，1428P/4skip。测量raw0：1783377可用分钟、452日、累计bar×close放行64.431955%，当节cohort98.837094%；594次生产集合相同。表[k42-real-input-readiness.md](research/k42-real-input-readiness.md)。 |
-| S4 | 阻塞，记录已推送`b10a4ee`，CI43451659023成功。独立venv创建raw0，安装两次raw1（后次1800.006秒超时）。鉴权启动0次，P/F/E/skip均NA；未改依赖、测试、守卫或基准环境，不继续重试。 |
-| K45 | 完成设计：`ba26032`，CI43449548520成功。一次Sol意见5项全采纳；只设计，未真实拟合/评分。[k45-forecast-skill-design.md](research/k45-forecast-skill-design.md)。 |
+| K45a | 原 Astra 作者已发布有效v2，并采纳唯一独立意见A01；原文38719字节保持不变。固定r1、N=5、研究编排方向拟合、半宽0.02、TRAIN内固定预演；不改src。修订随本次提交入main，不再设计划PASS门。 |
+| K45b | 独立 Astra 开发者已完成只读准备，K45a入库后立即实施；限两个研究工具及两个合成测试文件，Root同步CI。阶段一/二不查看TEST标签、价格变动或其统计，硬审PASS前不启动R001。 |
+| K45c | 尚未开始；仅在 K45b 独立硬审无条件PASS后，执行一次K45-R001。 |
+| K46 | 唯一独立计划意见已完成，无追加建议；原作者发布有效稿后立即交原Astra开发者实施。不新回放，独立复算排在K45b硬审前。 |
+| S4b | 已完成并关闭：隔离安装967.322秒，正式15项运行raw1，5通过/10失败/0错误；均在FastMCP初始化时被离线凭据守卫拦截，未到鉴权断言。不继续安装、重跑或修测试/服务。 |
 
-**开工复现**：cwd仓库根，命令前缀`C:/AKR41110/venv-full/Scripts/python.exe -B -X utf8 docs/repo-audit-20261113-r6-claude/probes/`。四组实际五条，非pytest不虚报通过数。
+**六条开工复现**：由 Sol 辅助者从仓库根使用 `C:/AKR41110/venv-full/Scripts/python.exe -B -X utf8` 串行执行下列外审原探针，记录原生退出与压缩双流。原始退出1可表示探针发现问题，不改写为成功；非pytest不虚报passed/failed。
 
-| 命令尾部 | 原始退出 | 实测 |
-| --- | ---: | --- |
-| `k40_published_tables_recheck.py` | 0 | 7195检查/0失败，566引用；1.605秒 |
-| `pipeline_context_reuse_bench.py` | 0 | 40/120/250日1.2/1.5/1.9倍；热路径新增验证/物化0/0；94.948秒 |
-| `empirical_apply_scaling_bench.py` | 1 | Z13复现：100k/H60=6383.350ms，第二hash3174.1ms；修复后原探针raw0 |
-| `context_cost_profile.py MINUTE 250 TREND` | 0 | 333.2ms/context；模型/特征/hash份额65.0%/25.9%/0.4% |
-| `context_cost_profile.py DAILY 250 TREND` | 0 | 158.4ms/context；模型/特征/hash份额29.2%/65.2%/0.5% |
+| 命令（均在 docs/repo-audit-20261114-claude/probes/） | 原始退出 | 实测 |
+| --- | --- | --- |
+| k44_published_tables_recheck.py | 0 | 32467项检查/0不一致，6.294秒；旧r1/r2工具与测试2项build pin差异再次确认。 |
+| minute_anchor_availability_probe.py | 1 | Z23复现，47.479秒；60秒延迟的节内65候选/0可用、600逐秒时刻0可用；1/30/59秒各65/65可用及标签。暂缓条件未触发。 |
+| k45_fit_cost_probe.py | 0 | 206.701秒；方向49.2–112.4分钟，全任务39.9–113.0小时/约49–60倍。合成缩量外推，非真实拟合；高于外审全任务7–17小时。 |
+| direction_only_equivalence_probe.py | 0 | 84.284秒；2单元×4候选=8方向模型、2选中，参数/损失/标记/温度差异0；全任务120模型72.1秒，方向路径12模型4.7秒。 |
+| feature_history_scaling_probe.py | 1 | Z28复现，112.877秒；120候选全READY，历史810→82575根时顺序92.23→1342.04ms、重复90.97→5389.30ms；高于外审耗时。 |
+| model_hash_residual_bench.py | 1 | Z26/Z27复现，54.578秒；读回10万样本预测69.085ms，hash5190.8ms/直接881.3ms约5.9倍；收益/行情参考第二hash697.5/103.07ms。无数值不一致(native非2)。 |
 
-外审差异：本机Windows耗时高于外审Linux；结论按实测，不视为数值等价失败。K14后测MINUTE127.8ms（份额2.8%/65.5%/8.8%）、DAILY284.4ms（1.5%/86.9%/5.1%），原probe raw0/0；后测有其他并发，不能宣称普遍加速或确定日线变慢原因。份额来自独立profile循环，不能乘plain毫秒冒充绝对组件耗时。
+**S4b命令及失败清单**：`C:/AKR71114/s4b-r1/venv/Scripts/python.exe -B -X utf8 scripts/test_offline.py -q tests/test_mcp_auth.py --basetemp C:/AKR71114/s4b-r1/test-temp-02`，raw1、8.358秒、5 passed/10 failed。官方索引安装raw1后，在同一20分钟窗口用允许的镜像安装raw0、pip check raw0；首次收集raw2（缺tzdata，0项运行），补齐该导入依赖raw0后才执行上述15项。原始记录均保留在仓库外。以下节点均属`tests/test_mcp_auth.py`，逐项原因相同：FastMCP→pydantic-settings尝试非夹具dotenv路径，被守卫在实际读取之前拒绝；真实凭据未读，鉴权行为未完成验证。
 
-**完整回归**：两侧均用同Python3.13.15、74包版本、8GiB原监督器及离线入口。原226测试文件逐字节保留，新增K14/K43/K44=92/47/98共237节点。命令为`python -B -X utf8 scripts/test_offline.py -q --continue-on-collection-errors --basetemp <独立目录>`，前测src01/tb01，最终确认src03/ta03。
+| 失败节点 | 原因 |
+| --- | --- |
+| test_healthz_open_without_token | 初始化触发受禁dotenv读取，未到断言。 |
+| test_mcp_requires_token | 初始化触发受禁dotenv读取，未到断言。 |
+| test_mcp_rejects_wrong_token | 初始化触发受禁dotenv读取，未到断言。 |
+| test_mcp_accepts_correct_token | 初始化触发受禁dotenv读取，未到断言。 |
+| test_allowlist_rejects_other_clients | 初始化触发受禁dotenv读取，未到断言。 |
+| test_allowlist_rejects_unparseable_client | 初始化触发受禁dotenv读取，未到断言。 |
+| test_allowlist_accepts_listed_client | 初始化触发受禁dotenv读取，未到断言。 |
+| test_allowlist_accepts_cidr_client | 初始化触发受禁dotenv读取，未到断言。 |
+| test_rate_limit_returns_429 | 初始化触发受禁dotenv读取，未到断言。 |
+| test_rate_limit_applies_to_unauthorized_floods | 初始化触发受禁dotenv读取，未到断言。 |
 
-| 完整运行 | P | F | E | skip | 收集错误文件 | selected | 原始退出 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 旧r7（不含K40-B26项） | 6107 | 145 | 60 | 33 | 8 | 6345 | 1 |
-| 本批BEFORE（6471.89秒） | 6133 | 145 | 60 | 33 | 8 | 6371 | 1 |
-| AFTER02（6311.63秒，失败保留） | 6369 | 146 | 60 | 33 | 8 | 6608 | 1 |
-| 最终AFTER03（5459.68秒） | 6370 | 145 | 60 | 33 | 8 | 6608 | 1 |
+**基线与改动**：当前无产品代码改动，K45有效计划也不改src。本批入口为已接受r8；其中完整full_suite为6370通过/145失败/60错误/33跳过/8收集错误文件（raw1），连同三个探针的四成员合计6393通过/151失败/60错误/33跳过、6637selected。两种口径分开记录。不以工具定向测试冒充新全量；如后续确需改产品，须先由作者裁定并执行前后全量、逐例比较新增失败为0。
 
-最终record/compare/assembler均raw0：新增及消失F/E/CE全0，旧nodes/files/domains无丢失，unresolved0；237新节点纳入且不在F/E，完整M1–M4同1006节点/F/E0。四成员另含confirmation9P/raw0、duplicate9P/raw0、range5P6F/raw1；三个同src03探针原样复用并保留实际run ID，四成员总6637selected。已随`769be5a`新增`tests/baselines/full-suite-windows-20261113-r8.json`（SHA256 `928d8745493dbdf661b1dfe943d51efea300bafc125c1d7a4c7f31ff5379aef3`），逐字节来自已接受AFTER03，旧基线不覆盖。
+**待决**：暂无DECISIONS未覆盖且确需用户决定的新事项。
 
-**保留的失败及作者裁定**：K44-F01在r1确实FAIL（输出允许置于输入包内）；r2仅修目录守卫及29条回归，非守卫53定义/config不变，四小矩阵各2478文件字节一致，独审确认修复。实际两矩阵输出从未重叠，按作者001裁定复用原r1真实结果，CHECK不改签r2。src02过期后测受控停为PARTIAL/raw130，自动assembler2拒绝残缺，未冒充基线。AFTER02唯一新增为`test_internal_decode_defect_still_500_not_widened_400`在收HTTP状态行前超时；D1单例1P、D2整文件141P仅诊断。按原作者限定的一次低并发完整AFTER03确认后零新增；原FAIL永久保留，原因/归因仍NOT_ESTABLISHED，未改原5秒超时、断言或源码。
+**用户专属未确认完成**：仓库转私有；轮换行情服务令牌并重启；收紧公网入口；Windows长路径；可选分支保护；实际资金与研究100万元是否不同；遗留分支处置。
 
-**其他裁定与外审差异**：K43/K44只用前根已存完整bar持仓量，历史可知时点未证，标SCENARIO，不冒称PIT。K14拟合自产样本走不可变tuple缓存，外来可变图保持安全回退与别名语义，JSON/hash/数值不变。K42b首测raw3因v2.1.2封套被正式v2.1.3 loader拒绝；作者仅批准保原字段/版本的记录测量适配，正式loader仍REJECTED_VERSION，不授权K45拟合。
-
-**K45固定设计**：两模式均r2；TRAIN2023-01-03—2024-02-29，CAL2024-03-01—2024-05-31，TEST2024-06-03—2024-10-18，成熟尾2024-10-21—2024-11-15（不新增决策）。分钟原每节第5格；候选上界27739分钟/431日线锚点、419964请求。Brier八期限家族控制、logloss/校准对照一致、非UNCONDITIONAL胜者和至少60共同评分日；较外部“任一期限95%下限>0”建议更严格。合成context算术参考61.12701分钟，1/3/10倍规划情景1.02/3.06/10.19小时；真实fit/label/IO/bootstrap工时未测，不承诺完整研究约一小时。
-
-**S4命令**：`C:/AKH81113/measurements/s4-r1/venv/Scripts/python.exe -I -B -m pip --isolated install --disable-pip-version-check --index-url https://pypi.org/simple -r D:/Projects/AK-trading/requirements.txt pytest`；第二次child raw1/WALL_CLOCK_TIMEOUT，监督记录raw0。见外置`s4-r2/RESULT.json`，鉴权NOT_RUN不当测试FAIL。
-
-**独立最终结论**：K14 `reviews/k14/hard-review-r1/final-001/VERDICT.json` SHA256 `a957f831d0c24a32264da1147c4527e9251a80afadb078203497b663fccee918`；K44 `reviews/k44/hard-review-final-r1/VERDICT.json` SHA256 `ca2f2aaba95a38be28ac898134134a66faa014cfb77116f9b8af81784f1e78e1`（均相对外置根`C:/AKH81113/`，均无条件PASS）。K14 `4021186`与K44 `769be5a`的main和实际HEAD CI均已回读成功；CI分别1520P/4skip、1618P/4skip，raw0。产品审核通过与历史全量仍有失败分别记录。
-
-**待决**：无DECISIONS未覆盖且需要用户决定的新事项。S4依赖安装阻塞留给后续授权批次，不自动开修复计划。
-
-**用户专属尚未确认完成**：仓库转私有；轮换行情服务令牌并重启；收紧公网入口；Windows长路径；可选分支保护；实际资金是否偏离研究100万元；遗留分支处置。继续由用户本人操作。
-
-**安全及停止边界**：无最终holdout使用；新导出均截止2026-09-04。只授权脚本按env-file路径自行读取连接串，agent不看/打印/修改凭据。公开仓库只推工具/测试/配置/汇总，不推输入、逐笔、候选分支、合同锁、验收包。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。H5/H6/H7、N8/DISPATCH、shadow/Forward/paper及暂停工程项均未恢复。
-
-**发布与停止**：本批6项完成、S4阻塞；全部开发和独审子代理已结束。代码、汇总报告、r8基线和本交接页均按精确写集发布，不包含历史无关未跟踪文件。K14首次Git推送raw1（连接重置）未被误判成功；已通过GitHub对象API非强推发布，远端tree/commit与本地逐一一致。K44亦按相同方式回读，原失败保留在仓库外。本页为最后状态交接，不改产品或已核验基线；本批收尾后停止，不启动新计划、模块或下一批。
+**边界**：不看/打印/改动.env或凭据，不改r1/r2，不导新行情、不新回放，不读最终holdout2026-09-05及以后；阶段三前不查看TEST标签或价格变动。enable_trading=False、observer=hold、broker=NOT_RUN、真实send/cancel=0/0。暂停工程及N8/DISPATCH、shadow/Forward/paper均不恢复。公开仓库只推授权工具、测试、配置、汇总与精简CHECK；不推输入、逐笔、候选分支、合同锁、验收包；旧CHECK不删除。
