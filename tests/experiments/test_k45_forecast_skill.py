@@ -122,7 +122,15 @@ def oracle_case(request, tmp_path_factory):
         reference.training_end_nano, reference.available_at_nano)
     assert k.canonical_json_bytes(k.reference_payload(restored_reference)) == k.canonical_json_bytes(k.reference_payload(reference))
     research = k.fit_direction(train, cal, config, reference)
-    return request.param, train, cal, config, reference, full, research
+    # The legacy stream comparison stays in place; the returned result now also
+    # traverses the resident tuple path used by the effective v3 experiment.
+    tuple_train = k.resident_segment(tuple(train.requests), {a.snapshot_id: a for a in train.regimes}, train.labels)
+    tuple_cal = k.resident_segment(tuple(cal.requests), {a.snapshot_id: a for a in cal.regimes}, cal.labels)
+    assert isinstance(k.segment_access(tuple_train), k.models._TupleSegmentAccess)
+    assert isinstance(k.segment_access(tuple_cal), k.models._TupleSegmentAccess)
+    actual = k.fit_direction(tuple_train, tuple_cal, config, reference)
+    assert k.canonical_json_bytes(actual.payload()) == k.canonical_json_bytes(research.payload())
+    return request.param, tuple_train, tuple_cal, config, reference, full, actual
 
 
 def test_all_eight_horizons_all_four_candidates_bit_exact_unmodified_full_oracle(oracle_case):
@@ -578,3 +586,122 @@ def test_n1_n5_n30_n59_same_anchor_window_but_distinct_identity_and_rule_first_s
     with_rule = replace(bundle, rules=(delayed_rule,))
     assert k.visible_rule(with_rule, CONTRACT, original[199].end_nano + 5 * NANO) is None
     assert k.visible_rule(with_rule, CONTRACT, original[199].end_nano + 30 * NANO) == delayed_rule
+
+
+def resident_identity_case(price_change=False):
+    """SYNTHETIC real feature/production request chain for subprocess identity tests."""
+    import random
+    rng = random.Random(20261114)
+    rows, value = [], 1000.
+    for i in range(260):
+        value += rng.uniform(-2, 2)
+        delta = Decimal('.1') if price_change and i == 190 else Decimal(0)
+        base = Decimal(str(value))
+        rows.append(replace(bar(f'SYNTHETIC-V3-{i}', offset=i), open=base, close=base + Decimal('.2') + delta,
+            high=base + 2, low=base - 2, volume=Decimal(i % 11 + 10), open_oi=Decimal(i + 100), close_oi=Decimal(i + 101)))
+    rule = k.TradingRule('SYNTHETIC-V3-RULE', CONTRACT, BASE - DAY, BASE + DAY, BASE - DAY,
+        Decimal(10), Decimal(1), 1, 1, None, None, None, None, None, None, None,
+        Decimal(0), Decimal(0), Decimal('.1'), 'SCENARIO', HASH)
+    original = k.FrozenInput(Path('SYNTHETIC'), HASH, (), SESSIONS[:1], tuple(rows), (), (rule,))
+    bundle, _ = k.scenario_view(original)
+    features, requests = [], []
+    for i in (199, 204, 209):
+        snapshot, _, _ = k._features(bundle, CONTRACT, rows[i].end_nano + 5 * NANO, 60, None, None, SESSIONS[:1])
+        assert not k.usable_feature(snapshot)
+        features.append(snapshot)
+        requests.extend(k.build_forecast_requests(snapshot, (k.Horizon('TRADING_MINUTE', 5),), k.freeze_range(snapshot), SESSIONS[:1]))
+    return tuple(features), tuple(requests)
+
+
+def test_resident_cross_process_hashseed_identity_sequences_are_exact(tmp_path):
+    import subprocess
+    program = (
+        "import runpy,json; m=runpy.run_path('tests/experiments/test_k45_forecast_skill.py'); "
+        "f,r=m['resident_identity_case'](); "
+        "print(json.dumps({'snapshots':[x.snapshot_id for x in f],'requests':[x.request_id for x in r]}))"
+    )
+    results = []
+    for seed in ('1', '57931'):
+        result = subprocess.run([sys.executable, '-X', 'utf8', '-c', program], cwd=ROOT,
+            env={'SystemRoot': 'C:/Windows', 'WINDIR': 'C:/Windows', 'TEMP': str(tmp_path), 'TMP': str(tmp_path),
+                 'PYTHONHASHSEED': seed, 'PYTHONNOUSERSITE': '1'},
+            capture_output=True, text=True, encoding='utf-8', timeout=120)
+        assert result.returncode == 0, {'raw_exit': result.returncode, 'stderr': result.stderr}
+        assert not result.stderr
+        results.append(json.loads(result.stdout))
+    assert results[0] == results[1]
+    assert len(results[0]['snapshots']) == 3 and len(results[0]['requests']) == 9
+
+
+def test_resident_fit_boundary_discards_future_and_blocks_source_reopen(tmp_path):
+    sessions = formal_sessions()
+    cutoff = k.split_for(sessions, 'MINUTE').calibration_end_nano
+    kept = replace(bar(), trading_day=date(2024, 5, 31), end_nano=cutoff - 1)
+    future = replace(bar('SYNTHETIC-FUTURE'), trading_day=date(2024, 6, 3))
+    unknown = replace(bar('SYNTHETIC-UNKNOWN'), trading_day=None)
+    full = k.FrozenInput(tmp_path, HASH, (), sessions, (kept, future, unknown), (), ())
+    truncated = k.truncate_fit_bundle(full, cutoff)
+    assert truncated.bars == (kept,)
+    assert truncated.sessions is sessions and truncated.root != tmp_path
+    inputs = k.ResidentInputs({CONTRACT: truncated}, sessions, (), {}, 'MINUTE', cutoff, ())
+    with k.resident_fit_scope(inputs):
+        assert all(b is kept for rows in k._WindowIndex(truncated).groups.values() for b in rows)
+        with pytest.raises(k.ResearchError, match='FIT_SOURCE_REOPEN_FORBIDDEN'):
+            k.read_original_shard(tmp_path, HASH)
+    poisoned = replace(inputs, bundles={CONTRACT: replace(truncated, bars=(kept, future))})
+    with pytest.raises(k.ResearchError, match='FIT_FUTURE_BAR_REACHABLE'):
+        with k.resident_fit_scope(poisoned):
+            pytest.fail('A future bar reached the fit body')
+
+
+def test_resident_changed_synthetic_price_stops_before_prediction(tmp_path, monkeypatch):
+    features, requests = resident_identity_case()
+    changed_features, changed_requests = resident_identity_case(price_change=True)
+    bindings = {'source_collection_sha256': HASH, 'scenario': 'SYNTHETIC-N5'}
+    def sequences(fs, rs):
+        return (k.id_sequence('R001', 'MINUTE', 'TEST', 5, 'snapshots', (f.snapshot_id for f in fs)),
+                k.id_sequence('R001', 'MINUTE', 'TEST', 5, 'generated_requests', (r.request_id for r in rs)))
+    frozen = k.seal_identity_sequences(tmp_path / 'sealed', sequences(features, requests), bindings)
+    called = []
+    monkeypatch.setattr(k, 'predict_rows', lambda *args, **kwargs: called.append('PREDICT'))
+    with pytest.raises(k.ResearchError, match='RECONSTRUCTED_ID_SEQUENCE_MISMATCH'):
+        k.predict_verified(None, None, frozen, sequences(changed_features, changed_requests), bindings)
+    assert called == []
+    k.predict_verified(None, None, frozen, sequences(features, requests), bindings)
+    assert called == ['PREDICT']
+
+
+def test_resident_identity_preserves_order_duplicates_and_assessment_gate(tmp_path):
+    binding = {'classification': 'SYNTHETIC'}
+    sequence = k.id_sequence('R001', 'MINUTE', 'TEST', 5, 'assessments', ('a', 'b', 'a'))
+    frozen = k.seal_identity_sequences(tmp_path, (sequence,), binding)
+    assert frozen[0]['count'] == 3
+    for altered in (('a', 'a', 'b'), ('a', 'b'), ('a', 'changed', 'a')):
+        with pytest.raises(k.ResearchError, match='RECONSTRUCTED_ID_SEQUENCE_MISMATCH'):
+            k.verify_identity_sequences(frozen, (dict(sequence, ids=list(altered)),), binding)
+
+
+def test_resident_rehearsal_reuses_objects_rebuilds_reference_and_previous():
+    sessions = formal_sessions()
+    dates = (date(2023, 1, 4), date(2023, 10, 31), date(2023, 11, 2), date(2023, 12, 28),
+             date(2024, 2, 29), date(2024, 3, 5))
+    features = tuple(formal_request(day)[0].features for day in dates)
+    formal = k.resident_chain(features, (), sessions, 'MINUTE', k.Timings(), state_keys=((CONTRACT, 60), ('SYNTHETIC-NONE', 60)))
+    training = tuple(f for f in features if f.trading_day <= date(2024, 2, 29))
+    requests = tuple(r for r in formal.requests if r.features.trading_day <= date(2024, 2, 29))
+    rehearsal = k.resident_chain(training, (), sessions, 'MINUTE', k.Timings(), purpose='DRY_RUN', reuse_requests=requests)
+    assert all(a is b for a, b in zip(training, rehearsal.features))
+    assert all(a is b for a, b in zip(requests, rehearsal.requests))
+    assert formal.reference.reference_id != rehearsal.reference.reference_id
+    for f in rehearsal.features:
+        if f.trading_day > date(2023, 10, 31):
+            assert rehearsal.assessments[f.snapshot_id].reference_id == rehearsal.reference.reference_id
+    assert formal.previous[CONTRACT, 60] is formal.assessments[features[-1].snapshot_id]
+    assert formal.previous['SYNTHETIC-NONE', 60] is None
+    restored = k.decode_previous(k.previous_payload(formal.previous))
+    assert restored == formal.previous
+    test_feature = formal_request(date(2024, 6, 4))[0].features
+    test = k.resident_chain((test_feature,), (), sessions, 'MINUTE', k.Timings(),
+        reference=formal.reference, previous=restored)
+    assert restored == formal.previous
+    assert test.previous[CONTRACT, 60] is test.assessments[test_feature.snapshot_id]

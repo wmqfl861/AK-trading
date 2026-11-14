@@ -7,19 +7,22 @@ Stage three requires the independent review and is never called implicitly.
 from __future__ import annotations
 
 import argparse
-from bisect import bisect_left
+from bisect import bisect_left, bisect_right
 from collections import Counter, defaultdict
 from collections.abc import Mapping
 import copy
 import csv
+from contextlib import contextmanager
 from dataclasses import dataclass, fields, is_dataclass, replace
 from datetime import date, datetime, timezone
 from decimal import Decimal
 import gzip
+import gc
 import hashlib
 import importlib.util
 import json
 import math
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -72,7 +75,7 @@ MINUTE = 60 * NANO
 TZ = ZoneInfo("Asia/Shanghai")
 SOURCE_VERSION = "ak_probability_strategy_contract_v2.1.2"
 SOURCE_COLLECTION_SHA = "09e7353c3094d42e777ce87bcd54a90a3384d2050005cd422fc073db32951e8e"
-PLAN_SHA = "1f2ce88a8a86049d82560ebff7b849cea8414486f66674b2ca6e3380b97e7f48"
+PLAN_SHA = "cc753d6175a21deb513857e66d8d3271befa7989138d13bda8afb169e977f09a"
 PRODUCTION_MODELS_SHA = "ce91e507d4acae6566b21bbf5f56caf858746cfe86a995a54a8511e49b1ade2f"
 HOLDOUT = date(2026, 9, 5)
 SCENARIO_SECONDS = 5
@@ -90,6 +93,7 @@ CALL_COUNTS = Counter()
 CACHE_RECORDS = 2
 CACHE_BYTES = 32 * 1024 ** 2
 STREAM_SCHEMA = "k45-record-stream-v1"
+FIT_INPUTS_CLOSED = False
 
 
 def actual_test_counts():
@@ -428,6 +432,7 @@ def original_record_envelope(payload, record_type, schema):
 
 def read_original_shard(path, expected_hash):
     """K45-only v2.1.2 envelope adapter; current dataclasses remain authoritative."""
+    require(not FIT_INPUTS_CLOSED, "FIT_SOURCE_REOPEN_FORBIDDEN")
     path = Path(path)
     require(path.is_dir() and not path.is_symlink(), "SHARD_PATH_INVALID")
     raw = (path / "manifest.json").read_bytes()
@@ -667,9 +672,12 @@ class Anchor:
         return "DAILY" if self.duration == 86400 else "MINUTE"
 
 
-def anchors(bundle, selected, *, purpose="R001"):
+def anchors(bundle, selected, *, purpose="R001", step=5, mode=None, partitions=None):
     """Original session grid; missing or delayed bars never renumber it."""
+    require(type(step) is int and step in (5, 15), "SAMPLING_STEP_INVALID")
+    require(mode is None or mode in HORIZONS, "MODE_INVALID")
     dates = FORMAL_DATES if purpose == "R001" else DRY_DATES
+    partitions = set(dates) if partitions is None else set(partitions)
     minutes, daily = defaultdict(list), defaultdict(list)
     for bar in bundle.bars:
         if bar.duration_seconds == 60:
@@ -680,12 +688,12 @@ def anchors(bundle, selected, *, purpose="R001"):
     result = []
     for session in sorted(bundle.sessions, key=lambda s: s.start_nano):
         day = session.trading_day
-        if partition_day(day, dates) not in dates:
+        if mode == "DAILY" or partition_day(day, dates) not in partitions:
             continue
         contract = selected.get((day, 60))
         if contract not in contracts:
             continue
-        for end in range(session.start_nano + 5 * MINUTE, session.end_nano + 1, 5 * MINUTE):
+        for end in range(session.start_nano + step * MINUTE, session.end_nano + 1, step * MINUTE):
             candidates = minutes.get((contract, session.session_id, end), [])
             require(len(candidates) <= 1, "ANCHOR_BAR_IDENTITY_CONFLICT")
             reason, decision = [], None
@@ -703,7 +711,7 @@ def anchors(bundle, selected, *, purpose="R001"):
             result.append(Anchor(contract, day, 60, end, decision, tuple(reason)))
     for day in sorted({s.trading_day for s in bundle.sessions}):
         contract = selected.get((day, 86400))
-        if contract not in contracts or partition_day(day, dates) not in dates:
+        if mode == "MINUTE" or contract not in contracts or partition_day(day, dates) not in partitions:
             continue
         candidates = daily.get((contract, day), [])
         require(len(candidates) <= 1, "DAILY_ANCHOR_IDENTITY_CONFLICT")
@@ -1906,6 +1914,590 @@ def stage_three(release_path, output):
     return result
 
 
+@dataclass(frozen=True)
+class ResidentInputs:
+    """Validated, already bounded inputs. No source loader or source path is retained."""
+    bundles: Mapping
+    sessions: tuple[SessionWindow, ...]
+    rules: tuple[TradingRule, ...]
+    selected: Mapping
+    mode: str
+    fit_cutoff: int | None
+    validation: tuple[dict, ...]
+
+    def check_fit_boundary(self):
+        require(self.fit_cutoff is not None, "FIT_TRUNCATED_INPUT_REQUIRED")
+        for bundle in self.bundles.values():
+            require(all(bar.trading_day is not None and bar.trading_day <= FORMAL_DATES["CALIBRATION"][1]
+                        and bar.end_nano < self.fit_cutoff for bar in bundle.bars), "FIT_FUTURE_BAR_REACHABLE")
+
+
+def truncate_fit_bundle(bundle, calibration_end):
+    """Called immediately after full shard validation, before indexes or scenarios."""
+    kept = tuple(bar for bar in bundle.bars if bar.trading_day is not None
+                 and bar.trading_day <= FORMAL_DATES["CALIBRATION"][1] and bar.end_nano < calibration_end)
+    return replace(bundle, root=Path("K45_CAL_TRUNCATED_NO_SOURCE_INTERFACE"), bars=kept)
+
+
+@contextmanager
+def resident_fit_scope(inputs):
+    """The actual fit/rehearsal path cannot fall back to the full-input adapter."""
+    global FIT_INPUTS_CLOSED
+    inputs.check_fit_boundary()
+    previous = FIT_INPUTS_CLOSED
+    FIT_INPUTS_CLOSED = True
+    try:
+        yield inputs
+    finally:
+        FIT_INPUTS_CLOSED = previous
+
+
+def resident_inputs(mode, timing, *, for_fit, extra_contracts=()):
+    require(mode in HORIZONS, "MODE_INVALID")
+    _, shards = source_identity()
+    bundles, checks, rules = {}, [], {}
+    sessions, selected, cutoff = None, None, None
+    duration = 86400 if mode == "DAILY" else 60
+    for contract, source in sorted(shards.items()):
+        bundle, check = timing.call(("input_validation", mode), read_original_shard,
+                                   source["path"], source["manifest_sha256"])
+        require({item.contract_id for item in bundle.instruments} == {contract}, "SHARD_INSTRUMENT_IDENTITY")
+        if sessions is None:
+            sessions = bundle.sessions
+            selected, _ = select_contracts(load_json(Path(source["path"]) / "selection-evidence.json"), sessions, set(shards))
+            cutoff = split_for(sessions, mode).calibration_end_nano
+        require(bundle.sessions == sessions, "SHARED_CALENDAR_CONTENT_MISMATCH")
+        # This validation statistic reads only declared timestamps and quality.
+        transformed = sum(bar.duration_seconds == 60 and bar.quality.status == "READY"
+                          and bar.quality.temporal_basis == "reconstructed" for bar in bundle.bars)
+        kept = truncate_fit_bundle(bundle, cutoff) if for_fit else replace(
+            bundle, root=Path("K45_TEST_RECONSTRUCTION_NO_SOURCE_INTERFACE"))
+        del bundle
+        chosen = {value for (day, frequency), value in selected.items() if frequency == duration
+                  and partition_day(day) in (("TRAIN", "CALIBRATION") if for_fit else ("TEST",))}
+        if not for_fit:
+            chosen.update(extra_contracts)
+        checks.append(dict(check, contract=contract, scenario_target_count=transformed,
+                           retained_bars=len(kept.bars) if contract in chosen else 0))
+        if contract in chosen:
+            bundles[contract] = kept
+            for rule in kept.rules:
+                require(rules.setdefault(rule.rule_id, rule) == rule, "RULE_IDENTITY_CONFLICT")
+        del kept
+        print(json.dumps({"phase": "INPUT_VALIDATION", "mode": mode, "shards": len(checks)}), flush=True)
+    require(sum(item["scenario_target_count"] for item in checks) == 1_783_377, "SCENARIO_TRANSFORM_COUNT_MISMATCH")
+    require(len({s.trading_day for s in sessions}) == 452 and min(s.trading_day for s in sessions)
+            == FORMAL_DATES["TRAIN"][0] and max(s.trading_day for s in sessions) == MATURITY_END, "FIXED_SOURCE_CALENDAR")
+    # All original-file checks finish and all future fit objects are gone before
+    # scenario construction, production cache creation, or any feature call.
+    gc.collect()
+    for contract in tuple(bundles):
+        bundles[contract], _ = timing.call(("scenario", mode), scenario_view, bundles[contract])
+    result = ResidentInputs(MappingProxyType(bundles), sessions, tuple(rules.values()),
+                            MappingProxyType(selected), mode, cutoff if for_fit else None, tuple(checks))
+    if for_fit:
+        result.check_fit_boundary()
+    return result
+
+
+def resident_segment(requests, assessments, labels=()):
+    """Keep each request's original FeatureSnapshot object and tuple production route."""
+    requests = tuple(requests)
+    features = {request.features.snapshot_id: request.features for request in requests}
+    return Segment(tuple(features.values()), tuple(assessments[key] for key in features), requests, tuple(labels))
+
+
+def resident_features(inputs, timing, *, step=5, partitions=("TRAIN", "CALIBRATION"), days=None, reuse=None):
+    if inputs.fit_cutoff is not None:
+        inputs.check_fit_boundary()
+        require(set(partitions) <= {"TRAIN", "CALIBRATION"}, "FIT_TEST_FEATURE_FORBIDDEN")
+    features, audits, reusable = [], [], {} if reuse is None else reuse
+    candidates = sorted((anchor for bundle in inputs.bundles.values()
+        for anchor in anchors(bundle, inputs.selected, step=step, mode=inputs.mode, partitions=partitions)
+        if days is None or anchor.day in days), key=lambda a: (a.decision if a.decision is not None else a.grid_end,
+                                                             a.contract, a.duration))
+    for anchor in candidates:
+        key = anchor.contract, anchor.duration, anchor.grid_end
+        if key in reusable:
+            snapshot, audit = reusable[key]
+            audit = dict(audit)
+        else:
+            audit = {"mode": anchor.mode, "day": anchor.day.isoformat(), "partition": partition_day(anchor.day),
+                     "reasons": list(anchor.reasons), "usable": False, "history_count": None,
+                     "grid_end": anchor.grid_end, "contract": anchor.contract, "feature_seconds": None}
+            snapshot = None
+            if anchor.decision is not None:
+                started = time.perf_counter()
+                try:
+                    candidate, visible, _ = _features(inputs.bundles[anchor.contract], anchor.contract,
+                        anchor.decision, anchor.duration, None, None, inputs.sessions, canonical_daily=anchor.duration == 86400)
+                except FactorsError as error:
+                    if str(error) != "no_visible_bars_for_snapshot":
+                        raise
+                    audit["reasons"].append("NO_VISIBLE_BARS_FOR_SNAPSHOT")
+                else:
+                    audit["feature_seconds"] = time.perf_counter() - started
+                    audit["history_count"] = len(visible)
+                    require(candidate.trading_day == anchor.day and candidate.contract_id == anchor.contract,
+                            "FEATURE_ANCHOR_IDENTITY_MISMATCH")
+                    audit["reasons"].extend(usable_feature(candidate))
+                    audit["usable"] = not audit["reasons"]
+                    timing.values["resident_features", anchor.mode, str(history_bin(len(visible)))].append(audit["feature_seconds"])
+                    if audit["usable"]:
+                        snapshot = candidate
+                    del candidate, visible
+            reusable[key] = snapshot, dict(audit)
+        audits.append(audit)
+        if snapshot is not None:
+            features.append(snapshot)
+        if len(audits) % 100 == 0:
+            print(json.dumps({"phase": "RESIDENT_FEATURES", "mode": inputs.mode, "candidates": len(audits),
+                              "usable": len(features), **actual_test_counts()}), flush=True)
+    return tuple(sorted(features, key=lambda f: (f.decision_nano, f.snapshot_id))), audits, reusable
+
+
+@dataclass(frozen=True)
+class ResidentChain:
+    features: tuple[FeatureSnapshot, ...]
+    requests: tuple[ForecastRequest, ...]
+    assessments: Mapping
+    reference: RegimeReference
+    previous: Mapping
+    reasons: tuple[dict, ...]
+    reference_populations: tuple[dict, ...]
+
+
+def resident_chain(features, rules, sessions, mode, timing, *, purpose="R001", reference=None,
+                   previous=None, state_keys=(), reuse_requests=None):
+    require(isinstance(features, tuple), "RESIDENT_FEATURE_TUPLE_REQUIRED")
+    dates = FORMAL_DATES if purpose == "R001" else DRY_DATES
+    ordered = tuple(sorted(features, key=lambda f: (f.decision_nano, f.snapshot_id)))
+    require(all(partition_day(f.trading_day, dates) in dates for f in ordered), "REQUEST_DECISION_OUTSIDE_DESIGN")
+    split = split_for(sessions, mode, purpose=purpose)
+    training = tuple(f for f in ordered if partition_day(f.trading_day, dates) == "TRAIN")
+    populations = []
+    if reference is None:
+        reference = timing.call(("resident_reference_final", mode, purpose), fit_regime_reference,
+                                training, split.train_end_nano, split.train_end_nano)
+        populations.append({"kind": "final", "count": len(training), "cutoff": split.train_end_nano})
+    else:
+        require(not training and reference.training_end_nano == split.train_end_nano
+                and reference.available_at_nano == split.train_end_nano, "TEST_FROZEN_REFERENCE_MISMATCH")
+    state = {key: None for key in state_keys}
+    state.update({} if previous is None else previous)
+    assessments, requests, reasons, by_day = {}, [], [], {}
+    reused = None
+    if reuse_requests is not None:
+        reused = defaultdict(list)
+        for request in reuse_requests:
+            reused[request.features.snapshot_id].append(request)
+        require(set(reused) <= {f.snapshot_id for f in ordered}, "REHEARSAL_REQUEST_OUTSIDE_TRAIN")
+    for snapshot in ordered:
+        partition = partition_day(snapshot.trading_day, dates)
+        current = reference
+        if partition == "TRAIN":
+            if snapshot.trading_day not in by_day:
+                prefix = tuple(f for f in training if f.trading_day < snapshot.trading_day)
+                cutoff = max((f.decision_nano for f in prefix), default=snapshot.decision_nano - 1)
+                by_day[snapshot.trading_day] = timing.call(("resident_reference_prefix", mode, purpose),
+                                                          fit_regime_reference, prefix, cutoff, cutoff)
+                populations.append({"kind": "prefix", "day": snapshot.trading_day.isoformat(),
+                                    "count": len(prefix), "cutoff": cutoff})
+            current = by_day[snapshot.trading_day]
+        key = snapshot.contract_id, snapshot.duration_seconds
+        assessment = timing.call(("resident_assessment", mode, purpose), assessment_for,
+                                 snapshot, rules, current, state.get(key))
+        state[key] = assessments[snapshot.snapshot_id] = assessment
+        if reused is not None:
+            group = reused.get(snapshot.snapshot_id, ())
+            require(all(request.features is snapshot and request.frozen_range == assessment.frozen_range for request in group),
+                    "REHEARSAL_REQUEST_BINDING_CHANGED")
+            requests.extend(group)
+            continue
+        for horizon in HORIZONS[mode]:
+            try:
+                batch = timing.call(("resident_requests", mode, str(horizon)), build_forecast_requests,
+                    snapshot, (Horizon("TRADING_DAY" if mode == "DAILY" else "TRADING_MINUTE", horizon),),
+                    assessment.frozen_range, sessions)
+            except ClockError:
+                reasons.append({"snapshot_id": snapshot.snapshot_id, "partition": partition, "horizon": horizon,
+                                "reason": "HORIZON_CALENDAR_INSUFFICIENT"})
+            else:
+                requests.extend(batch)
+    return ResidentChain(ordered, tuple(requests), MappingProxyType(assessments), reference,
+                         MappingProxyType(state), tuple(reasons), tuple(populations))
+
+
+def previous_payload(previous):
+    return [{"contract_id": contract, "duration_seconds": duration,
+             "assessment": None if value is None else encode_record(value)}
+            for (contract, duration), value in sorted(previous.items())]
+
+
+def decode_previous(rows):
+    require(isinstance(rows, list), "PREVIOUS_STATE_SCHEMA")
+    result = {}
+    for row in rows:
+        require(set(row) == {"contract_id", "duration_seconds", "assessment"}, "PREVIOUS_STATE_SCHEMA")
+        key = row["contract_id"], row["duration_seconds"]
+        require(key not in result and isinstance(key[0], str) and type(key[1]) is int, "PREVIOUS_STATE_IDENTITY")
+        result[key] = None if row["assessment"] is None else decode_record(RegimeAssessment, row["assessment"])
+    return result
+
+
+def id_sequence(purpose, mode, partition, step, kind, ids):
+    ids = list(ids)
+    require(all(isinstance(value, str) for value in ids), "ID_SEQUENCE_TYPE")
+    return {"schema": "k45-id-sequence-v3", "purpose": purpose, "mode": mode, "partition": partition,
+            "step": step, "kind": kind, "ids": ids}
+
+
+def identity_sequences(chain, assignments, fitted_requests, mode, step, *, purpose="R001", partitions=None):
+    dates = FORMAL_DATES if purpose == "R001" else DRY_DATES
+    partitions = tuple(dates) if partitions is None else tuple(partitions)
+    by_id = {row.sample_id: row for row in assignments}
+    fit_ids = {request.request_id for request in fitted_requests}
+    result = []
+    for partition in partitions:
+        features = tuple(f for f in chain.features if partition_day(f.trading_day, dates) == partition)
+        requests = tuple(r for r in chain.requests if partition_day(r.features.trading_day, dates) == partition)
+        groups = {"snapshots": (f.snapshot_id for f in features),
+                  "assessments": (chain.assessments[f.snapshot_id].assessment_id for f in features),
+                  "generated_requests": (r.request_id for r in requests),
+                  "legal_requests": (r.request_id for r in requests if by_id[r.request_id].partition == partition)}
+        if partition != "TEST":
+            groups["fit_requests"] = (r.request_id for r in requests if r.request_id in fit_ids)
+        result.extend(id_sequence(purpose, mode, partition, step, kind, ids) for kind, ids in groups.items())
+    return tuple(result)
+
+
+def seal_identity_sequences(directory, sequences, bindings):
+    result = []
+    for sequence in sequences:
+        digest = sha256_hex(canonical_json_bytes(sequence))
+        path = Path(directory) / f'{sequence["purpose"]}-{sequence["mode"]}-{sequence["partition"]}-{sequence["kind"]}.json'
+        member = dump_new(path, {"sequence": sequence, "bindings": bindings})
+        result.append({"partition": sequence["partition"], "kind": sequence["kind"], "count": len(sequence["ids"]),
+                       "sequence_sha256": digest, "file": member})
+    return result
+
+
+def verify_identity_sequences(expected, actual, bindings):
+    """This gate precedes every real TEST prediction; never repair or reorder IDs."""
+    require(len(expected) == len(actual), "RECONSTRUCTED_ID_SEQUENCE_MISMATCH")
+    for member, sequence in zip(expected, actual):
+        verify_pin(member["file"])
+        frozen = load_json(member["file"]["path"])
+        require(frozen["bindings"] == bindings and frozen["sequence"] == sequence
+                and member["sequence_sha256"] == sha256_hex(canonical_json_bytes(sequence))
+                and member["count"] == len(sequence["ids"]), "RECONSTRUCTED_ID_SEQUENCE_MISMATCH")
+
+
+def predict_verified(fitted, segment, expected, actual, bindings, *, purpose="R001"):
+    verify_identity_sequences(expected, actual, bindings)
+    return predict_rows(fitted, segment, purpose=purpose)
+
+
+def request_time_payload(request):
+    return {"request_id": request.request_id, "contract_id": request.features.contract_id,
+            "product": request.features.product, "day": request.features.trading_day.isoformat(),
+            "decision_nano": request.features.decision_nano, "window_start_nano": request.window_start_nano,
+            "window_end_nano": request.window_end_nano, "horizon_unit": request.horizon.unit,
+            "horizon_value": request.horizon.value}
+
+
+def decode_time_request(row):
+    require(set(row) == {"request_id", "contract_id", "product", "day", "decision_nano", "window_start_nano",
+                         "window_end_nano", "horizon_unit", "horizon_value"}, "TIME_REQUEST_SCHEMA")
+    return SimpleNamespace(request_id=row["request_id"], features=SimpleNamespace(
+        contract_id=row["contract_id"], product=row["product"], trading_day=date.fromisoformat(row["day"]),
+        decision_nano=row["decision_nano"]), window_start_nano=row["window_start_nano"],
+        window_end_nano=row["window_end_nano"], horizon=Horizon(row["horizon_unit"], row["horizon_value"]))
+
+
+def assignment_hash(assignments):
+    return sha256_hex(canonical_json_bytes([{"id": a.sample_id, "partition": a.partition,
+                                           "split_id": a.split_id, "reasons": list(a.reasons)} for a in assignments]))
+
+
+def resident_split(inputs, chain, timing, *, purpose="R001", context_requests=()):
+    split = split_for(inputs.sessions, inputs.mode, purpose=purpose)
+    sessions = inputs.sessions if purpose == "R001" else tuple(
+        s for s in inputs.sessions if s.trading_day <= FORMAL_DATES["TRAIN"][1])
+    indexes = {contract: time_index(bundle) for contract, bundle in inputs.bundles.items()}
+    intervals = tuple(timing.call(("resident_interval", inputs.mode, str(r.horizon.value)),
+        indexes[r.features.contract_id].interval, r, r.window_end_nano) for r in (*context_requests, *chain.requests))
+    assignments = timing.call(("resident_split", inputs.mode, purpose), assign_splits, intervals, split, sessions)
+    return intervals, assignments
+
+
+def resident_labels(inputs, chain, intervals, assignments, timing, *, purpose="R001", partitions=("TRAIN", "CALIBRATION")):
+    split = split_for(inputs.sessions, inputs.mode, purpose=purpose)
+    by_interval = {row.sample_id: row for row in intervals}
+    by_assignment = {row.sample_id: row for row in assignments}
+    indexes = {contract: _WindowIndex(bundle) for contract, bundle in inputs.bundles.items()}
+    labels = []
+    for request in chain.requests:
+        assigned = by_assignment[request.request_id]
+        if assigned.partition not in partitions:
+            continue
+        window = indexes[request.features.contract_id].window(request)
+        if purpose == "DRY_RUN":
+            cutoff = evaluation_time(inputs.sessions, purpose)
+            window = tuple(bar for bar in window if bar.trading_day is not None
+                           and bar.trading_day <= FORMAL_DATES["TRAIN"][1] and bar.end_nano < cutoff)
+        labels.append(timing.call(("resident_label", inputs.mode, str(request.horizon.value), purpose), guarded_label,
+            request, by_interval[request.request_id], assigned, split, window, inputs.sessions,
+            purpose=purpose, stage=3 if assigned.partition == "TEST" else 1,
+            evaluation_as_of=evaluation_time(inputs.sessions, purpose) if assigned.partition == "TEST" else None))
+    return tuple(labels)
+
+
+def resident_segments(chain, assignments, labels):
+    by_assignment = {row.sample_id: row for row in assignments}
+    by_label = {row.request_id: row for row in labels}
+    segments = {}
+    for partition in FORMAL_DATES:
+        group = tuple(r for r in chain.requests if by_assignment[r.request_id].partition == partition
+                      and (partition == "TEST" or by_label[r.request_id].status == "MATURE"))
+        segments[partition] = resident_segment(group, chain.assessments,
+                                               () if partition == "TEST" else (by_label[r.request_id] for r in group))
+    return segments
+
+
+def resident_config(sessions, mode, *, purpose="R001"):
+    split = split_for(sessions, mode, purpose=purpose)
+    keys = tuple(spec.factor_key for spec in factor_registry_v2(86400 if mode == "DAILY" else 60))
+    return models.default_fit_config(keys, split.train_end_nano, split.calibration_end_nano,
+                                    evaluation_time(sessions, purpose) + 1)
+
+
+def resident_inner(segments, config, reference):
+    if not segments["TRAIN"].requests and not segments["CALIBRATION"].requests:
+        return {"sufficient": False, "fit_days": 0, "development_days": 0, "reason": "NO_LEGAL_INPUTS"}, (), ()
+    checked, train, cal = joined_samples(segments["TRAIN"], segments["CALIBRATION"], config, reference)
+    _, _, inner = inner_partition(train, checked)
+    return inner, train, cal
+
+
+def resident_rehearsal(inputs, formal_chain, timing, directory, bindings, step):
+    features = tuple(f for f in formal_chain.features if partition_day(f.trading_day) == "TRAIN")
+    requests = tuple(r for r in formal_chain.requests if partition_day(r.features.trading_day) == "TRAIN")
+    chain = resident_chain(features, inputs.rules, inputs.sessions, inputs.mode, timing,
+                           purpose="DRY_RUN", reuse_requests=requests)
+    require(all(f is original for f, original in zip(chain.features, features)) and
+            all(r is original for r, original in zip(chain.requests, requests)), "REHEARSAL_OBJECT_REUSE_FAILED")
+    intervals, assignments = resident_split(inputs, chain, timing, purpose="DRY_RUN")
+    labels = resident_labels(inputs, chain, intervals, assignments, timing, purpose="DRY_RUN")
+    segments = resident_segments(chain, assignments, labels)
+    config = resident_config(inputs.sessions, inputs.mode, purpose="DRY_RUN")
+    inner, _, _ = resident_inner(segments, config, chain.reference)
+    ids = seal_identity_sequences(Path(directory) / "ids", identity_sequences(chain, assignments,
+        (*segments["TRAIN"].requests, *segments["CALIBRATION"].requests), inputs.mode, step, purpose="DRY_RUN"), bindings)
+    result = {"schema": "k45-rehearsal-check-v3", "purpose": "DRY_RUN", "mode": inputs.mode,
+              "status": "DRY_RUN_NOT_RUN:INNER_INSUFFICIENT", "inner": inner, "identities": ids,
+              "objects_reused": True, "reference": reference_payload(chain.reference),
+              "reference_populations": list(chain.reference_populations), "test_probability_calls": 0,
+              "test_label_calls": 0, "scoring_runs": 0, "research_conclusions_published": False}
+    if inner["sufficient"]:
+        fitted = timing.call(("resident_fit", inputs.mode, "DRY_RUN"), fit_direction,
+                              segments["TRAIN"], segments["CALIBRATION"], config, chain.reference)
+        model_pin = dump_new(Path(directory) / "models.json.gz", {"fit": fitted.payload()}, compressed=True)
+        predictions = timing.call(("resident_prediction", inputs.mode, "DRY_RUN"), predict_rows,
+                                   fitted, segments["TEST"], purpose="DRY_RUN")
+        probability_pin = dump_new(Path(directory) / "sealed-diagnostics/probabilities.json.gz", predictions, compressed=True)
+        canonical = canonical_requests(segments["TEST"].requests)
+        test_chain = replace(chain, requests=canonical)
+        test_labels = resident_labels(inputs, test_chain, intervals, assignments, timing,
+                                      purpose="DRY_RUN", partitions=("TEST",))
+        label_pin = dump_new(Path(directory) / "sealed-diagnostics/labels.json.gz",
+                             [encode_record(row) for row in test_labels], compressed=True)
+        scores = timing.call(("resident_statistics", inputs.mode, "DRY_RUN"), score_predictions,
+                              predictions, test_labels, inputs.sessions, inputs.mode, fitted, purpose="DRY_RUN")
+        require(all(cell["status"] == "INSUFFICIENT" for cell in scores["cells"]), "DRY_RUN_MUST_NOT_GAIN_60_DAY_QUALIFICATION")
+        score_pin = dump_new(Path(directory) / "sealed-diagnostics/statistics.json.gz", scores, compressed=True)
+        result.update(status="DRY_RUN_CHAIN_COMPLETED", artifacts=[model_pin, probability_pin, label_pin, score_pin],
+                      test_probability_calls=3 * len(predictions), test_label_calls=len(test_labels), scoring_runs=1,
+                      calendar_days=scores["calendar_days"])
+    result["actual_test_calls"] = actual_test_counts()
+    dump_new(Path(directory) / "rehearsal-check.json", result)
+    return result
+
+
+def candidate_metadata(mode, output):
+    """Separate process: inspect time/quality fields, never decode a bar price."""
+    started = time.perf_counter()
+    _, shards = source_identity()
+    first = Path(next(iter(shards.values()))["path"])
+    sessions = original_record_envelope((first / "sessions.json").read_bytes(), SessionWindow, SESSIONS_SCHEMA_ID)
+    selected, _ = select_contracts(load_json(first / "selection-evidence.json"), sessions, set(shards))
+    duration = 86400 if mode == "DAILY" else 60
+    chosen = {contract for (day, frequency), contract in selected.items()
+              if frequency == duration and partition_day(day) in FORMAL_DATES}
+    grouped, input_rows = {}, 0
+    for contract, source in sorted(shards.items()):
+        path = Path(source["path"])
+        manifest = load_json(path / "manifest.json")
+        verify_pin({"path": str(path / "bars.csv"), "sha256": manifest["files"]["bars.csv"]})
+        if contract not in chosen:
+            continue
+        rows = []
+        with (path / "bars.csv").open(encoding="utf-8", newline="") as stream:
+            for raw in csv.DictReader(stream):
+                input_rows += 1
+                frequency = int(raw["duration_seconds"])
+                if frequency != duration:
+                    continue
+                day = date.fromisoformat(raw["trading_day"]) if raw["trading_day"] else None
+                require((day is None or day < HOLDOUT) and
+                        datetime.fromtimestamp(int(raw["datetime_nano"]) // NANO, TZ).date() < HOLDOUT, "STOP_HOLDOUT_BOUNDARY")
+                quality = json.loads(raw["quality"])
+                end = int(raw["end_nano"])
+                available = int(raw["available_at_nano"]) if raw["available_at_nano"] else None
+                if frequency == 60 and quality["status"] == "READY" and quality["temporal_basis"] == "reconstructed":
+                    require(available == end + 60 * NANO, "SOURCE_MINUTE_AVAILABILITY_NOT_60_SECONDS")
+                    available = end + SCENARIO_SECONDS * NANO
+                require(raw["complete"] in ("true", "false"), "METADATA_COMPLETE_ENCODING")
+                rows.append(SimpleNamespace(contract_id=contract, product=raw["product"], duration_seconds=frequency,
+                    start_nano=int(raw["start_nano"]), end_nano=end, available_at_nano=available,
+                    trading_day=day, session_id=raw["session_id"] or None, complete=raw["complete"] == "true",
+                    quality=SimpleNamespace(status=quality["status"], temporal_basis=quality["temporal_basis"])))
+        scoped = sorted((s for s in sessions if s.product in {r.product for r in rows}), key=lambda s: s.start_nano)
+        starts = [s.start_nano for s in scoped]
+        def eligible(row):
+            if not row.complete or row.available_at_nano is None or row.quality.status != "READY" or row.quality.temporal_basis == "unknown":
+                return False
+            slot = bisect_right(starts, row.start_nano) - 1
+            return duration != 60 or slot < 0 or row.start_nano >= scoped[slot].end_nano or (row.start_nano - starts[slot]) % MINUTE == 0
+        cutoffs = sorted(max(row.end_nano, row.available_at_nano) for row in rows if eligible(row))
+        projection = SimpleNamespace(bars=rows, sessions=sessions, instruments=(SimpleNamespace(contract_id=contract),))
+        for step in ((5, 15) if mode == "MINUTE" else (5,)):
+            for anchor in anchors(projection, selected, step=step, mode=mode):
+                count = bisect_right(cutoffs, anchor.decision) if anchor.decision is not None else 0
+                bucket = history_bin(count)
+                key = step, anchor.day.isoformat(), bucket
+                row = grouped.setdefault(key, {"step": step, "day": anchor.day.isoformat(), "bucket": bucket,
+                    "partition": partition_day(anchor.day), "candidates": 0, "callable_candidates": 0,
+                    "history_total": 0, "history_min": None, "history_max": None})
+                row["candidates"] += 1
+                if anchor.decision is not None:
+                    row["callable_candidates"] += 1
+                    row["history_total"] += count
+                    row["history_min"] = count if row["history_min"] is None else min(count, row["history_min"])
+                    row["history_max"] = count if row["history_max"] is None else max(count, row["history_max"])
+        del rows, projection, cutoffs
+    result = {"schema": "k45-candidate-metadata-v3", "mode": mode, "source_collection_sha256": SOURCE_COLLECTION_SHA,
+              "sessions_sha256": SESSIONS_SHA, "selection_sha256": SELECTION_SHA,
+              "price_fields_decoded": False, "input_rows_inspected": input_rows,
+              "rows": [grouped[key] for key in sorted(grouped)], "elapsed_seconds": time.perf_counter() - started}
+    dump_new(output, result)
+    return {"status": "METADATA_COUNTS_FROZEN", "mode": mode, "artifact": pin(output)}
+
+
+def tree_memory():
+    import psutil
+    root = psutil.Process()
+    rss = private = 0
+    identities = []
+    for process in (root, *root.children(recursive=True)):
+        try:
+            memory = process.memory_info()
+            rss += memory.rss
+            private += getattr(memory, "private", memory.rss)
+            identities.append({"pid": process.pid, "created": process.create_time()})
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+    return {"rss_bytes": rss, "private_bytes": private, "processes": identities}
+
+
+def measurement_days(sessions):
+    days = sorted({s.trading_day for s in sessions if FORMAL_DATES["TRAIN"][0] <= s.trading_day <= FORMAL_DATES["TRAIN"][1]})
+    require(len(days) >= 20, "MEASUREMENT_CALENDAR_TOO_SHORT")
+    return tuple(days[:10] + days[-10:])
+
+
+def measured_twenty_days(inputs, timing, *, step=5):
+    days = measurement_days(inputs.sessions)
+    started = time.perf_counter()
+    before = tree_memory()
+    features, audits, reuse = resident_features(inputs, timing, step=step, partitions=("TRAIN",), days=set(days))
+    chain = resident_chain(features, inputs.rules, inputs.sessions, inputs.mode, timing)
+    intervals, assignments = resident_split(inputs, chain, timing)
+    labels = resident_labels(inputs, chain, intervals, assignments, timing)
+    segments = resident_segments(chain, assignments, labels)
+    config = resident_config(inputs.sessions, inputs.mode)
+    _, train, cal = resident_inner(segments, config, chain.reference)
+    after = tree_memory()
+    groups = []
+    for day in days:
+        for bucket in range(len(HISTORY_BINS)):
+            rows = [r for r in audits if r["day"] == day.isoformat()
+                    and history_bin(r["history_count"] or 0) == bucket]
+            groups.append({"day": day.isoformat(), "bucket": bucket, "candidates": len(rows),
+                           "usable": sum(r["usable"] for r in rows),
+                           "feature_seconds": math.fsum(r["feature_seconds"] for r in rows if r["feature_seconds"] is not None)})
+    payload = {"schema": "k45-real-twenty-day-measurement-v3", "mode": inputs.mode, "step": step,
+        "days": [day.isoformat() for day in days], "no_selection_days": [day.isoformat() for day in days
+            if (day, 86400 if inputs.mode == "DAILY" else 60) not in inputs.selected],
+        "cost_only": True, "research_predictions": 0, "elapsed_seconds": time.perf_counter() - started,
+        "reference_population_scope": "MEASURED_DAYS_ONLY; NOT_COMPLETE_FORMAL_PREFIX",
+        "reference_populations": list(chain.reference_populations), "timings": timing.report(), "buckets_by_day": groups,
+        "memory_before": before, "memory_after": after,
+        "features": len(features), "requests": len(chain.requests), "labels": len(labels),
+        "source_tuple_bytes": sum(sys.getsizeof(f.source_bar_ids) for f in features),
+        "feature_object_bytes_without_sources": sum(resident_object_bytes(replace(f, source_bar_ids=())) for f in features),
+        "request_shallow_bytes": sum(sys.getsizeof(r) + sys.getsizeof(r.__dict__) for r in chain.requests),
+        "label_object_bytes": sum(resident_object_bytes(label) for label in labels),
+        "funnel": funnel(inputs.mode, audits, chain.requests, assignments, labels, train, cal, chain.reasons),
+        "actual_test_calls": actual_test_counts()}
+    return payload, reuse, audits
+
+
+def resident_object_bytes(value, seen=None):
+    seen = set() if seen is None else seen
+    if id(value) in seen:
+        return 0
+    seen.add(id(value))
+    size = sys.getsizeof(value)
+    if is_dataclass(value):
+        size += sys.getsizeof(getattr(value, "__dict__", {}))
+        size += sum(resident_object_bytes(getattr(value, item.name), seen) for item in fields(value))
+    elif isinstance(value, Mapping):
+        size += sum(resident_object_bytes(k, seen) + resident_object_bytes(v, seen) for k, v in value.items())
+    elif isinstance(value, (list, tuple, set, frozenset)):
+        size += sum(resident_object_bytes(item, seen) for item in value)
+    return size
+
+
+def validate_resource_record(path, mode):
+    resource = load_json(path)
+    require(resource.get("schema") == "k45-mode-resource-v3" and resource.get("status") == "READY"
+            and resource.get("mode") == mode and resource.get("tool_sha256") == pin(__file__)["sha256"], "MODE_RESOURCE_RECORD_REQUIRED")
+    limit = min(24 * 1024 ** 3, resource["available_physical_bytes"] * 3 // 4,
+                resource["available_commit_bytes"] * 3 // 4)
+    require(type(resource.get("process_tree_limit_bytes")) is int and resource["process_tree_limit_bytes"] == limit
+            and limit > 0 and resource["wall_seconds"] == 259200, "MODE_RESOURCE_LIMIT_MISMATCH")
+    return resource
+
+
+def measure_mode(mode, resource_path, output):
+    """Real required 20-day chain; no estimated-cost gate can run before it."""
+    resource = validate_resource_record(resource_path, mode)
+    output = Path(output)
+    require(not output.exists(), "RUN_OUTPUT_ALREADY_EXISTS")
+    output.mkdir(parents=True)
+    sources = code_pins()
+    timing = Timings()
+    inputs = resident_inputs(mode, timing, for_fit=True)
+    with resident_fit_scope(inputs):
+        result, _, _ = measured_twenty_days(inputs, timing)
+    result.update(resource=pin(resource_path), code_pins=sources, source_collection_sha256=SOURCE_COLLECTION_SHA,
+                  input_validation=list(inputs.validation), status="TWENTY_DAY_MEASUREMENT_COMPLETED",
+                  process_tree_limit_bytes=resource["process_tree_limit_bytes"], safety=SAFETY)
+    dump_new(output / "measurement.json", result)
+    return {"status": result["status"], "mode": mode, "artifact": pin(output / "measurement.json")}
+
+
 def public_error(error):
     """No exception message or object repr from data-bearing production code."""
     import traceback
@@ -1918,6 +2510,13 @@ def public_error(error):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    measured = commands.add_parser("measure-mode")
+    measured.add_argument("--mode", choices=tuple(HORIZONS), required=True)
+    measured.add_argument("--resource", required=True)
+    measured.add_argument("--output", required=True)
+    metadata = commands.add_parser("candidate-metadata")
+    metadata.add_argument("--mode", choices=tuple(HORIZONS), required=True)
+    metadata.add_argument("--output", required=True)
     stage1 = commands.add_parser("stage1")
     stage1.add_argument("--output", required=True)
     stage1.add_argument("--capacity", required=True)
@@ -1941,14 +2540,12 @@ def main(argv=None):
     CALL_COUNTS.clear()
     try:
         output = Path(args.output).resolve()
-        require(output.is_relative_to(Path("C:/AKR71114/k45/runs").resolve()) or
-                output.is_relative_to(Path("C:/AKR71114/k45/owner").resolve()), "OUTPUT_OUTSIDE_AUTHORIZED_SCOPE")
-        if args.command == "stage1": result = stage_one(output, args.capacity)
-        elif args.command == "synthetic-costs": result = synthetic_costs(output)
-        elif args.command == "budget": result = planning_budget(args.stage1, args.costs, output)
-        elif args.command == "fit": result = fit_only(args.ticket, output)
-        elif args.command == "stage2": result = stage_two(args.stage1, args.budget, output)
-        else: result = stage_three(args.release, output)
+        require(output.is_relative_to(Path("C:/AKR81114/k45/runs").resolve()) or
+                output.is_relative_to(Path("C:/AKR81114/k45/owner").resolve()), "OUTPUT_OUTSIDE_AUTHORIZED_SCOPE")
+        if args.command == "measure-mode": result = measure_mode(args.mode, args.resource, output)
+        elif args.command == "candidate-metadata": result = candidate_metadata(args.mode, output)
+        else:
+            raise ResearchError("LEGACY_RECORD_STREAM_ROUTE_RETIRED")
         print(json.dumps({"status": result.get("status", "COMPLETED"), "stage": args.command,
                           "output": str(output), "safety": SAFETY}, ensure_ascii=False), flush=True)
         return 0 if not result.get("status", "").startswith("STOP") else 3
