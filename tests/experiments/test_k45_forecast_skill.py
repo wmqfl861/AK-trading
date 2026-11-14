@@ -705,3 +705,71 @@ def test_resident_rehearsal_reuses_objects_rebuilds_reference_and_previous():
         reference=formal.reference, previous=restored)
     assert restored == formal.previous
     assert test.previous[CONTRACT, 60] is test.assessments[test_feature.snapshot_id]
+
+
+def test_resident_authoritative_day_counts_preserve_legitimate_global_embargo():
+    sessions = formal_sessions()
+    target, target_interval, _ = formal_request(date(2024, 3, 5))
+    crossing, _, _ = formal_request(date(2024, 5, 31), horizon=60)
+    last = next(s for s in sessions if s.trading_day == date(2024, 5, 31))
+    later = next(s for s in sessions if s.trading_day == date(2024, 6, 1))
+    cross_feature = replace(crossing.features, decision_nano=last.end_nano - k.MINUTE,
+                            available_at_nano=last.end_nano - k.MINUTE)
+    crossing = k.build_forecast_requests(cross_feature, (k.Horizon('TRADING_MINUTE', 60),), None, sessions)[1]
+    local_cross = k.SampleInterval(crossing.request_id, PRODUCT, date(2024, 5, 31), cross_feature.decision_nano,
+                                   crossing.window_end_nano, crossing.window_end_nano, crossing.window_end_nano, crossing.horizon)
+    future = k.TimeBar('SYNTHETIC-FUTURE-TIME', CONTRACT, 60, later.start_nano, later.start_nano + k.MINUTE,
+                       next(s.end_nano for s in sessions if s.trading_day == date(2024, 6, 20)), date(2024, 6, 1))
+    projected = k._WindowIndex(SimpleNamespace(bars=(future,))).interval(crossing, crossing.window_end_nano)
+    split = k.split_for(sessions, 'MINUTE')
+    local = k.assign_splits((target_interval, local_cross), split, sessions)
+    full = k.assign_splits((target_interval, projected), split, sessions)
+    assert {a.sample_id: a.partition for a in local}[target.request_id] == 'CALIBRATION'
+    assert {a.sample_id: a.partition for a in full}[target.request_id] == 'EMBARGOED'
+    assert {a.sample_id: a.partition for a in full}[crossing.request_id] == 'PURGED'
+    requests = (target, crossing)
+    receipt = {'count': len(full), 'sha256': k.assignment_hash(full), 'day_counts': k.assignment_counts(requests, full)}
+    assert k.authoritative_assignments(requests, local, receipt) == full
+    altered = copy.deepcopy(receipt)
+    altered['day_counts'][0]['count'] += 1
+    with pytest.raises(k.ResearchError, match='ASSIGNMENT_HANDOFF_'):
+        k.authoritative_assignments(requests, local, altered)
+    altered = dict(receipt, sha256='0' * 64)
+    with pytest.raises(k.ResearchError, match='ASSIGNMENT_HANDOFF_IDENTITY'):
+        k.authoritative_assignments(requests, local, altered)
+
+
+def test_resident_metadata_population_rates_are_measured_or_disclosed():
+    measurement = {'days': ['2023-01-03'], 'step': 5,
+                   'buckets_by_day': [{'day': '2023-01-03', 'bucket': 0, 'candidates': 10, 'usable': 4}]}
+    metadata = {'rows': [{'step': 5, 'day': '2023-01-03', 'bucket': 0, 'candidates': 10},
+                         {'step': 5, 'day': '2023-01-04', 'bucket': 1, 'candidates': 20}]}
+    result = k.estimated_population(metadata, measurement, 5)
+    assert result['daily_expected'] == {'2023-01-03': 4, '2023-01-04': 8}
+    assert result['rates']['1']['source'] == 'REAL_TWENTY_DAY_MODE_POOLED'
+    assert result['status'] == 'ESTIMATED'
+    empty = dict(measurement, buckets_by_day=[], days=[])
+    assumed = k.estimated_population(metadata, empty, 5)
+    assert assumed['daily_expected']['2023-01-04'] == 20
+    assert assumed['rates']['1']['source'] == 'CANDIDATE_POPULATION_ASSUMPTION_NO_OBSERVATIONS'
+
+
+def test_resident_time_ticket_has_no_prices_sources_features_or_state():
+    request, _, _ = formal_request(date(2024, 3, 5))
+    payload = k.request_time_payload(request)
+    assert set(payload) == {'request_id', 'contract_id', 'product', 'day', 'decision_nano',
+                            'window_start_nano', 'window_end_nano', 'horizon_unit', 'horizon_value'}
+    restored = k.decode_time_request(payload)
+    assert restored.request_id == request.request_id and restored.horizon == request.horizon
+    assert not hasattr(restored.features, 'reference_price')
+    assert not hasattr(restored.features, 'source_bar_ids')
+    assert not hasattr(restored, 'frozen_range')
+
+
+def test_resident_v3_release_requires_both_mode_decisions_before_predictions(tmp_path):
+    review = tmp_path / 'review.json'
+    review.write_bytes(k.canonical_json_bytes({'verdict': 'PASS', 'conditional': False}))
+    release = {'schema': 'k45-stage3-release-v3', 'purpose': 'R001', 'modes': {'MINUTE': {}},
+               'review': k.pin(review), 'reviewer': 'SYNTHETIC', 'independent': True, 'one_time_run': 'R001'}
+    with pytest.raises(k.ResearchError, match='BOTH_MODE_DECISIONS_REQUIRED'):
+        k.validate_release_v3(release)
