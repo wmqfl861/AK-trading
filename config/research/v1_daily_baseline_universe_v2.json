@@ -1,0 +1,77 @@
+{
+  "aggregation": "daily_equal_weight_then_sum_without_compounding",
+  "capitals": [
+    "1000000",
+    "300000",
+    "100000",
+    "50000"
+  ],
+  "coverage_threshold": "1/2",
+  "denominator": "same_instance_previous_stored_close_times_multiplier",
+  "end_exclusive": "2026-09-05",
+  "methods": [
+    "donchian_trend",
+    "ma_trend",
+    "zscore_reversion",
+    "flat_control",
+    "buy_hold_control"
+  ],
+  "multipliers": {
+    "CFFEX.IF": 300,
+    "CZCE.TA": 5,
+    "DCE.M": 10,
+    "GFEX.SI": 5,
+    "INE.SC": 1000,
+    "SHFE.RB": 10
+  },
+  "normalized_scale": "1000000000000000000000000",
+  "products": [
+    "SHFE.RB",
+    "INE.SC",
+    "DCE.M",
+    "CZCE.TA",
+    "CFFEX.IF",
+    "GFEX.SI"
+  ],
+  "readiness": "raw_evaluator_candidate_direction_in_minus1_zero_plus1",
+  "readiness_percent_decimal_places": 24,
+  "readiness_percent_rounding": "ROUND_HALF_EVEN_INTEGER_QUOTIENT",
+  "rounding": "ROUND_HALF_EVEN_INTEGER_QUOTIENT",
+  "safety": {
+    "K45_input_used": false,
+    "broker": "NOT_RUN",
+    "credentials_read": false,
+    "enable_trading": false,
+    "holdout_read": false,
+    "new_simulation": false,
+    "new_training": false,
+    "observer": "hold",
+    "real_order_cancel_calls": 0,
+    "real_order_send_calls": 0
+  },
+  "scenario": "BASE",
+  "schema": "k46-universe-v2-config/v1",
+  "source_hashes": {
+    "b_manifest": "636a50b9a9bc80cbf8c28afabd3d1367880380b688e6697712b619eed67bf061",
+    "economics": "8bdcd7abe6c9c4ab330c173574eba6412d1372bcc6ff1d3dde292cd5900e7692",
+    "k43_freeze": "09cf167ecbe307d9211760ec8f0df61ec8fe0aa6010d09ebd48db4a80ee4a2dc",
+    "k43_manifest": "3ff1664e39b4bceab34ce17d62cd69718000a3abe890ceaa7d05ed20d2b4c85a",
+    "k44_final": "d4dee3c72815142b395f0276f04544696f13bd96f8c36f29c3d96d0869f8dcad",
+    "k44_inputs": "bb4624154d79b9701de6e577ed8b65427a28b9b376246dbd0dd4670f35eefdbc",
+    "k44_manifest": "bda5a7422384edc1936d671b1280eafdeaa78abadbdbb94bbabfc559b6fe4b9a",
+    "k44_sources": "07f5e571682ace02c1abcfcd7264a523ac1f840e4ec9c60cc8f63de4a45a9968",
+    "k44_verdict": "ca2f2aaba95a38be28ac898134134a66faa014cfb77116f9b8af81784f1e78e1",
+    "plan": "8a7dfac461f2fbf594f45cdaf1be07b20bc6530895d972a24d78b359db78fbb9",
+    "rb_sources": "da5651cb309cb7d5e6beddb20e8b14ee3ecb2745ee0a644271cc89dedf02d62f"
+  },
+  "start": "2020-07-20",
+  "years": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ]
+}

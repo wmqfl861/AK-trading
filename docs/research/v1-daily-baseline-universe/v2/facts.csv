@@ -1,0 +1,16 @@
+fact_id,value,unit,basis
+product_count,6,个,fixed products
+rule_count,3,个,fixed methods
+lots_per_account,1,手,accepted fixed one-lot accounts
+first_observation,2020-07-20,日期,original selection dates
+last_observation,2026-09-04,日期,original selection dates
+included_rule_cells,18,个,summary.csv eligibility=INCLUDED; strategies only
+positive_rule_cells,8,个,included strategy net_yuan > 0
+negative_rule_cells,10,个,included strategy net_yuan < 0
+zero_rule_cells,0,个,included strategy net_yuan = 0
+better_than_hold_cells,3,个,strict same-product net_yuan comparison
+combined_percent/donchian_trend,21.3806481836804990718667,%,combined-summary.csv donchian_trend
+combined_percent/ma_trend,-6.0199943983395264836238,%,combined-summary.csv ma_trend
+combined_percent/zscore_reversion,-12.2845065985835629743353,%,combined-summary.csv zscore_reversion
+combined_percent/flat_control,0,%,combined-summary.csv flat_control
+combined_percent/buy_hold_control,44.3979800178961120822352,%,combined-summary.csv buy_hold_control

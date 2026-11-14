@@ -1,0 +1,315 @@
+{
+  "build_files": {
+    "config/research/v1_daily_baseline_universe_v2.json": {
+      "bytes": 2386,
+      "sha256": "7c929df941484387fc166d235b0b0d24acf64a2ae2312ee9ab8c616a817a9698"
+    },
+    "tests/experiments/test_v1_daily_baseline_universe_v2.py": {
+      "bytes": 28811,
+      "sha256": "e08da3e2b478b7db11718681f56ff68531568b2a1d0b357694beb031b7fd0048"
+    },
+    "tools/experiments/v1_daily_baseline_universe_v2.py": {
+      "bytes": 66784,
+      "sha256": "68c5eaca23f5100a6fda0ce6b6c0cdf6b5accd26c4ba61c9c825667f788dd4b9"
+    }
+  },
+  "evidence_level": "SCENARIO",
+  "external_manifests": {
+    "daily_join": {
+      "file_count": 1,
+      "sha256": "5faa0c970e3d9cb5df9f448d35dbbf7f658a2c048f56986631545776f96c36e7"
+    },
+    "inputs": {
+      "file_count": 6713,
+      "sha256": "cb95fe19690d35eae4f7ca3413148a1ec92c8c125440e93b1c63cc58a8e72aae"
+    },
+    "report_references": {
+      "file_count": 1,
+      "sha256": "b202fce4860838988b099dd8646cd2aec36e6cc3464b466f3e61dbf86fcc534b"
+    }
+  },
+  "historical_known_at": null,
+  "historical_schedule_verified": false,
+  "prior_final_tool_build": "r2",
+  "prior_research_generation_build": "r1",
+  "published_files": {
+    "docs/research/v1-daily-baseline-universe.md": {
+      "bytes": 12303,
+      "sha256": "bdddefff9757724470b47e99bce5e607989cbc48e885b523e861303db1a5ec62"
+    },
+    "docs/research/v1-daily-baseline-universe/v2/annual.csv": {
+      "bytes": 24267,
+      "sha256": "27f804a0991d1353f1c4654b1795aeddd7a40f9fb45473d66b6e37d6753c8f08"
+    },
+    "docs/research/v1-daily-baseline-universe/v2/capital-events.csv": {
+      "bytes": 6643,
+      "sha256": "960f97845db09ad908e4c192c9040f2decfa2d3a77ed97093514b91042ce3ece"
+    },
+    "docs/research/v1-daily-baseline-universe/v2/combined-annual.csv": {
+      "bytes": 3984,
+      "sha256": "684433f34e063a2e89c31c914c815a39c0d03e8130fbd14b738a1fabae0c6a89"
+    },
+    "docs/research/v1-daily-baseline-universe/v2/combined-daily.csv": {
+      "bytes": 1408998,
+      "sha256": "974475032be0f8c8040be69308219d255bf74a04d6e7feaec375fff98d4702f4"
+    },
+    "docs/research/v1-daily-baseline-universe/v2/combined-summary.csv": {
+      "bytes": 1005,
+      "sha256": "c89b16d9c71885adeb0436fc8dac318513ea1f559a01baf6fefda83e72e8721c"
+    },
+    "docs/research/v1-daily-baseline-universe/v2/facts.csv": {
+      "bytes": 1030,
+      "sha256": "ec230f981d2e2788eb883b9f651b1c8d5602f05f62672ed4c7aa7a1a0604f617"
+    },
+    "docs/research/v1-daily-baseline-universe/v2/readiness.csv": {
+      "bytes": 6240,
+      "sha256": "7db5c5f0411a3154577014bb5d3c0cafeb117d3c7dc9dfbf66b7386f4d02e3fa"
+    },
+    "docs/research/v1-daily-baseline-universe/v2/summary.csv": {
+      "bytes": 5980,
+      "sha256": "f948894184992de677daf402ad832efc66b5139ac51f8aee025ad8e8937e906f"
+    }
+  },
+  "reconciliation": {
+    "annual_net_exact": true,
+    "annual_normalized_units_exact": true,
+    "combined_annual_units_exact": true,
+    "old_public_files_unchanged": true,
+    "opening_fills_exact": true,
+    "original_capital_events_exact": true,
+    "original_dominant_net_exact": true,
+    "readiness_partition_exact": true,
+    "selected_identity_exact": true
+  },
+  "safety": {
+    "K45_input_used": false,
+    "broker": "NOT_RUN",
+    "credentials_read": false,
+    "enable_trading": false,
+    "holdout_read": false,
+    "new_simulation": false,
+    "new_training": false,
+    "observer": "hold",
+    "real_order_cancel_calls": 0,
+    "real_order_send_calls": 0
+  },
+  "schema": "k46-universe-v2-check/v1",
+  "semantics": {
+    "aggregation": "daily_equal_weight_then_sum_without_compounding",
+    "capitals": [
+      "1000000",
+      "300000",
+      "100000",
+      "50000"
+    ],
+    "coverage_threshold": "1/2",
+    "denominator": "same_instance_previous_stored_close_times_multiplier",
+    "end_exclusive": "2026-09-05",
+    "methods": [
+      "donchian_trend",
+      "ma_trend",
+      "zscore_reversion",
+      "flat_control",
+      "buy_hold_control"
+    ],
+    "multipliers": {
+      "CFFEX.IF": 300,
+      "CZCE.TA": 5,
+      "DCE.M": 10,
+      "GFEX.SI": 5,
+      "INE.SC": 1000,
+      "SHFE.RB": 10
+    },
+    "normalized_scale": "1000000000000000000000000",
+    "products": [
+      "SHFE.RB",
+      "INE.SC",
+      "DCE.M",
+      "CZCE.TA",
+      "CFFEX.IF",
+      "GFEX.SI"
+    ],
+    "readiness": "raw_evaluator_candidate_direction_in_minus1_zero_plus1",
+    "readiness_percent_decimal_places": 24,
+    "readiness_percent_rounding": "ROUND_HALF_EVEN_INTEGER_QUOTIENT",
+    "rounding": "ROUND_HALF_EVEN_INTEGER_QUOTIENT",
+    "safety": {
+      "K45_input_used": false,
+      "broker": "NOT_RUN",
+      "credentials_read": false,
+      "enable_trading": false,
+      "holdout_read": false,
+      "new_simulation": false,
+      "new_training": false,
+      "observer": "hold",
+      "real_order_cancel_calls": 0,
+      "real_order_send_calls": 0
+    },
+    "scenario": "BASE",
+    "schema": "k46-universe-v2-config/v1",
+    "start": "2020-07-20",
+    "years": [
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ]
+  },
+  "statistical_qualification": "NOT_ASSESSED",
+  "status": "SEALED_AGGREGATE_EXIT_0",
+  "tables": {
+    "annual.csv": {
+      "columns": [
+        "product",
+        "method",
+        "year",
+        "year_status",
+        "covered_days",
+        "net_yuan",
+        "normalized_units",
+        "normalized_percent",
+        "max_drawdown_pp",
+        "longest_drawdown_observations"
+      ],
+      "rows": 210
+    },
+    "capital-events.csv": {
+      "columns": [
+        "product",
+        "capital",
+        "method",
+        "scenario",
+        "view",
+        "accounts",
+        "opening_attempts",
+        "opening_fills",
+        "opening_blocks",
+        "opening_margin_blocked",
+        "opening_costs_exhaust_equity"
+      ],
+      "rows": 120
+    },
+    "combined-annual.csv": {
+      "columns": [
+        "method",
+        "year",
+        "year_status",
+        "contributing_days",
+        "normalized_units",
+        "normalized_percent",
+        "max_drawdown_pp",
+        "longest_drawdown_observations",
+        "min_participants",
+        "max_participants"
+      ],
+      "rows": 35
+    },
+    "combined-daily.csv": {
+      "columns": [
+        "method",
+        "raw_date",
+        "status",
+        "participant_count",
+        "participants",
+        "sum_product_units",
+        "normalized_units",
+        "normalized_percent",
+        "cumulative_units",
+        "cumulative_percent",
+        "drawdown_pp",
+        "drawdown_observations"
+      ],
+      "rows": 7445
+    },
+    "combined-summary.csv": {
+      "columns": [
+        "method",
+        "status",
+        "contributing_days",
+        "total_observation_days",
+        "normalized_units",
+        "normalized_percent",
+        "max_drawdown_pp",
+        "longest_drawdown_observations",
+        "open_drawdown_at_end",
+        "min_participants",
+        "max_participants",
+        "eligible_products",
+        "excluded_products"
+      ],
+      "rows": 5
+    },
+    "facts.csv": {
+      "columns": [
+        "fact_id",
+        "value",
+        "unit",
+        "basis"
+      ],
+      "rows": 15
+    },
+    "readiness.csv": {
+      "columns": [
+        "product",
+        "method",
+        "evaluator_ready_days",
+        "warmup_days",
+        "zero_variance_days",
+        "other_unavailable_days",
+        "reason_counts_json",
+        "ready_days",
+        "readiness_denominator",
+        "readiness_percent",
+        "readiness_status",
+        "eligibility",
+        "selected_opening_attempts",
+        "selected_opening_fills",
+        "selected_opening_blocks",
+        "selected_opening_margin_blocked",
+        "selected_opening_costs_exhaust_equity",
+        "all_contracts",
+        "selected_contracts",
+        "all_contracts_never_opened",
+        "selected_contracts_never_opened",
+        "selected_contracts_without_selected_day_open",
+        "all_opening_attempts",
+        "all_opening_fills",
+        "all_opening_blocks",
+        "all_opening_margin_blocked",
+        "all_opening_costs_exhaust_equity"
+      ],
+      "rows": 30
+    },
+    "summary.csv": {
+      "columns": [
+        "product",
+        "method",
+        "capital",
+        "scenario",
+        "status",
+        "selected_days",
+        "net_yuan",
+        "normalized_units",
+        "normalized_percent",
+        "positive_years",
+        "covered_years",
+        "worst_year",
+        "worst_year_net_yuan",
+        "max_drawdown_pp",
+        "longest_drawdown_observations",
+        "open_drawdown_at_end",
+        "ready_days",
+        "readiness_denominator",
+        "readiness_percent",
+        "eligibility",
+        "selected_opening_fills",
+        "max_drawdown_yuan"
+      ],
+      "rows": 30
+    }
+  },
+  "timing_verified": false
+}
