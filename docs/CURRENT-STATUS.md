@@ -16,8 +16,8 @@
 | --- | --- |
 | S3 | 完成：`ab65e45`的`* -text`、`c61f772`的两处规则替换/CI三文件。52个仅换行文件恢复HEAD字节；无renormalize。CI43427609055成功，1381P/4skip/raw0。 |
 | K43 | 完成：`9608b5c`，独审无条件PASS；97P/raw0，130318独立比较/0失败，8组反例；CI43436732625成功，1428P/4skip。报告[v1-daily-baseline-rb.md](research/v1-daily-baseline-rb.md)。 |
-| K14 | 独立无条件PASS；本提交含两个冻结文件及新增测试CI接线，推送/CI回读进行中。93P、完整M1–M4 1006P均raw0；669差分断言，26回放产物字节不变；最终完整回归零新增。 |
-| K44 | 独立无条件PASS，49文件待本批下一项提交。最终r2工具与r1实际生成结果来源分别保留；195P/raw0、78守卫反例；两次28400账户/170470产物/7CHECK字节差异0；253816634项独立Fraction检查/0失败，未用owner数学函数。报告[v1-daily-baseline-universe.md](research/v1-daily-baseline-universe.md)。 |
+| K14 | 完成：`4021186`已推送，CI43538842942成功，1520P/4skip/raw0；独立无条件PASS。93P、完整M1–M4 1006P均raw0；669差分断言，26回放产物字节不变；最终完整回归零新增。 |
+| K44 | 独立无条件PASS，本提交发布49文件、CI接线及r8基线，推送/CI待回读。最终r2工具与r1实际生成结果来源分别保留；195P/raw0、78守卫反例；两次28400账户/170470产物/7CHECK字节差异0；253816634项独立Fraction检查/0失败，未用owner数学函数。报告[v1-daily-baseline-universe.md](research/v1-daily-baseline-universe.md)。 |
 | K42b | 完成：`50154b5`，CI43442336144成功，1428P/4skip。测量raw0：1783377可用分钟、452日、累计bar×close放行64.431955%，当节cohort98.837094%；594次生产集合相同。表[k42-real-input-readiness.md](research/k42-real-input-readiness.md)。 |
 | S4 | 阻塞，记录已推送`b10a4ee`，CI43451659023成功。独立venv创建raw0，安装两次raw1（后次1800.006秒超时）。鉴权启动0次，P/F/E/skip均NA；未改依赖、测试、守卫或基准环境，不继续重试。 |
 | K45 | 完成设计：`ba26032`，CI43449548520成功。一次Sol意见5项全采纳；只设计，未真实拟合/评分。[k45-forecast-skill-design.md](research/k45-forecast-skill-design.md)。 |
@@ -43,7 +43,7 @@
 | AFTER02（6311.63秒，失败保留） | 6369 | 146 | 60 | 33 | 8 | 6608 | 1 |
 | 最终AFTER03（5459.68秒） | 6370 | 145 | 60 | 33 | 8 | 6608 | 1 |
 
-最终record/compare/assembler均raw0：新增及消失F/E/CE全0，旧nodes/files/domains无丢失，unresolved0；237新节点纳入且不在F/E，完整M1–M4同1006节点/F/E0。四成员另含confirmation9P/raw0、duplicate9P/raw0、range5P6F/raw1；三个同src03探针原样复用并保留实际run ID，四成员总6637selected。新r8基线待随K44入库，旧基线不覆盖。
+最终record/compare/assembler均raw0：新增及消失F/E/CE全0，旧nodes/files/domains无丢失，unresolved0；237新节点纳入且不在F/E，完整M1–M4同1006节点/F/E0。四成员另含confirmation9P/raw0、duplicate9P/raw0、range5P6F/raw1；三个同src03探针原样复用并保留实际run ID，四成员总6637selected。本提交新增`tests/baselines/full-suite-windows-20261113-r8.json`（SHA256 `928d8745493dbdf661b1dfe943d51efea300bafc125c1d7a4c7f31ff5379aef3`），逐字节来自已接受AFTER03，旧基线不覆盖。
 
 **保留的失败及作者裁定**：K44-F01在r1确实FAIL（输出允许置于输入包内）；r2仅修目录守卫及29条回归，非守卫53定义/config不变，四小矩阵各2478文件字节一致，独审确认修复。实际两矩阵输出从未重叠，按作者001裁定复用原r1真实结果，CHECK不改签r2。src02过期后测受控停为PARTIAL/raw130，自动assembler2拒绝残缺，未冒充基线。AFTER02唯一新增为`test_internal_decode_defect_still_500_not_widened_400`在收HTTP状态行前超时；D1单例1P、D2整文件141P仅诊断。按原作者限定的一次低并发完整AFTER03确认后零新增；原FAIL永久保留，原因/归因仍NOT_ESTABLISHED，未改原5秒超时、断言或源码。
 
@@ -53,7 +53,7 @@
 
 **S4命令**：`C:/AKH81113/measurements/s4-r1/venv/Scripts/python.exe -I -B -m pip --isolated install --disable-pip-version-check --index-url https://pypi.org/simple -r D:/Projects/AK-trading/requirements.txt pytest`；第二次child raw1/WALL_CLOCK_TIMEOUT，监督记录raw0。见外置`s4-r2/RESULT.json`，鉴权NOT_RUN不当测试FAIL。
 
-**独立最终结论**：K14 `reviews/k14/hard-review-r1/final-001/VERDICT.json` SHA256 `a957f831d0c24a32264da1147c4527e9251a80afadb078203497b663fccee918`；K44 `reviews/k44/hard-review-final-r1/VERDICT.json` SHA256 `ca2f2aaba95a38be28ac898134134a66faa014cfb77116f9b8af81784f1e78e1`（均相对外置根`C:/AKH81113/`，均无条件PASS）。当前发布仍待main/CI回读，产品审核与整批集成事实分别记录。
+**独立最终结论**：K14 `reviews/k14/hard-review-r1/final-001/VERDICT.json` SHA256 `a957f831d0c24a32264da1147c4527e9251a80afadb078203497b663fccee918`；K44 `reviews/k44/hard-review-final-r1/VERDICT.json` SHA256 `ca2f2aaba95a38be28ac898134134a66faa014cfb77116f9b8af81784f1e78e1`（均相对外置根`C:/AKH81113/`，均无条件PASS）。K14 main/CI已回读成功；K44本提交待回读，产品审核与整批集成事实分别记录。
 
 **待决**：无DECISIONS未覆盖且需要用户决定的新事项。S4依赖安装阻塞留给后续授权批次，不自动开修复计划。
 

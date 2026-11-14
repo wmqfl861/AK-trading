@@ -50,4 +50,5 @@ jobs:
             tests/test_v2_empirical_model_cache.py \
             tests/experiments/test_v1_daily_baseline_report.py \
             tests/experiments/test_v1_daily_baseline_sensitivity.py \
-            tests/experiments/test_v1_daily_baseline_dominant.py
+            tests/experiments/test_v1_daily_baseline_dominant.py \
+            tests/experiments/test_v1_daily_baseline_universe.py
