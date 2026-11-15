@@ -1,7 +1,7 @@
 # Adapted from the external draft docs/repo-audit-20261107-claude/ci/offline-v2.yml
 # (external review round 3, 2026-11-07). Changes for the effective H1-H8 plan:
 # after H3, v2/export.py keeps SQLAlchemy under TYPE_CHECKING, so the two M1
-# contract-lock tests no longer need it and this job installs pytest only.
+# contract-lock tests no longer need it and this job installs pytest and psutil.
 # Scope: all tests/test_v2_m[1-4]*.py plus the forward-paper regression, the
 # K05 natural-chain smoke and the unchanged external duplicate-bar probe,
 # always through scripts/test_offline.py (guard before collection).
@@ -29,14 +29,14 @@ concurrency:
 jobs:
   v2-m1-m4:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
       - name: Install test-only dependencies
-        run: python -m pip install "pytest>=8.0"
+        run: python -m pip install "pytest>=8.0" psutil
       - name: v2 M1-M4, forward paper, natural-chain smoke and probes via the offline launcher
         shell: bash
         run: |
@@ -52,4 +52,6 @@ jobs:
             tests/experiments/test_v1_daily_baseline_sensitivity.py \
             tests/experiments/test_v1_daily_baseline_dominant.py \
             tests/experiments/test_v1_daily_baseline_universe.py \
-            tests/experiments/test_v1_daily_baseline_universe_v2.py
+            tests/experiments/test_v1_daily_baseline_universe_v2.py \
+            tests/experiments/test_k45_forecast_skill.py \
+            tests/experiments/test_k45_forecast_statistics.py

@@ -1,8 +1,8 @@
-现在：分钟漏斗已完成，样本达标，正式拟合中。
-卡点：正式拟合、预演和最终硬审尚未完成。
+现在：拟合预演已完、硬审PASS，进入一次评分。
+卡点：待检验段评分、报告复算和最终CI。
 请你：仓库转私有、换令牌、收紧入口、开长路径。
 
-检验还没有结果。MINUTE保持每节第5根，真实阶段一漏斗已封存；内层拟合194天、验证64天，检验段五个期限各91个合法请求交易日，达到原样本门槛，原进程已进入正式拟合。原修正预算约39.61小时是成本估计，不是研究结论。DAILY因原输入时间契约不兼容停止。R001未消费，真实TEST标签/概率/评分调用均0。
+检验还没有结果。MINUTE保持每节第5根，真实阶段一、正式拟合和训练段内预演已完成，三个范围的独立产品硬审均无条件PASS。原开发负责人按原授权接续唯一一次K45-R001；发布回执时真实TEST标签/概率/评分调用仍为0。原修正预算约39.61小时是成本估计，不是研究结论。DAILY因原输入时间契约不兼容停止，不修改输入补齐。
 
 # 第八轮第五批：仅K45，执行中
 
@@ -13,11 +13,11 @@
 | 取得外审 | fetch/ff-merge/push raw0，仅新增8文件；HEAD `30d0ff924fe65622465886d22e6e3964e1486eca`。 |
 | K45a2/1 | v3/澄清已入main `25964e1`、`914967d`，CI通过；一次意见A1/A2采纳。 |
 | K45b/2 | 20日实测、完整合成成本、修正外推完成；F02独立专项无条件PASS，默认step5，未触发有效回退。 |
-| K45b/3 | MINUTE真实漏斗已封存，194/64内层交易日及五期限各91个TEST合法交易日达标；交接60项、计数1836项独立断言通过，父进程阶段一产物独立复核中。DAILY结构必要条件上界0、INPUT_UNUSABLE。 |
-| K45b/4 | 正式拟合进行中；r5定向独立8P、2336范围断言及426预算断言通过，DAILY r5封套174项通过。真实拟合/预演未完，总体产品PASS未签发。 |
-| K45c/5 | 阶段三NOT_RUN，R001报告/主表未产生；须最终独立无条件PASS后才评分一次。 |
-| 工作分支 | `work/k45-forecast-skill`=`07301bd10e19e6da22119c15346eadf626fc7a2e`，r5四源码已推并冻结；旧r1–r4提交保留。工具未合main。 |
-| main/CI | 前一状态提交`18f01e0`已推，CI43691958052成功；本次为检查点3更新。最终工具合入时同提交加两测试/psutil/60分钟墙钟，静态检查已过，实际集成CI待跑。 |
+| K45b/3 | MINUTE真实漏斗已封存，194/64内层交易日及五期限各91个TEST合法交易日达标；交接60项、计数1836项、阶段一1377项独立断言通过。DAILY结构必要条件上界0、INPUT_UNUSABLE。 |
+| K45b/4 | 正式拟合/预演各一次完成，003 child/supervisor0/0。整体独立无条件PASS；正式模型6053项、最终产物536项独立断言通过，三范围结论见下。 |
+| K45c/5 | 原owner接续唯一R001，先核编号再封存概率、最后生成标签评分；报告/主表尚未产生，评分后独立逐格复算。 |
+| 工作分支 | `work/k45-forecast-skill`=`07301bd10e19e6da22119c15346eadf626fc7a2e`，r5四源码已推并冻结；旧r1–r4提交保留。当前原字节与该分支逐字节一致。 |
+| main/CI | 检查点3提交`4417db4`已推，CI43743314896成功。本次检查点4把已硬审四源码与两测试的CI清单/psutil/60分钟墙钟同时收录；CI静态检查已过，新集成CI待推送后运行。 |
 
 **三条开工复现**（各一次，stderr空，非pytest）：解释器`C:/AKR41110/venv-full/Scripts/python.exe -B -X utf8`；脚本位于`docs/repo-audit-20261114-r8-claude/probes/`。
 
@@ -63,7 +63,28 @@ MINUTE各期限1/5/15/30/60的方向单位为1212/1211/1209/1206/1200。中间�
 
 TRAIN/CAL节末晚到分别排除1,105/242个候选；请求分别跨界排除66/66条，CAL另有975条全日embargo。TEST节末晚到365个、特征不完整8个；实际可用5,903比时间估计5,911少8，未修填。内层split保持2023-10-26及原20日embargo，fit194天/187,371样本、development64天/61,644样本，sufficient=true；研究日期、期限、参数未改。
 
-阶段一`C:/AKR81114/k45/runs/minute-continue-003/stage1.json`为101,077 B、SHA `67c343482424434c3f915fabacc6587562ada8e5cbc36dbe37f1a0706363d06b`。独立交接核验raw0/60断言，独立count-test核验raw0/1,836断言；TEST身份文件只核pin/count，未展示编号数组。count-test子进程raw0、11,149.235秒、stderr0；它不是阶段三，三项真实TEST数值调用均0。主003仍RUNNING，尚无终态退出码，拟合/预演/阶段三均未完成。运行历史private峰值15,855,984,640 B，高于原预算估计14,007,129,518 B，低于固定上限24,687,058,944 B；原预算不回写，终态实测继续保留。stage1无独立耗时字段，阶段耗时为NOT_SEALED；其mtime为2026-11-15T17:34:58.553398Z，仅为文件系统时间，不冒充阶段计量。首次观测时003 elapsed39,341.60秒，最终timings待mode-freeze封存。
+阶段一`C:/AKR81114/k45/runs/minute-continue-003/stage1.json`为101,077 B、SHA `67c343482424434c3f915fabacc6587562ada8e5cbc36dbe37f1a0706363d06b`。独立交接核验raw0/60断言、count-test核验raw0/1,836断言、阶段一核验raw0/1,377断言；TEST身份文件只核pin/count，未展示编号数组。count-test子进程raw0、11,149.235秒、stderr0；它不是阶段三，三项真实TEST数值调用均0。stage1本身无整段耗时字段，不用mtime当阶段计量；现有mode-freeze已封存各组件实测。
+
+**阶段二及最终产品硬审（检查点4）**：003于2026-11-15T20:01:24.458239Z结束，child原始0、supervisor工具返回原始0，墙钟47,813.743秒；12个跟踪进程均退出，stderr0，20项源码pins前后不变。终态RESULT的child/capture字段与原session64310/chunkf4fff1的外层工具退出0分列，RESULT没有伪造supervisor字段。沿原逻辑起点累计107,877.110秒（约29.97小时），审核等待继续计入原72小时。private峰值15,855,984,640 B，比原估计高1,848,855,122 B，仍低于固定24,687,058,944 B；不改原预算、不重查资源。
+
+| 已封存实测组件 | 秒 | 口径 |
+| --- | ---: | --- |
+| 父进程原30分片核验 | 1,732.533 | 原输入核验后CAL截断 |
+| 父进程TRAIN/CAL特征 | 23,822.254 | 21,828次，原五历史档合计 |
+| TEST计数子进程 | 11,149.235 | 整个子进程，包含它自己的原输入核验；不再另加子组件 |
+| 正式拟合 | 4,454.105 | 方向候选、两个对照、定温度，训练调用1 |
+| 训练段内预演拟合 | 2,892.916 | 训练调用1，复用原TRAIN对象 |
+| 预演预测/统计 | 8.093 / 20.377 | 仅工程预演，不输出效果，不等于真实TEST评分 |
+
+预演DRY_RUN_CHAIN_COMPLETED：199/40/40原切分，inner138/40天；objects_reused=true，方向/标签成熟边界按原计划重算。预演label12,423/probability37,269/score1与真实TEST三项0严格分列。MINUTE mode-freeze SHA `0101cd922bfed09080a80a143724114573cbe5940344ef000224176ec11afd69`；真实模型/算法和预演均绑定当前r5及原DAILY停止封套。
+
+| 独立硬审范围 | 结论 | 证据概要 |
+| --- | --- | --- |
+| 隔离与阶段边界 | 无条件PASS | CAL截断、独立TEST计数、编号/状态、预演仅原TRAIN；实际TEST三项0 |
+| 方向逐位一致及两对照 | 无条件PASS | 原65P0F数值oracle及不变声明复用；真实20候选/10对照、温度/人口/选择核验6053项 |
+| 统计设计 | 无条件PASS | 原日权、bootstrap、区间/半宽0.02/判定顺序、统计测试及真实预演绑定 |
+
+整体回执`C:/AKR81114/reviews/k45/PRODUCT-HARD-REVIEW-r5-r1.json`为23,416 B，SHA `4f3a5d3bc788f9cb9220ab674259360b5b1c8f6dec1bad756e4b134c291516e0`，verdict=PASS、conditional=false、independent=true，原冻结validate_release_v3只读验证已接受。最终检查r2 raw0/536断言。r1审核器误要求两个先后采样时间戳<10ms一致、实差34.612ms，raw1与修正处置保留；按监督器原顺序核验通过，非产品finding，未重跑产品。
 
 本次实际命令（cwd为仓库根目录，argv来自原REQUEST/PROCESS，未读取env）：
 
@@ -71,7 +92,7 @@ TRAIN/CAL节末晚到分别排除1,105/242个候选；请求分别跨界排除66
 C:/AKR41110/venv-full/Scripts/python.exe -B -X utf8 tools/experiments/k45_forecast_skill.py continue-mode --mode MINUTE --measurement C:/AKR81114/k45/runs/minute-measure-001/measurement.json --measurement-freeze C:/AKR81114/k45/owner/source-v3-r2/MANIFEST.json --resource C:/AKR81114/k45/owner/minute-job-001-resource.json --output C:/AKR81114/k45/runs/minute-continue-003 --cost-reuse C:\AKR81114\k45\owner\f02-step5-cost-reuse-001.json
 ```
 
-003进程启动2026-11-15T06:44:30.743891Z；原逻辑作业起点不变。该命令不是pytest，passed/failed为N/A；原始退出码待进程结束记录。
+003进程启动2026-11-15T06:44:30.743891Z；原逻辑作业起点不变。该命令不是pytest，passed/failed为N/A；终态child/supervisor原始退出码0/0。
 
 **当前有效外推（r5、step5）**：同规模合成正式/预演完整拟合分别21,837.894/16,169.398秒，500迭代/50棵树/10因子不变；15项独立成本及4条reference已核验并兼容复用，未重拟合。新生命周期元数据raw0/201.111秒，原人口一致，1056聚合计数守恒。
 
@@ -87,13 +108,13 @@ C:/AKR41110/venv-full/Scripts/python.exe -B -X utf8 tools/experiments/k45_foreca
 | 原逻辑作业已发生 | 含失败、修复、补测，不扣时间 | 62,169.830 |
 | 总计 | 约39.61小时，低于72小时 | 142,590.516 |
 
-长历史11,095次的3类调用数5374/520/5201，完整连续调用均值0.84053557/1.16974930/1.19514427秒，合计11,341.253秒；初始化只计已发生时间，不重复计费。补测三个子进程raw0，未读真实TEST效果。原内存预测14,007,129,518字节<固定24,687,058,944字节，实测差异见上；输出964,821,104字节。预算`minute-continue-003/step-5/budget.json` SHA `69cd856df9a03788a4956a0b76703a280fba5a7b1fa8b6042a8402c73f908510`，READY_FOR_FORMAL。原起点2026-11-14T14:03:27.348627Z、资源894344…与一次检查保持，未重置72小时。003已完成阶段一并正式拟合中，尚无终态退出码；不能提前封存其运行日志。
+长历史11,095次的3类调用数5374/520/5201，完整连续调用均值0.84053557/1.16974930/1.19514427秒，合计11,341.253秒；初始化只计已发生时间，不重复计费。补测三个子进程raw0，未读真实TEST效果。原内存预测14,007,129,518字节<固定24,687,058,944字节，实测差异见上；输出964,821,104字节。预算`minute-continue-003/step-5/budget.json` SHA `69cd856df9a03788a4956a0b76703a280fba5a7b1fa8b6042a8402c73f908510`，READY_FOR_FORMAL。原起点2026-11-14T14:03:27.348627Z、资源894344…与一次检查保持，未重置72小时。003已完成并在生产进程结束后封存日志；R001继续绑定原起点及上限。
 
 **失败、修复与审核**：r3 continue001 child3/supervisor0、2643.625秒，F01把无decision候选混入人口造成网格越界；r4按可调用人口与精确累计取整修复，原失败保留。r4成本605项核对通过，预算323项算术也通过，但F02确认新bundle首调用15.2967秒被乘11,095次，不等于实际连续调用成本。原81.45小时STOP及step15触发保留为失败事实，不能验收；step15同20日实测354features/5310requests/5289合法标签亦保留，不用于替换step5率。
 
 原continue002按精确身份受控停止：control/supervisor0/0，child原始15、43,711.002秒，无残留、源码不变；非研究STOP。FINDINGS-r4-r1 SHA `ad60e36c70e0852ccd6795447ef0ab06fe3c2205eced95c49121a0cd7e14d4e1`。r5依原作者裁定分开索引与factor生命周期，仅缺档互斥计费，生产数学未改。原red022为0P1F；024夹具缺days、026合成计数器污染各保留原raw1，修正测试准备后027为8P0F；026原resident集成用例通过。
 
-独立r5：8P0F0E0skip、55deselected，runner/supervisor/child0/0/0、pytest7.75秒；范围2336断言/8反例及新预算426断言raw0。**F02专项无条件PASS/CLOSED**：`C:/AKR81114/reviews/k45/F02-R5-ACCEPTANCE-r1.json` SHA `558b452f782b2d3742be3b1a08141b86bb42fe2a2834e10dc2533e8ac12ac11a`。旧65项数值与未变范围复用；不将专项PASS当总体产品PASS。测试并发及两次非阻塞栈采样事实保留，不扣成本。
+独立r5：8P0F0E0skip、55deselected，runner/supervisor/child0/0/0、pytest7.75秒；范围2336断言/8反例及新预算426断言raw0。**F02专项无条件PASS/CLOSED**：`C:/AKR81114/reviews/k45/F02-R5-ACCEPTANCE-r1.json` SHA `558b452f782b2d3742be3b1a08141b86bb42fe2a2834e10dc2533e8ac12ac11a`。旧65项数值与未变范围复用；随后完成的总体产品PASS见检查点4。测试并发及两次非阻塞栈采样事实保留，不扣成本。
 
 **DAILY停止**：全部30片/2,489,676行/7,268根日线，daily.start匹配任意正式T/C生产daily-slot.start为0；T/C日期4,080根start对齐0/end对齐4,080。h1/5/20成熟方向上界0为STRUCTURAL_ZERO_PROVEN；完整漏斗/拟合/TEST未跑字段仍None/NOT_RUN。独立原扫描raw0/22,152断言，r4封套162断言通过；r5封套已仅更新代码绑定，child/supervisor0/0、1.884秒；summary与r4逐字节相同，不重扫/拟合。mode-freeze SHA `afbb381bdae4e768f06aaedb49a7386f9a4424f495c55ca4c7bf916d02eaa0ae`，独立r5复核raw0/174断言通过。首个审核检查器把含serializer的21项pins当作产品20项，raw1已保留；修正检查器后通过，非产品finding。
 
