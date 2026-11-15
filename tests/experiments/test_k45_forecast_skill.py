@@ -1130,6 +1130,217 @@ def test_cost_history_points_use_timed_population_and_interpolate_only_with_cove
     assert len(kept) == len(rejected) == 1 and rejected[0]['bucket'] == 0
 
 
+def test_synthetic_feature_cost_separates_initialization_from_increasing_prefix_calls(monkeypatch):
+    """SYNTHETIC lifecycle oracle: a cold first call cannot price every continuation."""
+    calls, clock = [], [0.0]
+    original_features = k._features
+    def measured_features(bundle, contract, now, duration, *args, **kwargs):
+        result = original_features(bundle, contract, now, duration, *args, **kwargs)
+        visible = result[1]
+        calls.append((bundle, now, len(visible)))
+        clock[0] += 90.0 if len(calls) == 1 else 1.0
+        return result
+    monkeypatch.setattr(k, '_features', measured_features)
+    monkeypatch.setattr(k, 'time', SimpleNamespace(perf_counter=lambda: clock[0]))
+    result = k.synthetic_feature_cost('MINUTE', 300)
+    assert len(calls) >= 2, 'single cold call does not measure the resident continuation lifecycle'
+    assert all(row[0] is calls[0][0] for row in calls)
+    assert all(right[1] > left[1] and right[2] - left[2] == 5 for left, right in zip(calls, calls[1:]))
+    assert result['initialization_seconds'] == 90.0
+    assert result['unit_seconds'] == 1.0
+    assert result['steady_calls'] == len(calls) - 1
+
+
+def lifecycle_shape(contract, entries, size=30):
+    """SYNTHETIC time-only population; the bytes exercise the real LRU policy."""
+    public = {'bundle_rows': 100, 'eligible_rows': 100, 'index_bytes': size,
+              'calendar_sessions': 1, 'source_kinds': []}
+    events = [{'contract': contract, 'day': date(2023, 1, day), 'grid_end': day * 100,
+               'decision': day * 100, 'history_count': count} for day, count in entries]
+    shape = {'shape_id': k.sha256_hex(k.canonical_json_bytes(public)), 'public_shape': public,
+             'index_bytes': size, 'ordered_visibility': [(i, i) for i in range(100)],
+             'rank_prefix_max': list(range(100)), 'datetime_prefix_max': list(range(100)),
+             'events': {5: events, 15: events}}
+    return {'fit': shape, 'full': shape}
+
+
+def test_feature_lifecycle_replays_lru_empty_calls_and_factor_state_independently(monkeypatch):
+    from ak_trading.v2 import data as production_data
+    monkeypatch.setattr(production_data, '_INDEX_CACHE_MAX_RETAINED_BYTES', 100)
+    shapes = {'A': lifecycle_shape('A', [(4, 30), (6, 35), (8, 40), (10, 40)], 60),
+              'B': lifecycle_shape('B', [(5, 30), (9, 35)], 30),
+              'C': lifecycle_shape('C', [(7, 0)], 30),
+              'D': lifecycle_shape('D', [(11, 30), (12, 35)], 150)}
+    result = k.feature_lifecycle_metadata(shapes, {}, 'MINUTE', set())
+    rows = {row['day']: row for row in result['rows'] if row['step'] == 5 and row['process'] == 'FIT'}
+    # A's hit makes B least recent; even C's H=0 call inserts/evicts the index.
+    assert rows['2023-01-08']['index_state'] == 'HIT'
+    assert rows['2023-01-09']['index_state'] == 'REBUILD'
+    assert rows['2023-01-09']['factor_state'] == 'INCREASING_PREFIX'
+    assert rows['2023-01-10']['factor_state'] == 'SAME_HISTORY'
+    assert rows['2023-01-10']['wilder_resumed_count'] == 0
+    assert rows['2023-01-11']['index_state'] == rows['2023-01-12']['index_state'] == 'OVERSIZE_UNRETAINED'
+    assert rows['2023-01-12']['factor_state'] == 'INCREASING_PREFIX'
+    assert sum(row['count'] for row in rows.values()) == 8
+    classes = k.uncovered_feature_classes({'feature_lifecycles': result}, 0, 5, 8)
+    assert sum(row['count'] for row in classes) == 8
+    with pytest.raises(k.ResearchError, match='FEATURE_LIFECYCLE_POPULATION_MISMATCH'):
+        k.uncovered_feature_classes({'feature_lifecycles': result}, 0, 5, 9)
+
+
+def test_step15_lifecycle_keeps_measurement_cache_history_and_skips_live_reuse():
+    shapes = {'A': lifecycle_shape('A', [(4, 30), (5, 35), (6, 40), (7, 45), (9, 50)])}
+    result = k.feature_lifecycle_metadata(shapes, {}, 'MINUTE', {'2023-01-04', '2023-01-09'})
+    rows = {row['day']: row for row in result['rows'] if row['step'] == 15 and row['process'] == 'FIT'}
+    assert set(rows) == {'2023-01-05', '2023-01-06', '2023-01-07'}
+    first = rows['2023-01-05']
+    assert first['index_state'] == 'HIT' and first['factor_state'] == 'NON_PREFIX'
+    assert first['previous_history_total'] == 50 and first['prefix_history_total'] == 30
+    assert first['prefix_reused_count'] == 1 and first['wilder_resumed_count'] == 0
+    assert rows['2023-01-06']['factor_state'] == rows['2023-01-07']['factor_state'] == 'INCREASING_PREFIX'
+
+
+def test_feature_cost_class_preserves_full_bundle_and_uses_only_measured_continuations(tmp_path):
+    from ak_trading.v2.data import _VisibleBarsIndex
+    k.CALL_COUNTS.clear()
+    fixture_spec = importlib.util.spec_from_file_location('k45_cost_shape_test', ROOT / 'tests/v2_realistic_fixtures.py')
+    fixture = importlib.util.module_from_spec(fixture_spec)
+    sys.modules[fixture_spec.name] = fixture
+    fixture_spec.loader.exec_module(fixture)
+    sessions = tuple(replace(session, product='REAL_SHAPE_ONLY') for session in fixture.exchange_calendar(4))
+    source = [SimpleNamespace(start_nano=i, datetime_nano=i, end_nano=i + 1,
+        available_at_nano=i + 2, trading_day=sessions[0].trading_day, bar_id=str(i)) for i in range(320)]
+    index = _VisibleBarsIndex(None, source, sorted(sessions, key=lambda s: s.start_nano), list(sessions))
+    shape = {'bundle_rows': 332, 'eligible_rows': 320, 'index_bytes': index.retained_bytes,
+        'calendar_sessions': len(sessions), 'source_kinds': [
+            {'duration': 60, 'complete': False, 'quality_status': 'DEGRADED', 'temporal_basis': 'unknown',
+             'availability_present': True, 'count': 10, 'eligible_rows': 0},
+            {'duration': 60, 'complete': True, 'quality_status': 'READY', 'temporal_basis': 'reconstructed',
+             'availability_present': True, 'count': 320, 'eligible_rows': 320},
+            {'duration': 86400, 'complete': True, 'quality_status': 'READY', 'temporal_basis': 'reconstructed',
+             'availability_present': True, 'count': 2, 'eligible_rows': 0}]}
+    spec = {'index_state': 'HIT', 'factor_state': 'INCREASING_PREFIX', 'calendar_state': 'WARM', 'step': 5,
+        'count': 7, 'prefix_reused_count': 7, 'wilder_resumed_count': 7, 'history_count': 300,
+        'previous_history_count': 295, 'shape': shape}
+    spec['class_id'] = k.sha256_hex(k.canonical_json_bytes(spec))
+    request = {'schema': 'k45-feature-cost-request-v1', 'mode': 'MINUTE', 'class': spec,
+        'sessions': [k.encode_record(row) for row in sessions], 'code_pins': [k.pin(k.__file__)]}
+    path = tmp_path / 'request.json'
+    k.dump_new(path, request)
+    result = k.measure_feature_class(path, tmp_path / 'cost.json')
+    cost = k.load_json(result['artifact']['path'])
+    measured = cost['measurement']
+    assert measured['bundle_rows'] == 332 and measured['eligible_rows'] == 320
+    assert measured['index_bytes'] == index.retained_bytes
+    assert [row['history_count'] for row in measured['measurements']] == [295, 300, 305]
+    assert measured['measured_history_mean'] == 300
+    assert measured['unit_seconds'] == math.fsum(row['seconds'] for row in measured['measurements']) / 3
+    assert measured['initialization_seconds'] > 0 and cost['parent_cache_untouched']
+    assert not any(cost['actual_test_calls'].values())
+    request['class']['factor_state'] = 'FIRST'
+    request['class'].pop('class_id')
+    request['class']['class_id'] = k.sha256_hex(k.canonical_json_bytes(request['class']))
+    k.dump_new(tmp_path / 'unsupported.json', request)
+    with pytest.raises(k.ResearchError, match='FEATURE_LIFECYCLE_NOT_MEASURED'):
+        k.measure_feature_class(tmp_path / 'unsupported.json', tmp_path / 'forbidden.json')
+    assert not (tmp_path / 'forbidden.json').exists()
+
+
+def test_cost_reuse_binds_unchanged_numerical_route_and_complete_component_set(tmp_path):
+    import ast
+    old_run = tmp_path / 'old-run'
+    original = k.code_pins()
+    old_source = tmp_path / 'old-tool.py'
+    old_source.write_bytes(Path(k.__file__).read_bytes())
+    source_freeze = {'files': [{'relative': 'tools/experiments/k45_forecast_skill.py', 'frozen': k.pin(old_source)}],
+                     'code_pins': original}
+    measurement = k.dump_new(tmp_path / 'measurement.json', {'classification': 'SYNTHETIC_TEST_COST_ONLY'})
+    resource = k.dump_new(tmp_path / 'resource.json', {'classification': 'SYNTHETIC_TEST_COST_ONLY'})
+    metadata = {key: 'SYNTHETIC' for key in ('source_collection_sha256', 'sessions_sha256', 'selection_sha256',
+        'history_population_source')}
+    metadata.update(mode='MINUTE', strict_input_validation_receipt=measurement, input_rows_inspected=0, rows=[])
+    population = {'classification': 'SYNTHETIC_TEST_COST_ONLY'}
+    common = ('full_population_split', 'direction_fit_complete', 'prediction_three_components', 'bootstrap',
+              'numerical_output_and_model_read', 'identity_write_read_hash')
+    costs = {'schema': 'k45-synthetic-mode-costs-v3', 'classification': 'SYNTHETIC', 'mode': 'MINUTE', 'step': 5,
+        'population': population, 'max_iterations': 500, 'tree_count': 50, 'feature_columns': 10,
+        'real_test_values_used': False,
+        'components': [{'purpose': purpose, 'component': component, 'seconds': 1.}
+            for purpose in ('R001', 'DRY_RUN') for component in common] +
+            [{'purpose': 'R001', 'component': component, 'seconds': 1.} for component in
+             ('algorithm_and_summary_output', 'time_ticket_write', 'time_ticket_read_and_decode')]}
+    receipt = {'schema': 'k45-synthetic-cost-reuse-v1', 'measurement': measurement, 'resource': resource,
+        'metadata': k.dump_new(old_run / 'candidate-metadata.json', metadata),
+        'costs': k.dump_new(old_run / 'step-5/synthetic/costs.json', costs),
+        'source_freeze': k.dump_new(tmp_path / 'source-freeze.json', source_freeze),
+        'capture_result': k.dump_new(tmp_path / 'result.json', {'capture_complete': True, 'remaining_identities': [],
+            'source_pins_unchanged': True, 'source_pins_before': original, 'source_pins_after': original, 'native_exit_code': 15}),
+        'capture_request': k.dump_new(tmp_path / 'capture-request.json', {'code_pins': original, 'resource': resource,
+            'argv': ['continue-mode', '--output', str(old_run)]})}
+    path = tmp_path / 'reuse.json'
+    k.dump_new(path, receipt)
+    assert k.reused_synthetic_mode_costs(path, metadata, population, measurement['path'], resource['path'],
+                                        tmp_path / 'new') == costs
+    assert k.load_json(tmp_path / 'new/synthetic-cost-reuse.json')['original_native_exit_code'] == 15
+    changed = ast.parse(old_source.read_text(encoding='utf-8'))
+    next(node for node in changed.body if isinstance(node, ast.FunctionDef) and node.name == 'fit_direction').body.append(ast.Pass())
+    changed_path = tmp_path / 'changed-source.py'
+    changed_path.write_text(ast.unparse(changed), encoding='utf-8')
+    source_freeze['files'][0]['frozen'] = k.pin(changed_path)
+    receipt['source_freeze'] = k.dump_new(tmp_path / 'changed-freeze.json', source_freeze)
+    k.dump_new(tmp_path / 'changed-reuse.json', receipt)
+    with pytest.raises(k.ResearchError, match='COST_REUSE_NUMERICAL_ROUTE_CHANGED'):
+        k.reused_synthetic_mode_costs(tmp_path / 'changed-reuse.json', metadata, population,
+            measurement['path'], resource['path'], tmp_path / 'forbidden-reuse')
+    assert not (tmp_path / 'forbidden-reuse').exists()
+
+
+def test_budget_prices_exclusive_classes_without_recharging_synthetic_warmup(tmp_path, monkeypatch):
+    shapes = {'A': lifecycle_shape('A', [(4, 30), (5, 35)], 30),
+              'B': lifecycle_shape('B', [(6, 30), (7, 35), (8, 40)], 40)}
+    lifecycle = k.feature_lifecycle_metadata(shapes, {}, 'MINUTE', set())
+    rows = [dict(row, index_state='HIT', factor_state='INCREASING_PREFIX', calendar_state='WARM',
+                 prefix_reused_count=row['count'], wilder_resumed_count=row['count'])
+            for row in lifecycle['rows'] if row['step'] == 5]
+    lifecycle['rows'] = rows
+    metadata = {'rows': [{'step': 5, 'bucket': 0, 'partition': 'TRAIN', 'day': '2023-01-04',
+        'timed_feature_calls': 5, 'timed_history_total': 170, 'empty_history_calls': 0,
+        'callable_candidates': 5, 'history_total': 170}], 'feature_lifecycles': lifecycle}
+    monkeypatch.setattr(k, 'feature_measurement_points', lambda *_: ([], []))
+    monkeypatch.setattr(k, 'rate_from_measurement', lambda *_: 0.1)
+    monkeypatch.setattr(k, 'tree_memory', lambda: {'private_bytes': 100, 'rss_bytes': 100})
+    def cost_child(command, output, capture):
+        request = k.load_json(command[2])
+        spec = request['class']
+        unit = 1. if spec['shape']['index_bytes'] == 30 else 2.
+        payload = {'request': k.pin(command[2]), 'class': spec,
+            'measurement': {'unit_seconds': unit, 'initialization_seconds': 90., 'source': 'SYNTHETIC_LIFECYCLE_FIXTURE'},
+            'actual_test_calls': {'test_label_calls': 0, 'test_probability_calls': 0, 'test_scoring_run_count': 0}}
+        k.dump_new(output, payload)
+        return payload, {'classification': 'SYNTHETIC_TRANSPORT_FIXTURE'}
+    monkeypatch.setattr(k, 'safe_child', cost_child)
+    population = {'daily_expected': {'2023-01-04': 3, '2024-03-04': 2, '2024-06-04': 1},
+                  'rates': {'0': {'value': 1.}}}
+    costs = {'population': population, 'reference_measurements': [], 'components': [],
+             'memory_measurements': [], 'fallback_uncertainty': []}
+    measurement = {'days': [], 'feature_object_bytes_without_sources': 50, 'features': 5,
+        'request_shallow_bytes': 50, 'requests': 5, 'label_object_bytes': 50, 'labels': 5,
+        'memory_before': {'private_bytes': 100}, 'timings': [
+            {'component': 'input_validation', 'calls': 30, 'total_seconds': 3.},
+            {'component': 'scenario', 'calls': 1, 'total_seconds': 1.},
+            *[{'component': 'resident_label', 'dimensions': ['MINUTE', str(h)], 'calls': 1,
+               'total_seconds': 1.} for h in k.HORIZONS['MINUTE']]]}
+    result = k.mode_budget(SimpleNamespace(mode='MINUTE', sessions=()), metadata, measurement, costs, 5,
+        {'process_tree_limit_bytes': 10**9, 'disk_free_bytes': {'C:/': 10**9}},
+        datetime.now(timezone.utc).isoformat(), tmp_path / 'step-5',
+        metadata_receipt={'classification': 'SYNTHETIC'}, measurement_receipt={'classification': 'SYNTHETIC'})
+    feature_rows = [row for row in result['components'] if row['component'] == 'features']
+    assert sum(row['count'] for row in feature_rows) == 5
+    assert sum(row['estimated_seconds'] for row in feature_rows) == 2 * 1. + 3 * 2.
+    assert result['feature_rates']['0']['unit_seconds'] == 8. / 5
+    assert result['status'] == 'READY_FOR_FORMAL'
+
+
 def test_metadata_history_matches_strict_dedup_and_untimed_empty_calls(tmp_path, monkeypatch):
     import csv
     session = next(s for s in formal_sessions() if s.trading_day == date(2023, 1, 4))
@@ -1163,7 +1374,8 @@ def test_metadata_history_matches_strict_dedup_and_untimed_empty_calls(tmp_path,
                        'bars_before_dedup': 0, 'bars_after_dedup': 0, 'scenario_target_count': 0} for i in range(29))
     measurement_path = tmp_path / 'measurement.json'
     k.dump_new(measurement_path, {'mode': 'MINUTE', 'source_collection_sha256': k.SOURCE_COLLECTION_SHA,
-                                'input_validation': validation})
+                                'input_validation': validation,
+                                'days': [day.isoformat() for day in k.measurement_days(sessions)]})
     monkeypatch.setattr(k, 'SESSIONS_SHA', session_pin['sha256'])
     monkeypatch.setattr(k, 'SELECTION_SHA', selection_pin['sha256'])
     monkeypatch.setattr(k, 'FULL_SOURCE_SCENARIO_COUNT', 10)

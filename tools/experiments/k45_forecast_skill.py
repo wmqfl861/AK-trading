@@ -2478,6 +2478,101 @@ def fit_scenario_counts(inputs):
             "actually_transformed_rows": sum(row["actually_transformed_rows"] for row in rows)}
 
 
+def feature_lifecycle_metadata(shapes, selected, mode, measurement_days):
+    """Time-only replay of the production index LRU and immutable-prefix access order."""
+    from ak_trading.v2 import data as production_data
+    from ak_trading.v2 import factors as production_factors
+    duration = 86400 if mode == "DAILY" else 60
+    limit = production_data._INDEX_CACHE_MAX_RETAINED_BYTES
+    groups = {}
+    for step in ((5, 15) if mode == "MINUTE" else (5,)):
+        for process_name, partitions, shape_name in (
+            ("FIT", ("TRAIN", "CALIBRATION"), "fit"),
+            ("TEST_COUNT", ("TEST",), "full"), ("TEST_SCORE", ("TEST",), "full")):
+            events = sorted((event for shape in shapes.values() for event in shape[shape_name]["events"][step]
+                if partition_day(event["day"]) in partitions),
+                key=lambda row: (row["decision"] if row["decision"] is not None else row["grid_end"], row["contract"]))
+            initial = [row for row in events if row["day"].isoformat() in measurement_days] \
+                if step == 15 and process_name == "FIT" else []
+            reused = {(row["contract"], row["grid_end"]) for row in initial}
+            accesses = [(row, False) for row in initial] + [(row, True) for row in events
+                if (row["contract"], row["grid_end"]) not in reused]
+            lru, seen_indexes, prefix_states, wilder_states = {}, set(), {}, {}
+            calendar_initialized = False
+            for event, remaining in accesses:
+                if event["decision"] is None:
+                    continue
+                contract = event["contract"]
+                shape = shapes[contract][shape_name]
+                index_bytes = shape["index_bytes"]
+                if contract in lru:
+                    index_state = "HIT"
+                    lru[contract] = lru.pop(contract)
+                else:
+                    index_state = "REBUILD" if contract in seen_indexes else "FIRST_BUILD"
+                    if index_bytes > limit:
+                        index_state = "OVERSIZE_UNRETAINED"
+                    else:
+                        lru[contract] = index_bytes
+                        while sum(lru.values()) > limit and len(lru) > 1:
+                            del lru[next(iter(lru))]
+                    seen_indexes.add(contract)
+                count = event["history_count"]
+                if not count:
+                    # The visibility call happens before the empty-factor failure.
+                    continue
+                prefix_bucket = prefix_states.setdefault(contract, {})
+                sequence = shape["ordered_visibility"]
+                def extends(state, *, strict):
+                    previous_count, previous_max_rank, previous_max_datetime = state
+                    if previous_count > count or (strict and previous_count == count):
+                        return False
+                    tail = sequence[previous_count:count]
+                    return not tail or (min(row[0] for row in tail) > previous_max_rank
+                        and min(row[1] for row in tail) > previous_max_datetime)
+                best = next((state for state in reversed(prefix_bucket.values())
+                    if state[0] > 16 and extends(state, strict=False)), None)
+                last = wilder_states.get(contract)
+                wilder_resumed = last is not None and extends(last, strict=True)
+                factor_state = ("FIRST" if last is None else "INCREASING_PREFIX" if best is not None and wilder_resumed
+                    else "SAME_HISTORY" if last[0] == count and extends(last, strict=False) else "NON_PREFIX")
+                previous_count = 0 if last is None else last[0]
+                state = (count, shape["rank_prefix_max"][count - 1], shape["datetime_prefix_max"][count - 1])
+                if len(prefix_bucket) >= production_factors._PREFIX_CACHE_LIMIT:
+                    prefix_bucket.clear()
+                prefix_bucket[str(event["decision"])] = state
+                wilder_states[contract] = state
+                calendar_state = "WARM" if calendar_initialized else "FIRST"
+                calendar_initialized = True
+                if not remaining:
+                    continue
+                bucket = history_bin(count)
+                key = (step, process_name, event["day"].isoformat(), bucket, index_state, factor_state,
+                       calendar_state, shape["shape_id"], best is not None, wilder_resumed)
+                group = groups.setdefault(key, {"step": step, "process": process_name, "day": event["day"].isoformat(),
+                    "bucket": bucket, "index_state": index_state, "factor_state": factor_state,
+                    "calendar_state": calendar_state, "shape_id": shape["shape_id"], "count": 0,
+                    "history_total": 0, "history_min": count, "history_max": count,
+                    "previous_history_total": 0, "history_increment_total": 0,
+                    "prefix_history_total": 0, "prefix_reused_count": 0, "wilder_resumed_count": 0})
+                group["count"] += 1
+                group["history_total"] += count
+                group["history_min"] = min(group["history_min"], count)
+                group["history_max"] = max(group["history_max"], count)
+                group["previous_history_total"] += previous_count
+                group["history_increment_total"] += count - previous_count
+                group["prefix_history_total"] += 0 if best is None else best[0]
+                group["prefix_reused_count"] += best is not None
+                group["wilder_resumed_count"] += wilder_resumed
+    shape_rows = {shape["shape_id"]: shape["public_shape"] for item in shapes.values() for shape in item.values()}
+    return {"schema": "k45-feature-lifecycle-metadata-v1", "classification": "TIME_AND_SHAPE_ONLY",
+        "index_cache_limit_bytes": limit, "prefix_content_proof":
+            "PINNED_STRICT_DEDUP_IMMUTABLE_SOURCE; ALL_NEW_SOURCE_RANKS_AND_DATETIMES_AFTER_COMPLETE_PRIOR_HEAD",
+        "step15_cache_history": "SAME_PROCESS_TWENTY_DAY_MEASUREMENT_THEN_FORMAL_WITH_REUSE_SKIPS",
+        "rows": [groups[key] for key in sorted(groups)], "shapes": shape_rows,
+        "price_fields_decoded": False, "per_anchor_objects_returned": False}
+
+
 def candidate_metadata(mode, output, measurement_path):
     """Separate process: inspect time/quality fields, never decode a bar price."""
     started = time.perf_counter()
@@ -2495,7 +2590,7 @@ def candidate_metadata(mode, output, measurement_path):
     duration = 86400 if mode == "DAILY" else 60
     chosen = {contract for (day, frequency), contract in selected.items()
               if frequency == duration and partition_day(day) in FORMAL_DATES}
-    grouped, input_rows, scenario_shards = {}, 0, []
+    grouped, input_rows, scenario_shards, lifecycle_shapes = {}, 0, [], {}
     for contract, source in sorted(shards.items()):
         path = Path(source["path"])
         manifest = load_json(path / "manifest.json")
@@ -2503,6 +2598,8 @@ def candidate_metadata(mode, output, measurement_path):
         require(source["manifest_sha256"] in validations, "METADATA_VERIFIED_SHARD_MISSING")
         validation = validations[source["manifest_sha256"]]
         rows, seen, products, source_rows = [], set(), set(), 0
+        source_shapes = {name: Counter() for name in ("fit", "full")}
+        fit_cutoff = split_for(sessions, mode).calibration_end_nano
         changed_ids, changed_by_partition = [], Counter()
         with (path / "bars.csv").open(encoding="utf-8", newline="") as stream:
             for raw in csv.DictReader(stream):
@@ -2528,10 +2625,16 @@ def candidate_metadata(mode, output, measurement_path):
                     available = end + SCENARIO_SECONDS * NANO
                     changed_ids.append(raw["bar_id"])
                     changed_by_partition[partition_day(day) or "OUTSIDE"] += 1
+                source_kind = (frequency, raw["complete"] == "true", quality["status"],
+                               quality["temporal_basis"], available is not None)
+                source_shapes["full"][source_kind] += 1
+                if day is not None and day <= FORMAL_DATES["CALIBRATION"][1] and end < fit_cutoff:
+                    source_shapes["fit"][source_kind] += 1
                 if contract not in chosen or frequency != duration:
                     continue
                 require(raw["complete"] in ("true", "false"), "METADATA_COMPLETE_ENCODING")
                 rows.append(SimpleNamespace(contract_id=contract, product=raw["product"], duration_seconds=frequency,
+                    bar_id=raw["bar_id"], datetime_nano=int(raw["datetime_nano"]),
                     start_nano=int(raw["start_nano"]), end_nano=end, available_at_nano=available,
                     trading_day=day, session_id=raw["session_id"] or None, complete=raw["complete"] == "true",
                     quality=SimpleNamespace(status=quality["status"], temporal_basis=quality["temporal_basis"])))
@@ -2565,10 +2668,44 @@ def candidate_metadata(mode, output, measurement_path):
         fit_cutoffs = sorted(max(row.end_nano, row.available_at_nano) for row in visible_rows
             if row.trading_day is not None and row.trading_day <= FORMAL_DATES["CALIBRATION"][1] and row.end_nano < fit_cutoff)
         projection = SimpleNamespace(bars=rows, sessions=sessions, instruments=(SimpleNamespace(contract_id=contract),))
+        from ak_trading.v2.data import _VisibleBarsIndex
+        lifecycle_shapes[contract] = {}
+        for shape_name in ("fit", "full"):
+            shape_rows = [row for row in visible_rows if shape_name == "full" or
+                (row.trading_day is not None and row.trading_day <= FORMAL_DATES["CALIBRATION"][1]
+                 and row.end_nano < fit_cutoff)]
+            indexed = _VisibleBarsIndex(projection, shape_rows, scoped, list(grid_sessions))
+            ranked = {row.bar_id: rank for rank, row in enumerate(sorted(shape_rows,
+                key=lambda item: (item.start_nano, item.datetime_nano)))}
+            available_rows = sorted(shape_rows, key=lambda row: (max(row.end_nano, row.available_at_nano), row.bar_id))
+            eligible_kinds = Counter((row.duration_seconds, row.complete, row.quality.status,
+                row.quality.temporal_basis, row.available_at_nano is not None) for row in shape_rows)
+            public_shape = {"bundle_rows": sum(source_shapes[shape_name].values()), "eligible_rows": len(shape_rows),
+                "index_bytes": indexed.retained_bytes, "calendar_sessions": len(grid_sessions),
+                "source_kinds": [{"duration": kind[0], "complete": kind[1], "quality_status": kind[2],
+                    "temporal_basis": kind[3], "availability_present": kind[4], "count": count}
+                    for kind, count in sorted(source_shapes[shape_name].items())]}
+            for kind, row in zip(sorted(source_shapes[shape_name]), public_shape["source_kinds"]):
+                row["eligible_rows"] = eligible_kinds[kind]
+            shape_id = sha256_hex(canonical_json_bytes(public_shape))
+            rank_prefix_max, datetime_prefix_max = [], []
+            for row in available_rows:
+                rank_prefix_max.append(max(rank_prefix_max[-1] if rank_prefix_max else -1, ranked[row.bar_id]))
+                datetime_prefix_max.append(max(datetime_prefix_max[-1] if datetime_prefix_max else -1, row.datetime_nano))
+            lifecycle_shapes[contract][shape_name] = {"shape_id": shape_id, "public_shape": public_shape,
+                "index_bytes": indexed.retained_bytes,
+                "ordered_visibility": [(ranked[row.bar_id], row.datetime_nano) for row in available_rows],
+                "rank_prefix_max": rank_prefix_max, "datetime_prefix_max": datetime_prefix_max, "events": {}}
+            del indexed, ranked, available_rows, shape_rows
         for step in ((5, 15) if mode == "MINUTE" else (5,)):
+            for shape in lifecycle_shapes[contract].values():
+                shape["events"][step] = []
             for anchor in anchors(projection, selected, step=step, mode=mode):
                 history = fit_cutoffs if partition_day(anchor.day) in ("TRAIN", "CALIBRATION") else cutoffs
                 count = bisect_right(history, anchor.decision) if anchor.decision is not None else 0
+                shape_name = "fit" if partition_day(anchor.day) in ("TRAIN", "CALIBRATION") else "full"
+                lifecycle_shapes[contract][shape_name]["events"][step].append({"contract": contract, "day": anchor.day,
+                    "decision": anchor.decision, "grid_end": anchor.grid_end, "history_count": count})
                 bucket = history_bin(count)
                 key = step, anchor.day.isoformat(), bucket
                 row = grouped.setdefault(key, {"step": step, "day": anchor.day.isoformat(), "bucket": bucket,
@@ -2601,7 +2738,9 @@ def candidate_metadata(mode, output, measurement_path):
               "strict_input_validation_receipt": pin(measurement_path),
               "history_population_source": "SAME_PINNED_STRICT_DEDUP_AND_PRODUCTION_VISIBILITY_TIME_METADATA",
               "price_fields_decoded": False, "input_rows_inspected": input_rows,
-              "rows": [grouped[key] for key in sorted(grouped)], "elapsed_seconds": time.perf_counter() - started}
+              "rows": [grouped[key] for key in sorted(grouped)],
+              "feature_lifecycles": feature_lifecycle_metadata(lifecycle_shapes, selected, mode, set(measurement["days"])),
+              "elapsed_seconds": time.perf_counter() - started}
     dump_new(output, result)
     return {"status": "METADATA_COUNTS_FROZEN", "mode": mode, "artifact": pin(output)}
 
@@ -3052,19 +3191,33 @@ def synthetic_mode_costs(inputs, population, measurement, mode, step, directory)
     return result
 
 
-def synthetic_feature_cost(mode, history_count):
-    """Supplement a missing history-length observation using full production features."""
+def synthetic_feature_cost(mode, history_count, *, step=5, previous_history_count=None, shape=None, sessions=None):
+    """Time a retained full bundle at strictly growing prefixes; preparation is separate."""
     import random
     path = REPOSITORY / "tests/v2_realistic_fixtures.py"
     spec = importlib.util.spec_from_file_location("k45_cost_market_fixture", path)
     fixture = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = fixture
     spec.loader.exec_module(fixture)
-    days = history_count + 1 if mode == "DAILY" else math.ceil(history_count / 300) + 2
-    calendar = fixture.exchange_calendar(days)
+    require(type(history_count) is int and history_count > 0 and step in (5, 15), "SYNTHETIC_HISTORY_COUNT")
+    previous_history_count = history_count - step if previous_history_count is None else previous_history_count
+    increment = history_count - previous_history_count
+    require(type(previous_history_count) is int and 0 < previous_history_count < history_count,
+            "SYNTHETIC_FEATURE_PREFIX_MUST_INCREASE")
+    eligible_count = shape["eligible_rows"] if shape is not None else history_count + increment
+    # Three symmetric, predeclared points have the target mean H and predecessor
+    # H. Near an endpoint use the one exact pair, selected before any timing.
+    measured_counts = [history_count - increment, history_count, history_count + increment] \
+        if history_count - 2 * increment > 0 and history_count + increment <= eligible_count else [history_count]
+    warm_count = measured_counts[0] - increment
+    require(0 < warm_count < min(measured_counts) and max(measured_counts) <= eligible_count,
+            "SYNTHETIC_FEATURE_PREFIX_SHAPE")
+    days = eligible_count + 1 if mode == "DAILY" else math.ceil(eligible_count / 300) + 2
+    calendar = tuple(replace(session, product=fixture.PRODUCT) for session in sessions) \
+        if sessions is not None else fixture.exchange_calendar(days)
     bars, price, rng = [], 3500., random.Random(20261114)
     if mode == "DAILY":
-        for index in range(history_count):
+        for index in range(eligible_count):
             price += rng.gauss(0., 8.)
             bars.append(fixture.daily_bar(index, round(price, 1), calendar, 60 * NANO, pad=30.))
     else:
@@ -3073,20 +3226,63 @@ def synthetic_feature_cost(mode, history_count):
                 price += rng.gauss(0., 2.)
                 bars.append(fixture._bar("bar:" + sha256_hex(f"SYNTHETIC-{start}".encode()), start, start + MINUTE,
                     session.trading_day, round(price, 1), SCENARIO_SECONDS * NANO, session_id=session.session_id, pad=1.))
-                if len(bars) == history_count:
+                if len(bars) == eligible_count:
                     break
-            if len(bars) == history_count:
+            if len(bars) == eligible_count:
                 break
-    require(len(bars) == history_count and history_count > 0, "SYNTHETIC_HISTORY_COUNT")
+    require(len(bars) == eligible_count, "SYNTHETIC_FULL_BUNDLE_SHAPE")
+    visible_source = tuple(bars)
+    if shape is not None:
+        require(shape["calendar_sessions"] == len(calendar), "SYNTHETIC_CALENDAR_SHAPE")
+        built, position = [], 0
+        for kind in shape["source_kinds"]:
+            eligible = kind["eligible_rows"]
+            require(0 <= eligible <= kind["count"], "SYNTHETIC_SOURCE_KIND_COUNT")
+            require(not eligible or kind["duration"] == (86400 if mode == "DAILY" else 60),
+                    "SYNTHETIC_SOURCE_KIND_DURATION")
+            for index in range(kind["count"]):
+                if index < eligible:
+                    original = visible_source[position]
+                    position += 1
+                else:
+                    original = visible_source[index % len(visible_source)]
+                quality = replace(original.quality, status=kind["quality_status"], temporal_basis=kind["temporal_basis"])
+                off_grid = index >= eligible and kind["duration"] == original.duration_seconds \
+                    and kind["complete"] and kind["quality_status"] == "READY" \
+                    and kind["temporal_basis"] != "unknown" and kind["availability_present"]
+                start = original.start_nano + int(off_grid)
+                built.append(replace(original, bar_id=original.bar_id if index < eligible else
+                    "SYNTHETIC-IGNORED-" + str(len(built)), duration_seconds=kind["duration"], complete=kind["complete"],
+                    datetime_nano=start, start_nano=start, end_nano=start + kind["duration"] * NANO,
+                    available_at_nano=start + kind["duration"] * NANO + SCENARIO_SECONDS * NANO
+                        if kind["availability_present"] else None, quality=quality))
+        require(position == eligible_count and len(built) == shape["bundle_rows"], "SYNTHETIC_SOURCE_KIND_POPULATION")
+        bars = built
     bundle = FrozenInput(Path("SYNTHETIC_K45_HISTORY_COST"), fixture.SYNTHETIC_HASH, (fixture.instrument(),),
                          calendar, tuple(bars), (), (fixture.trading_rule(),))
-    started = time.perf_counter()
-    snapshot, visible, _ = _features(bundle, fixture.CONTRACT, bars[-1].available_at_nano, 86400 if mode == "DAILY" else 60,
-                                    None, None, calendar, canonical_daily=mode == "DAILY")
-    seconds = time.perf_counter() - started
-    require(len(visible) == history_count, "SYNTHETIC_VISIBLE_HISTORY_COUNT")
-    return {"history_count": history_count, "seconds": seconds, "source": "SYNTHETIC_EXACT_HISTORY_LENGTH",
-            "source_tuple_bytes": sys.getsizeof(snapshot.source_bar_ids), "memory": tree_memory()}
+    measurements = []
+    for count in (warm_count, *measured_counts):
+        started = time.perf_counter()
+        snapshot, visible, _ = _features(bundle, fixture.CONTRACT, visible_source[count - 1].available_at_nano,
+            86400 if mode == "DAILY" else 60, None, None, calendar, canonical_daily=mode == "DAILY")
+        seconds = time.perf_counter() - started
+        require(len(visible) == count, "SYNTHETIC_VISIBLE_HISTORY_COUNT")
+        measurements.append({"history_count": count, "seconds": seconds,
+                             "source_tuple_bytes": sys.getsizeof(snapshot.source_bar_ids)})
+        del snapshot, visible
+    from ak_trading.v2 import data as production_data
+    cached = production_data._index_cache.get((id(bundle), fixture.CONTRACT, 86400 if mode == "DAILY" else 60))
+    require(cached is not None and cached.bundle is bundle, "SYNTHETIC_EXPECTED_INDEX_HIT_NOT_RETAINED")
+    if shape is not None:
+        require(cached.retained_bytes == shape["index_bytes"], "SYNTHETIC_INDEX_CONTAINER_SHAPE")
+    steady = measurements[1:]
+    return {"history_count": history_count, "previous_history_count": previous_history_count,
+        "source": "SYNTHETIC_RETAINED_BUNDLE_INCREASING_PREFIX", "initialization_seconds": measurements[0]["seconds"],
+        "initialization": measurements[0], "steady_calls": len(steady), "measurements": steady,
+        "unit_seconds": math.fsum(row["seconds"] for row in steady) / len(steady),
+        "measured_history_mean": sum(row["history_count"] for row in steady) / len(steady),
+        "bundle_rows": len(bundle.bars), "eligible_rows": eligible_count, "index_bytes": cached.retained_bytes,
+        "preparation_charged_only_to_elapsed": True, "memory": tree_memory(), "actual_test_calls": actual_test_counts()}
 
 
 def rate_from_measurement(measurement, component, horizon=None):
@@ -3216,6 +3412,67 @@ def synthetic_empty_history_feature_cost(mode):
             "unit_seconds": (time.perf_counter() - started) / 10}
 
 
+def uncovered_feature_classes(metadata, bucket, step, expected_calls):
+    """Partition only the uncovered target calls; no call receives two unit costs."""
+    lifecycle = metadata.get("feature_lifecycles", {})
+    require(lifecycle.get("schema") == "k45-feature-lifecycle-metadata-v1"
+            and lifecycle.get("price_fields_decoded") is False
+            and lifecycle.get("per_anchor_objects_returned") is False, "FEATURE_LIFECYCLE_METADATA_REQUIRED")
+    grouped = {}
+    for row in lifecycle["rows"]:
+        if row["step"] != step or row["bucket"] != bucket:
+            continue
+        key = row["shape_id"], row["index_state"], row["factor_state"], row["calendar_state"]
+        group = grouped.setdefault(key, {"shape_id": row["shape_id"], "index_state": row["index_state"],
+            "factor_state": row["factor_state"], "calendar_state": row["calendar_state"],
+            "count": 0, "history_total": 0, "previous_history_total": 0, "history_increment_total": 0,
+            "prefix_reused_count": 0, "wilder_resumed_count": 0, "process_counts": {}})
+        for field in ("count", "history_total", "previous_history_total", "history_increment_total",
+                      "prefix_reused_count", "wilder_resumed_count"):
+            group[field] += row[field]
+        group["process_counts"][row["process"]] = group["process_counts"].get(row["process"], 0) + row["count"]
+    require(sum(row["count"] for row in grouped.values()) == expected_calls, "FEATURE_LIFECYCLE_POPULATION_MISMATCH")
+    classes = []
+    for key, row in sorted(grouped.items()):
+        require(row["count"] > 0, "FEATURE_LIFECYCLE_EMPTY_CLASS")
+        shape = lifecycle["shapes"][row["shape_id"]]
+        require(sha256_hex(canonical_json_bytes(shape)) == row["shape_id"], "FEATURE_SOURCE_SHAPE_HASH")
+        spec = dict(row, bucket=bucket, step=step, shape=shape,
+            history_mean=row["history_total"] / row["count"],
+            previous_history_mean=row["previous_history_total"] / row["count"],
+            history_count=math.ceil(Fraction(row["history_total"], row["count"])),
+            previous_history_count=math.ceil(Fraction(row["previous_history_total"], row["count"])))
+        spec["class_id"] = sha256_hex(canonical_json_bytes(spec))
+        classes.append(spec)
+    return classes
+
+
+def measure_feature_class(request_path, output):
+    """A cost-only subprocess cannot evict any parent's real resident caches."""
+    request = load_json(request_path)
+    require(request["schema"] == "k45-feature-cost-request-v1", "FEATURE_COST_REQUEST_SCHEMA")
+    for member in request["code_pins"]:
+        verify_pin(member)
+    spec = request["class"]
+    require(sha256_hex(canonical_json_bytes({key: value for key, value in spec.items() if key != "class_id"}))
+            == spec["class_id"], "FEATURE_COST_CLASS_HASH")
+    # Current K45's uncovered population contains only these observed classes.
+    # A new lifecycle is an uncovered engineering measurement, never an assumed
+    # warm/cold rate and never an accepted research timeout.
+    require(spec["index_state"] == "HIT" and spec["factor_state"] == "INCREASING_PREFIX"
+            and spec["calendar_state"] == "WARM"
+            and spec["prefix_reused_count"] == spec["wilder_resumed_count"] == spec["count"],
+            "FEATURE_LIFECYCLE_NOT_MEASURED")
+    sessions = tuple(decode_record(SessionWindow, row) for row in request["sessions"])
+    measured = synthetic_feature_cost(request["mode"], spec["history_count"], step=spec["step"],
+        previous_history_count=spec["previous_history_count"], shape=spec["shape"], sessions=sessions)
+    result = {"schema": "k45-feature-lifecycle-cost-v1", "classification": "SYNTHETIC",
+        "request": pin(request_path), "class": spec, "measurement": measured,
+        "parent_cache_untouched": True, "actual_test_calls": actual_test_counts()}
+    dump_new(output, result)
+    return {"status": "FEATURE_COST_MEASURED", "artifact": pin(output)}
+
+
 def mode_budget(inputs, metadata, measurement, costs, step, resource, started_utc, directory,
                 *, metadata_receipt, measurement_receipt):
     population = costs["population"]
@@ -3240,10 +3497,30 @@ def mode_budget(inputs, metadata, measurement, costs, step, resource, started_ut
         history_mean = sum(row["timed_history_total"] * feature_passes(row) for row in targets) / count
         selected_rate = feature_rate_for_target(points, bucket, history_mean)
         if selected_rate is None:
-            supplement = synthetic_feature_cost(inputs.mode, math.ceil(history_mean))
-            dump_new(Path(directory) / f"history-bucket-{bucket}.json", supplement)
-            selected_rate = {"unit_seconds": supplement["seconds"], "source": supplement["source"],
-                             "history_mean": history_mean, "evidence": [supplement]}
+            classes = uncovered_feature_classes(metadata, bucket, step, count)
+            evidence = []
+            for index, spec in enumerate(classes, 1):
+                child_directory = Path(directory) / f"history-bucket-{bucket}" / f"class-{index:03d}"
+                request_path = child_directory / "request.json"
+                request_member = dump_new(request_path, {"schema": "k45-feature-cost-request-v1", "mode": inputs.mode,
+                    "class": spec, "sessions": [encode_record(row) for row in inputs.sessions], "code_pins": code_pins()})
+                supplement, capture = safe_child(["feature-cost", "--request", str(request_path)],
+                    child_directory / "cost.json", child_directory / "capture")
+                require(supplement["request"] == request_member and supplement["class"] == spec
+                        and not any(supplement["actual_test_calls"].values()), "FEATURE_COST_HANDOFF_IDENTITY")
+                rate = supplement["measurement"]["unit_seconds"]
+                entry("features", spec["count"], rate, supplement["measurement"]["source"], bucket=bucket,
+                      lifecycle={key: spec[key] for key in ("class_id", "shape_id", "index_state", "factor_state",
+                          "calendar_state", "history_mean", "previous_history_mean", "process_counts")})
+                evidence.append({"class": spec, "measurement": supplement["measurement"],
+                    "artifact": pin(child_directory / "cost.json"), "capture": capture})
+            selected_rate = {"unit_seconds": math.fsum(row["class"]["count"] * row["measurement"]["unit_seconds"]
+                for row in evidence) / count, "source": "SYNTHETIC_EXCLUSIVE_LIFECYCLE_CLASSES",
+                "history_mean": history_mean, "evidence": evidence, "count_conservation": count,
+                "initialization_not_charged_again": True}
+            feature_rates[str(bucket)] = selected_rate
+            dump_new(Path(directory) / f"history-bucket-{bucket}.json", selected_rate)
+            continue
         feature_rates[str(bucket)] = selected_rate
         entry("features", count, selected_rate["unit_seconds"], selected_rate["source"], bucket=bucket)
     empty_calls = sum(row["empty_history_calls"] * feature_passes(row) for row in metadata_rows)
@@ -3400,7 +3677,76 @@ def combined_stage_one_funnel(mode, training_rows, test_counts):
             "classification": "COST_REUSE_ONLY; CURRENT_FORMAL_RUN_USES_CURRENT_FREEZE"}
 
 
-def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
+def reused_synthetic_mode_costs(receipt_path, metadata, population, measurement_path, resource_path, directory):
+    """Reuse sealed cost-only work after proving the numerical route stayed identical."""
+    import ast
+    receipt = load_json(receipt_path)
+    require(receipt.get("schema") == "k45-synthetic-cost-reuse-v1", "COST_REUSE_SCHEMA")
+    for name in ("costs", "metadata", "measurement", "resource", "source_freeze", "capture_result", "capture_request"):
+        verify_pin(receipt[name])
+    require(receipt["measurement"] == pin(measurement_path) and receipt["resource"] == pin(resource_path),
+            "COST_REUSE_MEASUREMENT_OR_RESOURCE")
+    previous = load_json(receipt["source_freeze"]["path"])
+    source = next(row["frozen"] for row in previous["files"]
+                  if row["relative"] == "tools/experiments/k45_forecast_skill.py")
+    verify_pin(source)
+    before = ast.parse(Path(source["path"]).read_text(encoding="utf-8"))
+    after = ast.parse(Path(__file__).read_text(encoding="utf-8"))
+    changed_cost_boundary = {"candidate_metadata", "synthetic_feature_cost", "mode_budget", "continue_mode", "main"}
+    def declarations(tree):
+        return {node.name: ast.dump(node, include_attributes=False) for node in tree.body
+                if isinstance(node, (ast.FunctionDef, ast.ClassDef)) and node.name not in changed_cost_boundary}
+    old_declarations, current_declarations = declarations(before), declarations(after)
+    require(all(current_declarations.get(name) == value for name, value in old_declarations.items()),
+            "COST_REUSE_NUMERICAL_ROUTE_CHANGED")
+    def fixed_nodes(tree):
+        return [ast.dump(node, include_attributes=False) for node in tree.body
+                if not isinstance(node, (ast.FunctionDef, ast.ClassDef))]
+    require(fixed_nodes(before) == fixed_nodes(after), "COST_REUSE_IMPORTS_OR_DEFAULTS_CHANGED")
+    result = load_json(receipt["capture_result"]["path"])
+    request = load_json(receipt["capture_request"]["path"])
+    require(result["capture_complete"] and result["remaining_identities"] == []
+            and result["source_pins_unchanged"]
+            and result["source_pins_before"] == result["source_pins_after"] == previous["code_pins"]
+            and request["code_pins"] == previous["code_pins"]
+            and request["resource"] == receipt["resource"], "COST_REUSE_TERMINAL_CUSTODY")
+    require(previous["code_pins"][1]["sha256"] == source["sha256"], "COST_REUSE_SOURCE_IDENTITY")
+    for index in (0, 2, 4, *range(5, len(previous["code_pins"]))):
+        verify_pin(previous["code_pins"][index])
+    run_directory = Path(request["argv"][request["argv"].index("--output") + 1]).resolve()
+    require(Path(receipt["costs"]["path"]).resolve() == run_directory / "step-5/synthetic/costs.json"
+            and Path(receipt["metadata"]["path"]).resolve() == run_directory / "candidate-metadata.json",
+            "COST_REUSE_RUN_IDENTITY")
+    old_metadata = load_json(receipt["metadata"]["path"])
+    require(all(old_metadata[key] == metadata[key] for key in (
+        "source_collection_sha256", "sessions_sha256", "selection_sha256", "strict_input_validation_receipt",
+        "history_population_source", "input_rows_inspected", "rows")), "COST_REUSE_METADATA_POPULATION_CHANGED")
+    costs = load_json(receipt["costs"]["path"])
+    require(costs["schema"] == "k45-synthetic-mode-costs-v3" and costs["classification"] == "SYNTHETIC"
+            and costs["mode"] == metadata["mode"] and costs["step"] == 5 and costs["population"] == population
+            and costs["max_iterations"] == 500 and costs["tree_count"] == 50 and costs["feature_columns"] == 10
+            and costs["real_test_values_used"] is False, "COST_REUSE_SHAPE_OR_DEFAULTS_CHANGED")
+    common = ("full_population_split", "direction_fit_complete", "prediction_three_components", "bootstrap",
+              "numerical_output_and_model_read", "identity_write_read_hash")
+    expected = Counter((purpose, component) for purpose in ("R001", "DRY_RUN") for component in common)
+    expected.update(("R001", component) for component in (
+        "algorithm_and_summary_output", "time_ticket_write", "time_ticket_read_and_decode"))
+    require(Counter((row["purpose"], row["component"]) for row in costs["components"]) == expected
+            and all(math.isfinite(row["seconds"]) and row["seconds"] >= 0 for row in costs["components"]),
+            "COST_REUSE_INCOMPLETE_COMPONENTS")
+    for row in costs["components"]:
+        for member in row.get("artifacts", {}).values():
+            verify_pin(member)
+    dump_new(Path(directory) / "synthetic-cost-reuse.json", {
+        "schema": "k45-verified-synthetic-cost-reuse-v1", "classification": "COST_ONLY; NO_FIT_RERUN",
+        "receipt": pin(receipt_path), "costs": receipt["costs"], "old_source": source,
+        "current_source": pin(__file__), "unchanged_declarations": sorted(old_declarations),
+        "original_native_exit_code": result["native_exit_code"], "original_capture": receipt["capture_result"],
+        "prior_elapsed_not_deducted": True, "actual_test_calls": actual_test_counts()})
+    return costs
+
+
+def continue_mode(mode, measurement_path, manifest_path, resource_path, output, *, cost_reuse=None):
     """One resident continuation: budget, formal T/C, TEST count child, fit, rehearsal."""
     measurement = load_json(measurement_path)
     resource = load_json(resource_path)
@@ -3426,8 +3772,10 @@ def continue_mode(mode, measurement_path, manifest_path, resource_path, output):
     initial_population = estimated_population(metadata, measurement, 5)
     dump_new(output / "step-5/population-preflight.json",
              preflight_synthetic_population(cost_inputs, initial_population, mode, 5))
-    initial_costs = synthetic_mode_costs(cost_inputs, initial_population, measurement, mode, 5,
-                                        output / "step-5/synthetic")
+    initial_costs = (synthetic_mode_costs(cost_inputs, initial_population, measurement, mode, 5,
+                                        output / "step-5/synthetic") if cost_reuse is None else
+        reused_synthetic_mode_costs(cost_reuse, metadata, initial_population, measurement_path, resource_path,
+                                   output / "step-5"))
     timing = Timings()
     inputs = resident_inputs(mode, timing, for_fit=True)
     require(inputs.sessions == cost_inputs.sessions, "SYNTHETIC_COST_CALENDAR_CHANGED")
@@ -3867,7 +4215,11 @@ def main(argv=None):
     continued.add_argument("--measurement", required=True)
     continued.add_argument("--measurement-freeze", required=True)
     continued.add_argument("--resource", required=True)
+    continued.add_argument("--cost-reuse")
     continued.add_argument("--output", required=True)
+    feature_cost = commands.add_parser("feature-cost")
+    feature_cost.add_argument("--request", required=True)
+    feature_cost.add_argument("--output", required=True)
     r001 = commands.add_parser("r001")
     r001.add_argument("--release", required=True)
     r001.add_argument("--output", required=True)
@@ -3899,7 +4251,9 @@ def main(argv=None):
         if args.command == "measure-mode": result = measure_mode(args.mode, args.resource, output)
         elif args.command == "candidate-metadata": result = candidate_metadata(args.mode, output, args.measurement)
         elif args.command == "count-test": result = count_test(args.ticket, output)
-        elif args.command == "continue-mode": result = continue_mode(args.mode, args.measurement, args.measurement_freeze, args.resource, output)
+        elif args.command == "continue-mode": result = continue_mode(args.mode, args.measurement, args.measurement_freeze,
+            args.resource, output, cost_reuse=args.cost_reuse)
+        elif args.command == "feature-cost": result = measure_feature_class(args.request, output)
         elif args.command == "r001": result = stage_three_v3(args.release, output)
         else:
             raise ResearchError("LEGACY_RECORD_STREAM_ROUTE_RETIRED")
