@@ -1,5 +1,5 @@
 现在：K47 拆分已完成，按分支丙收尾。
-卡点：无研究阻塞；最终 CI 以链接为准。
+卡点：无；报告提交的最终 CI 已通过。
 请你：私有库、换令牌重启、收口、保护、长路径、资金、分支处置。
 
 这是对 K45-R001 已经评过分的同一批预测做的事后拆分，不是新的检验，R001 关于三分类概率的结论不变。
@@ -27,10 +27,10 @@
 | R9 文档合入 | 由 37e4434 快进到 79188d2，仅新增指定目录 7 文件；已推 main，CI run 43795873287 success（1,770P/0F/4skip）。其他分支保留。 |
 | K47a | 有效设计 bdc2309；唯一一次独立意见 C1/C2 均 ADOPTED，作者处置后立即实施。 |
 | K47b | 工作分支 work/k47-r001-decomposition：75a6cc8；源码、测试及 CI 清单在 main：4e6e54b。边界、数值依次无条件 PASS。源 CI run 43815047178 success（1,853P/0F/4skip，367.29 秒）。 |
-| K47c | 唯一正式运行 raw 0、221.51 秒；独立复算 raw 0，5,031 项比较/0 差异；九文件报告最终硬审无条件 PASS，173 项/0 问题。报告和本状态页在本文件所在提交交付。 |
+| K47c | 唯一正式运行 raw 0、221.51 秒；独立复算 raw 0，5,031 项比较/0 差异；九文件报告最终硬审无条件 PASS，173 项/0 问题。报告在 main 的 948c94e 入库并推送，最终 CI 通过；本状态页随后补齐交接信息。 |
 | 条件任务 | K48/K49/K47d 均 NOT_TRIGGERED，无待续接作业。 |
 
-报告：[正文及主表](research/k47-r001-decomposition.md)、[未舍入 CSV](research/k47-r001-decomposition/main.csv)、[CHECK](research/k47-r001-decomposition/CHECK.json)。最终报告提交的 CI 由 Root 在推送后核实，交付消息列出运行号与实测结果；[当前 main CI](https://github.com/wmqfl861/AK-trading/actions?query=branch%3Amain)。
+报告：[正文及主表](research/k47-r001-decomposition.md)、[未舍入 CSV](research/k47-r001-decomposition/main.csv)、[CHECK](research/k47-r001-decomposition/CHECK.json)。最终报告提交为 [948c94e7fd515b191c1e72b51ace9d5b5c4a553d](https://github.com/wmqfl861/AK-trading/commit/948c94e7fd515b191c1e72b51ace9d5b5c4a553d)，对应 [CI 43825009718](https://github.com/wmqfl861/AK-trading/actions/runs/43825009718) 已实测 success：1,853 passed、0 failed、4 skipped，测试 558.79 秒；watch、状态查询及日志读取原始退出码均为 0。2026-11-16 再次查询结果一致，main 与工作分支的推送核对返回 Everything up-to-date（raw 0）。此后本次补充只修改交接文档，未改上述已验收成果。
 
 **开工复现**：cwd 为仓库根目录，解释器 C:/AKR41110/venv-full/Scripts/python.exe；命令前缀为 `python -B -X utf8`，以下路径均在 docs/repo-audit-20261116-r9-claude/probes/；未使用 --quick 或 --frozen-dir。
 
@@ -45,9 +45,24 @@
 
 **作者裁定与外部建议差异**：先复现旧主表再分解；使用原 92 日日历；NA 按 J53 原表并另报可计算性；并列分位使用冻结 fsum；保留自身占比零类；稳定对数与非有限恒等式；tick 固定 R9 明示 1 元/吨并披露未重核 rules；零抽样乘数不污染统计。唯一意见两项均采纳：跨输出目录成功去重；非法 terminal_points 只影响含该行的组及其派生 ticks，不删行、不改分母。十三统计量、两张 J53 读法、阈值与期限均未改。详细裁定和处置在[设计 §9、§12](research/k47-r001-decomposition-design.md)。
 
-**真实失败保留**：owner 首轮新增导入测试 raw 1（66P/1F），改为比较离线 guard 加载前后模块增量后最终 83P/0F；未改旧冻结预期。审核封存检查曾误比 275 顶层格与 250 叶字段，报告检查曾将 CI 摘要与完整 JSON 整对象比较，两次 raw 1 均保留；修正审核器口径后通过，未重跑研究。上游 502 后复用原会话已完成作业；Root 一次 LF/CRLF 编辑预检 raw 1 在写入前停止，随后按原 LF 字节加入 CI 行。以上未删除或覆盖失败记录。
+**真实失败保留**：owner 首轮新增导入测试 raw 1（66P/1F），改为比较离线 guard 加载前后模块增量后最终 83P/0F；未改旧冻结预期。审核封存检查曾误比 275 顶层格与 250 叶字段，报告检查曾将 CI 摘要与完整 JSON 整对象比较，两次 raw 1 均保留；修正审核器口径后通过，未重跑研究。上游 502 后复用原会话已完成作业；Root 一次 LF/CRLF 编辑预检 raw 1 在写入前停止，随后按原 LF 字节加入 CI 行。最终 CI 摘要提取首次因误要求 pytest 摘要带等号分隔线而 raw 1，按实际裸行格式读取后 raw 0；CI 本身始终 success，没有重跑 CI。以上未删除或覆盖失败记录。
 
 **产品、全量与安全**：本批只新增研究工具/测试、设计、聚合报告和状态、CI 一行；没有改 src/ 产品代码，未新跑全量、未主张新的全量零增量证明。原 Windows r8 full_suite 基线仍为 6,370P/145F/60E/33skip，8 个收集错误文件，raw 1；基线未前移。规则、K45 四工具/测试、K45 设计、R001 报告与目录、外审文件和 r1/r2/r3 输入均保留原字节。不读 TRAIN/CAL、原始价格或最终 holdout；无凭据读取、打印或修改。enable_trading=False、observer=hold、broker=NOT_RUN，真实 send/cancel=0/0。逐行数据、概率、模型和日志留仓库外。
+
+**详细交接入口（2026-11-16 补充）**：本文件是本批唯一协调交接页。接手者可先读本页，再按以下入口核对；有效设计与独立硬审依据不由本页替代。
+
+| 接手内容 | 仓库入口及用途 |
+| --- | --- |
+| 本批授权与固定分支 | [DECISIONS](repo-audit-20261116-r9-claude/DECISIONS.md)、[NEXT-BATCH](repo-audit-20261116-r9-claude/NEXT-BATCH.md)、[REVIEW](repo-audit-20261116-r9-claude/REVIEW.md)。J52/J53 保持原表；REVIEW 是外部意见，不是产品硬审。 |
+| 有效设计与作者处置 | [K47 设计](research/k47-r001-decomposition-design.md)，重点为 §9 的实施裁定、§12 的唯一一次意见处置。 |
+| 实现、测试及 CI | [工具](../tools/experiments/k47_r001_decomposition.py)、[测试](../tests/experiments/test_k47_r001_decomposition.py)、[CI 清单](../.github/workflows/offline-v2.yml)。源码/测试已在 4e6e54b 合入，工作分支 75a6cc8 保留冻结记录。 |
+| 完整聚合交付 | [报告](research/k47-r001-decomposition.md)和[同名目录](research/k47-r001-decomposition/)：main、statistics、losses、groups、monthly、own-frequency、reproduction 七张 CSV，以及 CHECK.json；共九文件，已在 948c94e 推送。 |
+| 校验与已有基线 | [CHECK](research/k47-r001-decomposition/CHECK.json)记录同次提交的工具/测试/设计哈希及审核引用；[Windows 全量基线](../tests/baselines/full-suite-windows-20261113-r8.json)保持原结果，不能用 CI 子集替代全量。 |
+| 现行分工与流程 | [PROJECT-MODEL-ROLES 顶部现行表](../PROJECT-MODEL-ROLES.md)：计划与开发分别由独立的 Astra/max 会话执行，审核/辅助为 Sol6.1/max；[AGENTS](../AGENTS.md)与[工作流规则](../PROJECT-WORKFLOW-RULES.md)仍有效，本批未改规则。 |
+
+**接手时可直接做的核对**：在仓库根目录运行 `git log -5 --oneline`、`git ls-remote --heads origin main work/k47-r001-decomposition`，以及 `gh run view 43825009718 --json headSha,status,conclusion,url`，确认上述提交与报告 CI。需要复核合成工程测试时，可运行 `python scripts/test_offline.py -q tests/experiments/test_k47_r001_decomposition.py`；原独立结果为 83 passed、0 failed、raw 0。本次交接补充只核对已有结果和链接，没有重新运行研究或测试。
+
+**接手后的停止边界**：没有待续接的 K47 开发或研究作业，正式 K47 成功次数为 1，R001 评分次数为 1。前文正式命令仅作历史记录，不是再次执行指令；不得重新生成封存概率/标签、拟合、预测、评分或覆盖旧结果。K48、K49、K47d 未触发，本批已停止，下一批等待新的明确授权。K45/R001、外部审核文件和既有分支保持冻结或保留；不要因整理交接而改写、合并或删除。远端只发布已授权源码、设计和聚合报告；研究输入、逐行特征/标签/概率、模型、原始日志及受限清单继续留在仓库外。
 
 **待决（全部）**：尚无 DECISIONS 未覆盖且确需用户裁定的新事项。
 **用户专属未确认完成**：仓库转私有；轮换令牌并重启行情服务；收紧公网入口；可选分支保护；Windows 长路径；实际资金量级（研究暂用 100 万元）；遗留分支是否删除。这些事项由用户本人操作，本批不代办。
