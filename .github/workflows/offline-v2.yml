@@ -54,4 +54,5 @@ jobs:
             tests/experiments/test_v1_daily_baseline_universe.py \
             tests/experiments/test_v1_daily_baseline_universe_v2.py \
             tests/experiments/test_k45_forecast_skill.py \
-            tests/experiments/test_k45_forecast_statistics.py
+            tests/experiments/test_k45_forecast_statistics.py \
+            tests/experiments/test_k47_r001_decomposition.py
